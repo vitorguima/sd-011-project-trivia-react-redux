@@ -6,14 +6,14 @@ import { questionAPI, validateLogin } from '../actions';
 
 class PlayButton extends Component {
   render() {
-    const { disabled, email, playerName, validateNewLogin } = this.props;
+    const { disabled, gravatarEmail, name, validateNewLogin } = this.props;
     return (
       <Link to="/jogar">
         <button
           type="button"
           data-testid="btn-play"
           disabled={ disabled }
-          onClick={ () => questionAPI() && validateNewLogin(email, playerName) }
+          onClick={ () => questionAPI() && validateNewLogin(gravatarEmail, name) }
         >
           Jogar
         </button>
@@ -23,14 +23,14 @@ class PlayButton extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  validateNewLogin: (email, password) => dispatch(validateLogin(email, password)),
+  validateNewLogin: (gravatarEmail, name) => dispatch(validateLogin(gravatarEmail, name)),
 });
 
 export default connect(null, mapDispatchToProps)(PlayButton);
 
 PlayButton.propTypes = {
-  email: PropTypes.string.isRequired,
-  playerName: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,
   validateNewLogin: PropTypes.func.isRequired,
 };

@@ -8,15 +8,17 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      email: '',
-      playerName: '',
+      gravatarEmail: '',
+      name: '',
     };
   }
 
   handleLoginBtn() {
-    const { email, playerName } = this.state;
+    const { gravatarEmail, name } = this.state;
+    const playerInfo = this.state;
+    localStorage.setItem('player', JSON.stringify(playerInfo));
     const emailRegexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-    if (emailRegexp.test(email) && playerName) {
+    if (emailRegexp.test(gravatarEmail) && name) {
       return false;
     }
     return true;
@@ -30,33 +32,33 @@ class Login extends React.Component {
   }
 
   render() {
-    const { email, playerName } = this.state;
+    const { gravatarEmail, name } = this.state;
     return (
       <div>
-        <label htmlFor="email">
+        <label htmlFor="gravatarEmail">
           Email do Gravatar:
           <input
             data-testid="input-gravatar-email"
             type="email"
-            name="email"
+            name="gravatarEmail"
             required
             onChange={ (e) => this.handleInputText(e) }
           />
         </label>
-        <label htmlFor="playerName">
+        <label htmlFor="name">
           Nome do Jogador:
           <input
             data-testid="input-player-name"
             type="text"
-            name="playerName"
+            name="name"
             required
             onChange={ (e) => this.handleInputText(e) }
           />
         </label>
         <PlayButton
           disabled={ this.handleLoginBtn() }
-          email={ email }
-          playerName={ playerName }
+          gravatarEmail={ gravatarEmail }
+          name={ name }
         />
         <Link to="/settings">
           <button
