@@ -1,6 +1,12 @@
-export const LOGIN = 'LOGIN';
+export const SET_AVATAR = 'SET_AVATAR';
+export const SET_NAME = 'SET_NAME';
 
-export const actionLogin = (login) => ({
-  type: LOGIN,
-  payload: login,
+export const actionAvatar = (avatarUrl) => ({
+  type: SET_AVATAR,
+  payload: avatarUrl,
+});
+
+export const actionName = (name) => ({
+  type: SET_NAME,
+  payload: name,
 });
