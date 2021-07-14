@@ -30,6 +30,7 @@ export const getApi = () => async (dispatch) => {
     const result = await fetchApiToken.json();
     console.log(result);
     dispatch(requestTokenSucess(result));
+    return result.token;
   } catch (error) {
     console.log(error);
     dispatch(requestTokenFail(error));
