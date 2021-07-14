@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 
 export default function LoginForm(props) {
   const { handleSubmit, handleChange, handleDisabled } = props;
-
+  const history = useHistory();
   return (
     <form className="w-25 login-form " onSubmit={ (e) => handleSubmit(e) }>
       <div className="mb-3">
@@ -40,6 +41,13 @@ export default function LoginForm(props) {
         className="btn btn-primary"
       >
         Jogar
+      </button>
+      <button
+        type="button"
+        data-testid="btn-settings"
+        onClick={ () => (history.push('settings')) }
+      >
+        Configurações
       </button>
     </form>
   );
