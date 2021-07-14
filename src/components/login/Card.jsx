@@ -1,4 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getTokenThunk } from '../../actions';
 
 class Card extends React.Component {
   constructor(props) {
@@ -9,6 +13,17 @@ class Card extends React.Component {
       isDisabled: true,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fetchToken = this.fetchToken.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchToken();
+  }
+
+  fetchToken() {
+    const { getToken } = this.props;
+    getToken();
   }
 
   handleChange({ target: { name, value } }) {
@@ -26,6 +41,12 @@ class Card extends React.Component {
         });
       }
     });
+  }
+
+  handleSubmit() {
+    const { token } = this.props;
+    console.log(token);
+    localStorage.setItem('token', token);
   }
 
   render() {
@@ -48,16 +69,32 @@ class Card extends React.Component {
           value={ email }
           onChange={ this.handleChange }
         />
-        <button
-          disabled={ isDisabled }
-          data-testid="btn-play"
-          type="button"
-        >
-          Jogar
-        </button>
+        <Link to="quiz">
+          <button
+            disabled={ isDisabled }
+            data-testid="btn-play"
+            type="button"
+            onClick={ this.handleSubmit }
+          >
+            Jogar
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
-export default Card;
+const mapDispatchToProps = (dispatch) => ({
+  getToken: () => dispatch(getTokenThunk()),
+});
+
+const mapStateToProps = (state) => ({
+  token: state.token.token,
+});
+
+Card.propTypes = {
+  getToken: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);
