@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
-import Login from './pages/login'
+import Login from './pages/login';
 
 export default function App() {
   return (
-  <Switch>
-    <Route exact path="/" component={ Login } />
-  </Switch>
+    <Switch>
+      <Route exact path="/" component={ Login } />
+    </Switch>
   );
 }
