@@ -1,5 +1,3 @@
-import getApi from '../service/getToken';
-
 export const CREATE_USER_EMAIL = 'CREATE_USER_EMAIL';
 export const CREATE_USER_NAME = 'CREATE_USER_NAME';
 export const GET_TOKEN = 'GET_TOKEN';
@@ -30,13 +28,3 @@ export const getTokenError = (payload) => ({
   type: GET_TOKEN_ERROR,
   payload,
 });
-
-/* export function getTokenAction() {
-  return (dispatch) => {
-    dispatch(getToken());
-    return getApi(
-      (token).then((payload) => dispatch(getTokenSuccess(payload)),
-        (error) => dispatch(getTokenError(error.message))),
-    );
-  };
-} */
