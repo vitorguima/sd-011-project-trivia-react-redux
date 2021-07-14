@@ -17,6 +17,12 @@ const Login = () => {
     });
   };
 
+  const senLogin = async () => {
+    const response = await fetch('https://opentdb.com/api_token.php?command=request ');
+    const object = await response.json();
+    localStorage.setItem('token', JSON.stringify(object));
+  };
+
   return (
     <form>
       <input
@@ -36,6 +42,7 @@ const Login = () => {
       <button
         type="button"
         data-testid="btn-play"
+        onClick={ senLogin }
         disabled={ validateEmailInput() }
       >
         Iniciar Jogo
