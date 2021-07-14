@@ -5,7 +5,3 @@ export const fetchToken = () => {
     .then((data) => (data))
     .catch((error) => error);
 };
-
-export const fetchQuestions = () => {
-
-};
