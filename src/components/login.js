@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchToken } from '../actions/index';
 
 class Login extends React.Component {
   constructor(props) {
@@ -26,12 +25,11 @@ class Login extends React.Component {
     return true;
   }
 
-  // Guardar resposta token no localStorage
   submit() {
-    const { tokenFetch } = this.props;
-    tokenFetch();
-    const { tokenAPI } = this.props;
-    localStorage.setItem('token', tokenAPI);
+    const endpoint = 'https://opentdb.com/api_token.php?command=request';
+    fetch(endpoint)
+      .then((response) => response.json())
+      .then((data) => localStorage.setItem('token', data.token));
   }
 
   render() {
@@ -70,8 +68,4 @@ const mapStateToProps = (state) => ({
   tokenAPI: state.user.results,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  tokenFetch: () => dispatch(fetchToken()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, null)(Login);
