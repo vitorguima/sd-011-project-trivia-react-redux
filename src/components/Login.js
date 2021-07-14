@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { fetchTokenApi } from '../actions/index';
 import logo from '../trivia.png';
 import '../App.css';
@@ -72,3 +73,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  getToken: PropTypes.func.isRequired,
+};
