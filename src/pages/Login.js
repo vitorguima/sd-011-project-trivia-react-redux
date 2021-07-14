@@ -2,8 +2,8 @@ import React from 'react';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       username: '',
@@ -14,8 +14,8 @@ class Login extends React.Component {
     this.disableButton = this.disableButton.bind(this);
   }
 
-  handleChange({ target }) {
-    const { name, value } = target;
+  handleChange(event) {
+    const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
@@ -34,6 +34,7 @@ class Login extends React.Component {
           <label htmlFor="username">
             Nome do Joagador:
             <input
+              type="text"
               name="username"
               id="username"
               data-testid="input-player-name"
@@ -44,7 +45,8 @@ class Login extends React.Component {
           <label htmlFor="gravatar-email">
             Email do Gravatar:
             <input
-              name="gravatar-email"
+              type="text"
+              name="email"
               id="gravatar-email"
               data-testid="input-gravatar-email"
               value={ email }
