@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getApi } from '../actions';
@@ -44,9 +45,8 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { fetchApiToken, token } = this.props;
+    const { fetchApiToken } = this.props;
     fetchApiToken();
-    localStorage.setItem('token', token);
   }
 
   render() {
@@ -73,6 +73,14 @@ class Login extends Component {
         >
           Jogar
         </button>
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Settings
+          </button>
+        </Link>
       </div>
     );
   }
@@ -80,7 +88,6 @@ class Login extends Component {
 
 Login.propTypes = {
   fetchApiToken: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

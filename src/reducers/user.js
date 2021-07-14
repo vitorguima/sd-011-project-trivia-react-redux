@@ -26,6 +26,7 @@ export default function reducerUser(state = INITIAL_STATE, action) {
       loading: true,
     };
   case REQUEST_TOKEN_SUCESS:
+    localStorage.setItem('token', action.payload.token);
     return {
       ...state,
       token: action.state.token,
