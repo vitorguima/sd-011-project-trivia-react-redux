@@ -1,17 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { getToken } from '../services/api';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       username: '',
       email: '',
     };
 
+    this.saveToken = this.saveToken.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.disableButton = this.disableButton.bind(this);
   }
 
   handleChange(event) {
@@ -21,8 +22,9 @@ class Login extends React.Component {
     });
   }
 
-  disableButton(username, email) {
-    return username.length === 0 || email.length === 0;
+  async saveToken() {
+    const { token } = await getToken();
+    localStorage.setItem('token', JSON.stringify(token));
   }
 
   render() {
@@ -52,14 +54,25 @@ class Login extends React.Component {
               value={ email }
               onChange={ this.handleChange }
             />
+          </label>
+          <Link to="/settings">
             <button
               type="button"
-              data-testid="btn-play"
-              disabled={ this.disableButton(username, email) }
+              data-testid="btn-settings"
             >
-              Jogar!
+              Configurações
             </button>
-          </label>
+          </Link>
+          <Link to="/game">
+            <button
+              data-testid="btn-play"
+              type="button"
+              disabled={ !(username && email) }
+              onClick={ this.saveToken }
+            >
+              Jogar
+            </button>
+          </Link>
         </form>
       </div>
     );

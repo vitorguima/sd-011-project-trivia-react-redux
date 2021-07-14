@@ -1,16 +1,11 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
+import Routes from './Routes';
 import './App.css';
 
-class App extends React.Component {
-  render() {
-    return (
-      <Switch>
-        <Route exact path="/" component={ Login } />
-      </Switch>
-    );
-  }
+export default function App() {
+  return (
+    <div className="App">
+      <Routes />
+    </div>
+  );
 }
-
-export default App;
