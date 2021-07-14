@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 import '../App.css';
 
@@ -38,6 +39,11 @@ class Login extends React.Component {
           <button type="button" id="btnLogin" data-testid="btn-play" disabled>
             Jogar
           </button>
+          <br />
+          <br />
+          <Link to="/configuration">
+            <button type="button" data-testid="btn-settings">Configurações</button>
+          </Link>
         </header>
       </div>
     );
