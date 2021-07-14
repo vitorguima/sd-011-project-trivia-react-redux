@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import fetchCurrency from '../service/tokenApi';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import fetchToken from '../service/tokenApi';
+import { sendUser, sendEmail } from '../actions';
 // import logo from './trivia.png';
 
 class login extends Component {
@@ -38,7 +41,8 @@ class login extends Component {
   }
 
   render() {
-    const { disableBtn } = this.state;
+    const { disableBtn, user, email } = this.state;
+    const { updateUser, updateEmail } = this.props;
     return (
       <div>
         <form>
@@ -60,28 +64,44 @@ class login extends Component {
               onChange={ this.handleChange }
             />
           </label>
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ disableBtn }
-            onClick={ () => fetchCurrency() }
-          >
-            Jogar
-          </button>
+          <Link to="/screen-game">
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ disableBtn }
+              onClick={ () => {
+                fetchToken();
+                updateUser(user);
+                updateEmail(email);
+              } }
+            >
+              Jogar
+            </button>
+          </Link>
         </form>
         <Link to="/config">
-          <button
-            type="button"
-            data-testid="btn-settings"
-          >
+          <button type="button" data-testid="btn-settings">
             Configurações
           </button>
         </Link>
-
       </div>
-
     );
   }
 }
 
-export default login;
+login.propTypes = {
+  updateUser: PropTypes.func,
+  updateEmail: PropTypes.func,
+};
+
+login.defaultProps = {
+  updateUser: undefined,
+  updateEmail: undefined,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  updateUser: (state) => dispatch(sendUser(state)),
+  updateEmail: (state) => dispatch(sendEmail(state)),
+});
+
+export default connect(null, mapDispatchToProps)(login);

@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import login from './pages/login';
 import config from './pages/config';
+import screenGame from './pages/screenGame';
 import './App.css';
 
 export default function App() {
@@ -9,6 +10,7 @@ export default function App() {
     <Switch>
       <Route exact path="/" component={ login } />
       <Route path="/config" component={ config } />
+      <Route path="/screen-game" component={ screenGame } />
     </Switch>
   );
 }
