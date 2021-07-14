@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services/api';
+import Question from '../components/Question';
 
 export default class Game extends Component {
   constructor() {
@@ -30,17 +31,12 @@ export default class Game extends Component {
     if (loading) {
       return <div>Loading...</div>;
     }
-    const {
-      questions: {
-        category,
-        question,
-        correct_answer: correctAnswer,
-        incorrect_answers: incorrectAnswers,
-      } } = this.state;
+    const { questions } = this.state;
     return (
       <div>
         <Header />
-        <p data-testid="question-category">{category}</p>
+        <Question questions={ questions } />
+        {/* <p data-testid="question-category">{category}</p>
         <p data-testid="question-text">{question}</p>
         <button type="button" data-testid="correct-answer">{correctAnswer}</button>
         { incorrectAnswers.map((answer, index) => (
@@ -50,7 +46,7 @@ export default class Game extends Component {
             data-testid={ `wrong-answer-${index}` }
           >
             {answer}
-          </button>)) }
+          </button>)) } */}
       </div>
     );
   }

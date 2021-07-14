@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Question extends Component {
   render() {
@@ -9,6 +10,7 @@ export default class Question extends Component {
         correct_answer: correctAnswer,
         incorrect_answers: incorrectAnswers,
       } } = this.props;
+
     return (
       <div>
         <p data-testid="question-category">{category}</p>
@@ -26,3 +28,12 @@ export default class Question extends Component {
     );
   }
 }
+
+Question.propTypes = {
+  questions: PropTypes.shape({
+    category: PropTypes.string,
+    question: PropTypes.string,
+    correct_answer: PropTypes.string,
+    incorrect_answers: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+};
