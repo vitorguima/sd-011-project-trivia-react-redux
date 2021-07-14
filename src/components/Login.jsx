@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import getTokenApi from '../services/getTokenApi';
 
 class Login extends React.Component {
   constructor() {
@@ -9,6 +11,7 @@ class Login extends React.Component {
       disabled: true,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target }) {
@@ -28,6 +31,14 @@ class Login extends React.Component {
         });
       }
     });
+  }
+
+  async handleClick() {
+    const response = await getTokenApi();
+    const { token } = response;
+    localStorage.setItem('token', token);
+    const { history } = this.props;
+    history.push('/game');
   }
 
   render() {
@@ -60,6 +71,7 @@ class Login extends React.Component {
           type="button"
           data-testid="btn-play"
           disabled={ disabled }
+          onClick={ () => this.handleClick() }
         >
           Jogar
         </button>
@@ -67,5 +79,9 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.func).isRequired,
+};
 
 export default Login;
