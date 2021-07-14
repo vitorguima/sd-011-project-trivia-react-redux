@@ -1,11 +1,15 @@
+import { LOGIN } from '../actions';
+
 const INNITIAL_STATE = {
-  nome: '',
+  name: 'anon',
   email: '',
-  avatarURL: '',
+  score: 0,
 };
 
 function user(state = INNITIAL_STATE, action) {
   switch (action.type) {
+  case LOGIN:
+    return { ...state, avatarURL: action.payload };
   default:
     return state;
   }
