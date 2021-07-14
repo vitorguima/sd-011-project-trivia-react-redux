@@ -61,7 +61,7 @@ class Login extends Component {
               onClick={ this.handleClick }
             >
               Jogar
-          </button>
+            </button>
           </Link>
           <Link to="/settings">
             <button
