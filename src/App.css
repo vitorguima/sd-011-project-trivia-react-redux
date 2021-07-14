@@ -25,6 +25,7 @@
 .App-header {
   align-items: center;
   background-color: #282c34;
+  text-align: center;
   color: white;
   display: flex;
   flex-direction: column;
