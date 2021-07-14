@@ -1,11 +1,12 @@
-import { VALIDATE_LOGIN } from '../actions';
+import { VALIDATE_LOGIN, UPDATE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
   playerName: '',
+  score: 0,
 };
 
-function tokenReducer(state = INITIAL_STATE, action) {
+function playerReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
   case VALIDATE_LOGIN:
     return {
@@ -13,9 +14,14 @@ function tokenReducer(state = INITIAL_STATE, action) {
       email: action.email,
       playerName: action.playerName,
     };
+  case UPDATE_SCORE:
+    return {
+      ...state,
+      score: action.score + 1,
+    };
   default:
     return state;
   }
 }
 
-export default tokenReducer;
+export default playerReducer;

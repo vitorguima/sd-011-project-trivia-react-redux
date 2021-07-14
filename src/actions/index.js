@@ -1,9 +1,15 @@
 export const VALIDATE_LOGIN = 'VALIDATE_LOGIN';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
 
 export const validateLogin = (email, playerName) => ({
   type: VALIDATE_LOGIN,
   email,
   playerName,
+});
+
+export const updateScore = (score) => ({
+  type: VALIDATE_LOGIN,
+  score,
 });
 
 export const questionAPI = async () => {

@@ -1,6 +1,7 @@
 import React from 'react';
-// import md5 from 'crypto-js/md5';
+import { Link } from 'react-router-dom';
 import PlayButton from './PlayButton';
+// import Button from './Button';
 
 class Login extends React.Component {
   constructor(props) {
@@ -57,6 +58,14 @@ class Login extends React.Component {
           email={ email }
           playerName={ playerName }
         />
+        <Link to="/settings">
+          <button
+            data-testid="btn-settings"
+            type="button"
+          >
+            Configuração
+          </button>
+        </Link>
       </div>
     );
   }
