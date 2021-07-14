@@ -5,11 +5,13 @@ import './App.css';
 // <img src={ logo } className="App-logo" alt="logo" />
 
 import Login from './components/Login';
+import Config from './components/Config';
 
 export default function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
+      <Route path="/config" component={ Config } />
     </Switch>
   );
 }
