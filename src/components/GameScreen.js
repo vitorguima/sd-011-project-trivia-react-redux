@@ -10,9 +10,9 @@ class GameScreen extends React.Component {
   }
 
   componentDidMount() {
-    const token = 'c22e2d3b964b441ca0149cf174921a4086869e04c0bf7f66c8f030cce6ffb2bd';
-    // const token = localStorage.getItem(token);
-    fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+    // const token = 'c22e2d3b964b441ca0149cf174921a4086869e04c0bf7f66c8f030cce6ffb2bd';
+    const tokenID = localStorage.getItem(token);
+    fetch(`https://opentdb.com/api.php?amount=5&token=${tokenID}`)
       .then((response) => response.json()
         .then((triviaApi) => this.setState({
           triviaApi,
