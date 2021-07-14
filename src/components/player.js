@@ -6,7 +6,6 @@ class Player extends React.Component {
     return (
       <div>
         <Header />
-        Tela player FUNCIONADO
       </div>
     );
   }
