@@ -14,12 +14,4 @@ class App extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   logInfo: state.pageReducer.logged,
-// })
-
-// const mapDispatchToProps = (dispatch) => ({
-//   logoff: () => dispatch(logoffAction())
-// })
-
 export default connect(null, null)(App);
