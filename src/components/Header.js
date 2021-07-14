@@ -6,8 +6,8 @@ function Header() {
   return (
     <header>
       <img data-testid="header-profile-picture" src={ player.avatar } alt="avatar" />
-      <h2 data-testid="header-player-name">{ player.name }</h2>
-      <h3>{ player.score }</h3>
+      <span data-testid="header-player-name">{ player.name }</span>
+      <span data-testid="header-score">{ player.score }</span>
     </header>
   );
 }
