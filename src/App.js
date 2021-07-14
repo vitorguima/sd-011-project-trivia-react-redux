@@ -6,8 +6,6 @@ import Settings from './pages/Settings';
 import logo from './trivia.png';
 import './App.css';
 
-{ /* <img src={ logo } className="App-logo" alt="logo" /> */ }
-
 export default function App() {
   return (
     <div className="App">
