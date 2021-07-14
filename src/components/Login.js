@@ -30,9 +30,9 @@ class Login extends Component {
 
   async handlePlayButton() {
     fetch('https://opentdb.com/api_token.php?command=request')
-      .then(res => {
-        res.json()
-          .then(json => {
+      .then((response) => {
+        response.json()
+          .then((json) => {
             localStorage.setItem('token', json.token);
             this.setState({ play: true });
           });
@@ -43,7 +43,7 @@ class Login extends Component {
     const { name, email, play } = this.state;
 
     if (play) {
-      return <Redirect to="/jogo" />
+      return <Redirect to="/jogo" />;
     }
 
     return (
