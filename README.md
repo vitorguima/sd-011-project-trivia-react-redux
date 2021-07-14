@@ -1,4 +1,5 @@
 ### Termos de acordo
+Read-me do Grupo 28
 
 Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.
 
@@ -113,7 +114,7 @@ Você pode acessar um **protótipo** completo da interface desejada para o proje
 
   - Serão cinco dias de projeto.
 
-  - Data de entrega para avaliação final do projeto: `dd/mm/yyyy - 14:00h`.
+  - Data de entrega para avaliação final do projeto: `27/07/2021 - 14:00h`.
 
 ---
 
