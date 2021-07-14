@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { fetchGameAction } from '../actions';
 
 class Forms extends Component {
   constructor() {
@@ -14,6 +17,21 @@ class Forms extends Component {
     const { id } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState({ [id]: value });
+  }
+
+  play() {
+    const { fetchGame } = this.props;
+    const { name, email } = this.state;
+    const obj = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(obj));
+    fetchGame();
   }
 
   render() {
@@ -41,6 +59,7 @@ class Forms extends Component {
             disabled={ !(name && email) }
             type="button"
             data-testid="btn-play"
+            onClick={ () => this.play() }
           >
             Play
           </button>
@@ -51,4 +70,12 @@ class Forms extends Component {
   }
 }
 
-export default Forms;
+const mapDispatchToProps = (dispatch) => ({
+  fetchGame: () => dispatch(fetchGameAction()),
+});
+
+Forms.propTypes = {
+  fetchGame: PropTypes.string,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Forms);

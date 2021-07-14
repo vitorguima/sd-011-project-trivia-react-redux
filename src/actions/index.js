@@ -2,10 +2,13 @@
 export const REQUEST_API = 'REQUEST_API';
 export const GET_GAME = 'GET_GAME';
 
+// ESTA ACTION MUDA O ESTADO DE isLoading para true
 export const requestAPI = () => ({ type: REQUEST_API });
 
+// ESTA ACTION APÓS AS REQUISIÇÕES, MUDA O ESTADO DE isLoading PARA false E SETA NA gameData AS PERGUNTAS E RESPOSTAS OBTIDAS DA REQUISIÇÃO
 export const getGameAction = (data) => ({ type: GET_GAME, data });
 
+// COMBINA AS DUAS ACTIONS E CRIA O AMBIENTE THUNK PARA OCORRER O FETCH
 export const fetchGameAction = () => async (dispatch) => {
   dispatch(requestAPI());
   try {
