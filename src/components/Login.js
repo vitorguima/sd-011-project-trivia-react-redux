@@ -45,7 +45,11 @@ class Login extends React.Component {
               onChange={ this.handleOnChange }
             />
           </label>
+<<<<<<< HEAD
           <button data-testid="btn-play" type="button" disabled={ isDisabled }>
+=======
+          <button data-testid="btn-play" type="button" disabled={isDisabled}>
+>>>>>>> 314c39cc27738bcc3ff082ec63c96dbf05f85810
             Jogar
           </button>
         </form>
