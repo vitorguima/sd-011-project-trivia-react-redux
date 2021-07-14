@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { fetchToken } from '../actions/index';
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       email: '',
@@ -23,6 +26,14 @@ class Login extends React.Component {
     return true;
   }
 
+  // Guardar resposta token no localStorage
+  submit() {
+    const { tokenFetch } = this.props;
+    tokenFetch();
+    const { tokenAPI } = this.props;
+    localStorage.setItem('token', tokenAPI);
+  }
+
   render() {
     return (
       <div>
@@ -40,16 +51,27 @@ class Login extends React.Component {
           placeholder="email"
           onChange={ (e) => this.handler(e) }
         />
-        <button
-          data-testid="btn-play"
-          type="button"
-          disabled={ this.isAuthenticated() }
-        >
-          Jogar
-        </button>
+        <Link to="/player">
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ this.isAuthenticated() }
+            onClick={ () => this.submit() }
+          >
+            Jogar
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  tokenAPI: state.user.results,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  tokenFetch: () => dispatch(fetchToken()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
