@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import fetchToken from '../services/api';
 
 export default class Home extends Component {
   constructor() {
@@ -8,6 +9,12 @@ export default class Home extends Component {
       name: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.getToken = this.getToken.bind(this);
+  }
+
+  async getToken() {
+    const { token } = await fetchToken();
+    localStorage.setItem('token', token);
   }
 
   handleChange(e) {
@@ -43,6 +50,7 @@ export default class Home extends Component {
         <button
           type="button"
           data-testid="btn-play"
+          onClick={ this.getToken }
           disabled={ !email || !name }
         >
           Jogar
