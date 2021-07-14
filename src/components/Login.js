@@ -1,5 +1,6 @@
 import React from 'react';
-import Button from './Button';
+// import md5 from 'crypto-js/md5';
+import PlayButton from './PlayButton';
 
 class Login extends React.Component {
   constructor(props) {
@@ -51,7 +52,7 @@ class Login extends React.Component {
             onChange={ (e) => this.handleInputText(e) }
           />
         </label>
-        <Button
+        <PlayButton
           disabled={ this.handleLoginBtn() }
           email={ email }
           playerName={ playerName }

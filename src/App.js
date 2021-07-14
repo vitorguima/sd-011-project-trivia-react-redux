@@ -9,11 +9,10 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
-        <p>
-          <Switch>
-            <Route exact path="/" component={ Login } />
-          </Switch>
-        </p>
+        <Switch>
+          <Route exact path="/" component={ Login } />
+          <Route path="/jogar" />
+        </Switch>
       </header>
     </div>
   );
