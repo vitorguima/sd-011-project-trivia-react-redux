@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React, { Component } from 'react';
 
 export default class Login extends Component {
@@ -10,6 +11,7 @@ export default class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
+    this.redirectSettings = this.redirectSettings.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -29,6 +31,10 @@ export default class Login extends Component {
         disabled: true,
       });
     }
+  }
+
+  redirectSettings() {
+    window.location = 'configuracao';
   }
 
   render() {
@@ -60,6 +66,13 @@ export default class Login extends Component {
             disabled={ disabled }
           >
             Jogar
+          </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => this.redirectSettings() }
+          >
+            Configurações
           </button>
         </form>
       </div>
