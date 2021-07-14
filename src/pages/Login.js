@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { fetchToken } from '../actions';
 
 class Login extends Component {
@@ -22,12 +22,8 @@ class Login extends Component {
 
   render() {
     const { name, email } = this.state;
-    const { fetchTokenDispatch } = this.props;
     return (
       <div>
-        <p>
-          SUA VEZ
-        </p>
         <label htmlFor="name">
           Name:
           <input
@@ -49,14 +45,16 @@ class Login extends Component {
           />
         </label>
         <Link to="/gamepage">
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ !(name && email) }
-            onClick={ () => fetchTokenDispatch() }
-          >
+          <button type="button" data-testid="btn-play" disabled={ !(name && email) }>
             Jogar
           </button>
+        </Link>
+        <Link to="/settings">
+          <div>
+            <button type="button" data-testid="btn-settings">
+              Configurações
+            </button>
+          </div>
         </Link>
       </div>
     );
