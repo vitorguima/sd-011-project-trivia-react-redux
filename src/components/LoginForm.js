@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login } from '../actions/login';
 
@@ -9,7 +10,7 @@ class LoginForm extends Component {
       enableButton: false,
       user: '',
       email: '',
-    }
+    };
     this.inputValidation = this.inputValidation.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -17,16 +18,15 @@ class LoginForm extends Component {
   inputValidation() {
     const { user, email } = this.state;
     if (user.length !== 0 && email.length !== 0) {
-      this.setState({ enableButton: true })
+      this.setState({ enableButton: true });
     }
   }
 
   handleChange({ target }) {
     const { name, value } = target;
     this.setState({
-      [name]: value
+      [name]: value,
     }, () => this.inputValidation());
-
   }
 
   render() {
@@ -43,8 +43,7 @@ class LoginForm extends Component {
             data-testid="input-player-name"
             placeholder="Digite o nome do usuário"
             onChange={ this.handleChange }
-          >
-          </input>
+          />
         </label>
         <label htmlFor="email">
           <input
@@ -54,8 +53,7 @@ class LoginForm extends Component {
             data-testid="input-gravatar-email"
             placeholder="Digite seu email"
             onChange={ this.handleChange }
-          >
-          </input>
+          />
         </label>
         <button
           type="button"
@@ -66,16 +64,16 @@ class LoginForm extends Component {
           Jogar
         </button>
       </form>
-    )
+    );
   }
 }
-
-const mapStateToProps = (state) => ({
-
-});
 
 const mapDispatchToProps = (dispatch) => ({
   userInfos: (infos) => dispatch(login(infos)),
 });
 
-export default connect (mapStateToProps, mapDispatchToProps)(LoginForm)
+export default connect(null, mapDispatchToProps)(LoginForm);
+
+LoginForm.propTypes = {
+  userInfos: PropTypes.objectOf().isRequired,
+};

@@ -9,7 +9,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <Switch>
-          <Route exact path="/" component={ Login }/>
+          <Route exact path="/" component={ Login } />
         </Switch>
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
@@ -18,6 +18,6 @@ export default class App extends Component {
           </p>
         </header>
       </div>
-    )
+    );
   }
 }
