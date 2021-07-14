@@ -4,10 +4,11 @@ import { useSelector } from 'react-redux';
 import '../styles/GameScreenHeader.css';
 
 export default function GameScreenHeader() {
-  const email = useSelector((state) => state.email);
+  const email = useSelector((state) => state.login.email);
   const hashEmail = MD5(email).toString();
-  const name = useSelector((state) => state.name);
-
+  const userName = useSelector((state) => state.login.name);
+  // console.log(userName);
+  console.log(email);
   return (
     <header className="header-container">
       <img
@@ -19,7 +20,7 @@ export default function GameScreenHeader() {
         className="player-name"
         data-testid="header-player-name"
       >
-        {name}
+        {userName}
       </span>
       <span
         data-testid="header-score"
