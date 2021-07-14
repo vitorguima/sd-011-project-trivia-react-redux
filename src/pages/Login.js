@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import SettingsButton from '../components/SettingsButton';
 
 const Login = () => {
   const [stateLogin, setStatelogin] = useState({ email: '', userName: '' });
@@ -47,6 +48,7 @@ const Login = () => {
       >
         Iniciar Jogo
       </button>
+      <SettingsButton />
     </form>
   );
 };
