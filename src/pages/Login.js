@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -29,6 +30,12 @@ class Login extends React.Component {
 
     if (formValid) button.disabled = false;
     else button.disabled = true;
+  }
+
+  handlebutton() {
+    fetch('https://opentdb.com/api_token.php?command=request')
+      .then((response) => response.json())
+      .then((resolve) => localStorage.setItem('token', resolve.token));
   }
 
   async handleFormChange({ target: { id, value } }) {
@@ -66,7 +73,16 @@ class Login extends React.Component {
               value={ email }
             />
           </label>
-          <button type="button" id="btn-play" data-testid="btn-play">Jogar</button>
+          <Link to="/trivia">
+            <button
+              type="button"
+              id="btn-play"
+              data-testid="btn-play"
+              onClick={ this.handlebutton }
+            >
+              Jogar
+            </button>
+          </Link>
         </form>
       </header>
     );
