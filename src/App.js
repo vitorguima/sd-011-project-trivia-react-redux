@@ -1,4 +1,5 @@
 import React from 'react';
+import md5 from 'crypto-js/md5';
 import logo from './trivia.png';
 import './App.css';
 
@@ -10,7 +11,6 @@ export default function App() {
         <p>
           SUA VEZ
         </p>
-        Início
       </header>
     </div>
   );
