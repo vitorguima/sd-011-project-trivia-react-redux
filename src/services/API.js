@@ -6,6 +6,10 @@ export const fetchToken = () => {
     .catch((error) => error);
 };
 
-export const fetchQuestions = () => {
-
+export const fetchImage = () => {
+  // const URL = `https://www.gravatar.com/avatar/${hashEmail}`;
+  // return fetch(URL)
+  //   .then((response) => response.json())
+  //   .then((data) => data)
+  //   .catch((error) => error);
 };
