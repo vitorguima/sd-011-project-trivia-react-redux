@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { questionAPI, validateLogin } from '../actions';
+import { validateLogin } from '../actions';
+import questionAPI from '../services';
 
 class PlayButton extends Component {
   render() {

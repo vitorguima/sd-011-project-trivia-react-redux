@@ -1,8 +1,8 @@
 import { VALIDATE_LOGIN, UPDATE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
-  email: '',
-  playerName: '',
+  gravatarEmail: '',
+  name: '',
   score: 0,
 };
 
@@ -11,8 +11,8 @@ function playerReducer(state = INITIAL_STATE, action) {
   case VALIDATE_LOGIN:
     return {
       ...state,
-      email: action.email,
-      playerName: action.playerName,
+      gravatarEmail: action.gravatarEmail,
+      name: action.name,
     };
   case UPDATE_SCORE:
     return {
