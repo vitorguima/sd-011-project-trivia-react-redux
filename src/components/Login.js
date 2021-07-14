@@ -53,7 +53,7 @@ export default class Login extends Component {
             value={ email }
             placeholder="Digite seu email"
           />
-          <Link to="/triviagame">
+          <Link to="/game">
             <button
               type="button"
               data-testid="btn-play"

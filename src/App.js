@@ -12,7 +12,7 @@ import Config from './components/Config';
 export default function App() {
   return (
     <Switch>
-      <Route exact path="/triviagame" component={ GameScreen } />
+      <Route exact path="/game" component={ GameScreen } />
       <Route exact path="/config" component={ Config } />
       <Route exact path="/" component={ Login } />
     </Switch>
