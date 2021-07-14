@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import fetchCurrency from '../service/tokenApi';
 // import logo from './trivia.png';
 
 class login extends Component {
@@ -61,6 +62,7 @@ class login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ disableBtn }
+          onClick={ () => fetchCurrency() }
         >
           Jogar
         </button>
