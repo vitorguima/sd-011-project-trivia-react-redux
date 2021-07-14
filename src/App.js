@@ -10,11 +10,11 @@ import Configuration from './pages/Configuration';
 export default function App() {
   return (
     <Switch>
-      <Route exact path='/' component={ Login } />
-      <Route path='/game' component={ Game } />
-      <Route path='/feedback' component={ Feedback } />
-      <Route path='/ranking' component={ Ranking } />
-      <Route path='/config' component={ Configuration } />
+      <Route exact path="/" component={ Login } />
+      <Route path="/game" component={ Game } />
+      <Route path="/feedback" component={ Feedback } />
+      <Route path="/ranking" component={ Ranking } />
+      <Route path="/config" component={ Configuration } />
     </Switch>
   );
 }
