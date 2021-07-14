@@ -1,7 +1,17 @@
-const INITIAL_STATE = {};
+import { LOGIN, GET_SCORE } from '../actions';
+
+const INITIAL_STATE = {
+  name: '',
+  email: '',
+  score: 0,
+};
 
 export default function player(state = INITIAL_STATE, action) {
   switch (action.type) {
+  case LOGIN:
+    return { ...state, name: action.name, email: action.email };
+  case GET_SCORE:
+    return { ...state, score: action.score };
   default:
     return state;
   }

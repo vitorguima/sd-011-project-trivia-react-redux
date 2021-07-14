@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { getLogin } from '../actions';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
 
@@ -12,7 +15,7 @@ export default class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.checkForm = this.checkForm.bind(this);
-    // this.handlePlayButton = this.handlePlayButton.bind(this);
+    this.handlePlayButton = this.handlePlayButton.bind(this);
   }
 
   handleChange({ target }) {
@@ -27,9 +30,11 @@ export default class Login extends Component {
     return name !== '' && email !== '';
   }
 
-  // handlePlayButton() {
-
-  // }
+  handlePlayButton() {
+    const { name, email } = this.state;
+    const { login } = this.props;
+    login(name, email);
+  }
 
   render() {
     const { name, email } = this.state;
@@ -53,16 +58,28 @@ export default class Login extends Component {
             value={ email }
             placeholder="Digite seu email"
           />
-          <button
-            type="button"
-            data-testid="btn-play"
-            // onClick={ this.handlePlayButton }
-            disabled={ !this.checkForm() }
-          >
-            Jogar
-          </button>
+          <Link to="/game">
+            <button
+              type="button"
+              data-testid="btn-play"
+              onClick={ this.handlePlayButton }
+              disabled={ !this.checkForm() }
+            >
+              Jogar
+            </button>
+          </Link>
         </form>
       </div>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (name, email) => dispatch(getLogin(name, email)),
+});
+
+Login.propTypes = {
+  login: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
