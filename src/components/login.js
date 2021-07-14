@@ -20,9 +20,14 @@ class Login extends React.Component {
 
   changeHandle(e) {
     this.handler(e);
-    const { nameAction } = this.props;
-    const { name } = this.state;
-    nameAction(name);
+    const { name, email } = this.state;
+    const player = {
+      name,
+      email,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   isAuthenticated() {
