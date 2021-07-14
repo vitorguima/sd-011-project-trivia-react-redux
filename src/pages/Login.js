@@ -4,13 +4,22 @@ import { getToken } from '../services/api';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      nome: 'Matheus',
-      email: 'mathws.costag@gmail.com',
+      username: '',
+      email: '',
     };
+
     this.saveToken = this.saveToken.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
   }
 
   async saveToken() {
@@ -19,12 +28,33 @@ class Login extends React.Component {
   }
 
   render() {
-    const { nome, email } = this.state;
-    const active = !(nome && email);
+    const { username, email } = this.state;
     return (
       <div>
-        <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
+        <img src={ logo } className="App-logo" alt="logo" />
+        <form>
+          <label htmlFor="username">
+            Nome do Joagador:
+            <input
+              type="text"
+              name="username"
+              id="username"
+              data-testid="input-player-name"
+              value={ username }
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="gravatar-email">
+            Email do Gravatar:
+            <input
+              type="text"
+              name="email"
+              id="gravatar-email"
+              data-testid="input-gravatar-email"
+              value={ email }
+              onChange={ this.handleChange }
+            />
+          </label>
           <Link to="/settings">
             <button
               type="button"
@@ -37,13 +67,13 @@ class Login extends React.Component {
             <button
               data-testid="btn-play"
               type="button"
-              disabled={ active }
+              disabled={ !(username && email) }
               onClick={ this.saveToken }
             >
               Jogar
             </button>
           </Link>
-        </header>
+        </form>
       </div>
     );
   }
