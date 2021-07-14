@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor() {
@@ -22,6 +23,14 @@ class Login extends React.Component {
     const isDisabled = name.length === 0 || email.length === 0;
     return (
       <div>
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configuração
+          </button>
+        </Link>
         <form>
           <label htmlFor="name">
             Nome:
