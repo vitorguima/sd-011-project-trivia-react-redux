@@ -34,6 +34,8 @@ class Login extends React.Component {
     });
   }
 
+  // Lógica do click
+
   async handleClick() {
     const response = await getTokenApi();
     const { token } = response;
