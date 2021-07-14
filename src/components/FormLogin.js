@@ -45,7 +45,11 @@ class FormLogin extends Component {
 }
 
 FormLogin.propTypes = {
-  handleChange: PropTypes.func.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  validation: PropTypes.func.isRequired,
+  handleButton: PropTypes.func.isRequired,
+  nome: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
 };
 
 export default FormLogin;

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import FormLogin from '../components/FormLogin';
-import { getToken } from '../services/api';
 
 class Login extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       nome: '',
       email: '',
@@ -12,7 +11,6 @@ class Login extends Component {
     this.validation = this.validation.bind(this);
     this.handleButton = this.handleButton.bind(this);
     this.handleInput = this.handleInput.bind(this);
-
   }
 
   validation() {
@@ -31,7 +29,7 @@ class Login extends Component {
   }
 
   handleButton() {
-    //const token = getToken();
+    // const token = getToken();
     console.log('alo alo marciano');
   }
 
