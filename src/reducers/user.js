@@ -1,4 +1,4 @@
-import { NEW_USER } from '../actions';
+import { NEW_USER, NEW_EMAIL } from '../actions';
 
 const INITIAL_STATE = {
   email: '',
@@ -10,8 +10,12 @@ const newUser = (state = INITIAL_STATE, action) => {
   case NEW_USER:
     return {
       ...state,
-      email: action.email,
-      user: action.user,
+      user: action.state,
+    };
+  case NEW_EMAIL:
+    return {
+      ...state,
+      email: action.state,
     };
   default:
     return state;
