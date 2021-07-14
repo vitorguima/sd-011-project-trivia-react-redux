@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Login = () => {
+const Login = (props) => {
   const [stateLogin, setStatelogin] = useState({ email: '', userName: '' });
   const { email, userName } = stateLogin;
 
@@ -15,6 +15,12 @@ const Login = () => {
       ...stateLogin,
       [name]: value,
     });
+  };
+
+  const senLogin = async () => {
+    const response = await fetch('https://opentdb.com/api_token.php?command=request ');
+    const object = await response.json();
+    localStorage.setItem('token', JSON.stringify(object));
   };
 
   return (
@@ -36,6 +42,7 @@ const Login = () => {
       <button
         type="button"
         data-testid="btn-play"
+        onClick={ senLogin }
         disabled={ validateEmailInput() }
       >
         Iniciar Jogo
