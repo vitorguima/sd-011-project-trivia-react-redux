@@ -1,20 +1,39 @@
-import { LOGIN } from '../actions';
+import {
+  REQUEST_TOKEN,
+  REQUEST_TOKEN_SUCCESS,
+  LOGIN,
+} from '../actions';
 
 const INITIAL_STATE = {
+  token: {},
+  isLoading: false,
   name: '',
   email: '',
 };
 
-const loginReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
+const loginReducer = (state = INITIAL_STATE, { type, payload }) => {
+  switch (type) {
+  case REQUEST_TOKEN:
+    return {
+      ...state,
+      isLoading: true,
+    };
+  case REQUEST_TOKEN_SUCCESS:
+    return {
+      ...state,
+      isLoading: false,
+      token: payload.token,
+    };
   case LOGIN:
     return {
       ...state,
-      name: action.payload.name,
-      email: action.payload.email,
+      name: payload.name,
+      email: payload.email,
     };
   default:
-    return state;
+    return {
+      ...state,
+    };
   }
 };
 

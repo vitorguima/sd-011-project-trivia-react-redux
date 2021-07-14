@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { loginAction } from '../actions';
+import { fetchToken, loginAction } from '../actions';
+import { saveTokenToStore } from '../service/handleLocalStorage';
 
 class Login extends Component {
   constructor() {
@@ -22,6 +23,17 @@ class Login extends Component {
     this.setState({
       [name]: value,
     }, () => { this.checkInputs(); });
+  }
+
+  handleLocalStorage() {
+    const { token } = this.props;
+    saveTokenToStore(token);
+  }
+
+  async handleLogin() {
+    const { initToken } = this.props;
+    await initToken();
+    this.handleLocalStorage();
   }
 
   checkInputs() {
@@ -71,6 +83,7 @@ class Login extends Component {
           </label>
           <button
             type="button"
+            onClick={ this.handleLogin }
             data-testid="btn-play"
             disabled={ disabled }
             onClick={ () => this.handleLogin() }
@@ -84,12 +97,23 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = ({ loginReducer }) => ({
+  token: loginReducer.token,
+});
+
 const mapDispatchToProps = (dispatch) => ({
+  initToken: () => dispatch(fetchToken()),
   setLogin: (name, email) => dispatch(loginAction({ name, email })),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
-
-Login.propTypes = {
+Login.propTypes = ({
+  initToken: PropTypes.func.isRequired,
+  token: PropTypes.string,
   setLogin: PropTypes.func.isRequired,
-};
+});
+
+Login.defaultProps = ({
+  token: '',
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
