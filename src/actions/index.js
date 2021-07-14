@@ -1,13 +1,13 @@
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const RECEIVE_TOKEN = 'RECEIVE_TOKEN';
+export const INPUT_NAME = 'INPUT_NAME';
 
-// exemplo action:
-// export function userAction(email) {
-//   return ({
-//     type: INPUT_USER,
-//     email,
-//   });
-// }
+export function userAction(name) {
+  return ({
+    type: INPUT_NAME,
+    name,
+  });
+}
 
 const requestToken = () => ({
   type: REQUEST_TOKEN,

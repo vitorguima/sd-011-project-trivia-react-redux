@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { userAction } from '../actions/index';
 
 class Login extends React.Component {
   constructor(props) {
@@ -14,6 +15,13 @@ class Login extends React.Component {
   handler(e) {
     const { name } = e.target;
     this.setState({ [name]: e.target.value });
+  }
+
+  changeHandle(e) {
+    this.handler(e);
+    const { nameAction } = this.props;
+    const { name } = this.state;
+    nameAction(name);
   }
 
   isAuthenticated() {
@@ -40,14 +48,14 @@ class Login extends React.Component {
           name="name"
           type="text"
           placeholder="Escreva seu nome"
-          onChange={ (e) => this.handler(e) }
+          onChange={ (e) => this.changeHandle(e) }
         />
         <input
           data-testid="input-gravatar-email"
           name="email"
           type="email"
           placeholder="email"
-          onChange={ (e) => this.handler(e) }
+          onChange={ (e) => this.changeHandle(e) }
         />
         <Link to="/player">
           <button
@@ -76,4 +84,8 @@ const mapStateToProps = (state) => ({
   tokenAPI: state.user.results,
 });
 
-export default connect(mapStateToProps, null)(Login);
+const mapDispatchToProps = (dispatch) => ({
+  nameAction: (state) => dispatch(userAction(state)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
