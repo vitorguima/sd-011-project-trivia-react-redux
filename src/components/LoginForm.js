@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { login } from '../actions/login';
+import { login, fetchTokenAPI } from '../actions/login';
 
 class LoginForm extends Component {
   constructor() {
@@ -13,6 +14,7 @@ class LoginForm extends Component {
     };
     this.inputValidation = this.inputValidation.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleButtonClick = this.handleButtonClick.bind(this);
   }
 
   inputValidation() {
@@ -29,10 +31,14 @@ class LoginForm extends Component {
     }, () => this.inputValidation());
   }
 
-  render() {
-    const { user, email, enableButton } = this.state;
+  handleButtonClick() {
+    const { user, email } = this.state;
     const { userInfos } = this.props;
+    userInfos({ user, email });
+  }
 
+  render() {
+    const { enableButton } = this.state;
     return (
       <form>
         <label htmlFor="user">
@@ -55,24 +61,32 @@ class LoginForm extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ !enableButton }
-          onClick={ () => userInfos({ user, email }) }
-        >
-          Jogar
-        </button>
+        <Link to="/play">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ !enableButton }
+            onClick={ this.handleButtonClick }
+          >
+            Jogar
+          </button>
+
+        </Link>
       </form>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  userInfos: (infos) => dispatch(login(infos)),
+const mapStateToProps = (state) => ({
+  tokenData: state.login.token,
 });
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+const mapDispatchToProps = (dispatch) => ({
+  userInfos: (infos) => dispatch(login(infos)),
+  fetchToken: () => dispatch(fetchTokenAPI()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
 
 LoginForm.propTypes = {
   userInfos: PropTypes.objectOf().isRequired,
