@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import logo from './trivia.png';
 import './App.css';
+import Login from './pages/Login';
 
 export default function App() {
   return (
@@ -10,7 +11,7 @@ export default function App() {
         <img src={ logo } className="App-logo" alt="logo" />
         <p>Agora sua vez</p>
         <Switch>
-          <Route exact path="/" component={ <App /> } />
+          <Route exact path="/" component={ Login } />
         </Switch>
       </header>
     </div>
