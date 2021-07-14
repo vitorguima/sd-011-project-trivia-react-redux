@@ -1,8 +1,10 @@
-import { GET_LOGIN } from '../actions';
+import { GET_LOGIN, REQUEST_TOKEN, REQUEST_SUCCESS_TOKEN } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
   email: '',
+  loading: true,
+  apiToken: {},
 };
 
 function loginReducer(state = INITIAL_STATE, action) {
@@ -12,6 +14,18 @@ function loginReducer(state = INITIAL_STATE, action) {
       ...state,
       name: action.payload.name,
       email: action.payload.email,
+    };
+  case REQUEST_TOKEN:
+    return {
+      ...state,
+      loading: true,
+    };
+  case REQUEST_SUCCESS_TOKEN:
+    localStorage.setItem('token', action.payload.token);
+    return {
+      ...state,
+      loading: false,
+      apiToken: action.payload,
     };
   default:
     return state;

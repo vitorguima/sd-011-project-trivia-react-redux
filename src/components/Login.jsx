@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getLogin } from '../actions';
+import requisitionToken from '../helpers/RequisitionToken';
 
 class Login extends Component {
   constructor() {
@@ -33,7 +35,7 @@ class Login extends Component {
 
   render() {
     const { name, email, disabled } = this.state;
-    const { dispatchLogin } = this.props;
+    const { dispatchLogin, dispatchApi } = this.props;
     return (
       <>
         <input
@@ -54,14 +56,19 @@ class Login extends Component {
           onKeyUp={ this.validateEmailAndName }
           value={ email }
         />
-        <button
-          type="button"
-          data-testid="btn-play"
-          onClick={ () => dispatchLogin(this.state) }
-          disabled={ disabled }
-        >
-          Jogar
-        </button>
+        <Link to="/game">
+          <button
+            type="button"
+            data-testid="btn-play"
+            onClick={ () => {
+              dispatchLogin(this.state);
+              dispatchApi();
+            } }
+            disabled={ disabled }
+          >
+            Jogar
+          </button>
+        </Link>
       </>
     );
   }
@@ -69,10 +76,12 @@ class Login extends Component {
 
 Login.propTypes = {
   dispatchLogin: PropTypes.func.isRequired,
+  dispatchApi: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchLogin: (state) => dispatch(getLogin(state)),
+  dispatchApi: () => dispatch(requisitionToken()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
