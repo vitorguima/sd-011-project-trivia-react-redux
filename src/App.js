@@ -10,6 +10,7 @@ export default function App() {
         <p>
           SUA VEZ
         </p>
+        Início
       </header>
     </div>
   );
