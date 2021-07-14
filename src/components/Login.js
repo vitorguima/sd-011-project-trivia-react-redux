@@ -64,6 +64,7 @@ export default class Login extends Component {
             </button>
           </Link>
         </form>
+        <Link data-testid="btn-settings" to="/config">Configurações</Link>
       </div>
     );
   }

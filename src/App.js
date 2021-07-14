@@ -7,12 +7,14 @@ import GameScreen from './components/GameScreen';
 // <img src={ logo } className="App-logo" alt="logo" />
 
 import Login from './components/Login';
+import Config from './components/Config';
 
 export default function App() {
   return (
     <Switch>
-      <Route exact path="/" component={ Login } />
       <Route exact path="/triviagame" component={ GameScreen } />
+      <Route exact path="/config" component={ Config } />
+      <Route exact path="/" component={ Login } />
     </Switch>
   );
 }
