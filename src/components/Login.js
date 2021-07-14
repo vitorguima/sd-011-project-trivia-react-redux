@@ -15,6 +15,24 @@ class Login extends Component {
       disabled: true,
     };
     this.changeState = this.changeState.bind(this);
+    this.getTokenFromApi = this.getTokenFromApi.bind(this);
+  }
+
+  getTokenFromApi() {
+    const { getToken } = this.props;
+    const { email, name } = this.state;
+    getToken();
+    localStorage.setItem(
+      'state',
+      JSON.stringify({
+        player: {
+          name,
+          assertions: '',
+          score: 0,
+          gravatarEmail: email,
+        },
+      }),
+    );
   }
 
   changeState({ target: { id, value } }) {
@@ -27,14 +45,13 @@ class Login extends Component {
 
   render() {
     const { disabled, email, name } = this.state;
-    const { getToken } = this.props;
 
     return (
       <div className="App">
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
           <input
-            data-testid="input-player-name"
+            data-testid="input-gravatar-email"
             type="email"
             placeholder="Email"
             id="email"
@@ -42,7 +59,7 @@ class Login extends Component {
             onChange={ this.changeState }
           />
           <input
-            data-testid="input-gravatar-email"
+            data-testid="input-player-name"
             type="text"
             placeholder="Name"
             id="name"
@@ -54,7 +71,7 @@ class Login extends Component {
               disabled={ disabled }
               type="button"
               data-testid="btn-play"
-              onClick={ getToken }
+              onClick={ this.getTokenFromApi }
             >
               Jogar
             </button>
