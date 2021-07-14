@@ -31,7 +31,14 @@ class Login extends Component {
   }
 
   async handleLogin() {
-    const { initToken } = this.props;
+    const { name, email } = this.state;
+    const { initToken, setLogin } = this.props;
+
+    setLogin(name, email);
+    this.setState({
+      ready: true,
+    });
+
     await initToken();
     this.handleLocalStorage();
   }
@@ -47,15 +54,6 @@ class Login extends Component {
         disabled: true,
       });
     }
-  }
-
-  handleLogin() {
-    const { name, email } = this.state;
-    const { setLogin } = this.props;
-    setLogin(name, email);
-    this.setState({
-      ready: true,
-    });
   }
 
   render() {
@@ -86,7 +84,6 @@ class Login extends Component {
             onClick={ this.handleLogin }
             data-testid="btn-play"
             disabled={ disabled }
-            onClick={ () => this.handleLogin() }
           >
             Jogar
           </button>
