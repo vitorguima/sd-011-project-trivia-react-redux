@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
 
@@ -12,7 +12,7 @@ export default class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.checkForm = this.checkForm.bind(this);
-    // this.handlePlayButton = this.handlePlayButton.bind(this);
+    this.handlePlayButton = this.handlePlayButton.bind(this);
   }
 
   handleChange({ target }) {
@@ -27,12 +27,19 @@ export default class Login extends Component {
     return name !== '' && email !== '';
   }
 
-  // handlePlayButton() {
-
-  // }
+  async handlePlayButton() {
+    fetch('https://opentdb.com/api_token.php?command=request')
+      .then((response) => {
+        response.json()
+          .then((json) => {
+            localStorage.setItem('token', json.token);
+          });
+      });
+  }
 
   render() {
     const { name, email } = this.state;
+
     return (
       <div>
         <h1>Login</h1>
@@ -57,7 +64,7 @@ export default class Login extends Component {
             <button
               type="button"
               data-testid="btn-play"
-              // onClick={ this.handlePlayButton }
+              onClick={ this.handlePlayButton }
               disabled={ !this.checkForm() }
             >
               Jogar
@@ -69,3 +76,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default Login;
