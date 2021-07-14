@@ -33,12 +33,17 @@ export default class Login extends Component {
     const button = document.querySelector('#play-btn');
     const email = document.querySelector('#input-email');
 
-    console.log(name.value.length);
-    const zero = 0;
+    console.log(name.value);
 
-    if (email.checkValidity() && name.value.length !== zero) {
+    // if (email.length <= 0 || name.length <= zero || !email.checkValidity()) {
+    //   return button.disabled;
+    // }
+    // { return button.disabled = false; }
+
+    if (email.checkValidity() && name.value !== '' && email.value !== '') {
       button.disabled = false;
-    } else if (!email.checkValidity() || name.value.length === zero) {
+      // console.log(button);
+    } else if (!email.checkValidity() || name.value === '' || email.value === '') {
       button.disabled = true;
     }
   }
