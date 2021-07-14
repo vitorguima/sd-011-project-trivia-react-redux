@@ -5,14 +5,14 @@ export default function LoginForm(props) {
   const { handleSubmit, handleChange, handleDisabled } = props;
 
   return (
-    <form className="w-25 login-form " onSubmit={(e) => handleSubmit(e)}>
+    <form className="w-25 login-form " onSubmit={ (e) => handleSubmit(e) }>
       <div className="mb-3">
         <label htmlFor="inputEmail" className="form-label">
           Email address
           <input
-            onChange={(e) => handleChange(e)}
+            onChange={ (e) => handleChange(e) }
             name="email"
-            data-testid="email-input"
+            data-testid="input-gravatar-email"
             type="email"
             className="form-control"
             id="inputEmail"
@@ -24,17 +24,22 @@ export default function LoginForm(props) {
         <label htmlFor="inputPassword" className="form-label">
           Name
           <input
-            onChange={(e) => handleChange(e)}
+            onChange={ (e) => handleChange(e) }
             name="name"
-            data-testid="password-input"
+            data-testid="input-player-name"
             type="text"
             className="form-control"
             id="inputPassword"
           />
         </label>
       </div>
-      <button disabled={handleDisabled()} type="submit" className="btn btn-primary">
-        Entrar
+      <button
+        disabled={ handleDisabled() }
+        data-testid="btn-play"
+        type="submit"
+        className="btn btn-primary"
+      >
+        Jogar
       </button>
     </form>
   );
