@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
   constructor(props) {
@@ -58,6 +59,11 @@ class Home extends Component {
             Jogar
           </button>
         </form>
+        <button type="button" data-testid="btn-settings">
+          <Link to="/settings">
+            Configurações
+          </Link>
+        </button>
       </div>
     );
   }
