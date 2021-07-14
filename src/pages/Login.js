@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+/* import { getTokenAction } from '../action'; */
+import getToken from '../service/getToken';
 
 class Login extends Component {
   constructor() {
@@ -10,6 +13,7 @@ class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.verifyLogin = this.verifyLogin.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target }) {
@@ -17,6 +21,14 @@ class Login extends Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  handleClick() {
+    const token = getToken();
+    token.then(({ token }) => console.log(token));
+    console.log(token);
+/*     localStorage.setItem('token', token);
+    return tokenJson; */
   }
 
   verifyLogin() {
@@ -58,7 +70,7 @@ class Login extends Component {
             data-testid="btn-play"
             type="button"
             disabled={ this.verifyLogin() }
-            /*             onClick={} */
+            onClick={ this.handleClick() }
           >
             Jogar
           </button>
@@ -68,4 +80,9 @@ class Login extends Component {
   }
 }
 
+/* const mapDispatchToProps = (dispatch) => ({
+  getToken: (payload) => dispatch(getTokenAction(payload)),
+}); */
+
+/* export default connect(null, mapDispatchToProps)(Login); */
 export default Login;
