@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
 
 class Login extends Component {
@@ -7,6 +8,7 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.checkLogin = this.checkLogin.bind(this);
+    this.sendToConfigurations = this.sendToConfigurations.bind(this);
 
     this.state = {
       name: '',
@@ -34,6 +36,12 @@ class Login extends Component {
     });
 
     this.checkLogin();
+  }
+
+  sendToConfigurations() {
+    const { history } = this.props;
+
+    history.push('/configurations');
   }
 
   render() {
@@ -72,10 +80,25 @@ class Login extends Component {
           >
             Jogar
           </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.sendToConfigurations }
+          >
+            Ver configurações
+          </button>
         </header>
+
       </div>
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    location: PropTypes.objectOf(PropTypes.string),
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Login;
