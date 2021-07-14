@@ -21,6 +21,7 @@ class Game extends Component {
       return (
         <div>
           <h1>Game Page</h1>
+          <Header />
           <p data-testid="question-category">
             Categoria:
             {questionsState.results[questionNumber].category}
