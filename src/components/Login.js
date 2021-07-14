@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class Login extends Component {
   constructor() {
     super();
-
     this.state = {
       name: '',
       email: '',
+      play: false,
     };
-
     this.handleChange = this.handleChange.bind(this);
     this.checkForm = this.checkForm.bind(this);
     this.handlePlayButton = this.handlePlayButton.bind(this);
@@ -33,15 +32,16 @@ class Login extends Component {
         response.json()
           .then((json) => {
             localStorage.setItem('token', json.token);
+            this.setState({ play: true });
           });
       });
   }
 
   render() {
-    const { name, email } = this.state;
-
+    const { name, email, play } = this.state;
     return (
       <div>
+        { play ? <Redirect to="/game" /> : null }
         <h1>Login</h1>
         <form>
           <input
@@ -60,16 +60,14 @@ class Login extends Component {
             value={ email }
             placeholder="Digite seu email"
           />
-          <Link to="/game">
-            <button
-              type="button"
-              data-testid="btn-play"
-              onClick={ this.handlePlayButton }
-              disabled={ !this.checkForm() }
-            >
-              Jogar
-            </button>
-          </Link>
+          <button
+            type="button"
+            data-testid="btn-play"
+            onClick={ this.handlePlayButton }
+            disabled={ !this.checkForm() }
+          >
+            Jogar
+          </button>
         </form>
         <Link data-testid="btn-settings" to="/config">Configurações</Link>
       </div>

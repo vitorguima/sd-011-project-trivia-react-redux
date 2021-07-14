@@ -10,8 +10,7 @@ class GameScreen extends React.Component {
   }
 
   componentDidMount() {
-    // const token = 'c22e2d3b964b441ca0149cf174921a4086869e04c0bf7f66c8f030cce6ffb2bd';
-    const tokenID = localStorage.getItem(token);
+    const tokenID = localStorage.getItem('token');
     fetch(`https://opentdb.com/api.php?amount=5&token=${tokenID}`)
       .then((response) => response.json()
         .then((triviaApi) => this.setState({
@@ -23,11 +22,6 @@ class GameScreen extends React.Component {
 
   render() {
     const { triviaApi: { results }, questionNumber } = this.state;
-    // let answers = [];
-    // if (results) {
-    //   answers = [...results[questionNumber].incorrect_answers, results[questionNumber].correct_answer];
-    // }
-    // console.log(answers);
     return results ? (
       <div>
         <h4 data-testid="question-category">{results[questionNumber].category}</h4>
