@@ -29,7 +29,7 @@ class Login extends React.Component {
     const { username, email } = this.state;
     return (
       <div>
-        <img src={ logo } alt="Trivia Logo" />
+        <img src={ logo } className="App-logo" alt="logo" />
         <form>
           <label htmlFor="username">
             Nome do Joagador:
