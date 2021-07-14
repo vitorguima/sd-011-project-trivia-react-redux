@@ -5,11 +5,3 @@ export const fetchToken = () => {
     .then((data) => (data))
     .catch((error) => error);
 };
-
-export const fetchImage = () => {
-  // const URL = `https://www.gravatar.com/avatar/${hashEmail}`;
-  // return fetch(URL)
-  //   .then((response) => response.json())
-  //   .then((data) => data)
-  //   .catch((error) => error);
-};
