@@ -1,11 +1,22 @@
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunk from 'redux-thunk';
-import rootReducers from '../reducer';
+import questions from '../reducers/questions';
+
+const INITIAL_STATE = {
+  questions: {
+    questions: [],
+    token: '',
+    isFetching: true,
+    error: '',
+  },
+};
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  rootReducers,
-  composeWithDevTools(
+  combineReducers({ questions }),
+  INITIAL_STATE,
+  composeEnhancers(
     applyMiddleware(thunk),
   ),
 );
