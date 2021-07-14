@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default class Login extends Component {
   constructor() {
@@ -53,14 +53,16 @@ export default class Login extends Component {
             value={ email }
             placeholder="Digite seu email"
           />
-          <button
-            type="button"
-            data-testid="btn-play"
-            // onClick={ this.handlePlayButton }
-            disabled={ !this.checkForm() }
-          >
-            Jogar
-          </button>
+          <Link to="/triviagame">
+            <button
+              type="button"
+              data-testid="btn-play"
+              // onClick={ this.handlePlayButton }
+              disabled={ !this.checkForm() }
+            >
+              Jogar
+            </button>
+          </Link>
         </form>
       </div>
     );

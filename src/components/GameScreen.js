@@ -49,7 +49,10 @@ class GameScreen extends React.Component {
         </button>
       </div>
     ) : (
-      <h3>Carregando...</h3>
+      <div>
+        <h4 data-testid="question-category">carregando..</h4>
+        <p data-testid="question-text">...</p>
+      </div>
     );
   }
 }
