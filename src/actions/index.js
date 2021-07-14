@@ -1,5 +1,5 @@
-export const REQUEST_VALUES = 'REQUEST_VALUES';
-export const RECEIVE_VALUES = 'RECEIVE_VALUES';
+export const REQUEST_TOKEN = 'REQUEST_TOKEN';
+export const RECEIVE_TOKEN = 'RECEIVE_TOKEN';
 
 // exemplo action:
 // export function userAction(email) {
@@ -9,21 +9,21 @@ export const RECEIVE_VALUES = 'RECEIVE_VALUES';
 //   });
 // }
 
-const requestValues = () => ({
-  type: REQUEST_VALUES,
+const requestToken = () => ({
+  type: REQUEST_TOKEN,
 });
 
-const receiveValues = (values) => ({
-  type: RECEIVE_VALUES,
-  values,
+const receiveToken = (token) => ({
+  type: RECEIVE_TOKEN,
+  token,
 });
 
-export function fetchValues() {
-  const endpoint = 'https://economia.awesomeapi.com.br/json/all';
+export function fetchToken() {
+  const endpoint = 'https://opentdb.com/api_token.php?command=request';
   return (dispatch) => {
-    dispatch(requestValues());
+    dispatch(requestToken());
     return fetch(endpoint)
       .then((response) => response.json())
-      .then((obj) => dispatch(receiveValues(obj)));
+      .then((obj) => dispatch(receiveToken(obj)));
   };
 }

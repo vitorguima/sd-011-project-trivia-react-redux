@@ -1,22 +1,21 @@
-import { REQUEST_VALUES, RECEIVE_VALUES } from '../actions/index';
+import { REQUEST_TOKEN, RECEIVE_TOKEN } from '../actions/index';
 
 const INITIAL_STATE = {
-  id: 0,
   results: [],
 };
 
 export default function reducerUser(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case REQUEST_VALUES:
+  case REQUEST_TOKEN:
     return ({
       ...state,
       isFetching: true,
     });
-  case RECEIVE_VALUES:
+  case RECEIVE_TOKEN:
     return ({
       ...state,
       isFetching: false,
-      results: action.values,
+      results: action.token,
     });
   default:
     return state;

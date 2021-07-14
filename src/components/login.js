@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       email: '',
@@ -23,6 +25,13 @@ class Login extends React.Component {
     return true;
   }
 
+  submit() {
+    const endpoint = 'https://opentdb.com/api_token.php?command=request';
+    fetch(endpoint)
+      .then((response) => response.json())
+      .then((data) => localStorage.setItem('token', data.token));
+  }
+
   render() {
     return (
       <div>
@@ -40,16 +49,23 @@ class Login extends React.Component {
           placeholder="email"
           onChange={ (e) => this.handler(e) }
         />
-        <button
-          data-testid="btn-play"
-          type="button"
-          disabled={ this.isAuthenticated() }
-        >
-          Jogar
-        </button>
+        <Link to="/player">
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ this.isAuthenticated() }
+            onClick={ () => this.submit() }
+          >
+            Jogar
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  tokenAPI: state.user.results,
+});
+
+export default connect(mapStateToProps, null)(Login);
