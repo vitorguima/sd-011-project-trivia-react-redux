@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+import SettingsButton from '../components/SettingsButton';
 
 const Login = () => {
   const [stateLogin, setStatelogin] = useState({ email: '', userName: '' });
+  const history = useHistory();
   const { email, userName } = stateLogin;
-
   const validateEmailInput = () => {
     if (email !== '' && userName !== '') {
       return false;
@@ -16,13 +18,12 @@ const Login = () => {
       [name]: value,
     });
   };
-
-  const senLogin = async () => {
+  const sendLogin = async () => {
     const response = await fetch('https://opentdb.com/api_token.php?command=request ');
     const object = await response.json();
     localStorage.setItem('token', JSON.stringify(object));
+    history.push('/game');
   };
-
   return (
     <form>
       <input
@@ -42,11 +43,12 @@ const Login = () => {
       <button
         type="button"
         data-testid="btn-play"
-        onClick={ senLogin }
+        onClick={ sendLogin }
         disabled={ validateEmailInput() }
       >
         Iniciar Jogo
       </button>
+      <SettingsButton />
     </form>
   );
 };
