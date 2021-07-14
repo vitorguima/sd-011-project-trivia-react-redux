@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
+import questions from './questions';
 
 const rootReducers = combineReducers({
-  gameplay,
+  questions,
 });
 
 export default rootReducers;
