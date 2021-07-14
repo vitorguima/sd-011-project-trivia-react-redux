@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import logo from '../trivia.png';
 import '../App.css';
 
@@ -79,6 +79,11 @@ class Login extends React.Component {
           >
             Jogar
           </button>
+          <br />
+          <br />
+          <Link to="/configuration">
+            <button type="button" data-testid="btn-settings">Configurações</button>
+          </Link>
         </header>
       </div>
     );
