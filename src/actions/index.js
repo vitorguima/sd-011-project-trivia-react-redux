@@ -17,3 +17,13 @@ export const failedRequestToken = (error) => ({
   type: FAILED_REQUEST_TOKEN,
   error,
 });
+
+export const fetchTokenApi = () => async (dispatch) => {
+  await dispatch(requestToken());
+  return fetch('https://opentdb.com/api_token.php?command=request')
+    .then((response) => response.json())
+    .then(
+      (json) => dispatch(getToken(json)),
+      (error) => dispatch(failedRequestToken(error)),
+    );
+};

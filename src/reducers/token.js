@@ -15,6 +15,7 @@ function token(state = INITIAL_STATE, action) {
   case REQUEST_TOKEN:
     return { ...state, loading: true };
   case GET_TOKEN:
+    localStorage.setItem('token', action.token.token);
     return { ...state, token: action.token, loading: false };
   case FAILED_REQUEST_TOKEN:
     return { ...state, error: action.error, loading: false };
