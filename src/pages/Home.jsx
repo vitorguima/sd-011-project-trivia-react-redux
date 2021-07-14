@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import fetchToken from '../services/api';
 
 export default class Home extends Component {
@@ -55,6 +56,9 @@ export default class Home extends Component {
         >
           Jogar
         </button>
+        <Link to="/settings">
+          <button data-testid="btn-settings" type="button">Configurações</button>
+        </Link>
       </form>
     );
   }
