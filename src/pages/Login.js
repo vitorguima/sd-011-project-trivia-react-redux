@@ -42,36 +42,41 @@ class Login extends Component {
     const { nome, email } = this.state;
     return (
       <div>
-        <label htmlFor="nome">
-          Nome:
-          <input
-            data-testid="input-player-name"
-            name="nome"
-            value={ nome }
-            type="text"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="email">
-          Email:
-          <input
-            data-testid="input-gravatar-email"
-            name="email"
-            value={ email }
-            type="email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <Link to="/">
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ this.verifyLogin() }
-            onClick={ this.handleClick() }
-          >
-            Jogar
-          </button>
-        </Link>
+        <div>
+          <label htmlFor="nome">
+            Nome:
+            <input
+              data-testid="input-player-name"
+              name="nome"
+              value={ nome }
+              type="text"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="email">
+            Email:
+            <input
+              data-testid="input-gravatar-email"
+              name="email"
+              value={ email }
+              type="email"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <Link to="/game">
+            <button
+              data-testid="btn-play"
+              type="button"
+              disabled={ this.verifyLogin() }
+              onClick={ this.handleClick() }
+            >
+              Jogar
+            </button>
+          </Link>
+        </div>
+        <div>
+          <Link to="/settings" data-testid="btn-settings">Configurações</Link>
+        </div>
       </div>
     );
   }
