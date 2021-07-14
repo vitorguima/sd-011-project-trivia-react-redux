@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { saveToken } from '../../actions';
 
 class Home extends Component {
@@ -8,13 +9,14 @@ class Home extends Component {
     super();
 
     this.state = {
-      // disabled: true,
       playerName: '',
       email: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handlePlayButton = this.handlePlayButton.bind(this);
     this.renderPlayButton = this.renderPlayButton.bind(this);
+    this.renderSettingsButton = this.renderSettingsButton.bind(this);
   }
 
   handleChange(target) {
@@ -24,7 +26,7 @@ class Home extends Component {
     });
   }
 
-  renderPlayButton() {
+  handlePlayButton() {
     const { playerName, email } = this.state;
     if (playerName.length && email.length) {
       return false;
@@ -32,9 +34,34 @@ class Home extends Component {
     return true;
   }
 
+  renderPlayButton() {
+    const { dispatchToken } = this.props;
+
+    return (
+      <button
+        disabled={ this.handlePlayButton() }
+        type="button"
+        data-testid="btn-play"
+        onClick={ () => dispatchToken() }
+      >
+        Jogar
+      </button>
+    );
+  }
+
+  renderSettingsButton() {
+    return (
+      <button
+        type="button"
+        data-testid="btn-settings"
+      >
+        <Link to="/settings">Configurações</Link>
+      </button>
+    );
+  }
+
   render() {
     const { email, playerName } = this.state;
-    const { dispatchToken } = this.props;
 
     return (
       <div>
@@ -63,15 +90,9 @@ class Home extends Component {
               onChange={ ({ target }) => { this.handleChange(target); } }
             />
           </label>
-          <button
-            disabled={ this.renderPlayButton() }
-            type="button"
-            data-testid="btn-play"
-            onClick={ () => dispatchToken() }
-          >
-            Jogar
-          </button>
         </form>
+        {this.renderPlayButton()}
+        {this.renderSettingsButton()}
       </div>
     );
   }
