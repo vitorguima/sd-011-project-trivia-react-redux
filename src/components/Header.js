@@ -1,1 +1,1 @@
-//infos: gratar, nome do jogador
+// infos: gratar, nome do jogador
