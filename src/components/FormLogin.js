@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class FormLogin extends Component {
   render() {
-    const { handleChange } = this.props;
+    const { validation, handleInput, handleButton, nome, email } = this.props;
     return (
       <form id="form-login">
         <label htmlFor="name">
@@ -12,8 +12,10 @@ class FormLogin extends Component {
             id="name"
             data-testid="input-player-name"
             type="text"
+            name="nome"
+            value={ nome }
             required
-            onChange={ handleChange }
+            onChange={ handleInput }
           />
         </label>
         <label htmlFor="email">
@@ -22,15 +24,18 @@ class FormLogin extends Component {
             id="email"
             data-testid="input-gravatar-email"
             type="email"
+            name="email"
+            value={ email }
             required
-            onChange={ handleChange }
+            onChange={ handleInput }
           />
         </label>
         <button
           id="button-login"
           data-testid="btn-play"
           type="button"
-          disabled
+          disabled={ validation() }
+          onClick={ () => handleButton() }
         >
           Jogar
         </button>
