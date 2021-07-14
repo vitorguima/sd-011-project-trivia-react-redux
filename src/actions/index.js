@@ -1,3 +1,8 @@
+export const LOGIN = 'LOGIN';
+export const loginAction = (payload) => ({
+  type: LOGIN,
+  payload,
+});
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const REQUEST_TOKEN_ERROR = 'REQUEST_TOKEN_ERROR';

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchToken } from '../actions';
+import { Redirect } from 'react-router-dom';
+import { fetchToken, loginAction } from '../actions';
 import { saveTokenToStore } from '../service/handleLocalStorage';
 
 class Login extends Component {
@@ -11,6 +12,7 @@ class Login extends Component {
       disabled: true,
       email: '',
       name: '',
+      ready: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
@@ -47,8 +49,17 @@ class Login extends Component {
     }
   }
 
+  handleLogin() {
+    const { name, email } = this.state;
+    const { setLogin } = this.props;
+    setLogin(name, email);
+    this.setState({
+      ready: true,
+    });
+  }
+
   render() {
-    const { disabled } = this.state;
+    const { disabled, ready } = this.state;
     return (
       <div>
         <form>
@@ -75,10 +86,12 @@ class Login extends Component {
             onClick={ this.handleLogin }
             data-testid="btn-play"
             disabled={ disabled }
+            onClick={ () => this.handleLogin() }
           >
             Jogar
           </button>
         </form>
+        { ready && <Redirect to="/game" />}
       </div>
     );
   }
@@ -90,11 +103,13 @@ const mapStateToProps = ({ loginReducer }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   initToken: () => dispatch(fetchToken()),
+  setLogin: (name, email) => dispatch(loginAction({ name, email })),
 });
 
 Login.propTypes = ({
   initToken: PropTypes.func.isRequired,
   token: PropTypes.string,
+  setLogin: PropTypes.func.isRequired,
 });
 
 Login.defaultProps = ({
