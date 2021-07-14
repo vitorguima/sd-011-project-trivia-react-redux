@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchToken } from '../redux/actions';
+import { fetchToken, getHashGravatar } from '../redux/actions';
 
 class Home extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class Home extends Component {
     };
     this.handleButton = this.handleButton.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleButton() {
@@ -27,14 +28,25 @@ class Home extends Component {
 
   handleChange({ target }) {
     const { name, value } = target;
-    this.setState({
-      [name]: value,
-    }, () => this.handleButton());
+
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => this.handleButton(),
+    );
+  }
+
+  handleClick() {
+    const { fetchTokenAction, setUser } = this.props;
+    const { name, email } = this.state;
+    fetchTokenAction();
+    setUser(email, name);
   }
 
   render() {
     const { name, email, disabled } = this.state;
-    const { fetchTokenAction } = this.props;
+
     return (
       <div>
         <form>
@@ -59,7 +71,7 @@ class Home extends Component {
               type="button"
               disabled={ disabled }
               data-testid="btn-play"
-              onClick={ fetchTokenAction }
+              onClick={ this.handleClick }
             >
               Jogar
             </button>
@@ -77,6 +89,7 @@ class Home extends Component {
 
 Home.propTypes = {
   fetchTokenAction: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -85,6 +98,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchTokenAction: () => dispatch(fetchToken()),
+  setUser: (email, name) => dispatch(getHashGravatar(email, name)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
