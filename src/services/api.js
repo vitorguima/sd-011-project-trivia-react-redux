@@ -6,7 +6,7 @@ export const getToken = async () => {
   return data;
 };
 
-export const getQuastion = async (token) => {
+export const getQuastions = async (token) => {
   const fetchEndpoint = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const data = await fetchEndpoint.json();
   return data;
@@ -18,5 +18,3 @@ export const getGravatar = async (email) => {
   console.log(result);
   return result;
 };
-
-getGravatar('laura@gmail.com');
