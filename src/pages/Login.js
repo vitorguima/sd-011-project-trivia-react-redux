@@ -33,12 +33,13 @@ export default class Login extends Component {
     const button = document.querySelector('#play-btn');
     const email = document.querySelector('#input-email');
 
-    console.log(name.value.length);
-    const zero = 0;
-
-    if (email.checkValidity() && name.value.length !== zero) {
+    if (email.checkValidity() && email.value.length >= 1 && name.value.length >= 1) {
       button.disabled = false;
-    } else if (!email.checkValidity() || name.value.length === zero) {
+      // email.value.length estava com o length escrito errado!
+    } else if (
+      !email.checkValidity()
+      || name.value.length < 1
+      || email.value.length < 1) {
       button.disabled = true;
     }
   }
@@ -72,7 +73,7 @@ export default class Login extends Component {
                   name="email"
                   id="input-email"
                   placeholder="Email"
-                  data-testid="input-player-email"
+                  data-testid="input-gravatar-email" // <<<<< estava com o data-testid errado!
                   onChange={ this.handleOnChangeInputValidate }
                   onBlur={ this.validateEmail }
                 />
