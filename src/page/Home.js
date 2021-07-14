@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { fetchToken, getMailName } from '../redux/actions';
 import logo from '../trivia.png';
 
-export default class Home extends Component {
+class Home extends Component {
   constructor() {
     super();
 
@@ -10,6 +14,7 @@ export default class Home extends Component {
       email: '',
     };
     this.handleData = this.handleData.bind(this);
+    this.clickSubmit = this.clickSubmit.bind(this);
   }
 
   handleData({ target }) {
@@ -17,6 +22,14 @@ export default class Home extends Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  clickSubmit() {
+    const { name, email } = this.state;
+    const { fetchCurrent, sendEmailName } = this.props;
+    console.log(fetchCurrent);
+    sendEmailName(name, email);
+    fetchCurrent();
   }
 
   render() {
@@ -46,15 +59,34 @@ export default class Home extends Component {
               onChange={ (value) => this.handleData(value) }
             />
           </label>
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ !(name && email) }
-          >
-            Jogar
-          </button>
+          <Link to="/jogar">
+            <button
+              type="button"
+              data-testid="btn-play"
+              onClick={ this.clickSubmit }
+              disabled={ !(name && email) }
+            >
+              Jogar
+            </button>
+          </Link>
         </header>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  token: state.homeReducer.token,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchCurrent: () => dispatch(fetchToken()),
+  sendEmailName: (email, name) => dispatch(getMailName(email, name)),
+});
+
+Home.propTypes = ({
+  fetchCurrent: PropTypes.func,
+  sendEmailName: PropTypes.func,
+}).isRequired;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
