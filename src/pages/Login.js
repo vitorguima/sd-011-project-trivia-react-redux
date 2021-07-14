@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ConfigButton from '../components/ConfigButton';
 // import login from '../reducers/login';
 
 class Login extends Component {
@@ -57,6 +58,7 @@ class Login extends Component {
             Jogar
           </button>
         </form>
+        <ConfigButton />
       </div>
     );
   }
