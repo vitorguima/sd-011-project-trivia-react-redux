@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import fetchCurrency from '../service/tokenApi';
 // import logo from './trivia.png';
 
@@ -39,34 +40,46 @@ class login extends Component {
   render() {
     const { disableBtn } = this.state;
     return (
-      <form>
-        <label htmlFor="user">
-          Usuário
-          <input
-            data-testid="input-player-name"
-            id="user"
-            name="user"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="email">
-          E-mail
-          <input
-            data-testid="input-gravatar-email"
-            id="email"
-            name="email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ disableBtn }
-          onClick={ () => fetchCurrency() }
-        >
-          Jogar
-        </button>
-      </form>
+      <div>
+        <form>
+          <label htmlFor="user">
+            Usuário
+            <input
+              data-testid="input-player-name"
+              id="user"
+              name="user"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="email">
+            E-mail
+            <input
+              data-testid="input-gravatar-email"
+              id="email"
+              name="email"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ disableBtn }
+            onClick={ () => fetchCurrency() }
+          >
+            Jogar
+          </button>
+        </form>
+        <Link to="/config">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configurações
+          </button>
+        </Link>
+
+      </div>
+
     );
   }
 }
