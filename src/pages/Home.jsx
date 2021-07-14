@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
-import fetchToken from '../services/api';
+import { fetchToken } from '../services/api';
 import { actionAvatar, actionName } from '../actions';
 
 class Home extends Component {
