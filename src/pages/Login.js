@@ -1,7 +1,11 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
+import * as actions from '../redux/actions';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
 
@@ -11,6 +15,7 @@ export default class Login extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target }) {
@@ -18,6 +23,11 @@ export default class Login extends Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  handleClick() {
+    const { fetchAPIToken } = this.props;
+    fetchAPIToken();
   }
 
   render() {
@@ -43,15 +53,28 @@ export default class Login extends Component {
             type="email"
             onChange={ this.handleChange }
           />
-          <button
-            data-testid="btn-play"
-            disabled={ !(name && gravatarEmail) }
-            type="button"
-          >
-            Jogar
-          </button>
+          <Link to="/game">
+            <button
+              data-testid="btn-play"
+              disabled={ !(name && gravatarEmail) }
+              type="button"
+              onClick={ this.handleClick }
+            >
+              Jogar
+            </button>
+          </Link>
         </section>
       </div>
     );
   }
 }
+
+Login.propTypes = {
+  fetchAPIToken: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAPIToken: () => dispatch(actions.fetchAPIToken()),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
