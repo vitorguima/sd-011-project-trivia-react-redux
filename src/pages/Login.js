@@ -23,14 +23,6 @@ class Login extends Component {
     });
   }
 
-  handleClick() {
-    const token = getToken();
-    token.then(({ token }) => console.log(token));
-    console.log(token);
-/*     localStorage.setItem('token', token);
-    return tokenJson; */
-  }
-
   verifyLogin() {
     const { nome, email } = this.state;
     const si = /\S+@\S+\.\S+/;
@@ -39,6 +31,11 @@ class Login extends Component {
       return false;
     }
     return true;
+  }
+
+  handleClick() {
+    const tok = getToken();
+    tok.then(({ token }) => localStorage.setItem('token', token));
   }
 
   render() {
