@@ -1,6 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchToken } from '../redux/actions';
 
 class Home extends Component {
   constructor(props) {
@@ -32,6 +34,7 @@ class Home extends Component {
 
   render() {
     const { name, email, disabled } = this.state;
+    const { fetchTokenAction } = this.props;
     return (
       <div>
         <form>
@@ -51,30 +54,37 @@ class Home extends Component {
             data-testid="input-gravatar-email"
             placeholder="Digite seu e-mail"
           />
-          <button
-            type="button"
-            disabled={ disabled }
-            data-testid="btn-play"
-          >
-            Jogar
-          </button>
-        </form>
-        <button type="button" data-testid="btn-settings">
-          <Link to="/settings">
-            Configurações
+          <Link to="/game">
+            <button
+              type="button"
+              disabled={ disabled }
+              data-testid="btn-play"
+              onClick={ fetchTokenAction }
+            >
+              Jogar
+            </button>
           </Link>
-        </button>
+        </form>
+        <Link to="/settings">
+          <button type="button" data-testid="btn-settings">
+            Configurações
+          </button>
+        </Link>
       </div>
     );
   }
 }
+
+Home.propTypes = {
+  fetchTokenAction: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   state,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatch,
+  fetchTokenAction: () => dispatch(fetchToken()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
