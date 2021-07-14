@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { saveToken } from '../../actions';
 
-export default class Home extends Component {
+class Home extends Component {
   constructor() {
     super();
 
@@ -31,6 +34,8 @@ export default class Home extends Component {
 
   render() {
     const { email, playerName } = this.state;
+    const { dispatchToken } = this.props;
+
     return (
       <div>
         <form>
@@ -62,6 +67,7 @@ export default class Home extends Component {
             disabled={ this.renderPlayButton() }
             type="button"
             data-testid="btn-play"
+            onClick={ () => dispatchToken() }
           >
             Jogar
           </button>
@@ -70,3 +76,13 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchToken: () => dispatch(saveToken()),
+});
+
+export default connect(null, mapDispatchToProps)(Home);
+
+Home.propTypes = {
+  dispatchToken: PropTypes.func,
+}.isRequired;
