@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
+import { loginAction } from '../actions';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
       disabled: true,
       email: '',
       name: '',
+      ready: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -31,8 +37,17 @@ export default class Login extends Component {
     }
   }
 
+  handleLogin() {
+    const { name, email } = this.state;
+    const { setLogin } = this.props;
+    setLogin(name, email);
+    this.setState({
+      ready: true,
+    });
+  }
+
   render() {
-    const { disabled } = this.state;
+    const { disabled, ready } = this.state;
     return (
       <div>
         <form>
@@ -58,11 +73,23 @@ export default class Login extends Component {
             type="button"
             data-testid="btn-play"
             disabled={ disabled }
+            onClick={ () => this.handleLogin() }
           >
             Jogar
           </button>
         </form>
+        { ready && <Redirect to="/game" />}
       </div>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  setLogin: (name, email) => dispatch(loginAction({ name, email })),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  setLogin: PropTypes.func.isRequired,
+};
