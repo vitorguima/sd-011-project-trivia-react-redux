@@ -25,7 +25,7 @@ export const nextQuestion = (setAnswer, index, questions, setIndex) => {
     el.classList.remove('btn-danger', 'btn-success', 'wrongAnswer', 'rightAnswer');
     el.classList.add(btnPrimary);
   });
-  const allChecked = document.querySelectorAll('input:disabled');
+  const allChecked = document.querySelectorAll('button:disabled');
   if (allChecked) {
     allChecked.forEach((el) => el.removeAttribute('disabled'));
   }
@@ -58,7 +58,9 @@ export const addScore = (questions, index, answer, player, setPlayer, counter) =
     const level = difficultyLevels[difficulty];
     const { assertions, score } = player.player;
     const ass = assertions + 1;
-    const scr = score + (10 + counter * level);
+    console.log(counter);
+    const scr = score + (10 + (counter * level));
+    console.log(scr)
     setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } });
   }
 };

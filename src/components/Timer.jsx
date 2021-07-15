@@ -20,7 +20,7 @@ export default function Timer(props) {
     timer();
   }, [counter]);
 
-  const buttons = document.querySelectorAll('button');
+  const buttons = document.querySelectorAll('button[name="q_answer"]');
   if (counter === 0) {
     buttons.forEach((button) => button.setAttribute('disabled', true));
     // const allLabels = document.querySelectorAll('label');

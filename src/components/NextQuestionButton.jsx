@@ -28,13 +28,13 @@ export default function NextQuestionButton(props) {
   return (
     <button
       type="button"
-      onClick={ () => {
+      onClick={() => {
         nextQuestion(setAnswer, index, questions, setIndex);
         feedbackTransitor(index);
-        addScore(questions, index, answer, player, setPlayer, counter);
+        // addScore(questions, index, answer, player, setPlayer, counter);
         setCount(true);
         setCounter(time);
-      } }
+      }}
       className="btn btn btn-info btn-lg nextQuestion"
       data-testid="btn-next"
     >
