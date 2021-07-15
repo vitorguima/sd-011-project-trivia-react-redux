@@ -4,8 +4,17 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      totalScore: JSON.parse(localStorage.getItem('state')).player.score,
+    };
+  }
+
   render() {
     const { playerName, email } = this.props;
+    const { totalScore } = this.state;
     console.log(md5(email).toString());
     return (
       <div>
@@ -19,7 +28,7 @@ class Header extends Component {
         <div>
           Pontos:
           <span data-testid="header-score">
-            {/* { LocalStorage().score ? LocalStorage().score : 0 } */0}
+            { totalScore }
           </span>
         </div>
       </div>
