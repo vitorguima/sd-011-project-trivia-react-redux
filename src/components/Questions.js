@@ -14,7 +14,6 @@ class Questions extends Component {
     });
 
     this.toggleClass = this.toggleClass.bind(this);
-    // this.toggleClassWrong = this.toggleClassWrong.bind(this);
   }
 
   componentDidMount() {
@@ -27,10 +26,6 @@ class Questions extends Component {
       buttonClick: true,
     });
   }
-
-  // toggleClassWrong() {
-  //   this.setState({  });
-  // }
 
   render() {
     const { questionData } = this.props;
