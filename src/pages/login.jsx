@@ -45,7 +45,7 @@ class Login extends React.Component {
     const { play } = this.state;
 
     if (play) {
-      return <Redirect to="/Game" />;
+      return <Redirect to="/header" />;
     }
     return (
       <div className="App">
