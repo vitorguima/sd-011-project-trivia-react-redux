@@ -32,9 +32,8 @@ export function startGame(name, email) {
     return fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => response.json())
       .then((json) => {
-        
-        dispatch(handleFetchTokenSuccess(json))
-        dispatch(questionsGame(json.token))
-      }) 
+        dispatch(handleFetchTokenSuccess(json));
+        dispatch(questionsGame(json.token));
+      });
   };
 }

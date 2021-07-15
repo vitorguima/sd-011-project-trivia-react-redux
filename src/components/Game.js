@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import Header from './Header';
 
 class Game extends React.Component {
-  constructor() {
-    super();
-  }
-
   renderQuestions() {
     const { questions: { allQuestions } } = this.props;
     if (allQuestions.length === 0) {
@@ -19,10 +15,21 @@ class Game extends React.Component {
       <div>
         <p data-testid="question-category">{currentQuestion.category}</p>
         <p data-testid="question-text">{currentQuestion.question}</p>
-        <button data-testid="correct-answer">{currentQuestion.correct_answer}</button>
+        <button
+          type="button"
+          data-testid="correct-answer"
+        >
+          {currentQuestion.correct_answer}
+        </button>
         {
           currentQuestion.incorrect_answers.map((item, index) => (
-            <button type="button" key={ index } data-testid={ `wrong-answer${index}` }>{item}</button>
+            <button
+              type="button"
+              key={ index }
+              data-testid={ `wrong-answer${index}` }
+            >
+              {item}
+            </button>
           ))
         }
       </div>
@@ -45,7 +52,6 @@ const mapStateToProps = (state) => ({
 });
 
 Game.propTypes = {
-  questionsGame: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

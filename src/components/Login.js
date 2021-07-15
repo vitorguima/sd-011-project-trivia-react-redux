@@ -10,7 +10,6 @@ class Login extends React.Component {
     this.state = {
       name: '',
       email: '',
-      token: '',
     };
     this.handleOnChange = this.handleOnChange.bind(this);
   }
@@ -26,8 +25,8 @@ class Login extends React.Component {
     const { name, email } = this.state;
     const { startGame, allQuestions } = this.props;
     const isDisabled = name.length === 0 || email.length === 0;
-    if(allQuestions.length > 0) {
-      return <Redirect to="/game" />
+    if (allQuestions.length > 0) {
+      return <Redirect to="/game" />;
     }
     return (
       <div>
@@ -60,14 +59,14 @@ class Login extends React.Component {
               onChange={ this.handleOnChange }
             />
           </label>
-            <button
-              data-testid="btn-play"
-              type="button"
-              disabled={ isDisabled }
-              onClick={ () => startGame(name, email) }
-            >
-              Jogar
-            </button>
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ isDisabled }
+            onClick={ () => startGame(name, email) }
+          >
+            Jogar
+          </button>
         </form>
       </div>
     );
@@ -84,6 +83,7 @@ const mapStateToProps = (state) => ({
 
 Login.propTypes = {
   startGame: PropTypes.func.isRequired,
+  allQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
