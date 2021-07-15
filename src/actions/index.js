@@ -3,6 +3,13 @@ import getToken from '../services/getToken';
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const SUBMIT_TOKEN = 'SUBMIT_TOKEN';
+export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
+
+export const submitLogin = (email, playerName) => ({
+  type: SUBMIT_LOGIN,
+  email,
+  playerName,
+});
 
 export const requestToken = () => ({
   type: REQUEST_TOKEN,
