@@ -1,19 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { GameStateContext } from '../pages/Game';
+import showQuestions from './showQuestions';
 
-export default function ShowTrivia(props) {
-  const { index,
-    questions,
-    arrayQuestions,
-    showQuestions,
-    showResults,
-    answer,
-    nextQuestion,
-    setAnswer,
-    setIndex,
-    state,
-    setState } = props;
+export default function ShowTrivia({ index,
+  questions,
+  arrayQuestions,
+  showResults,
+  answer,
+  nextQuestion,
+  setAnswer,
+  setIndex,
+  setPlayer,
+  player }) {
 
   const addScore = () => {
     const { correct_answer, difficulty } = questions[index];
@@ -24,10 +22,10 @@ export default function ShowTrivia(props) {
     }
     if (answer === correct_answer) {
       const level = difficultyLevels[difficulty];
-      const { assertions, score } = state.player;
+      const { assertions, score } = player.player;
       const ass = assertions + 1;
       const scr = (score + (10 + (1 * level)))
-      setState({ ...state, player: { ...state.player, assertions: ass, score: scr } })
+      setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } })
     }
   }
 
@@ -43,7 +41,7 @@ export default function ShowTrivia(props) {
           </h3>
           <p data-testid="question-category">{questions[index].category}</p>
         </div>
-        {arrayQuestions && showQuestions(arrayQuestions, showResults)}
+        {arrayQuestions && showQuestions(arrayQuestions, showResults, index)}
 
         {answer && (
           <button
@@ -73,7 +71,6 @@ ShowTrivia.propTypes = {
   answer: PropTypes.objectOf(PropTypes.object).isRequired,
   nextQuestion: PropTypes.func.isRequired,
   setIndex: PropTypes.func.isRequired,
-  showQuestions: PropTypes.func.isRequired,
   showResults: PropTypes.func.isRequired,
   setAnswer: PropTypes.func.isRequired,
 
