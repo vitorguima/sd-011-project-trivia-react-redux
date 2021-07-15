@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
   gravatarEmail: '',
   name: '',
-
+  token: '',
 };
 
 const userReducer = (state = INITIAL_STATE, { payload, type }) => {
@@ -15,6 +15,12 @@ const userReducer = (state = INITIAL_STATE, { payload, type }) => {
     return {
       ...state,
       name: payload,
+    };
+  case 'CHANGE_TOKEN':
+    localStorage.setItem('token', payload);
+    return {
+      ...state,
+      token: payload,
     };
   default:
     return state;
