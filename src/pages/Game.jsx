@@ -1,4 +1,5 @@
 import React from 'react';
+import QuestionCard from '../components/QuestionCard';
 import PlayerHeader from '../components/PlayerHeader';
 
 class Game extends React.Component {
@@ -6,7 +7,7 @@ class Game extends React.Component {
     return (
       <div>
         <PlayerHeader />
-        Página de jogo
+        <QuestionCard />
       </div>
     );
   }
