@@ -1,24 +1,32 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 // import { connect } from 'react-redux';
 import Header from './Header';
 
 class Feedback extends Component {
   render() {
+    const { assertions } = this.props;
     return (
       <div>
         <Header />
-        {
-          (corrects >= (1 + 2)) // lint error: if 3 = no-magic-number
-            ? <h3 data-testid="feedback-text">Mandou bem!</h3>
-            : <h3 data-testid="feedback-text">Podia ser melhor...</h3>
-        }
+        <h3 data-testid="feedback-text">
+          {
+            (assertions >= (1 + 2)) // Se for 3 o lint dá erro
+              ? 'Mandou bem!'
+              : 'Podia ser melhor...'
+          }
+        </h3>
       </div>
     );
   }
 }
 
+Feedback.propTypes = {
+  assertions: PropTypes.number.isRequired,
+};
+
 // const mapStateToProps = (state) => ({
-//   corrects: state.questions.corrects,
+//   assertions: state.player.assertions,
 // });
 
 export default Feedback; // connect(mapStateToProps)(FeedBack);
