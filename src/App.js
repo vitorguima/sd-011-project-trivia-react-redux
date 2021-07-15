@@ -1,20 +1,23 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
-import TelaIncial from './Pages/TelaIncial';
-import Play from './Pages/Play';
-import Feedback from './Pages/TelaDeFeedback';
-import Ranking from './Pages/TelaDeRanking';
-import Settings from './Pages/Settings';
+import TelaIncial from './pages/TelaIncial';
+import Play from './pages/Play';
+import Feedback from './pages/TelaDeFeedback';
+import Ranking from './pages/TelaDeRanking';
+import Settings from './pages/Settings';
 
 export default function App() {
   return (
-    <Switch>
-      <Route exact path="/" component={ TelaIncial } />
-      <Route exact path="/Play" component={ Play } />
-      <Route exact path="/Feedback" component={ Feedback } />
-      <Route exact path="/Ranking" component={ Ranking } />
-      <Route exact path="/Settings" component={ Settings } />
-    </Switch>
+    <div className="App">
+      <Switch>
+        <Route exact path="/" component={ TelaIncial } />
+        <Route exact path="/play" component={ Play } />
+        <Route exact path="/feedback" component={ Feedback } />
+        <Route exact path="/ranking" component={ Ranking } />
+        <Route exact path="/settings" component={ Settings } />
+      </Switch>
+    </div>
+
   );
 }
