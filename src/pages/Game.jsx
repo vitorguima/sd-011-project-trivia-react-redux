@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState, createContext, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import '../styles/TriviaGame.css';
 import getQuestions from '../services/mockedTriviaResults';
@@ -12,15 +12,34 @@ export default function Game() {
   const [questions, setQuestions] = useState('');
   const [answer, setAnswer] = useState('');
   const [arrayQuestions, setArray] = useState('');
+  const [state, setState] = useState('');
+
   const loginState = useSelector((state) => state.login);
 
-  useEffect(async () => {
+  useEffect(() => {
     (async () => {
       const { token } = loginState;
       const response = await getQuestions(token);
       setQuestions(response);
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      const { email, name } = loginState;
+      const state = {
+        name: name,
+        gravatarEmail: email,
+        assertions: 0,
+        score: 0,
+      }
+      setState({ player: state });
+    })()
+  }, []);
+
+  useEffect(() => {
+    localStorage.state = JSON.stringify(state);
+  }, [state])
 
   useEffect(() => randomArray(questions, setArray, index), [questions, index]);
 
@@ -29,7 +48,8 @@ export default function Game() {
     paintButtons(arrayQuestions);
   };
 
-  const props = { index,
+  const props = {
+    index,
     questions,
     arrayQuestions,
     showQuestions,
@@ -37,11 +57,15 @@ export default function Game() {
     answer,
     nextQuestion,
     setAnswer,
-    setIndex };
+    setIndex,
+    setState,
+    state,
+  };
+
   return (
     <>
       <Header />
-      {questions && <ShowTrivia { ...props } />}
+      {questions && <ShowTrivia {...props} />}
 
     </>
   );

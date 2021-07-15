@@ -11,7 +11,25 @@ export default function ShowTrivia(props) {
     answer,
     nextQuestion,
     setAnswer,
-    setIndex } = props;
+    setIndex,
+    state,
+    setState } = props;
+
+  const addScore = () => {
+    const { correct_answer, difficulty } = questions[index];
+    const difficultyLevels = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    }
+    if (answer === correct_answer) {
+      const level = difficultyLevels[difficulty];
+      const { assertions, score } = state.player;
+      const ass = assertions + 1;
+      const scr = (score + (10 + (1 * level)))
+      setState({ ...state, player: { ...state.player, assertions: ass, score: scr } })
+    }
+  }
 
   return (
     <div className="modal-dialog">
@@ -23,8 +41,6 @@ export default function ShowTrivia(props) {
             </span>
             {questions[index].question}
           </h3>
-          Functions: PropTypes.func.isRequired,
-          onChange: PropTypes.func.isRequired,
           <p data-testid="question-category">{questions[index].category}</p>
         </div>
         {arrayQuestions && showQuestions(arrayQuestions, showResults)}
@@ -32,7 +48,10 @@ export default function ShowTrivia(props) {
         {answer && (
           <button
             type="button"
-            onClick={ () => nextQuestion(setAnswer, index, questions, setIndex) }
+            onClick={() => {
+              nextQuestion(setAnswer, index, questions, setIndex);
+              addScore();
+            }}
             className="btn btn btn-info btn-lg nextQuestion"
             data-testid="btn-next"
           >
