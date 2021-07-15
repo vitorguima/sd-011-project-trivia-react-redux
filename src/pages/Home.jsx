@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sendInfo } from '../actions';
 import { sendToken } from '../actions/tokenAction';
-import LoginForm from '../components/LoginForm';
 import getTriviaToken from '../services/trivia';
+import LoginPage from '../components/LoginPage';
 
 export default function Home() {
   const [login, setLogin] = useState({ email: '', name: '' });
@@ -28,6 +28,7 @@ export default function Home() {
   };
 
   const handleSubmit = (e) => {
+    console.log('vrau');
     e.preventDefault();
     dispatch(sendInfo(login));
     dispatch(sendToken(token));
@@ -47,7 +48,7 @@ export default function Home() {
 
   return (
     <div>
-      <LoginForm
+      <LoginPage
         handleDisabled={ handleDisabled }
         handleSubmit={ handleSubmit }
         handleChange={ handleChange }

@@ -7,10 +7,10 @@ export default function App() {
   return (
     <main>
       <Switch>
-        <Route exact path="/" render={(props) => <Home {...props} />} />
-        <Route exact path="/game" render={(props) => <Game {...props} />} />
-        <Route exact path="/settings" component={Settings} />
-        <Route component={NotFound} />
+        <Route exact path="/" render={ (props) => <Home { ...props } /> } />
+        <Route exact path="/game" render={ (props) => <Game { ...props } /> } />
+        <Route exact path="/settings" component={ Settings } />
+        <Route component={ NotFound } />
       </Switch>
     </main>
   );
