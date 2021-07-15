@@ -41,8 +41,8 @@
 
 .App-header button {
   align-self: center;
-  margin: 3px;
   flex-direction: column;
+  margin: 3px;
 }
 
 .App-link {
