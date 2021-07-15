@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
 import store from '../store';
 
-export default class Headr extends Component {
+export default class Headerlogin extends Component {
   constructor() {
     super();
     this.state = {

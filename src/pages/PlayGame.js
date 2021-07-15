@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Headr from '../components/header';
+import Headerlogin from '../components/header';
 
 export default class PlayGame extends Component {
   render() {
     return (
       <div>
-        <Headr />
+        <Headerlogin />
       </div>
     );
   }
