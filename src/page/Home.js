@@ -69,6 +69,14 @@ class Home extends Component {
               Jogar
             </button>
           </Link>
+          <Link to="/configuração">
+            <button
+              type="button"
+              data-testid="btn-settings"
+            >
+              Configuração
+            </button>
+          </Link>
         </header>
       </div>
     );

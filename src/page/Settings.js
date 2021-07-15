@@ -4,7 +4,9 @@ export default class Settings extends Component {
   render() {
     return (
       <div>
-        Settings test
+        <h2 data-testid="settings-title">
+          Settings test
+        </h2>
       </div>
     );
   }
