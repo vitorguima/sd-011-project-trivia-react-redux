@@ -8,24 +8,24 @@ class Game extends React.Component {
     super(props);
     this.state = {
       questions: [],
-      question: 0,
+      index: 0,
     };
   }
 
   componentDidMount() {
-    const token = localStorage.getItem('token');
+    const token = JSON.parse(localStorage.getItem('token'));
     getQuestions(token).then((apiQuestions) => {
       this.setState({ questions: apiQuestions.results });
     });
   }
 
   render() {
-    const { questions, question } = this.state;
-    console.log(questions);
+    const { questions, index } = this.state;
     return (
       <div>
         <Header />
-        <Question newQuestion={ questions[question] } />
+        { (questions.length === 0)
+          ? <p>loading...</p> : <Question newQuestion={ questions[index] } />}
       </div>
     );
   }
