@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import '../css/game.css';
 
@@ -13,12 +14,14 @@ class Game extends Component {
       timer: 30,
       assertions: 0,
       score: 0,
+      isLoading: true,
     };
     this.answerClickHandle = this.answerClickHandle.bind(this);
     this.timerHandle = this.timerHandle.bind(this);
     this.correctButtonFunction = this.correctButtonFunction.bind(this);
     this.incorretButtonsFunction = this.incorretButtonsFunction.bind(this);
     this.handleNextButton = this.handleNextButton.bind(this);
+    this.changeLoading = this.changeLoading.bind(this);
   }
 
   componentDidMount() {
@@ -139,13 +142,26 @@ class Game extends Component {
       questionNumber: pState.questionNumber + 1,
       timer: 30,
     }));
+    const ms = 1000;
+    this.countdownTime = setInterval(this.timerHandle, ms);
+  }
+
+  changeLoading() {
+    const { questionsState } = this.props;
+    if (Object.keys(questionsState).length > 0) {
+      this.setState({
+        isLoading: false,
+      });
+    }
   }
 
   render() {
     const { questionsState } = this.props;
     console.log(questionsState);
-    const { questionNumber, timer, score, answered } = this.state;
-    if (Object.keys(questionsState).length > 0) {
+    const { questionNumber, timer, score, answered, isLoading } = this.state;
+
+    const maxQuestion = 4;
+    if (Object.keys(questionsState).length > 0 && questionNumber <= maxQuestion) {
       const correctAnswer = questionsState.results[questionNumber].correct_answer;
       const incorrectAnswers = questionsState.results[questionNumber].incorrect_answers;
       const { difficulty } = questionsState.results[questionNumber];
@@ -179,7 +195,13 @@ class Game extends Component {
         </div>
       );
     }
-    return null;
+    if (isLoading && Object.keys(questionsState).length > 0) {
+      this.changeLoading();
+    }
+    if (isLoading) {
+      return <h1>Loading...</h1>;
+    }
+    return <Redirect to="/feedback" />;
   }
 }
 
