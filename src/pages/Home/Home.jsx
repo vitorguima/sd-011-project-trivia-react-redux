@@ -9,13 +9,14 @@ class Home extends Component {
     super();
 
     this.state = {
-      // disabled: true,
       playerName: '',
       email: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handlePlayButton = this.handlePlayButton.bind(this);
     this.renderPlayButton = this.renderPlayButton.bind(this);
+    this.renderSettingsButton = this.renderSettingsButton.bind(this);
   }
 
   handleChange(target) {
@@ -25,7 +26,7 @@ class Home extends Component {
     });
   }
 
-  renderPlayButton() {
+  handlePlayButton() {
     const { playerName, email } = this.state;
     if (playerName.length && email.length) {
       return false;
@@ -33,9 +34,36 @@ class Home extends Component {
     return true;
   }
 
+  renderPlayButton() {
+    const { dispatchToken } = this.props;
+
+    return (
+      <Link to="/game">
+        <button
+          disabled={ this.handlePlayButton() }
+          type="button"
+          data-testid="btn-play"
+          onClick={ () => dispatchToken() }
+        >
+          Jogar
+        </button>
+      </Link>
+    );
+  }
+
+  renderSettingsButton() {
+    return (
+      <button
+        type="button"
+        data-testid="btn-settings"
+      >
+        <Link to="/settings">Configurações</Link>
+      </button>
+    );
+  }
+
   render() {
     const { email, playerName } = this.state;
-    const { dispatchToken } = this.props;
 
     return (
       <div>
@@ -64,17 +92,9 @@ class Home extends Component {
               onChange={ ({ target }) => { this.handleChange(target); } }
             />
           </label>
-          <Link to="/game">
-            <button
-              disabled={ this.renderPlayButton() }
-              type="button"
-              data-testid="btn-play"
-              onClick={ () => dispatchToken() }
-            >
-              Jogar
-            </button>
-          </Link>
         </form>
+        {this.renderPlayButton()}
+        {this.renderSettingsButton()}
       </div>
     );
   }
