@@ -114,14 +114,6 @@ class Login extends Component {
               Jogar
             </button>
           </Link>
-          {/* {<button
-            disabled={ disabled }
-            type="button"
-            data-testid="btn-play"
-            onClick={ this.fetchTriviaApi }
-          >
-            Jogar
-          </button>} */}
           <button
             type="button"
             data-testid="btn-settings"
@@ -136,7 +128,6 @@ class Login extends Component {
   }
 }
 
-
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(fetchToken()),
   getLogin: (name, gravatarEmail) => dispatch(actionLogin(name, gravatarEmail)),
@@ -150,4 +141,4 @@ Login.propTypes = {
     location: PropTypes.objectOf(PropTypes.string),
     push: PropTypes.func.isRequired,
   }),
-};.isRequired,
+}.isRequired;
