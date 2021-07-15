@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
-export default function Feedbac() {
+export default function Feedback() {
   useEffect(() => {
     console.log('teste');
   }, []);
 
   return (
-    <div>
+    <div data-testid="feedback-text">
       FEEDBACK PAGE
     </div>
   );

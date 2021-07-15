@@ -29,21 +29,6 @@ export default function ShowTrivia(props) {
           <p data-testid="question-category">{questions[index].category}</p>
         </div>
         {arrayQuestions && showQuestions(arrayQuestions, showResults, index)}
-        {/* 
-        {answer && (
-          <button
-            type="button"
-            onClick={() => {
-              nextQuestion(setAnswer, index, questions, setIndex);
-              addScore(questions, index, answer, player, setPlayer);
-            }}
-            className="btn btn btn-info btn-lg nextQuestion"
-            data-testid="btn-next"
-          >
-            Próxima pergunta
-          </button>
-        )} */}
-
         {answer
           && (<NextQuestionButton {...{ setAnswer, index, questions, setIndex, answer, player, setPlayer }} />)}
         <div className="modal-footer text-muted">
