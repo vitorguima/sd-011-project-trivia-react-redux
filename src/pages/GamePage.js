@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class GamePage extends Component {
   constructor() {
@@ -8,9 +9,26 @@ class GamePage extends Component {
       nQuestion: 0,
     };
   }
-  render() { 
-    return (  );
+
+  render() {
+    // const { gameData: { results }, isLoading } = this.props;
+    // const { nQuestion } = this.state;
+    return (
+      <div>
+        Olá
+      </div>
+    );
   }
 }
- 
-export default GamePage;
+
+const mapStateToProps = (state) => ({
+  gameData: state.gameReducer.gameData,
+  isLoading: state.gameReducer.isLoading,
+});
+
+GamePage.propTypes = {
+  gameData: PropTypes.object,
+  isLoading: PropTypes.bool,
+}.isRequired;
+
+export default connect(mapStateToProps, null)(GamePage);
