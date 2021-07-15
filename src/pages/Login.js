@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-class Login extends PureComponent {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
