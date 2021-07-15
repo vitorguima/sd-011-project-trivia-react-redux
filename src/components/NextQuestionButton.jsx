@@ -3,8 +3,21 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { addScore, nextQuestion } from './GameFunctions';
 
+const time = 5;
+
 export default function NextQuestionButton(props) {
-  const { setAnswer, index, questions, setIndex, answer, player, setPlayer, setCount, setCounter } = props;
+  const {
+    setAnswer,
+    index,
+    questions,
+    setIndex,
+    answer,
+    player,
+    setPlayer,
+    setCount,
+    setCounter,
+    counter,
+  } = props;
   const history = useHistory();
   const feedbackTransitor = (v) => {
     if (v === questions.length - 1) {
@@ -15,13 +28,13 @@ export default function NextQuestionButton(props) {
   return (
     <button
       type="button"
-      onClick={() => {
+      onClick={ () => {
         nextQuestion(setAnswer, index, questions, setIndex);
         feedbackTransitor(index);
-        addScore(questions, index, answer, player, setPlayer);
+        addScore(questions, index, answer, player, setPlayer, counter);
         setCount(true);
-        setCounter(5);
-      }}
+        setCounter(time);
+      } }
       className="btn btn btn-info btn-lg nextQuestion"
       data-testid="btn-next"
     >

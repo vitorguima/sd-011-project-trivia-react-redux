@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import '../styles/TriviaGame.css';
@@ -5,17 +6,18 @@ import getQuestions from '../services/mockedTriviaResults';
 import { Header, showQuestions, ShowTrivia } from '../components';
 import { paintButtons, nextQuestion, randomArray } from '../components/GameFunctions';
 
+const time = 5;
+
 export default function Game() {
   const [index, setIndex] = useState(0);
   const [questions, setQuestions] = useState('');
   const [answer, setAnswer] = useState('');
   const [arrayQuestions, setArray] = useState('');
   const [player, setPlayer] = useState({
-    player:
-      { name: '', gravatarEmail: '', score: 0, assertions: 0 }
+    player: { name: '', gravatarEmail: '', score: 0, assertions: 0 },
   });
   const [count, setCount] = useState(true);
-  const [counter, setCounter] = useState(5);
+  const [counter, setCounter] = useState(time);
   const loginState = useSelector((state) => state.login);
 
   useEffect(() => {
@@ -70,9 +72,8 @@ export default function Game() {
 
   return (
     <>
-      <Header {...props} />
-      {questions && <ShowTrivia {...props} />}
-
+      <Header { ...props } />
+      {questions && <ShowTrivia { ...props } />}
     </>
   );
 }

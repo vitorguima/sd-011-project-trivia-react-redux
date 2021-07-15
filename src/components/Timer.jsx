@@ -1,22 +1,17 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 
 export default function Timer(props) {
   const { count, counter, setCounter } = props;
-  // const [counter, setCounter] = useState(30);
-  // const [count, setCount] = useState(true);
 
   const timer = () => {
     const interval = 1000;
     let timeLeft = setTimeout(() => setCounter(counter - 1), interval);
-    console.log(count)
-    console.log(counter)
-    console.log(timeLeft)
     if (counter > 0 && count) {
-      timeLeft = setTimeout(() => setCounter(counter - 1), interval)
-      console.log(timeLeft)
-
+      timeLeft = setTimeout(() => setCounter(counter - 1), interval);
       return timeLeft;
-    } if (!count || counter === 0) {
+    }
+    if (!count || counter === 0) {
       clearTimeout(timeLeft);
     }
   };
@@ -25,9 +20,16 @@ export default function Timer(props) {
     timer();
   }, [counter]);
 
-  const buttons = document.querySelectorAll('input');
+  const buttons = document.querySelectorAll('button');
   if (counter === 0) {
     buttons.forEach((button) => button.setAttribute('disabled', true));
+    // const allLabels = document.querySelectorAll('label');
+    // const btnPrimary = 'btn-primary';
+    // allLabels.forEach((el) => {
+    //   el.classList.add('btn-danger', 'wrongAnswer');
+    //   el.classList.remove(btnPrimary);
+    // }
+    // );
   }
 
   return (

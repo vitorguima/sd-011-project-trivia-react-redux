@@ -6,7 +6,8 @@ import NextQuestionButton from './NextQuestionButton';
 import Timer from './Timer';
 
 export default function ShowTrivia(props) {
-  const { index,
+  const {
+    index,
     questions,
     arrayQuestions,
     showResults,
@@ -18,11 +19,12 @@ export default function ShowTrivia(props) {
     count,
     setCount,
     setCounter,
-    counter } = props;
+    counter,
+  } = props;
 
   return (
     <div className="modal-dialog">
-      <Timer {...{ count, counter, setCounter }} />
+      <Timer { ...{ count, counter, setCounter } } />
       <div className="modal-content">
         <div className="modal-header">
           <h3>
@@ -34,8 +36,7 @@ export default function ShowTrivia(props) {
           <p data-testid="question-category">{questions[index].category}</p>
         </div>
         {arrayQuestions && showQuestions(arrayQuestions, showResults, setCount)}
-        {(answer || counter === 0)
-          && (<NextQuestionButton {...{ setAnswer, index, questions, setIndex, answer, player, setPlayer, setCount, setCounter }} />)}
+        {(answer || counter === 0) && <NextQuestionButton { ...props } />}
         <div className="modal-footer text-muted">
           <span id="answer" />
         </div>
@@ -54,5 +55,4 @@ ShowTrivia.propTypes = {
   setAnswer: PropTypes.func.isRequired,
   setPlayer: PropTypes.func.isRequired,
   player: PropTypes.objectOf(PropTypes.object).isRequired,
-
 };

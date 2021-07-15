@@ -1,32 +1,33 @@
 export const paintButtons = (array) => {
+  const allButtons = document.querySelectorAll('button');
   const btnPrimary = 'btn-primary';
-  const allLabels = document.querySelectorAll('label');
   const rightChoice = array.find((el) => typeof el === 'object');
   const correctIndex = array.indexOf(rightChoice);
-  return allLabels.forEach((el) => {
-    const id = el.id.replace('label', '');
+  console.log(allButtons);
+  return allButtons.forEach((el) => {
+    const id = el.id.replace('question-', '');
     if (parseInt(id, 10) !== correctIndex) {
-      el.classList.add('btn-danger', 'wrongAnswer');
+      el.classList.add('wrongAnswer');
       el.classList.remove(btnPrimary);
     }
     if (parseInt(id, 10) === correctIndex) {
-      el.classList.add('btn-success', 'rightAnswer');
+      el.classList.add('rightAnswer');
       el.classList.remove(btnPrimary);
     }
   });
 };
 
 export const nextQuestion = (setAnswer, index, questions, setIndex) => {
+  const allButtons = document.querySelectorAll('button');
   const btnPrimary = 'btn-primary';
   setAnswer('');
-  const label = document.querySelectorAll('label');
-  const ele = document.querySelector('input:checked');
-  label.forEach((el) => {
+  allButtons.forEach((el) => {
     el.classList.remove('btn-danger', 'btn-success', 'wrongAnswer', 'rightAnswer');
     el.classList.add(btnPrimary);
   });
-  if (ele) {
-    ele.checked = false;
+  const allChecked = document.querySelectorAll('input:disabled');
+  if (allChecked) {
+    allChecked.forEach((el) => el.removeAttribute('disabled'));
   }
   if (index < questions.length - 1) {
     return setIndex(index + 1);
@@ -46,18 +47,18 @@ export const randomArray = (questions, setArray, index) => {
   }
 };
 
-export const addScore = (questions, index, answer, player, setPlayer) => {
+export const addScore = (questions, index, answer, player, setPlayer, counter) => {
   const { correct_answer, difficulty } = questions[index];
   const difficultyLevels = {
     easy: 1,
     medium: 2,
     hard: 3,
-  }
+  };
   if (answer === correct_answer) {
     const level = difficultyLevels[difficulty];
     const { assertions, score } = player.player;
     const ass = assertions + 1;
-    const scr = (score + (10 + (1 * level)))
-    setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } })
+    const scr = score + (10 + counter * level);
+    setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } });
   }
-}
+};
