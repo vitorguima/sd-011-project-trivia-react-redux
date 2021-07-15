@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PlayerComponent from '../components/PlayerComponent';
 import GameComponent from '../components/GameComponent';
+import TimerComponent from '../components/TimerComponent';
 import { fetchTrivia } from '../actions';
 
 class screenGame extends Component {
@@ -22,14 +23,18 @@ class screenGame extends Component {
   fetchToken() {
     const { searchQuestion } = this.props;
     const recoveredToken = JSON.parse(localStorage.getItem('token'));
+    this.setState({
+      token: recoveredToken.token,
+    });
 
-    if (recoveredToken !== null) {
+    const { token } = this.state;
+
+    if (token !== null) {
       this.setState({
         loading: true,
-        token: recoveredToken.token,
       });
     }
-    const { loading, token } = this.state;
+    const { loading } = this.state;
     if (!loading) {
       searchQuestion(token);
     }
@@ -42,6 +47,7 @@ class screenGame extends Component {
       <div>
         <PlayerComponent />
         <GameComponent />
+        <TimerComponent />
       </div>
     );
   }

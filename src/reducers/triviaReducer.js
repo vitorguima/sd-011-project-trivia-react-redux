@@ -5,6 +5,7 @@ import {
 } from '../actions';
 
 const INITIAL_STATE = {
+  error: '',
   questions: [],
   isLoading: true,
 };
@@ -25,7 +26,8 @@ function triviaReducer(state = INITIAL_STATE, action) {
   case REQUEST_TRIVIA_ERROR:
     return {
       ...state,
-      isLoading: false,
+      isLoading: true,
+      error: action.state,
     };
   default:
     return state;
