@@ -1,9 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 
-const showQuestions = (arrayQuestions, onChange, i) => arrayQuestions.map((el, index) => {
-  const history = useHistory();
+const showQuestions = (arrayQuestions, onChange) => arrayQuestions.map((el, index) => {
   if (typeof el === 'string') {
     return (
       <label

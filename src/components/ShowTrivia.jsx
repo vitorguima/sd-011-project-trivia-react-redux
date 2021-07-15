@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import showQuestions from './showQuestions';
 import NextQuestionButton from './NextQuestionButton';
+import Timer from './Timer';
 
 export default function ShowTrivia(props) {
   const { index,
@@ -17,6 +18,7 @@ export default function ShowTrivia(props) {
 
   return (
     <div className="modal-dialog">
+      <Timer />
       <div className="modal-content">
         <div className="modal-header">
           <h3>
@@ -29,7 +31,7 @@ export default function ShowTrivia(props) {
         </div>
         {arrayQuestions && showQuestions(arrayQuestions, showResults, index)}
         {answer
-          && (<NextQuestionButton {...{ setAnswer, index, questions, setIndex, answer, player, setPlayer }} />)}
+          && (<NextQuestionButton { ...{ setAnswer, index, questions, setIndex, answer, player, setPlayer } } />)}
         <div className="modal-footer text-muted">
           <span id="answer" />
         </div>
