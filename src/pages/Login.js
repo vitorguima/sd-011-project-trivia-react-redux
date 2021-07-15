@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getEmail, getName } from '../actions';
 
-class Login extends PureComponent {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
