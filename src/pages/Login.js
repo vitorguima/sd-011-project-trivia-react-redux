@@ -6,12 +6,14 @@ import logo from '../trivia.png';
 import { fetchToken, actionLogin } from '../actions';
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handleChange = this.handleChange.bind(this);
     this.checkLogin = this.checkLogin.bind(this);
     this.handleBtn = this.handleBtn.bind(this);
+    this.redirectRouter = this.redirectRouter.bind(this);
+    this.fetchTriviaApi = this.fetchTriviaApi.bind(this);
 
     this.state = {
       name: '',
@@ -38,6 +40,24 @@ class Login extends Component {
     const { name, email } = this.state;
     getToken();
     getLogin(name, email);
+
+  storeTokenOnLocalStorage(tokenObj) {
+    localStorage.setItem('token', JSON.stringify(tokenObj));
+  }
+
+  async fetchTriviaApi() {
+    const response = await fetch('https://opentdb.com/api_token.php?command=request');
+    const token = await response.json();
+
+    this.storeTokenOnLocalStorage(token);
+    this.redirectRouter();
+  }
+
+  redirectRouter() {
+    const { history } = this.props;
+    console.log(history);
+
+    history.push('/game');
   }
 
   handleChange({ target: { id, value } }) {
@@ -84,7 +104,14 @@ class Login extends Component {
               Jogar
             </button>
           </Link>
-
+          <button
+            disabled={ disabled }
+            type="button"
+            data-testid="btn-play"
+            onClick={ this.fetchTriviaApi }
+          >
+            Jogar
+          </button>
         </header>
       </div>
     );
@@ -101,3 +128,12 @@ export default connect(null, mapDispatchToProps)(Login);
 Login.propTypes = {
   getToken: PropTypes.func,
 }.isRequired;
+
+export default Login;
+
+Login.propTypes = {
+  history: {
+    push: PropTypes.func,
+  }.isRequired,
+};
+
