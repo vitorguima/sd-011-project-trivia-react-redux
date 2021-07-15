@@ -3,9 +3,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class GameComponent extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+    this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
+  }
+
+  colorSelectCorrect() {
+    const btns = document.querySelectorAll('button');
+    btns.forEach((element) => {
+      element.classList.add('revel-color');
+    });
+  }
 
   render() {
     const { questions, loading } = this.props;
@@ -22,7 +30,8 @@ class GameComponent extends Component {
               <button
                 data-testid="correct-answer"
                 type="button"
-                onClick={ (event) => this.colorSelectCorrect(event) }
+                className="green-border"
+                onClick={ () => this.colorSelectCorrect() }
               >
                 { results[0].correct_answer }
               </button>
@@ -31,7 +40,8 @@ class GameComponent extends Component {
                   data-testid={ `wrong-answer-${indexKey}` }
                   type="button"
                   key={ indexKey }
-                  onClick={ (event) => this.colorSelectIncorrect(event) }
+                  className="red-border"
+                  onClick={ () => this.colorSelectCorrect() }
                 >
                   {incorrect}
                 </button>
