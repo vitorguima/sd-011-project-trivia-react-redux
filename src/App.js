@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Settings from './pages/Settings';
-import TriviaQuestions from './pages/triviaQuestions';
+import TriviaQuestions from './pages/TriviaQuestions';
 
 export default function App() {
   return (
