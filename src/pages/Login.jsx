@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setEmail, setName } from '../actions/index';
+import logo from '../trivia.png';
+import { setEmail, setName, fetchApi } from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -28,48 +29,59 @@ class Login extends Component {
     return true;
   }
 
+  async handleFetch() {
+    const { requestApi } = this.props;
+    const { payload } = await requestApi();
+    window.localStorage.setItem('token', JSON.stringify(payload.token));
+  }
+
   render() {
     const { user, email } = this.state;
     const { userName, userEmail } = this.props;
     return (
-      <form>
-        <input
-          type="text"
-          id="name"
-          name="user"
-          data-testid="input-player-name"
-          onChange={ this.handleChange }
-          value={ user }
-        />
-        <input
-          type="email"
-          id="email"
-          name="email"
-          data-testid="input-gravatar-email"
-          onChange={ this.handleChange }
-          valeu={ email }
-        />
-        <button
-          type="button"
-          data-testid="btn-play"
-          onClick={ () => { userName(user); userEmail(email); } }
-          disabled={ this.disableButton() }
-        >
-          Jogar
-        </button>
-      </form>
+      <>
+        <img src={ logo } className="App-logo" alt="logo" />
+        <form>
+          <input
+            type="text"
+            id="name"
+            name="user"
+            data-testid="input-player-name"
+            onChange={ this.handleChange }
+            value={ user }
+          />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            data-testid="input-gravatar-email"
+            onChange={ this.handleChange }
+            valeu={ email }
+          />
+          <button
+            type="button"
+            data-testid="btn-play"
+            onClick={ () => { userName(user); userEmail(email); this.handleFetch(); } }
+            disabled={ this.disableButton() }
+          >
+            Jogar
+          </button>
+        </form>
+      </>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  userName: () => dispatch(setName()),
-  userEmail: () => dispatch(setEmail()),
+  userName: (user) => dispatch(setName(user)),
+  userEmail: (email) => dispatch(setEmail(email)),
+  requestApi: () => dispatch(fetchApi()),
 });
 
 Login.propTypes = {
   userName: PropTypes.func.isRequired,
   userEmail: PropTypes.func.isRequired,
+  requestApi: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
