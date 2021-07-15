@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home/Home';
+import GamePage from './pages/GamePage/GamePage';
 import Settings from './pages/Settings/Settings';
 
 export default function App() {
@@ -9,6 +10,7 @@ export default function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={ Home } />
+        <Route exact path="/game" component={ GamePage } />
         <Route path="/settings" component={ Settings } />
       </Switch>
     </BrowserRouter>
