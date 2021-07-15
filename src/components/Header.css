@@ -1,0 +1,16 @@
+.trivia__header {
+  display: flex;
+  align-items: center;
+  padding: 6px 25px;
+  gap: 16px;
+  background-color: mediumslateblue;
+}
+
+.trivia__header img {
+  width: 50px;
+  border: 1px solid #000;
+}
+
+.trivia__header span {
+  font-size: 1.3rem;
+}
