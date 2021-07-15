@@ -8,7 +8,7 @@ export default function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
-      <Route exact path="/triviaquestions" component={ TriviaQuestions } />
+      <Route exact path="/TriviaQuestions" component={ TriviaQuestions } />
       <Route exact path="/settings" component={ Settings } />
     </Switch>
   );

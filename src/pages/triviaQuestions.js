@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Headerlogin from '../components/header';
 // import { connect } from 'react-redux';
 // import { requestApiThunk } from '../actions';
 
@@ -20,6 +21,7 @@ class TriviaQuestions extends Component {
 
     return (
       <div>
+        <Headerlogin />
         <h1 data-testId="question-category">Categoria</h1>
         <h2 data-testId="question-text">Questão:</h2>
         {
