@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
+
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
+import InfoPlayer, { fetchToken } from '../actions';
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      playerName: '',
-      playerEmail: '',
+      name: '',
+      email: '',
       disabled: true,
     };
-
     this.handleChange = this.handleChange.bind(this);
     this.validateInput = this.validateInput.bind(this);
+    this.handlePlayer = this.handlePlayer.bind(this);
   }
 
   componentDidUpdate() {
@@ -20,12 +23,12 @@ class Login extends Component {
   }
 
   validateInput() {
-    const { playerName, playerEmail, disabled } = this.state;
-    if (playerName && playerEmail && disabled) {
+    const { name, email, disabled } = this.state;
+    if (name && email && disabled) {
       this.setState({
         disabled: false,
       });
-    } else if ((!playerName || !playerEmail) && !disabled) {
+    } else if ((!name || !email) && !disabled) {
       this.setState({
         disabled: true,
       });
@@ -39,8 +42,15 @@ class Login extends Component {
     });
   }
 
+  async handlePlayer() {
+    const { getInfoPlayer, getToken } = this.props;
+    const { name, email } = this.state;
+    getInfoPlayer(name, email);
+    await getToken(name, email);
+  }
+
   render() {
-    const { playerName, playerEmail, disabled } = this.state;
+    const { name, email, disabled } = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -48,31 +58,32 @@ class Login extends Component {
           <p>
             SUA VEZ
           </p>
-          <label htmlFor="player-name">
+          <label htmlFor="name">
             <input
               data-testid="input-player-name"
               type="text"
               placeholder="Digite o nome do jogador"
-              name="playerName"
-              value={ playerName }
+              name="name"
+              value={ name }
               onChange={ this.handleChange }
             />
           </label>
-          <label htmlFor="player-email">
+          <label htmlFor="email">
             <input
               data-testid="input-gravatar-email"
               type="email"
               placeholder="Digite o seu e-mail"
-              name="playerEmail"
-              value={ playerEmail }
+              name="email"
+              value={ email }
               onChange={ this.handleChange }
             />
           </label>
-          <Link to="/">
+          <Link to="/game">
             <button
               data-testid="btn-play"
               type="button"
               disabled={ disabled }
+              onClick={ this.handlePlayer }
             >
               Jogar
             </button>
@@ -83,4 +94,9 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  getInfoPlayer: (name, email) => dispatch(InfoPlayer(name, email)),
+  getToken: (namePlayer, emailPlayer) => dispatch(fetchToken(namePlayer, emailPlayer)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
