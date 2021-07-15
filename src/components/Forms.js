@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchGameAction } from '../actions';
 
 class Forms extends Component {
   constructor() {
@@ -22,6 +24,7 @@ class Forms extends Component {
   }
 
   savePlayerToLocalStorage() {
+    const { fetchGame } = this.props;
     const { name, email } = this.state;
     const player = {
       name,
@@ -32,11 +35,12 @@ class Forms extends Component {
 
     localStorage.setItem('state', JSON.stringify(player));
     this.redirectUser();
+    fetchGame();
   }
 
   redirectUser() {
     const { history } = this.props;
-    history.push('/trivia');
+    history.push('/game');
   }
 
   render() {
@@ -72,8 +76,12 @@ class Forms extends Component {
   }
 }
 
-Forms.propTypes = {
-  history: PropTypes.shape(PropTypes.checkPropTypes()).isRequired,
-};
+const mapDispatchToProps = (dispatch) => ({
+  fetchGame: () => dispatch(fetchGameAction()),
+});
 
-export default withRouter(Forms);
+Forms.propTypes = {
+  fetchGame: PropTypes.string,
+}.isRequired;
+
+export default withRouter(connect(null, mapDispatchToProps)(Forms));
