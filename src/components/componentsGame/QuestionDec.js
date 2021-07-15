@@ -12,7 +12,6 @@ const QuestionDesc = ({ descQuestion }) => {
 };
 
 export default QuestionDesc;
-
 QuestionDesc.propTypes = {
   descQuestion: PropTypes.shape({
     category: PropTypes.string,
