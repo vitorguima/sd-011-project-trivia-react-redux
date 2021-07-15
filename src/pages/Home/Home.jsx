@@ -18,6 +18,7 @@ class Home extends Component {
     this.handlePlayButton = this.handlePlayButton.bind(this);
     this.renderPlayButton = this.renderPlayButton.bind(this);
     this.renderSettingsButton = this.renderSettingsButton.bind(this);
+    this.savePlayerToLocalStorage = this.savePlayerToLocalStorage.bind(this);
   }
 
   handleChange(target) {
@@ -35,6 +36,13 @@ class Home extends Component {
     return true;
   }
 
+  savePlayerToLocalStorage() {
+    const { playerName, email } = this.state;
+    localStorage.setItem('state', JSON.stringify({ player: {
+      name: playerName, assertions: 0, score: 0, gravatarEmail: email,
+    } }));
+  }
+
   renderPlayButton() {
     const { dispatchToken, dispatchLogin } = this.props;
     const { email, playerName } = this.state;
@@ -45,7 +53,11 @@ class Home extends Component {
           disabled={ this.handlePlayButton() }
           type="button"
           data-testid="btn-play"
-          onClick={ () => { dispatchToken(); dispatchLogin(email, playerName); } }
+          onClick={ () => {
+            dispatchToken();
+            dispatchLogin(email, playerName);
+            this.savePlayerToLocalStorage();
+          } }
         >
           Jogar
         </button>
