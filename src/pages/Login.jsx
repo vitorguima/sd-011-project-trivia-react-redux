@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Layout } from '../components/common';
 import { changeEmail, changeName } from '../redux/actions';
 
@@ -14,19 +15,19 @@ class Login extends Component {
     this.setGlobalUser = this.setGlobalUser.bind(this);
   }
 
+  setGlobalUser() {
+    const { handleEmail, handleName } = this.props;
+    const { name, email } = this.state;
+    handleEmail(email);
+    handleName(name);
+  }
+
   verifyUser() {
     const { name, email } = this.state;
     if (email.length > 0 && name.length > 0) {
       return false;
     }
     return true;
-  }
-
-  setGlobalUser() {
-    const { handleEmail, handleName } = this.props;
-    const { name, email } = this.state;
-    handleEmail(email);
-    handleName(name);
   }
 
   render() {
@@ -61,6 +62,9 @@ class Login extends Component {
               JOGAR!
             </button>
           </form>
+          <Link to="/Config">
+            <button type="button" data-testid="btn-settings">Configurações</button>
+          </Link>
         </main>
       </Layout>
     );
