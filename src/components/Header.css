@@ -1,14 +1,14 @@
 .trivia__header {
-  display: flex;
   align-items: center;
-  padding: 6px 25px;
-  gap: 16px;
   background-color: mediumslateblue;
+  display: flex;
+  gap: 16px;
+  padding: 6px 25px;
 }
 
 .trivia__header img {
+  border: 1px solid black;
   width: 50px;
-  border: 1px solid #000;
 }
 
 .trivia__header span {
