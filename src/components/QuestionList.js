@@ -7,12 +7,10 @@ class QuestionList extends Component {
   render() {
     const { questions } = this.props;
     const questArray = Object.values(questions);
-    return (
-      <div>
-        { questArray
-          .map((question, index) => <Question key={ index } question={ question } />) }
-      </div>
-    );
+    if (questArray.length > 0) {
+      return (<Question question={ questArray[0] } />);
+    }
+    return (<h1> Carregando </h1>);
   }
 }
 

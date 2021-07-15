@@ -4,7 +4,6 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 
 const email = md5('email@email.com').toString();
-console.log(email);
 
 class Header extends React.Component {
   render() {
