@@ -18,6 +18,7 @@ export const saveLogin = (email, name) => {
       gravatarEmail: email,
     },
   };
+  
   localStorage.setItem('state', JSON.stringify(state));
   return {
     type: SAVE_LOGIN,
