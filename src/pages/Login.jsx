@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -57,6 +58,10 @@ class Login extends Component {
     }
   }
 
+  redirectSettings() {
+    window.location = 'configuracao';
+  }
+
   render() {
     const { disabled, ready } = this.state;
     return (
@@ -87,6 +92,13 @@ class Login extends Component {
             disabled={ disabled }
           >
             Jogar
+          </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => this.redirectSettings() }
+          >
+            Configurações
           </button>
         </form>
         { ready && <Redirect to="/game" />}
