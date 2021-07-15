@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Question.css';
+import { connect } from 'react-redux';
+import { actionBtn } from '../actions';
 
-export default class Question extends Component {
+class Question extends Component {
   constructor() {
     super();
     this.state = {
@@ -20,9 +22,11 @@ export default class Question extends Component {
   }
 
   handleClick() {
+    const { setHidden } = this.props;
     this.setState({
       clicked: true,
     });
+    setHidden(false);
   }
 
   countScore() {
@@ -47,6 +51,7 @@ export default class Question extends Component {
   countDown() {
     const second = 1000;
     const { seconds } = this.state;
+    const { setHidden } = this.props;
     if (seconds > 0) {
       this.setState((prevState) => ({
         seconds: prevState.seconds - 1,
@@ -57,6 +62,7 @@ export default class Question extends Component {
       this.setState({
         disableBtn: true,
       });
+      setHidden(false);
     }
   }
 
@@ -99,6 +105,10 @@ export default class Question extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  setHidden: (button) => dispatch(actionBtn(button)),
+});
+
 Question.propTypes = {
   questions: PropTypes.shape({
     category: PropTypes.string,
@@ -107,4 +117,7 @@ Question.propTypes = {
     difficulty: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  setHidden: PropTypes.func.isRequired,
 };
+
+export default connect(null, mapDispatchToProps)(Question);
