@@ -1,6 +1,6 @@
 import React from 'react';
 
-const showQuestions = (answers, onChange) => answers.map((el, index) => {
+const showQuestions = (arrayQuestions, onChange) => arrayQuestions.map((el, index) => {
   if (typeof el === 'string') {
     return (
       <label
@@ -47,4 +47,4 @@ const showQuestions = (answers, onChange) => answers.map((el, index) => {
   );
 });
 
-export default { showQuestions };
+export default showQuestions;
