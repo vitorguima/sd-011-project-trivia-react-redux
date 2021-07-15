@@ -25,7 +25,7 @@ const RenderQuestion = () => {
   const setClassName = () => {
     setState({ correctAnswer: 'correct-answer', wrongAnswer: 'wrong-answer' });
   };
-
+  
   const renderResult = () => (
     <div className="question">
       <span data-testid="question-category">{ questions[0].category }</span>
