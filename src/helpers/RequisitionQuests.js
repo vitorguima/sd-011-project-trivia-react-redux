@@ -1,5 +1,15 @@
-export default async function requisitionQuests(token) {
-  const Api = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-    .then((response) => response.json());
-  return Api;
+import { requestSuccessQuests, requestQuests } from '../actions';
+
+export default function requisitionQuests(token) {
+  return async (dispatch) => {
+    try {
+      dispatch(requestQuests());
+      const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+      const data = await response.json();
+      dispatch(requestSuccessQuests(data.results));
+      console.log(data.results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 }

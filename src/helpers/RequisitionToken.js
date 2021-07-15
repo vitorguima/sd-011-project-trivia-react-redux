@@ -1,4 +1,5 @@
 import { requestToken, requestSuccessToken } from '../actions';
+import requisitionQuests from './RequisitionQuests';
 
 export default function requisitionToken() {
   return async (dispatch) => {
@@ -7,6 +8,7 @@ export default function requisitionToken() {
       const response = await fetch('https://opentdb.com/api_token.php?command=request');
       const data = await response.json();
       dispatch(requestSuccessToken(data));
+      dispatch(requisitionQuests(data.token));
       console.log(data);
     } catch (error) {
       console.error(error);
