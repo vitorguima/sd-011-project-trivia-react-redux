@@ -6,11 +6,11 @@ import Question from '../components/Question';
 
 class Game extends Component {
   render() {
-    const { questionArray } = this.props;
+    const { questionArray, currentQuestion } = this.props;
     return (
       <div>
         <HeaderGame />
-        <Question question={ questionArray[0] } />
+        <Question question={ questionArray[currentQuestion] } />
         {/* { questionArray.length > 0 && questionArray.map((question, index) => (
           <Question key={ index } question={ question } />
         )) } */}
@@ -21,14 +21,17 @@ class Game extends Component {
 
 const mapStateToProps = ({ gameReducer }) => ({
   questionArray: gameReducer.questions,
+  currentQuestion: gameReducer.currentQuestion,
 });
 
 Game.propTypes = ({
   questionArray: PropTypes.arrayOf(PropTypes.object),
+  currentQuestion: PropTypes.number,
 });
 
 Game.defaultProps = ({
   questionArray: [],
+  currentQuestion: 0,
 });
 
 export default connect(mapStateToProps)(Game);

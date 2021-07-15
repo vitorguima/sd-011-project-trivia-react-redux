@@ -1,11 +1,16 @@
 import {
   REQUEST_QUESTIONS,
   REQUEST_QUESTIONS_SUCCESS,
+  ADD_SCORE,
+  NEXT_QUESTION,
 } from '../actions';
 
 const INITIAL_STATE = {
   questions: [],
   isLoading: false,
+  score: 0,
+  correctAsnwers: 0,
+  currentQuestion: 0,
 };
 
 const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -20,6 +25,11 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       isLoading: false,
       questions: [...payload.results],
+    };
+  case NEXT_QUESTION:
+    return {
+      ...state,
+      currentQuestion: state.currentQuestion + 1,
     };
   default:
     return {

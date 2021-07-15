@@ -4,6 +4,8 @@ export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const REQUEST_TOKEN_ERROR = 'REQUEST_TOKEN_ERROR';
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
+export const ADD_SCORE = 'ADD_SCORE';
+export const NEXT_QUESTION = 'NEXT_QUESTION';
 
 export const loginAction = (payload) => ({
   type: LOGIN,
@@ -33,6 +35,14 @@ export const requestQuestions = (payload) => ({
 export const requestQuestionsSuccess = (payload) => ({
   type: REQUEST_QUESTIONS_SUCCESS,
   payload,
+});
+
+export const addScore = () => ({
+  type: ADD_SCORE,
+});
+
+export const nextQuestion = () => ({
+  type: NEXT_QUESTION,
 });
 
 export const fetchToken = () => (dispatch) => {

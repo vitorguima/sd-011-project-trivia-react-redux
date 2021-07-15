@@ -15,9 +15,7 @@ class Header extends Component {
     const { email } = this.props;
     const hashEmail = md5(email).toString();
     const avatarUrl = await fetchAvatar(hashEmail);
-    console.log(avatarUrl);
     this.setAvatar(avatarUrl);
-    console.log('3', avatarUrl);
   }
 
   setAvatar(url) {
@@ -27,21 +25,23 @@ class Header extends Component {
   }
 
   render() {
-    const { name } = this.props;
+    const { name, score } = this.props;
     const { url } = this.state;
     return (
       <header>
         <img src={ url } alt="avatar" data-testid="header-profile-picture" />
         <h4 data-testid="header-player-name">{ name }</h4>
-        <h4 data-testid="header-score">0</h4>
+        <h4 data-testid="header-score">{ score }</h4>
       </header>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  email: state.loginReducer.email,
-  name: state.loginReducer.name,
+const mapStateToProps = ({ loginReducer, gameReducer }) => ({
+  email: loginReducer.email,
+  name: loginReducer.name,
+  score: gameReducer.score,
+  currentQuestion: gameReducer.currentQuestion,
 });
 
 export default connect(mapStateToProps)(Header);
@@ -49,4 +49,5 @@ export default connect(mapStateToProps)(Header);
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
