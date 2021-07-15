@@ -9,6 +9,7 @@ import GameScreen from './components/GameScreen';
 
 import Login from './components/Login';
 import Config from './components/Config';
+import Feedback from './components/Feedback';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       <Route exact path="/config" component={ Config } />
       <Route exact path="/" component={ Login } />
       <Route path="/game" component={ Header } />
+      <Route path="/feedback" component={ Feedback } />
     </Switch>
   );
 }

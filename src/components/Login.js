@@ -34,6 +34,17 @@ class Login extends Component {
     const { name, email } = this.state;
     const { login } = this.props;
     login(name, email);
+    const player = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    const data = JSON.stringify(player);
+    localStorage.clear();
+    localStorage.setItem('state', data);
     fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => {
         response.json()
@@ -70,7 +81,7 @@ class Login extends Component {
           <button
             type="button"
             data-testid="btn-play"
-            onClick={ this.handlePlayButton }
+            onClick={ () => this.handlePlayButton() }
             disabled={ !this.checkForm() }
           >
             Jogar
