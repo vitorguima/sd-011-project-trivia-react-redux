@@ -7,6 +7,8 @@ class Game extends Component {
 
     this.fetchQuestions = this.fetchQuestions.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
+    this.fetchTriviaApi = this.fetchTriviaApi.bind(this);
+    this.storeTokenOnLocalStorage = this.storeTokenOnLocalStorage.bind(this);
 
     this.state = {
       questions: [],
@@ -16,10 +18,27 @@ class Game extends Component {
   }
 
   componentDidMount() {
+    this.fetchTriviaApi();
+  }
+
+  getTokenOnLocalStorage() {
     const tokenStr = localStorage.getItem('token');
     const tokenObj = JSON.parse(tokenStr);
 
     this.fetchQuestions(tokenObj.token);
+  }
+
+  storeTokenOnLocalStorage(tokenObj) {
+    localStorage.setItem('token', JSON.stringify(tokenObj));
+    this.getTokenOnLocalStorage();
+  }
+
+  async fetchTriviaApi() {
+    const response = await fetch('https://opentdb.com/api_token.php?command=request');
+    const token = await response.json();
+    console.log(token);
+
+    this.storeTokenOnLocalStorage(token);
   }
 
   async fetchQuestions(token) {
@@ -86,6 +105,22 @@ class Game extends Component {
         </>
       );
     }
+    return (
+      <>
+        <button
+          data-testid={ `wrong-answer-${0}` }
+          type="button"
+        >
+          { question.incorrect_answers[0] }
+        </button>
+        <button
+          data-testid="correct-answer"
+          type="button"
+        >
+          { question.correct_answer }
+        </button>
+      </>
+    );
   }
 
   render() {
