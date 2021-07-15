@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import * as actions from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -20,6 +23,7 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
+    const { fetchToken } = this.props;
     const isDisabled = name.length === 0 || email.length === 0;
     return (
       <div>
@@ -54,7 +58,12 @@ class Login extends React.Component {
               onChange={ this.handleOnChange }
             />
           </label>
-          <button data-testid="btn-play" type="button" disabled={ isDisabled }>
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ isDisabled }
+            onClick={ fetchToken }
+          >
             Jogar
           </button>
         </form>
@@ -63,4 +72,12 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  fetchToken: () => dispatch(actions.fetchToken()),
+});
+
+Login.propTypes = {
+  fetchToken: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
