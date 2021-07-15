@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import requisitionQuests from '../helpers/RequisitionQuests';
 import Header from '../components/Header';
 import './Game.css';
+import Timer from '../components/Timer';
 
 class Game extends Component {
   constructor() {
@@ -11,49 +12,79 @@ class Game extends Component {
     this.state = {
       index: 0,
       clickedQuest: false,
+      seconds: 30,
+      timer: true,
     };
-    this.passQuestion = this.passQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.timerInterval = this.timerInterval.bind(this);
   }
 
   componentDidMount() {
     const { dispatchQuests } = this.props;
+
     if (localStorage.token) {
       dispatchQuests(localStorage.token);
     }
+    this.updateTimer();
+  }
+
+  componentDidUpdate() {
+    const { seconds, timer } = this.state;
+    if (seconds <= 0) {
+      clearInterval(timer);
+    }
+  }
+
+  componentWillUnmount() {
+    const { timer } = this.state;
+    clearInterval(timer);
+  }
+
+  updateTimer() {
+    const oneSecInterval = 1000;
+    const timer = setInterval(this.timerInterval, oneSecInterval);
+    this.setState({ timer });
+  }
+
+  timerInterval() {
+    const oneSecInterval = 1000;
+    setTimeout(() => {
+      this.setState((prev) => ({
+        seconds: prev.seconds > 0 ? prev.seconds - 1 : 0,
+        clickedQuest: prev.seconds <= 0 || prev.clickedQuest === true }));
+    }, oneSecInterval);
   }
 
   buttonCorrect() {
     const { stateQuests } = this.props;
-    const { index, clickedQuest } = this.state;
+    const { index, clickedQuest, timer } = this.state;
+
     return (
       <button
         type="button"
         data-testid="correct-answer"
         key="correct"
         className={ clickedQuest ? 'correctAnswer' : null }
-        onClick={ this.handleClick }
+        disabled={ !!clickedQuest }
+        onClick={ () => {
+          this.handleClick();
+          clearInterval(timer);
+        } }
       >
         {stateQuests[index].correct_answer}
       </button>
     );
   }
 
-  passQuestion() {
+  handleClick() {
     this.setState(() => ({ clickedQuest: true }));
   }
 
-  handleClick() {
-    this.passQuestion();
-  }
-
-  render() {
+  answers() {
     const { gameLoading, stateQuests } = this.props;
-    const { index, clickedQuest } = this.state;
-    const limitIndex = 4;
+    const { index, clickedQuest, timer } = this.state;
     return (
       <div>
-        <Header />
         {gameLoading
           ? 'Loading'
           : (
@@ -61,19 +92,34 @@ class Game extends Component {
               <p data-testid="question-category">{stateQuests[index].category}</p>
               <p data-testid="question-text">{stateQuests[index].question}</p>
               {[this.buttonCorrect(),
-                stateQuests[index].incorrect_answers.map((e, i) => (
-                  <button
-                    type="button"
-                    data-testid={ `wrong-answer-${index}` }
-                    key={ i }
-                    className={ clickedQuest ? 'incorrectAnswers' : null }
-                    onClick={ this.handleClick }
-                  >
-                    {e}
-                  </button>)),
+                stateQuests[index].incorrect_answers
+                  .map((e, i) => (
+                    <button
+                      type="button"
+                      data-testid={ `wrong-answer-${index}` }
+                      key={ i }
+                      className={ clickedQuest ? 'incorrectAnswers' : null }
+                      disabled={ !!clickedQuest }
+                      onClick={ () => {
+                        this.handleClick();
+                        clearInterval(timer);
+                      } }
+                    >
+                      {e}
+                    </button>)),
               ]}
-            </div>
-          )}
+            </div>)}
+      </div>
+    );
+  }
+
+  render() {
+    const { index, clickedQuest, seconds } = this.state;
+    const limitIndex = 4;
+    return (
+      <div>
+        <Header />
+        {this.answers()}
         { clickedQuest ? (
           <button
             type="button"
@@ -82,13 +128,16 @@ class Game extends Component {
               this.setState((prev) => ({
                 index: prev.index + 1,
                 clickedQuest: false,
+                seconds: 30,
               }));
+              this.updateTimer();
             } }
             disabled={ index === limitIndex }
           >
             Próxima
           </button>
         ) : null }
+        <Timer sec={ seconds } />
       </div>
     );
   }
