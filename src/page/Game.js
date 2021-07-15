@@ -11,7 +11,7 @@ class Game extends Component {
     this.state = {
       numberNext: 0,
       styleButton: false,
-      initialTime: 5,
+      initialTime: 30,
       disabled: false,
       setTime: null,
     };
@@ -29,10 +29,9 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    const { initialTime, setTime } = this.state;
+    const { setTime, initialTime } = this.state;
     if (initialTime <= 0) {
       clearInterval(setTime);
-      this.disabledButton();
     }
   }
 
@@ -41,21 +40,12 @@ class Game extends Component {
     clearInterval(setTime);
   }
 
-  disabledButton() {
-    this.setState({
-      disabled: true,
-    });
-  }
-
   timeQuestion() {
-    const mil = 1000;
+    const ms = 1000;
     this.setState({
       setTime: setInterval(() => {
-        this.setState((prev) => ({
-          initialTime: prev.initialTime - 1,
-        }));
-      }, mil),
-    });
+        this.setState((prev) => ({ initialTime: prev.initialTime - 1 }));
+      }, ms) });
   }
 
   nextQuestion() {
@@ -92,9 +82,17 @@ class Game extends Component {
   }
 
   confirmResponse() {
-    this.setState({
-      styleButton: true,
-    });
+    const { styleButton } = this.state;
+
+    if (!styleButton) {
+      this.setState({
+        styleButton: true,
+      });
+    } else {
+      this.setState({
+        styleButton: false,
+      });
+    }
   }
 
   handleResponse() {
@@ -132,7 +130,7 @@ class Game extends Component {
     const { players, email } = this.props;
     const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
     const hashGenerator = md5(email).toString();
-    const { time } = this.state;
+    const { initialTime } = this.state;
     return (
       <div>
         <header>
@@ -148,7 +146,7 @@ class Game extends Component {
             </span>
           </p>
           <div>
-            { time }
+            { initialTime }
           </div>
           <div>
             {this.handleQuestion()}
@@ -156,7 +154,10 @@ class Game extends Component {
           </div>
           <button
             type="button"
-            onClick={ this.nextQuestion }
+            onClick={ () => {
+              this.nextQuestion();
+              this.confirmResponse();
+            } }
           >
             Proxima
           </button>
