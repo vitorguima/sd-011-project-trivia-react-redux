@@ -37,10 +37,10 @@ class GameScreen extends React.Component {
 
   handleNextButton() {
     this.setState((prevState) => ({
-      triviaApi: '',
       questionNumber: prevState.questionNumber + 1,
       styles: ['', ''],
       disabledButton: false,
+      timer: 30,
     }));
   }
 
