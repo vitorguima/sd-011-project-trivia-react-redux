@@ -26,8 +26,10 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { fetchAPIToken } = this.props;
+    const { fetchAPIToken, getUserNameAndEmail } = this.props;
+    const { name, gravatarEmail } = this.state;
     fetchAPIToken();
+    getUserNameAndEmail(name, gravatarEmail);
   }
 
   render() {
@@ -80,10 +82,14 @@ class Login extends Component {
 
 Login.propTypes = {
   fetchAPIToken: PropTypes.func.isRequired,
+  getUserNameAndEmail: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   fetchAPIToken: () => dispatch(actions.fetchAPIToken()),
+  getUserNameAndEmail: (name, gravatarEmail) => (
+    dispatch(actions.getUserNameAndEmail(name, gravatarEmail))
+  ),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
