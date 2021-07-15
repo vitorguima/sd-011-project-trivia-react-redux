@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import { fetchQuestion } from '../redux/actions';
 
 class Game extends Component {
+  componentDidUpdate() {
+    const { token, fetchQuestions } = this.props;
+    console.log(token);
+    fetchQuestions(token);
+  }
+
   render() {
     const { players, email } = this.props;
     const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
@@ -32,11 +39,18 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   email: state.homeReducer.email,
   players: state.homeReducer.name,
+  token: state.homeReducer.token,
 });
 
-export default connect(mapStateToProps)(Game);
+const mapDispatchToProps = (dispatch) => ({
+  fetchQuestions: (token) => dispatch(fetchQuestion(token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
   players: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  fetchQuestions: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
 };

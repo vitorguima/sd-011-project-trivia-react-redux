@@ -27,7 +27,6 @@ class Home extends Component {
   clickSubmit() {
     const { name, email } = this.state;
     const { fetchCurrent, sendEmailName } = this.props;
-    console.log(fetchCurrent);
     sendEmailName(name, email);
     fetchCurrent();
   }
