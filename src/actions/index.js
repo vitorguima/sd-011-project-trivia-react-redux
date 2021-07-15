@@ -11,16 +11,15 @@ function handleFetchTokenSuccess(json) {
   return { type: REQUEST_TOKEN_SUCCESS, payload: json.token };
 }
 
-export function questionsGame() {
-  return (dispatch) => {
-    const tokenLocalStorage = localStorage.getItem('token');
-    fetch(`https://opentdb.com/api.php?amount=5&token=${tokenLocalStorage}`)
-      .then((response) => response.json())
-      .then(
-        (json) => dispatch(handleQuestionsSuccess(json.results)),
-        (error) => console.log(error),
-      );
-  }
+export function questionsGame(token) {
+    return (dispatch) => {
+      fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+        .then((response) => response.json())
+        .then(
+          (json) => dispatch(handleQuestionsSuccess(json.results)),
+          (error) => console.log(error),
+        );
+    }
 }
 
 export function startGame(name, email) {
@@ -32,7 +31,6 @@ export function startGame(name, email) {
         (json) => dispatch(handleFetchTokenSuccess(json)),
         (error) => console.log(error),
       )
-      .then(() => questionsGame());
   };
 }
 

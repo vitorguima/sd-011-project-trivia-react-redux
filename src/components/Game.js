@@ -9,10 +9,11 @@ class Game extends React.Component {
     super();
   }
 
-  componentWillMount() {
-    const { questionsGame } = this.props;
-    questionsGame();
+  async componentDidMount() {
+    const { questionsGame, token } = this.props;
+    await questionsGame(token);
   }
+
   renderQuestions(){
     const { questions: { allQuestions } } = this.props;
     if (allQuestions.length === 0) {
@@ -46,6 +47,7 @@ class Game extends React.Component {
 
 const mapStateToProps = (state) => ({
   questions: state.questions,
+  token: state.player.token,
 });
 
 const mapDispatchToProps = (dispatch) => ({
