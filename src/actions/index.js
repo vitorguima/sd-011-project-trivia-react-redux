@@ -6,9 +6,9 @@ export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_TOKEN_SUCESS = 'REQUEST_TOKEN_SUCESS';
 export const REQUEST_TOKEN_FAIL = 'REQUEST_TOKEN_FAIL';
 
-export const userEmail = (payload) => ({
+export const userEmail = (name) => ({
   type: USER_EMAIL,
-  payload,
+  name,
 });
 
 const requestToken = () => ({
