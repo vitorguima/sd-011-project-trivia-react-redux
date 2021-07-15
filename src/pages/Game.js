@@ -18,6 +18,7 @@ class Game extends Component {
     this.timerHandle = this.timerHandle.bind(this);
     this.correctButtonFunction = this.correctButtonFunction.bind(this);
     this.incorretButtonsFunction = this.incorretButtonsFunction.bind(this);
+    this.handleNextButton = this.handleNextButton.bind(this);
   }
 
   componentDidMount() {
@@ -132,10 +133,18 @@ class Game extends Component {
       </button>);
   }
 
+  handleNextButton() {
+    this.setState((pState) => ({
+      answered: false,
+      questionNumber: pState.questionNumber + 1,
+      timer: 30,
+    }));
+  }
+
   render() {
     const { questionsState } = this.props;
     console.log(questionsState);
-    const { questionNumber, timer, score } = this.state;
+    const { questionNumber, timer, score, answered } = this.state;
     if (Object.keys(questionsState).length > 0) {
       const correctAnswer = questionsState.results[questionNumber].correct_answer;
       const incorrectAnswers = questionsState.results[questionNumber].incorrect_answers;
@@ -159,6 +168,14 @@ class Game extends Component {
             }
             return this.incorretButtonsFunction(index, item);
           })}
+          {answered ? (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.handleNextButton }
+            >
+              Próxima
+            </button>) : null}
         </div>
       );
     }
