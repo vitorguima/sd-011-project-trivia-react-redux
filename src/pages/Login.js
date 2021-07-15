@@ -59,12 +59,12 @@ class Login extends Component {
   handleButton() {
     const { email, name, disabled } = this.state;
     const emailChek = email.split('').includes('@') && email.split('.').includes('com');
-    const num = name.length > 1;
-    if (num && emailChek && disabled) {
+    const nameLength = name.length > 0;
+    if (nameLength && emailChek && disabled) {
       this.setState({
         disabled: false,
       });
-    } else if ((!num || !emailChek) && !disabled) {
+    } else if ((!nameLength || !emailChek) && !disabled) {
       this.setState({
         disabled: true,
       });
