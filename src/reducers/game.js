@@ -3,6 +3,7 @@ import { GET_TOKEN, GET_TOKEN_SUCCESS, GET_TOKEN_FAILED } from '../actions';
 const INITIAL_STATE = {
   token: '',
   loading: true,
+  pontuation: 0,
 };
 
 const game = (state = INITIAL_STATE, action) => {
