@@ -11,16 +11,51 @@ class Game extends Component {
     this.state = {
       numberNext: 0,
       styleButton: false,
+      initialTime: 5,
+      disabled: false,
+      setTime: null,
     };
 
     this.handleResponse = this.handleResponse.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.confirmResponse = this.confirmResponse.bind(this);
+    this.timeQuestion = this.timeQuestion.bind(this);
   }
 
   componentDidMount() {
     const { fetchQuestions, token } = this.props;
+    this.timeQuestion();
     fetchQuestions(token);
+  }
+
+  componentDidUpdate() {
+    const { initialTime, setTime } = this.state;
+    if (initialTime <= 0) {
+      clearInterval(setTime);
+      this.disabledButton();
+    }
+  }
+
+  componentWillUnmount() {
+    const { setTime } = this.state;
+    clearInterval(setTime);
+  }
+
+  disabledButton() {
+    this.setState({
+      disabled: true,
+    });
+  }
+
+  timeQuestion() {
+    const mil = 1000;
+    this.setState({
+      setTime: setInterval(() => {
+        this.setState((prev) => ({
+          initialTime: prev.initialTime - 1,
+        }));
+      }, mil),
+    });
   }
 
   nextQuestion() {
@@ -64,8 +99,7 @@ class Game extends Component {
 
   handleResponse() {
     const { questions } = this.props;
-    const { numberNext, styleButton } = this.state;
-    console.log(questions);
+    const { numberNext, styleButton, disabled } = this.state;
     if (questions.length > 0) {
       return [
         ...questions[numberNext].incorrect_answers.map((item, index) => (
@@ -74,6 +108,7 @@ class Game extends Component {
             onClick={ this.confirmResponse }
             data-testid={ `wrong-answer-${numberNext}` }
             type="button"
+            disabled={ disabled }
             key={ index }
           >
             <div>{item}</div>
@@ -84,6 +119,7 @@ class Game extends Component {
             onClick={ this.confirmResponse }
             data-testid="correct-answer"
             key={ numberNext }
+            disabled={ disabled }
             type="button"
           >
             {questions[numberNext].correct_answer}
@@ -96,6 +132,7 @@ class Game extends Component {
     const { players, email } = this.props;
     const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
     const hashGenerator = md5(email).toString();
+    const { time } = this.state;
     return (
       <div>
         <header>
@@ -110,6 +147,9 @@ class Game extends Component {
               {!objectsLocalStorage ? 0 : objectsLocalStorage.score}
             </span>
           </p>
+          <div>
+            { time }
+          </div>
           <div>
             {this.handleQuestion()}
             {this.handleResponse()}
