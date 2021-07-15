@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import getTokenApi from '../services/getTokenApi';
 
 class Login extends React.Component {
@@ -32,6 +33,8 @@ class Login extends React.Component {
       }
     });
   }
+
+  // Lógica do click
 
   async handleClick() {
     const response = await getTokenApi();
@@ -75,6 +78,7 @@ class Login extends React.Component {
         >
           Jogar
         </button>
+        <Link data-testid="btn-settings" to="/settings">Configurações</Link>
       </form>
     );
   }
