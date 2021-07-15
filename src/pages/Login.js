@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { thunkToken } from '../actions';
 import logo from '../trivia.png';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
@@ -37,6 +40,11 @@ export default class Login extends Component {
     }, () => this.validateLogin());
   }
 
+  handleClick() {
+    const { actionBtn } = this.props;
+    actionBtn();
+  }
+
   render() {
     const { buttonDisabled } = this.state;
     return (
@@ -63,13 +71,16 @@ export default class Login extends Component {
               onChange={ this.handleChange }
             />
           </label>
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ buttonDisabled }
-          >
-            Jogar
-          </button>
+          <Link to="jogo">
+            <button
+              data-testid="btn-play"
+              type="button"
+              disabled={ buttonDisabled }
+              onClick={ this.handleClick() }
+            >
+              Jogar
+            </button>
+          </Link>
           <Link to="/settings" data-testid="btn-settings">
             <button type="button">
               Setings
@@ -80,3 +91,13 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  actionBtn: () => dispatch(thunkToken()),
+});
+
+Login.propTypes = {
+  actionBtn: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
