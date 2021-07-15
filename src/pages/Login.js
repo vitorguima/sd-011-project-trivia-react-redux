@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-class Login extends PureComponent {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
@@ -10,6 +11,7 @@ class Login extends PureComponent {
     };
 
     this.handleInput = this.handleInput.bind(this);
+    this.settingsButton = this.settingsButton.bind(this);
     this.saveTokenInLocalStorage = this.saveTokenInLocalStorage.bind(this);
   }
 
@@ -19,6 +21,20 @@ class Login extends PureComponent {
 
   componentDidUpdate() {
     this.handleButton();
+  }
+
+  settingsButton() {
+    return (
+      <Link to="/settings">
+        <button
+          data-testid="btn-settings"
+          type="button"
+        >
+          <span role="img" aria-label="Gear">⚙️</span>
+          Configurações
+        </button>
+      </Link>
+    );
   }
 
   async getToken() {
@@ -92,6 +108,8 @@ class Login extends PureComponent {
         >
           Jogar
         </button>
+
+        { this.settingsButton()}
       </div>
     );
   }
