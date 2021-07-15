@@ -6,7 +6,7 @@ import Headerlogin from '../components/header';
 class TriviaQuestions extends Component {
   // constructor(props) {
   //   super(props);
-  //   console.log(' ');
+  //   console.log(' ');a
   // }
 
   // componentDidMount() {
