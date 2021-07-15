@@ -2,9 +2,8 @@ import React, { useEffect, useState, Fragment } from 'react';
 import _ from 'lodash';
 import '../styles/TriviaGame.css';
 import { getQuestions } from '../services/mockedTriviaResults';
-import { Header } from '../components';
 
-export default function Game() {
+export default function TriviaGame() {
   const [index, setIndex] = useState(0);
   const [questions, setQuestions] = useState('');
 
@@ -68,7 +67,7 @@ export default function Game() {
       <div class="modal-content">
         <div class="modal-header">
           <h3>
-            <span class="label label-warning gameIndex" id="qid" data-testid="question-text">
+            <span class="label label-warning" id="qid" data-testid="question-text">
               {index + 1}
             </span>
             {questions[index].question}
@@ -92,10 +91,9 @@ export default function Game() {
   );
 
   return (
-    <>
-      <Header />
+    <div>
+      <h1>NADA</h1>
       {questions && showTrivia()}
-    </>
+    </div>
   );
 }
-
