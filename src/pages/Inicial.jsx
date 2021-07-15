@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 import { fetchToken, user } from '../actions';
 import logo from '../trivia.png';
 
@@ -13,10 +14,12 @@ class TelaIncial extends Component {
       email: '',
       name: '',
       button: true,
+      img: '',
     };
     this.activeButton = this.activeButton.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.getTokenAndState = this.getTokenAndState.bind(this);
+    this.emailGravatar = this.emailGravatar.bind(this);
   }
 
   getTokenAndState() {
@@ -31,10 +34,19 @@ class TelaIncial extends Component {
     const { email, name } = this.state;
     const regex = /\w+@\w+.com(.br)?/;
     if (regex.test(email) && name.length > 0) {
-      this.setState({ button: false });
+      this.emailGravatar();
+      this.setState({ email: email.trim(), name: name.trim(), button: false });
     } else {
       this.setState({ button: true });
     }
+  }
+
+  async emailGravatar() {
+    const { email } = this.state;
+    const email1 = md5(email).toString();
+    const fetchGravatar = await fetch(`https://www.gravatar.com/avatar/${email1}`);
+    const { url } = fetchGravatar;
+    this.setState({ img: url });
   }
 
   handleInput({ target }) {
@@ -44,7 +56,6 @@ class TelaIncial extends Component {
 
   render() {
     const { button } = this.state;
-
     return (
       <div className="App">
         <header className="App-header">

@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   name: '',
   email: '',
+  img: '',
 };
 
 function userReducer(state = INITIAL_STATE, action) {
@@ -10,6 +11,7 @@ function userReducer(state = INITIAL_STATE, action) {
       ...state,
       name: action.state.name,
       email: action.state.email,
+      img: action.state.img,
     };
   default:
     return state;
