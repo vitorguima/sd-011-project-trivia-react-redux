@@ -6,6 +6,7 @@ import {
 const INITIAL_STATE = {
   questions: [],
   isLoading: false,
+  correntAsnwers: 0,
 };
 
 const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
