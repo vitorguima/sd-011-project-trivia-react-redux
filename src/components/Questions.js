@@ -17,7 +17,12 @@ class Question extends React.Component {
         <h1>
           { question }
         </h1>
-        {randomAnswers.map((answer, index) => <p key={ index }>{ answer }</p>)}
+        {randomAnswers.map((answer, index) => {
+          if (answer === correctAnswer) {
+            return <button key={ index } data-testid="correct-answer" type="button">{answer}</button>;
+          }
+          return <button key={ index } data-testid="incorrect-answer" type="button">{answer}</button>;
+        })}
       </div>
 
     );
