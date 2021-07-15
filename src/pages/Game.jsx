@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services/api';
 import Question from '../components/Question';
+import Timer from '../components/Timer';
 
 export default class Game extends Component {
   constructor() {
@@ -35,6 +36,7 @@ export default class Game extends Component {
     return (
       <div>
         <Header />
+        <Timer />
         <Question questions={ questions } />
       </div>
     );
