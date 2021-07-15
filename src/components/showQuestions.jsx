@@ -1,6 +1,9 @@
+/* eslint-disable max-lines-per-function */
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-const showQuestions = (arrayQuestions, onChange) => arrayQuestions.map((el, index) => {
+const showQuestions = (arrayQuestions, onChange, i) => arrayQuestions.map((el, index) => {
+  const history = useHistory();
   if (typeof el === 'string') {
     return (
       <label
@@ -18,6 +21,9 @@ const showQuestions = (arrayQuestions, onChange) => arrayQuestions.map((el, inde
           value={ el }
           onChange={ () => {
             onChange(el);
+            if (i === arrayQuestions.length) {
+              return history.push('feedback');
+            }
           } }
         />
         {el}
@@ -40,6 +46,9 @@ const showQuestions = (arrayQuestions, onChange) => arrayQuestions.map((el, inde
         value={ el.correct }
         onChange={ () => {
           onChange({ answer: el.correct, id: index });
+          if (i === arrayQuestions.length) {
+            return history.push('feedback');
+          }
         } }
       />
       {el.correct}

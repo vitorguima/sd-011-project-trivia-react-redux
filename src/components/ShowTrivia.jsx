@@ -1,17 +1,17 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
-// import { GameStateContext } from '../pages/Game';
+import showQuestions from './showQuestions';
 
-export default function ShowTrivia(props) {
-  const { index,
-    questions,
-    arrayQuestions,
-    showQuestions,
-    showResults,
-    answer,
-    nextQuestion,
-    setAnswer,
-    setIndex } = props;
+export default function ShowTrivia({ index,
+  questions,
+  arrayQuestions,
+  showResults,
+  answer,
+  nextQuestion,
+  setAnswer,
+  setIndex }) {
+  const history = useHistory();
 
   return (
     <div className="modal-dialog">
@@ -23,16 +23,14 @@ export default function ShowTrivia(props) {
             </span>
             {questions[index].question}
           </h3>
-          Functions: PropTypes.func.isRequired,
-          onChange: PropTypes.func.isRequired,
           <p data-testid="question-category">{questions[index].category}</p>
         </div>
-        {arrayQuestions && showQuestions(arrayQuestions, showResults)}
+        {arrayQuestions && showQuestions(arrayQuestions, showResults, index)}
 
         {answer && (
           <button
             type="button"
-            onClick={ () => nextQuestion(setAnswer, index, questions, setIndex) }
+            onClick={ () => nextQuestion(setAnswer, index, questions, setIndex, history) }
             className="btn btn btn-info btn-lg nextQuestion"
             data-testid="btn-next"
           >
@@ -54,7 +52,6 @@ ShowTrivia.propTypes = {
   answer: PropTypes.objectOf(PropTypes.object).isRequired,
   nextQuestion: PropTypes.func.isRequired,
   setIndex: PropTypes.func.isRequired,
-  showQuestions: PropTypes.func.isRequired,
   showResults: PropTypes.func.isRequired,
   setAnswer: PropTypes.func.isRequired,
 

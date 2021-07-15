@@ -28,7 +28,6 @@ export default function Home() {
   };
 
   const handleSubmit = (e) => {
-    console.log('vrau');
     e.preventDefault();
     dispatch(sendInfo(login));
     dispatch(sendToken(token));
