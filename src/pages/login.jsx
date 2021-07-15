@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
 import '../App.css';
+import { getLogin } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -19,12 +22,15 @@ class Login extends React.Component {
   }
 
   async handlePlayButton() {
+    const { name, email } = this.state;
+    const { dispatchUserInfo } = this.props;
     fetch('https://opentdb.com/api_token.php?command=request')
       .then((res) => {
         res.json()
           .then((json) => {
             localStorage.setItem('token', json.token);
             this.setState({ play: true });
+            dispatchUserInfo(name, email);
           });
       });
   }
@@ -45,7 +51,7 @@ class Login extends React.Component {
     const { play } = this.state;
 
     if (play) {
-      return <Redirect to="/Game" />;
+      return <Redirect to="/header" />;
     }
     return (
       <div className="App">
@@ -90,4 +96,12 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  dispatchUserInfo: (name, email) => dispatch(getLogin(name, email)),
+});
+
+Login.propTypes = {
+  dispatchUserInfo: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
