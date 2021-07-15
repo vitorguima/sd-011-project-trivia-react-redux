@@ -29,31 +29,65 @@ class GamePage extends Component {
     });
   }
 
+  renderHeader() {
+    const { email, nome } = this.props;
+    const hash = md5(email).toString();
+    const { score } = this.state;
+    return (
+      <header>
+        <img src={ `https://www.gravatar.com/avatar/${hash}` } alt="avatar" data-testid="header-profile-picture" />
+        <h2 data-testid="header-player-name">{nome}</h2>
+        <h2
+          data-testid="header-score"
+        >
+          Placar:
+          { score }
+        </h2>
+      </header>
+    );
+  }
+
+  renderBtn() {
+    const { click, questionIndex } = this.state;
+    const { results } = this.props;
+    return (
+      <button
+        key="correct-answer"
+        className={ click ? 'rightAnswer' : null }
+        onClick={ this.clickAnswer }
+        type="button"
+        data-testid="correct-answer"
+      >
+        {results[questionIndex].correct_answer}
+      </button>
+    );
+  }
+
   render() {
-    const { email, nome, results } = this.props;
+    const { results } = this.props;
     const { questionIndex, click } = this.state;
     const indexLimit = 4;
-    const hash = md5(email).toString();
-    const placar = 0;
     const randomNumber = 0.5;
     return (
       <div>
-        <header>
-          <img src={ `https://www.gravatar.com/avatar/${hash}` } alt="avatar" data-testid="header-profile-picture" />
-          <h2 data-testid="header-player-name">{nome}</h2>
-          <h2
-            data-testid="header-score"
-          >
-            Placar:
-            { placar }
-          </h2>
-        </header>
-        {results ? <div>
-          <p data-testid="question-category">{results[questionIndex].category}</p>
-          Question:
-          <p data-testid="question-text">{results[questionIndex].question}</p>
-          {[...results[questionIndex].incorrect_answers.map((wrngAnsw, index) => <button key={ index } onClick={ this.clickAnswer } className={ click ? 'wrongAnswer' : null } type="button" data-testid={ `wrong-answer-${index}` }>{wrngAnsw}</button>), <button key="correct-answer" className={ click ? 'rightAnswer' : null } onClick={ this.clickAnswer } type="button" data-testid="correct-answer">{results[questionIndex].correct_answer}</button>].sort((a, b) => Math.random() - randomNumber)}
-        </div> : null}
+        {this.renderHeader()}
+        {results && (
+          <div>
+            <p data-testid="question-category">{results[questionIndex].category}</p>
+            Question:
+            <p data-testid="question-text">{results[questionIndex].question}</p>
+            {[...results[questionIndex].incorrect_answers
+              .map((wrngAnsw, index) => (
+                <button
+                  key={ index }
+                  onClick={ this.clickAnswer }
+                  className={ click ? 'wrongAnswer' : null }
+                  type="button"
+                  data-testid={ `wrong-answer-${index}` }
+                >
+                  {wrngAnsw}
+                </button>)), this.renderBtn()].sort(() => Math.random() - randomNumber)}
+          </div>) }
         <button
           type="button"
           onClick={ this.btnHandle }
@@ -69,6 +103,7 @@ class GamePage extends Component {
 GamePage.propTypes = {
   email: PropTypes.string.isRequired,
   nome: PropTypes.string.isRequired,
+  results: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
