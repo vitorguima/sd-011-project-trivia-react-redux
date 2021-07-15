@@ -10,6 +10,7 @@ class Login extends React.Component {
     this.state = {
       name: '',
       email: '',
+      token: '',
     };
     this.handleOnChange = this.handleOnChange.bind(this);
   }
@@ -22,7 +23,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { name, email } = this.state;
+    const { name, email, token } = this.state;
     const { startGame } = this.props;
     const isDisabled = name.length === 0 || email.length === 0;
     return (
