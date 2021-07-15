@@ -23,7 +23,6 @@ class Feedback extends Component {
         <h1 data-testid="feedback-text">Feedback</h1>
         <Header score={ localStoragePlayer.player.score } />
         <h2 data-testid="feedback-total-score">
-          Total:
           {localStoragePlayer.player.score ? localStoragePlayer.player.score : 0}
         </h2>
         <h2 data-testid="feedback-total-question">
