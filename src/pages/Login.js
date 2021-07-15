@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 
 export default class Login extends Component {
@@ -42,12 +43,7 @@ export default class Login extends Component {
       <>
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
-          {/* <p>
-            SUA VEZ
-          </p> */}
-        </header>
-
-        <form>
+          <form>
           <label htmlFor="inputName">
             Nome
             <input
@@ -75,7 +71,15 @@ export default class Login extends Component {
           >
             Jogar
           </button>
+          <Link to="/settings" data-testid="btn-settings">
+            <button>
+              Setings
+            </button>
+          </Link>
         </form>
+        </header>
+
+       
       </>
     );
   }
