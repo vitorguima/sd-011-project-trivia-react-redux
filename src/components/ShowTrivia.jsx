@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import showQuestions from './showQuestions';
 
@@ -11,8 +10,6 @@ export default function ShowTrivia({ index,
   nextQuestion,
   setAnswer,
   setIndex }) {
-  const history = useHistory();
-
   return (
     <div className="modal-dialog">
       <div className="modal-content">
@@ -30,7 +27,7 @@ export default function ShowTrivia({ index,
         {answer && (
           <button
             type="button"
-            onClick={ () => nextQuestion(setAnswer, index, questions, setIndex, history) }
+            onClick={ () => nextQuestion(setAnswer, index, questions, setIndex) }
             className="btn btn btn-info btn-lg nextQuestion"
             data-testid="btn-next"
           >
