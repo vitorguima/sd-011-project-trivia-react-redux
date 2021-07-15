@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
-import './App.css';
+import './styles/App.css';
 import GameScreen from './components/GameScreen';
 
 // import logo from './trivia.png';

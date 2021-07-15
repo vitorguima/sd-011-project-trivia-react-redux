@@ -1,5 +1,6 @@
 import React from 'react';
 
+import '../styles/GameScreen.css';
 import Header from './Header';
 
 class GameScreen extends React.Component {
@@ -8,7 +9,9 @@ class GameScreen extends React.Component {
     this.state = {
       triviaApi: '',
       questionNumber: 0,
+      styles: ['', ''],
     };
+    this.handleAnswer = this.handleAnswer.bind(this);
   }
 
   componentDidMount() {
@@ -22,8 +25,15 @@ class GameScreen extends React.Component {
       }));
   }
 
+  handleAnswer() {
+    const styles = ['wrong-answer', 'correct-answer'];
+    this.setState({
+      styles,
+    });
+  }
+
   render() {
-    const { triviaApi: { results }, questionNumber } = this.state;
+    const { triviaApi: { results }, questionNumber, styles } = this.state;
     return (
       <>
         <Header />
@@ -36,6 +46,8 @@ class GameScreen extends React.Component {
                 type="button"
                 data-testid={ `wrong-answer-${index}` }
                 key={ index }
+                className={ styles[0] }
+                onClick={ () => this.handleAnswer() }
               >
                 {answer}
               </button>
@@ -43,6 +55,8 @@ class GameScreen extends React.Component {
             <button
               type="button"
               data-testid="correct-answer"
+              className={ styles[1] }
+              onClick={ () => this.handleAnswer() }
             >
               {results[questionNumber].correct_answer}
             </button>
