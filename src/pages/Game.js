@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../redux/actions';
 import md5 from 'crypto-js/md5';
 
 class Game extends Component {
@@ -11,7 +12,7 @@ class Game extends Component {
   }
 
   setItemOnLocalStorage() {
-    const { token, isLoading, name, score, email } = this.props;
+    const { token, isLoading, name, score, email, isReady, fetchAPIQuestions, questionsData } = this.props;
     const player = {
       name,
       assertions: 0,
@@ -21,6 +22,11 @@ class Game extends Component {
     if (!isLoading) {
       localStorage.setItem('token', JSON.stringify(token));
       localStorage.setItem('player', JSON.stringify(player));
+      fetchAPIQuestions(token);
+    }
+
+    if (!isReady) {
+      console.log(questionsData);
     }
   }
 
@@ -50,6 +56,12 @@ const mapStateToProps = (state) => ({
   name: state.playerReducer.name,
   email: state.playerReducer.gravatarEmail,
   score: state.playerReducer.score,
+  questions: state.gameReducer.questionsData,
+  isReady: state.gameReducer.isLoading,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAPIQuestions: (parm) => dispatch(actions.fetchAPIQuestions(parm)),
 });
 
 Game.propTypes = {
@@ -60,4 +72,4 @@ Game.propTypes = {
   score: PropTypes.number.isRequired,
 };
 
-export default connect(mapStateToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
