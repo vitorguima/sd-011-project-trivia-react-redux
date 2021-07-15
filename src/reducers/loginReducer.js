@@ -3,7 +3,7 @@ import { GET_LOGIN, REQUEST_TOKEN, REQUEST_SUCCESS_TOKEN } from '../actions';
 const INITIAL_STATE = {
   name: '',
   email: '',
-  loading: true,
+  loading: false,
   apiToken: {},
 };
 
