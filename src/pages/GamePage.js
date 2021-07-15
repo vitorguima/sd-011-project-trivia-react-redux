@@ -28,8 +28,8 @@ class GamePage extends Component {
                     .sort()
                     .map((answer, index) => (
                       answer === question.correct_answer
-                        ? <CorrectBtn answer={ answer } />
-                        : <WrongBtn answer={ answer } i={ index } />
+                        ? <CorrectBtn key={ index } answer={ answer } />
+                        : <WrongBtn key={ index } answer={ answer } i={ index } />
                     ))}
                 </div>
               );
