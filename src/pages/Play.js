@@ -10,11 +10,14 @@ class Play extends Component {
 
     this.state = {
       qIndex: 0,
+      answered: false,
     };
 
     this.initialFetch = this.initialFetch.bind(this);
     this.renderQuestion = this.renderQuestion.bind(this);
     this.handleCorrect = this.handleCorrect.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.renderNxtBtn = this.renderNxtBtn.bind(this);
   }
 
   componentDidMount() {
@@ -39,6 +42,32 @@ class Play extends Component {
     if (className === 'correct') {
       addScore();
     }
+    this.setState(() => ({
+      answered: true,
+    }));
+  }
+
+  nextQuestion() {
+    const { questions } = this.props;
+    const { qIndex } = this.state;
+    if (qIndex < questions.length - 1) {
+      this.setState((state) => ({
+        qIndex: state.qIndex + 1,
+        answered: false,
+      }));
+    }
+  }
+
+  renderNxtBtn() {
+    return (
+      <button
+        type="submit"
+        onClick={ this.nextQuestion }
+        data-testid="btn-next"
+      >
+        Next
+      </button>
+    );
   }
 
   renderQuestion() {
@@ -88,6 +117,7 @@ class Play extends Component {
 
   render() {
     const { questions, score } = this.props;
+    const { answered, qIndex } = this.state;
     const carr = <span>Carregando</span>;
     return (
       <div>
@@ -97,6 +127,7 @@ class Play extends Component {
           <span data-testid="header-score">{ score }</span>
         </header>
         { questions.length ? this.renderQuestion() : carr }
+        { (answered && (qIndex < questions.length - 1)) ? this.renderNxtBtn() : '' }
       </div>
     );
   }
