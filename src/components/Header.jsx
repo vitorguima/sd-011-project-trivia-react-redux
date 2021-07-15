@@ -15,7 +15,6 @@ class Header extends Component {
   render() {
     const { playerName, email } = this.props;
     const { totalScore } = this.state;
-    console.log(md5(email).toString());
     return (
       <div>
         <div>
