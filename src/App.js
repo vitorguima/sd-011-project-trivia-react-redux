@@ -16,7 +16,6 @@ export default function App() {
             <Route exact path="/" component={ Login } />
             <Route exact path="/settings" component={ Settings } />
             <Route exact path="/gamepage" component={ GamePage } />
-            <Route exact path="/questions" component={ Questions } />
           </Switch>
         </BrowserRouter>
       </header>
