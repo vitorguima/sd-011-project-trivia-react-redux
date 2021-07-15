@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
 import '../App.css';
 import { getLogin } from '../actions';
@@ -32,7 +33,6 @@ class Login extends React.Component {
             dispatchUserInfo(name, email);
           });
       });
-
   }
 
   checkForm() {
@@ -99,5 +99,9 @@ class Login extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   dispatchUserInfo: (name, email) => dispatch(getLogin(name, email)),
 });
+
+Login.propTypes = {
+  dispatchUserInfo: PropTypes.func.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Login);
