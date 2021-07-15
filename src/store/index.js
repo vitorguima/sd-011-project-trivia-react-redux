@@ -15,7 +15,7 @@ const INITIAL_STATE = {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  combineReducers({questions}),
+  combineReducers({ questions }),
   INITIAL_STATE,
   composeEnhancers(
     applyMiddleware(thunk),
