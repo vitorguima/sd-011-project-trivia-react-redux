@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
 import email from './inputEmail';
+import fetchReducers from './fetchReducers';
 
-const rootReducer = combineReducers({ email });
+const rootReducer = combineReducers({
+  fetchReducers,
+  email,
+});
 
 export default rootReducer;
