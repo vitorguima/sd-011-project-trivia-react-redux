@@ -5,20 +5,28 @@ import PropTypes from 'prop-types';
 class GameComponent extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      assertions: 0,
+    };
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
   }
 
-  colorSelectCorrect() {
+  colorSelectCorrect({ target }) {
     const btns = document.querySelectorAll('button');
     btns.forEach((element) => {
       element.classList.add('revel-color');
     });
+    if (target.value === 'correct') {
+      this.setState((prevState) => ({
+        assertions: prevState.assertions + 1,
+      }
+      ));
+    }
   }
 
   render() {
     const { questions, loading, buttonDisable } = this.props;
     const { results } = questions;
-    console.log(buttonDisable);
     return (
       <div>
         {loading
@@ -28,10 +36,11 @@ class GameComponent extends Component {
               <p data-testid="question-category">{ results[0].category }</p>
               <h4 data-testid="question-text">{ results[0].question }</h4>
               <button
+                value="correct"
                 data-testid="correct-answer"
                 type="button"
                 className="green-border"
-                onClick={ () => this.colorSelectCorrect() }
+                onClick={ (event) => this.colorSelectCorrect(event) }
                 disabled={ buttonDisable }
               >
                 { results[0].correct_answer }
@@ -42,7 +51,7 @@ class GameComponent extends Component {
                   type="button"
                   key={ indexKey }
                   className="red-border"
-                  onClick={ () => this.colorSelectCorrect() }
+                  onClick={ (event) => this.colorSelectCorrect(event) }
                   disabled={ buttonDisable }
                 >
                   {incorrect}
