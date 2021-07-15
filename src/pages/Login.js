@@ -40,6 +40,8 @@ class Login extends Component {
     const { name, email } = this.state;
     getToken();
     getLogin(name, email);
+    this.fetchTriviaApi();
+  }
 
   storeTokenOnLocalStorage(tokenObj) {
     localStorage.setItem('token', JSON.stringify(tokenObj));
@@ -48,6 +50,7 @@ class Login extends Component {
   async fetchTriviaApi() {
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const token = await response.json();
+    console.log(token);
 
     this.storeTokenOnLocalStorage(token);
     this.redirectRouter();
@@ -104,14 +107,14 @@ class Login extends Component {
               Jogar
             </button>
           </Link>
-          <button
+          {/* {<button
             disabled={ disabled }
             type="button"
             data-testid="btn-play"
             onClick={ this.fetchTriviaApi }
           >
             Jogar
-          </button>
+          </button>} */}
         </header>
       </div>
     );
@@ -127,13 +130,7 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   getToken: PropTypes.func,
-}.isRequired;
-
-export default Login;
-
-Login.propTypes = {
   history: {
     push: PropTypes.func,
-  }.isRequired,
-};
-
+  },
+}.isRequired;

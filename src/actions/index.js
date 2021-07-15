@@ -29,6 +29,9 @@ export function fetchToken() {
     dispatch(requestToken());
     return fetch(url)
       .then((response) => response.json())
-      .then((data) => dispatch(receiveToken(data)));
+      .then((data) => {
+        console.log(data);
+        return dispatch(receiveToken(data));
+      });
   };
 }
