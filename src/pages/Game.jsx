@@ -10,6 +10,8 @@ export default function Game() {
   const [questions, setQuestions] = useState('');
   const [answer, setAnswer] = useState('');
   const [arrayQuestions, setArray] = useState('');
+  const [player, setPlayer] = useState('');
+
   const loginState = useSelector((state) => state.login);
 
   useEffect(() => {
@@ -20,13 +22,32 @@ export default function Game() {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const { email, name } = loginState;
+      const state = {
+        name,
+        gravatarEmail: email,
+        assertions: 0,
+        score: 0,
+      };
+      setPlayer({ player: state });
+    })();
+  }, []);
+
+  useEffect(() => {
+    localStorage.state = JSON.stringify(player);
+  }, [player]);
+
   useEffect(() => randomArray(questions, setArray, index), [questions, index]);
 
   const showResults = (e) => {
     setAnswer(e);
     paintButtons(arrayQuestions);
   };
-  const props = { index,
+
+  const props = {
+    index,
     questions,
     arrayQuestions,
     showQuestions,
@@ -34,7 +55,11 @@ export default function Game() {
     answer,
     nextQuestion,
     setAnswer,
-    setIndex };
+    setIndex,
+    setPlayer,
+    player,
+  };
+
   return (
     <>
       <Header />
