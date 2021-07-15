@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function ShowTrivia({
   index,
@@ -42,3 +42,14 @@ export default function ShowTrivia({
     </div>
   );
 }
+
+ShowTrivia.propTypes = {
+  index: PropTypes.number.isRequired,
+  questions: PropTypes.objectOf(PropTypes.object).isRequired,
+  arrayQuestions: PropTypes.shape({}).isRequired,
+  Functions: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  answer: PropTypes.objectOf(PropTypes.object).isRequired,
+  nextQuestion: PropTypes.func.isRequired,
+
+};
