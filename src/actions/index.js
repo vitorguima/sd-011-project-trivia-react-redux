@@ -1,6 +1,19 @@
 export const REQUEST_API = 'REQUEST_API';
 export const RECEIVE_API = 'RECEIVE_API';
 export const ERROR_API = 'ERROR_API';
+export const USER_LOGIN = 'USER_LOGIN';
+export const USER_SCORE = 'USER_SCORE';
+
+export const userLogin = (name, gravatarEmail) => ({
+  type: USER_LOGIN,
+  name,
+  gravatarEmail,
+});
+
+export const userScore = (score) => ({
+  type: USER_SCORE,
+  score,
+});
 
 function requestApi() {
   return {

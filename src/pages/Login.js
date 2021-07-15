@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchToken } from '../actions';
+import { fetchToken, userLogin } from '../actions';
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       name: '',
@@ -22,6 +22,7 @@ class Login extends Component {
 
   render() {
     const { name, email } = this.state;
+    const { getAvatar } = this.props;
     return (
       <div>
         <label htmlFor="name">
@@ -45,7 +46,12 @@ class Login extends Component {
           />
         </label>
         <Link to="/gamepage">
-          <button type="button" data-testid="btn-play" disabled={ !(name && email) }>
+          <button
+            type="button"
+            onClick={ () => getAvatar(name, email) }
+            data-testid="btn-play"
+            disabled={ !(name && email) }
+          >
             Jogar
           </button>
         </Link>
@@ -63,6 +69,7 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchTokenDispatch: () => dispatch(fetchToken()),
+  getAvatar: (name, gravatarEmail) => dispatch(userLogin(name, gravatarEmail)),
 });
 
 Login.propTypes = {
