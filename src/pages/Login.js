@@ -40,7 +40,6 @@ class Login extends PureComponent {
 
   handleInput({ target }) {
     const { name, value } = target;
-
     this.setState({
       [name]: value,
     });
