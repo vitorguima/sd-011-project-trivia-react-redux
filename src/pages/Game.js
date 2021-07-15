@@ -1,25 +1,32 @@
 import React from 'react';
 import Header from '../components/Header';
-import { getToken, getQuestions } from '../services/api';
+import { getQuestions } from '../services/api';
+import Question from '../components/Questions';
 
 class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       questions: [],
+      question: 0,
     };
   }
 
   componentDidMount() {
-    getToken().then(getQuestions).then((apiQuestions) => {
-      this.setState({ questions: apiQuestions });
+    const token = localStorage.getItem('token');
+    getQuestions(token).then((apiQuestions) => {
+      this.setState({ questions: apiQuestions.results });
     });
   }
 
   render() {
-    const { questions } = this.state;
+    const { questions, question } = this.state;
+    console.log(questions);
     return (
-      <Header />
+      <div>
+        <Header />
+        <Question newQuestion={ questions[question] } />
+      </div>
     );
   }
 }
