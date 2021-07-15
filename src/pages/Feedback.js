@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Feedback extends Component {
   render() {
     const { userName, scoreUser } = this.props;
     return (
       <header>
-        <img
+        {/* <img
           src={ gravatarImage }
           alt="player_image"
           data-testid="header-profile-picture"
-        />
+        /> */}
         <div data-testid="feedback-text">Feedback</div>
         <div data-testid="header-player-name">{ userName }</div>
         <div data-testid="header-score">{ scoreUser }</div>
