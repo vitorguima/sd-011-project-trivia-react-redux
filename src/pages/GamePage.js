@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import CorrectBtn from '../components/CorrectBtn';
+import WrongBtn from '../components/WrongBtn';
 
 class GamePage extends Component {
   constructor() {
@@ -11,11 +13,29 @@ class GamePage extends Component {
   }
 
   render() {
-    // const { gameData: { results }, isLoading } = this.props;
-    // const { nQuestion } = this.state;
+    const { gameData: { results }, isLoading } = this.props;
+    const { nQuestion } = this.state;
     return (
       <div>
-        Olá
+        {!isLoading && results
+          .map((question, iQuestion) => {
+            if (iQuestion === nQuestion) {
+              return (
+                <div key={ iQuestion }>
+                  <p data-testid="question-category">{question.category}</p>
+                  <p data-testid="question-text">{question.question}</p>
+                  {[...question.incorrect_answers, question.correct_answer]
+                    .sort()
+                    .map((answer, index) => (
+                      answer === question.correct_answer
+                        ? <CorrectBtn answer={ answer } />
+                        : <WrongBtn answer={ answer } i={ index } />
+                    ))}
+                </div>
+              );
+            }
+            return '';
+          })}
       </div>
     );
   }
