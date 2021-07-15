@@ -15,7 +15,6 @@ export const rquestQuestions = () => async (dispatch) => {
   const { token } = JSON.parse(localStorage.getItem('token'));
   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const { results } = await response.json();
-  console.log(results);
   dispatch(sendQuestionsArray(results));
 };
 
