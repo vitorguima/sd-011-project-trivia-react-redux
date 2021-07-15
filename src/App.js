@@ -4,6 +4,7 @@ import logo from './trivia.png';
 import './App.css';
 import Login from './components/Login';
 import Settings from './pages/Settings';
+import GamePage from './pages/GamePage';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <p>
           SUA VEZ
         </p>
+        <GamePage />
       </header>
     </div>
   );
