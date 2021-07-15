@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { fetchToken, loginAction } from '../actions';
+import { fetchToken, loginAction, fetchQuestions } from '../actions';
 import { saveTokenToStore } from '../service/handleLocalStorage';
 
 class Login extends Component {
@@ -32,15 +32,16 @@ class Login extends Component {
 
   async handleLogin() {
     const { name, email } = this.state;
-    const { initToken, setLogin } = this.props;
+    const { initToken, setLogin, getQuestions } = this.props;
 
+    await initToken();
+    const { token } = this.props;
+    this.handleLocalStorage();
+    await getQuestions(token);
     setLogin(name, email);
     this.setState({
       ready: true,
     });
-
-    await initToken();
-    this.handleLocalStorage();
   }
 
   checkInputs() {
@@ -101,12 +102,14 @@ const mapStateToProps = ({ loginReducer }) => ({
 const mapDispatchToProps = (dispatch) => ({
   initToken: () => dispatch(fetchToken()),
   setLogin: (name, email) => dispatch(loginAction({ name, email })),
+  getQuestions: (token) => dispatch(fetchQuestions(token)),
 });
 
 Login.propTypes = ({
   initToken: PropTypes.func.isRequired,
   token: PropTypes.string,
   setLogin: PropTypes.func.isRequired,
+  getQuestions: PropTypes.func.isRequired,
 });
 
 Login.defaultProps = ({
