@@ -12,6 +12,7 @@ export default class Question extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.countDown = this.countDown.bind(this);
+    this.teste = this.teste.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +41,10 @@ export default class Question extends Component {
     }
   }
 
+  teste() {
+    console.log('teste');
+  }
+
   render() {
     const {
       questions: {
@@ -58,7 +63,7 @@ export default class Question extends Component {
           className={ clicked && 'correct-answer' }
           type="button"
           data-testid="correct-answer"
-          onClick={ this.handleClick }
+          onClick={ () => { this.handleClick(); this.teste(); } }
           disabled={ disableBtn }
         >
           {correctAnswer}
