@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getEmail, getName } from '../actions';
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
       name: '',
+      email: '',
       disabled: true,
     };
 
@@ -52,7 +55,6 @@ class Login extends Component {
 
   handleInput({ target }) {
     const { name, value } = target;
-
     this.setState({
       [name]: value,
     });
@@ -73,46 +75,54 @@ class Login extends Component {
 
   render() {
     const { email, name, disabled } = this.state;
+    const { emailInput } = this.props;
     return (
       <div>
         <label
           htmlFor="email"
         >
           <input
-            type="email"
             name="email"
-            className=""
-            data-testid="input-gravatar-email"
+            type="email"
             value={ email }
             onChange={ this.handleInput }
+            data-testid="input-gravatar-email"
           />
         </label>
-
         <label
           htmlFor="name"
         >
           <input
-            type="text"
             name="name"
-            className=""
-            data-testid="input-player-name"
+            type="text"
             value={ name }
             onChange={ this.handleInput }
+            data-testid="input-player-name"
           />
         </label>
 
-        <button
-          data-testid="btn-play"
-          type="button"
-          disabled={ disabled }
-        >
-          Jogar
-        </button>
-
-        { this.settingsButton()}
+        <Link to="./playgame">
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ disabled }
+            onClick={ () => emailInput(email, name) }
+          >
+            Jogar
+          </button>
+        </Link>
+        { this.settingsButton() }
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  emailInput: (email, name) => dispatch(getEmail(email), dispatch(getName(name))),
+});
+
+Login.propTypes = {
+  emailInput: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
