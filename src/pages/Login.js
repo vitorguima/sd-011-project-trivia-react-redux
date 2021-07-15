@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import logo from '../trivia.png';
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handleChange = this.handleChange.bind(this);
     this.checkLogin = this.checkLogin.bind(this);
     this.sendToConfigurations = this.sendToConfigurations.bind(this);
+    this.redirectRouter = this.redirectRouter.bind(this);
+    this.fetchTriviaApi = this.fetchTriviaApi.bind(this);
 
     this.state = {
       name: '',
@@ -28,6 +30,25 @@ class Login extends Component {
         disabled: true,
       });
     }
+  }
+
+  storeTokenOnLocalStorage(tokenObj) {
+    localStorage.setItem('token', JSON.stringify(tokenObj));
+  }
+
+  async fetchTriviaApi() {
+    const response = await fetch('https://opentdb.com/api_token.php?command=request');
+    const token = await response.json();
+
+    this.storeTokenOnLocalStorage(token);
+    this.redirectRouter();
+  }
+
+  redirectRouter() {
+    const { history } = this.props;
+    console.log(history);
+
+    history.push('/play');
   }
 
   handleChange({ target: { id, value } }) {
@@ -77,6 +98,7 @@ class Login extends Component {
             disabled={ disabled }
             type="button"
             data-testid="btn-play"
+            onClick={ this.fetchTriviaApi }
           >
             Jogar
           </button>
@@ -102,3 +124,9 @@ Login.propTypes = {
 };
 
 export default Login;
+
+Login.propTypes = {
+  history: {
+    push: PropTypes.func,
+  }.isRequired,
+};
