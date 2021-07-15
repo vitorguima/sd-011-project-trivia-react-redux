@@ -62,7 +62,7 @@ export default function Game() {
 
   return (
     <>
-      <Header />
+      <Header {...props} />
       {questions && <ShowTrivia {...props} />}
 
     </>

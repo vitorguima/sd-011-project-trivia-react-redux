@@ -44,3 +44,19 @@ export const randomArray = (questions, setArray, index) => {
     setArray(answers);
   }
 };
+
+export const addScore = (questions, index, answer, player, setPlayer) => {
+  const { correct_answer, difficulty } = questions[index];
+  const difficultyLevels = {
+    easy: 1,
+    medium: 2,
+    hard: 3,
+  }
+  if (answer === correct_answer) {
+    const level = difficultyLevels[difficulty];
+    const { assertions, score } = player.player;
+    const ass = assertions + 1;
+    const scr = (score + (10 + (1 * level)))
+    setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } })
+  }
+}
