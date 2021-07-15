@@ -1,14 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { user } from '../actions';
+import tokenApi from '../services/getApi';
+import logo from '../trivia.png';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       email: '',
-      user: '',
+      name: '',
       btnDisable: true,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handClick = this.handClick.bind(this);
   }
 
   handleChange(event) {
@@ -24,46 +32,87 @@ class Login extends React.Component {
   }
 
   verifyInput() {
-    const { email, user } = this.state;
-    const emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm;
-    const three = 3;
+    const { email, name } = this.state;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const userVerify = '';
 
-    return user.length >= three && emailRegex.test(email);
+    return name !== userVerify && emailRegex.test(email);
+  }
+
+  async fetchApi() {
+    const token = await tokenApi();
+    localStorage.setItem('token', token);
+  }
+
+  async handClick() {
+    const { name, email } = this.state;
+    const { login, history } = this.props;
+    history.push('/game');
+
+    login({ name, email });
+    await this.fetchApi();
   }
 
   render() {
-    const { email, user, btnDisable } = this.state;
+    const { email, name, btnDisable } = this.state;
 
     return (
-      <div>
-        <input
-          value={ email }
-          name="email"
-          type="email"
-          placeholder="email"
-          data-testid="input-gravatar-email"
-          onChange={ this.handleChange }
-        />
-        <input
-          value={ user }
-          name="user"
-          type="user"
-          data-testid="input-player-name"
-          placeholder="nome"
-          onChange={ this.handleChange }
-        />
-        <button
-          type="button"
-          disabled={ btnDisable }
-          data-testid="btn-play"
-        >
-          Entrar
-        </button>
 
+      <div className="App0">
+        <header className="App-header">
+          <img src={ logo } className="App-logo" alt="logo" />
+          <p>
+            SUA VEZ
+          </p>
+          <form>
+            <input
+              value={ email }
+              name="email"
+              type="email"
+              placeholder="email"
+              data-testid="input-gravatar-email"
+              onChange={ this.handleChange }
+            />
+            <input
+              value={ name }
+              name="name"
+              type="name"
+              data-testid="input-player-name"
+              placeholder="nome"
+              onChange={ this.handleChange }
+            />
+            <button
+              type="button"
+              onClick={ this.handClick }
+              disabled={ btnDisable }
+              data-testid="btn-play"
+            >
+              Jogar
+            </button>
+          </form>
+
+          <Link
+            to="/settings"
+            data-testid="btn-settings"
+          >
+            Configurações
+          </Link>
+        </header>
       </div>
-
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  login: (payload) => dispatch(user(payload)),
+
+});
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  login: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
