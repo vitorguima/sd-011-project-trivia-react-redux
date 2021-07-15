@@ -1,16 +1,20 @@
 import React from 'react';
-// import logo from './trivia.png';
-import { Route } from 'react-router-dom';
-import Play from './pages/Play';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
+import TelaIncial from './Pages/TelaIncial';
+import Play from './Pages/Play';
+import Feedback from './Pages/TelaDeFeedback';
+import Ranking from './Pages/TelaDeRanking';
+import Settings from './Pages/Settings';
 
 export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={ logo } className="App-logo" alt="logo" /> */}
-        <Route path="/play" component={ Play }/>
-      </header>
-    </div>
+    <Switch>
+      <Route exact path="/" component={ TelaIncial } />
+      <Route exact path="/Play" component={ Play } />
+      <Route exact path="/Feedback" component={ Feedback } />
+      <Route exact path="/Ranking" component={ Ranking } />
+      <Route exact path="/Settings" component={ Settings } />
+    </Switch>
   );
 }
