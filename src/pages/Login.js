@@ -40,10 +40,9 @@ export default class Login extends Component {
   render() {
     const { buttonDisabled } = this.state;
     return (
-      <>
-        <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
-          <form>
+      <header className="App-header">
+        <img src={ logo } className="App-logo" alt="logo" />
+        <form>
           <label htmlFor="inputName">
             Nome
             <input
@@ -72,15 +71,12 @@ export default class Login extends Component {
             Jogar
           </button>
           <Link to="/settings" data-testid="btn-settings">
-            <button>
+            <button type="button">
               Setings
             </button>
           </Link>
         </form>
-        </header>
-
-       
-      </>
+      </header>
     );
   }
 }
