@@ -37,7 +37,7 @@ class Login extends Component {
     this.setState({
       loading: true,
     });
-    const { history, fetchToken, submitForm } = this.props;
+    const { history } = this.props;
     const { nome, email } = this.state;
     try {
       const { token } = await getToken();
@@ -71,12 +71,10 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchToken: token => dispatch(fetchToken(token)),
-    submitForm: inputs => dispatch(submitForm(inputs)),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  fetchToken: (token) => dispatch(fetchToken(token)),
+  submitForm: (inputs) => dispatch(submitForm(inputs)),
+});
 
 export default connect(null, mapDispatchToProps)(Login);
 
@@ -84,4 +82,4 @@ Login.propTypes = {
   history: PropTypes.func.isRequired,
   fetchToken: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
-};
+}.isRequired;
