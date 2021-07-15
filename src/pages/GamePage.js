@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CorrectBtn from '../components/CorrectBtn';
 import WrongBtn from '../components/WrongBtn';
+import Header from '../components/Header';
 
 class GamePage extends Component {
   constructor() {
@@ -17,6 +18,7 @@ class GamePage extends Component {
     const { nQuestion } = this.state;
     return (
       <div>
+        <Header />
         {!isLoading && results
           .map((question, iQuestion) => {
             if (iQuestion === nQuestion) {
