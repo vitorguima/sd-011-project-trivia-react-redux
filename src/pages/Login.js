@@ -22,6 +22,7 @@ class Login extends Component {
 
   render() {
     const { name, email } = this.state;
+    const { fetchTokenDispatch } = this.props;
     return (
       <div>
         <label htmlFor="name">
@@ -51,7 +52,11 @@ class Login extends Component {
         </Link>
         <Link to="/settings">
           <div>
-            <button type="button" data-testid="btn-settings">
+            <button
+              type="button"
+              data-testid="btn-settings"
+              onClick={ fetchTokenDispatch }
+            >
               Configurações
             </button>
           </div>
