@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 30vmin;
   pointer-events: none;
 }
 
@@ -54,4 +54,37 @@
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-login {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 15rem;
+  justify-content: center;
+  margin: 10rem;
+  width: 500px;
+}
+
+.form-login input {
+  border-radius: 10px;
+  font-size: 15px;
+  height: 40px;
+  margin-left: 10px;
+  margin-top: 20px;
+  padding-left: 20px;
+  width: 300px;
+}
+
+.form-login button {
+  border-radius: 10px;
+  height: 100px;
+  margin-left: 90px;
+  margin-top: 20px;
+  width: 330px;
 }
