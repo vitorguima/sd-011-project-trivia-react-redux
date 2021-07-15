@@ -7,7 +7,7 @@ import { fetchQuestions } from '../actions';
 class Game extends Component {
   componentDidMount() {
     const { getQuestions } = this.props;
-    const token = '4f4e6b827023f74e6a4061a30b2671347e667cbaecf421c2d993b4df41f578b1'; // deveria ser pego no local storage
+    const token = localStorage.getItem('token');
     getQuestions(token);
   }
 

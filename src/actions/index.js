@@ -7,7 +7,7 @@ export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const REQUEST_TOKEN_ERROR = 'REQUEST_TOKEN_ERROR';
 
 const questionsURL = 'https://opentdb.com/api.php?amount=5&token=';
-const tokenURL = 'https://opentdb.com/api_token.php?command=request'
+const tokenURL = 'https://opentdb.com/api_token.php?command=request';
 
 export const saveLogin = (email, name) => {
   const state = {
@@ -18,7 +18,7 @@ export const saveLogin = (email, name) => {
       gravatarEmail: email,
     },
   };
-  
+
   localStorage.setItem('state', JSON.stringify(state));
   return {
     type: SAVE_LOGIN,
@@ -73,5 +73,4 @@ export const fetchQuestions = (token) => (dispatch) => {
     .then((result) => result.json())
     .then((data) => dispatch(requestQuestionsSucces(data)))
     .catch((error) => dispatch(requestQuestionsFail(error)));
-
 };
