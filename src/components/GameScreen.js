@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Header from './Header';
+
 class GameScreen extends React.Component {
   constructor() {
     super();
@@ -22,31 +24,36 @@ class GameScreen extends React.Component {
 
   render() {
     const { triviaApi: { results }, questionNumber } = this.state;
-    return results ? (
-      <div>
-        <h4 data-testid="question-category">{results[questionNumber].category}</h4>
-        <p data-testid="question-text">{results[questionNumber].question}</p>
-        { results[questionNumber].incorrect_answers.map((answer, index) => (
-          <button
-            type="button"
-            data-testid={ `wrong-answer-${index}` }
-            key={ index }
-          >
-            {answer}
-          </button>
-        ))}
-        <button
-          type="button"
-          data-testid="correct-answer"
-        >
-          {results[questionNumber].correct_answer}
-        </button>
-      </div>
-    ) : (
-      <div>
-        <h4 data-testid="question-category">carregando..</h4>
-        <p data-testid="question-text">...</p>
-      </div>
+    return (
+      <>
+        <Header />
+        {results ? (
+          <div>
+            <h4 data-testid="question-category">{results[questionNumber].category}</h4>
+            <p data-testid="question-text">{results[questionNumber].question}</p>
+            { results[questionNumber].incorrect_answers.map((answer, index) => (
+              <button
+                type="button"
+                data-testid={ `wrong-answer-${index}` }
+                key={ index }
+              >
+                {answer}
+              </button>
+            ))}
+            <button
+              type="button"
+              data-testid="correct-answer"
+            >
+              {results[questionNumber].correct_answer}
+            </button>
+          </div>
+        ) : (
+          <div>
+            <h4 data-testid="question-category">carregando..</h4>
+            <p data-testid="question-text">...</p>
+          </div>
+        )}
+      </>
     );
   }
 }

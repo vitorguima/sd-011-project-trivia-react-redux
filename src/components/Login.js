@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { getLogin } from '../actions';
 
 class Login extends Component {
   constructor() {
@@ -27,6 +31,9 @@ class Login extends Component {
   }
 
   async handlePlayButton() {
+    const { name, email } = this.state;
+    const { login } = this.props;
+    login(name, email);
     fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => {
         response.json()
@@ -75,4 +82,12 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  login: (name, email) => dispatch(getLogin(name, email)),
+});
+
+Login.propTypes = {
+  login: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
