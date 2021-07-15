@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class Login extends Component {
   constructor() {
     super();
-
     this.state = {
       name: '',
       email: '',
       play: false,
     };
-
     this.handleChange = this.handleChange.bind(this);
     this.checkForm = this.checkForm.bind(this);
     this.handlePlayButton = this.handlePlayButton.bind(this);
@@ -41,13 +39,9 @@ class Login extends Component {
 
   render() {
     const { name, email, play } = this.state;
-
-    if (play) {
-      return <Redirect to="/jogo" />;
-    }
-
     return (
       <div>
+        { play ? <Redirect to="/game" /> : null }
         <h1>Login</h1>
         <form>
           <input
