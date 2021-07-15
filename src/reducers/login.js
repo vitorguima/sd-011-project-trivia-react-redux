@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   name: '',
   email: '',
   userToken: '',
+  score: 0,
+  loading: false,
 };
 
 const login = (state = INITIAL_STATE, { type, payload }) => {
@@ -11,13 +13,15 @@ const login = (state = INITIAL_STATE, { type, payload }) => {
   case SUBMIT_FORM:
     return {
       ...state,
-      name: payload.nome,
+      name: payload.name,
       email: payload.email,
+      loading: true,
     };
   case FETCH_TOKEN:
     return {
       ...state,
       userToken: payload,
+      loading: false,
     };
   default:
     return state;

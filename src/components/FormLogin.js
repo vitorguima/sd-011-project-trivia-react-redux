@@ -8,7 +8,7 @@ class FormLogin extends Component {
       validation,
       handleInput,
       handleButton,
-      nome, email,
+      name, email,
       handleSettings,
     } = this.props;
     return (
@@ -19,8 +19,8 @@ class FormLogin extends Component {
             id="name"
             data-testid="input-player-name"
             type="text"
-            name="nome"
-            value={ nome }
+            name="name"
+            value={ name }
             required
             onChange={ handleInput }
             placeholder="Digite your name"
@@ -54,7 +54,7 @@ FormLogin.propTypes = {
   validation: PropTypes.func.isRequired,
   handleButton: PropTypes.func.isRequired,
   handleSettings: PropTypes.func.isRequired,
-  nome: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
 }.isRequired;
 

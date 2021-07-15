@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { fetchToken, submitForm, getToken } from '../actions';
 import FormLogin from '../components/FormLogin';
-import getToken from '../services/api';
-import { fetchToken, submitForm } from '../actions';
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      nome: '',
+      name: '',
       email: '',
-      loading: false,
     };
     this.validation = this.validation.bind(this);
     this.handleButton = this.handleButton.bind(this);
@@ -20,8 +19,8 @@ class Login extends Component {
   }
 
   validation() {
-    const { nome, email } = this.state;
-    if (!nome || !email) {
+    const { name, email } = this.state;
+    if (!name || !email) {
       return true;
     }
     return false;
@@ -39,35 +38,24 @@ class Login extends Component {
     history.push('/settings');
   }
 
-  async handleButton() {
-    this.setState({
-      loading: true,
-    });
-    const { history } = this.props;
-    const { nome, email } = this.state;
-    try {
-      const { token } = await getToken();
-      fetchToken(token);
-      submitForm({ nome, email });
-      localStorage.setItem('token', JSON.stringify(token));
-      this.setState({ loading: false });
-      history.push('/game');
-    } catch (error) {
-      console.log(error);
-      this.setState({ loading: false });
-    }
+  handleButton() {
+    const { history, outroNome, outroNomeDnv } = this.props;
+    outroNome();
+    const { name, email } = this.state;
+    outroNomeDnv({ name, email });
+    history.push('/game');
   }
 
   render() {
     const { loading } = this.state;
     if (loading) {
-      return <h1>Loading...</h1>;
+      return <div className="loader" />;
     }
     return (
       <section>
         <FormLogin
           validation={ this.validation }
-          nome={ this.nome }
+          name={ this.name }
           email={ this.email }
           handleButton={ this.handleButton }
           handleInput={ this.handleInput }
@@ -80,13 +68,14 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchToken: (token) => dispatch(fetchToken(token)),
-  submitForm: (inputs) => dispatch(submitForm(inputs)),
+  outroNomeDnv: (inputs) => dispatch(submitForm(inputs)),
+  outroNome: () => dispatch(getToken()),
 });
-
-export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   history: PropTypes.func.isRequired,
   fetchToken: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
 }.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
