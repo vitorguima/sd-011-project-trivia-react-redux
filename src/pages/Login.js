@@ -99,7 +99,7 @@ class Login extends Component {
           />
         </label>
 
-        <Link to="./playgame">
+        <Link to="./triviaQuestions">
           <button
             data-testid="btn-play"
             type="button"
