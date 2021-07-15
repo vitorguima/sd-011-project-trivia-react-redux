@@ -1,3 +1,33 @@
+export const GET_QUESTIONS = 'GET_QUESTION';
+
+export const getQuestions = (json) => ({
+  type: GET_QUESTIONS,
+  json,
+});
+
+export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
+
+export const requestQuestions = () => ({
+  type: REQUEST_QUESTIONS,
+});
+
+export const FAILED_REQUEST_QUESTIONS = 'FAILED_REQUEST_QUESTIONS';
+
+export const failedRequestQuestions = (error) => ({
+  type: FAILED_REQUEST_QUESTIONS,
+  error,
+});
+
+export const fetchQuestionsApi = (token) => async (dispatch) => {
+  await dispatch(requestQuestions());
+  return fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+    .then((response) => response.json())
+    .then(
+      (json) => dispatch(getQuestions(json)),
+      (error) => dispatch(failedRequestQuestions(error)),
+    );
+};
+
 export const GET_TOKEN = 'GET_TOKEN';
 
 export const getToken = (token) => ({
@@ -23,7 +53,11 @@ export const fetchTokenApi = () => async (dispatch) => {
   return fetch('https://opentdb.com/api_token.php?command=request')
     .then((response) => response.json())
     .then(
-      (json) => dispatch(getToken(json)),
+      (json) => {
+        localStorage.setItem('token', json.token);
+        dispatch(getToken(json));
+        dispatch(fetchQuestionsApi(json.token));
+      },
       (error) => dispatch(failedRequestToken(error)),
     );
 };
