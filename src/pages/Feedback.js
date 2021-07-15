@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends Component {
@@ -30,6 +31,9 @@ class Feedback extends Component {
             ? localStoragePlayer.player.assertions : 0}
         </h2>
         <h2 data-testid="feedback-text">{this.message()}</h2>
+        <Link to="/">
+          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+        </Link>
       </div>
     );
   }
