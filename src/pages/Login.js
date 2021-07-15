@@ -14,6 +14,7 @@ class Login extends Component {
     };
 
     this.handleInput = this.handleInput.bind(this);
+    this.settingsButton = this.settingsButton.bind(this);
     this.saveTokenInLocalStorage = this.saveTokenInLocalStorage.bind(this);
   }
 
@@ -23,6 +24,20 @@ class Login extends Component {
 
   componentDidUpdate() {
     this.handleButton();
+  }
+
+  settingsButton() {
+    return (
+      <Link to="/settings">
+        <button
+          data-testid="btn-settings"
+          type="button"
+        >
+          <span role="img" aria-label="Gear">⚙️</span>
+          Configurações
+        </button>
+      </Link>
+    );
   }
 
   async getToken() {
@@ -86,7 +101,7 @@ class Login extends Component {
           />
         </label>
 
-        <Link to="./PlayGame">
+        <Link to="./playgame">
           <button
             data-testid="btn-play"
             type="button"
@@ -96,6 +111,7 @@ class Login extends Component {
             Jogar
           </button>
         </Link>
+        { this.settingsButton() }
       </div>
     );
   }
