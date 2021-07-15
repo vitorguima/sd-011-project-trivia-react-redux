@@ -11,6 +11,8 @@ class Game extends Component {
       questionNumber: 0,
       answered: false,
       timer: 30,
+      assertions: 0,
+      score: 0,
     };
     this.answerClickHandle = this.answerClickHandle.bind(this);
     this.timerHandle = this.timerHandle.bind(this);
@@ -21,13 +23,61 @@ class Game extends Component {
   componentDidMount() {
     const ms = 1000;
     this.countdownTime = setInterval(this.timerHandle, ms);
+    if (localStorage.getItem('state')) {
+      this.getUserData();
+    } else {
+      const { userEmail, userName } = this.props;
+      const { score, assertions } = this.state;
+      const player = {
+        name: userName,
+        gravatarEmail: userEmail,
+        score,
+        assertions,
+      };
+      localStorage.setItem('state', JSON.stringify(player));
+    }
   }
 
-  answerClickHandle({ target }) {
-    console.log(target.value);
+  getUserData() {
+    const localData = JSON.parse(localStorage.getItem('state'));
+    const { assertions, score, name, gravatarEmail } = localData;
+    const { userName, userEmail } = this.props;
+    if (name === userName && gravatarEmail === userEmail) {
+      this.setState({
+        assertions,
+        score,
+      });
+    }
+  }
+
+  answerClickHandle({ target }, correctAnswer, difficulty) {
+    const { timer } = this.state;
+    const { value } = target;
     this.setState({
       answered: true,
     });
+    if (value === correctAnswer) {
+      const point = 10;
+      const scoreDifficulty = {
+        easy: 1,
+        medium: 2,
+        hard: 3,
+      };
+      this.setState((pState) => ({
+        score: pState.score + point + (timer * scoreDifficulty[difficulty]),
+        assertions: pState.assertions + 1,
+      }), () => {
+        const { userEmail, userName } = this.props;
+        const { score, assertions } = this.state;
+        const player = {
+          name: userName,
+          gravatarEmail: userEmail,
+          score,
+          assertions,
+        };
+        localStorage.setItem('state', JSON.stringify(player));
+      });
+    }
   }
 
   timerHandle() {
@@ -46,14 +96,14 @@ class Game extends Component {
     }
   }
 
-  correctButtonFunction(index, item) {
+  correctButtonFunction(index, item, correctAnswer, difficulty) {
     const { answered } = this.state;
     return (
       <button
         key={ index }
         type="button"
         data-testid="correct-answer"
-        onClick={ this.answerClickHandle }
+        onClick={ (e) => this.answerClickHandle(e, correctAnswer, difficulty) }
         value={ item }
         disabled={ answered }
         className={ answered ? 'correctAnswer' : null }
@@ -80,15 +130,17 @@ class Game extends Component {
 
   render() {
     const { questionsState } = this.props;
-    const { questionNumber, timer } = this.state;
+    console.log(questionsState);
+    const { questionNumber, timer, score } = this.state;
     if (Object.keys(questionsState).length > 0) {
       const correctAnswer = questionsState.results[questionNumber].correct_answer;
       const incorrectAnswers = questionsState.results[questionNumber].incorrect_answers;
+      const { difficulty } = questionsState.results[questionNumber];
       const questionsArray = [correctAnswer, ...incorrectAnswers].sort();
       return (
         <div>
           <h1>Game Page</h1>
-          <Header />
+          <Header score={ score } />
           <h2>{timer}</h2>
           <p data-testid="question-category">
             Categoria:
@@ -99,7 +151,7 @@ class Game extends Component {
           </p>
           {questionsArray.map((item, index) => {
             if (item === correctAnswer) {
-              return this.correctButtonFunction(index, item);
+              return this.correctButtonFunction(index, item, correctAnswer, difficulty);
             }
             return this.incorretButtonsFunction(index, item);
           })}
@@ -114,10 +166,14 @@ Game.propTypes = {
   questionsState: PropTypes.shape({
     results: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
+  userEmail: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   questionsState: state.gameReducer.questions,
+  userEmail: state.homeReducer.user.email,
+  userName: state.homeReducer.user.name,
 });
 
 const mapDispatchToProps = (dispatch) => ({
