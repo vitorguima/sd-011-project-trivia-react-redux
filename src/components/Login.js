@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getApi } from '../actions';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
 
@@ -13,6 +17,7 @@ export default class Login extends Component {
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.ableButton = this.ableButton.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChangeName({ target }) {
@@ -39,6 +44,11 @@ export default class Login extends Component {
     }
   }
 
+  handleClick() {
+    const { fetchApiToken } = this.props;
+    fetchApiToken();
+  }
+
   render() {
     const { status } = this.state;
     return (
@@ -59,10 +69,29 @@ export default class Login extends Component {
           type="button"
           data-testid="btn-play"
           disabled={ status }
+          onClick={ () => this.handleClick() }
         >
           Jogar
         </button>
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Settings
+          </button>
+        </Link>
       </div>
     );
   }
 }
+
+Login.propTypes = {
+  fetchApiToken: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchApiToken: () => dispatch(getApi()),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
