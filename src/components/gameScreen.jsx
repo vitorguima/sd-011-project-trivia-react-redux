@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class gameScreen extends Component {
   constructor() {
     super();
-    
+
     this.state = {
       question: 0,
     };
