@@ -11,10 +11,11 @@ class Login extends React.Component {
       name: '',
 
     };
+
     this.handleFormChange = this.handleFormChange.bind(this);
     this.checkForm = this.checkForm.bind(this);
     this.buttonIsDisable = this.buttonIsDisable.bind(this);
-    this.handleButton = this.handlebutton.bind(this);
+    this.handleButton = this.handleButton.bind(this);
   }
 
   componentDidMount() {
@@ -34,25 +35,6 @@ class Login extends React.Component {
     else button.disabled = true;
   }
 
-  handlebutton() {
-    fetch('https://opentdb.com/api_token.php?command=request')
-      .then((response) => response.json())
-      .then((resolve) => {
-        const { name, email } = this.state;
-        const playerObj = {
-          player: {
-            name,
-            assertions: 0,
-            score: 0,
-            gravatarEmail: email,
-          },
-        };
-
-        localStorage.setItem('token', resolve.token);
-        localStorage.setItem('state', this.state.name)
-      });
-  }
-
   async handleFormChange({ target: { id, value } }) {
     await this.setState((oldState) => ({
       ...oldState,
@@ -61,9 +43,20 @@ class Login extends React.Component {
     this.buttonIsDisable();
   }
 
+  handleButton() {
+    const { name, email } = this.state;
+    const player = {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    };
+    localStorage.setItem('state', JSON.stringify(player));
+  }
+
   render() {
     const { name, email } = this.state;
-
+    console.log(this.state);
     return (
       <header className="App-header">
         <img src={ logo } height="150px" alt="logo" />
@@ -93,7 +86,7 @@ class Login extends React.Component {
               type="button"
               id="btn-play"
               data-testid="btn-play"
-              onClick={ this.handlebutton }
+              onClick={ () => this.handleButton() }
             >
               Jogar
             </button>
