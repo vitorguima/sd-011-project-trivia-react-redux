@@ -7,13 +7,20 @@ import './Game.css';
 import Timer from '../components/Timer';
 
 class Game extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { playerName, playerEmail } = this.props;
     this.state = {
       index: 0,
       clickedQuest: false,
       seconds: 30,
       timer: true,
+      player: {
+        name: playerName,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: playerEmail,
+      },
     };
     this.handleClick = this.handleClick.bind(this);
     this.timerInterval = this.timerInterval.bind(this);
@@ -33,6 +40,7 @@ class Game extends Component {
     if (seconds <= 0) {
       clearInterval(timer);
     }
+    JSON.parse(localStorage.state);
   }
 
   componentWillUnmount() {
@@ -66,8 +74,8 @@ class Game extends Component {
         key="correct"
         className={ clickedQuest ? 'correctAnswer' : null }
         disabled={ !!clickedQuest }
-        onClick={ () => {
-          this.handleClick();
+        onClick={ ({ target }) => {
+          this.handleClick(target);
           clearInterval(timer);
         } }
       >
@@ -76,8 +84,40 @@ class Game extends Component {
     );
   }
 
-  handleClick() {
+  handleClick(target) {
+    const { player, seconds, index } = this.state;
+    const { stateQuests } = this.props;
+    const { difficulty } = stateQuests[index];
+    const hard = 3;
+    const medium = 2;
+    const easy = 1;
+    const dez = 10;
     this.setState(() => ({ clickedQuest: true }));
+    if (target) {
+      let multiplyFactor = easy;
+      switch (difficulty) {
+      case 'hard':
+        multiplyFactor = hard;
+        break;
+      case 'medium':
+        multiplyFactor = medium;
+        break;
+      case 'easy':
+        multiplyFactor = easy;
+        break;
+      default:
+        break;
+      }
+      this.setState((prev) => ({
+        player: {
+          name: prev.player.name,
+          gravatarEmail: prev.player.gravatarEmail,
+          assertions: prev.player.assertions + 1,
+          score: prev.player.score + dez + (seconds * multiplyFactor),
+        },
+      }));
+      localStorage.setItem('state', JSON.stringify({ player }));
+    }
   }
 
   answers() {
@@ -114,11 +154,15 @@ class Game extends Component {
   }
 
   render() {
-    const { index, clickedQuest, seconds } = this.state;
+    const { index, clickedQuest, seconds, player } = this.state;
+    const { score, name } = player;
     const limitIndex = 4;
     return (
       <div>
-        <Header />
+        <Header
+          score={ score }
+          name={ name || JSON.parse(localStorage.state).player.name }
+        />
         {this.answers()}
         { clickedQuest ? (
           <button
@@ -147,6 +191,8 @@ Game.propTypes = {
   dispatchQuests: PropTypes.func.isRequired,
   gameLoading: PropTypes.bool.isRequired,
   stateQuests: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
+  playerName: PropTypes.string.isRequired,
+  playerEmail: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -158,6 +204,8 @@ const mapStateToProps = (state) => ({
   stateLoading: state.login.loading,
   gameLoading: state.game.loading,
   stateQuests: state.game.apiQuests,
+  playerName: state.login.name,
+  playerEmail: state.login.email,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
