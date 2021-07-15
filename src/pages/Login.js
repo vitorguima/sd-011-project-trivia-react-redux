@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { login } from '../actions';
 import getToken from '../services/index';
 
@@ -12,13 +12,17 @@ class Login extends React.Component {
     this.state = {
       email: '',
       name: '',
-      redirect: false,
+      redirectGame: false,
+      redirectSettings: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.verifyInputs = this.verifyInputs.bind(this);
     this.sendInfos = this.sendInfos.bind(this);
+    this.settingsRedirect = this.settingsRedirect.bind(this);
   }
+
+  settingsRedirect() { this.setState({ redirectSettings: true }); }
 
   handleChange({ target: { name, value } }) {
     this.setState({
@@ -37,7 +41,7 @@ class Login extends React.Component {
     const { name, email } = this.state;
     loginDispatch(name, email);
     await this.callToken();
-    this.setState({ redirect: true });
+    this.setState({ redirectGame: true });
   }
 
   async callToken() {
@@ -46,7 +50,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { name, email, redirect } = this.state;
+    const { name, email, redirectGame, redirectSettings } = this.state;
     return (
       <div>
         <form onSubmit={ this.sendInfos }>
@@ -73,8 +77,16 @@ class Login extends React.Component {
           >
             Jogar
           </button>
-          { redirect && <Redirect to="/game" />}
         </form>
+        <button
+          type="button"
+          onClick={ this.settingsRedirect }
+          data-testid="btn-settings"
+        >
+          Configurações
+        </button>
+        { redirectGame && <Redirect to="/game" />}
+        { redirectSettings && <Redirect to="/settings" />}
       </div>
     );
   }
