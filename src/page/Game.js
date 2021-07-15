@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import './Gaming.css';
 import md5 from 'crypto-js/md5';
 import { fetchQuestion } from '../redux/actions';
 
@@ -9,10 +10,12 @@ class Game extends Component {
     super();
     this.state = {
       numberNext: 0,
+      styleButton: false,
     };
 
     this.handleResponse = this.handleResponse.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.confirmResponse = this.confirmResponse.bind(this);
   }
 
   componentDidMount() {
@@ -23,6 +26,7 @@ class Game extends Component {
   nextQuestion() {
     this.setState((prev) => ({
       numberNext: prev.numberNext + 1,
+      styleButton: false,
     }));
   }
 
@@ -53,14 +57,22 @@ class Game extends Component {
     }
   }
 
+  confirmResponse() {
+    this.setState({
+      styleButton: true,
+    });
+  }
+
   handleResponse() {
     const { questions } = this.props;
-    const { numberNext } = this.state;
+    const { numberNext, styleButton } = this.state;
     console.log(questions);
     if (questions.length > 0) {
       return [
         ...questions[numberNext].incorrect_answers.map((item, index) => (
           <button
+            className={ styleButton ? 'incorrect' : 'default' }
+            onClick={ this.confirmResponse }
             data-testid={ `wrong-answer-${numberNext}` }
             type="button"
             key={ index }
@@ -69,6 +81,8 @@ class Game extends Component {
           </button>)),
         (
           <button
+            className={ styleButton ? 'correct' : 'default' }
+            onClick={ this.confirmResponse }
             data-testid="correct-answer"
             key={ numberNext }
             type="button"
