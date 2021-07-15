@@ -1,4 +1,4 @@
-import { LOGIN, GET_SCORE } from '../actions/gameAction';
+import { LOGIN, GET_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
