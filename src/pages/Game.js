@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getQuestionsThunk } from '../actions';
 
 class Game extends Component {
+  componentDidMount() {
+    const { getQuestions } = this.props;
+    getQuestions(localStorage.getItem('token'));
+  }
+
   render() {
-    const { loading, token, hash, name, pontuation } = this.props;
+    const { loading, token, hash, name, score, questions, getQuestions } = this.props;
     if (loading) {
-      return (<p> Carregando...</p>);
+      return <div>Carregando...</div>;
     }
-    localStorage.setItem('token', token);
     return (
       <div>
         <p data-testid="header-player-name">
@@ -17,8 +22,11 @@ class Game extends Component {
         <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${hash}` } alt="Gravatar" />
         <p data-testid="header-score">
           {' '}
-          { pontuation }
+          { score }
         </p>
+        <form>
+          <h1>Pergunta 1</h1>
+        </form>
       </div>
     );
   }
@@ -27,13 +35,17 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   token: state.game.token,
   loading: state.game.loading,
-  pontuation: state.game.pontuation,
+  score: state.game.score,
   hash: state.login.hash,
   name: state.login.name,
-
+  questions: state.game.questions,
 });
 
-export default connect(mapStateToProps)(Game);
+const mapDispatchToProps = (dispatch) => ({
+  getQuestions: (token) => dispatch(getQuestionsThunk(token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
   token: PropTypes.string,
