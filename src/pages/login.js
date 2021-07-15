@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import fetchToken from '../service/tokenApi';
 import { sendUser, sendEmail } from '../actions';
+import logo from '../trivia.png';
 // import logo from './trivia.png';
 
 class login extends Component {
@@ -17,6 +18,7 @@ class login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.localStoragehandle = this.localStoragehandle.bind(this);
+    this.login = this.login.bind(this);
   }
 
   handleChange({ target }) {
@@ -50,51 +52,62 @@ class login extends Component {
     }
   }
 
-  render() {
-    const { disableBtn, user, email } = this.state;
+  login() {
     const { updateUser, updateEmail } = this.props;
+    const { user, email } = this.state;
+    fetchToken();
+    this.localStoragehandle();
+    updateUser(user);
+    updateEmail(email);
+  }
+
+  render() {
+    const { disableBtn } = this.state;
     return (
-      <div>
-        <form>
-          <label htmlFor="user">
-            Usuário
-            <input
-              data-testid="input-player-name"
-              id="user"
-              name="user"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="email">
-            E-mail
-            <input
-              data-testid="input-gravatar-email"
-              id="email"
-              name="email"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <Link to="/screen-game">
+      <div className="App App-header">
+        <img src={ logo } className="App-logo" alt="logo" />
+        <div className="container-login">
+          <form className="form-login">
+            <label htmlFor="user">
+              <input
+                placeholder="Usuário"
+                data-testid="input-player-name"
+                id="user"
+                name="user"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <label htmlFor="email">
+              <input
+                placeholder="E-mail"
+                data-testid="input-gravatar-email"
+                id="email"
+                name="email"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <Link to="/screen-game" className="btn-link">
+              <button
+                type="button"
+                data-testid="btn-play"
+                disabled={ disableBtn }
+                className="btn btn-play"
+                onClick={ this.login }
+              >
+                Jogar
+              </button>
+            </Link>
+          </form>
+          <Link to="/config" className="btn-link">
             <button
               type="button"
-              data-testid="btn-play"
-              disabled={ disableBtn }
-              onClick={ () => {
-                fetchToken();
-                this.localStoragehandle();
-                updateUser(user);
-                updateEmail(email);
-              } }
+              data-testid="btn-settings"
+              className="btn"
             >
-              Jogar
+              Configurações
             </button>
           </Link>
-        </form>
-        <Link to="/config">
-          <button type="button" data-testid="btn-settings">
-            Configurações
-          </button>
-        </Link>
+        </div>
       </div>
     );
   }
