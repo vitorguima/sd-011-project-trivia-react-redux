@@ -1,7 +1,7 @@
 export const USER_LOGIN = 'USER_LOGIN';
 export const REQUEST_API = 'REQUEST_API';
 export const GET_DATA = 'GET_DATA';
-
+export const GET_USER_NAME_AND_EMAIL = 'GET_USER_NAME_AND_EMAIL';
 export const requestAPI = () => ({ type: REQUEST_API });
 
 export const getData = (data) => ({ type: GET_DATA, payload: { data } });
@@ -14,3 +14,9 @@ export function fetchAPIToken() {
     dispatch(getData(data));
   };
 }
+
+export const getUserNameAndEmail = (name, email) => ({
+  type: GET_USER_NAME_AND_EMAIL,
+  name,
+  email,
+});
