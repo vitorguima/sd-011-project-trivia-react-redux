@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { subTimer } from '../actions';
 
-export default class Timer extends Component {
+class Timer extends Component {
   constructor() {
     super();
     this.state = { timer: 30 };
     this.timerFunc = this.timerFunc.bind(this);
   }
 
-  // setTimeout - Desabilita botoes
-  // setInterval -
   componentDidMount() {
     this.timerFunc();
   }
@@ -18,10 +18,9 @@ export default class Timer extends Component {
   }
 
   timerFunc() {
+    const { timerDispatch } = this.props;
     const limit = 1000;
-    this.timer = setInterval(() => this.setState((prev) => ({
-      timer: prev.timer - 1,
-    })), limit);
+    this.timer = setInterval(() => timerDispatch(), limit);
   }
 
   render() {
@@ -35,3 +34,13 @@ export default class Timer extends Component {
     );
   }
 }
+
+mapStateToProps(state) {
+  timer
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  timerDispatch: () => dispatch(subTimer()),
+});
+
+export default connect(null, mapDispatchToProps)(Timer);
