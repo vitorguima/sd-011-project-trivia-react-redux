@@ -16,10 +16,12 @@ class GameScreen extends React.Component {
       triviaApi: '',
       questionNumber: 0,
       styles: ['', ''],
-      timer: 30,
       disabledButton: false,
+      redirect: false,
+      timer: 30,
     };
     this.handleAnswer = this.handleAnswer.bind(this);
+    this.handleNextButton = this.handleNextButton.bind(this);
     this.checkTimer = this.checkTimer.bind(this);
     this.calculateScore = this.calculateScore.bind(this);
   }
@@ -100,6 +102,21 @@ class GameScreen extends React.Component {
     }
   }
 
+  handleNextButton() {
+    const { questionNumber } = this.state;
+    const lastQuestion = 4;
+
+    if (questionNumber === lastQuestion) {
+      this.setState({ redirect: true });
+    } else {
+      this.setState((prevState) => ({
+        questionNumber: prevState.questionNumber + 1,
+        styles: ['', ''],
+        disabledButton: false,
+      }));
+    }
+  }
+
   renderQuestions() {
     const { triviaApi: { results },
       questionNumber,
@@ -137,7 +154,7 @@ class GameScreen extends React.Component {
   }
 
   render() {
-    const { triviaApi: { results }, timer } = this.state;
+    const { triviaApi: { results }, timer, disabledButton } = this.state;
     this.checkTimer();
     return (
       <>
@@ -146,6 +163,17 @@ class GameScreen extends React.Component {
         {results ? (
           <div>
             {this.renderQuestions()}
+            {disabledButton ? (
+              <div>
+                <button
+                  data-testid="btn-next"
+                  type="button"
+                  onClick={ this.handleNextButton }
+                >
+                  Próxima
+                </button>
+              </div>
+            ) : null}
           </div>
         ) : (
           <div>
