@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class GameComponent extends Component {
+  // constructor(props) {
+  //   super(props);
+  // }
+
   render() {
     const { questions, loading } = this.props;
     const { results } = questions;
-    console.log(results);
+
     return (
       <div>
         {loading
@@ -17,6 +22,7 @@ class GameComponent extends Component {
               <button
                 data-testid="correct-answer"
                 type="button"
+                onClick={ (event) => this.colorSelectCorrect(event) }
               >
                 { results[0].correct_answer }
               </button>
@@ -25,6 +31,7 @@ class GameComponent extends Component {
                   data-testid={ `wrong-answer-${indexKey}` }
                   type="button"
                   key={ indexKey }
+                  onClick={ (event) => this.colorSelectIncorrect(event) }
                 >
                   {incorrect}
                 </button>
@@ -35,6 +42,11 @@ class GameComponent extends Component {
     );
   }
 }
+
+GameComponent.propTypes = {
+  questions: PropTypes.arrayOf().isRequired,
+  loading: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   questions: state.triviaReducer.questions,

@@ -6,13 +6,38 @@ import GameComponent from '../components/GameComponent';
 import { fetchTrivia } from '../actions';
 
 class screenGame extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      token: '',
+    };
+    this.fetchToken = this.fetchToken.bind(this);
+  }
+
   componentDidMount() {
+    this.fetchToken();
+  }
+
+  fetchToken() {
     const { searchQuestion } = this.props;
-    const recoveredToken = JSON.parse(localStorage.getItem('token')).token;
-    searchQuestion(recoveredToken);
+    const recoveredToken = JSON.parse(localStorage.getItem('token'));
+
+    if (recoveredToken !== null) {
+      this.setState({
+        loading: true,
+        token: recoveredToken.token,
+      });
+    }
+    const { loading, token } = this.state;
+    if (!loading) {
+      searchQuestion(token);
+    }
   }
 
   render() {
+    const { token } = this.state;
+    console.log(token);
     return (
       <div>
         <PlayerComponent />
