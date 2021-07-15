@@ -1,9 +1,7 @@
-export const LOGIN = 'LOGIN';
+export const SAVE_LOGIN = 'SAVE_LOGIN';
 
-export function setLogin(name, email) {
-  return {
-    type: LOGIN,
-    name,
-    email,
-  };
-}
+export const saveLogin = (email, name) => ({
+  type: SAVE_LOGIN,
+  email,
+  name,
+});

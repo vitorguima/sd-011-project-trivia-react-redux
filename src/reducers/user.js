@@ -1,15 +1,19 @@
-import { LOGIN } from '../actions';
+import { SAVE_LOGIN } from '../actions';
 
 const INNITIAL_STATE = {
-  name: 'anon',
+  name: '',
   email: '',
   score: 0,
 };
 
 function user(state = INNITIAL_STATE, action) {
   switch (action.type) {
-  case LOGIN:
-    return { ...state, avatarURL: action.payload };
+  case SAVE_LOGIN:
+    return {
+      ...state,
+      email: action.email,
+      name: action.name,
+    };
   default:
     return state;
   }
