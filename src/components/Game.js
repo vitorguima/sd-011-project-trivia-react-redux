@@ -10,8 +10,10 @@ class Game extends Component {
     this.state = {
       clickedQuestions: false,
       timer: 30,
+      index: 0,
     };
     this.onClickQuestion = this.onClickQuestion.bind(this);
+    this.goNextQuestion = this.goNextQuestion.bind(this);
     this.startTimer = this.startTimer.bind(this);
   }
 
@@ -39,20 +41,30 @@ class Game extends Component {
     }
   }
 
+  goNextQuestion() {
+    this.setState((prevState) => ({ index: prevState.index + 1, timer: 30 }));
+  }
+
+  questionAnswered() {
+    const { clickedQuestions, timer } = this.state;
+    if (clickedQuestions || timer === 0) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     const { questions } = this.props;
     const { results } = questions.questions;
-    const { clickedQuestions, timer } = this.state;
-
+    const { clickedQuestions, timer, index } = this.state;
     if (!results) return <h3>Loading...</h3>;
-
     return (
       <div>
         <Header />
         <div>
-          <p data-testid="question-category">{results[0].category}</p>
+          <p data-testid="question-category">{results[index].category}</p>
           <p data-testid="question-text" onLoad={ this.startTimer() }>
-            {results[0].question}
+            {results[index].question}
           </p>
           <span>{timer}</span>
           <button
@@ -60,18 +72,16 @@ class Game extends Component {
             type="button"
             data-testid="correct-answer"
             onClick={ this.onClickQuestion }
-            style={
-              clickedQuestions ? { border: '3px solid rgb(6, 240, 15)' } : null
-            }
+            style={ clickedQuestions ? { border: '3px solid rgb(6, 240, 15)' } : null }
           >
-            {results[0].correct_answer}
+            {results[index].correct_answer}
           </button>
-          {results[0].incorrect_answers.map((answer, index) => (
+          {results[index].incorrect_answers.map((answer, idx) => (
             <button
               disabled={ timer === 0 }
               type="button"
-              key={ index }
-              data-testid={ `wrong-answer-${index}` }
+              key={ idx }
+              data-testid={ `wrong-answer-${idx}` }
               onClick={ this.onClickQuestion }
               style={
                 clickedQuestions ? { border: '3px solid rgb(255, 0, 0)' } : null
@@ -80,6 +90,15 @@ class Game extends Component {
               {answer}
             </button>
           ))}
+          {this.questionAnswered() && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.goNextQuestion }
+            >
+              Próxima
+            </button>
+          )}
         </div>
       </div>
     );
