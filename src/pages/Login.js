@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-// const recevedEmail = new RegExp('^[^\s@]+@[^\s@]+$');
 const recevedEmail = new RegExp('^[^s@]+@[^s@]+$');
 
 class Login extends Component {
@@ -44,7 +45,7 @@ class Login extends Component {
 
   render() {
     const { name, email, isDisabled } = this.state;
-
+    const { fetch } = this.props;
     return (
       <div>
         <form>
@@ -78,6 +79,7 @@ class Login extends Component {
           disabled={ isDisabled }
           data-testid="btn-play"
           type="button"
+          onClick={ fetch() }
         >
           Jogar
         </button>
@@ -86,4 +88,12 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  fetch: (state) => dispatch(fetchApi(state)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  fetch: PropTypes.func,
+}.isRequired;
