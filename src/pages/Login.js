@@ -64,7 +64,7 @@ class Login extends Component {
       this.setState({
         disabled: false,
       });
-    } else if ((!num || !emailChek) && !disabled) {
+    } else if ((!nameLength || !emailChek) && !disabled) {
       this.setState({
         disabled: true,
       });
