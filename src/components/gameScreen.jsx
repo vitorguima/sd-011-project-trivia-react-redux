@@ -4,10 +4,18 @@ import PropTypes from 'prop-types';
 export default class gameScreen extends Component {
   constructor() {
     super();
-    
+
     this.state = {
       question: 0,
     };
+    this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
+  }
+
+  colorSelectCorrect() {
+    const btns = document.querySelectorAll('button');
+    btns.forEach((element) => {
+      element.classList.add('revel-color');
+    });
   }
 
   render() {
@@ -20,7 +28,12 @@ export default class gameScreen extends Component {
           <div>
             <p data-testid="question-category">{results[question].category}</p>
             <p data-testid="question-text">{results[question].question}</p>
-            <button type="button" data-testid="correct-answer">
+            <button
+              type="button"
+              data-testid="correct-answer"
+              className="green-border"
+              onClick={ () => this.colorSelectCorrect() }
+            >
               {results[question].correct_answer}
             </button>
             {results[0].incorrect_answers.map((answer, index) => (
@@ -28,6 +41,8 @@ export default class gameScreen extends Component {
                 key={ index }
                 type="button"
                 data-testid={ `wrong-answer-${index}` }
+                className="red-border"
+                onClick={ () => this.colorSelectCorrect() }
               >
                 {answer}
               </button>
