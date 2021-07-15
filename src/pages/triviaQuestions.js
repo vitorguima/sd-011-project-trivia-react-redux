@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Headerlogin from '../components/header'
+import Headerlogin from '../components/header';
 // import { connect } from 'react-redux';
 // import { requestApiThunk } from '../actions';
 
