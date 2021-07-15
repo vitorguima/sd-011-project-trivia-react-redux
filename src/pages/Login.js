@@ -25,20 +25,17 @@ class Login extends Component {
 
   settingsButton() {
     return (
-      <div>
-        <Link
-          to="/settings"
+      <Link to="/settings">
+        <button
+          data-testid="btn-settings"
+          type="button"
         >
-          <button
-            data-testid="btn-settings"
-            type="button"
-          >
-            <span role="img" aria-label="Gear">⚙️</span>
-            Configurações
-          </button>
-        </Link>
-      </div>
+          <span role="img" aria-label="Gear">⚙️</span>
+          Configurações
+        </button>
+      </Link>
     );
+  }
 
   async getToken() {
     const API_URL = 'https://opentdb.com/api_token.php?command=request';
@@ -47,7 +44,7 @@ class Login extends Component {
       .then((data) => data.token);
     this.saveTokenInLocalStorage('token', tokenReceived);
   }
-  
+
   saveTokenInLocalStorage(key, item) {
     localStorage.clear();
     localStorage.setItem(key, item);
