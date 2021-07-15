@@ -19,6 +19,7 @@ export function fetchToken() {
         ));
   };
 }
+fetchToken();
 
 export function fetchQuestions(token) {
   return (dispatch) => {

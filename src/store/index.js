@@ -1,6 +1,6 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import questions from '../reducers/questions';
+import rootReducers from '../reducers/index';
 
 const INITIAL_STATE = {
   questions: {
@@ -15,7 +15,7 @@ const INITIAL_STATE = {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  combineReducers({ questions }),
+  rootReducers,
   INITIAL_STATE,
   composeEnhancers(
     applyMiddleware(thunk),
