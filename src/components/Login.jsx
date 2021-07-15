@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import getTokenApi from '../services/getTokenApi';
+import { getUserData } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -37,9 +39,12 @@ class Login extends React.Component {
   // Lógica do click
 
   async handleClick() {
+    const { userName, email } = this.state;
+    const { sendUserData } = this.props;
     const response = await getTokenApi();
     const { token } = response;
     localStorage.setItem('token', token);
+    sendUserData(userName, email, token);
     const { history } = this.props;
     history.push('/game');
   }
@@ -84,8 +89,13 @@ class Login extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  sendUserData: (name, email, token) => dispatch(getUserData(name, email, token)),
+});
+
 Login.propTypes = {
   history: PropTypes.objectOf(PropTypes.func).isRequired,
+  sendUserData: PropTypes.func.isRequired,
 };
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
