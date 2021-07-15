@@ -55,9 +55,7 @@ class Login extends Component {
       <div className="App">
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
-          <p>
-            SUA VEZ
-          </p>
+          <p>SUA VEZ</p>
           <label htmlFor="name">
             <input
               data-testid="input-player-name"
@@ -86,6 +84,14 @@ class Login extends Component {
               onClick={ this.handlePlayer }
             >
               Jogar
+            </button>
+          </Link>
+          <Link to="/settings">
+            <button
+              data-testid="btn-settings"
+              type="button"
+            >
+              Configurações
             </button>
           </Link>
         </header>
