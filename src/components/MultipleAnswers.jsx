@@ -6,6 +6,18 @@ const caseTrue = 1;
 const caseFalse = -1;
 
 class MultipleAnswers extends React.Component {
+  changeColor({ target }) {
+    const getButtons = target.parentElement.children;
+
+    for (let index = 0; index < getButtons.length; index += 1) {
+      if (getButtons[index].dataset.testid === 'correct-answer') {
+        getButtons[index].classList.add('correct');
+      } else {
+        getButtons[index].classList.add('incorrect');
+      }
+    }
+  }
+
   render() {
     const { question } = this.props;
     const answers = [question.correct_answer, ...question.incorrect_answers];
@@ -23,6 +35,7 @@ class MultipleAnswers extends React.Component {
             <button
               key={ index }
               type="button"
+              onClick={ this.changeColor }
               data-testid={
                 question.incorrect_answers.includes(answer)
                   ? `wrong-answer-${question.incorrect_answers.indexOf(answer)}`
