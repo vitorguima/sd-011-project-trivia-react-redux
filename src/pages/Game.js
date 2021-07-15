@@ -4,6 +4,8 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { fetchTokenAPI } from '../actions/login';
 import { gravatarImage } from '../actions/game';
+// import Header from '../components/Header';
+import Questions from '../components/Questions';
 
 class Game extends Component {
   componentDidMount() {
@@ -14,16 +16,11 @@ class Game extends Component {
   }
 
   render() {
-    const { tokenData, imageURL, userName } = this.props;
+    const { tokenData } = this.props;
     localStorage.setItem('token', tokenData);
     return (
       <div>
-        <header>
-          <img src={ imageURL } alt="user" data-testid="header-profile-picture" />
-          <p data-testid="header-player-name">{ userName }</p>
-          <p data-testid="header-score">0</p>
-        </header>
-        teste
+        { tokenData ? <Questions /> : <h1>LOADING</h1> }
       </div>
     );
   }
@@ -48,6 +45,4 @@ Game.propTypes = {
   fetchToken: PropTypes.func.isRequired,
   userEmail: PropTypes.string.isRequired,
   userImage: PropTypes.string.isRequired,
-  userName: PropTypes.string.isRequired,
-  imageURL: PropTypes.string.isRequired,
 };

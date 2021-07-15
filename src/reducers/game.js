@@ -1,9 +1,12 @@
 import {
   GRAVATAR_IMAGE,
-} from '../actions/game';
+  REQUEST_QUESTIONS,
+  REQUEST_QUESTIONS_SUCCESS,
+  REQUEST_QUESTIONS_ERROR } from '../actions/game';
 
 const INITIAL_STATE = {
   gravatarImage: '',
+  questions: [],
 };
 
 const game = (state = INITIAL_STATE, action) => {
@@ -13,9 +16,24 @@ const game = (state = INITIAL_STATE, action) => {
       ...state,
       gravatarImage: action.payload,
     };
+  case REQUEST_QUESTIONS:
+    return {
+      ...state,
+    };
+  case REQUEST_QUESTIONS_SUCCESS:
+    return {
+      ...state,
+      questions: action.payload.results,
+    };
+  case REQUEST_QUESTIONS_ERROR:
+    return {
+      ...state,
+      error: action.payload.error,
+    };
   default:
     return state;
   }
 };
+// [...state.questions,
 
 export default game;
