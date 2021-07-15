@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import showQuestions from './showQuestions';
-import { addScore } from './GameFunctions';
 import NextQuestionButton from './NextQuestionButton';
 
 export default function ShowTrivia(props) {
