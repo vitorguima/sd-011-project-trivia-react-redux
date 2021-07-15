@@ -7,10 +7,11 @@ export const getToken = async () => {
 };
 
 export const getQuestions = async (token) => {
+  const tree = 3;
   const fetchEndpoint = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   console.log(`https://opentdb.com/api.php?amount=5&token=${token}`);
   let data = await fetchEndpoint.json();
-  if (data.response_code === 3) {
+  if (data.response_code === tree) {
     const { token: newToken } = await getToken();
     localStorage.setItem('token', JSON.stringify(newToken));
     const newFetch = await fetch(`https://opentdb.com/api.php?amount=5&token=${JSON.parse(localStorage.getItem('token'))}`);
