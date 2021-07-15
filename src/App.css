@@ -34,6 +34,17 @@
   text-align: center;
 }
 
+.App-header input {
+  display: flex;
+  margin: 3px;
+}
+
+.App-header button {
+  align-self: center;
+  flex-direction: column;
+  margin: 3px;
+}
+
 .App-link {
   color: #61dafb;
 }
