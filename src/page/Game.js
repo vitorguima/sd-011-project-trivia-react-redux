@@ -26,7 +26,6 @@ class Game extends Component {
   nextQuestion() {
     this.setState((prev) => ({
       numberNext: prev.numberNext + 1,
-      styleButton: false,
     }));
   }
 
@@ -115,7 +114,12 @@ class Game extends Component {
             {this.handleQuestion()}
             {this.handleResponse()}
           </div>
-          <button type="button" onClick={ this.nextQuestion }>Proxima</button>
+          <button
+            type="button"
+            onClick={ this.nextQuestion }
+          >
+            Proxima
+          </button>
         </header>
       </div>
     );
