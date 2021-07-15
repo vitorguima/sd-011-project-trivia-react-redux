@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import logo from '../trivia.png';
 import * as actions from '../redux/actions';
+import LoginHeader from './components/LoginHeader';
 
 class Login extends Component {
   constructor() {
@@ -34,25 +34,26 @@ class Login extends Component {
     const { name, gravatarEmail } = this.state;
     return (
       <div className="App-header">
-        <header>
-          <img src={ logo } className="App-logo" alt="logo" />
-          <p>
-            SUA VEZ
-          </p>
-        </header>
+        <LoginHeader />
         <section>
-          <input
-            data-testid="input-player-name"
-            name="name"
-            type="text"
-            onChange={ this.handleChange }
-          />
-          <input
-            data-testid="input-gravatar-email"
-            name="gravatarEmail"
-            type="email"
-            onChange={ this.handleChange }
-          />
+          <label htmlFor="Nome do Jogador">
+            Name
+            <input
+              data-testid="input-player-name"
+              name="name"
+              type="text"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="Email do Jogador">
+            Email
+            <input
+              data-testid="input-gravatar-email"
+              name="gravatarEmail"
+              type="email"
+              onChange={ this.handleChange }
+            />
+          </label>
           <Link to="/game">
             <button
               data-testid="btn-play"
