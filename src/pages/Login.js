@@ -15,11 +15,13 @@ class Login extends Component {
     this.sendToConfigurations = this.sendToConfigurations.bind(this);
     this.redirectRouter = this.redirectRouter.bind(this);
     this.fetchTriviaApi = this.fetchTriviaApi.bind(this);
+    this.storeTokenOnLocalStorage = this.storeTokenOnLocalStorage.bind(this);
 
     this.state = {
       name: '',
       email: '',
       disabled: true,
+      loading: true,
     };
   }
 
@@ -37,15 +39,18 @@ class Login extends Component {
   }
 
   handleBtn() {
-    const { getToken, getLogin } = this.props;
+    const { getLogin } = this.props;
     const { name, email } = this.state;
-    getToken();
     getLogin(name, email);
     this.fetchTriviaApi();
   }
 
   storeTokenOnLocalStorage(tokenObj) {
     localStorage.setItem('token', JSON.stringify(tokenObj));
+    this.setState({
+      loading: false,
+    });
+    this.redirectRouter();
   }
 
   async fetchTriviaApi() {
@@ -54,14 +59,15 @@ class Login extends Component {
     console.log(token);
 
     this.storeTokenOnLocalStorage(token);
-    this.redirectRouter();
   }
 
   redirectRouter() {
     const { history } = this.props;
-    console.log(history);
+    const { loading } = this.state;
 
-    history.push('/game');
+    if (!loading) {
+      history.push('/game');
+    }
   }
 
   handleChange({ target: { id, value } }) {

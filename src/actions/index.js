@@ -14,7 +14,7 @@ export const requestToken = () => ({
 });
 
 export const receiveToken = (payload) => ({
-  type: REQUEST_TOKEN,
+  type: RECEIVE_TOKEN,
   payload,
 });
 
