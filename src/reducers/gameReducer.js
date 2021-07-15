@@ -1,5 +1,4 @@
-const REQUEST_API = 'REQUEST_API';
-const GET_GAME = 'GET_GAME';
+import { REQUEST_API, GET_GAME } from '../actions';
 
 const INITIAL_STATE = {
   isLoading: false,
