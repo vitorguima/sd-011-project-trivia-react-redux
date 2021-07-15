@@ -12,18 +12,18 @@ function handleFetchTokenSuccess(json) {
 }
 
 export function questionsGame() {
-  const tokenLocalStorage = localStorage.getItem('token');
-
-  fetch(`https://opentdb.com/api.php?amount=5&token=${tokenLocalStorage}`)
-    .then((response) => response.json())
-    .then(
-      (json) => console.log(json),
-      // (json) => dispatch(handleQuestionsSuccess(json)),
-      (error) => console.log(error),
-    );
+  return (dispatch) => {
+    const tokenLocalStorage = localStorage.getItem('token');
+    fetch(`https://opentdb.com/api.php?amount=5&token=${tokenLocalStorage}`)
+      .then((response) => response.json())
+      .then(
+        (json) => dispatch(handleQuestionsSuccess(json.results)),
+        (error) => console.log(error),
+      );
+  }
 }
 
-export function startGame(name, email, token) {
+export function startGame(name, email) {
   return (dispatch) => {
     dispatch(handleStoreLoginEmail(name, email));
     return fetch('https://opentdb.com/api_token.php?command=request')
@@ -36,11 +36,7 @@ export function startGame(name, email, token) {
   };
 }
 
-// function handleQuestionsSuccess(json) {
-//   return { type: QUESTION_REQUEST, payload: json.category, 
-//     json.question,
-//     json.correct_answer,
-//     json.incorrect_answers,
-//    };
-// }
+function handleQuestionsSuccess(json) {
+  return { type: QUESTION_REQUEST, payload: json };
+}
 

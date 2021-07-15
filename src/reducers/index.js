@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import player from './player';
-import question from './question';
+import questions from './questions';
 
 const rootReducer = combineReducers({
   player,
-  question,
+  questions,
 });
 
 export default rootReducer;
