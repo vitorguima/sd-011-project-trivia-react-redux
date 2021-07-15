@@ -10,7 +10,7 @@ class InputName extends Component {
         <input
           type="text"
           id="inputName"
-          data-testid="input-name"
+          data-testid="input-player-name"
           onChange={ func }
         />
       </label>
