@@ -12,6 +12,7 @@ class Header extends React.Component {
         <div className="header-container">
           <div className="header-user-container">
             <img
+              className="header-avatar"
               src={ avatar }
               alt="avatar"
               data-testid="header-profile-picture"
