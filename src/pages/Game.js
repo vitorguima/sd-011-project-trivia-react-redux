@@ -1,24 +1,49 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getQuestionsThunk } from '../actions';
 
 class Game extends Component {
-  render() {
-    const { loading, token, hash, name, pontuation } = this.props;
-    if (loading) {
-      return (<p> Carregando...</p>);
+  componentDidMount() {
+    const { getQuestions } = this.props;
+    if (localStorage.token) {
+      getQuestions(localStorage.getItem('token'));
     }
-    localStorage.setItem('token', token);
+  }
+
+  render() {
+    const { loading, hash, name, score, questions } = this.props;
+
     return (
       <div>
-        <p data-testid="header-player-name">
-          { name }
-        </p>
-        <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${hash}` } alt="Gravatar" />
-        <p data-testid="header-score">
-          {' '}
-          { pontuation }
-        </p>
+        <header>
+          <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${hash}` } alt="Gravatar" />
+          <p data-testid="header-player-name">{ name }</p>
+          <p data-testid="header-score">{ score }</p>
+        </header>
+        <div>
+          {!loading
+            ? (
+              <div>
+                <h5 data-testid="question-category">{questions.results[0].category}</h5>
+                <h2 data-testid="question-text">{questions.results[0].question}</h2>
+                <button
+                  type="button"
+                  data-testid="correct-answer"
+                >
+                  {questions.results[0].correct_answer}
+                </button>
+                {questions.results[0].incorrect_answers.map((incorrect, key) => (
+                  <button
+                    key={ key }
+                    type="button"
+                    data-testid={ `wrong-answer-${key}` }
+                  >
+                    { incorrect }
+                  </button>
+                ))}
+              </div>) : <p>loading...</p>}
+        </div>
       </div>
     );
   }
@@ -27,13 +52,17 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   token: state.game.token,
   loading: state.game.loading,
-  pontuation: state.game.pontuation,
+  score: state.game.score,
   hash: state.login.hash,
   name: state.login.name,
-
+  questions: state.game.questions,
 });
 
-export default connect(mapStateToProps)(Game);
+const mapDispatchToProps = (dispatch) => ({
+  getQuestions: (token) => dispatch(getQuestionsThunk(token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
   token: PropTypes.string,
