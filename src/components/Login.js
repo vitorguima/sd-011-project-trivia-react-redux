@@ -65,14 +65,16 @@ class Login extends Component {
           placeholder="Email"
           onChange={ this.handleChangeEmail }
         />
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ status }
-          onClick={ () => this.handleClick() }
-        >
-          Jogar
-        </button>
+        <Link to="/gamePage">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ status }
+            onClick={ () => this.handleClick() }
+          >
+            Jogar
+          </button>
+        </Link>
         <Link to="/settings">
           <button
             type="button"

@@ -4,32 +4,13 @@ import { connect } from 'react-redux';
 import Question from './Question';
 
 class QuestionList extends Component {
-  constructor() {
-    super();
-    this.state = {
-      savedQuestions: '',
-    };
-    this.saveQuestions = this.saveQuestions.bind(this);
-  }
-
-  componentDidMount() {
-    this.saveQuestions();
-  }
-
-  saveQuestions() {
-    const { questions } = this.props;
-    this.setState({
-      savedQuestions: questions,
-    });
-  }
-
   render() {
-    const { savedQuestions } = this.state;
-    const questArray = Object.values(savedQuestions);
+    const { questions } = this.props;
+    const questArray = Object.values(questions);
     return (
       <div>
-        { questArray.map((item, index) => <Question key={ index } qst={ item } />) }
-        <Question />
+        { questArray
+          .map((question, index) => <Question key={ index } question={ question } />) }
       </div>
     );
   }

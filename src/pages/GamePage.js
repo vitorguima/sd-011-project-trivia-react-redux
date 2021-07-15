@@ -7,7 +7,9 @@ import QuestionList from '../components/QuestionList';
 class GamePage extends Component {
   componentDidMount() {
     const { getQuestions } = this.props;
-    getQuestions();
+    if (localStorage.token) {
+      getQuestions(localStorage.token);
+    }
   }
 
   render() {
@@ -25,7 +27,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getQuestions: () => dispatch(getQuestionsThunk()),
+  getQuestions: (token) => dispatch(getQuestionsThunk(token)),
 });
 
 GamePage.propTypes = {

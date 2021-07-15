@@ -14,11 +14,11 @@ export default function App() {
         <Login />
         <Switch>
           <Route path="/settings" component={ Settings } />
+          <Route path="/gamePage" component={ GamePage } />
         </Switch>
         <p>
           SUA VEZ
         </p>
-        <GamePage />
       </header>
     </div>
   );
