@@ -22,6 +22,13 @@ class Feedback extends Component {
       <div>
         <h1 data-testid="feedback-text">Feedback</h1>
         <Header score={ localStoragePlayer.player.score } />
+        <h2 data-testid="feedback-total-score">
+          {localStoragePlayer.player.score ? localStoragePlayer.player.score : 0}
+        </h2>
+        <h2 data-testid="feedback-total-question">
+          {localStoragePlayer.player.assertions
+            ? localStoragePlayer.player.assertions : 0}
+        </h2>
         <h2 data-testid="feedback-text">{this.message()}</h2>
       </div>
     );
