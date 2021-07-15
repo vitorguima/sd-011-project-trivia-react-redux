@@ -7,24 +7,21 @@ const showQuestions = (arrayQuestions, onChange, i) => arrayQuestions.map((el, i
   if (typeof el === 'string') {
     return (
       <label
-        id={`label${index}`}
-        htmlFor={`question-${index}`}
-        key={index}
+        id={ `label${index}` }
+        htmlFor={ `question-${index}` }
+        key={ index }
         className="btn btn-lg btn-primary btn-block"
-        data-testid={`wrong-answer-${index}`}
+        data-testid={ `wrong-answer-${index}` }
       >
         <span className="btn-label" />
         <input
-          id={`question-${index}`}
+          id={ `question-${index}` }
           type="radio"
           name="q_answer"
-          value={el}
-          onChange={() => {
+          value={ el }
+          onChange={ () => {
             onChange(el);
-            if (i === arrayQuestions.length) {
-              return history.push('feedback');
-            }
-          }}
+          } }
         />
         {el}
       </label>
@@ -32,25 +29,21 @@ const showQuestions = (arrayQuestions, onChange, i) => arrayQuestions.map((el, i
   }
   return (
     <label
-      id={`label${index}`}
-      htmlFor={`question-${index}`}
-      key={index}
+      id={ `label${index}` }
+      htmlFor={ `question-${index}` }
+      key={ index }
       className="btn btn-lg btn-primary btn-block"
       data-testid="correct-answer"
     >
       <span className="btn-label" />
       <input
-        id={`question-${index}`}
+        id={ `question-${index}` }
         type="radio"
         name="q_answer"
-        value={el.correct}
-        onChange={() => {
-          // onChange({ answer: el.correct, id: index });
+        value={ el.correct }
+        onChange={ () => {
           onChange(el.correct);
-          if (i === arrayQuestions.length) {
-            return history.push('feedback');
-          }
-        }}
+        } }
       />
       {el.correct}
     </label>

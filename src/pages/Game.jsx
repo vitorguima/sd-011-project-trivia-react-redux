@@ -29,18 +29,18 @@ export default function Game() {
     (async () => {
       const { email, name } = loginState;
       const state = {
-        name: name,
+        name,
         gravatarEmail: email,
         assertions: 0,
         score: 0,
-      }
+      };
       setPlayer({ player: state });
-    })()
+    })();
   }, []);
 
   useEffect(() => {
     localStorage.state = JSON.stringify(player);
-  }, [player])
+  }, [player]);
 
   useEffect(() => randomArray(questions, setArray, index), [questions, index]);
 
