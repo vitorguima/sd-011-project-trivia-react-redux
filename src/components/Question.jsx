@@ -12,7 +12,7 @@ export default class Question extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.countDown = this.countDown.bind(this);
-    this.teste = this.teste.bind(this);
+    this.countScore = this.countScore.bind(this);
   }
 
   componentDidMount() {
@@ -23,6 +23,25 @@ export default class Question extends Component {
     this.setState({
       clicked: true,
     });
+  }
+
+  countScore() {
+    const score = 10;
+    const { questions } = this.props;
+    const hard = 3;
+    const medium = 2;
+    const { seconds } = this.state;
+    let state = JSON.parse(localStorage.getItem(('state')));
+    let previousScore = 0;
+    if (questions.difficulty === 'easy') {
+      previousScore = score * (seconds);
+    } if (questions.difficulty === 'medium') {
+      previousScore = score * (seconds * medium);
+    } else {
+      previousScore = score * (seconds * hard);
+    }
+    state.player.score += previousScore;
+    state = localStorage.setItem('state', JSON.stringify(state));
   }
 
   countDown() {
@@ -63,7 +82,7 @@ export default class Question extends Component {
           className={ clicked && 'correct-answer' }
           type="button"
           data-testid="correct-answer"
-          onClick={ () => { this.handleClick(); this.teste(); } }
+          onClick={ () => { this.handleClick(); this.countScore(); } }
           disabled={ disableBtn }
         >
           {correctAnswer}
@@ -89,6 +108,7 @@ Question.propTypes = {
     category: PropTypes.string,
     question: PropTypes.string,
     correct_answer: PropTypes.string,
+    difficulty: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };

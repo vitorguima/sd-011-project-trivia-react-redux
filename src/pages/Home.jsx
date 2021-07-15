@@ -18,11 +18,24 @@ class Home extends Component {
   }
 
   getToken() {
+    const { history: { push } } = this.props;
+    const state = {
+      player: {
+        name: '',
+        assertions: 0,
+        score: 0,
+        gravatarEmail: '',
+      },
+    };
     const { setAvatar, setName } = this.props;
     const { email, name } = this.state;
+    state.player.name = name;
+    state.player.gravatarEmail = email;
     const hash = md5(email).toString();
     setAvatar(`https://www.gravatar.com/avatar/${hash}`);
     setName(name);
+    localStorage.setItem('state', JSON.stringify(state));
+    push('/game');
   }
 
   handleChange(e) {
@@ -55,16 +68,14 @@ class Home extends Component {
             onChange={ this.handleChange }
           />
         </label>
-        <Link to="/game">
-          <button
-            type="button"
-            data-testid="btn-play"
-            onClick={ this.getToken }
-            disabled={ !email || !name }
-          >
-            Jogar
-          </button>
-        </Link>
+        <button
+          type="button"
+          data-testid="btn-play"
+          onClick={ this.getToken }
+          disabled={ !email || !name }
+        >
+          Jogar
+        </button>
         <Link to="/settings">
           <button data-testid="btn-settings" type="button">Configurações</button>
         </Link>
@@ -79,6 +90,9 @@ const MapDispatchToProps = (dispatch) => ({
 });
 
 Home.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
   setAvatar: PropTypes.func.isRequired,
   setName: PropTypes.func.isRequired,
 };
