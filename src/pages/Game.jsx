@@ -1,6 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import requisitionQuests from '../helpers/RequisitionQuests';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor() {
@@ -23,6 +25,7 @@ class Game extends Component {
     const limitIndex = 4;
     return (
       <div>
+        <Header />
         {gameLoading
           ? 'Loading'
           : (
@@ -60,6 +63,12 @@ class Game extends Component {
     );
   }
 }
+
+Game.propTypes = {
+  dispatchQuests: PropTypes.func.isRequired,
+  gameLoading: PropTypes.bool.isRequired,
+  stateQuests: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchQuests: (state) => dispatch(requisitionQuests(state)),
