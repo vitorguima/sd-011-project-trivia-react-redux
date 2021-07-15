@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, history } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchQuestions } from '../actions';
@@ -9,6 +9,7 @@ class Questions extends Component {
     this.state = {
       indexQuestion: 0,
     };
+    this.handleNext = this.handleNext.bind(this);
   }
 
   async componentDidMount() {
@@ -16,13 +17,26 @@ class Questions extends Component {
     await getQuestions(token);
   }
 
+  handleNext() {
+    const { indexQuestion } = this.state;
+    const maxQuestions = 4;
+    if (indexQuestion >= maxQuestions) {
+      history.push('/feedback');
+    } else {
+      this.setState({
+        indexQuestion: indexQuestion + 1,
+      });
+    }
+  }
+
   render() {
     const { questions } = this.props;
     const { indexQuestion } = this.state;
+    console.log(indexQuestion);
     if (questions.length) {
       const correctAnswer = questions[indexQuestion].correct_answer;
       const incorrectAnswers = questions[indexQuestion].incorrect_answers;
-      const answers = [correctAnswer, ...incorrectAnswers];
+      const answers = [correctAnswer, ...incorrectAnswers].sort();
       const { category, question } = questions[indexQuestion];
       return (
         <section>
@@ -34,7 +48,6 @@ class Questions extends Component {
             if (answer === correctAnswer) {
               return (
                 <button
-                  onClick=""
                   key={ index }
                   type="button"
                   data-testid="correct-answer"
@@ -44,7 +57,6 @@ class Questions extends Component {
             }
             return (
               <button
-                onClick=""
                 key={ index }
                 type="button"
                 data-testid={ `wrong-answer-${index}` }
@@ -52,7 +64,7 @@ class Questions extends Component {
                 {answer}
               </button>);
           })}
-          <button type="button" data-testid="btn-next" onClick="">
+          <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
             Próxima
           </button>
         </section>
