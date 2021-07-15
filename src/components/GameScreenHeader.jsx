@@ -19,7 +19,7 @@ export default function GameScreenHeader({
       <span className="player-name" data-testid="header-player-name">
         {userName}
       </span>
-      <span data-testid="header-score">0</span>
+      <span data-testid="header-score">{player.player.score}</span>
     </header>
   );
 }

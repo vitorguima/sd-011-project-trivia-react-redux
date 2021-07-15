@@ -10,7 +10,10 @@ export default function Game() {
   const [questions, setQuestions] = useState('');
   const [answer, setAnswer] = useState('');
   const [arrayQuestions, setArray] = useState('');
-  const [player, setPlayer] = useState('');
+  const [player, setPlayer] = useState({
+    player:
+      { name: '', gravatarEmail: '', score: 0, assertions: 0 }
+  });
 
   const loginState = useSelector((state) => state.login);
 
