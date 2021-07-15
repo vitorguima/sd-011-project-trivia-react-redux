@@ -8,6 +8,7 @@ const INITIAL_STATE = {
     token: '',
     isFetching: true,
     error: '',
+    score: 0,
   },
 };
 

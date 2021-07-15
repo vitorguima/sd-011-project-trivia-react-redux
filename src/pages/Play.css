@@ -1,0 +1,7 @@
+.correct.revealed {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.wrong.revealed {
+  border: 3px solid red;
+}
