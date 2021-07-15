@@ -11,15 +11,19 @@ function handleFetchTokenSuccess(json) {
   return { type: REQUEST_TOKEN_SUCCESS, payload: json.token };
 }
 
-export function questionsGame(token) {
-    return (dispatch) => {
-      fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-        .then((response) => response.json())
-        .then(
-          (json) => dispatch(handleQuestionsSuccess(json.results)),
-          (error) => console.log(error),
-        );
-    }
+function handleQuestionsSuccess(json) {
+  return { type: QUESTION_REQUEST, payload: json };
+}
+
+function questionsGame(token) {
+  return (dispatch) => {
+    fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+      .then((response) => response.json())
+      .then(
+        (json) => dispatch(handleQuestionsSuccess(json.results)),
+        (error) => console.log(error),
+      );
+  };
 }
 
 export function startGame(name, email) {
@@ -27,14 +31,10 @@ export function startGame(name, email) {
     dispatch(handleStoreLoginEmail(name, email));
     return fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => response.json())
-      .then(
-        (json) => dispatch(handleFetchTokenSuccess(json)),
-        (error) => console.log(error),
-      )
+      .then((json) => {
+        
+        dispatch(handleFetchTokenSuccess(json))
+        dispatch(questionsGame(json.token))
+      }) 
   };
 }
-
-function handleQuestionsSuccess(json) {
-  return { type: QUESTION_REQUEST, payload: json };
-}
-

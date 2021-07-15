@@ -1,23 +1,17 @@
 import React from 'react';
-import Header from './Header';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import * as actions from '../actions';
+import Header from './Header';
 
 class Game extends React.Component {
   constructor() {
     super();
   }
 
-  async componentDidMount() {
-    const { questionsGame, token } = this.props;
-    await questionsGame(token);
-  }
-
-  renderQuestions(){
+  renderQuestions() {
     const { questions: { allQuestions } } = this.props;
     if (allQuestions.length === 0) {
-      return null
+      return null;
     }
     const currentIndex = 0;
     const currentQuestion = allQuestions[currentIndex];
@@ -28,7 +22,7 @@ class Game extends React.Component {
         <button data-testid="correct-answer">{currentQuestion.correct_answer}</button>
         {
           currentQuestion.incorrect_answers.map((item, index) => (
-            <button data-testid={`wrong-answer${index}`}>{item}</button>
+            <button type="button" key={ index } data-testid={ `wrong-answer${index}` }>{item}</button>
           ))
         }
       </div>
@@ -50,12 +44,9 @@ const mapStateToProps = (state) => ({
   token: state.player.token,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  questionsGame: () => dispatch(actions.questionsGame()),
-});
-
 Game.propTypes = {
   questionsGame: PropTypes.func.isRequired,
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default connect(mapStateToProps, null)(Game);
