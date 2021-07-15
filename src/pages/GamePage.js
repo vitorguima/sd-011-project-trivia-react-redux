@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Questions from './Questions';
 
 class GamePage extends Component {
   render() {
@@ -16,6 +17,8 @@ class GamePage extends Component {
           <p data-testid="header-score">{score}</p>
           <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${MD5}` } alt="avatar" />
         </header>
+        Game Page
+        <Questions />
       </div>
     );
   }
