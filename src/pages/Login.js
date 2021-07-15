@@ -1,36 +1,70 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getEmail, getName } from '../actions';
 
-class Login extends PureComponent {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
       name: '',
+      email: '',
       disabled: true,
     };
 
     this.handleInput = this.handleInput.bind(this);
+    this.settingsButton = this.settingsButton.bind(this);
+    this.saveTokenInLocalStorage = this.saveTokenInLocalStorage.bind(this);
   }
 
-  componentDidUpdate() {
-    this.handleButton();
+  componentDidMount() {
+    this.getToken();
+  }
+
+  settingsButton() {
+    return (
+      <Link to="/settings">
+        <button
+          data-testid="btn-settings"
+          type="button"
+        >
+          <span role="img" aria-label="Gear">⚙️</span>
+          Configurações
+        </button>
+      </Link>
+    );
+  }
+
+  async getToken() {
+    const API_URL = 'https://opentdb.com/api_token.php?command=request';
+    const tokenReceived = await fetch(API_URL)
+      .then((res) => res.json())
+      .then((data) => data.token);
+    this.saveTokenInLocalStorage('token', tokenReceived);
+  }
+
+  saveTokenInLocalStorage(key, item) {
+    localStorage.clear();
+    localStorage.setItem(key, item);
   }
 
   handleInput({ target }) {
     const { name, value } = target;
-
     this.setState({
       [name]: value,
-    });
+    }, () => this.handleButton());
   }
 
   handleButton() {
-    const { email, name } = this.state;
-    if (name.length > 0 && email.length > 0) {
+    const { email, name, disabled } = this.state;
+    const emailChek = email.split('').includes('@') && email.split('.').includes('com');
+    const num = name.length > 1;
+    if (num && emailChek && disabled) {
       this.setState({
         disabled: false,
       });
-    } else {
+    } else if ((!num || !emailChek) && !disabled) {
       this.setState({
         disabled: true,
       });
@@ -39,44 +73,54 @@ class Login extends PureComponent {
 
   render() {
     const { email, name, disabled } = this.state;
+    const { emailInput } = this.props;
     return (
       <div>
         <label
           htmlFor="email"
         >
           <input
-            type="email"
             name="email"
-            className=""
-            data-testid="input-gravatar-email"
+            type="email"
             value={ email }
-            onChange={ this.handleInput }
+            onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
+            data-testid="input-gravatar-email"
           />
         </label>
-
         <label
           htmlFor="name"
         >
           <input
-            type="text"
             name="name"
-            className=""
-            data-testid="input-player-name"
+            type="text"
             value={ name }
-            onChange={ this.handleInput }
+            onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
+            data-testid="input-player-name"
           />
         </label>
 
-        <button
-          data-testid="btn-play"
-          type="button"
-          disabled={ disabled }
-        >
-          Jogar
-        </button>
+        <Link to="./playgame">
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ disabled }
+            onClick={ () => emailInput(email, name) }
+          >
+            Jogar
+          </button>
+        </Link>
+        { this.settingsButton() }
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  emailInput: (email, name) => dispatch(getEmail(email), dispatch(getName(name))),
+});
+
+Login.propTypes = {
+  emailInput: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
