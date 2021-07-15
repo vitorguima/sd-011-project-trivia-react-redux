@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+// import { connect } from 'react-redux';
 
-export default class Timer extends Component {
-  constructor(props) {
-    super(props);
+class Timer extends Component {
+  constructor() {
+    super();
 
     this.state = {
       count: 30,
@@ -22,10 +23,10 @@ export default class Timer extends Component {
 
   decrementCount() {
     const { count, interval } = this.state;
-    const { onTimeout } = this.props;
+    const { handleTimer } = this.props;
 
     if (count - 1 <= 0) {
-      onTimeout();
+      handleTimer();
       clearInterval(interval);
     }
 
@@ -45,8 +46,18 @@ export default class Timer extends Component {
 }
 
 Timer.propTypes = {
-  onTimeout: PropTypes.func.isRequired,
+  handleTimer: PropTypes.func.isRequired,
 };
 
 // Use esse componente dessa maneira
-// <Timer onTimeout={ func } />
+// <Timer handleTimer={ func } />
+
+// const mapStateToProps = (state) => ({
+//   score: state.player.score,
+// });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   func: () => dispatch(action()),
+// });
+
+export default Timer; // connect(mapStateToProps, mapDispatchToProps)(Timer);
