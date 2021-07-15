@@ -23,18 +23,14 @@ class screenGame extends Component {
   fetchToken() {
     const { searchQuestion } = this.props;
     const recoveredToken = JSON.parse(localStorage.getItem('token'));
-    this.setState({
-      token: recoveredToken.token,
-    });
 
-    const { token } = this.state;
-
-    if (token !== null) {
+    if (recoveredToken !== null) {
       this.setState({
         loading: true,
+        token: recoveredToken.token,
       });
     }
-    const { loading } = this.state;
+    const { loading, token } = this.state;
     if (!loading) {
       searchQuestion(token);
     }
