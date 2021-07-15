@@ -1,0 +1,15 @@
+.login {
+  align-self: center;
+  background-color: rgb(231, 226, 226);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  margin-top: 15%;
+  padding: 4%;
+  width: fit-content;
+}
+
+.input {
+  align-self: center;
+}
