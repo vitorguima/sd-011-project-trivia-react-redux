@@ -16,6 +16,7 @@ class login extends Component {
     };
     this.handleLogin = this.handleLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.localStoragehandle = this.localStoragehandle.bind(this);
   }
 
   handleChange({ target }) {
@@ -25,6 +26,15 @@ class login extends Component {
     }, () => {
       this.handleLogin();
     });
+  }
+
+  localStoragehandle() {
+    const { email, user } = this.state;
+    const player = {
+      name: user,
+      gravatarEmail: email,
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   handleLogin() {
@@ -71,6 +81,7 @@ class login extends Component {
               disabled={ disableBtn }
               onClick={ () => {
                 fetchToken();
+                this.localStoragehandle();
                 updateUser(user);
                 updateEmail(email);
               } }
