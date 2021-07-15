@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { fetchGameAction } from '../actions';
 
 class Forms extends Component {
@@ -55,14 +56,16 @@ class Forms extends Component {
               onChange={ this.handleChange }
             />
           </label>
-          <button
-            disabled={ !(name && email) }
-            type="button"
-            data-testid="btn-play"
-            onClick={ () => this.play() }
-          >
-            Play
-          </button>
+          <Link to="/game">
+            <button
+              disabled={ !(name && email) }
+              type="button"
+              data-testid="btn-play"
+              onClick={ () => this.play() }
+            >
+              Play
+            </button>
+          </Link>
         </form>
 
       </div>
