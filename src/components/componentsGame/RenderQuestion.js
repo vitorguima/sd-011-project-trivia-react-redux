@@ -5,34 +5,36 @@ import { rquestQuestions } from '../../actions';
 const RenderQuestion = () => {
   const dispatch = useDispatch();
   // Random questions https://stackoverflow.com/questions/59329807/react-map-function-return-one-item-at-random
+  const { questions } = useSelector(({ questionsArray }) => questionsArray);
+
+  const renderOptionsQuetion = () => {
+    const time = 1000;
+    setTimeout(() => {
+      dispatch(rquestQuestions());
+    }, time);
+  };
+
   useEffect(() => {
     renderOptionsQuetion();
   }, []);
 
-  const { questions } = useSelector(({ questionsArray }) => questionsArray);
+  const renderLoading = () => <div>Loading...</div>;
 
-  const renderOptionsQuetion = () => {
-    setTimeout(() => {
-      dispatch(rquestQuestions());
-    }, 1000);   
-  };
+  const renderResult = () => (
+    <div className="question">
+      <span data-testid="question-category">{ questions[0].category }</span>
+      <span data-testid="question-text">{ questions[0].question }</span>
+      <button type="button" data-testid="correct-answer">
+        { questions[0].correct_answer }
+      </button>
+      { questions[0].incorrect_answers.map((incorrects, index) => (
+        <button type="button" key={ index } data-testid={ `wrong-answer-${index}` }>
+          { incorrects }
+        </button>)) }
+    </div>
+  );
 
-  const renderLoading = () => {
-    return <div>Loading...</div>
-  };
-
-  const renderResult = () => {
-    return <div className="question">
-    <span data-testid="question-category">{ questions[0].category }</span>
-    <span data-testid="question-text">{ questions[0].question }</span>
-    <button type="button" data-testid="correct-answer">{ questions[0].correct_answer }</button>
-    { questions[0].incorrect_answers.map((incorrects, index) =>
-    <button type="button" key={ index } data-testid={ `wrong-answer-${index}` }>
-    { incorrects }</button>) }
-  </div>;
-  }
-
-  return ( questions[0] === undefined ? renderLoading() : renderResult());
+  return (questions[0] === undefined ? renderLoading() : renderResult());
 };
 
 export default RenderQuestion;
