@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
+import { fetchToken, actionLogin } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -8,9 +11,9 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.checkLogin = this.checkLogin.bind(this);
+    this.handleBtn = this.handleBtn.bind(this);
     this.sendToConfigurations = this.sendToConfigurations.bind(this);
     this.redirectRouter = this.redirectRouter.bind(this);
-    this.fetchTriviaApi = this.fetchTriviaApi.bind(this);
 
     this.state = {
       name: '',
@@ -32,23 +35,17 @@ class Login extends Component {
     }
   }
 
-  storeTokenOnLocalStorage(tokenObj) {
-    localStorage.setItem('token', JSON.stringify(tokenObj));
-  }
-
-  async fetchTriviaApi() {
-    const response = await fetch('https://opentdb.com/api_token.php?command=request');
-    const token = await response.json();
-
-    this.storeTokenOnLocalStorage(token);
+  handleBtn() {
+    const { getLogin } = this.props;
+    const { name, email } = this.state;
+    getLogin(name, email);
     this.redirectRouter();
   }
 
   redirectRouter() {
     const { history } = this.props;
-    console.log(history);
 
-    history.push('/play');
+    history.push('/game');
   }
 
   handleChange({ target: { id, value } }) {
@@ -66,8 +63,7 @@ class Login extends Component {
   }
 
   render() {
-    const { name, email, disabled } = this.state;
-
+    const { disabled } = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -80,7 +76,6 @@ class Login extends Component {
                 data-testid="input-player-name"
                 type="text"
                 id="name"
-                value={ name }
               />
             </label>
             <label htmlFor="email">
@@ -90,18 +85,19 @@ class Login extends Component {
                 data-testid="input-gravatar-email"
                 type="email"
                 id="email"
-                value={ email }
               />
             </label>
           </form>
-          <button
-            disabled={ disabled }
-            type="button"
-            data-testid="btn-play"
-            onClick={ this.fetchTriviaApi }
-          >
-            Jogar
-          </button>
+          <Link to="/game">
+            <button
+              disabled={ disabled }
+              type="button"
+              data-testid="btn-play"
+              onClick={ this.handleBtn }
+            >
+              Jogar
+            </button>
+          </Link>
           <button
             type="button"
             data-testid="btn-settings"
@@ -116,17 +112,17 @@ class Login extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  getToken: () => dispatch(fetchToken()),
+  getLogin: (name, gravatarEmail) => dispatch(actionLogin(name, gravatarEmail)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
+
 Login.propTypes = {
+  getToken: PropTypes.func,
   history: PropTypes.shape({
     location: PropTypes.objectOf(PropTypes.string),
     push: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-export default Login;
-
-Login.propTypes = {
-  history: {
-    push: PropTypes.func,
-  }.isRequired,
-};
+  }),
+}.isRequired;
