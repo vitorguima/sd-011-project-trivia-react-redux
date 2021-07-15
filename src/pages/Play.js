@@ -58,15 +58,19 @@ class Play extends Component {
   }
 
   renderNxtBtn() {
-    return (
-      <button
-        type="submit"
-        onClick={ this.nextQuestion }
-        data-testid="btn-next"
-      >
-        Next
-      </button>
-    );
+    const { qIndex } = this.state;
+    const { questions } = this.props;
+    if (qIndex < questions.length - 1) {
+      return (
+        <button
+          type="submit"
+          onClick={ this.nextQuestion }
+          data-testid="btn-next"
+        >
+          Next
+        </button>
+      );
+    }
   }
 
   renderQuestion() {
@@ -116,7 +120,7 @@ class Play extends Component {
 
   render() {
     const { questions, score, name } = this.props;
-    const { answered, qIndex } = this.state;
+    const { answered } = this.state;
     const carr = <span>Carregando</span>;
     return (
       <div>
@@ -126,7 +130,7 @@ class Play extends Component {
           <span data-testid="header-score">{ score }</span>
         </header>
         { questions.length ? this.renderQuestion() : carr }
-        { (answered && (qIndex < questions.length - 1)) ? this.renderNxtBtn() : '' }
+        { (answered) ? this.renderNxtBtn() : '' }
       </div>
     );
   }
