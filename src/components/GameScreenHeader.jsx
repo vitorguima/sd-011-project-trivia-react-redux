@@ -10,7 +10,7 @@ export default function GameScreenHeader() {
   return (
     <header className="header-container">
       <img
-        src={`https://www.gravatar.com/avatar/${hashEmail}`}
+        src={ `https://www.gravatar.com/avatar/${hashEmail}` }
         data-testid="header-profile-picture"
         alt="Player avatar"
       />

@@ -1,9 +1,9 @@
+/* eslint-disable max-lines-per-function */
 import React, { useEffect, useState, Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import _ from 'lodash';
 import '../styles/TriviaGame.css';
-import { getQuestions } from '../services/mockedTriviaResults';
-import { Header, Functions } from '../components';
+import getQuestions from '../services/mockedTriviaResults';
+import { Header, Functions, ShowTrivia } from '../components';
 
 export default function Game() {
   const [index, setIndex] = useState(0);
@@ -16,66 +16,73 @@ export default function Game() {
   useEffect(async () => {
     (async () => {
       const { token } = loginState;
-      const questions = await getQuestions(token);
-      setQuestions(questions);
+      const response = await getQuestions(token);
+      setQuestions(response);
     })();
   }, []);
 
   useEffect(() => {
+    const magic = 0.5;
+
     if (questions) {
-      const { incorrect_answers, correct_answer } = questions[index];
-      let answers = Array.from(incorrect_answers);
-      answers.push({ correct: correct_answer });
-      answers = answers.sort(() => Math.random() - 0.5);
+      const incorrectAnswers = questions[index].incorrect_answers;
+      const correctAnswers = questions[index].correct_answer;
+      let answers = Array.from(incorrectAnswers);
+      answers.push({ correct: correctAnswers });
+      answers = answers.sort(() => Math.random() - magic);
       setArray(answers);
     }
   }, [questions, index]);
 
+  const btnPrimary = 'btn-primary';
+
+  const showResults = (e) => {
+    setAnswer(e);
+    const labelAnswers = document.querySelectorAll('label');
+    const correctAnswer = arrayQuestions.find((el) => typeof el === 'object');
+    const correctIndex = arrayQuestions.indexOf(correctAnswer);
+    return labelAnswers.forEach((el) => {
+      const id = el.id.replace('label', '');
+      if (parseInt(id, 10) !== correctIndex) {
+        el.classList.add('btn-danger', 'wrongAnswer');
+        el.classList.remove(btnPrimary);
+      }
+      if (parseInt(id, 10) === correctIndex) {
+        el.classList.add('btn-success', 'rightAnswer');
+        el.classList.remove(btnPrimary);
+      }
+    });
+  };
+
   const nextQuestion = () => {
     setAnswer('');
+    const label = document.querySelectorAll('label');
     const ele = document.querySelector('input:checked');
+    label.forEach((el) => {
+      el.classList.remove('btn-danger', 'btn-success', 'wrongAnswer', 'rightAnswer');
+      el.classList.add(btnPrimary);
+    });
+
     ele.checked = false;
-    if (index < 4) {
+    if (index < questions.length - 1) {
       return setIndex(index + 1);
     }
     return setIndex(0);
   };
 
-  const showTrivia = () => (
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>
-            <span class="label label-warning gameIndex" id="qid" data-testid="question-text">
-              {index + 1}
-            </span>
-            {questions[index].question}
-          </h3>
-          <p data-testid="question-category">{questions[index].category}</p>
-        </div>
-        {arrayQuestions && Functions.showQuestions(arrayQuestions, setAnswer)}
-
-        {answer && (
-          <button
-            onClick={() => nextQuestion()}
-            className="btn btn btn-success"
-            data-testid="btn-next"
-          >
-            Próxima pergunta
-          </button>
-        )}
-
-        <div class="modal-footer text-muted">
-          <span id="answer"></span>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <>
       <Header />
-      {questions && showTrivia()}
+      {questions && <ShowTrivia
+        index={ index }
+        questions={ questions }
+        arrayQuestions={ arrayQuestions }
+        Functions={ Functions }
+        onChange={ showResults }
+        answer={ answer }
+        nextQuestion={ nextQuestion }
+      />}
+
     </>
   );
 }
