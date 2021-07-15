@@ -38,9 +38,10 @@
   display: flex;
   margin: 3px;
 }
+
 .App-header button {
-  margin: 3px;
   align-self: center;
+  margin: 3px;
   flex-direction: column;
 }
 
