@@ -1,5 +1,4 @@
 import md5 from 'crypto-js/md5';
-import { saveQuestions } from '../actions';
 
 const API_URL = 'https://opentdb.com/api_token.php?command=request';
 
@@ -26,13 +25,9 @@ export async function fetchGravatar(email, name) {
   localStorage.setItem('ranking', JSON.stringify(ranking));
 }
 
-const saveQuestionsToStore = (questions) => (dispatch) => {
-  dispatch(saveQuestions(questions));
-};
-
 export async function fetchQuestions(token) {
   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const data = await response.json();
 
-  return data.response_code === 0 ? saveQuestionsToStore(data.results) : console.log('');
+  return data.results;
 }

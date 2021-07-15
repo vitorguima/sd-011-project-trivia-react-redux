@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { saveQuestions } from '../actions';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services/Api';
 
@@ -14,10 +15,11 @@ class GamePlay extends Component {
     this.callQuestions();
   }
 
-  callQuestions() {
+  async callQuestions() {
     const tokenLocalStorage = JSON.parse(localStorage.getItem('token'));
     const { getQuestions } = this.props;
-    getQuestions(tokenLocalStorage);
+    const data = await fetchQuestions(tokenLocalStorage);
+    getQuestions(data);
   }
 
   render() {
@@ -30,7 +32,7 @@ class GamePlay extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getQuestions: (userToken) => dispatch(fetchQuestions(userToken)),
+  getQuestions: (questions) => dispatch(saveQuestions(questions)),
 });
 
 export default connect(null, mapDispatchToProps)(GamePlay);
