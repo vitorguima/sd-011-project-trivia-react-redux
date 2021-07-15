@@ -7,6 +7,7 @@ class Question extends React.Component {
       { question,
         correct_answer: correctAnswer,
         incorrect_answers: incorrectAnswers,
+        category,
       } } = this.props;
     const randomAnswers = [correctAnswer, ...incorrectAnswers]
       .map((a) => ({ sort: Math.random(), value: a }))
@@ -14,14 +15,31 @@ class Question extends React.Component {
       .map((a) => a.value);
     return (
       <div>
-        <h1>
+        <h1 data-testid="question-text">
           { question }
         </h1>
+        <p data-testid="question-category">{ category }</p>
         {randomAnswers.map((answer, index) => {
           if (answer === correctAnswer) {
-            return <button key={ index } data-testid="correct-answer" type="button">{answer}</button>;
+            return (
+              <button
+                key={ index }
+                data-testid="correct-answer"
+                type="button"
+              >
+                {answer}
+              </button>
+            );
           }
-          return <button key={ index } data-testid="incorrect-answer" type="button">{answer}</button>;
+          return (
+            <button
+              key={ index }
+              data-testid={ `wrong-answer-${index}` }
+              type="button"
+            >
+              {answer}
+            </button>
+          );
         })}
       </div>
 

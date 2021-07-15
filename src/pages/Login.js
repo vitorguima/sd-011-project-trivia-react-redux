@@ -10,8 +10,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'teste',
-      email: 'teste@teste.com',
+      username: '',
+      email: '',
     };
 
     this.saveToken = this.saveToken.bind(this);
