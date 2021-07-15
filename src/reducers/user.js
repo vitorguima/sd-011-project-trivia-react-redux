@@ -6,7 +6,7 @@ import {
 } from '../actions';
 
 const INITIAL_STATE = {
-  user: '',
+  name: '',
   email: '',
   token: '',
   loading: false,
@@ -17,8 +17,8 @@ export default function reducerUser(state = INITIAL_STATE, action) {
   case USER_EMAIL:
     return {
       ...state,
-      user: action.payload.user,
-      email: action.payload.email,
+      name: action.name,
+      email: action.email,
     };
   case REQUEST_TOKEN:
     return {
