@@ -1,6 +1,12 @@
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_FAILED = 'GET_TOKEN_FAILED';
+export const GET_USER_INFO = 'GET_USER_INFO';
+
+export const getUserInfo = (payload) => ({
+  type: GET_USER_INFO,
+  payload,
+});
 
 export const getToken = () => ({
   type: GET_TOKEN,
