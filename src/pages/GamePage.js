@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import './GamePage.style.css';
+import Timer from '../compoments/Timer';
 
 class GamePage extends Component {
   constructor() {
@@ -71,6 +72,7 @@ class GamePage extends Component {
     return (
       <div>
         {this.renderHeader()}
+        <Timer />
         {results && (
           <div>
             <p data-testid="question-category">{results[questionIndex].category}</p>
