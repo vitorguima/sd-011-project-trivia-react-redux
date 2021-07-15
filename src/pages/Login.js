@@ -22,10 +22,6 @@ class Login extends Component {
     this.getToken();
   }
 
-  componentDidUpdate() {
-    this.handleButton();
-  }
-
   settingsButton() {
     return (
       <Link to="/settings">
@@ -57,16 +53,18 @@ class Login extends Component {
     const { name, value } = target;
     this.setState({
       [name]: value,
-    });
+    }, () => this.handleButton());
   }
 
   handleButton() {
-    const { email, name } = this.state;
-    if (name.length > 0 && email.length > 0) {
+    const { email, name, disabled } = this.state;
+    const emailChek = email.split('').includes('@') && email.split('.').includes('com');
+    const num = name.length > 1;
+    if (num && emailChek && disabled) {
       this.setState({
         disabled: false,
       });
-    } else {
+    } else if ((!num || !emailChek) && !disabled) {
       this.setState({
         disabled: true,
       });
@@ -85,7 +83,7 @@ class Login extends Component {
             name="email"
             type="email"
             value={ email }
-            onChange={ this.handleInput }
+            onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
             data-testid="input-gravatar-email"
           />
         </label>
@@ -96,7 +94,7 @@ class Login extends Component {
             name="name"
             type="text"
             value={ name }
-            onChange={ this.handleInput }
+            onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
             data-testid="input-player-name"
           />
         </label>
