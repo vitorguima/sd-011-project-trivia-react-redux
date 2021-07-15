@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
-import fetchToken from '../services/api';
+// import { fetchToken } from '../services/api';
 import { actionAvatar, actionName } from '../actions';
 
 class Home extends Component {
@@ -18,9 +18,9 @@ class Home extends Component {
   }
 
   async getToken() {
-    const { token } = await fetchToken();
+    // const { token } = await fetchToken();
     const { setAvatar, setName } = this.props;
-    localStorage.setItem('token', token);
+    // localStorage.setItem('token', token);
     const { email, name } = this.state;
     const hash = md5(email).toString();
     setAvatar(`https://www.gravatar.com/avatar/${hash}`);
