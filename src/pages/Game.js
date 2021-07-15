@@ -217,7 +217,6 @@ const mapStateToProps = (state) => ({
   questionsState: state.gameReducer.questions,
   userEmail: state.homeReducer.user.email,
   userName: state.homeReducer.user.name,
-  score: state.gameReducer.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
