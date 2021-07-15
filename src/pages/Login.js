@@ -36,6 +36,15 @@ class Login extends React.Component {
     const { login } = this.props;
     this.saveToken();
     login(username, email);
+    const player = {
+      player: {
+        name: username,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   render() {
