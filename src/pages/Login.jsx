@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import Layout from '../components/common/Layout';
 import { changeEmail, changeName, getToken } from '../redux/actions';
 
@@ -64,6 +65,10 @@ class Login extends Component {
               </button>
             </Link>
           </form>
+          <Link to="/Config">
+            <button type="button" data-testid="btn-settings">Configurações</button>
+          </Link>
+
         </main>
       </Layout>
     );
