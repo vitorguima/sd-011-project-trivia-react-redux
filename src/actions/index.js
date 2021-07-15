@@ -2,6 +2,14 @@ export const GET_TOKEN = 'GET_TOKEN';
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 export const GET_TOKEN_FAILED = 'GET_TOKEN_FAILED';
 
+export const SEND_EMAIL = 'SEND_EMAIL';
+
+export const sendEmail = (email, name) => ({
+  type: SEND_EMAIL,
+  payload: email,
+  payload2: name,
+});
+
 export const getToken = () => ({
   type: GET_TOKEN,
 });
