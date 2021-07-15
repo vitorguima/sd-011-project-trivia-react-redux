@@ -43,7 +43,6 @@ class Login extends Component {
       const { token } = await getToken();
       fetchToken(token);
       submitForm({ nome, email });
-      console.log(nome, email);
       localStorage.setItem('token', JSON.stringify(token));
       this.setState({ loading: false });
       history.push('/game');
