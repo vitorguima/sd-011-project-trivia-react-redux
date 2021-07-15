@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../styles/Questions.css';
 
 export default class Questions extends Component {
   constructor() {
@@ -24,15 +25,24 @@ export default class Questions extends Component {
     }));
   }
 
+  addWrongBorder() {
+    const wrong = [...document.getElementsByClassName('wrong')];
+    const tru = [...document.getElementsByClassName('true')];
+    tru.forEach((node) => { node.className = 'true-answer'; });
+    wrong.forEach((node) => { node.className = 'wrong-answer'; });
+  }
+
   incorrectAnswers() {
     const { questions } = this.state;
     const getQuestion = questions[0];
     const selectedQuestion = getQuestion && getQuestion.incorrect_answers;
     return selectedQuestion && selectedQuestion.map((question, index) => (
       <button
+        className="wrong"
         type="button"
         key={ question }
         data-testid={ `wrong-answer-${index}` }
+        onClick={ this.addWrongBorder }
       >
         {question}
       </button>));
@@ -49,7 +59,12 @@ export default class Questions extends Component {
         <p data-testid="question-text">
           {selectedQuestion && selectedQuestion.question}
         </p>
-        <button data-testid="correct-answer" type="button">
+        <button
+          data-testid="correct-answer"
+          className="true"
+          type="button"
+          onClick={ this.addWrongBorder }
+        >
           {selectedQuestion && selectedQuestion.correct_answer}
         </button>
         {this.incorrectAnswers()}
