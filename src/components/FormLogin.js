@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ButtonsLogin from './ButtonsLogin';
 
 class FormLogin extends Component {
   render() {
-    const { validation, handleInput, handleButton, nome, email } = this.props;
+    const {
+      validation,
+      handleInput,
+      handleButton,
+      nome, email,
+      handleSettings,
+    } = this.props;
     return (
-      <form id="form-login">
+      <form className="form-login">
         <label htmlFor="name">
           Nome
           <input
@@ -16,6 +23,7 @@ class FormLogin extends Component {
             value={ nome }
             required
             onChange={ handleInput }
+            placeholder="Digite your name"
           />
         </label>
         <label htmlFor="email">
@@ -28,17 +36,14 @@ class FormLogin extends Component {
             value={ email }
             required
             onChange={ handleInput }
+            placeholder="Digit your email"
           />
         </label>
-        <button
-          id="button-login"
-          data-testid="btn-play"
-          type="button"
-          disabled={ validation() }
-          onClick={ () => handleButton() }
-        >
-          Jogar
-        </button>
+        <ButtonsLogin
+          validation={ validation }
+          handleButton={ handleButton }
+          handleSettings={ handleSettings }
+        />
       </form>
     );
   }
@@ -48,8 +53,9 @@ FormLogin.propTypes = {
   handleInput: PropTypes.func.isRequired,
   validation: PropTypes.func.isRequired,
   handleButton: PropTypes.func.isRequired,
+  handleSettings: PropTypes.func.isRequired,
   nome: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-};
+}.isRequired;
 
 export default FormLogin;

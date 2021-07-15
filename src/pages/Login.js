@@ -16,6 +16,7 @@ class Login extends Component {
     this.validation = this.validation.bind(this);
     this.handleButton = this.handleButton.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleSettings = this.handleSettings.bind(this);
   }
 
   validation() {
@@ -31,6 +32,11 @@ class Login extends Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  handleSettings() {
+    const { history } = this.props;
+    history.push('/settings');
   }
 
   async handleButton() {
@@ -58,15 +64,16 @@ class Login extends Component {
       return <h1>Loading...</h1>;
     }
     return (
-      <div>
+      <section>
         <FormLogin
           validation={ this.validation }
           nome={ this.nome }
           email={ this.email }
           handleButton={ this.handleButton }
           handleInput={ this.handleInput }
+          handleSettings={ this.handleSettings }
         />
-      </div>
+      </section>
     );
   }
 }
