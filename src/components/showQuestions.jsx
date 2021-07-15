@@ -21,9 +21,6 @@ const showQuestions = (arrayQuestions, onChange, i) => arrayQuestions.map((el, i
           value={ el }
           onChange={ () => {
             onChange(el);
-            if (i === arrayQuestions.length) {
-              return history.push('feedback');
-            }
           } }
         />
         {el}
@@ -45,11 +42,7 @@ const showQuestions = (arrayQuestions, onChange, i) => arrayQuestions.map((el, i
         name="q_answer"
         value={ el.correct }
         onChange={ () => {
-          // onChange({ answer: el.correct, id: index });
           onChange(el.correct);
-          if (i === arrayQuestions.length) {
-            return history.push('feedback');
-          }
         } }
       />
       {el.correct}

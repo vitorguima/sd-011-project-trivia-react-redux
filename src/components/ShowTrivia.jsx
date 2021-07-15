@@ -4,31 +4,16 @@ import PropTypes from 'prop-types';
 import showQuestions from './showQuestions';
 import NextQuestionButton from './NextQuestionButton';
 
-export default function ShowTrivia({ index,
-  questions,
-  arrayQuestions,
-  showResults,
-  answer,
-  nextQuestion,
-  setAnswer,
-  setIndex,
-  setPlayer,
-  player }) {
-  const addScore = () => {
-    const { correct_answer, difficulty } = questions[index];
-    const difficultyLevels = {
-      easy: 1,
-      medium: 2,
-      hard: 3,
-    };
-    if (answer === correct_answer) {
-      const level = difficultyLevels[difficulty];
-      const { assertions, score } = player.player;
-      const ass = assertions + 1;
-      const scr = (score + (10 + (1 * level)));
-      setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } });
-    }
-  };
+export default function ShowTrivia(props) {
+  const { index,
+    questions,
+    arrayQuestions,
+    showResults,
+    answer,
+    setAnswer,
+    setIndex,
+    setPlayer,
+    player } = props;
 
   return (
     <div className="modal-dialog">
@@ -43,21 +28,8 @@ export default function ShowTrivia({ index,
           <p data-testid="question-category">{questions[index].category}</p>
         </div>
         {arrayQuestions && showQuestions(arrayQuestions, showResults, index)}
-
-        {answer && (<NextQuestionButton { ...{ setAnswer, index, questions, setIndex } } />
-        // <button
-        //   type="button"
-        //   onClick={ () => {
-        //     nextQuestion(setAnswer, index, questions, setIndex);
-        //     addScore();
-        //   } }
-        //   className="btn btn btn-info btn-lg nextQuestion"
-        //   data-testid="btn-next"
-        // >
-        //   Próxima pergunta
-        // </button>
-        )}
-
+        {answer
+         && (<NextQuestionButton { ...{ setAnswer, index, questions, setIndex } } />)}
         <div className="modal-footer text-muted">
           <span id="answer" />
         </div>
@@ -74,5 +46,7 @@ ShowTrivia.propTypes = {
   setIndex: PropTypes.func.isRequired,
   showResults: PropTypes.func.isRequired,
   setAnswer: PropTypes.func.isRequired,
+  setPlayer: PropTypes.func.isRequired,
+  player: PropTypes.objectOf(PropTypes.object).isRequired,
 
 };
