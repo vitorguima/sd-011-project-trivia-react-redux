@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout } from '../components/common';
+import Layout from '../components/common/Layout';
 
 class Game extends Component {
   render() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { Login } from './pages';
+import Login from './pages/Login';
 import Game from './pages/Game';
 import store from './redux/store';
 

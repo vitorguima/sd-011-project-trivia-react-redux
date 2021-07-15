@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Layout } from '../components/common';
+import PropTypes from 'prop-types';
+import Layout from '../components/common/Layout';
 import { changeEmail, changeName, getToken } from '../redux/actions';
 
 class Login extends Component {
