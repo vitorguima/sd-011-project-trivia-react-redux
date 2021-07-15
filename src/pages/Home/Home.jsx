@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { saveToken } from '../../actions';
+import Header from '../../components/Header';
 
 class Home extends Component {
   constructor() {
@@ -93,6 +94,7 @@ class Home extends Component {
         </form>
         {this.renderPlayButton()}
         {this.renderSettingsButton()}
+        <Header playerName={ playerName } email={ email } />
       </div>
     );
   }
