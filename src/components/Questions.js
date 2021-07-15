@@ -4,6 +4,13 @@ import { connect } from 'react-redux';
 import { fetchQuestions } from '../actions';
 
 class Questions extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      indexQuestion: 0,
+    };
+  }
+
   async componentDidMount() {
     const { getQuestions, token } = this.props;
     await getQuestions(token);
@@ -11,29 +18,47 @@ class Questions extends Component {
 
   render() {
     const { questions } = this.props;
-    const { results } = questions;
-    console.log(results);
-    return (
-      <div>
-        <span data-testId="question-category">Categoria</span>
-        <h2 data-testId="question-text">Texto da questão</h2>
-        <div>
-          <button type="button" data-testid="`wrong-answer-{index}`">question01</button>
-          <button type="button" data-testid="`wrong-answer-{index}`">question02</button>
-          <button type="button" data-testid="`wrong-answer-{index}`">question03</button>
-          <button type="button" data-testid="correct-answer">question04</button>
-        </div>
-        <div>
-          <button type="button" data-testid="`wrong-answer-{index}`">
-            verdadeiro
-          </button>
+    const { indexQuestion } = this.state;
+    if (questions.length) {
+      const correctAnswer = questions[indexQuestion].correct_answer;
+      const incorrectAnswers = questions[indexQuestion].incorrect_answers;
+      const answers = [correctAnswer, ...incorrectAnswers];
+      const { category, question } = questions[indexQuestion];
+      return (
+        <section>
+          <div data-testid="question-category">{ category }</div>
 
-          <button type="button" data-testid="correct-answer">
-            falso
+          <div data-testid="question-text">{ question }</div>
+
+          {answers.map((answer, index) => {
+            if (answer === correctAnswer) {
+              return (
+                <button
+                  onClick=""
+                  key={ index }
+                  type="button"
+                  data-testid="correct-answer"
+                >
+                  {answer}
+                </button>);
+            }
+            return (
+              <button
+                onClick=""
+                key={ index }
+                type="button"
+                data-testid={ `wrong-answer-${index}` }
+              >
+                {answer}
+              </button>);
+          })}
+          <button type="button" data-testid="btn-next" onClick="">
+            Próxima
           </button>
-        </div>
-      </div>
-    );
+        </section>
+      );
+    }
+    return <section>carregando...</section>;
   }
 }
 
