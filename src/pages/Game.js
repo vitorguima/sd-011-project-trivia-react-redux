@@ -17,8 +17,7 @@ class Game extends Component {
       assertions: 0,
       score,
       gravatarEmail: email,
-    };
-
+    };//
     if (!isLoading) {
       localStorage.setItem('token', JSON.stringify(token));
       localStorage.setItem('player', JSON.stringify(player));
