@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Questions from './Questions';
 
 class GamePage extends Component {
   render() {
@@ -9,6 +10,7 @@ class GamePage extends Component {
     return (
       <div>
         Game Page
+        <Questions />
       </div>
     );
   }
