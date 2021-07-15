@@ -17,10 +17,8 @@ class Home extends Component {
     this.getToken = this.getToken.bind(this);
   }
 
-  async getToken() {
-    // const { token } = await fetchToken();
+  getToken() {
     const { setAvatar, setName } = this.props;
-    // localStorage.setItem('token', token);
     const { email, name } = this.state;
     const hash = md5(email).toString();
     setAvatar(`https://www.gravatar.com/avatar/${hash}`);
