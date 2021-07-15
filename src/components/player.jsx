@@ -27,7 +27,6 @@ export default class Player extends React.Component {
 
   render() {
     const { results } = this.state;
-    console.log(results);
     return (
       <div>
         <Header />
