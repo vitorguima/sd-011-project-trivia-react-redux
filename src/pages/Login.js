@@ -36,12 +36,11 @@ class Login extends Component {
     );
   }
 
-  async getToken() {
+  getToken() {
     const API_URL = 'https://opentdb.com/api_token.php?command=request';
-    const tokenReceived = await fetch(API_URL)
+    fetch(API_URL)
       .then((res) => res.json())
-      .then((data) => data.token);
-    this.saveTokenInLocalStorage('token', tokenReceived);
+      .then((data) => this.saveTokenInLocalStorage('token', data.token));
   }
 
   saveTokenInLocalStorage(key, item) {
@@ -99,7 +98,7 @@ class Login extends Component {
           />
         </label>
 
-        <Link to="./triviaQuestions">
+        <Link to="./triviaquestions">
           <button
             data-testid="btn-play"
             type="button"
