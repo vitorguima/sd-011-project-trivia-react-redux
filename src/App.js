@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
-import TelaIncial from './Pages/TelaIncial';
-import Play from './Pages/Play';
-import Feedback from './Pages/TelaDeFeedback';
-import Ranking from './Pages/TelaDeRanking';
-import Settings from './Pages/Settings';
+import TelaIncial from './pages/TelaIncial';
+import Play from './pages/Play';
+import Feedback from './pages/Feedback';
+import Ranking from './pages/TelaDeRanking';
+import Settings from './pages/Settings';
 
 export default function App() {
   return (

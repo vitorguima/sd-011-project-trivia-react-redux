@@ -86,8 +86,9 @@ class TelaIncial extends Component {
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(fetchToken()),
 });
-export default connect(null, mapDispatchToProps)(TelaIncial);
 
 TelaIncial.propTypes = {
   getToken: PropTypes.func.isRequired,
 };
+
+export default connect(null, mapDispatchToProps)(TelaIncial);
