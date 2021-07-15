@@ -23,7 +23,7 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
-    const { fetchToken } = this.props;
+    const { startGame } = this.props;
     const isDisabled = name.length === 0 || email.length === 0;
     return (
       <div>
@@ -43,7 +43,6 @@ class Login extends React.Component {
               data-testid="input-player-name"
               name="name"
               id="name"
-              required
               onChange={ this.handleOnChange }
             />
           </label>
@@ -51,21 +50,22 @@ class Login extends React.Component {
             Email:
             <input
               type="email"
-              data-testid="input-gravatar-email"
               id="email"
+              data-testid="input-gravatar-email"
               name="email"
-              required
               onChange={ this.handleOnChange }
             />
           </label>
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ isDisabled }
-            onClick={ fetchToken }
-          >
-            Jogar
-          </button>
+          <Link to="/game">
+            <button
+              data-testid="btn-play"
+              type="button"
+              disabled={ isDisabled }
+              onClick={ () => startGame(name, email) }
+            >
+              Jogar
+            </button>
+          </Link>
         </form>
       </div>
     );
@@ -73,11 +73,11 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchToken: () => dispatch(actions.fetchToken()),
+  startGame: (name, email) => dispatch(actions.startGame(name, email)),
 });
 
 Login.propTypes = {
-  fetchToken: PropTypes.func.isRequired,
+  startGame: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

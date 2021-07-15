@@ -1,9 +1,13 @@
 import React from 'react';
+import Header from './Header';
 
 function Game() {
   return (
     <div>
-      Game
+      <Header />
+      <div>
+        Game
+      </div>
     </div>
   );
 }
