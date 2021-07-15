@@ -15,6 +15,7 @@ class Game extends Component {
     this.onClickQuestion = this.onClickQuestion.bind(this);
     this.goNextQuestion = this.goNextQuestion.bind(this);
     this.startTimer = this.startTimer.bind(this);
+    this.sumScore = this.sumScore.bind(this);
   }
 
   componentDidMount() {
@@ -23,20 +24,23 @@ class Game extends Component {
     if (token) fetchToken(token);
   }
 
-  onClickQuestion() {
+  onClickQuestion({ target: { name } }) {
     this.setState({
       clickedQuestions: true,
     });
+    if (name === 'correctAnswer') {
+      this.sumScore();
+    }
   }
 
   startTimer() {
-    const { timer } = this.state;
+    const { timer, clickedQuestions } = this.state;
     const time = 1000;
     const timeout = setTimeout(
       () => this.setState((prevState) => ({ timer: prevState.timer - 1 })),
       time,
     );
-    if (timer === 0) {
+    if (timer === 0 || clickedQuestions) {
       clearTimeout(timeout);
     }
   }
@@ -51,6 +55,28 @@ class Game extends Component {
       return true;
     }
     return false;
+  }
+
+  sumScore() {
+    const { timer, index } = this.state;
+    const { questions } = this.props;
+    const { results } = questions.questions;
+    const question = results[index];
+    const basePoint = 10;
+    const storage = JSON.parse(localStorage.getItem('state'));
+
+    if (question.difficulty === 'hard') {
+      const hard = 3;
+      storage.player.score += (basePoint + (timer * hard));
+    }
+    if (question.difficulty === 'medium') {
+      const medium = 2;
+      storage.player.score += (basePoint + (timer * medium));
+    } else {
+      const easy = 1;
+      storage.player.score += (basePoint + (timer * easy));
+    }
+    localStorage.setItem('state', JSON.stringify(storage));
   }
 
   render() {
@@ -73,6 +99,7 @@ class Game extends Component {
             data-testid="correct-answer"
             onClick={ this.onClickQuestion }
             style={ clickedQuestions ? { border: '3px solid rgb(6, 240, 15)' } : null }
+            name="correctAnswer"
           >
             {results[index].correct_answer}
           </button>
@@ -83,9 +110,8 @@ class Game extends Component {
               key={ idx }
               data-testid={ `wrong-answer-${idx}` }
               onClick={ this.onClickQuestion }
-              style={
-                clickedQuestions ? { border: '3px solid rgb(255, 0, 0)' } : null
-              }
+              style={ clickedQuestions ? { border: '3px solid rgb(255, 0, 0)' } : null }
+              name="IncorrectAnswer"
             >
               {answer}
             </button>
