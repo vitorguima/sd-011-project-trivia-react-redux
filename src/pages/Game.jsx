@@ -4,6 +4,7 @@ import '../styles/TriviaGame.css';
 import getQuestions from '../services/mockedTriviaResults';
 import { Header, showQuestions, ShowTrivia } from '../components';
 import { paintButtons, nextQuestion, randomArray } from '../components/GameFunctions';
+import Timer from '../components/Timer';
 
 export const GameStateContext = createContext({});
 
@@ -41,9 +42,9 @@ export default function Game() {
   return (
     <>
       <Header />
+      <Timer />
       {questions && <ShowTrivia { ...props } />}
 
     </>
   );
 }
-
