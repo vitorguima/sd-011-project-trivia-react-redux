@@ -6,6 +6,8 @@ const getQuestions = (state) => ({ type: 'GET_QUESTIONS', state });
 
 const getToken = (state) => ({ type: 'GET_TOKEN', state });
 
+export const user = (state) => ({ type: 'USER', state });
+
 export function fetchToken() {
   return (dispatch) => {
     dispatch(reqToken());

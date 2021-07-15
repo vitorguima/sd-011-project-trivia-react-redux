@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchToken } from '../actions';
+import { fetchToken, user } from '../actions';
 import logo from '../trivia.png';
 
 class TelaIncial extends Component {
@@ -16,6 +16,15 @@ class TelaIncial extends Component {
     };
     this.activeButton = this.activeButton.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.getTokenAndState = this.getTokenAndState.bind(this);
+  }
+
+  getTokenAndState() {
+    const { getToken, exportState } = this.props;
+    exportState(this.state);
+    getToken()
+      .then(({ state: { token } }) => (
+        localStorage.setItem('token', JSON.stringify(token))));
   }
 
   activeButton() {
@@ -35,7 +44,7 @@ class TelaIncial extends Component {
 
   render() {
     const { button } = this.state;
-    const { getToken } = this.props;
+
     return (
       <div className="App">
         <header className="App-header">
@@ -61,11 +70,7 @@ class TelaIncial extends Component {
               type="button"
               disabled={ button }
               data-testid="btn-play"
-              onClick={
-                () => getToken()
-                  .then(({ state: { token } }) => (
-                    localStorage.setItem('token', JSON.stringify(token))))
-              }
+              onClick={ () => this.getTokenAndState() }
             >
               Jogar
             </button>
@@ -85,9 +90,11 @@ class TelaIncial extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(fetchToken()),
+  exportState: (state) => dispatch(user(state)),
 });
 export default connect(null, mapDispatchToProps)(TelaIncial);
 
 TelaIncial.propTypes = {
   getToken: PropTypes.func.isRequired,
+  exportState: PropTypes.func.isRequired,
 };
