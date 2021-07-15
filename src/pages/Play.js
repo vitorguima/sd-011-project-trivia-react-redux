@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchToken, fetchQuestions, addPoint } from '../actions';
+import { fetchQuestions, addPoint } from '../actions';
 import './Play.css';
 
 class Play extends Component {
@@ -10,11 +10,14 @@ class Play extends Component {
 
     this.state = {
       qIndex: 0,
+      answered: false,
     };
 
     this.initialFetch = this.initialFetch.bind(this);
     this.renderQuestion = this.renderQuestion.bind(this);
     this.handleCorrect = this.handleCorrect.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.renderNxtBtn = this.renderNxtBtn.bind(this);
   }
 
   componentDidMount() {
@@ -22,8 +25,7 @@ class Play extends Component {
   }
 
   async initialFetch() {
-    const { getToken, getQuestions, token } = this.props;
-    await getToken();
+    const { getQuestions, token } = this.props;
     await getQuestions(token);
   }
 
@@ -38,6 +40,36 @@ class Play extends Component {
     });
     if (className === 'correct') {
       addScore();
+    }
+    this.setState(() => ({
+      answered: true,
+    }));
+  }
+
+  nextQuestion() {
+    const { questions } = this.props;
+    const { qIndex } = this.state;
+    if (qIndex < questions.length - 1) {
+      this.setState((state) => ({
+        qIndex: state.qIndex + 1,
+        answered: false,
+      }));
+    }
+  }
+
+  renderNxtBtn() {
+    const { qIndex } = this.state;
+    const { questions } = this.props;
+    if (qIndex < questions.length - 1) {
+      return (
+        <button
+          type="submit"
+          onClick={ this.nextQuestion }
+          data-testid="btn-next"
+        >
+          Next
+        </button>
+      );
     }
   }
 
@@ -87,16 +119,18 @@ class Play extends Component {
   }
 
   render() {
-    const { questions, score } = this.props;
+    const { questions, score, name } = this.props;
+    const { answered } = this.state;
     const carr = <span>Carregando</span>;
     return (
       <div>
         <header>
           <img data-testid="header-profile-picture" alt="profile-pic" />
-          <span data-testid="header-player-name">Jorginho</span>
+          <span data-testid="header-player-name">{ name }</span>
           <span data-testid="header-score">{ score }</span>
         </header>
         { questions.length ? this.renderQuestion() : carr }
+        { (answered) ? this.renderNxtBtn() : '' }
       </div>
     );
   }
@@ -106,20 +140,20 @@ const mapStateToProps = (state) => ({
   token: state.questions.token,
   questions: state.questions.questions,
   score: state.questions.score,
+  name: state.userReducer.name,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getToken: () => dispatch(fetchToken()),
   getQuestions: (state) => dispatch(fetchQuestions(state)),
   addScore: () => dispatch(addPoint()) });
 
 Play.propTypes = {
   getQuestions: PropTypes.func.isRequired,
-  getToken: PropTypes.func.isRequired,
   addScore: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Play);

@@ -2,12 +2,30 @@ import React, { Component } from 'react';
 
 class Feedback extends Component {
   render() {
+    const { userName, scoreUser } = this.props;
     return (
       <header>
-        
+        <img
+          src={ gravatarImage }
+          alt="player_image"
+          data-testid="header-profile-picture"
+        />
+        <div data-testid="feedback-text">Feedback</div>
+        <div data-testid="header-player-name">{ userName }</div>
+        <div data-testid="header-score">{ scoreUser }</div>
       </header>
     );
   }
 }
 
-export default Feedback;
+const mapStateToProps = (state) => ({
+  userName: state.userReducer.name,
+  scoreUser: state.questions.score,
+});
+
+Feedback.propTypes = ({
+  userName: PropTypes.func,
+  scoreUser: PropTypes.func,
+}).isRequired;
+
+export default connect(mapStateToProps, null)(Feedback);
