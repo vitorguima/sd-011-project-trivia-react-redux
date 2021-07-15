@@ -27,19 +27,20 @@ class GameComponent extends Component {
   render() {
     const { questions, loading, buttonDisable } = this.props;
     const { results } = questions;
+    console.log(results);
     return (
-      <div>
+      <div className="container-game">
         {loading
-          ? <p>Carregando...</p>
+          ? <img src="https://media.giphy.com/media/kUTME7ABmhYg5J3psM/giphy.gif" alt="User Gravatar" />
           : (
             <div>
-              <p data-testid="question-category">{ results[0].category }</p>
-              <h4 data-testid="question-text">{ results[0].question }</h4>
+              <p data-testid="question-category">{`Categoria: ${results[0].category}`}</p>
+              <h4 data-testid="question-text">{ `Questão: ${results[0].question}` }</h4>
               <button
                 value="correct"
                 data-testid="correct-answer"
                 type="button"
-                className="green-border"
+                className="green-border btn-questions"
                 onClick={ (event) => this.colorSelectCorrect(event) }
                 disabled={ buttonDisable }
               >
@@ -50,7 +51,7 @@ class GameComponent extends Component {
                   data-testid={ `wrong-answer-${indexKey}` }
                   type="button"
                   key={ indexKey }
-                  className="red-border"
+                  className="red-border btn-questions"
                   onClick={ (event) => this.colorSelectCorrect(event) }
                   disabled={ buttonDisable }
                 >

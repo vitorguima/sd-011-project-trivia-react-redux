@@ -18,14 +18,22 @@ class PlayerComponent extends Component {
     const pictureHash = md5(player.email).toString();
     const linkImage = `https://www.gravatar.com/avatar/${pictureHash}`;
     return (
-      <header>
-        <p data-testid="header-player-name">{ player.name }</p>
-        <img
-          data-testid="header-profile-picture"
-          src={ linkImage }
-          alt="User Gravatar"
-        />
-        <p data-testid="header-score">Placar: 0</p>
+      <header className="player-header">
+        <div>
+          <img
+            data-testid="header-profile-picture"
+            src={ linkImage }
+            alt="User Gravatar"
+          />
+        </div>
+        <div>
+          <p>
+            Player:
+            {' '}
+            <span data-testid="header-player-name">{ player.name }</span>
+          </p>
+          <p data-testid="header-score">Placar: 0</p>
+        </div>
       </header>
     );
   }
