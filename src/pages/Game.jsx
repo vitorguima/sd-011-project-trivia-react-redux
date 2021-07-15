@@ -40,13 +40,11 @@ class Game extends Component {
   }
 
   passQuestion() {
-    this.setState((prev) => ({ index: prev.index + 1, clickedQuest: false }));
+    this.setState(() => ({ clickedQuest: true }));
   }
 
   handleClick() {
-    const delay = 4000;
-    this.setState({ clickedQuest: true });
-    setTimeout(this.passQuestion, delay);
+    this.passQuestion();
   }
 
   render() {
@@ -76,13 +74,21 @@ class Game extends Component {
               ]}
             </div>
           )}
-        <button
-          type="button"
-          onClick={ () => this.setState((prev) => ({ index: prev.index + 1 })) }
-          disabled={ index === limitIndex }
-        >
-          Próximo
-        </button>
+        { clickedQuest ? (
+          <button
+            type="button"
+            data-testid="btn-next"
+            onClick={ () => {
+              this.setState((prev) => ({
+                index: prev.index + 1,
+                clickedQuest: false,
+              }));
+            } }
+            disabled={ index === limitIndex }
+          >
+            Próxima
+          </button>
+        ) : null }
       </div>
     );
   }
