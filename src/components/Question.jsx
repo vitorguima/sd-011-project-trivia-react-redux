@@ -25,7 +25,7 @@ export default class Question extends Component {
       question,
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
-    } } = this.props;
+    }, disabled } = this.props;
     return (
       <div>
         <p data-testid="question-category">{category}</p>
@@ -36,6 +36,7 @@ export default class Question extends Component {
             data-testid="correct-answer"
             className="correct-answer"
             onClick={ (event) => this.handleClick(event) }
+            disabled={ disabled }
           >
             {correctAnswer}
           </button>
@@ -46,6 +47,7 @@ export default class Question extends Component {
               data-testid="wrong-answer"
               className="wrong-answer"
               onClick={ (event) => this.handleClick(event) }
+              disabled={ disabled }
             >
               {answer}
             </button>
