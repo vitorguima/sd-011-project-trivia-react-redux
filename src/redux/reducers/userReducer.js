@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   gravatarEmail: '',
   name: '',
   token: '',
+  score: 0,
 };
 
 const userReducer = (state = INITIAL_STATE, { payload, type }) => {
@@ -21,6 +22,11 @@ const userReducer = (state = INITIAL_STATE, { payload, type }) => {
     return {
       ...state,
       token: payload,
+    };
+  case 'CHANGE_SCORE':
+    return {
+      ...state,
+      score: state.score + payload,
     };
   default:
     return state;

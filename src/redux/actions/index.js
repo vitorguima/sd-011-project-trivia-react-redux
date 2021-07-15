@@ -14,6 +14,11 @@ export const changeToken = (payload) => ({
   payload,
 });
 
+export const changeScore = (payload) => ({
+  type: 'CHANGE_SCORE',
+  payload,
+});
+
 export const getToken = () => (dispatch) => fetch('https://opentdb.com/api_token.php?command=request')
   .then((result) => result.json())
   .then((data) => dispatch(changeToken(data.token)));
