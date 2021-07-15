@@ -6,7 +6,7 @@ const getQuestions = (state) => ({ type: 'GET_QUESTIONS', state });
 
 const getToken = (state) => ({ type: 'GET_TOKEN', state });
 
-export const fetchToken = () => {
+export function fetchToken() {
   return (dispatch) => {
     dispatch(reqToken());
     return fetch('https://opentdb.com/api_token.php?command=request')
@@ -16,9 +16,10 @@ export const fetchToken = () => {
           // (error) => dispatch(reqFailed(error)),
         ));
   };
-};
+}
+fetchToken();
 
-export const fetchQuestions = (token) => {
+export function fetchQuestions(token) {
   return (dispatch) => {
     dispatch(reqQuestions());
     return fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
@@ -28,7 +29,7 @@ export const fetchQuestions = (token) => {
           // (error) => dispatch(reqFailed(error)),
         ));
   };
-};
+}
 
 export default {
   fetchToken,

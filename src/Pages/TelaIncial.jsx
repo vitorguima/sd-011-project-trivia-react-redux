@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { fetchToken } from '../actions';
 import logo from '../trivia.png';
 
-export default class TelaIncial extends Component {
+class TelaIncial extends Component {
   constructor(props) {
     super(props);
 
@@ -27,11 +30,12 @@ export default class TelaIncial extends Component {
 
   handleInput({ target }) {
     const { value, name } = target;
-    this.setState({ [name]: value }, () => activeButton());
+    this.setState({ [name]: value }, () => this.activeButton());
   }
 
   render() {
-    const { email, name, button } = this.state;
+    const { button } = this.state;
+    const { getToken } = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -40,14 +44,14 @@ export default class TelaIncial extends Component {
             name="email"
             data-testid="input-gravatar-email"
             type="text"
-            onChange={ handleInput }
+            onChange={ this.handleInput }
             placeholder="email"
           />
           <input
             name="name"
-            data-testid="input-gravatar-email"
+            data-testid="input-player-name"
             type="text"
-            onChange={ handleInput }
+            onChange={ this.handleInput }
             placeholder="nome"
           />
           <Link
@@ -57,14 +61,33 @@ export default class TelaIncial extends Component {
               type="button"
               disabled={ button }
               data-testid="btn-play"
-              onClick={ () => emailLogin(email, name) }
+              onClick={
+                () => getToken()
+                  .then(({ state: { token } }) => (
+                    localStorage.setItem('token', JSON.stringify(token))))
+              }
             >
-              Entrar
+              Jogar
             </button>
           </Link>
-
+          <Link
+            to="/Settings"
+          >
+            <button type="button" data-testid="btn-settings">
+              configuração
+            </button>
+          </Link>
         </header>
       </div>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  getToken: () => dispatch(fetchToken()),
+});
+export default connect(null, mapDispatchToProps)(TelaIncial);
+
+TelaIncial.propTypes = {
+  getToken: PropTypes.func.isRequired,
+};
