@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 /* import { getTokenAction } from '../action'; */
+import md5 from 'crypto-js/md5';
+import { createUserName, createUserEmail, createUserHash } from '../actions';
 import getToken from '../service/getToken';
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: '',
-      nome: '',
+      name: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.verifyLogin = this.verifyLogin.bind(this);
@@ -24,31 +27,37 @@ class Login extends Component {
   }
 
   verifyLogin() {
-    const { nome, email } = this.state;
+    const { name, email } = this.state;
     const si = /\S+@\S+\.\S+/;
     const no = /\S/;
-    if (si.test(email) && no.test(nome)) {
+    if (si.test(email) && no.test(name)) {
       return false;
     }
     return true;
   }
 
   handleClick() {
+    const { addUserName, addUserEmail, addUserHash } = this.props;
+    const { name, email } = this.state;
+    const hash = md5(email).toString();
     const tok = getToken();
     tok.then(({ token }) => localStorage.setItem('token', token));
+    addUserName(name);
+    addUserEmail(email);
+    addUserHash(hash);
   }
 
   render() {
-    const { nome, email } = this.state;
+    const { name, email } = this.state;
     return (
       <div>
         <div>
-          <label htmlFor="nome">
+          <label htmlFor="name">
             Nome:
             <input
               data-testid="input-player-name"
-              name="nome"
-              value={ nome }
+              name="name"
+              value={ name }
               type="text"
               onChange={ this.handleChange }
             />
@@ -68,7 +77,7 @@ class Login extends Component {
               data-testid="btn-play"
               type="button"
               disabled={ this.verifyLogin() }
-              onClick={ this.handleClick() }
+              onClick={ this.handleClick }
             >
               Jogar
             </button>
@@ -82,9 +91,16 @@ class Login extends Component {
   }
 }
 
-/* const mapDispatchToProps = (dispatch) => ({
-  getToken: (payload) => dispatch(getTokenAction(payload)),
-}); */
+const mapDispatchToProps = (dispatch) => ({
+  addUserName: (name) => dispatch(createUserName(name)),
+  addUserEmail: (email) => dispatch(createUserEmail(email)),
+  addUserHash: (hash) => dispatch(createUserHash(hash)),
+});
 
-/* export default connect(null, mapDispatchToProps)(Login); */
-export default Login;
+Login.propTypes = {
+  addUserName: PropTypes.func,
+  addUserEmail: PropTypes.func,
+  addUserHash: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
