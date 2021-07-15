@@ -3,13 +3,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import requisitionQuests from '../helpers/RequisitionQuests';
 import Header from '../components/Header';
+import './Game.css';
 
 class Game extends Component {
   constructor() {
     super();
     this.state = {
       index: 0,
+      clickedQuest: false,
     };
+    this.passQuestion = this.passQuestion.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -19,9 +23,33 @@ class Game extends Component {
     }
   }
 
+  buttonCorrect() {
+    const { stateQuests } = this.props;
+    const { index, clickedQuest } = this.state;
+    return (
+      <button
+        type="button"
+        data-testid="correct-answer"
+        key="correct"
+        className={ clickedQuest ? 'correctAnswer' : null }
+        onClick={ this.handleClick }
+      >
+        {stateQuests[index].correct_answer}
+      </button>
+    );
+  }
+
+  passQuestion() {
+    this.setState(() => ({ clickedQuest: true }));
+  }
+
+  handleClick() {
+    this.passQuestion();
+  }
+
   render() {
     const { gameLoading, stateQuests } = this.props;
-    const { index } = this.state;
+    const { index, clickedQuest } = this.state;
     const limitIndex = 4;
     return (
       <div>
@@ -32,33 +60,35 @@ class Game extends Component {
             <div>
               <p data-testid="question-category">{stateQuests[index].category}</p>
               <p data-testid="question-text">{stateQuests[index].question}</p>
-              {[
-                <button
-                  type="button"
-                  data-testid="correct-answer"
-                  key="correct"
-                  onClick={ () => this.setState((prev) => ({ index: prev.index + 1 })) }
-                >
-                  {stateQuests[index].correct_answer}
-                </button>, stateQuests[index].incorrect_answers.map((e, i) => (
+              {[this.buttonCorrect(),
+                stateQuests[index].incorrect_answers.map((e, i) => (
                   <button
                     type="button"
                     data-testid={ `wrong-answer-${index}` }
                     key={ i }
-                    onClick={ () => this.setState((prev) => ({ index: prev.index + 1 })) }
+                    className={ clickedQuest ? 'incorrectAnswers' : null }
+                    onClick={ this.handleClick }
                   >
                     {e}
                   </button>)),
               ]}
             </div>
           )}
-        <button
-          type="button"
-          onClick={ () => this.setState((prev) => ({ index: prev.index + 1 })) }
-          disabled={ index === limitIndex }
-        >
-          Próximo
-        </button>
+        { clickedQuest ? (
+          <button
+            type="button"
+            data-testid="btn-next"
+            onClick={ () => {
+              this.setState((prev) => ({
+                index: prev.index + 1,
+                clickedQuest: false,
+              }));
+            } }
+            disabled={ index === limitIndex }
+          >
+            Próxima
+          </button>
+        ) : null }
       </div>
     );
   }
