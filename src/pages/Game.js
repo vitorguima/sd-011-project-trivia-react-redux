@@ -10,8 +10,17 @@ class Game extends Component {
     this.state = {
       questionNumber: 0,
       answered: false,
+      timer: 30,
     };
     this.answerClickHandle = this.answerClickHandle.bind(this);
+    this.timerHandle = this.timerHandle.bind(this);
+    this.correctButtonFunction = this.correctButtonFunction.bind(this);
+    this.incorretButtonsFunction = this.incorretButtonsFunction.bind(this);
+  }
+
+  componentDidMount() {
+    const ms = 1000;
+    this.countdownTime = setInterval(this.timerHandle, ms);
   }
 
   answerClickHandle({ target }) {
@@ -21,9 +30,57 @@ class Game extends Component {
     });
   }
 
+  timerHandle() {
+    const { timer, answered } = this.state;
+    this.setState((pState) => ({
+      timer: pState.timer - 1,
+    }));
+    if (timer < 2) {
+      this.setState({
+        answered: true,
+      });
+      clearInterval(this.countdownTime);
+    }
+    if (answered) {
+      clearInterval(this.countdownTime);
+    }
+  }
+
+  correctButtonFunction(index, item) {
+    const { answered } = this.state;
+    return (
+      <button
+        key={ index }
+        type="button"
+        data-testid="correct-answer"
+        onClick={ this.answerClickHandle }
+        value={ item }
+        disabled={ answered }
+        className={ answered ? 'correctAnswer' : null }
+      >
+        {item}
+      </button>);
+  }
+
+  incorretButtonsFunction(index, item) {
+    const { answered } = this.state;
+    return (
+      <button
+        key={ index }
+        type="button"
+        data-testid={ `wrong-answer-${index}` }
+        onClick={ this.answerClickHandle }
+        value={ item }
+        disabled={ answered }
+        className={ answered ? 'incorrectAnswer' : null }
+      >
+        {item}
+      </button>);
+  }
+
   render() {
     const { questionsState } = this.props;
-    const { questionNumber, answered } = this.state;
+    const { questionNumber, timer } = this.state;
     if (Object.keys(questionsState).length > 0) {
       const correctAnswer = questionsState.results[questionNumber].correct_answer;
       const incorrectAnswers = questionsState.results[questionNumber].incorrect_answers;
@@ -32,39 +89,19 @@ class Game extends Component {
         <div>
           <h1>Game Page</h1>
           <Header />
+          <h2>{timer}</h2>
           <p data-testid="question-category">
             Categoria:
             {questionsState.results[questionNumber].category}
           </p>
-
           <p data-testid="question-text">
             {questionsState.results[questionNumber].question}
           </p>
           {questionsArray.map((item, index) => {
             if (item === correctAnswer) {
-              return (
-                <button
-                  key={ index }
-                  type="button"
-                  data-testid="correct-answer"
-                  onClick={ this.answerClickHandle }
-                  value={ item }
-                  className={ answered ? 'correctAnswer' : null }
-                >
-                  {item}
-                </button>);
+              return this.correctButtonFunction(index, item);
             }
-            return (
-              <button
-                key={ index }
-                type="button"
-                data-testid={ `wrong-answer-${index}` }
-                onClick={ this.answerClickHandle }
-                value={ item }
-                className={ answered ? 'incorrectAnswer' : null }
-              >
-                {item}
-              </button>);
+            return this.incorretButtonsFunction(index, item);
           })}
         </div>
       );
