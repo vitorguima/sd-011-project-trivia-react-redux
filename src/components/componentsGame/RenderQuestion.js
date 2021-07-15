@@ -12,7 +12,9 @@ const RenderQuestion = () => {
   const { questions } = useSelector(({ questionsArray }) => questionsArray);
 
   const renderOptionsQuetion = () => {
-    dispatch(rquestQuestions());
+    setTimeout(() => {
+      dispatch(rquestQuestions());
+    }, 1000);   
   };
 
   const renderLoading = () => {
