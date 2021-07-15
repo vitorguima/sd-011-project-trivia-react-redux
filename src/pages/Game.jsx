@@ -1,8 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Countdown from '../components/Countdown';
 
 class Game extends React.Component {
+  constructor() {
+    super();
+
+    this.onComplete = this.onComplete.bind(this);
+  }
+
+  onComplete() {
+    console.log('CABOOOOU');
+  }
+
   render() {
     const { userName, gravatarImage } = this.props;
     return (
@@ -16,6 +27,7 @@ class Game extends React.Component {
           <p data-testid="header-player-name">{ `Nome do usuário: ${userName}` }</p>
           <p data-testid="header-score">0</p>
         </header>
+        <Countdown onComplete={ this.onComplete } />
       </div>
     );
   }
