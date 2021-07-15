@@ -12,6 +12,7 @@ class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.checkLogin = this.checkLogin.bind(this);
     this.handleBtn = this.handleBtn.bind(this);
+    this.sendToConfigurations = this.sendToConfigurations.bind(this);
     this.redirectRouter = this.redirectRouter.bind(this);
     this.fetchTriviaApi = this.fetchTriviaApi.bind(this);
 
@@ -71,6 +72,12 @@ class Login extends Component {
     this.checkLogin();
   }
 
+  sendToConfigurations() {
+    const { history } = this.props;
+
+    history.push('/configurations');
+  }
+
   render() {
     const { disabled } = this.state;
     return (
@@ -115,11 +122,20 @@ class Login extends Component {
           >
             Jogar
           </button>} */}
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.sendToConfigurations }
+          >
+            Ver configurações
+          </button>
         </header>
+
       </div>
     );
   }
 }
+
 
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(fetchToken()),
@@ -130,7 +146,8 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   getToken: PropTypes.func,
-  history: {
-    push: PropTypes.func,
-  },
-}.isRequired;
+  history: PropTypes.shape({
+    location: PropTypes.objectOf(PropTypes.string),
+    push: PropTypes.func.isRequired,
+  }),
+};.isRequired,
