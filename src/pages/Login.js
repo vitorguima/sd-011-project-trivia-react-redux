@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getToken } from '../services/api';
+import { loginAction } from '../actions';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -13,6 +16,7 @@ class Login extends React.Component {
 
     this.saveToken = this.saveToken.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange(event) {
@@ -25,6 +29,13 @@ class Login extends React.Component {
   async saveToken() {
     const { token } = await getToken();
     localStorage.setItem('token', JSON.stringify(token));
+  }
+
+  handleClick() {
+    const { username, email } = this.state;
+    const { login } = this.props;
+    this.saveToken();
+    login(username, email);
   }
 
   render() {
@@ -55,28 +66,36 @@ class Login extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-          <Link to="/settings">
-            <button
-              type="button"
-              data-testid="btn-settings"
-            >
-              Configurações
-            </button>
-          </Link>
           <Link to="/game">
             <button
               data-testid="btn-play"
               type="button"
               disabled={ !(username && email) }
-              onClick={ this.saveToken }
+              onClick={ this.handleClick }
             >
               Jogar
             </button>
           </Link>
         </form>
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configurações
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  login: (username, email) => dispatch(loginAction(username, email)),
+});
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
