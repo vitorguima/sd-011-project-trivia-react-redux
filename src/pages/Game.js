@@ -29,10 +29,12 @@ class Game extends Component {
       const { userEmail, userName } = this.props;
       const { score, assertions } = this.state;
       const player = {
-        name: userName,
-        gravatarEmail: userEmail,
-        score,
-        assertions,
+        player: {
+          name: userName,
+          gravatarEmail: userEmail,
+          score,
+          assertions,
+        },
       };
       localStorage.setItem('state', JSON.stringify(player));
     }
@@ -40,7 +42,7 @@ class Game extends Component {
 
   getUserData() {
     const localData = JSON.parse(localStorage.getItem('state'));
-    const { assertions, score, name, gravatarEmail } = localData;
+    const { assertions, score, name, gravatarEmail } = localData.player;
     const { userName, userEmail } = this.props;
     if (name === userName && gravatarEmail === userEmail) {
       this.setState({
@@ -70,10 +72,12 @@ class Game extends Component {
         const { userEmail, userName } = this.props;
         const { score, assertions } = this.state;
         const player = {
-          name: userName,
-          gravatarEmail: userEmail,
-          score,
-          assertions,
+          player: {
+            name: userName,
+            gravatarEmail: userEmail,
+            score,
+            assertions,
+          },
         };
         localStorage.setItem('state', JSON.stringify(player));
       });
