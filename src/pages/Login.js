@@ -20,6 +20,7 @@ class Login extends React.Component {
     this.readForm = this.readForm.bind(this);
     this.validEmail = this.validEmail.bind(this);
     this.validName = this.validName.bind(this);
+    this.startGame = this.startGame.bind(this);
   }
 
   readForm(e) {
@@ -62,9 +63,15 @@ class Login extends React.Component {
     this.validName();
   }
 
+  startGame() {
+    const { saveLogin, fetchToken } = this.props;
+    const { email, name } = this.state;
+    saveLogin(email, name);
+    fetchToken();
+  }
+
   render() {
-    const { statusName, statusEmail, email, name } = this.state;
-    const { saveLogin } = this.props;
+    const { statusName, statusEmail } = this.state;
     return (
       <section className="login">
         <header className="App-header">
@@ -72,28 +79,24 @@ class Login extends React.Component {
           <p> SUA VEZ </p>
         </header>
         <div className="input">
-          <p>
-            <input
-              type="input"
-              name="name"
-              placeholder="Digite seu nome"
-              data-testid="input-player-name"
-              onChange={ this.readForm }
-              required
-            />
-          </p>
+          <input
+            type="input"
+            name="name"
+            placeholder="Digite seu nome"
+            data-testid="input-player-name"
+            onChange={ this.readForm }
+            required
+          />
         </div>
         <div className="input">
-          <p>
-            <input
-              type="email"
-              name="email"
-              placeholder="Digite seu e-mail"
-              data-testid="input-gravatar-email"
-              onChange={ this.readForm }
-              required
-            />
-          </p>
+          <input
+            type="email"
+            name="email"
+            placeholder="Digite seu e-mail"
+            data-testid="input-gravatar-email"
+            onChange={ this.readForm }
+            required
+          />
         </div>
         <div className="input">
           <p>
@@ -102,9 +105,14 @@ class Login extends React.Component {
                 type="button"
                 data-testid="btn-play"
                 disabled={ !statusEmail || !statusName }
-                onClick={ () => saveLogin(email, name) }
+                onClick={ this.startGame }
               >
                 Jogar
+              </button>
+            </Link>
+            <Link to="/config">
+              <button type="button" data-testid="btn-settings">
+                Configurações
               </button>
             </Link>
           </p>
@@ -116,10 +124,12 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   saveLogin: (email, name) => dispatch(actions.saveLogin(email, name)),
+  fetchToken: () => dispatch(actions.fetchToken()),
 });
 
 Login.propTypes = {
   saveLogin: PropTypes.func,
+  fetchToken: PropTypes.func,
 }.isRequired;
 
 export default connect(null, mapDispatchToProps)(Login);
