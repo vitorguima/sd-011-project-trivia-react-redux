@@ -14,20 +14,19 @@ class Header extends React.Component {
           alt="gravatar"
           src={ `https://www.gravatar.com/avatar/${hash}` }
         />
-        <p data-testid="header-player-name">{name}</p>
-        <p>
-          Placar:
-          <span data-testid="header-score">{score}</span>
+        <p data-testid="header-player-name">{`Jogador: ${name}`}</p>
+        <p data-testid="header-score">
+          {`Placar: ${score}`}
         </p>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  name: state.player.name,
-  email: state.player.email,
-  score: state.player.score,
+const mapStateToProps = ({ player }) => ({
+  name: player.name,
+  email: player.email,
+  score: player.score,
 });
 
 Header.propTypes = {

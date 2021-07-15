@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import { getLogin } from '../actions';
 
 class Login extends Component {
   constructor() {
     super();
-
     this.state = {
       name: '',
       email: '',
+      play: false,
     };
-
     this.handleChange = this.handleChange.bind(this);
     this.checkForm = this.checkForm.bind(this);
     this.handlePlayButton = this.handlePlayButton.bind(this);
@@ -30,16 +30,25 @@ class Login extends Component {
     return name !== '' && email !== '';
   }
 
-  handlePlayButton() {
+  async handlePlayButton() {
     const { name, email } = this.state;
     const { login } = this.props;
     login(name, email);
+    fetch('https://opentdb.com/api_token.php?command=request')
+      .then((response) => {
+        response.json()
+          .then((json) => {
+            localStorage.setItem('token', json.token);
+            this.setState({ play: true });
+          });
+      });
   }
 
   render() {
-    const { name, email } = this.state;
+    const { name, email, play } = this.state;
     return (
       <div>
+        { play ? <Redirect to="/game" /> : null }
         <h1>Login</h1>
         <form>
           <input
@@ -58,17 +67,16 @@ class Login extends Component {
             value={ email }
             placeholder="Digite seu email"
           />
-          <Link to="/game">
-            <button
-              type="button"
-              data-testid="btn-play"
-              onClick={ this.handlePlayButton }
-              disabled={ !this.checkForm() }
-            >
-              Jogar
-            </button>
-          </Link>
+          <button
+            type="button"
+            data-testid="btn-play"
+            onClick={ this.handlePlayButton }
+            disabled={ !this.checkForm() }
+          >
+            Jogar
+          </button>
         </form>
+        <Link data-testid="btn-settings" to="/config">Configurações</Link>
       </div>
     );
   }
