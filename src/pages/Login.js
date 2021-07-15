@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-// const recevedEmail = new RegExp('\\S+S+\\.\\S+');
-const recevedEmail = new RegExp('\\S+@S+\\.\\S+');
+// const recevedEmail = new RegExp('^[^\s@]+@[^\s@]+$');
+const recevedEmail = new RegExp('^[^s@]+@[^s@]+$');
 
 class Login extends Component {
   constructor(props) {
@@ -29,19 +29,16 @@ class Login extends Component {
   }
 
   handleChangeButton() {
-    const { email } = this.state;
-    // console.log(recevedEmail.test(email));
+    const { email, name } = this.state;
 
-    if (recevedEmail.test(email)) {
+    if (recevedEmail.test(email) && name.length !== 0) {
       this.setState({
         isDisabled: false,
       });
-      console.log('oi');
     } else {
       this.setState({
         isDisabled: true,
       });
-      console.log('tchau');
     }
   }
 
