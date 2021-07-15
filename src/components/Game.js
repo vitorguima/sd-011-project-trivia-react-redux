@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
-
 
 class Game extends Component {
   render() {
@@ -40,3 +40,8 @@ const mapStateToProps = (state) => ({
 // };
 
 export default connect(mapStateToProps)(Game);
+
+Game.propTypes = {
+  getState: PropTypes.obj,
+  getToken: PropTypes.string,
+}.isRequired;
