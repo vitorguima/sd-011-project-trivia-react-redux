@@ -1,18 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../App.css';
 
 class Question extends Component {
   constructor() {
     super();
+    this.state = {
+      clicked: false,
+    };
     this.answers = this.answers.bind(this);
+    this.wasClicked = this.wasClicked.bind(this);
+  }
+
+  wasClicked() {
+    this.setState({
+      clicked: true,
+    });
   }
 
   answers() {
     const { question } = this.props;
+    const { clicked } = this.state;
+    const buttonClass1 = (clicked ? 'correctButton' : 'button');
+    const buttonClass2 = (clicked ? 'wrongButton' : 'button');
     const correct = question.correct_answer;
     const incorrects = question.incorrect_answers;
     return [
       <button
+        onClick={ () => this.wasClicked() }
+        className={ buttonClass1 }
         type="button"
         data-testid="correct-answer"
         key="correct-answer"
@@ -21,6 +37,8 @@ class Question extends Component {
       </button>,
       incorrects.map((element, index) => (
         <button
+          onClick={ () => this.wasClicked() }
+          className={ buttonClass2 }
           type="button"
           data-testid={ `wrong-answer-${index}` }
           key={ index }
