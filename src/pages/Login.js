@@ -1,4 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { login } from '../actions';
+import getToken from '../services/index';
 
 class Login extends React.Component {
   constructor(props) {
@@ -7,10 +12,12 @@ class Login extends React.Component {
     this.state = {
       email: '',
       name: '',
+      redirect: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.verifyInputs = this.verifyInputs.bind(this);
+    this.sendInfos = this.sendInfos.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -24,12 +31,22 @@ class Login extends React.Component {
     return !(name && email);
   }
 
-  sendInfos() {
-    console.log('Foi');
+  async sendInfos(event) {
+    event.preventDefault();
+    const { loginDispatch } = this.props;
+    const { name, email } = this.state;
+    loginDispatch(name, email);
+    await this.callToken();
+    this.setState({ redirect: true });
+  }
+
+  async callToken() {
+    const response = await getToken();
+    localStorage.setItem('token', response.token);
   }
 
   render() {
-    const { name, email } = this.state;
+    const { name, email, redirect } = this.state;
     return (
       <div>
         <form onSubmit={ this.sendInfos }>
@@ -56,10 +73,19 @@ class Login extends React.Component {
           >
             Jogar
           </button>
+          { redirect && <Redirect to="/game" />}
         </form>
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  loginDispatch: (name, email) => dispatch(login(name, email)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  loginDispatch: PropTypes.func.isRequired,
+};
