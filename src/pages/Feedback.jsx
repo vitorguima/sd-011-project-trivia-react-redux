@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class TelaDeRanking extends Component {
+export default class Feedback extends Component {
   render() {
     return (
       <div />
