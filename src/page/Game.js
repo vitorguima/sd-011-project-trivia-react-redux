@@ -154,6 +154,7 @@ class Game extends Component {
           </div>
           <button
             type="button"
+            data-testid="btn-next"
             onClick={ () => {
               this.nextQuestion();
               this.confirmResponse();
