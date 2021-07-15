@@ -9,21 +9,21 @@ import Timer from '../components/Timer';
 class Game extends Component {
   constructor(props) {
     super(props);
-    const { playerName, playerEmail } = this.props;
     this.state = {
       index: 0,
       clickedQuest: false,
       seconds: 30,
       timer: true,
       player: {
-        name: playerName,
+        name: JSON.parse(localStorage.getItem('state')).player.name,
         assertions: 0,
         score: 0,
-        gravatarEmail: playerEmail,
+        gravatarEmail: JSON.parse(localStorage.getItem('state')).player.gravatarEmail,
       },
     };
     this.handleClick = this.handleClick.bind(this);
     this.timerInterval = this.timerInterval.bind(this);
+    this.localStorageTest = this.localStorageTest.bind(this);
   }
 
   componentDidMount() {
@@ -36,11 +36,11 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    const { seconds, timer } = this.state;
+    const { seconds, timer, player } = this.state;
     if (seconds <= 0) {
       clearInterval(timer);
     }
-    JSON.parse(localStorage.state);
+    this.localStorageTest({ player });
   }
 
   componentWillUnmount() {
@@ -86,6 +86,7 @@ class Game extends Component {
 
   handleClick(target) {
     const { player, seconds, index } = this.state;
+    const { score } = player;
     const { stateQuests } = this.props;
     const { difficulty } = stateQuests[index];
     const hard = 3;
@@ -108,16 +109,20 @@ class Game extends Component {
       default:
         break;
       }
+      const actualScore = score + dez + (seconds * multiplyFactor);
       this.setState((prev) => ({
         player: {
-          name: prev.player.name,
-          gravatarEmail: prev.player.gravatarEmail,
+          name: JSON.parse(localStorage.getItem('state')).player.name,
           assertions: prev.player.assertions + 1,
-          score: prev.player.score + dez + (seconds * multiplyFactor),
+          score: actualScore,
+          gravatarEmail: JSON.parse(localStorage.getItem('state')).player.gravatarEmail,
         },
       }));
-      localStorage.setItem('state', JSON.stringify({ player }));
     }
+  }
+
+  localStorageTest(state) {
+    localStorage.setItem('state', (JSON.stringify(state)));
   }
 
   answers() {
@@ -191,8 +196,6 @@ Game.propTypes = {
   dispatchQuests: PropTypes.func.isRequired,
   gameLoading: PropTypes.bool.isRequired,
   stateQuests: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
-  playerName: PropTypes.string.isRequired,
-  playerEmail: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
