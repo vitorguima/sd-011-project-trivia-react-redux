@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
+import reducerToken from './reducerToken';
 
-const rootReducer = combineReducers({ });
+const rootReducer = combineReducers({ reducerToken });
 
 export default rootReducer;
