@@ -4,49 +4,38 @@ import PropTypes from 'prop-types';
 export default class gameScreen extends Component {
   constructor() {
     super();
-
-    this.shuffleArray = this.shuffleArray.bind(this);
-  }
-
-  shuffleArray(received) {
-    const array = [...received];
-    for (let i = array.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+    
+    this.state = {
+      question: 0,
+    };
   }
 
   render() {
     const { results } = this.props;
+    const { question } = this.state;
+    console.log(results);
     return (
       <div>
-        {results.map((question, index) => (
-          <div key={ index } className="question">
-            <p data-testid="question-category">
-              Categoria:
-              {question.category}
-            </p>
-            <p data-testid="question-text">
-              Pergunta:
-              {question.question}
-            </p>
+        {results.length > 0 ? (
+          <div>
+            <p data-testid="question-category">{results[question].category}</p>
+            <p data-testid="question-text">{results[question].question}</p>
             <button type="button" data-testid="correct-answer">
-              {question.correct_answer}
+              {results[question].correct_answer}
             </button>
-            {this.shuffleArray(question.incorrect_answers).map(
-              (incorrectAnswer) => (
-                <button
-                  type="button"
-                  key={ index }
-                  data-testid={ `wrong-answer-${index}` }
-                >
-                  {incorrectAnswer}
-                </button>
-              ),
-            )}
+            {results[0].incorrect_answers.map((answer, index) => (
+              <button
+                key={ index }
+                type="button"
+                data-testid={ `wrong-answer-${index}` }
+              >
+                {answer}
+              </button>
+            ))}
           </div>
-        ))}
+        ) : (
+          <p>Baixando Questões</p>
+        )}
       </div>
     );
   }
