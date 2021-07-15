@@ -14,7 +14,8 @@ export default function Game() {
     player:
       { name: '', gravatarEmail: '', score: 0, assertions: 0 }
   });
-
+  const [count, setCount] = useState(true);
+  const [counter, setCounter] = useState(5);
   const loginState = useSelector((state) => state.login);
 
   useEffect(() => {
@@ -61,6 +62,10 @@ export default function Game() {
     setIndex,
     setPlayer,
     player,
+    count,
+    setCount,
+    counter,
+    setCounter,
   };
 
   return (

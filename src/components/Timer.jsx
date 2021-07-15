@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Timer() {
-  const [counter, setCounter] = useState(5);
-  const [count, setCount] = useState(true);
+export default function Timer(props) {
+  const { count, counter, setCounter } = props;
+  // const [counter, setCounter] = useState(30);
+  // const [count, setCount] = useState(true);
 
   const timer = () => {
     const interval = 1000;
-    const timeLeft = setTimeout(() => setCounter(counter - 1), interval);
+    let timeLeft = setTimeout(() => setCounter(counter - 1), interval);
+    console.log(count)
+    console.log(counter)
+    console.log(timeLeft)
     if (counter > 0 && count) {
+      timeLeft = setTimeout(() => setCounter(counter - 1), interval)
+      console.log(timeLeft)
+
       return timeLeft;
     } if (!count || counter === 0) {
       clearTimeout(timeLeft);

@@ -1,25 +1,26 @@
 /* eslint-disable max-lines-per-function */
 import React from 'react';
 
-const showQuestions = (arrayQuestions, onChange) => arrayQuestions.map((el, index) => {
+const showQuestions = (arrayQuestions, onChange, setCount) => arrayQuestions.map((el, index) => {
   if (typeof el === 'string') {
     return (
       <label
-        id={ `label${index}` }
-        htmlFor={ `question-${index}` }
-        key={ index }
+        id={`label${index}`}
+        htmlFor={`question-${index}`}
+        key={index}
         className="btn btn-lg btn-primary btn-block"
-        data-testid={ `wrong-answer-${index}` }
+        data-testid={`wrong-answer-${index}`}
       >
         <span className="btn-label" />
         <input
-          id={ `question-${index}` }
+          id={`question-${index}`}
           type="radio"
           name="q_answer"
-          value={ el }
-          onChange={ () => {
+          value={el}
+          onChange={() => {
             onChange(el);
-          } }
+            setCount(false);
+          }}
         />
         {el}
       </label>
@@ -27,21 +28,22 @@ const showQuestions = (arrayQuestions, onChange) => arrayQuestions.map((el, inde
   }
   return (
     <label
-      id={ `label${index}` }
-      htmlFor={ `question-${index}` }
-      key={ index }
+      id={`label${index}`}
+      htmlFor={`question-${index}`}
+      key={index}
       className="btn btn-lg btn-primary btn-block"
       data-testid="correct-answer"
     >
       <span className="btn-label" />
       <input
-        id={ `question-${index}` }
+        id={`question-${index}`}
         type="radio"
         name="q_answer"
-        value={ el.correct }
-        onChange={ () => {
+        value={el.correct}
+        onChange={() => {
           onChange(el.correct);
-        } }
+          setCount(false);
+        }}
       />
       {el.correct}
     </label>

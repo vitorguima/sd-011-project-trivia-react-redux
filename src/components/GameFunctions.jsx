@@ -25,8 +25,9 @@ export const nextQuestion = (setAnswer, index, questions, setIndex) => {
     el.classList.remove('btn-danger', 'btn-success', 'wrongAnswer', 'rightAnswer');
     el.classList.add(btnPrimary);
   });
-
-  ele.checked = false;
+  if (ele) {
+    ele.checked = false;
+  }
   if (index < questions.length - 1) {
     return setIndex(index + 1);
   }
