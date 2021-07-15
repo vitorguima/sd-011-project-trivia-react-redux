@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import fetchToken from '../services/Api';
+import fetchToken, { fetchGravatar } from '../services/Api';
 
 class Login extends Component {
   constructor() {
@@ -31,7 +31,9 @@ class Login extends Component {
   }
 
   handleClick() {
+    const { user, email } = this.state;
     fetchToken();
+    fetchGravatar(email, user);
   }
 
   render() {
