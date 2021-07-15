@@ -38,14 +38,16 @@ class Home extends Component {
     const { dispatchToken } = this.props;
 
     return (
-      <button
-        disabled={ this.handlePlayButton() }
-        type="button"
-        data-testid="btn-play"
-        onClick={ () => dispatchToken() }
-      >
-        Jogar
-      </button>
+      <Link to="/game">
+        <button
+          disabled={ this.handlePlayButton() }
+          type="button"
+          data-testid="btn-play"
+          onClick={ () => dispatchToken() }
+        >
+          Jogar
+        </button>
+      </Link>
     );
   }
 
