@@ -37,7 +37,6 @@ class Login extends Component {
     const { sendQuestionList } = this.props;
     const response = await getToken();
     const questions = await getQuestions(response);
-    console.log(response);
     sendQuestionList(questions);
     this.setState({
       token: response,
@@ -62,17 +61,17 @@ class Login extends Component {
     });
   }
 
-  playHandle() {
-    const { inputEmail, imgHash, inputName, token } = this.state;
+  async playHandle() {
+    const { inputEmail, inputName, token } = this.state;
     const { sendImgSrc } = this.props;
 
     const hash = md5(inputEmail).toString();
-    fetchGravatar(hash);
+    await fetchGravatar(hash);
     this.setState({
       showImg: true,
       imgHash: hash,
     });
-    const src = `https://www.gravatar.com/avatar/${imgHash}.jpg`;
+    const src = `https://www.gravatar.com/avatar/${hash}.jpg`;
     sendImgSrc(inputName, src, inputEmail, token);
     this.localStorageSave();
     this.setState({
