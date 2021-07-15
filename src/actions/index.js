@@ -1,8 +1,8 @@
 export const USER_EMAIL = 'USER_EMAIL';
 
-export const userEmail = (payload) => ({
+export const userEmail = (name) => ({
   type: USER_EMAIL,
-  payload,
+  name,
 });
 
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
