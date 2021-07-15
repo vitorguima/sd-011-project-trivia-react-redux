@@ -9,10 +9,12 @@ class Login extends React.Component {
     this.state = {
       email: '',
       name: '',
+
     };
     this.handleFormChange = this.handleFormChange.bind(this);
     this.checkForm = this.checkForm.bind(this);
     this.buttonIsDisable = this.buttonIsDisable.bind(this);
+    this.handleButton = this.handlebutton.bind(this);
   }
 
   componentDidMount() {
@@ -35,7 +37,20 @@ class Login extends React.Component {
   handlebutton() {
     fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => response.json())
-      .then((resolve) => localStorage.setItem('token', resolve.token));
+      .then((resolve) => {
+        const { name, email } = this.state;
+        const playerObj = {
+          player: {
+            name,
+            assertions: 0,
+            score: 0,
+            gravatarEmail: email,
+          },
+        };
+
+        localStorage.setItem('token', resolve.token);
+        localStorage.setItem('state', this.state.name)
+      });
   }
 
   async handleFormChange({ target: { id, value } }) {
