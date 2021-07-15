@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
 
 export default class Login extends Component {
@@ -39,14 +40,8 @@ export default class Login extends Component {
   render() {
     const { buttonDisabled } = this.state;
     return (
-      <>
-        <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
-          {/* <p>
-            SUA VEZ
-          </p> */}
-        </header>
-
+      <header className="App-header">
+        <img src={ logo } className="App-logo" alt="logo" />
         <form>
           <label htmlFor="inputName">
             Nome
@@ -75,8 +70,13 @@ export default class Login extends Component {
           >
             Jogar
           </button>
+          <Link to="/settings" data-testid="btn-settings">
+            <button type="button">
+              Setings
+            </button>
+          </Link>
         </form>
-      </>
+      </header>
     );
   }
 }
