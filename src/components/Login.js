@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import fetchToken, { fetchGravatar } from '../services/Api';
 
 class Login extends Component {
@@ -60,7 +61,6 @@ class Login extends Component {
           data-testid="input-gravatar-email"
           onChange={ this.handleChange }
         />
-        {/* <Link to="/gameplay"> */}
         <button
           type="button"
           data-testid="btn-play"
@@ -69,7 +69,6 @@ class Login extends Component {
         >
           Jogar
         </button>
-        {/* </Link> */}
         <Link to="/settings">
           <button
             type="button"
@@ -84,3 +83,11 @@ class Login extends Component {
 }
 
 export default Login;
+
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+  ])).isRequired,
+};
