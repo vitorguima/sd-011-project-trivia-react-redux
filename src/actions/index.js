@@ -39,7 +39,7 @@ export const fetchToken = (namePlayer, emailPlayer) => (dispatch) => {
       };
       localStorage.setItem('player', JSON.stringify(player));
       localStorage.setItem('token', data.token);
-      dispatch(requestTokenSuccess(data));;
+      dispatch(requestTokenSuccess(data));
     })
     .catch((error) => dispatch(requestTokenError(error)));
 };
