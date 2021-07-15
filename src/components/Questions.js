@@ -1,6 +1,7 @@
-import React, { Component, history } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import { fetchQuestions } from '../actions';
 
 class Questions extends Component {
@@ -19,10 +20,8 @@ class Questions extends Component {
 
   handleNext() {
     const { indexQuestion } = this.state;
-    const maxQuestions = 4;
-    if (indexQuestion >= maxQuestions) {
-      history.push('/feedback');
-    } else {
+    const maxQuestions = 5;
+    if (indexQuestion <= maxQuestions) {
       this.setState({
         indexQuestion: indexQuestion + 1,
       });
@@ -32,8 +31,12 @@ class Questions extends Component {
   render() {
     const { questions } = this.props;
     const { indexQuestion } = this.state;
+    const maxIndexQuestion = 4;
     console.log(indexQuestion);
-    if (questions.length) {
+    if (indexQuestion > maxIndexQuestion) {
+      return <Redirect to="/feedback" />;
+    }
+    if (questions.length && indexQuestion <= maxIndexQuestion) {
       const correctAnswer = questions[indexQuestion].correct_answer;
       const incorrectAnswers = questions[indexQuestion].incorrect_answers;
       const answers = [correctAnswer, ...incorrectAnswers].sort();
