@@ -10,8 +10,10 @@ class GameScreen extends React.Component {
       triviaApi: '',
       questionNumber: 0,
       styles: ['', ''],
+      disabledButton: false,
     };
     this.handleAnswer = this.handleAnswer.bind(this);
+    this.handleNextButton = this.handleNextButton.bind(this);
   }
 
   componentDidMount() {
@@ -29,11 +31,21 @@ class GameScreen extends React.Component {
     const styles = ['wrong-answer', 'correct-answer'];
     this.setState({
       styles,
+      disabledButton: true,
     });
   }
 
+  handleNextButton() {
+    this.setState((prevState) => ({
+      triviaApi: '',
+      questionNumber: prevState.questionNumber + 1,
+      styles: ['', ''],
+      disabledButton: false,
+    }));
+  }
+
   render() {
-    const { triviaApi: { results }, questionNumber, styles } = this.state;
+    const { triviaApi: { results }, questionNumber, styles, disabledButton } = this.state;
     return (
       <>
         <Header />
@@ -60,6 +72,17 @@ class GameScreen extends React.Component {
             >
               {results[questionNumber].correct_answer}
             </button>
+            {disabledButton ? (
+              <div>
+                <button
+                  data-testid="btn-next"
+                  type="button"
+                  onClick={ this.handleNextButton }
+                >
+                  Próxima
+                </button>
+              </div>
+            ) : null}
           </div>
         ) : (
           <div>
