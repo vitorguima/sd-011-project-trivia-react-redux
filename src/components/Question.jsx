@@ -66,4 +66,5 @@ Question.propTypes = ({
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  disabled: PropTypes.bool.isRequired,
 });
