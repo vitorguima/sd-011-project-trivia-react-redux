@@ -2,12 +2,14 @@ import {
   REQUEST_TRIVIA,
   REQUEST_TRIVIA_SUCCESS,
   REQUEST_TRIVIA_ERROR,
+  TIMER_BUTTON,
 } from '../actions';
 
 const INITIAL_STATE = {
   error: '',
   questions: [],
   isLoading: true,
+  buttonDisable: false,
 };
 
 function triviaReducer(state = INITIAL_STATE, action) {
@@ -28,6 +30,11 @@ function triviaReducer(state = INITIAL_STATE, action) {
       ...state,
       isLoading: true,
       error: action.state,
+    };
+  case TIMER_BUTTON:
+    return {
+      ...state,
+      buttonDisable: true,
     };
   default:
     return state;

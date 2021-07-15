@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { timerButton } from '../actions';
 
 class TimerComponent extends Component {
   constructor() {
@@ -22,6 +24,11 @@ class TimerComponent extends Component {
       }
       ));
     }
+
+    if (seconds === 0) {
+      const { updateButton } = this.props;
+      updateButton();
+    }
   }
 
   render() {
@@ -34,4 +41,8 @@ class TimerComponent extends Component {
   }
 }
 
-export default TimerComponent;
+const mapDispatchToProps = (dispatch) => ({
+  updateButton: (state) => dispatch(timerButton(state)),
+});
+
+export default connect(null, mapDispatchToProps)(TimerComponent);

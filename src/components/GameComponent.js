@@ -16,9 +16,9 @@ class GameComponent extends Component {
   }
 
   render() {
-    const { questions, loading } = this.props;
+    const { questions, loading, buttonDisable } = this.props;
     const { results } = questions;
-
+    console.log(buttonDisable);
     return (
       <div>
         {loading
@@ -32,6 +32,7 @@ class GameComponent extends Component {
                 type="button"
                 className="green-border"
                 onClick={ () => this.colorSelectCorrect() }
+                disabled={ buttonDisable }
               >
                 { results[0].correct_answer }
               </button>
@@ -42,6 +43,7 @@ class GameComponent extends Component {
                   key={ indexKey }
                   className="red-border"
                   onClick={ () => this.colorSelectCorrect() }
+                  disabled={ buttonDisable }
                 >
                   {incorrect}
                 </button>
@@ -61,6 +63,7 @@ GameComponent.propTypes = {
 const mapStateToProps = (state) => ({
   questions: state.triviaReducer.questions,
   loading: state.triviaReducer.isLoading,
+  buttonDisable: state.triviaReducer.buttonDisable,
 });
 
 export default connect(mapStateToProps)(GameComponent);
