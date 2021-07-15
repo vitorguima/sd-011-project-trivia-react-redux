@@ -39,8 +39,4 @@ function mapStateToProps(state) {
   };
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-
-// });
-
 export default connect(mapStateToProps)(Header);
