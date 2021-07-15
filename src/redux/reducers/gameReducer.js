@@ -1,6 +1,5 @@
 const INITIAL_STATE = {
   questions: {},
-  score: 0,
 };
 
 const gameReducer = (state = INITIAL_STATE, action) => {
@@ -9,7 +8,6 @@ const gameReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       questions: action.payload,
-      score: action.score,
     };
   default:
     return state;
