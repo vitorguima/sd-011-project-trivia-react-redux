@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { saveToken } from '../../actions';
+import { saveToken, submitLogin } from '../../actions';
 import Header from '../../components/Header';
 
 class Home extends Component {
@@ -36,7 +36,8 @@ class Home extends Component {
   }
 
   renderPlayButton() {
-    const { dispatchToken } = this.props;
+    const { dispatchToken, dispatchLogin } = this.props;
+    const { email, playerName } = this.state;
 
     return (
       <Link to="/game">
@@ -44,7 +45,7 @@ class Home extends Component {
           disabled={ this.handlePlayButton() }
           type="button"
           data-testid="btn-play"
-          onClick={ () => dispatchToken() }
+          onClick={ () => { dispatchToken(); dispatchLogin(email, playerName); } }
         >
           Jogar
         </button>
@@ -104,6 +105,7 @@ class Home extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchToken: () => dispatch(saveToken()),
+  dispatchLogin: (email, playerName) => dispatch(submitLogin(email, playerName)),
 });
 
 export default connect(null, mapDispatchToProps)(Home);

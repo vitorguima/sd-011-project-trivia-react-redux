@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
+import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
@@ -18,7 +19,7 @@ class Header extends Component {
         <div>
           Pontos:
           <span data-testid="header-score">
-            {/* { LocalStorage().score ? LocalStorage().score : 0 } */}
+            {/* { LocalStorage().score ? LocalStorage().score : 0 } */0}
           </span>
         </div>
       </div>
@@ -31,4 +32,9 @@ Header.propTypes = {
   email: PropTypes.string,
 }.isRequired;
 
-export default Header;
+const mapStateToProps = (state) => ({
+  email: state.login.email,
+  playerName: state.login.playerName,
+});
+
+export default connect(mapStateToProps)(Header);
