@@ -39,6 +39,8 @@ class Question extends Component {
         <h2 data-testid="question-category">{ question.category }</h2>
         <h3 data-testid="question-text">{ question.question }</h3>
         { this.answers() }
+        <br />
+        <button type="button" disabled>Próxima Pergunta</button>
       </div>
     );
   }
