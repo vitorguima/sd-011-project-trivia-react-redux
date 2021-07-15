@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import requisitionQuests from '../helpers/RequisitionQuests';
 import Header from '../components/Header';
 import './Game.css';
@@ -14,6 +15,7 @@ class Game extends Component {
       clickedQuest: false,
       seconds: 30,
       timer: true,
+      redirectFeedbacks: false,
     };
     this.handleClick = this.handleClick.bind(this);
     this.timerInterval = this.timerInterval.bind(this);
@@ -114,7 +116,7 @@ class Game extends Component {
   }
 
   render() {
-    const { index, clickedQuest, seconds } = this.state;
+    const { index, clickedQuest, seconds, redirectFeedbacks } = this.state;
     const limitIndex = 4;
     return (
       <div>
@@ -125,19 +127,23 @@ class Game extends Component {
             type="button"
             data-testid="btn-next"
             onClick={ () => {
-              this.setState((prev) => ({
-                index: prev.index + 1,
-                clickedQuest: false,
-                seconds: 30,
-              }));
-              this.updateTimer();
+              if (index === limitIndex) {
+                this.setState({ redirectFeedbacks: true });
+              } else {
+                this.setState((prev) => ({
+                  index: prev.index + 1,
+                  clickedQuest: false,
+                  seconds: 30,
+                }));
+                this.updateTimer();
+              }
             } }
-            disabled={ index === limitIndex }
           >
             Próxima
           </button>
         ) : null }
         <Timer sec={ seconds } />
+        {redirectFeedbacks ? <Redirect to="/feedbacks" /> : null}
       </div>
     );
   }

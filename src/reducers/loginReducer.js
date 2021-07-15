@@ -10,6 +10,12 @@ const INITIAL_STATE = {
 function loginReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
   case GET_LOGIN:
+    localStorage.setItem('state', JSON.stringify({ player: {
+      name: action.payload.name,
+      gravatarEmail: action.payload.email,
+      score: 0,
+      assertions: 0 },
+    }));
     return {
       ...state,
       name: action.payload.name,
