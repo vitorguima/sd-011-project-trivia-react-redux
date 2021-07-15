@@ -12,6 +12,11 @@ class Login extends PureComponent {
 
     this.handleInput = this.handleInput.bind(this);
     this.settingsButton = this.settingsButton.bind(this);
+    this.saveTokenInLocalStorage = this.saveTokenInLocalStorage.bind(this);
+  }
+
+  componentDidMount() {
+    this.getToken();
   }
 
   componentDidUpdate() {
@@ -34,6 +39,18 @@ class Login extends PureComponent {
         </Link>
       </div>
     );
+
+  async getToken() {
+    const API_URL = 'https://opentdb.com/api_token.php?command=request';
+    const tokenReceived = await fetch(API_URL)
+      .then((res) => res.json())
+      .then((data) => data.token);
+    this.saveTokenInLocalStorage('token', tokenReceived);
+  }
+  
+  saveTokenInLocalStorage(key, item) {
+    localStorage.clear();
+    localStorage.setItem(key, item);
   }
 
   handleInput({ target }) {
