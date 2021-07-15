@@ -4,24 +4,27 @@ import PropTypes from 'prop-types';
 
 class Answer extends Component {
   render() {
-    let count = 0;
     const { questions: { results } } = this.props;
     const arrayOfResults = Object.values({ ...results });
     const question = arrayOfResults[0];
+    arrayOfResults.map(({ question }) => console.log(question));
     return (
       <>
-        {/* { console.log(arrayOfResults[0]) } */}
-        { arrayOfResults.map((incAnswer, index) => (
+        { arrayOfResults.map(({ question }) => <p>{ question }</p>) }
+        {/* { arrayOfResults.map((incAnswer, index) => (
           <div key={ `chave ${index}` }>
             <button
               type="button"
               data-testid={ `wrong-answer-${index}` }
             >
-              { incAnswer.incorrect_answers[count] }
+              { incAnswer.incorrect_answers }
             </button>
 
           </div>
-        )) }
+        )) } */}
+        <div>
+          a
+        </div>
         <div>
           a
         </div>

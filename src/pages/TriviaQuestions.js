@@ -6,6 +6,15 @@ import { requestApiThunk } from '../actions';
 import Answer from '../components/Answer';
 
 class TriviaQuestions extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       question: 1;
+    }
+  }
+  
+
   componentDidMount() {
     const token = localStorage.getItem('token');
     const { setStateGame } = this.props;
@@ -13,14 +22,14 @@ class TriviaQuestions extends Component {
   }
 
   render() {
-    // const { questions } = this.props;
+    const { questions } = this.props;
     // const category = 'multiple';
     return (
       <div>
         <Headerlogin />
         <h1 data-testid="question-category">Categoria</h1>
         <h2 data-testid="question-text">Questão:</h2>
-        <Answer />
+        <Answer question={ results[question] } answers={ answner[question] } />
       </div>);
   }
 }
@@ -37,5 +46,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(TriviaQuestions);
 
 TriviaQuestions.propTypes = {
   questions: PropTypes.array,
-  setStateGame: propTypes.func,
+  setStateGame: PropTypes.func,
 }.isRequired;
