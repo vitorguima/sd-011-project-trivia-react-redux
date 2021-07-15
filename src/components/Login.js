@@ -32,8 +32,11 @@ class Login extends Component {
 
   handleClick() {
     const { user, email } = this.state;
-    fetchToken();
-    fetchGravatar(email, user);
+    const { history } = this.props;
+    fetchToken()
+
+      .then(() => fetchGravatar(email, user))
+      .then(() => history.push('/gameplay'));
   }
 
   render() {
@@ -57,16 +60,16 @@ class Login extends Component {
           data-testid="input-gravatar-email"
           onChange={ this.handleChange }
         />
-        <Link to="/gameplay">
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ isDisabled }
-            onClick={ this.handleClick }
-          >
-            Jogar
-          </button>
-        </Link>
+        {/* <Link to="/gameplay"> */}
+        <button
+          type="button"
+          data-testid="btn-play"
+          disabled={ isDisabled }
+          onClick={ this.handleClick }
+        >
+          Jogar
+        </button>
+        {/* </Link> */}
         <Link to="/settings">
           <button
             type="button"
