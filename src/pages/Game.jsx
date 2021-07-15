@@ -1,62 +1,40 @@
 import React, { useEffect, useState, Fragment } from 'react';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import '../styles/TriviaGame.css';
 import { getQuestions } from '../services/mockedTriviaResults';
-import { Header } from '../components';
+import { Header, Functions } from '../components';
 
 export default function Game() {
   const [index, setIndex] = useState(0);
   const [questions, setQuestions] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [arrayQuestions, setArray] = useState('');
+
+  const loginState = useSelector((state) => state.login);
 
   useEffect(async () => {
     (async () => {
-      const questions = await getQuestions();
+      const { token } = loginState;
+      const questions = await getQuestions(token);
       setQuestions(questions);
     })();
   }, []);
 
-  useEffect(() => {}, [index]);
-
-  const showQuestions = () => {
-    const { incorrect_answers, correct_answer } = questions[index];
-
-    if (questions[index]) {
+  useEffect(() => {
+    if (questions) {
+      const { incorrect_answers, correct_answer } = questions[index];
       let answers = Array.from(incorrect_answers);
       answers.push({ correct: correct_answer });
       answers = answers.sort(() => Math.random() - 0.5);
-
-      return answers.map((el, index) => {
-        if (typeof el === 'string') {
-          return (
-            <label
-              class="element-animation1 btn btn-lg btn-primary btn-block"
-              data-testid={`wrong-answer-${index}`}
-            >
-              <span class="btn-label">
-                <i class="glyphicon glyphicon-chevron-right"></i>
-              </span>
-              <input type="radio" name="q_answer" value={el} />
-              {el}
-            </label>
-          );
-        }
-        return (
-          <label
-            class="element-animation1 btn btn-lg btn-primary btn-block"
-            data-testid="correct-answer"
-          >
-            <span class="btn-label">
-              <i class="glyphicon glyphicon-chevron-right"></i>
-            </span>
-            <input type="radio" name="q_answer" value={el.correct} />
-            {el.correct}
-          </label>
-        );
-      });
+      setArray(answers);
     }
-  };
+  }, [questions, index]);
 
   const nextQuestion = () => {
+    setAnswer('');
+    const ele = document.querySelector('input:checked');
+    ele.checked = false;
     if (index < 4) {
       return setIndex(index + 1);
     }
@@ -75,15 +53,18 @@ export default function Game() {
           </h3>
           <p data-testid="question-category">{questions[index].category}</p>
         </div>
-        {showQuestions()}
+        {arrayQuestions && Functions.showQuestions(arrayQuestions, setAnswer)}
 
-        <button
-          onClick={() => nextQuestion()}
-          className="btn btn btn-success"
-          data-testid="btn-next"
-        >
-          Próxima pergunta
-        </button>
+        {answer && (
+          <button
+            onClick={() => nextQuestion()}
+            className="btn btn btn-success"
+            data-testid="btn-next"
+          >
+            Próxima pergunta
+          </button>
+        )}
+
         <div class="modal-footer text-muted">
           <span id="answer"></span>
         </div>
