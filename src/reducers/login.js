@@ -7,8 +7,18 @@ const INITIAL_STATE = {
 };
 
 export default function login(state = INITIAL_STATE, action) {
+  const player = {
+    player: {
+      name: action.name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: action.email,
+    },
+  };
+
   switch (action.type) {
   case LOGIN:
+    localStorage.setItem('state', JSON.stringify(player));
     return {
       ...state,
       email: action.email,
