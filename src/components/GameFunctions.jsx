@@ -32,3 +32,15 @@ export const nextQuestion = (setAnswer, index, questions, setIndex) => {
   }
   return setIndex(0);
 };
+
+export const randomArray = (questions, setArray, index) => {
+  if (questions) {
+    const magic = 0.5;
+    const wrongAnswers = questions[index].incorrect_answers;
+    const correctAnswers = questions[index].correct_answer;
+    let answers = Array.from(wrongAnswers);
+    answers.push({ correct: correctAnswers });
+    answers = answers.sort(() => Math.random() - magic);
+    setArray(answers);
+  }
+};

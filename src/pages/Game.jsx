@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import '../styles/TriviaGame.css';
 import getQuestions from '../services/mockedTriviaResults';
 import { Header, showQuestions, ShowTrivia } from '../components';
-import { paintButtons, nextQuestion } from '../components/GameFunctions';
+import { paintButtons, nextQuestion, randomArray } from '../components/GameFunctions';
 
 export const GameStateContext = createContext({});
 
@@ -22,18 +22,7 @@ export default function Game() {
     })();
   }, []);
 
-  useEffect(() => {
-    const magic = 0.5;
-
-    if (questions) {
-      const incorrectAnswers = questions[index].incorrect_answers;
-      const correctAnswers = questions[index].correct_answer;
-      let answers = Array.from(incorrectAnswers);
-      answers.push({ correct: correctAnswers });
-      answers = answers.sort(() => Math.random() - magic);
-      setArray(answers);
-    }
-  }, [questions, index]);
+  useEffect(() => randomArray(questions, setArray, index), [questions, index]);
 
   const showResults = (e) => {
     setAnswer(e);
