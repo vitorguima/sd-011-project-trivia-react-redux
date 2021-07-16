@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getTokenThunk } from '../../actions';
+import md5 from 'crypto-js/md5';
+import { getTokenThunk, getUserInfo } from '../../actions';
 
 class Card extends React.Component {
   constructor(props) {
@@ -44,9 +45,12 @@ class Card extends React.Component {
   }
 
   handleSubmit() {
-    const { token } = this.props;
-    console.log(token);
+    const { token, getUser } = this.props;
     localStorage.setItem('token', token);
+    const { email, nome } = this.state;
+    const hash = md5(email).toString();
+    const url = `https://www.gravatar.com/avatar/${hash}`;
+    getUser({ nome, email, url });
   }
 
   render() {
@@ -86,6 +90,7 @@ class Card extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(getTokenThunk()),
+  getUser: (payload) => dispatch(getUserInfo(payload)),
 });
 
 const mapStateToProps = (state) => ({
@@ -94,6 +99,7 @@ const mapStateToProps = (state) => ({
 
 Card.propTypes = {
   getToken: PropTypes.func.isRequired,
+  getUser: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
 };
 

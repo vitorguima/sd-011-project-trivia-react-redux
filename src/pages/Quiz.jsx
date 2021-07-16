@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from '../components/quiz/Header';
+import Questions from '../components/quiz/Questions';
 
 class Quiz extends React.Component {
   constructor(props) {
@@ -8,7 +10,10 @@ class Quiz extends React.Component {
 
   render() {
     return (
-      'Kahoot Da Trybe - Trivia'
+      <div>
+        <Header />
+        <Questions />
+      </div>
     );
   }
 }
