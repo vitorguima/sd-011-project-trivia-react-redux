@@ -40,6 +40,34 @@ class GamePage extends Component {
     );
   }
 
+  answBtnCreator(results, questionIndex, click) {
+    const result = results[questionIndex];
+    const btnCorrectAnsw = (
+      <button
+        key="correct-answer"
+        className={ click ? 'rightAnswer' : null }
+        onClick={ this.clickAnswer }
+        type="button"
+        data-testid="correct-answer"
+      >
+        {result.correct_answer}
+      </button>);
+
+    const btnWrngAnsw = [...result.incorrect_answers.map((wrngAnsw, index) => (
+      <button
+        key={ index }
+        onClick={ this.clickAnswer }
+        className={ click ? 'wrongAnswer' : null }
+        type="button"
+        data-testid={ `wrong-answer-${index}` }
+      >
+        {wrngAnsw}
+      </button>))];
+    const randomNb = 0.5;
+    const allBtns = [...btnWrngAnsw, btnCorrectAnsw].sort(() => Math.random() - randomNb);
+    return allBtns;
+  }
+
   renderHeader() {
     const { email, nome } = this.props;
     const hash = md5(email).toString();
@@ -58,62 +86,17 @@ class GamePage extends Component {
     );
   }
 
-  renderBtn() {
-    const { click, questionIndex } = this.state;
-    const { results } = this.props;
-    return (
-      <button
-        key="correct-answer"
-        className={ click ? 'rightAnswer' : null }
-        onClick={ this.clickAnswer }
-        type="button"
-        data-testid="correct-answer"
-      >
-        {results[questionIndex].correct_answer}
-      </button>
-    );
-  }
-
-  // answBtnCreator(results, questionIndex) {
-
-  //   {[...results[questionIndex].incorrect_answers
-  //     .map((wrngAnsw, index) => (
-  //       <button
-  //         key={ index }
-  //         onClick={ this.clickAnswer }
-  //         className={ click ? 'wrongAnswer' : null }
-  //         type="button"
-  //         data-testid={ `wrong-answer-${index}` }
-  //       >
-  //         {wrngAnsw}
-  //       </button>)), this.renderBtn()].sort(() => Math.random() - randomNumber)}
-  // }
-
   render() {
     const { results } = this.props;
     const { questionIndex, click } = this.state;
     const indexLimit = 4;
-    const randomNumber = 0.5;
-    console.log(results)
     return (
       <div>
         {this.renderHeader()}
         <Timer />
-        {results && (
-          <main>
-            {this.questionSection(results, questionIndex)}
-            {[...results[questionIndex].incorrect_answers
-              .map((wrngAnsw, index) => (
-                <button
-                  key={ index }
-                  onClick={ this.clickAnswer }
-                  className={ click ? 'wrongAnswer' : null }
-                  type="button"
-                  data-testid={ `wrong-answer-${index}` }
-                >
-                  {wrngAnsw}
-                </button>)), this.renderBtn()].sort(() => Math.random() - randomNumber)}
-          </main>) }
+        {results && this.questionSection(results, questionIndex)}
+        {results && this.answBtnCreator(results, questionIndex, click)}
+        <br />
         <button
           type="button"
           onClick={ this.btnHandle }
