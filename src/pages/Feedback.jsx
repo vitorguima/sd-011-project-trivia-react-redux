@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { cleanState } from '../actions/gameActions';
 import { Header } from '../components';
 
@@ -28,14 +28,21 @@ export default function Feedback() {
         <button
           type="button"
           data-testid="btn-play-again"
-          onClick={ () => {
+          onClick={() => {
             history.push('/');
             dispatch(cleanState());
-          } }
+          }}
         >
           Jogar Novamente
         </button>
       </div>
+      <button
+        type="button"
+        onClick={() => history.push('/ranking')}
+        data-testid="btn-ranking"
+      >
+        Ver Ranking
+      </button>
     </div>
   );
 }
