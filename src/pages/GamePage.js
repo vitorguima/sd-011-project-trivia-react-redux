@@ -74,11 +74,27 @@ class GamePage extends Component {
     );
   }
 
+  // answBtnCreator(results, questionIndex) {
+
+  //   {[...results[questionIndex].incorrect_answers
+  //     .map((wrngAnsw, index) => (
+  //       <button
+  //         key={ index }
+  //         onClick={ this.clickAnswer }
+  //         className={ click ? 'wrongAnswer' : null }
+  //         type="button"
+  //         data-testid={ `wrong-answer-${index}` }
+  //       >
+  //         {wrngAnsw}
+  //       </button>)), this.renderBtn()].sort(() => Math.random() - randomNumber)}
+  // }
+
   render() {
     const { results } = this.props;
     const { questionIndex, click } = this.state;
     const indexLimit = 4;
     const randomNumber = 0.5;
+    console.log(results)
     return (
       <div>
         {this.renderHeader()}
