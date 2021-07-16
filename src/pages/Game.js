@@ -92,6 +92,7 @@ const mapDispatchToProps = (dispatch) => ({
 Game.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   token: PropTypes.string.isRequired,
+  assertions: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
