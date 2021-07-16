@@ -14,13 +14,17 @@ class Game extends Component {
     this.state = {
       numberNext: 0,
       styleButton: false,
-      // setTime: null,
+      setTime: null,
+      disabled: false,
+      renderTime: true,
+      numberTime: 30,
     };
 
     this.handleResponse = this.handleResponse.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.confirmResponse = this.confirmResponse.bind(this);
-    // this.funcSetTime = this.funcSetTime.bind(this);
+    this.funcSetTime = this.funcSetTime.bind(this);
+    this.timeQuestion = this.timeQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -31,6 +35,7 @@ class Game extends Component {
   nextQuestion() {
     this.setState((prev) => ({
       numberNext: prev.numberNext + 1,
+      disabled: prev.disabled - 0,
     }));
   }
 
@@ -61,28 +66,52 @@ class Game extends Component {
     }
   }
 
-  confirmResponse() {
-    const { styleButton } = this.state;
+  timeQuestion(sec) {
+    const { numberTime } = this.state;
 
-    if (!styleButton) {
-      renderButton = true;
+    if (sec < numberTime) {
+      if (sec <= 0) {
+        console.log('xablayu');
+        this.confirmResponse();
+      }
+
       this.setState({
-        styleButton: true,
-      });
-    } else {
-      this.setState({
-        styleButton: false,
+        numberTime: sec,
       });
     }
   }
 
-  // funcSetTime(setTime) {
-  //   this.setState({ setTime });
-  // }
+  confirmResponse() {
+    const { styleButton, setTime } = this.state;
+    clearInterval(setTime);
+
+    if (!styleButton) {
+      renderButton = true;
+      this.setState({
+        disabled: true,
+        styleButton: true,
+        renderTime: false,
+      });
+    } else if (styleButton) {
+      this.setState({
+        disabled: false,
+        styleButton: false,
+        renderTime: true,
+
+      });
+    }
+  }
+
+  funcSetTime(setTime) {
+    const { disable } = this.state;
+    if (setTime <= 0 && !disable) {
+      this.confirmResponse();
+    }
+  }
 
   handleResponse() {
     const { questions } = this.props;
-    const { numberNext, styleButton } = this.state;
+    const { numberNext, styleButton, disabled } = this.state;
     if (questions.length > 0) {
       return [
         ...questions[numberNext].incorrect_answers.map((item, index) => (
@@ -91,7 +120,7 @@ class Game extends Component {
             onClick={ this.confirmResponse }
             data-testid={ `wrong-answer-${numberNext}` }
             type="button"
-            // disabled={ disabled }
+            disabled={ disabled }
             key={ index }
           >
             <div>{item}</div>
@@ -102,7 +131,7 @@ class Game extends Component {
             onClick={ this.confirmResponse }
             data-testid="correct-answer"
             key={ numberNext }
-            // disabled={ disabled }
+            disabled={ disabled }
             type="button"
           >
             {questions[numberNext].correct_answer}
@@ -113,6 +142,7 @@ class Game extends Component {
 
   render() {
     const { players, email } = this.props;
+    const { renderTime, numberTime } = this.state;
     const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
     const hashGenerator = md5(email).toString();
     return (
@@ -130,7 +160,10 @@ class Game extends Component {
             </span>
           </p>
           <div>
-            <Time funcSetTime={ this.funcSetTime } />
+            {renderTime ? <Time
+              funcSetTime={ this.funcSetTime }
+              timeQuestion={ this.timeQuestion }
+            /> : <div>{ numberTime }</div> }
           </div>
           <div>
             {this.handleQuestion()}
