@@ -1,6 +1,8 @@
 export const CREATE_USER_EMAIL = 'CREATE_USER_EMAIL';
 export const CREATE_USER_NAME = 'CREATE_USER_NAME';
 export const CREATE_USER_HASH = 'CREATE_USER_HASH';
+export const CREATE_USER_SCORE = 'CREATE_USER_SCORE';
+export const CREATE_USER_ASSERTION = 'CREATE_USER_ASSERTION';
 // export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
 // export const GET_TOKEN_ERROR = 'GET_TOKEN_ERROR';
 
@@ -17,6 +19,16 @@ export const createUserName = (name) => ({
 export const createUserHash = (hash) => ({
   type: CREATE_USER_HASH,
   payload: hash,
+});
+
+export const createUserScore = (score) => ({
+  type: CREATE_USER_SCORE,
+  payload: score,
+});
+
+export const createUserAssertion = (score) => ({
+  type: CREATE_USER_ASSERTION,
+  payload: score,
 });
 
 // export const getTokenSuccess = (payload) => ({

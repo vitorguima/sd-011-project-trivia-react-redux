@@ -2,6 +2,8 @@ import {
   CREATE_USER_EMAIL,
   CREATE_USER_HASH,
   CREATE_USER_NAME,
+  CREATE_USER_SCORE,
+  CREATE_USER_ASSERTION,
   // GET_TOKEN_SUCCESS,
   // GET_TOKEN_ERROR
 } from '../actions';
@@ -30,6 +32,16 @@ function userReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       hash: action.payload,
+    };
+  case CREATE_USER_SCORE:
+    return {
+      ...state,
+      score: action.payload,
+    };
+  case CREATE_USER_ASSERTION:
+    return {
+      ...state,
+      assertion: action.payload,
     };
   default:
     return state;
