@@ -1,13 +1,17 @@
 import React from 'react';
+import Header from '../components/feedback/Header';
 
 class Feedback extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {  }
+    this.state = { };
   }
-  render() { 
-    return ( 'feedback' );
+
+  render() {
+    return (
+      <Header />
+    );
   }
 }
- 
+
 export default Feedback;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getQuestionsThunk } from '../../actions';
 
@@ -45,7 +46,6 @@ class Questions extends React.Component {
   render() {
     const { loading } = this.props;
     const { questionsList, indexQuestion, endGame } = this.state;
-    console.log(endGame); // TIRAR ISSO DAQUI
     if (!loading && questionsList.length !== 0) {
       return (
         <div>
@@ -59,10 +59,7 @@ class Questions extends React.Component {
           </div>
           <ul>
             <li>
-              <button
-                data-testid="correct-answer"
-                type="button"
-              >
+              <button data-testid="correct-answer" type="button">
                 { questionsList[indexQuestion].correct_answer }
               </button>
               { questionsList[indexQuestion].incorrect_answers.map((wrong, index) => (
@@ -76,7 +73,23 @@ class Questions extends React.Component {
               )) }
             </li>
           </ul>
-          <button type="button" onClick={ this.nextQuestion }>Proximo</button>
+
+          { !endGame ? (<button
+            data-testid="btn-next"
+            type="button"
+            onClick={ this.nextQuestion }
+          >
+            Proximo
+          </button>)
+            : (<Link to="/feedback">
+              <button
+                type="button"
+                onClick={ this.nextQuestion }
+              >
+                Proximo
+              </button>
+            </Link>)}
+
         </div>);
     }
     return (<p>LOADING...</p>);
