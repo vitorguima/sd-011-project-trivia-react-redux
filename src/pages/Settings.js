@@ -25,30 +25,41 @@ class Settings extends React.Component {
   }
 
   categoriesForm() {
+    const { categories } = this.props || [];
     return (
       <form>
-        <input type="text" />
+        <label htmlFor="questions">
+          Escolha a quantidade de perguntas
+          <input type="number" id="questions" />
+        </label>
+        <label>
+          <select>
+            {categories.map((category, index) => (<option value={ category.id } key={ index }>{category.name}</option>))}
+          </select>
+        </label>
       </form>
     );
   }
 
   render() {
+    const { isLoading } = this.props;
     return (
       <div>
         <Link to="/">Voltar</Link>
         <h1 data-testid="settings-title">Settings</h1>
-        {this.categoriesForm()}
+        {isLoading ? 'Carregando...' : this.categoriesForm()}
       </div>
     );
   }
 }
 
-/* const mapStateToProps = (state) => ({
-  logInfo: state.pageReducer.logged,
-}); */
+const mapStateToProps = (state) => ({
+  categories: state.gameReducer.categories.trivia_categories,
+  isLoading: state.gameReducer.isLoading,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getCategories: () => dispatch(fetchGameCategories()),
 });
 
-export default connect(null, mapDispatchToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

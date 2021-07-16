@@ -22,6 +22,7 @@ function gameReducer(state = INITIAL_STATE, action) {
   case GET_CATEGORIES:
     return {
       ...state,
+      isLoading: false,
       categories: action.data,
     };
   default:
