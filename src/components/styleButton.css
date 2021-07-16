@@ -1,0 +1,14 @@
+.wrong {
+  border: 3px solid;
+  color: red;
+}
+
+.right {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.white {
+  border: 3px solid;
+  color: black;
+}
+

@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './styleButton.css';
 
 class Question extends React.Component {
   constructor() {
     super();
-
     this.state = {
       timer: 30,
       stopTimer: false,
-      answers: [],
       answered: false,
-      isDisabled: false,
     };
+    this.answerFunc = this.answerFunc.bind(this);
+    this.nextPage = this.nextPage.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
     this.startTimer();
-    this.randomAnswers();
   }
 
   componentDidUpdate() {
@@ -32,38 +32,33 @@ class Question extends React.Component {
         setTimeout(() => this.setState({ timer: timer - 1 }), oneSecond);
       }
       if (timer === 0 && !stopTimer) {
-        this.setState({ stopTimer: true, isDisabled: true });
+        this.setState({ stopTimer: true, answered: true });
       }
     }
   }
 
-  randomAnswers() {
-    const { newQuestion:
-      { correct_answer: correctAnswer,
-        incorrect_answers: incorrectAnswers,
-      } } = this.props;
-    const randomAnswers = [correctAnswer, ...incorrectAnswers]
-      .map((a) => ({ sort: Math.random(), value: a }))
-      .sort((a, b) => a.sort - b.sort)
-      .map((a) => a.value);
-    this.setState({ answers: randomAnswers });
-  }
-
   handleClick() {
     this.setState({
-      isDisabled: true,
       answered: true,
       stopTimer: true,
     });
   }
 
+  answerFunc() {
+    this.setState((state) => ({ answered: !state.answered }));
+    this.handleClick();
+  }
+
+  nextPage() {
+    const { nextFunc } = this.props;
+    this.answerFunc();
+    this.startTimer();
+    nextFunc();
+  }
+
   render() {
-    const { timer, answers, isDisabled } = this.state;
-    const { newQuestion:
-      { question,
-        correct_answer: correctAnswer,
-        category,
-      } } = this.props;
+    const { timer, answered } = this.state;
+    const { newQuestion: { question, answers, category } } = this.props;
     return (
       <div>
         <span>{ timer }</span>
@@ -71,15 +66,16 @@ class Question extends React.Component {
           { question }
         </h1>
         <p data-testid="question-category">{ category }</p>
-        { answers.map((answer, index) => {
-          if (answer === correctAnswer) {
+        { answers.map(({ answer, correct }, index) => {
+          if (correct) {
             return (
               <button
                 key={ index }
                 data-testid="correct-answer"
                 type="button"
-                disabled={ isDisabled }
-                onClick={ () => this.handleClick() }
+                disabled={ answered }
+                onClick={ this.answerFunc }
+                className={ answered ? 'right' : 'white' }
               >
                 {answer}
               </button>
@@ -90,13 +86,21 @@ class Question extends React.Component {
               key={ index }
               data-testid={ `wrong-answer-${index}` }
               type="button"
-              disabled={ isDisabled }
-              onClick={ () => this.handleClick() }
+              disabled={ answered }
+              className={ answered ? 'wrong' : 'white' }
+              onClick={ this.answerFunc }
             >
               {answer}
             </button>
           );
         }) }
+        {
+          (answered) && (
+            <button type="button" onClick={ this.nextPage } data-testid="btn-next">
+              Próxima
+            </button>
+          )
+        }
       </div>
     );
   }
@@ -104,6 +108,7 @@ class Question extends React.Component {
 
 Question.propTypes = {
   newQuestion: PropTypes.isRequired,
+  nextFunc: PropTypes.isRequired,
 };
 
 export default Question;
