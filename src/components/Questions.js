@@ -3,14 +3,28 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import { fetchQuestionsAPI } from '../actions/game';
+import './Questions.css';
 
 class Questions extends Component {
+  constructor() {
+    super();
+    this.state = {
+      toggleButton: false,
+    };
+    this.toggleButtonClass = this.toggleButtonClass.bind(this);
+  }
+
   componentDidMount() {
     const { tokenData, fetchQuestion } = this.props;
     fetchQuestion(tokenData);
   }
 
+  toggleButtonClass() {
+    this.setState({ toggleButton: true });
+  }
+
   render() {
+    const { toggleButton } = this.state;
     const { questionData } = this.props;
     if (questionData.length) {
       const questionOne = questionData[0];
@@ -22,6 +36,8 @@ class Questions extends Component {
           <button
             type="button"
             data-testid="correct-answer"
+            onClick={ this.toggleButtonClass }
+            className={ toggleButton ? 'correct-btn' : null }
           >
             { questionOne.correct_answer }
           </button>
@@ -30,6 +46,8 @@ class Questions extends Component {
               key={ inx }
               type="button"
               data-testid={ `wrong-answer-${inx}` }
+              onClick={ this.toggleButtonClass }
+              className={ toggleButton ? 'incorrect-btn' : null }
             >
               { answer }
             </button>
