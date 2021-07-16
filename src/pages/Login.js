@@ -106,7 +106,6 @@ class Login extends Component {
             Ver configurações
           </button>
         </header>
-
       </div>
     );
   }
