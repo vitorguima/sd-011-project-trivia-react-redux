@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { requestApiQuestions } from '../actions';
+import Question from '../components/Question';
 
 class Game extends React.Component {
   componentDidMount() {
@@ -11,9 +12,9 @@ class Game extends React.Component {
   }
 
   render() {
-    const { userName, gravatarImage, questions } = this.props;
+    const { userName, gravatarImage } = this.props;
     return (
-      <div>
+      <>
         <header>
           <img
             data-testid="header-profile-picture"
@@ -23,39 +24,10 @@ class Game extends React.Component {
           <p data-testid="header-player-name">{ `Nome do usuário: ${userName}` }</p>
           <p data-testid="header-score">0</p>
         </header>
-        { console.log(questions[0]) }
-        {(questions[0])
-          ? (
-            <div>
-              <div data-testid="question-category">
-                { questions[0].category }
-              </div>
-              <div data-testid="question-text">
-                { questions[0].question }
-              </div>
-              <div>
-                <button
-                  type="button"
-                  data-testid="correct-answer"
-                >
-                  { questions[0].correct_answer }
-                </button>
-                { questions[0].incorrect_answers.map((answer, index) => (
-                  <button
-                    type="button"
-                    key={ index }
-                    data-testid={ `wrong-answer-${index}` }
-                  >
-                    { answer }
-                  </button>
-                )) }
-              </div>
-            </div>
-          )
-          : (
-            <div>Loading...</div>
-          )}
-      </div>
+        <main>
+          <Question />
+        </main>
+      </>
     );
   }
 }
@@ -67,23 +39,12 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   userName: state.loginReducer.name,
   gravatarImage: state.loginReducer.gravatarImage,
-  questions: state.questionsReducer.results,
 });
 
 Game.propTypes = {
   userName: PropTypes.string.isRequired,
   gravatarImage: PropTypes.string.isRequired,
   questionsToStore: PropTypes.func.isRequired,
-  questions: PropTypes.shape({
-    category: PropTypes.string,
-    correct_answer: PropTypes.string,
-    incorrect_answers: PropTypes.arrayOf(PropTypes.string),
-    question: PropTypes.string,
-  }),
-};
-
-Game.defaultProps = {
-  questions: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

@@ -1,4 +1,5 @@
 import md5 from 'crypto-js/md5';
+import shuffleArray from '../services/shuffleArray';
 
 export const USER_DATA = 'USER_DATA';
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
@@ -29,6 +30,16 @@ export const requestApiQuestions = (token) => (dispatch) => {
   return (
     fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
       .then((response) => response.json())
-      .then((data) => dispatch(receiveQuestions(data)))
+      .then((data) => {
+        dispatch(receiveQuestions({
+          ...data,
+          results: data.results.map((question) => ({
+            ...question,
+            answers: shuffleArray(
+              [question.correct_answer, ...question.incorrect_answers],
+            ),
+          })),
+        }));
+      })
   );
 };
