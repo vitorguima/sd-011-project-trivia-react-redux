@@ -12,6 +12,7 @@ class Question extends Component {
       sec: 30,
       setTime: true,
       questionIndex: 0,
+      activeButtonNext: false,
     };
     this.answers = this.answers.bind(this);
     this.wasClicked = this.wasClicked.bind(this);
@@ -67,6 +68,7 @@ class Question extends Component {
       statusAnswer: true,
       clicked: true,
       status: false,
+      activeButtonNext: true,
     });
   }
 
@@ -110,12 +112,14 @@ class Question extends Component {
       statusAnswer: false,
       clicked: false,
       questionIndex: previous.questionIndex + 1,
+      activeButtonNext: false,
+
     }), () => this.updateTimer());
   }
 
   render() {
     const { question } = this.props;
-    const { status, sec, questionIndex } = this.state;
+    const { status, sec, questionIndex, activeButtonNext } = this.state;
     return (
       <div>
         Pergunta
@@ -123,13 +127,17 @@ class Question extends Component {
         <h3 data-testid="question-text">{ question[questionIndex].question }</h3>
         { this.answers() }
         <br />
-        <button
-          type="button"
-          disabled={ status }
-          onClick={ this.handleClickNext }
-        >
-          Próxima Pergunta
-        </button>
+        {activeButtonNext
+          ? (
+            <button
+              data-testid="btn-next"
+              type="button"
+              disabled={ status }
+              onClick={ this.handleClickNext }
+            >
+              Próxima
+            </button>)
+          : ''}
         <p>{ `00:${sec}` }</p>
       </div>
     );
