@@ -36,6 +36,7 @@ class GamePage extends Component {
       click: false,
     }));
     resetDispatch();
+    this.timerFunc();
   }
 
   clickAnswer() {
