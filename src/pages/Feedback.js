@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -21,6 +22,14 @@ class Feedback extends Component {
           <p data-testid="header-player-name">{ name }</p>
           <p data-testid="header-score">{ state.player.score }</p>
         </header>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar Novamente
+          </button>
+        </Link>
       </div>
     );
   }
