@@ -8,6 +8,7 @@ class Feedback extends Component {
     this.state = {
       name: '',
       score: 0,
+      assertions: 0,
     };
     this.getFeedback = this.getFeedback.bind(this);
   }
@@ -21,18 +22,23 @@ class Feedback extends Component {
     this.setState({
       name: state.player.name,
       score: state.player.score,
+      assertions: state.player.assertions,
     });
   }
 
   render() {
-    const { name, score } = this.state;
+    const { name, score, assertions } = this.state;
     const { img } = this.props;
+    const three = 3;
     return (
       <header>
         <h1 data-testid="feedback-text">Feedback</h1>
         <p data-testid="header-player-name">{name}</p>
         <img data-testid="header-profile-picture" src={ img } alt="Player avatar" />
+        <p>{assertions}</p>
         <p data-testid="header-score">{score}</p>
+        { assertions < three && <p data-testid="feedback-text">Podia ser melhor...</p> }
+        { assertions >= three && <p data-testid="feedback-text">Mandou bem!</p> }
       </header>
     );
   }
