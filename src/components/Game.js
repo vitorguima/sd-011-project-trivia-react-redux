@@ -9,8 +9,10 @@ class Game extends React.Component {
     super();
     this.state = {
       answered: false,
+      questionIndex: 0,
     };
     this.handleClickAndTimeOut = this.handleClickAndTimeOut.bind(this);
+    this.handleNext = this.handleNext.bind(this);
   }
 
   handleClickAndTimeOut() {
@@ -19,14 +21,26 @@ class Game extends React.Component {
     });
   }
 
+  handleNext() {
+    const { questions: { allQuestions } } = this.props;
+    console.log(allQuestions);
+    this.setState((prevState) => ({
+      questionIndex: prevState.questionIndex + 1,
+      answered: false,
+    }));
+    // if (questionIndex === 4) {
+    //   //chamar função para o feedback
+    // }
+  }
+
   renderQuestions() {
     const { questions: { allQuestions } } = this.props;
-    const { answered } = this.state;
+    const { answered, questionIndex } = this.state;
     if (allQuestions.length === 0) {
       return null;
     }
-    const currentIndex = 0;
-    const currentQuestion = allQuestions[currentIndex];
+    // const currentIndex = 0;
+    const currentQuestion = allQuestions[questionIndex];
     const correctAnswerClassName = answered ? {
       border: '3px solid rgb(6, 240, 15)',
     } : {};
@@ -35,8 +49,8 @@ class Game extends React.Component {
     } : '';
     return (
       <div>
-        <p data-testid="question-category">{currentQuestion.category}</p>
-        <p data-testid="question-text">{currentQuestion.question}</p>
+        <p data-testid="question-category">{ currentQuestion.category }</p>
+        <p data-testid="question-text">{ currentQuestion.question }</p>
         <button
           disabled={ answered }
           style={ { ...correctAnswerClassName } }
@@ -44,7 +58,7 @@ class Game extends React.Component {
           data-testid="correct-answer"
           onClick={ this.handleClickAndTimeOut }
         >
-          {currentQuestion.correct_answer}
+          { currentQuestion.correct_answer }
         </button>
         {
           currentQuestion.incorrect_answers.map((item, index) => (
@@ -56,11 +70,15 @@ class Game extends React.Component {
               data-testid={ `wrong-answer${index}` }
               onClick={ this.handleClickAndTimeOut }
             >
-              {item}
+              { item }
             </button>
           ))
         }
-        {!answered && <Timer handleClickAndTimeOut={ this.handleClickAndTimeOut } />}
+        { answered && (
+          <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
+            Próxima
+          </button>) }
+        { !answered && <Timer handleClickAndTimeOut={ this.handleClickAndTimeOut } /> }
       </div>
     );
   }
@@ -69,7 +87,8 @@ class Game extends React.Component {
     return (
       <div>
         <Header />
-        {this.renderQuestions()}
+        { this.renderQuestions() }
+
       </div>
     );
   }
