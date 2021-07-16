@@ -10,26 +10,50 @@ class Questions extends Component {
     super();
     this.state = {
       toggleButton: false,
+      startCount: 30,
+      endCount: 0,
+      disableAnswersButtons: false,
     };
     this.toggleButtonClass = this.toggleButtonClass.bind(this);
+    this.handleCount = this.handleCount.bind(this);
   }
 
   componentDidMount() {
     const { tokenData, fetchQuestion } = this.props;
     fetchQuestion(tokenData);
+    this.counter();
   }
 
   toggleButtonClass() {
     this.setState({ toggleButton: true });
   }
 
+  handleCount() {
+    const { startCount, endCount } = this.state;
+    return startCount !== endCount ? this.setState((prevState) => ({
+      startCount: prevState.startCount - 1,
+    })) : this.setState({ disableAnswersButtons: true });
+  }
+
+  counter() {
+    const timeInterval = 1000;
+    setInterval(() => {
+      this.handleCount();
+    }, timeInterval);
+  }
+
   render() {
-    const { toggleButton } = this.state;
+    const { toggleButton, startCount, disableAnswersButtons } = this.state;
     const { questionData } = this.props;
+
     if (questionData.length) {
       const questionOne = questionData[0];
       return (
         <div>
+          { console.log(startCount) }
+          <h1>
+            { startCount }
+          </h1>
           <Header />
           <p data-testid="question-category">{ questionOne.category }</p>
           <p data-testid="question-text">{ questionOne.question }</p>
@@ -38,6 +62,7 @@ class Questions extends Component {
             data-testid="correct-answer"
             onClick={ this.toggleButtonClass }
             className={ toggleButton ? 'correct-btn' : null }
+            disabled={ disableAnswersButtons }
           >
             { questionOne.correct_answer }
           </button>
@@ -48,6 +73,7 @@ class Questions extends Component {
               data-testid={ `wrong-answer-${inx}` }
               onClick={ this.toggleButtonClass }
               className={ toggleButton ? 'incorrect-btn' : null }
+              disabled={ disableAnswersButtons }
             >
               { answer }
             </button>
