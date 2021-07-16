@@ -5,6 +5,8 @@ export const SAVE_LOGIN = 'SAVE_LOGIN';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const REQUEST_TOKEN_ERROR = 'REQUEST_TOKEN_ERROR';
+export const START_COUNTDOWN = 'START_COUNTDOWN';
+export const UPDATE_CLOCK = 'UPDATE_CLOCK';
 
 const questionsURL = 'https://opentdb.com/api.php?amount=5&token=';
 const tokenURL = 'https://opentdb.com/api_token.php?command=request';
@@ -74,3 +76,11 @@ export const fetchQuestions = (token) => (dispatch) => {
     .then((data) => dispatch(requestQuestionsSucces(data)))
     .catch((error) => dispatch(requestQuestionsFail(error)));
 };
+
+export const startCountdown = () => ({
+  type: START_COUNTDOWN,
+});
+
+export const updateClock = () => ({
+  type: UPDATE_CLOCK,
+});
