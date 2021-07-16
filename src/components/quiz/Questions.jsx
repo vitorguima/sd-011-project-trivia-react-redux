@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getQuestionsThunk } from '../../actions';
+import ButtonNext from './ButtonNext';
+import ButtonQuestion from './ButtonQuestion';
 
 class Questions extends React.Component {
   constructor(props) {
@@ -63,34 +65,23 @@ class Questions extends React.Component {
                 { questionsList[indexQuestion].correct_answer }
               </button>
               { questionsList[indexQuestion].incorrect_answers.map((wrong, index) => (
-                <button
-                  data-testid={ `wrong-answer-${index}` }
+                <ButtonQuestion
                   key={ index }
-                  type="button"
-                >
-                  { wrong }
-                </button>
+                  testid={ `wrong-answer-${index}` }
+                  wrong={ wrong }
+                />
               )) }
             </li>
           </ul>
 
-          { !endGame ? (<button
-            data-testid="btn-next"
-            type="button"
-            onClick={ this.nextQuestion }
-          >
-            Proximo
-          </button>)
-            : (<Link to="/feedback">
-              <button
-                type="button"
-                onClick={ this.nextQuestion }
-              >
-                Proximo
-              </button>
-            </Link>)}
+          { !endGame ? <ButtonNext testid="btn-next" nextQuestion={ this.nextQuestion } />
+            : (
+              <Link to="/feedback">
+                <ButtonNext testid="btn-next" />
+              </Link>)}
 
-        </div>);
+        </div>
+      );
     }
     return (<p>LOADING...</p>);
   }
