@@ -10,13 +10,15 @@ class Login extends React.Component {
     this.state = {
       gravatarEmail: '',
       name: '',
+      score: 10,
+      assertions: 0,
     };
   }
 
   handleLoginBtn() {
     const { gravatarEmail, name } = this.state;
     const playerInfo = this.state;
-    localStorage.setItem('player', JSON.stringify(playerInfo));
+    localStorage.setItem('state', JSON.stringify(playerInfo));
     const emailRegexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
     if (emailRegexp.test(gravatarEmail) && name) {
       return false;

@@ -3,7 +3,7 @@ import { VALIDATE_LOGIN, UPDATE_SCORE } from '../actions';
 const INITIAL_STATE = {
   gravatarEmail: '',
   name: '',
-  score: 10,
+  score: 0,
   assertions: 0,
 };
 

@@ -76,7 +76,7 @@ class Questions extends Component {
 
   sumScore() {
     const { timer, questions, index } = this.state;
-    const { score, assertions, name, gravatarEmail, updateNewScore } = this.props;
+    const { assertions, name, gravatarEmail, updateNewScore } = this.props;
     let newScore = 0;
     const three = 3;
     const ten = 10;
@@ -87,16 +87,16 @@ class Questions extends Component {
     } else if (questions[index].difficulty === 'hard') {
       newScore = (timer * three) + ten;
     }
-    const finalScore = score + newScore;
     const finalAssertions = assertions + 1;
     const player = { player: {
       gravatarEmail,
       name,
-      score: finalScore,
+      score: newScore,
       assertions: finalAssertions,
     } };
-    updateNewScore(finalScore, finalAssertions);
-    return localStorage.setItem('player', JSON.stringify(player));
+    updateNewScore(newScore, finalAssertions);
+    console.log(player);
+    return localStorage.setItem('state', JSON.stringify(player));
   }
 
   renderAnswers() {
@@ -184,6 +184,8 @@ class Questions extends Component {
                 </button>
               </h3>
               <h3>{ this.renderAnswers() }</h3>
+              { !isDisabled ? null
+                : <button data-testid="btn-next" type="button">Próxima</button> }
               <span>{ timer }</span>
             </div>
           )}
