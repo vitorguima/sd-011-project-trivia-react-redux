@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default class gameScreen extends Component {
@@ -69,6 +70,12 @@ export default class gameScreen extends Component {
   render() {
     const { results } = this.props;
     const { question, answered } = this.state;
+    const maxquestions = 4;
+    if (question === maxquestions) {
+      return (
+        <Redirect to="/feedback" />
+      );
+    }
     return (
       <div>
         {results.length > 0 ? (
