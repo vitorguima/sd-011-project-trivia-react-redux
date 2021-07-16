@@ -3,7 +3,6 @@ export const RECEIVE_API = 'RECEIVE_API';
 export const ERROR_API = 'ERROR_API';
 export const USER_LOGIN = 'USER_LOGIN';
 export const USER_SCORE = 'USER_SCORE';
-export const PLAYER_HITS = 'PLAYER_HITS';
 
 export const userLogin = (name, gravatarEmail) => {
   const state = { player: {
@@ -41,13 +40,6 @@ function receiveApi(payload) {
 function errorApi(payload) {
   return {
     type: ERROR_API,
-    payload,
-  };
-}
-
-export function playerHits(payload) {
-  return {
-    type: PLAYER_HITS,
     payload,
   };
 }

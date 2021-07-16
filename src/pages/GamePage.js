@@ -14,8 +14,8 @@ class GamePage extends Component {
     return (
       <div>
         <header>
-          <p data-testid="header-player-name">{ name || state.name }</p>
-          <p data-testid="header-score">{ score || state.player.score }</p>
+          <p data-testid="header-player-name">{ state.player.name || name }</p>
+          <p data-testid="header-score">{ state.player.scores || score }</p>
           <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${MD5}` } alt="avatar" />
         </header>
         Game Page
