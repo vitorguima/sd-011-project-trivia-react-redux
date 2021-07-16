@@ -7,14 +7,24 @@ import './Game.css';
 class Game extends Component {
   constructor() {
     super();
+    this.state = {
+      disabled: false,
+      seconds: 30,
+    };
+
     this.colorOptions = this.colorOptions.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+    this.timer = this.timer.bind(this);
   }
 
   componentDidMount() {
     const { getQuestions } = this.props;
+    const seconds = 1000;
     if (localStorage.token) {
       getQuestions(localStorage.getItem('token'));
     }
+    this.startTimer();
+    this.interval = setInterval(this.timer, seconds);
   }
 
   colorOptions() {
@@ -24,11 +34,34 @@ class Game extends Component {
     wrongAnswers.forEach((answer) => {
       answer.classList.add('wrong-color');
     });
+    this.setState({
+      disabled: true,
+    });
+  }
+
+  startTimer() {
+    const seconds = 30000;
+    setTimeout(() => {
+      this.colorOptions();
+    }, seconds);
+  }
+
+  timer() {
+    const { seconds } = this.state;
+    this.setState((state) => ({
+      seconds: state.seconds - 1,
+    }));
+    if (seconds === 0) {
+      clearInterval(this.interval);
+      this.setState({
+        seconds: 0,
+      });
+    }
   }
 
   render() {
     const { loading, hash, name, score, questions } = this.props;
-
+    const { disabled, seconds } = this.state;
     return (
       <div>
         <header>
@@ -37,6 +70,7 @@ class Game extends Component {
           <p data-testid="header-score">{ score }</p>
         </header>
         <div>
+          <p id="timer">{ seconds }</p>
           {!loading
             ? (
               <div>
@@ -47,6 +81,7 @@ class Game extends Component {
                   data-testid="correct-answer"
                   id="correct-answer"
                   onClick={ this.colorOptions }
+                  disabled={ disabled }
                 >
                   {questions.results[0].correct_answer}
                 </button>
@@ -57,6 +92,7 @@ class Game extends Component {
                     data-testid={ `wrong-answer ${key}` }
                     id="wrong-answer"
                     onClick={ this.colorOptions }
+                    disabled={ disabled }
                   >
                     { incorrect }
                   </button>
