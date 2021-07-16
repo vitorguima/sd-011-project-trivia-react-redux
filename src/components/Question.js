@@ -3,21 +3,40 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class Question extends Component {
-  shufleAnswers(right, wrongs) {
+  constructor() {
+    super();
+
+    this.state = {
+      anyChosed: false,
+    };
+    this.setRandom = this.setRandom.bind(this);
+  }
+
+  componentDidMount() {
+    this.setRandom();
+  }
+
+  setRandom() {
     const max = 4;
     const random = Math.floor(Math.random() * max);
+    this.setState({ randomNumber: random });
+  }
+
+  shufleAnswers(right, wrongs, random) {
     wrongs.splice(random, 0, right);
-    console.log(wrongs);
     return wrongs;
   }
 
   multipleQuestion() {
+    const { anyChosed, randomNumber } = this.state;
     const { questionsArr, currentQuestion } = this.props;
     const rightAnswer = (
       <button
         type="button"
         data-testid="correct-answer"
         key="right"
+        onClick={ () => this.setState({ anyChosed: true }) }
+        className={ anyChosed ? 'correct' : '' }
       >
         { questionsArr[currentQuestion].correct_answer }
       </button>);
@@ -27,11 +46,13 @@ class Question extends Component {
           type="button"
           key={ `wrong-${index}` }
           data-testid={ `wrong-answer-${index}` }
+          onClick={ () => this.setState({ anyChosed: true }) }
+          className={ anyChosed ? 'wrong' : '' }
         >
           { item }
         </button>
       ));
-    const shufledAnswer = this.shufleAnswers(rightAnswer, wrongAnswer);
+    const shufledAnswer = this.shufleAnswers(rightAnswer, wrongAnswer, randomNumber);
     return (
       <div className="answers">
         { shufledAnswer }
