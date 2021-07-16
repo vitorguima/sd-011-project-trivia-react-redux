@@ -9,7 +9,7 @@ export class Header extends Component {
     return (
       <header>
         <img
-          src={profileImg}
+          src={ profileImg }
           data-testid="header-profile-picture"
           alt="User profile"
         />
