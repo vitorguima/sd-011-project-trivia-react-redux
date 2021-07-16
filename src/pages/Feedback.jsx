@@ -38,6 +38,7 @@ class Feedback extends Component {
   }
 }
 
+// verificar caminho
 const mapStateToProps = (state) => ({
   questions: state.gameReducer.correntAsnwers,
 });
