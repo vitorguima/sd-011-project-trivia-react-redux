@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/Questions.css';
@@ -15,6 +16,7 @@ class Questions extends Component {
       selectAnswer: false,
       sec: 30,
       renderTimer: true,
+      goToFeedback: false,
     };
     this.getQuestions = this.getUnities.bind(this);
     this.handleEnableButton = this.handleEnableButton.bind(this);
@@ -22,6 +24,7 @@ class Questions extends Component {
     this.funcSetTime = this.funcSetTime.bind(this);
     this.setRanking = this.setRanking.bind(this);
     this.changeQuestion = this.changeQuestion.bind(this);
+    this.buttons = this.buttons.bind(this);
   }
 
   async componentDidMount() {
@@ -52,6 +55,7 @@ class Questions extends Component {
     if (difficulty === 'wrong') {
       dispatchUserScore(score + 0);
     } else {
+      state.player.assertions += 1;
       state.player.score = state.player.score + initialScore
         + (sec * dificultNum[difficulty]);
       dispatchUserScore(score + state.player.score);
@@ -71,7 +75,7 @@ class Questions extends Component {
   }
 
   incorrectAnswers() {
-    const { questions, enableButtons, selectAnswer, questionNumber } = this.state;
+    const { questions, selectAnswer, questionNumber } = this.state;
     const getQuestion = questions[questionNumber];
     const selectedQuestion = getQuestion && getQuestion.incorrect_answers;
     return selectedQuestion && selectedQuestion.map((question, index) => (
@@ -81,7 +85,7 @@ class Questions extends Component {
         key={ question }
         data-testid={ `wrong-answer-${index}` }
         onClick={ () => this.addWrongBorder('wrong') }
-        disabled={ !selectAnswer ? enableButtons : true }
+        disabled={ selectAnswer }
       >
         {question}
       </button>));
@@ -120,9 +124,32 @@ class Questions extends Component {
     />);
   }
 
+  buttons() {
+    const { questions, selectAnswer, questionNumber } = this.state;
+    if (selectAnswer && questionNumber < questions.length - 1) {
+      return (
+        <button
+          type="button"
+          onClick={ this.changeQuestion }
+          data-testid="btn-next"
+        >
+          Próxima
+        </button>);
+    } if (selectAnswer && questionNumber >= questions.length - 1) {
+      return (
+        <button
+          type="button"
+          onClick={ () => this.setState({ goToFeedback: true }) }
+          data-testid="btn-next"
+        >
+          Próxima
+        </button>);
+    }
+  }
+
   render() {
-    const { questions, enableButtons, selectAnswer,
-      questionNumber, renderTimer, sec } = this.state;
+    const { questions, selectAnswer,
+      questionNumber, renderTimer, sec, goToFeedback } = this.state;
     const selectedQuestion = questions[questionNumber];
     const tenSec = 10;
     const fixedTimer = sec >= tenSec ? `00:${sec}` : `00:0${sec}`;
@@ -130,6 +157,8 @@ class Questions extends Component {
       return (
         <p>Carregando...</p>
       );
+    } if (goToFeedback) {
+      return <Redirect to="/feedback" />;
     }
     return (
       <div>
@@ -145,20 +174,12 @@ class Questions extends Component {
           className="true"
           type="button"
           onClick={ () => this.addWrongBorder(selectedQuestion.difficulty) }
-          disabled={ selectAnswer || enableButtons }
+          disabled={ selectAnswer }
         >
           {selectedQuestion.correct_answer}
         </button>
         {this.incorrectAnswers()}
-        { !(!selectAnswer || questionNumber >= questions.length - 1)
-          && (
-            <button
-              type="button"
-              onClick={ this.changeQuestion }
-              data-testid="btn-next"
-            >
-              Próxima
-            </button>)}
+        {this.buttons()}
       </div>
     );
   }
