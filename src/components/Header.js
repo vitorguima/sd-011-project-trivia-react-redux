@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 export class Header extends Component {
-
+// .
   render() {
     const { profileImg, profileName, profileScore } = this.props;
     return (
       <header>
         <img
-          src={ `https://www.gravatar.com/avatar/${profilePhoto}` }
+          src={ `https://www.gravatar.com/avatar/${profileImg}` }
           data-testid="header-profile-picture"
           alt="User profile"
         />
@@ -30,7 +30,7 @@ export class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  profileImg: state.player.gravatarEmail,
+  // profileImg: state.player.gravatarEmail, alterar para src;
   profileName: state.player.name,
   profileScore: state.player.score,
 });
