@@ -5,10 +5,11 @@ import { showNextBtn } from '../actions';
 
 class BooleanQuestion extends React.Component {
   render() {
-    const { question, showBtn } = this.props;
+    const { question, showBtn, disabled } = this.props;
     return (
       <>
         <button
+          disabled={ disabled }
           type="button"
           data-testid={
             (question.correct_answer === 'True')
@@ -20,6 +21,7 @@ class BooleanQuestion extends React.Component {
           True
         </button>
         <button
+          disabled={ disabled }
           type="button"
           data-testid={
             (question.incorrect_answers.includes('True'))
@@ -45,6 +47,7 @@ BooleanQuestion.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   showBtn: PropTypes.func.isRequired,
+  disabled: (PropTypes.bool).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(BooleanQuestion);

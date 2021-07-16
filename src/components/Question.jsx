@@ -9,7 +9,7 @@ import Loading from './Loading';
 
 class Question extends React.Component {
   render() {
-    const { questions, showBtn, currentQuestion, nextQuestion } = this.props;
+    const { questions, showBtn, currentQuestion, nextQuestion, disabled } = this.props;
     return (
       <section>
         {(questions[currentQuestion])
@@ -18,8 +18,18 @@ class Question extends React.Component {
               <QuestionHeader question={ questions[currentQuestion] } />
               <div className="answer-options">
                 { (questions[currentQuestion].type === 'boolean')
-                  ? <BooleanQuestion question={ questions[currentQuestion] } />
-                  : <MultipleChoice question={ questions[currentQuestion] } /> }
+                  ? (
+                    <BooleanQuestion
+                      disabled={ disabled }
+                      question={ questions[currentQuestion] }
+                    />
+                  )
+                  : (
+                    <MultipleChoice
+                      disabled={ disabled }
+                      question={ questions[currentQuestion] }
+                    />
+                  )}
               </div>
               <button
                 data-testid="btn-next"
@@ -52,6 +62,7 @@ Question.propTypes = {
   showBtn: PropTypes.bool.isRequired,
   currentQuestion: PropTypes.number.isRequired,
   nextQuestion: PropTypes.func.isRequired,
+  disabled: (PropTypes.bool).isRequired,
 };
 
 Question.defaultProps = {

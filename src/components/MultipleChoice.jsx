@@ -5,12 +5,13 @@ import { showNextBtn } from '../actions';
 
 class MultipleChoice extends React.Component {
   render() {
-    const { question, showBtn } = this.props;
+    const { question, showBtn, disabled } = this.props;
     return (
       question.answers.map((answer, index) => {
         if (question.correct_answer === answer) {
           return (
             <button
+              disabled={ disabled }
               data-testid="correct-answer"
               key={ index }
               type="button"
@@ -22,6 +23,7 @@ class MultipleChoice extends React.Component {
         }
         return (
           <button
+            disabled={ disabled }
             data-testid={ `wrong-answer-${index}` }
             key={ index }
             type="button"
@@ -45,6 +47,7 @@ MultipleChoice.propTypes = {
     correct_answer: PropTypes.string,
   }).isRequired,
   showBtn: PropTypes.func.isRequired,
+  disabled: (PropTypes.bool).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(MultipleChoice);

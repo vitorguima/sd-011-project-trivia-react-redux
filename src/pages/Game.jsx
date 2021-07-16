@@ -1,18 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { requestApiQuestions } from '../actions';
+import Countdown from '../components/Countdown';
 import Question from '../components/Question';
+import { requestApiQuestions } from '../actions';
 
 class Game extends React.Component {
+  constructor() {
+    super();
+    this.state = { disabled: false };
+    this.onComplete = this.onComplete.bind(this);
+  }
+
   componentDidMount() {
     const { questionsToStore } = this.props;
     const token = localStorage.getItem('token');
     questionsToStore(token);
   }
 
+  onComplete() {
+    this.setState({ disabled: true });
+  }
+
   render() {
     const { userName, gravatarImage } = this.props;
+    const { disabled } = this.state;
+
     return (
       <>
         <header>
@@ -24,8 +37,9 @@ class Game extends React.Component {
           <p data-testid="header-player-name">{ `Nome do usuário: ${userName}` }</p>
           <p data-testid="header-score">0</p>
         </header>
+        <Countdown onComplete={ this.onComplete } />
         <main>
-          <Question />
+          <Question disabled={ disabled } />
         </main>
       </>
     );
