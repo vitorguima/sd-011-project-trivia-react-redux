@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Home from './pages/Home';
 import GamePage from './pages/GamePage';
 import Settings from './pages/Settings';
+import FeedBack from './pages/FeedBack';
 
 class App extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class App extends React.Component {
         <Route exact path="/" component={ Home } />
         <Route exact path="/game" component={ GamePage } />
         <Route exact path="/settings" component={ Settings } />
+        <Route exact path="/feedback" component={ FeedBack } />
       </Switch>
     );
   }

@@ -26,14 +26,16 @@ class Forms extends Component {
   savePlayerToLocalStorage() {
     const { fetchGame } = this.props;
     const { name, email } = this.state;
-    const player = {
-      name,
-      assertions: 0,
-      score: 0,
-      gravatarEmail: email,
+    const obj = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
     };
 
-    localStorage.setItem('state', JSON.stringify(player));
+    localStorage.setItem('state', JSON.stringify(obj));
     this.redirectUser();
     fetchGame();
   }
