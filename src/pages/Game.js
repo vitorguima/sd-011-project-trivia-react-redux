@@ -5,24 +5,22 @@ import md5 from 'crypto-js/md5';
 import * as actions from '../redux/actions';
 
 class Game extends Component {
-  constructor() {
-    super();
-
-    this.setItemOnLocalStorage = this.setItemOnLocalStorage.bind(this);
-  }
-
   componentDidMount() {
-    const { fetchAPIQuestions, token } = this.props;
-    fetchAPIQuestions(token);
-  }
+    const {
+      fetchAPIQuestions,
+      token,
+      name,
+      score,
+      email,
+      isLoading,
+      assertions,
+    } = this.props;
 
-  setItemOnLocalStorage() {
-    const { isLoading } = this.props;
+    fetchAPIQuestions(token);
     if (!isLoading) {
-      const { token, name, score, email } = this.props;
       const player = {
         name,
-        assertions: 0,
+        assertions,
         score,
         gravatarEmail: email,
       };
@@ -59,7 +57,6 @@ class Game extends Component {
 
   render() {
     const { name, email, score, questionsData } = this.props;
-    this.setItemOnLocalStorage();
     return (
       <div>
         <header>
@@ -81,6 +78,7 @@ const mapStateToProps = (state) => ({
   token: state.loginReducer.token,
   isLoading: state.loginReducer.isLoading,
   name: state.playerReducer.name,
+  assertions: state.playerReducer.assertions,
   email: state.playerReducer.gravatarEmail,
   score: state.playerReducer.score,
   isReady: state.gameReducer.isReady,
