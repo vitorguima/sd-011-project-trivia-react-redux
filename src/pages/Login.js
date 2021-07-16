@@ -1,8 +1,13 @@
-/* eslint-disable react/jsx-max-depth */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
+import triviaApi from '../services/triviaApi';
+import { saveTrivia } from '../redux/actions';
+import tokenApi from '../services/tokenApi';
+import { setPlayer } from '../redux/actions/playerActions';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -44,8 +49,24 @@ export default class Login extends Component {
     }
   }
 
-  playHandle() {
+  async playHandle() {
+    const { token } = await tokenApi();
+    const { email, name } = this.state;
+    const { setPlayerAction, saveTriviaAction } = this.props;
+    const five = 5;
+    const { results } = await triviaApi(token, five);
+    const player = {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    };
 
+    localStorage.setItem('token', token);
+    localStorage.setItem('state', JSON.stringify({ player }));
+
+    saveTriviaAction(results);
+    setPlayerAction(player);
   }
 
   render() {
@@ -94,3 +115,15 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  setPlayerAction: (player) => dispatch(setPlayer(player)),
+  saveTriviaAction: (trivia) => dispatch(saveTrivia(trivia)),
+});
+
+Login.propTypes = ({
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}).isRequired;
+export default connect(null, mapDispatchToProps)(Login);
