@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import './GamePage.style.css';
 import Timer from '../compoments/Timer';
-import { enablebtns } from '../actions';
+import { enablebtns, subTimer } from '../actions';
 
 class GamePage extends Component {
   constructor() {
@@ -16,6 +16,10 @@ class GamePage extends Component {
     };
     this.btnHandle = this.btnHandle.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
+  }
+
+  componentDidMount() {
+    this.timerFunc();
   }
 
   componentDidUpdate() {
@@ -35,6 +39,7 @@ class GamePage extends Component {
   }
 
   clickAnswer() {
+    clearInterval(this.setTimer);
     this.setState({
       click: true,
     });
@@ -78,6 +83,12 @@ class GamePage extends Component {
     const randomNb = 0.5;
     const allBtns = [...btnWrngAnsw, btnCorrectAnsw].sort(() => Math.random() - randomNb);
     return allBtns;
+  }
+
+  timerFunc() {
+    const { timerDispatch } = this.props;
+    const limit = 1000;
+    this.setTimer = setInterval(() => timerDispatch(), limit);
   }
 
   renderHeader() {
@@ -135,10 +146,13 @@ GamePage.propTypes = {
   timer: PropTypes.number.isRequired,
   disableBtn: PropTypes.bool.isRequired,
   enableBtns: PropTypes.func.isRequired,
+  timerDispatch: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   enableBtns: () => dispatch(enablebtns()),
+  timerDispatch: () => dispatch(subTimer()),
+
 });
 
 const mapStateToProps = (state) => ({
