@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PlayerComponent from '../components/PlayerComponent';
 import GameComponent from '../components/GameComponent';
+import TimerComponent from '../components/TimerComponent';
 import { fetchTrivia } from '../actions';
 
 class screenGame extends Component {
@@ -42,6 +43,7 @@ class screenGame extends Component {
       <div>
         <PlayerComponent />
         <GameComponent />
+        <TimerComponent />
       </div>
     );
   }

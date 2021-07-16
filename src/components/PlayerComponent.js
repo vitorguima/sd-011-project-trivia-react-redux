@@ -14,12 +14,12 @@ class PlayerComponent extends Component {
   // }
 
   render() {
-    const player = JSON.parse(localStorage.getItem('state'));
-    const pictureHash = md5(player.email).toString();
+    const player2 = JSON.parse(localStorage.getItem('state'));
+    const pictureHash = md5(player2.player.email).toString();
     const linkImage = `https://www.gravatar.com/avatar/${pictureHash}`;
     return (
       <header>
-        <p data-testid="header-player-name">{ player.name }</p>
+        <p data-testid="header-player-name">{ player2.player.name }</p>
         <img
           data-testid="header-profile-picture"
           src={ linkImage }
