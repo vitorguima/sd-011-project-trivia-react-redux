@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Header from './Header';
 
+const THREE = 3
 class Feedback extends Component {
   render() {
     const { assertions } = this.props;
@@ -11,7 +12,7 @@ class Feedback extends Component {
         <Header />
         <h3 data-testid="feedback-text">
           {
-            (assertions >= (1 + 2)) // Se for 3 o lint dá erro
+            (assertions >= (THREE))
               ? 'Mandou bem!'
               : 'Podia ser melhor...'
           }
@@ -25,8 +26,8 @@ Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
 };
 
-// const mapStateToProps = (state) => ({
-//   assertions: state.player.assertions,
-// });
+const mapStateToProps = (state) => ({
+  assertions: state.player.assertions,
+});
 
-export default Feedback; // connect(mapStateToProps)(FeedBack);
+export default connect(mapStateToProps)(Feedback);
