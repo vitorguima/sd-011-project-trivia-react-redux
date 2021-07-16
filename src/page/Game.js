@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './Gaming.css';
-import md5 from 'crypto-js/md5';
+import Button from './components/Button';
+import Header from './components/Header';
 import { fetchQuestion } from '../redux/actions';
 import Time from './components/Time';
 
@@ -174,20 +175,11 @@ class Game extends Component {
   }
 
   render() {
-    const { players, email } = this.props;
-    const { renderTime, numberTime, score } = this.state;
-    // const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
-    const hashGenerator = md5(email).toString();
-    // const { initialTime } = this.state;
+    const { renderTime, numberTime, score, numberNext } = this.state;
     return (
       <div>
         <header>
-          <h3 data-testid="header-player-name">{players}</h3>
-          <img
-            src={ `https://www.gravatar.com/avatar/${hashGenerator}` }
-            alt="Gravatar"
-            data-testid="header-profile-picture"
-          />
+          <Header />
           <p>
             <span data-testid="header-score">
               { score }
@@ -203,21 +195,13 @@ class Game extends Component {
             {this.handleQuestion()}
             {this.handleResponse()}
           </div>
-          { renderButton
-            ? (
-              <button
-                type="button"
-                data-testid="btn-next"
-                onClick={ () => {
-                  this.nextQuestion();
-                  this.confirmResponse();
-                } }
-              >
-                Próxima
-              </button>
-            ) : (
-              <div />
-            )}
+          <Button
+            renderButton={ renderButton }
+            score={ score }
+            numberNext={ numberNext }
+            confirmResponse={ this.confirmResponse }
+            nextQuestion={ this.nextQuestion }
+          />
           <div />
         </header>
       </div>
@@ -226,8 +210,6 @@ class Game extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  email: state.homeReducer.email,
-  players: state.homeReducer.name,
   token: state.homeReducer.token,
   questions: state.gameReduce.Questions,
 });
@@ -239,8 +221,6 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
-  players: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
   fetchQuestions: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   questions: PropTypes.arrayOf.isRequired,
