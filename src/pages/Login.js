@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-max-depth */
 import React, { Component } from 'react';
 import logo from '../trivia.png';
+import BtnSetupScreen from '../components/btnSetupScreen';
 
 export default class Login extends Component {
   constructor(props) {
@@ -88,6 +89,7 @@ export default class Login extends Component {
                 Jogar
               </button>
             </form>
+            <BtnSetupScreen />
           </section>
         </header>
       </div>
