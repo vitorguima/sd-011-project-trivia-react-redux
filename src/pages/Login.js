@@ -10,6 +10,7 @@ const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
 class Login extends Component {
   constructor() {
     super();
+    this.verifyAPI = this.verifyAPI.bind(this);
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangeButton = this.handleChangeButton.bind(this);
@@ -44,6 +45,11 @@ class Login extends Component {
         isDisabled: true,
       });
     }
+  }
+
+  verifyAPI() {
+    const { apiReturn } = this.props;
+    console.log(apiReturn.token);
   }
 
   render() {
@@ -81,10 +87,19 @@ class Login extends Component {
           disabled={ isDisabled }
           data-testid="btn-play"
           type="button"
-          onClick={ fetch() }
+          onClick={ () => fetch() }
         >
           Jogar
         </button>
+
+        {/* Botão para teste de vericar conteudo retornado da API */}
+        <button
+          disabled={ isDisabled }
+          onClick={() => this.verifyAPI() }
+        >
+          Verficar API
+        </button>
+
         {/* </Link> */}
       </div>
     );
@@ -95,7 +110,12 @@ const mapDispatchToProps = (dispatch) => ({
   fetch: (state) => dispatch(fetchApi(state)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state) => ({ // Alteração
+  apiReturn: state.user.token,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+// export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   fetch: PropTypes.func,

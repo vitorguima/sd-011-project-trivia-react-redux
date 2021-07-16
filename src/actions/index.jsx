@@ -24,6 +24,10 @@ export const fetchApi = () => (dispatch) => {
   return fetch(API)
     .then((result) => result.json())
     .then((test) => test)
-    .then((data) => dispatch(requestApiSucess(data)))
+    .then((data) => {
+      dispatch(requestApiSucess(data));
+      localStorage.setItem('toke', data.token); // Alteração
+    })
+    // .then((data) => dispatch(requestApiSucess(data)))
     .catch((error) => dispatch(requestApiError(error)));
 };
