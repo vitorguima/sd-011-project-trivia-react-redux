@@ -16,6 +16,7 @@ function playerReducer(state = INITIAL_STATE, action) {
     };
   case USER_SCORE:
     return {
+      ...state,
       score: action.score,
     };
   default:
