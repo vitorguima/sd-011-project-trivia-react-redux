@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Layout } from '../components/common';
-import { changeEmail, changeName } from '../redux/actions';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import Layout from '../components/common/Layout';
+import { changeEmail, changeName, getToken } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -14,6 +17,14 @@ class Login extends Component {
     this.setGlobalUser = this.setGlobalUser.bind(this);
   }
 
+  setGlobalUser() {
+    const { handleEmail, handleName, handleToken } = this.props;
+    const { name, email } = this.state;
+    handleToken();
+    handleEmail(email);
+    handleName(name);
+  }
+
   verifyUser() {
     const { name, email } = this.state;
     if (email.length > 0 && name.length > 0) {
@@ -22,15 +33,7 @@ class Login extends Component {
     return true;
   }
 
-  setGlobalUser() {
-    const { handleEmail, handleName } = this.props;
-    const { name, email } = this.state;
-    handleEmail(email);
-    handleName(name);
-  }
-
   render() {
-    const { name, email } = this.state;
     return (
       <Layout title="Login">
         <main>
@@ -51,23 +54,37 @@ class Login extends Component {
                 onChange={ (e) => this.setState({ name: e.target.value }) }
               />
             </label>
-
-            <button
-              data-testid="btn-play"
-              type="button"
-              disabled={ this.verifyUser() }
-              onClick={ this.setGlobalUser }
-            >
-              JOGAR!
-            </button>
+            <Link to="/game">
+              <button
+                data-testid="btn-play"
+                type="button"
+                disabled={ this.verifyUser() }
+                onClick={ this.setGlobalUser }
+              >
+                JOGAR!
+              </button>
+            </Link>
           </form>
+          <Link to="/Config">
+            <button type="button" data-testid="btn-settings">Configurações</button>
+          </Link>
+
         </main>
       </Layout>
     );
   }
 }
+
 const mapDispatchToProps = (dispatch) => ({
   handleEmail: (payload) => dispatch(changeEmail(payload)),
   handleName: (payload) => dispatch(changeName(payload)),
+  handleToken: () => dispatch(getToken()),
 });
+
 export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  handleEmail: PropTypes.func.isRequired,
+  handleName: PropTypes.func.isRequired,
+  handleToken: PropTypes.func.isRequired,
+};
