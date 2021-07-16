@@ -6,7 +6,7 @@ const initialState = {
   allQuestions: {},
   index: 0,
   currentQuestion: {},
-  timer: 6,
+  timer: 30,
   selectedChoice: '' };
 
 const gameReducer = (state = initialState, action) => {
