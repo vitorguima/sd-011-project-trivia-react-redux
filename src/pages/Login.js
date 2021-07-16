@@ -22,7 +22,7 @@ class Login extends Component {
 
   render() {
     const { name, email } = this.state;
-    const { getAvatar } = this.props;
+    const { getAvatar, fetchTokenDispatch } = this.props;
     return (
       <div>
         <label htmlFor="name">
@@ -48,7 +48,7 @@ class Login extends Component {
         <Link to="/gamepage">
           <button
             type="button"
-            onClick={ () => getAvatar(name, email) }
+            onClick={ () => { getAvatar(name, email); fetchTokenDispatch(); } }
             data-testid="btn-play"
             disabled={ !(name && email) }
           >

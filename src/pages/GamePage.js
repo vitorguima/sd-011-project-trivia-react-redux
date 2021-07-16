@@ -7,14 +7,15 @@ import Questions from './Questions';
 class GamePage extends Component {
   render() {
     const { token, name, gravatarEmail, score } = this.props;
+    const state = JSON.parse(localStorage.getItem('state'));
     localStorage.setItem('token', token);
     const MD5 = md5(gravatarEmail).toString();
 
     return (
       <div>
         <header>
-          <p data-testid="header-player-name">{ name }</p>
-          <p data-testid="header-score">{score}</p>
+          <p data-testid="header-player-name">{ name || state.name }</p>
+          <p data-testid="header-score">{ score || state.player.score }</p>
           <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${MD5}` } alt="avatar" />
         </header>
         Game Page
