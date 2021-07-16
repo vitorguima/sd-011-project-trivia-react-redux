@@ -54,13 +54,8 @@ export default function Game() {
   return (
     <>
       <Header />
-<<<<<<< HEAD
-      <Timer />
-      {questions && <ShowTrivia { ...props } />}
-=======
       <ShowTrivia />
       {/* {questions && <ShowTrivia {...props} />} */}
->>>>>>> c6841dfd565c2fbdca41c7bda777c6cd33959ddd
     </>
   );
 }

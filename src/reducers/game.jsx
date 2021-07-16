@@ -1,7 +1,7 @@
-import { GET_ALL_QUESTIONS, CURRENT_QUESTION, NEXT_INDEX } from '../actions/gameActions';
+import { GET_ALL_QUESTIONS, CURRENT_QUESTION, NEXT_INDEX, SET_TIMER } from '../actions/gameActions';
 import { randomArray } from '../components/GameFunctions';
 
-const initialState = { allQuestions: {}, index: 0, currentQuestion: {} };
+const initialState = { allQuestions: {}, index: 0, currentQuestion: {}, timer: 30 };
 
 const gameReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -25,6 +25,10 @@ const gameReducer = (state = initialState, action) => {
     const { index } = state;
     return { ...state, index: index + 1 };
   }
+  case SET_TIMER: {
+    return { ...state, timer: payload };
+  }
+
   default:
     return { ...state };
   }
