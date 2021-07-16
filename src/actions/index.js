@@ -4,6 +4,12 @@ export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const SUBMIT_TOKEN = 'SUBMIT_TOKEN';
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
+export const SUBMIT_SCORE = 'SUBMIT_SCORE';
+
+export const submitScore = (score) => ({
+  type: SUBMIT_SCORE,
+  totalScore: score,
+});
 
 export const submitLogin = (email, playerName) => ({
   type: SUBMIT_LOGIN,

@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { playerName, email } = this.props;
-    console.log(md5(email).toString());
+    const { playerName, email, totalScore } = this.props;
+
     return (
       <div>
         <div>
@@ -19,9 +19,7 @@ class Header extends Component {
         <div>
           Pontos:
           <span data-testid="header-score">
-            {localStorage.getItem('state')
-              ? JSON.parse(localStorage.getItem('state')).player.score
-              : null}
+            {totalScore}
           </span>
         </div>
       </div>
@@ -37,6 +35,7 @@ Header.propTypes = {
 const mapStateToProps = (state) => ({
   email: state.login.email,
   playerName: state.login.playerName,
+  totalScore: state.ScoreReducer.totalScore,
 });
 
 export default connect(mapStateToProps)(Header);
