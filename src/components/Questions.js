@@ -5,7 +5,6 @@ import questionAPI from '../services';
 import Header from './Header';
 import '../App.css';
 import { updateScore } from '../actions';
-import ResetButton from './ResetButton';
 
 class Questions extends Component {
   constructor() {
@@ -101,12 +100,31 @@ class Questions extends Component {
   }
 
   resetBtn() {
-    this.setState({
-      timer: 30,
-      finishTimer: false,
-      clicked: false,
-      isDisabled: false,
-    });
+    const { index } = this.state;
+    const { history } = this.props;
+    const four = 4;
+    if (index < four) {
+      this.setState({
+        index: index + 1,
+        isDisabled: false,
+      });
+    } else {
+      history.push('/feedback');
+    }
+  }
+
+  renderBtn() {
+    const { isDisabled } = this.state;
+    if (!isDisabled) return null;
+    return (
+      <button
+        onClick={ () => this.resetBtn() }
+        data-testid="btn-next"
+        type="button"
+      >
+        Próxima
+      </button>
+    );
   }
 
   renderAnswers() {
@@ -192,10 +210,9 @@ class Questions extends Component {
                 >
                   { questions[index].correct_answer }
                 </button>
+                { this.renderAnswers() }
               </h3>
-              <h3>{ this.renderAnswers() }</h3>
-              { !isDisabled ? null
-                : <ResetButton /> }
+              <span>{ this.renderBtn() }</span>
               <span>{ timer }</span>
             </div>
           )}
@@ -218,9 +235,9 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
 
 Questions.propTypes = {
-  score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
   updateNewScore: PropTypes.func.isRequired,
+  history: PropTypes.string.isRequired,
 };
