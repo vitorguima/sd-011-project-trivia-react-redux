@@ -42,9 +42,6 @@ export default class Questions extends Component {
         key={ question }
         data-testid={ `wrong-answer-${index}` }
         className="wrong"
-        type="button"
-        key={ question }
-        data-testid={ `wrong-answer-${index}` }
         onClick={ this.addWrongBorder }
       >
         {question}
@@ -62,7 +59,6 @@ export default class Questions extends Component {
         <p data-testid="question-text">
           {selectedQuestion && selectedQuestion.question}
         </p>
-        <button data-testid="correct-answer" type="button">
         <button
           data-testid="correct-answer"
           className="true"

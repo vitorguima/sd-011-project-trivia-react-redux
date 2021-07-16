@@ -23,8 +23,6 @@ class GamePage extends Component {
   }
 }
 
-export default GamePage;
-
 const mapStateToProps = ({ tokenReducer, playerReducer }) => ({
   token: tokenReducer.token,
   name: playerReducer.name,
