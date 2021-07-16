@@ -16,12 +16,13 @@ class BooleanAnswers extends React.Component {
   }
 
   render() {
-    const { question } = this.props;
+    const { question, disabled } = this.props;
     return (
       <>
         <button
           type="button"
           onClick={ this.changeColor }
+          disabled={ disabled }
           data-testid={
             question.correct_answer === 'True' ? correctAnswer : 'wrong-answer-0'
           }
@@ -31,6 +32,7 @@ class BooleanAnswers extends React.Component {
         <button
           type="button"
           onClick={ this.changeColor }
+          disabled={ disabled }
           data-testid={
             question.correct_answer === 'False' ? correctAnswer : 'wrong-answer-0'
           }
@@ -48,4 +50,5 @@ BooleanAnswers.propTypes = {
   question: PropTypes.shape({
     correct_answer: PropTypes.string,
   }),
+  disabled: PropTypes.bool,
 }.isRequired;

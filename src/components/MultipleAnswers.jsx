@@ -19,7 +19,7 @@ class MultipleAnswers extends React.Component {
   }
 
   render() {
-    const { question } = this.props;
+    const { question, disabled } = this.props;
     const answers = [question.correct_answer, ...question.incorrect_answers];
 
     /*
@@ -36,6 +36,7 @@ class MultipleAnswers extends React.Component {
               key={ index }
               type="button"
               onClick={ this.changeColor }
+              disabled={ disabled }
               data-testid={
                 question.incorrect_answers.includes(answer)
                   ? `wrong-answer-${question.incorrect_answers.indexOf(answer)}`
@@ -58,4 +59,5 @@ MultipleAnswers.propTypes = {
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }),
+  disabled: PropTypes.bool,
 }.isRequired;
