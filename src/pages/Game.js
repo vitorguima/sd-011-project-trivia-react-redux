@@ -94,7 +94,8 @@ class Game extends Component {
     const { countdown, timer, questions, questionNum } = this.state;
     const { id } = target;
     const { difficulty } = questions[questionNum];
-    let difficultyPoints = 3;
+    const three = 3;
+    let difficultyPoints = three;
 
     if (difficulty === 'easy') {
       difficultyPoints = 1;
