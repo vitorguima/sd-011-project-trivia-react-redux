@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -6,13 +7,18 @@ export default function ShowAlternatives() {
   const { currentQuestion } = gameState;
   const { alternatives, correctAnswer } = currentQuestion;
 
-  const checkAnswer = (e) => {
-    const { target } = e;
-    if (target.innerText === 'teste') {
-      console.log('yey');
-    }
-    console.log('oh no');
-    console.log(correctAnswer);
+  const paintButton = () => {
+    const allButtons = document.querySelectorAll('button');
+    const btnPrimary = 'btn-primary';
+    allButtons.forEach((el) => {
+      el.classList.remove(btnPrimary);
+      return el.innerText === correctAnswer ? el.classList.add('rightAnswer')
+        : el.classList.add('wrongAnswer');
+    });
+  };
+
+  const checkAnswer = () => {
+    paintButton();
   };
 
   const showAlternatives = () => {
@@ -27,7 +33,7 @@ export default function ShowAlternatives() {
           id={ `question-${index}` }
           type="button"
           name="q_answer"
-          onClick={ (e) => checkAnswer(e) }
+          onClick={ () => checkAnswer() }
         >
           {el}
         </button>

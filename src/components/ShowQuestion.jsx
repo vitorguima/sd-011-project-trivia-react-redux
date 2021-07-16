@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 
 export default function ShowQuestion() {
   const gameState = useSelector((state) => state.game);
-  const { currentQuestion, index, correctAnswer } = gameState;
-  const { question } = currentQuestion;
+  const { currentQuestion, index } = gameState;
+  const { question, correctAnswer } = currentQuestion;
 
   return (
     <div>
