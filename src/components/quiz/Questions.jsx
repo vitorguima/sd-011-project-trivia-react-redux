@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import '../../style/quiz.css';
 import PropTypes from 'prop-types';
 import { getQuestionsThunk } from '../../actions';
 import ButtonNext from './ButtonNext';
-import ButtonQuestion from './ButtonQuestion';
+import Answers from './Answers';
 
 class Questions extends React.Component {
   constructor(props) {
@@ -24,13 +25,14 @@ class Questions extends React.Component {
 
   nextQuestion() {
     this.setState((currentState) => {
-      const finalArray = 4;
+      const finalArray = 3;
       if (currentState.indexQuestion < finalArray) {
         return {
           indexQuestion: currentState.indexQuestion + 1,
         };
       }
       return {
+        indexQuestion: currentState.indexQuestion + 1,
         endGame: true,
       };
     });
@@ -59,27 +61,12 @@ class Questions extends React.Component {
               { questionsList[indexQuestion].category }
             </p>
           </div>
-          <ul>
-            <li>
-              <button data-testid="correct-answer" type="button">
-                { questionsList[indexQuestion].correct_answer }
-              </button>
-              { questionsList[indexQuestion].incorrect_answers.map((wrong, index) => (
-                <ButtonQuestion
-                  key={ index }
-                  testid={ `wrong-answer-${index}` }
-                  wrong={ wrong }
-                />
-              )) }
-            </li>
-          </ul>
-
+          <Answers questionsList={ questionsList[indexQuestion] } />
           { !endGame ? <ButtonNext testid="btn-next" nextQuestion={ this.nextQuestion } />
             : (
               <Link to="/feedback">
                 <ButtonNext testid="btn-next" />
               </Link>)}
-
         </div>
       );
     }
