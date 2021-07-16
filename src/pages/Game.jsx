@@ -13,20 +13,21 @@ class Game extends Component {
     };
     this.counter = this.counter.bind(this);
     this.counterFunc = this.counterFunc.bind(this);
-    // this.resetCounter = this.resetCounter.bind(this);
+    this.resetCounter = this.resetCounter.bind(this);
+    this.clearCounterInterval = this.clearCounterInterval.bind(this);
   }
 
   componentDidMount() {
     this.counter();
   }
 
-  // resetCounter() {
-  //   this.setState({
-  //     count: 30,
-  //     disabled: false,
-  //   });
-  //   this.counter();
-  // }
+  resetCounter() {
+    this.setState({
+      count: 30,
+      disabled: false,
+    });
+    this.counter();
+  }
 
   counterFunc() {
     const { count } = this.state;
@@ -35,6 +36,7 @@ class Game extends Component {
         count: count - 1,
       });
     } else if (count === 0) {
+      this.clearCounterInterval();
       this.setState({
         count: 0,
         disabled: true,
@@ -42,9 +44,13 @@ class Game extends Component {
     }
   }
 
+  clearCounterInterval() {
+    clearInterval(this.interval);
+  }
+
   counter() {
     const interval = 1000;
-    setInterval(this.counterFunc, interval);
+    this.interval = setInterval(this.counterFunc, interval);
   }
 
   render() {
@@ -56,6 +62,8 @@ class Game extends Component {
         <Question
           count={ count }
           counter={ this.counter }
+          clearInterval={ this.clearCounterInterval }
+          reset={ this.resetCounter }
           question={ questionArray[currentQuestion] }
           disabled={ disabled }
         />

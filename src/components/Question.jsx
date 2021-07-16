@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { nextQuestion as newQuestion } from '../actions';
-import Counter from './Counter';
 import '../styles/question.css';
 
 class Question extends Component {
@@ -12,7 +11,7 @@ class Question extends Component {
     this.state = {
       nextIsDisabled: true,
       redirectToFeedback: false,
-      counter: 30,
+      isAnswered: false,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleDisabledButton = this.handleDisabledButton.bind(this);
@@ -20,15 +19,11 @@ class Question extends Component {
     this.returnNextButton = this.returnNextButton.bind(this);
   }
 
-  componentDidMount() {
-    const { counter } = this.props;
-    counter();
-  }
-
   handleNextQuestion() {
-    const { nextQuestion, currentQuestion } = this.props;
+    const { nextQuestion, currentQuestion, reset } = this.props;
     this.setState({
       nextIsDisabled: true,
+      isAnswered: false,
     }, () => {
       const maxIndex = 4;
       if (currentQuestion === maxIndex) {
@@ -37,6 +32,7 @@ class Question extends Component {
         });
       }
       nextQuestion();
+      reset();
     });
   }
 
@@ -46,15 +42,12 @@ class Question extends Component {
     });
   }
 
-  handleClick({ target }) {
+  handleClick() {
+    const { clearInterval } = this.props;
+    clearInterval();
     this.handleDisabledButton();
-    const buttonArray = Array.from(target.parentNode.children);
-    buttonArray.forEach((button) => {
-      if (button.className === 'wrong-answer') {
-        button.classList.add('wrong-color');
-      } else if (button.className === 'correct-answer') {
-        button.classList.add('correct-color');
-      }
+    this.setState({
+      isAnswered: true,
     });
   }
 
@@ -71,7 +64,7 @@ class Question extends Component {
   }
 
   render() {
-    const { nextIsDisabled, redirectToFeedback } = this.state;
+    const { nextIsDisabled, redirectToFeedback, isAnswered } = this.state;
     const { question: {
       category,
       question,
@@ -87,7 +80,7 @@ class Question extends Component {
           <button
             type="button"
             data-testid="correct-answer"
-            className="correct-answer"
+            className={ isAnswered ? 'correct-color' : null }
             onClick={ this.handleClick }
             disabled={ disabled }
           >
@@ -98,7 +91,7 @@ class Question extends Component {
               type="button"
               key={ index }
               data-testid="wrong-answer"
-              className="wrong-answer"
+              className={ isAnswered ? 'wrong-color' : null }
               onClick={ this.handleClick }
               disabled={ disabled }
             >
@@ -107,7 +100,6 @@ class Question extends Component {
           ))}
           { disabled || !nextIsDisabled ? this.returnNextButton() : null }
         </div>
-        {/* <Counter /> */}
       </div>
     );
   }
@@ -132,8 +124,9 @@ Question.propTypes = ({
   nextQuestion: PropTypes.func.isRequired,
   currentQuestion: PropTypes.number.isRequired,
   disabled: PropTypes.bool.isRequired,
-  count: PropTypes.number.isRequired,
-  resetCounter: PropTypes.func.isRequired,
+  // count: PropTypes.number.isRequired,
+  reset: PropTypes.func.isRequired,
+  clearInterval: PropTypes.func.isRequired,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

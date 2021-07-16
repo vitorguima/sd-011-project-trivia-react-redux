@@ -1,7 +1,6 @@
 import {
   REQUEST_QUESTIONS,
   REQUEST_QUESTIONS_SUCCESS,
-  ADD_SCORE,
   NEXT_QUESTION,
 } from '../actions';
 
