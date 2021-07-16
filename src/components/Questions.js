@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/Questions.css';
+import Timer from './Timer';
 
 class Questions extends Component {
   constructor(props) {
@@ -36,21 +37,23 @@ class Questions extends Component {
   // }
 
   render() {
-    const { questionsState, loading } = this.props;
+    const { questionsState, loading, buttonsDisabled } = this.props;
     const { correctAnswer, wrongAnswer } = this.state;
 
     return (
       <div>
+        <Timer />
         {loading
           ? <h4>Loading...</h4>
           : (
             <div>
               <p data-testid="question-category">{ questionsState[0].category }</p>
-              <h3 data-testid="question-text">{ questionsState[0].questions }</h3>
+              <h3 data-testid="question-text">{ questionsState[0].question }</h3>
               <button
                 data-testid="correct-answer"
                 className={ correctAnswer }
                 type="button"
+                disabled={ buttonsDisabled }
                 onClick={ () => this.handleClick() }
               >
                 { questionsState[0].correct_answer }
@@ -61,6 +64,7 @@ class Questions extends Component {
                   className={ wrongAnswer }
                   type="button"
                   key={ key }
+                  disabled={ buttonsDisabled }
                   onClick={ () => this.handleClick() }
                 >
                   { incorrect }
@@ -76,11 +80,13 @@ class Questions extends Component {
 const mapStateToProps = (state) => ({
   questionsState: state.questionsReducer.questions,
   loading: state.questionsReducer.loading,
+  buttonsDisabled: state.timerReducer.buttonsDisabledFromTimer,
 });
 
 export default connect(mapStateToProps)(Questions);
 
 Questions.propTypes = {
+  buttonsDisabled: PropTypes.func.isRequired,
   questionsState: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
 };
