@@ -36,7 +36,7 @@ class Login extends Component {
 
   render() {
     const { name, email } = this.state;
-    const { getToken, sendEmailG, addPlayer } = this.props;
+    const { getToken, sendEmailG, addPlayerFeedback } = this.props;
     const isEnabled = this.handleButton();
     return (
       <main>
@@ -68,7 +68,7 @@ class Login extends Component {
                 data-testid="btn-play"
                 disabled={ isEnabled }
                 onClick={ () => {
-                  addPlayer(name, email);
+                  addPlayerFeedback(name, email);
                   getToken();
                   sendEmailG(email, name);
                 } }
@@ -89,11 +89,12 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(getTokenThunk()),
   sendEmailG: (email, name) => dispatch(sendEmail(email, name)),
-  addPlayer: (name, email) => dispatch(addPlayer(name, email)),
+  addPlayerFeedback: (name, email) => dispatch(addPlayer(name, email)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   getToken: PropTypes.func,
+  addPlayerFeedback: PropTypes.func,
 }.isRequired;

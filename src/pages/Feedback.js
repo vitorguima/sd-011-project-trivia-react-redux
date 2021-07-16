@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import PropTypes from 'prop-types';
 
 class Feedback extends Component {
   render() {
@@ -24,5 +25,11 @@ const mapStateToProps = (state) => ({
   gravatarEmail: state.player.gravatarEmail,
   name: state.player.name,
 });
+
+Feedback.propTypes = {
+  score: PropTypes.number,
+  gravatarEmail: PropTypes.string,
+  name: PropTypes.string,
+}.isRequired;
 
 export default connect(mapStateToProps)(Feedback);
