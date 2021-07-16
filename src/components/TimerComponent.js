@@ -25,7 +25,6 @@ class TimerComponent extends Component {
       }
       ));
     }
-
     if (seconds === 0) {
       const { updateButton } = this.props;
       updateButton();
