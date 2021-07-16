@@ -1,19 +1,21 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
+import { setTimer } from ''
 
-export default function Timer(props) {
-  const { count, counter, setCounter } = props;
+export default function Timer() {
+  const time = 10;
+  dispatch(setTimer(time));
 
   const timer = () => {
     const interval = 1000;
-    let timeLeft = setTimeout(() => setCounter(counter - 1), interval);
-    if (counter > 0 && count) {
-      timeLeft = setTimeout(() => setCounter(counter - 1), interval);
-      return timeLeft;
+    // let timeLeft = setTimeout(() => setCounter(counter - 1), interval);
+    // if (counter > 0 && count) {
+    //   timeLeft = setTimeout(() => setCounter(counter - 1), interval);
+    //   return timeLeft;
     }
-    if (!count || counter === 0) {
-      clearTimeout(timeLeft);
-    }
+    // if (!count || counter === 0) {
+    //   clearTimeout(timeLeft);
+    // }
   };
 
   useEffect(() => {
