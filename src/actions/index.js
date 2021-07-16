@@ -12,24 +12,10 @@ export const sendQuestionsArray = (payload) => ({
   payload,
 });
 
-// sendScorePoints
-
 export const sendScorePoints = (payload) => ({
   type: SET_SCORE_POINTS,
   payload,
 });
-
-// export const sendScorePoints = (payload) => (dispatch) => {
-//   dispatch(sendScorePoints(payload));
-//   localStorage.setItem('player', JSON.stringify({
-//     name: '',
-//     assertions: 0,
-//     score: payload,
-//     gravatarEmail: '',
-//     token: '',
-//     ranking: [],
-//   }));
-// };
 
 export const rquestQuestions = () => async (dispatch) => {
   const { token } = JSON.parse(localStorage.getItem('token'));
@@ -44,13 +30,15 @@ export const requestToken = (userName, email) => async (dispatch) => {
   localStorage.setItem('token', JSON.stringify(object));
   const { token } = JSON.parse(localStorage.getItem('token'));
   const infos = {
-    name: userName,
-    assertions: 0,
-    score: 0,
-    gravatarEmail: email,
-    token,
-    ranking: [],
+    player: {
+      name: userName,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+      token,
+      ranking: [],
+    },
   };
-  localStorage.setItem('player', JSON.stringify(infos));
+  localStorage.setItem('state', JSON.stringify(infos));
   dispatch(userLogin(infos));
 };

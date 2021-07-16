@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
-import { requestToken/* , rquestQuestions */ } from '../../actions';
+import { requestToken } from '../../actions';
 
 const SendButtonLogin = (props) => {
   const { stateLogin } = props;
@@ -16,7 +16,6 @@ const SendButtonLogin = (props) => {
   };
   const sendLogin = () => {
     dispatch(requestToken(userName, email));
-    // dispatch(rquestQuestions());
     history.push('/game');
   };
   return (

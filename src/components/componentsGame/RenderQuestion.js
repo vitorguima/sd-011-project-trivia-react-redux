@@ -21,13 +21,15 @@ const RenderQuestion = () => {
   }, []);
 
   const globalScore = (score) => {
-    localStorage.setItem('player', JSON.stringify({
-      name: '',
-      assertions: 0,
-      score,
-      gravatarEmail: '',
-      token: '',
-      ranking: [],
+    localStorage.setItem('state', JSON.stringify({
+      player: {
+        name: '',
+        assertions: 0,
+        score,
+        gravatarEmail: '',
+        token: '',
+        ranking: [],
+      },
     }));
     dispatch(sendScorePoints(score));
   };
