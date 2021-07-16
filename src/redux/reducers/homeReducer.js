@@ -5,15 +5,17 @@ import {
 
 function sendToken(name, email, token) {
   const player = {
-    name,
-    assertion: '',
-    score: 0,
-    gravatarMail: email,
+    player: {
+      name,
+      assertion: '',
+      score: 0,
+      gravatarMail: email,
+    },
   };
   const tokenToStorage = {
     token,
   };
-  localStorage.setItem('player', JSON.stringify(player));
+  localStorage.setItem('state', JSON.stringify(player));
   localStorage.setItem('token', JSON.stringify(tokenToStorage));
 }
 

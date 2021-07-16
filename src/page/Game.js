@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './Gaming.css';
 import md5 from 'crypto-js/md5';
 import { fetchQuestion } from '../redux/actions';
+// import Time from './components/Time';
 
 let renderButton = false;
 
@@ -145,7 +146,7 @@ class Game extends Component {
           />
           <p>
             <span data-testid="header-score">
-              {!objectsLocalStorage ? 0 : objectsLocalStorage.score}
+              {!objectsLocalStorage ? 'carregando...' : objectsLocalStorage.player.score}
             </span>
           </p>
           <div>
