@@ -6,9 +6,6 @@ export const HIDE_LOADING = 'HIDE_LOADING';
 export const FETCH_TOKEN = 'FETCH_TOKEN';
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 const URL = 'https://opentdb.com/api_token.php?command=request';
-const tokenStorage = JSON.parse(localStorage.getItem('token'));
-
-const URLQUESTION = `https://opentdb.com/api.php?amount=5&token=${tokenStorage}`;
 
 export const submitForm = (payload) => ({
   type: SUBMIT_FORM,
@@ -33,7 +30,7 @@ export const hideLoading = () => ({
   type: HIDE_LOADING,
 });
 
-export const getToken = () => async (dispatch) => axios.get(URL)
+export const getToken = () => (dispatch) => axios.get(URL)
   .then((response) => {
     const { token } = response.data;
     localStorage.setItem('token', JSON.stringify(token));
@@ -42,7 +39,7 @@ export const getToken = () => async (dispatch) => axios.get(URL)
   })
   .catch((err) => console.log(err.message));
 
-export const getQuestions = () => async (dispatch) => axios.get(URLQUESTION)
+export const getQuestions = (token) => (dispatch) => axios.get(`https://opentdb.com/api.php?amount=5&token=${token}`)
   .then((response) => {
     dispatch(showLoading());
     const { data } = response;

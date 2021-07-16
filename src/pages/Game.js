@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { getQuestions, getToken } from '../actions';
+import HeaderGame from '../components/HeaderGame';
 
 class Game extends Component {
   constructor() {
@@ -14,26 +15,37 @@ class Game extends Component {
     };
     this.handleSucess = this.handleSucess.bind(this);
     this.handleLoss = this.handleLoss.bind(this);
+    this.fetchQuest = this.fetchQuest.bind(this);
   }
 
   componentDidMount() {
-    const { fetchQuestions, fetchToken } = this.props;
+    const { fetchToken } = this.props;
     fetchToken();
-    fetchQuestions();
+    this.fetchQuest();
+  }
+
+  async fetchQuest() {
+    const { fetchQuestions } = this.props;
+    const URL = 'https://opentdb.com/api_token.php?command=request';
+    const { data } = await axios.get(URL);
+    console.log(data.token);
+    fetchQuestions(data.token);
   }
 
   handleSucess() {
     this.setState({ sucess: true });
+    this.setState({ loss: true });
   }
 
   handleLoss() {
     this.setState({ loss: true });
+    this.setState({ sucess: true });
   }
 
   render() {
-    const { name, score, email, questions } = this.props;
+    const { questions } = this.props;
     const { index, sucess, loss } = this.state;
-    if (!questions.length && name) {
+    if (!questions.length) {
       return <div>Loading...</div>;
     }
     const {
@@ -45,22 +57,7 @@ class Game extends Component {
     } = questions[index];
     return (
       <section>
-        <header>
-          <div className="player-info">
-            <img
-              data-testid="header-profile-picture"
-              src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
-              alt="user thumbnail"
-            />
-            <h3 data-testid="header-player-name">
-              { name }
-            </h3>
-            <p data-testid="header-score">
-              Score:
-              { score }
-            </p>
-          </div>
-        </header>
+        <HeaderGame />
         <div className="container">
           <p data-testid="question-category">
             { category }
@@ -69,7 +66,7 @@ class Game extends Component {
             { question }
           </p>
           <button
-            className={`${sucess ? 'sucess' : ''}`}
+            className={ `${sucess ? 'sucess' : ''}` }
             onClick={ this.handleSucess }
             type="button"
             data-testid="correct-answer"
@@ -78,10 +75,11 @@ class Game extends Component {
           </button>
           {incorrectAnswer.map((answer, idx) => (
             <button
-              className={`${loss ? 'loss' : ''}`}
+              className={ `${loss ? 'loss' : ''}` }
               onClick={ this.handleLoss }
               data-testid={ `wrong-answer-${idx}` }
-              type="button" key={ idx }
+              type="button"
+              key={ idx }
             >
               { answer }
             </button>
@@ -100,7 +98,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchQuestions: () => dispatch(getQuestions()),
+  fetchQuestions: (token) => dispatch(getQuestions(token)),
   fetchToken: () => dispatch(getToken()),
 });
 
