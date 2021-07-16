@@ -14,3 +14,4 @@ const reducerToken = (state = INITIAL_STATE, action) => {
 };
 
 export default reducerToken;
+

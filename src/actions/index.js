@@ -1,5 +1,6 @@
 import getToken from '../services/API';
 
+export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const SUCESS = 'SUCESS';
 export const FAIL = 'SUCESS';
 
@@ -22,3 +23,19 @@ export const thunkToken = () => async (dispatch) => {
   const callGetToken = await getToken();
   dispatch(success(callGetToken));
 };
+// ============================================================
+
+export const requestQuestionsSuccess = (payload) => ({
+  type: REQUEST_QUESTIONS_SUCCESS,
+  payload,
+});
+
+export const requestQuestionsFailed = (payload) => ({
+  type: REQUEST_QUESTIONS_FAILED,
+  payload,
+});
+
+export const fetchQuestions = (token) => fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+  .then((result) => result.json())
+  .then((data) => dispatch(requestQuestionsSuccess(data)))
+  .catch((error) => dispatch(requestQuestionsFailed(error)));

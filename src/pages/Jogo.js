@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Header from '../components/Header';
 
 class Jogo extends Component {
   /* constructor() {
@@ -25,13 +27,17 @@ class Jogo extends Component {
   render() {
     return (
       <div className="game-container">
-        <h1>deu certo</h1>
+        <Header />
       </div>
     );
   }
 }
 
-export default Jogo;
+const mapStateToProps = (state) => ({
+  questions: state.questionReducer.questions,
+});
+
+export default connect(mapStateToProps, null)(Jogo);
 
 /* return(
   <div className="game-container">
