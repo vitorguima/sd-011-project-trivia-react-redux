@@ -37,7 +37,8 @@ export default class FeedBack extends Component {
   }
 
   render() {
-    const { player: { name, score, gravatarEmail } } = this.getPlayerFromLocalStorage();
+    const { player } = this.getPlayerFromLocalStorage();
+    const { name, score, gravatarEmail, assertions } = player;
     const gravatarHash = md5(gravatarEmail.trim().toLowerCase()).toString();
     const gravatarPicture = `https://www.gravatar.com/avatar/${gravatarHash}`;
     return (
@@ -47,6 +48,8 @@ export default class FeedBack extends Component {
         <h2 data-testid="header-player-name">{ name }</h2>
         <h3 data-testid="header-score">{ score }</h3>
         <p data-testid="feedback-text">{this.message()}</p>
+        <h4 data-testid="feedback-total-score">{ score }</h4>
+        <h4 data-testid="feedback-total-question">{ assertions }</h4>
       </div>
     );
   }
