@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
@@ -39,14 +40,14 @@ class Feedback extends React.Component {
           <p>
             Você acertou
             {' '}
-            { assertions }
+            <span data-testid="feedback-total-question">{ assertions }</span>
             {' '}
             questões!
           </p>
           <p>
             Um total de
             {' '}
-            {score}
+            <span data-testid="feedback-total-score">{score}</span>
             {' '}
             pontos.
           </p>
