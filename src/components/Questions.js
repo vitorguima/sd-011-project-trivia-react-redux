@@ -14,10 +14,14 @@ class Questions extends Component {
       timeCount: 30,
     };
     this.handleNext = this.handleNext.bind(this);
+    this.handleNextStyle = this.handleNextStyle.bind(this);
     this.handleCorretAnswer = this.handleCorretAnswer.bind(this);
     this.handleLocalStorage = this.handleLocalStorage.bind(this);
     this.handleErrorAnswer = this.handleErrorAnswer.bind(this);
     this.timerCounter = this.timerCounter.bind(this);
+    this.handleStyleAnswers = this.handleStyleAnswers.bind(this);
+    this.renderCorretBtn = this.renderCorretBtn.bind(this);
+    this.renderWrongBtn = this.renderWrongBtn.bind(this);
   }
 
   async componentDidMount() {
@@ -52,6 +56,11 @@ class Questions extends Component {
     }
   }
 
+  handleNextStyle() {
+    const styleAnswers = document.getElementsByName('answer');
+    styleAnswers.forEach((answerBtn) => { answerBtn.style = ''; });
+  }
+
   handleCorretAnswer() {
     this.setState((state) => ({
       totalScore: state.totalScore + 1,
@@ -65,12 +74,57 @@ class Questions extends Component {
     }));
   }
 
+  handleStyleAnswers() {
+    const styleAnswers = document.getElementsByName('answer');
+    styleAnswers.forEach((answerBtn) => {
+      if (answerBtn.getAttribute('data-testid') === 'correct-answer') {
+        answerBtn.style = 'border: 3px solid rgb(6, 240, 15)';
+      } else {
+        answerBtn.style = 'border: 3px solid rgb(255, 0, 0)';
+      }
+    });
+  }
+
   handleLocalStorage() {
     const { totalScore } = this.state;
     const retrievelocalStorage = JSON.parse(localStorage.getItem('state'));
     retrievelocalStorage.player.score = totalScore;
     localStorage.setItem('state', JSON.stringify(retrievelocalStorage));
     return <Redirect to="/feedback" />;
+  }
+
+  renderCorretBtn(answer, index) {
+    return (
+      <button
+        key={ index }
+        type="button"
+        data-testid="correct-answer"
+        disabled={ timeCount === 0 }
+        name="answer"
+        onClick={ () => {
+          this.handleCorretAnswer();
+          this.handleStyleAnswers();
+        } }
+      >
+        {answer}
+      </button>);
+  }
+
+  renderWrongBtn(answer, index) {
+    return (
+      <button
+        key={ index }
+        type="button"
+        onClick={ () => {
+          this.handleErrorAnswer();
+          this.handleStyleAnswers();
+        } }
+        data-testid={ `wrong-answer-${index}` }
+        disabled={ timeCount === 0 }
+        name="answer"
+      >
+        {answer}
+      </button>);
   }
 
   render() {
@@ -93,29 +147,20 @@ class Questions extends Component {
           {answers.map((answer, index) => {
             if (answer === correctAnswer) {
               return (
-                <button
-                  key={ index }
-                  type="button"
-                  data-testid="correct-answer"
-                  onClick={ () => this.handleCorretAnswer() }
-                  disabled={ timeCount === 0 }
-                >
-                  {answer}
-                </button>);
+                this.renderCorretBtn(answer, index));
             }
             return (
-              <button
-                key={ index }
-                type="button"
-                onClick={ () => this.handleErrorAnswer() }
-                data-testid={ `wrong-answer-${index}` }
-                disabled={ timeCount === 0 }
-              >
-                {answer}
-              </button>);
+              this.renderWrongBtn(answer, index));
           })}
           {showNextButton && (
-            <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ () => {
+                this.handleNext();
+                this.handleNextStyle();
+              } }
+            >
               Próxima
             </button>)}
         </section>
