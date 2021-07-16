@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { fetchQuestions } from '../actions';
+import './Questions.css';
 
 class Questions extends Component {
   constructor() {
@@ -10,7 +11,10 @@ class Questions extends Component {
 
     this.state = {
       score: 0,
+      isCorrect: '',
+      isIncorrect: '',
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleGravatar() {
@@ -18,10 +22,17 @@ class Questions extends Component {
     return md5(email).toString();
   }
 
+  handleClick() {
+    this.setState({
+      isCorrect: 'correct',
+      isIncorrect: 'incorrect',
+    });
+  }
+
   render() {
     const { name, questions } = this.props;
-    const { score } = this.state;
-    // console.log(questions);
+    const { score, isCorrect, isIncorrect } = this.state;
+    console.log(isCorrect, isIncorrect);
     return (
       <main>
         <header>
@@ -49,6 +60,9 @@ class Questions extends Component {
                       ? 'correct-answer' : `wrong-answer-${i}` }
                     type="button"
                     key={ i }
+                    className={ ans === question.correct_answer
+                      ? isCorrect : isIncorrect }
+                    onClick={ this.handleClick }
                   >
                     { ans }
                   </button>))}
