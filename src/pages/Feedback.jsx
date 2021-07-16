@@ -6,6 +6,7 @@ export default class Feedback extends Component {
     return (
       <div>
         <HeaderGame />
+        <h1 data-testid="feedback-text">Feedback</h1>
       </div>
     );
   }
