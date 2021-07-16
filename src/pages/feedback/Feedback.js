@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Header from '../../components/Header';
 
 class Feedback extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalScore: JSON.parse(localStorage.getItem('state')).player.score,
+      totalScore: props.totalScore,
     };
     this.renderFeedback = this.renderFeedback.bind(this);
   }
@@ -72,4 +74,12 @@ class Feedback extends Component {
   }
 }
 
-export default Feedback;
+Feedback.propTypes = {
+  totalScore: PropTypes.number,
+}.isRequired;
+
+const mapStateToProps = (state) => ({
+  totalScore: state.ScoreReducer.totalScore,
+});
+
+export default connect(mapStateToProps)(Feedback);
