@@ -30,6 +30,16 @@ class GamePage extends Component {
     });
   }
 
+  questionSection(results, questionIndex) {
+    return (
+      <section>
+        <p data-testid="question-category">{results[questionIndex].category}</p>
+        Question:
+        <p data-testid="question-text">{results[questionIndex].question}</p>
+      </section>
+    );
+  }
+
   renderHeader() {
     const { email, nome } = this.props;
     const hash = md5(email).toString();
@@ -74,10 +84,8 @@ class GamePage extends Component {
         {this.renderHeader()}
         <Timer />
         {results && (
-          <div>
-            <p data-testid="question-category">{results[questionIndex].category}</p>
-            Question:
-            <p data-testid="question-text">{results[questionIndex].question}</p>
+          <main>
+            {this.questionSection(results, questionIndex)}
             {[...results[questionIndex].incorrect_answers
               .map((wrngAnsw, index) => (
                 <button
@@ -89,7 +97,7 @@ class GamePage extends Component {
                 >
                   {wrngAnsw}
                 </button>)), this.renderBtn()].sort(() => Math.random() - randomNumber)}
-          </div>) }
+          </main>) }
         <button
           type="button"
           onClick={ this.btnHandle }
