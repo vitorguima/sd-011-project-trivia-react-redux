@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 import Question from '../components/Question';
 import { fetchQuestions } from '../actions';
 
@@ -19,7 +20,10 @@ class Game extends Component {
     const { loading } = this.props;
     if (loading) return <h3>Loading</h3>;
     return (
+      <>
+      <Header />
       <Question />
+      </>
     );
   }
 }
