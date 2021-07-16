@@ -15,7 +15,7 @@ class Questions extends Component {
     this.handleNext = this.handleNext.bind(this);
     this.handleCorretAnswer = this.handleCorretAnswer.bind(this);
     this.handleLocalStorage = this.handleLocalStorage.bind(this);
-    this.handleErrorAnswer = this.handleErrorAnswer.bind(this);
+    this.handleWrongAnswer = this.handleWrongAnswer.bind(this);
   }
 
   async componentDidMount() {
@@ -41,7 +41,7 @@ class Questions extends Component {
     }));
   }
 
-  handleErrorAnswer() {
+  handleWrongAnswer() {
     this.setState(() => ({
       showNextButton: true,
     }));
@@ -90,7 +90,7 @@ class Questions extends Component {
               <button
                 key={ index }
                 type="button"
-                onClick={ () => this.handleErrorAnswer() }
+                onClick={ () => this.handleWrongAnswer() }
                 data-testid={ `wrong-answer-${index}` }
               >
                 {answer}
