@@ -60,7 +60,13 @@ class Game extends React.Component {
         <Header />
         { (questions.length === 0)
           ? <p>loading...</p>
-          : <Question newQuestion={ questions[index] } nextFunc={ this.nextQuestion } />}
+          : (
+            <Question
+              newQuestion={ questions[index] }
+              nextFunc={ this.nextQuestion }
+              index={ index }
+            />
+          )}
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { scoreAction } from '../actions';
@@ -91,6 +92,29 @@ class Question extends React.Component {
     localStorage.setItem('state', JSON.stringify({ ...dataStorage }));
   }
 
+  renderCondition() {
+    const { index } = this.props;
+    const { answered } = this.state;
+    const four = 4;
+    if (answered) {
+      if (index >= four) {
+        return (
+          <Link to="/feedback" data-testid="btn-next">
+            Próxima
+          </Link>
+        );
+      }
+      return (
+        <button
+          type="button"
+          onClick={ this.nextPage }
+          data-testid="btn-next"
+        >
+          Próxima
+        </button>);
+    }
+  }
+
   render() {
     const { timer, answered } = this.state;
     const { newQuestion: { question, answers, category } } = this.props;
@@ -129,13 +153,7 @@ class Question extends React.Component {
             </button>
           );
         }) }
-        {
-          (answered) && (
-            <button type="button" onClick={ this.nextPage } data-testid="btn-next">
-              Próxima
-            </button>
-          )
-        }
+        { this.renderCondition() }
       </div>
     );
   }
@@ -154,6 +172,7 @@ Question.propTypes = {
   nextFunc: PropTypes.func.isRequired,
   score: PropTypes.number.isRequired,
   updateScore: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

@@ -24,7 +24,7 @@ class Header extends React.Component {
           </div>
           <h3 data-testid="header-score">
             Pontos:
-            <span>{ score }</span>
+            <span data-testid="header-score">{ score }</span>
           </h3>
         </div>
       </header>
