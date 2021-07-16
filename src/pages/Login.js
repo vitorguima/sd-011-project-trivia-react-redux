@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchApi } from '../actions';
 
-// const recevedEmail = new RegExp('^[^s@]+@[^s@]+$');
-const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
+const recevedEmail = new RegExp('^[^s@]+@[^s@]+$');
+// const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
 
 class Login extends Component {
   constructor() {
@@ -81,7 +81,7 @@ class Login extends Component {
           disabled={ isDisabled }
           data-testid="btn-play"
           type="button"
-          onClick={ fetch() }
+          onClick={ () => fetch() }
         >
           Jogar
         </button>
