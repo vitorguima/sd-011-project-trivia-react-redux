@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Quiz from './pages/Quiz';
 import Setting from './pages/Setting';
 import Feedback from './pages/Feedback';
+import Ranking from './pages/Ranking';
 
 class Routes extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class Routes extends React.Component {
         <Route path="/quiz" component={ Quiz } />
         <Route path="/settings" component={ Setting } />
         <Route path="/feedback" component={ Feedback } />
+        <Route path="/ranking" component={ Ranking } />
       </Switch>
     );
   }
