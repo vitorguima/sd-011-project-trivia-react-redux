@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Feedback extends Component {
   render() {
@@ -15,6 +16,14 @@ class Feedback extends Component {
         <div data-testid="feedback-text">Feedback</div>
         <div data-testid="header-player-name">{ userName }</div>
         <div data-testid="header-score">{ scoreUser }</div>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar Novamente
+          </button>
+        </Link>
       </header>
     );
   }
