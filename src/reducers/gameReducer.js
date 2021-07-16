@@ -3,7 +3,7 @@ import { REQUEST_API, GET_GAME, GET_CATEGORIES } from '../actions';
 const INITIAL_STATE = {
   isLoading: false,
   gameData: [],
-  categories: [],
+  categories: { trivia_categories: [] },
 };
 
 function gameReducer(state = INITIAL_STATE, action) {
