@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { requestApiThunk } from '../actions';
-import Answer from '../components/Question';
+import Question from '../components/Question';
 
 class TriviaQuestions extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class TriviaQuestions extends Component {
         <Header />
         <h1 data-testid="question-category">Categoria</h1>
         <h2 data-testid="question-text">Questão:</h2>
-        { eachResult ? <Answer eachResult={ eachResult[questionCounter] } /> : null }
+        { eachResult ? <Question eachResult={ eachResult[questionCounter] } /> : null }
       </div>);
   }
 }

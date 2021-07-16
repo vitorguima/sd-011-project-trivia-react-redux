@@ -75,7 +75,7 @@ class Question extends Component {
             key={ `answer ${index}` }
             data-testid={ correctAnswer === answer
               ? 'correct-answer'
-              : `wrong-answer-${index}` }
+              : 'wrong-answer' }
             onClick={ () => this.colorizeAnswers() }
             className="answer"
           >
