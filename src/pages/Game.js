@@ -98,6 +98,8 @@ class Game extends Component {
                   </button>
                 ))}
               </div>) : <p>loading...</p>}
+          {disabled
+            ? <button data-testid="btn-next" type="button">Próxima</button> : null}
         </div>
       </div>
     );
