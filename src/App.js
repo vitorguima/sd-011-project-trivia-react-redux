@@ -4,6 +4,7 @@ import Login from './pages/login';
 import Header from './pages/header';
 import Player from './components/player';
 import Configuration from './pages/configuration';
+import feedback from './pages/feedback';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
       <Route path="/player" component={ Player } />
       <Route exact path="/" component={ Login } />
       <Route exact path="/header" component={ Header } />
+      <Route exact path="/feedback" component={ feedback } />
     </Switch>
   );
 }
