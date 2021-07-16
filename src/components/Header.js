@@ -18,7 +18,6 @@ export default class Header extends Component {
     const { player: { name, gravatarEmail, score } } = this.getPlayerFromLocalStorage();
     const emailHash = md5(gravatarEmail.trim().toLowerCase()).toString();
     const gravatarPicture = `https://www.gravatar.com/avatar/${emailHash}`;
-    console.log(emailHash);
 
     return (
       <header className="trivia__header">

@@ -23,6 +23,20 @@ class Forms extends Component {
     this.setState({ [id]: value });
   }
 
+  generateURL() {
+    const { settings: { category, level, nQuestions } } = this.props;
+    let url = `https://opentdb.com/api.php?amount=${nQuestions}`;
+    if (level) {
+      console.log('caiu no level');
+      url = `${url}&difficulty=${level}`;
+    }
+    if (category) {
+      console.log('caiu no category');
+      url = `${url}&category=${category}`;
+    }
+    return url;
+  }
+
   savePlayerToLocalStorage() {
     const { fetchGame } = this.props;
     const { name, email } = this.state;
@@ -37,7 +51,7 @@ class Forms extends Component {
 
     localStorage.setItem('state', JSON.stringify(obj));
     this.redirectUser();
-    fetchGame();
+    fetchGame(this.generateURL());
   }
 
   redirectUser() {
@@ -78,12 +92,16 @@ class Forms extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  settings: state.gameReducer.settings,
+});
+
 const mapDispatchToProps = (dispatch) => ({
-  fetchGame: () => dispatch(fetchGameAction()),
+  fetchGame: (url) => dispatch(fetchGameAction(url)),
 });
 
 Forms.propTypes = {
   fetchGame: PropTypes.string,
 }.isRequired;
 
-export default withRouter(connect(null, mapDispatchToProps)(Forms));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Forms));

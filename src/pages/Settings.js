@@ -21,11 +21,21 @@ class Settings extends React.Component {
 
   componentDidMount() {
     this.requestCategories();
+    this.currentSettings();
   }
 
   requestCategories() {
     const { getCategories } = this.props;
     getCategories();
+  }
+
+  currentSettings() {
+    const { settings: { category, level, nQuestions } } = this.props;
+    this.setState({
+      category,
+      level,
+      nQuestions,
+    });
   }
 
   handleChange({ target }) {
@@ -90,6 +100,7 @@ class Settings extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  settings: state.gameReducer.settings,
   categories: state.gameReducer.categories.trivia_categories,
   isLoading: state.gameReducer.isLoading,
 });
