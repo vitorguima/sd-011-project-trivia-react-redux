@@ -5,7 +5,7 @@ export default class Time extends Component {
   constructor() {
     super();
     this.state = {
-      initialTime: 3,
+      initialTime: 30,
       setTime: null,
     };
     this.timeQuestion = this.timeQuestion.bind(this);
@@ -17,9 +17,11 @@ export default class Time extends Component {
 
   componentDidUpdate() {
     const { setTime, initialTime } = this.state;
+    const { timeQuestion } = this.props;
     if (initialTime <= 0) {
       clearInterval(setTime);
     }
+    timeQuestion(initialTime);
   }
 
   componentWillUnmount() {
@@ -51,4 +53,5 @@ export default class Time extends Component {
 
 Time.propTypes = {
   funcSetTime: PropTypes.func.isRequired,
+  timeQuestion: PropTypes.func.isRequired,
 };

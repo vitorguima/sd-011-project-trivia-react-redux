@@ -13,14 +13,20 @@ class Game extends Component {
     super();
     this.state = {
       numberNext: 0,
+      score: 0,
+      assertions: 0,
       styleButton: false,
-      // setTime: null,
+      setTime: null,
+      disabled: false,
+      renderTime: true,
+      numberTime: 30,
     };
 
     this.handleResponse = this.handleResponse.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.confirmResponse = this.confirmResponse.bind(this);
-    // this.funcSetTime = this.funcSetTime.bind(this);
+    this.funcSetTime = this.funcSetTime.bind(this);
+    this.timeQuestion = this.timeQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -29,29 +35,40 @@ class Game extends Component {
     fetchQuestions(token);
   }
 
-  componentDidUpdate() {
-    const { setTime, initialTime } = this.state;
-    if (initialTime <= 0) {
-      clearInterval(setTime);
-    }
+  setLocalStorage() {
+    const { score, assertions } = this.state;
+    const getLocalStorage = JSON.parse(localStorage.getItem('state'));
+    const { name } = getLocalStorage.player;
+    const { gravatarEmail } = getLocalStorage.player;
+    localStorage.setItem('state', JSON.stringify({ player: {
+      name,
+      score,
+      assertions,
+      gravatarEmail,
+    } }));
   }
 
-  componentWillUnmount() {
-    const { setTime } = this.state;
-    clearInterval(setTime);
-  }
+  verifyResponse() {
+    const { questions } = this.props;
+    const { numberNext, numberTime } = this.state;
+    const { difficulty } = questions[numberNext];
+    const magicMike = 10;
+    const difficultyLevel = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
 
-  timeQuestion() {
-    const ms = 1000;
-    this.setState({
-      setTime: setInterval(() => {
-        this.setState((prev) => ({ initialTime: prev.initialTime - 1 }));
-      }, ms) });
+    this.setState((prev) => ({
+      score: prev.score + magicMike + (numberTime * difficultyLevel[difficulty]),
+      assertions: prev.assertions + 1,
+    }), this.setLocalStorage);
   }
 
   nextQuestion() {
     this.setState((prev) => ({
       numberNext: prev.numberNext + 1,
+      disabled: prev.disabled - 0,
     }));
   }
 
@@ -82,48 +99,72 @@ class Game extends Component {
     }
   }
 
-  confirmResponse() {
-    const { styleButton } = this.state;
-
-    if (!styleButton) {
-      renderButton = true;
+  timeQuestion(sec) {
+    const { numberTime } = this.state;
+    if (sec < numberTime) {
+      if (sec <= 0) {
+        this.confirmResponse();
+      }
       this.setState({
-        styleButton: true,
-      });
-    } else {
-      this.setState({
-        styleButton: false,
+        numberTime: sec,
       });
     }
   }
 
-  // funcSetTime(setTime) {
-  //   this.setState({ setTime });
-  // }
+  confirmResponse() {
+    const { styleButton, setTime } = this.state;
+    clearInterval(setTime);
+    if (!styleButton) {
+      renderButton = true;
+      this.setState({
+        disabled: true,
+        styleButton: true,
+        renderTime: false,
+      });
+    } else if (styleButton) {
+      this.setState({
+        disabled: false,
+        styleButton: false,
+        renderTime: true,
+      });
+    }
+  }
+
+  funcSetTime(setTime) {
+    const { disable } = this.state;
+    if (setTime <= 0 && !disable) {
+      this.confirmResponse();
+    }
+  }
 
   handleResponse() {
     const { questions } = this.props;
-    const { numberNext, styleButton } = this.state;
+    const { numberNext, styleButton, disabled } = this.state;
     if (questions.length > 0) {
       return [
         ...questions[numberNext].incorrect_answers.map((item, index) => (
           <button
             className={ styleButton ? 'incorrect' : 'default' }
-            onClick={ this.confirmResponse }
             data-testid={ `wrong-answer-${numberNext}` }
             type="button"
-            // disabled={ disabled }
+            value={ item }
+            disabled={ disabled }
             key={ index }
+            onClick={ this.confirmResponse }
           >
             <div>{item}</div>
           </button>)),
         (
           <button
             className={ styleButton ? 'correct' : 'default' }
-            onClick={ this.confirmResponse }
+            value={ questions[numberNext].correct_answer }
             data-testid="correct-answer"
             key={ numberNext }
-            // disabled={ disabled }
+            disabled={ disabled }
+            onClick={ () => {
+              this.confirmResponse();
+              this.verifyResponse();
+            } }
             type="button"
           >
             {questions[numberNext].correct_answer}
@@ -134,7 +175,8 @@ class Game extends Component {
 
   render() {
     const { players, email } = this.props;
-    const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
+    const { renderTime, numberTime, score } = this.state;
+    // const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
     const hashGenerator = md5(email).toString();
     // const { initialTime } = this.state;
     return (
@@ -148,11 +190,14 @@ class Game extends Component {
           />
           <p>
             <span data-testid="header-score">
-              {!objectsLocalStorage ? 'carregando...' : objectsLocalStorage.player.score}
+              { score }
             </span>
           </p>
           <div>
-            <Time funcSetTime={ this.funcSetTime } />
+            {renderTime ? <Time
+              funcSetTime={ this.funcSetTime }
+              timeQuestion={ this.timeQuestion }
+            /> : <div>{ numberTime }</div> }
           </div>
           <div>
             {this.handleQuestion()}
@@ -199,4 +244,5 @@ Game.propTypes = {
   fetchQuestions: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   questions: PropTypes.arrayOf.isRequired,
+  correct_answer: PropTypes.string.isRequired,
 };
