@@ -1,11 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { cleanState } from '../actions/gameActions';
 import { Header } from '../components';
 
 export default function Feedback() {
   const correctAnswers = useSelector((state) => state.player.state);
   const { assertions, score } = correctAnswers;
   const parameterNumber = 3;
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const showFeedbackMessage = (hits) => {
     if (hits < parameterNumber) return 'Podia ser melhor...';
@@ -21,6 +25,16 @@ export default function Feedback() {
         <h2>Total de acertos</h2>
         <h3 data-testid="feedback-total-question">{assertions}</h3>
         <h2 data-testid="feedback-text">{showFeedbackMessage(assertions)}</h2>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ () => {
+            history.push('/');
+            dispatch(cleanState());
+          } }
+        >
+          Jogar Novamente
+        </button>
       </div>
     </div>
   );
