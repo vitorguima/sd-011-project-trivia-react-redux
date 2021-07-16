@@ -30,3 +30,8 @@ export const getHashGravatar = (email, name) => {
     hash,
   };
 };
+
+export const savePlayerToRank = (payload) => ({
+  type: 'SAVE_PLAYER_RANK',
+  payload,
+});
