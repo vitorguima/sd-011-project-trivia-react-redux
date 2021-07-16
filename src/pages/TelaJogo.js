@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -11,18 +10,7 @@ class TelaJogo extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   const { getdata } = this.props;
-  //   const { emailHash } = getdata;
-
-  //   console.log(getdata);
-  // }
-
   render() {
-    // const { score } = this.state;
-    // const { getdata } = this.props;
-    // const { emailHash, name } = getdata;
-
     const { score } = this.state;
     const { getdata: { emailHash, name } } = this.props;
     return (
@@ -43,11 +31,6 @@ class TelaJogo extends Component {
 const mapStateToProps = (state) => ({
   getdata: state.user.userData,
 });
-
-// TelaJogo.defaultProps = {
-//   emailHash: 'alguem@algo.com',
-//   name: 'michel',
-// };
 
 TelaJogo.propTypes = {
   getdata: PropTypes.shape({
