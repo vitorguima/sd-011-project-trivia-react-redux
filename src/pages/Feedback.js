@@ -8,19 +8,25 @@ class Feedback extends Component {
     const { name, gravatarEmail } = this.props;
     const MD5 = md5(gravatarEmail).toString();
     const state = JSON.parse(localStorage.getItem('state'));
+    const hits = state.player.assertions;
+    const numberThree = 3;
     return (
       <div>
         <h1 data-testid="feedback-text">
           FeedBack
         </h1>
         <h2 data-testid="feedback-text">
-          Mensagem
+          { (hits >= numberThree) ? 'Mandou bem!' : 'Podia ser melhor...' }
         </h2>
         <header>
           <img src={ `https://www.gravatar.com/avatar/${MD5}` } alt="avatar" data-testid="header-profile-picture" />
           <p data-testid="header-player-name">{ name }</p>
           <p data-testid="header-score">{ state.player.score }</p>
         </header>
+        {/* <div>
+          <h3 data-testid="feedback-total-score">Placar Final</h3>
+          <h4 data-testid="feedback-total-question">Você acertou...</h4>
+        </div> */}
       </div>
     );
   }
