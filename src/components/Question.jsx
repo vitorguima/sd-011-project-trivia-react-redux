@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { nextQuestion as newQuestion } from '../actions';
+import Counter from './Counter';
+import '../styles/question.css';
 
 class Question extends Component {
   constructor() {
@@ -10,19 +12,30 @@ class Question extends Component {
     this.state = {
       nextIsDisabled: true,
       redirectToFeedback: false,
+      counter: 30,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleDisabledButton = this.handleDisabledButton.bind(this);
     this.handleNextQuestion = this.handleNextQuestion.bind(this);
-    this.checkLastQuestion = this.checkLastQuestion.bind(this);
+    this.returnNextButton = this.returnNextButton.bind(this);
+  }
+
+  componentDidMount() {
+    const { counter } = this.props;
+    counter();
   }
 
   handleNextQuestion() {
-    const { nextQuestion } = this.props;
+    const { nextQuestion, currentQuestion } = this.props;
     this.setState({
       nextIsDisabled: true,
     }, () => {
-      this.checkLastQuestion();
+      const maxIndex = 4;
+      if (currentQuestion === maxIndex) {
+        this.setState({
+          redirectToFeedback: true,
+        });
+      }
       nextQuestion();
     });
   }
@@ -33,19 +46,8 @@ class Question extends Component {
     });
   }
 
-  checkLastQuestion() {
-    const { currentQuestion } = this.props;
-    const maxIndex = 4;
-    if (currentQuestion > maxIndex) {
-      this.setState({
-        redirectToFeedback: true,
-      });
-    }
-  }
-
   handleClick({ target }) {
     this.handleDisabledButton();
-    this.checkLastQuestion();
     const buttonArray = Array.from(target.parentNode.children);
     buttonArray.forEach((button) => {
       if (button.className === 'wrong-answer') {
@@ -56,6 +58,18 @@ class Question extends Component {
     });
   }
 
+  returnNextButton() {
+    return (
+      <button
+        type="button"
+        onClick={ this.handleNextQuestion }
+        data-testid="btn-next"
+      >
+        PRÓXIMA
+      </button>
+    );
+  }
+
   render() {
     const { nextIsDisabled, redirectToFeedback } = this.state;
     const { question: {
@@ -63,7 +77,7 @@ class Question extends Component {
       question,
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
-    } } = this.props;
+    }, disabled } = this.props;
     return (
       <div>
         { redirectToFeedback && <Redirect to="/feedback" /> }
@@ -73,7 +87,9 @@ class Question extends Component {
           <button
             type="button"
             data-testid="correct-answer"
+            className="correct-answer"
             onClick={ this.handleClick }
+            disabled={ disabled }
           >
             {correctAnswer}
           </button>
@@ -82,19 +98,16 @@ class Question extends Component {
               type="button"
               key={ index }
               data-testid="wrong-answer"
+              className="wrong-answer"
               onClick={ this.handleClick }
+              disabled={ disabled }
             >
               {answer}
             </button>
           ))}
-          <button
-            type="button"
-            onClick={ this.handleNextQuestion }
-            disabled={ nextIsDisabled }
-          >
-            PRÓXIMA
-          </button>
+          { disabled || !nextIsDisabled ? this.returnNextButton() : null }
         </div>
+        {/* <Counter /> */}
       </div>
     );
   }
@@ -118,6 +131,9 @@ Question.propTypes = ({
   }).isRequired,
   nextQuestion: PropTypes.func.isRequired,
   currentQuestion: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  count: PropTypes.number.isRequired,
+  resetCounter: PropTypes.func.isRequired,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

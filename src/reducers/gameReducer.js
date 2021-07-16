@@ -26,11 +26,18 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
       isLoading: false,
       questions: [...payload.results],
     };
-  case NEXT_QUESTION:
+  case NEXT_QUESTION: {
+    const maxNumber = 4;
+    if (state.currentQuestion === maxNumber) {
+      return {
+        ...state,
+      };
+    }
     return {
       ...state,
       currentQuestion: state.currentQuestion + 1,
     };
+  }
   default:
     return {
       ...state,

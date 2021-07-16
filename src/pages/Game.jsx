@@ -5,15 +5,61 @@ import HeaderGame from '../components/HeaderGame';
 import Question from '../components/Question';
 
 class Game extends Component {
+  constructor() {
+    super();
+    this.state = {
+      count: 30,
+      disabled: false,
+    };
+    this.counter = this.counter.bind(this);
+    this.counterFunc = this.counterFunc.bind(this);
+    // this.resetCounter = this.resetCounter.bind(this);
+  }
+
+  componentDidMount() {
+    this.counter();
+  }
+
+  // resetCounter() {
+  //   this.setState({
+  //     count: 30,
+  //     disabled: false,
+  //   });
+  //   this.counter();
+  // }
+
+  counterFunc() {
+    const { count } = this.state;
+    if (count > 0) {
+      this.setState({
+        count: count - 1,
+      });
+    } else if (count === 0) {
+      this.setState({
+        count: 0,
+        disabled: true,
+      });
+    }
+  }
+
+  counter() {
+    const interval = 1000;
+    setInterval(this.counterFunc, interval);
+  }
+
   render() {
     const { questionArray, currentQuestion } = this.props;
+    const { disabled, count } = this.state;
     return (
       <div>
         <HeaderGame />
-        <Question question={ questionArray[currentQuestion] } />
-        {/* { questionArray.length > 0 && questionArray.map((question, index) => (
-          <Question key={ index } question={ question } />
-        )) } */}
+        <Question
+          count={ count }
+          counter={ this.counter }
+          question={ questionArray[currentQuestion] }
+          disabled={ disabled }
+        />
+        { count }
       </div>
     );
   }
