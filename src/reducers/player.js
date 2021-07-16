@@ -1,4 +1,4 @@
-import { LOGIN, GET_SCORE } from '../actions';
+import { LOGIN, GET_SCORE, RESET_STATE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -12,6 +12,8 @@ export default function player(state = INITIAL_STATE, action) {
     return { ...state, name: action.name, email: action.email };
   case GET_SCORE:
     return { ...state, score: state.score + action.score };
+  case RESET_STATE:
+    return INITIAL_STATE;
   default:
     return state;
   }
