@@ -4,6 +4,7 @@ import './App.css';
 import Login from './pages/Login';
 import Setup from './pages/Setup';
 import Game from './pages/Game';
+import Ranking from './components/Ranking';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route exact path="/Setup"><Setup /></Route>
         <Route exact path="/" render={ () => <Login /> } />
         <Route exact path="/game" render={ () => <Game /> } />
+        <Route path="/ranking" component={ Ranking } />
       </Switch>
     </div>
   );
