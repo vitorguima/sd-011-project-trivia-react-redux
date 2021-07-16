@@ -1,13 +1,13 @@
-import { SAVE_TRIVIA } from '../actions';
+import { SEND_QUESTIONS } from '../actions';
 
 const INITIAL_STATE = { idTrivia: 0, questions: [] };
 
 function trivia(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case SAVE_TRIVIA:
+  case SEND_QUESTIONS:
     return ({
       ...state,
-      questions: [...action.payload],
+      questions: [...action.questions],
     });
   default:
     return state;
