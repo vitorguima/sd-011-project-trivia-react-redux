@@ -1,23 +1,30 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setTimer } from '../actions/gameActions';
 
-export default function Timer(props) {
-  const { count, counter, setCounter } = props;
+export default function Timer() {
+  const gameStore = useSelector((state) => state.game);
+  const { timer } = gameStore;
+  const dispatch = useDispatch();
+  const time = 10;
+  const [counter, setCounter] = useState(time);
 
-  const timer = () => {
+  const timeChanger = () => {
     const interval = 1000;
     let timeLeft = setTimeout(() => setCounter(counter - 1), interval);
-    if (counter > 0 && count) {
+    if (counter > 0) {
       timeLeft = setTimeout(() => setCounter(counter - 1), interval);
       return timeLeft;
     }
-    if (!count || counter === 0) {
+    if (timer === counter) {
       clearTimeout(timeLeft);
     }
   };
 
   useEffect(() => {
-    timer();
+    dispatch(setTimer(time));
+    timeChanger();
   }, [counter]);
 
   const buttons = document.querySelectorAll('button[name="q_answer"]');
