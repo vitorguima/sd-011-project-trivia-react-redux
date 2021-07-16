@@ -10,7 +10,6 @@ class GameComponent extends Component {
       assertions: 0,
       buttonClick: false,
       rightBtnClicked: false,
-      frozenTime: 0,
     };
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
   }

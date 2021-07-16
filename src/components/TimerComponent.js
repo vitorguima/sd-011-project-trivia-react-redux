@@ -89,6 +89,8 @@ class TimerComponent extends Component {
 
 TimerComponent.propTypes = {
   updateButton: PropTypes.func.isRequired,
+  buttonClick: PropTypes.bool.isRequired,
+  rightBtnClicked: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
