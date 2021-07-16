@@ -43,15 +43,20 @@ class Login extends React.Component {
     this.buttonIsDisable();
   }
 
-  handleButton() {
-    const { name, email } = this.state;
-    const player = {
-      name,
-      assertions: 0,
-      score: 0,
-      gravatarEmail: email,
-    };
-    localStorage.setItem('state', JSON.stringify(player));
+  async handleButton() {
+    fetch('https://opentdb.com/api_token.php?command=request')
+      .then((response) => response.json())
+      .then((resolve) => {
+        const { name, email } = this.state;
+        const player = {
+          name,
+          assertions: 0,
+          score: 0,
+          gravatarEmail: email,
+        };
+        localStorage.setItem('token', resolve.token);
+        localStorage.setItem('state', JSON.stringify(player));
+      });
   }
 
   render() {
