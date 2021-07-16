@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import NextQuestionButton from './NextQuestionButton';
-// import Timer from './Timer';
+import Timer from './Timer';
 import { getCurrentQuestion } from '../actions/gameActions';
 import ShowQuestion from './ShowQuestion';
 import ShowAlternatives from './ShowAlternatives';
@@ -21,7 +21,7 @@ export default function ShowTrivia() {
 
   return (
     <div className="modal-dialog">
-      {/* <Timer { ...{ count, counter, setCounter } } /> */}
+      {/* <Timer /> */}
       <div className="modal-content">
         <div className="modal-header">
           <ShowQuestion />

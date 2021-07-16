@@ -1,7 +1,10 @@
-import { GET_ALL_QUESTIONS, CURRENT_QUESTION, NEXT_INDEX } from '../actions/gameActions';
+import {
+  GET_ALL_QUESTIONS,
+  CURRENT_QUESTION, NEXT_INDEX, SET_TIMER
+} from '../actions/gameActions';
 import { randomArray } from '../components/GameFunctions';
 
-const initialState = { allQuestions: {}, index: 0, currentQuestion: {} };
+const initialState = { allQuestions: {}, index: 0, currentQuestion: {}, timer: 10 };
 
 const gameReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -13,7 +16,7 @@ const gameReducer = (state = initialState, action) => {
       const { allQuestions, index } = state;
       const curr = allQuestions[index];
       const incorrectAnswers = curr.incorrect_answers;
-      const correctAnswer = curr.correct_answers;
+      const correctAnswer = curr.correct_answer;
       const alternatives = randomArray(incorrectAnswers, correctAnswer);
       delete curr.incorrect_answers;
       delete curr.correct_answer;
@@ -25,6 +28,10 @@ const gameReducer = (state = initialState, action) => {
       const { index } = state;
       return { ...state, index: index + 1 };
     }
+    case SET_TIMER: {
+      return { ...state, timer: payload };
+    }
+
     default:
       return { ...state };
   }

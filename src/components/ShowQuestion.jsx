@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 
 export default function ShowQuestion() {
   const gameState = useSelector((state) => state.game);
-  const { currentQuestion, index } = gameState;
+  const { currentQuestion, index, correctAnswer } = gameState;
   const { question } = currentQuestion;
 
   return (
     <div>
       <p data-testid="question-category">{currentQuestion.category}</p>
+      <p>{correctAnswer}</p>
       <h3>
         <span className="label label-warning gameIndex" data-testid="question-text">
           {index + 1}

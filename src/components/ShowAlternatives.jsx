@@ -7,6 +7,15 @@ export default function ShowAlternatives() {
   const { currentQuestion } = gameState;
   const { alternatives, correctAnswer } = currentQuestion;
 
+  const checkAnswer = (e) => {
+    const { target } = e;
+    if (target.innerText === 'teste') {
+      // console.log('yey');
+    }
+    // console.log('oh no');
+    // console.log(correctAnswer);
+  };
+
   const showAlternatives = () => {
     if (alternatives) {
       return alternatives.map((el, index) => (
@@ -20,6 +29,7 @@ export default function ShowAlternatives() {
           type="button"
           name="q_answer"
           onClick={(e) => {
+            checkAnswer(e);
             // showResults(el);
             // setCount(false);
             addScore(e);

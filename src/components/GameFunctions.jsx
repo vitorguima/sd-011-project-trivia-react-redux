@@ -1,3 +1,4 @@
+import { sendScore } from "../actions";
 import store from "../store";
 
 const magicTen = 10;
@@ -46,24 +47,25 @@ export const randomArray = (incorrectAnswers, correctAnswer) => {
 };
 
 export const addScore = (e) => {
-  // const { questions, index, answer, player, setPlayer, counter } = props;
-  // const correctAnswer = questions[index].correct_answer;
-  // const { difficulty } = questions[index];
-  // const difficultyLevels = {
-  //   easy: 1,
-  //   medium: 2,
-  //   hard: 3,
-  // };
-  // if (answer === correctAnswer) {
-  //   const level = difficultyLevels[difficulty];
-  //   const { assertions, score } = player.player;
-  //   const ass = assertions + 1;
-  //   console.log(counter);
-  //   const scr = score + (magicTen + (counter * level));
-  //   console.log(scr);
-  //   setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } });
-  // 
+  const { state } = localStorage;
   const { game } = store.getState()
-  console.log(e.target)
-  console.log(game)
+  const { currentQuestion } = game;
+  const { difficulty, correctAnswer } = currentQuestion;
+  const answer = e.target.innerText
+  const difficultyLevels = {
+    easy: 1,
+    medium: 2,
+    hard: 3,
+  };
+  let { player } = JSON.parse(state);
+  if (answer === correctAnswer) {
+    const level = difficultyLevels[difficulty];
+    let { assertions, score } = store.getState().player.state;
+    assertions += 1;
+    score += (magicTen + (1 * level));
+    player.assertions = assertions
+    player.score = score;
+    localStorage.state = JSON.stringify({ player });
+    store.dispatch(sendScore({ assertions, score }))
+  }
 };
