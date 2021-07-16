@@ -48,8 +48,8 @@ export default class FeedBack extends Component {
         <h2 data-testid="header-player-name">{ name }</h2>
         <h3 data-testid="header-score">{ score }</h3>
         <p data-testid="feedback-text">{this.message()}</p>
-        <h4 data-testid="feeback-total-score">{ score }</h4>
-        <h4 data-testid="feeback-total-question">{ assertions }</h4>
+        <h4 data-testid="feedback-total-score">{ score }</h4>
+        <h4 data-testid="feedback-total-question">{ assertions }</h4>
       </div>
     );
   }
