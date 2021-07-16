@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { fetchApi } from '../actions';
 
-const recevedEmail = new RegExp('^[^s@]+@[^s@]+$');
+// const recevedEmail = new RegExp('^[^s@]+@[^s@]+$');
+const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangeButton = this.handleChangeButton.bind(this);
@@ -49,7 +52,6 @@ class Login extends Component {
     return (
       <div>
         <form>
-          {/* Input para o nome */}
           <label htmlFor="name">
             Nome:
             <input
@@ -62,7 +64,6 @@ class Login extends Component {
             />
           </label>
 
-          {/* Input para o email */}
           <label htmlFor="name">
             Email:
             <input
@@ -75,6 +76,7 @@ class Login extends Component {
             />
           </label>
         </form>
+        {/* <Link> */}
         <button
           disabled={ isDisabled }
           data-testid="btn-play"
@@ -83,6 +85,7 @@ class Login extends Component {
         >
           Jogar
         </button>
+        {/* </Link> */}
       </div>
     );
   }

@@ -1,8 +1,9 @@
 import React from 'react';
+// import { BrowserRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router';
 import logo from './trivia.png';
 import './App.css';
 import Login from './pages/Login';
-// import { Switch, router } from 'react-router';
 
 export default function App() {
   return (
@@ -12,8 +13,12 @@ export default function App() {
         <p>
           SUA VEZ
         </p>
-        <Login />
       </header>
+      {/* <BrowserRouter> */}
+      <Switch>
+        <Route exact path="/" component={ Login } />
+      </Switch>
+      {/* </BrowserRouter> */}
     </div>
   );
 }
