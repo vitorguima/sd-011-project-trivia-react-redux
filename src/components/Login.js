@@ -43,7 +43,9 @@ class Login extends Component {
       },
     };
     const data = JSON.stringify(player);
-    localStorage.clear();
+
+    if (localStorage.getItem('state')) localStorage.removeItem('state');
+
     localStorage.setItem('state', data);
     fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => {
