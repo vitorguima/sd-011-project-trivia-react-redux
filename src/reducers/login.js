@@ -1,11 +1,16 @@
-import { SUBMIT_FORM, FETCH_TOKEN } from '../actions';
+import {
+  SUBMIT_FORM, FETCH_TOKEN,
+  FETCH_QUESTIONS,
+  HIDE_LOADING,
+  SHOW_LOADING } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
   email: '',
   userToken: '',
   score: 0,
-  loading: false,
+  questions: [],
+  loading: true,
 };
 
 const login = (state = INITIAL_STATE, { type, payload }) => {
@@ -15,13 +20,26 @@ const login = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       name: payload.name,
       email: payload.email,
-      loading: true,
     };
   case FETCH_TOKEN:
     return {
       ...state,
       userToken: payload,
+    };
+  case FETCH_QUESTIONS:
+    return {
+      ...state,
+      questions: payload,
+    };
+  case HIDE_LOADING:
+    return {
+      ...state,
       loading: false,
+    };
+  case SHOW_LOADING:
+    return {
+      ...state,
+      loading: true,
     };
   default:
     return state;

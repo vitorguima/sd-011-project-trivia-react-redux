@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { fetchToken, submitForm, getToken } from '../actions';
+import { fetchToken, submitForm } from '../actions';
 import FormLogin from '../components/FormLogin';
 
 class Login extends Component {
@@ -39,18 +39,14 @@ class Login extends Component {
   }
 
   handleButton() {
-    const { history, outroNome, outroNomeDnv } = this.props;
-    outroNome();
+    const { history, outroNomeDnv } = this.props;
+    // outroNome();
     const { name, email } = this.state;
     outroNomeDnv({ name, email });
     history.push('/game');
   }
 
   render() {
-    const { loading } = this.state;
-    if (loading) {
-      return <div className="loader" />;
-    }
     return (
       <section>
         <FormLogin
@@ -69,7 +65,7 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   fetchToken: (token) => dispatch(fetchToken(token)),
   outroNomeDnv: (inputs) => dispatch(submitForm(inputs)),
-  outroNome: () => dispatch(getToken()),
+  // outroNome: () => dispatch(getToken()),
 });
 
 Login.propTypes = {
