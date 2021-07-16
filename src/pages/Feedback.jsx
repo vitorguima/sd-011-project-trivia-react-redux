@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/feedback/Header';
+import Scoreboard from '../components/feedback/Scoreboard';
 
 class Feedback extends React.Component {
   constructor(props) {
@@ -9,7 +10,10 @@ class Feedback extends React.Component {
 
   render() {
     return (
-      <Header />
+      <div>
+        <Header />
+        <Scoreboard />
+      </div>
     );
   }
 }

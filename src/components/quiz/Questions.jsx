@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import '../../style/quiz.css';
 import PropTypes from 'prop-types';
 import { getQuestionsThunk } from '../../actions';
+import ButtonNext from './ButtonNext';
 import Answers from './Answers';
 
 class Questions extends React.Component {
@@ -61,27 +62,13 @@ class Questions extends React.Component {
             </p>
           </div>
           <Answers questionsList={ questionsList[indexQuestion] } />
-          { !endGame ? (
-            <button
-              data-testid="btn-next"
-              type="button"
-              onClick={ this.nextQuestion }
-            >
-              Proximo
-            </button>
-          )
+          { !endGame ? <ButtonNext testid="btn-next" nextQuestion={ this.nextQuestion } />
             : (
               <Link to="/feedback">
-                <button
-                  type="button"
-                  onClick={ this.nextQuestion }
-                >
-                  Proximo
-                </button>
-              </Link>
-            )}
-
-        </div>);
+                <ButtonNext testid="btn-next" />
+              </Link>)}
+        </div>
+      );
     }
     return (<p>LOADING...</p>);
   }
