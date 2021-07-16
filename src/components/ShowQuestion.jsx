@@ -7,10 +7,13 @@ export default function ShowQuestion() {
   const { question } = currentQuestion;
 
   return (
-    <h3>
-      <span className="label label-warning gameIndex" data-testid="question-text">
-        {index + 1}
-      </span>
-      {question}
-    </h3>);
+    <div>
+      <p data-testid="question-category">{currentQuestion.category}</p>
+      <h3>
+        <span className="label label-warning gameIndex" data-testid="question-text">
+          {index + 1}
+        </span>
+        {question}
+      </h3>
+    </div>);
 }
