@@ -11,16 +11,38 @@ class Questions extends Component {
       indexQuestion: 0,
       totalScore: 0,
       showNextButton: false,
+      timeCount: 30,
     };
     this.handleNext = this.handleNext.bind(this);
+    this.handleNextStyle = this.handleNextStyle.bind(this);
     this.handleCorretAnswer = this.handleCorretAnswer.bind(this);
     this.handleLocalStorage = this.handleLocalStorage.bind(this);
     this.handleErrorAnswer = this.handleErrorAnswer.bind(this);
+    this.timerCounter = this.timerCounter.bind(this);
+    this.handleStyleAnswers = this.handleStyleAnswers.bind(this);
+    this.renderCorretBtn = this.renderCorretBtn.bind(this);
+    this.renderWrongBtn = this.renderWrongBtn.bind(this);
   }
 
   async componentDidMount() {
     const { getQuestions, token } = this.props;
     await getQuestions(token);
+    this.timerCounter();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { timeCount } = this.state;
+    nextState = 0;
+    return (timeCount > nextState);
+  }
+
+  timerCounter() {
+    const intervalTimer = 1000;
+    this.myInteval = setInterval(() => {
+      this.setState((prevState) => ({
+        timeCount: prevState.timeCount - 1,
+      }));
+    }, intervalTimer);
   }
 
   handleNext() {
@@ -32,6 +54,11 @@ class Questions extends Component {
         showNextButton: false,
       });
     }
+  }
+
+  handleNextStyle() {
+    const styleAnswers = document.getElementsByName('answer');
+    styleAnswers.forEach((answerBtn) => { answerBtn.style = ''; });
   }
 
   handleCorretAnswer() {
@@ -47,6 +74,17 @@ class Questions extends Component {
     }));
   }
 
+  handleStyleAnswers() {
+    const styleAnswers = document.getElementsByName('answer');
+    styleAnswers.forEach((answerBtn) => {
+      if (answerBtn.getAttribute('data-testid') === 'correct-answer') {
+        answerBtn.style = 'border: 3px solid rgb(6, 240, 15)';
+      } else {
+        answerBtn.style = 'border: 3px solid rgb(255, 0, 0)';
+      }
+    });
+  }
+
   handleLocalStorage() {
     const { totalScore } = this.state;
     const retrievelocalStorage = JSON.parse(localStorage.getItem('state'));
@@ -55,11 +93,46 @@ class Questions extends Component {
     return <Redirect to="/feedback" />;
   }
 
+  renderCorretBtn(answer, index) {
+    const { timeCount } = this.state;
+    return (
+      <button
+        key={ index }
+        type="button"
+        data-testid="correct-answer"
+        disabled={ timeCount === 0 }
+        name="answer"
+        onClick={ () => {
+          this.handleCorretAnswer();
+          this.handleStyleAnswers();
+        } }
+      >
+        {answer}
+      </button>);
+  }
+
+  renderWrongBtn(answer, index) {
+    const { timeCount } = this.state;
+    return (
+      <button
+        key={ index }
+        type="button"
+        onClick={ () => {
+          this.handleErrorAnswer();
+          this.handleStyleAnswers();
+        } }
+        data-testid={ `wrong-answer-${index}` }
+        disabled={ timeCount === 0 }
+        name="answer"
+      >
+        {answer}
+      </button>);
+  }
+
   render() {
     const { questions } = this.props;
-    const { indexQuestion, showNextButton } = this.state;
+    const { indexQuestion, showNextButton, timeCount } = this.state;
     const maxIndexQuestion = 4;
-
     if (indexQuestion > maxIndexQuestion) {
       return this.handleLocalStorage();
     }
@@ -71,33 +144,25 @@ class Questions extends Component {
       return (
         <section>
           <div data-testid="question-category">{ category }</div>
-
           <div data-testid="question-text">{ question }</div>
-
+          {timeCount}
           {answers.map((answer, index) => {
             if (answer === correctAnswer) {
               return (
-                <button
-                  key={ index }
-                  type="button"
-                  data-testid="correct-answer"
-                  onClick={ () => this.handleCorretAnswer() }
-                >
-                  {answer}
-                </button>);
+                this.renderCorretBtn(answer, index));
             }
             return (
-              <button
-                key={ index }
-                type="button"
-                onClick={ () => this.handleErrorAnswer() }
-                data-testid={ `wrong-answer-${index}` }
-              >
-                {answer}
-              </button>);
+              this.renderWrongBtn(answer, index));
           })}
           {showNextButton && (
-            <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ () => {
+                this.handleNext();
+                this.handleNextStyle();
+              } }
+            >
               Próxima
             </button>)}
         </section>
