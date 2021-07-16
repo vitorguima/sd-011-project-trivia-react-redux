@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { saveQuestions } from '../actions';
+import PropTypes from 'prop-types';
+import * as actionsQuestions from '../actions';
 import Header from '../components/Header';
+import Questions from '../components/Questions';
 import { fetchQuestions } from '../services/Api';
 
 class GamePlay extends Component {
@@ -19,20 +21,25 @@ class GamePlay extends Component {
     const tokenLocalStorage = JSON.parse(localStorage.getItem('token'));
     const { getQuestions } = this.props;
     const data = await fetchQuestions(tokenLocalStorage);
-    getQuestions(data);
+    console.log(getQuestions(data));
   }
 
   render() {
     return (
       <div>
         <Header />
+        <Questions />
       </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getQuestions: (questions) => dispatch(saveQuestions(questions)),
+  getQuestions: (data) => dispatch(actionsQuestions.saveQuestionsSuccess(data)),
 });
 
 export default connect(null, mapDispatchToProps)(GamePlay);
+
+GamePlay.propTypes = {
+  getQuestions: PropTypes.arrayOf().isRequired,
+};
