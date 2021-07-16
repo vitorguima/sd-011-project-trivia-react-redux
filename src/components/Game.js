@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Header from './Header';
 import Timer from './Timer';
 import * as actions from '../actions';
+import { Link } from 'react-router-dom';
 
 const ONE_SECOND = 1000;
 const ONE = 1;
@@ -39,7 +40,6 @@ class Game extends React.Component {
     const { questions: { allQuestions }, handleNewCorrectAnswer } = this.props;
     const currentQuestion = allQuestions[questionIndex];
     const initPoint = 10;
-    // const storage = JSON.parse(localStorage.getItem('state'));
     let difficultyNumber;
     if (currentQuestion.difficulty === 'hard') {
       difficultyNumber = THREE;
@@ -50,7 +50,6 @@ class Game extends React.Component {
     }
     const score = (initPoint + (count * difficultyNumber));
     handleNewCorrectAnswer(score);
-    // localStorage.setItem('state', JSON.stringify(storage));
     this.setState({
       answered: true,
     });
@@ -115,9 +114,21 @@ class Game extends React.Component {
           ))
         }
         { answered && questionIndex < FOUR && (
-          <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
-            Próxima
-          </button>) }
+            <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
+              Próxima
+            </button>)
+        }
+
+        { answered && questionIndex === 4 && (
+          <Link to="/feedback">
+            <button
+            type="button"
+            data-testid="btn-next"
+            >
+              Próxima
+            </button>
+          </Link>
+        )}
         { !answered && <Timer count={ count } /> }
       </div>
     );
