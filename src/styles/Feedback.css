@@ -1,5 +1,0 @@
-.feedback-container, .final-score-container, .total-assertions {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-}

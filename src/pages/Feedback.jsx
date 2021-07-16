@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import '../styles/Feedback.css';
+import { Header } from '../components';
 
 export default function Feedback() {
   const correctAnswers = useSelector((state) => state.player.state);
@@ -13,16 +13,15 @@ export default function Feedback() {
   };
 
   return (
-    <div className="feedback-container">
-      <div className="final-score-container">
+    <div>
+      <Header />
+      <div className="feedback-container">
         <h2>Score final</h2>
         <h3 data-testid="feedback-total-score">{score}</h3>
-      </div>
-      <div className="total-assertions">
         <h2>Total de acertos</h2>
         <h3 data-testid="feedback-total-question">{assertions}</h3>
+        <h2 data-testid="feedback-text">{showFeedbackMessage(assertions)}</h2>
       </div>
-      <h2 data-testid="feedback-text">{showFeedbackMessage(assertions)}</h2>
     </div>
   );
 }
