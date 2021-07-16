@@ -4,12 +4,36 @@ import md5 from 'crypto-js/md5';
 export default class FeedBack extends Component {
   constructor() {
     super();
+    this.state = {
+      assertions: 0,
+    };
+
+    this.getStorageAssertions = this.getStorageAssertions.bind(this);
     this.getPlayerFromLocalStorage = this.getPlayerFromLocalStorage.bind(this);
+  }
+
+  componentDidMount() {
+    this.getStorageAssertions();
+  }
+
+  getStorageAssertions() {
+    const storage = JSON.parse(localStorage.getItem('state'));
+    console.log(storage);
+    this.setState({
+      assertions: storage.player.assertions,
+    });
   }
 
   getPlayerFromLocalStorage() {
     const playerInfo = localStorage.getItem('state');
     return JSON.parse(playerInfo);
+  }
+
+  message() {
+    const { assertions } = this.state;
+    const magicNumber = 3;
+    if (assertions < magicNumber) return 'Podia ser melhor...';
+    if (assertions >= magicNumber) return 'Mandou bem!';
   }
 
   render() {
@@ -22,6 +46,7 @@ export default class FeedBack extends Component {
         <img data-testid="header-profile-picture" src={ gravatarPicture } alt="Player" />
         <h2 data-testid="header-player-name">{ name }</h2>
         <h3 data-testid="header-score">{ score }</h3>
+        <p data-testid="feedback-text">{this.message()}</p>
       </div>
     );
   }
