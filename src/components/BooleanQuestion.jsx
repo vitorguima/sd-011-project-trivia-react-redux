@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 class BooleanQuestion extends React.Component {
   render() {
-    const { question } = this.props;
+    const { question, disabled } = this.props;
     return (
       <>
         <button
+        disabled={disabled}
           type="button"
           data-testid={
             (question.correct_answer === 'True')
@@ -17,6 +18,7 @@ class BooleanQuestion extends React.Component {
           True
         </button>
         <button
+          disabled={disabled}
           type="button"
           data-testid={
             (question.incorrect_answers.includes('True'))

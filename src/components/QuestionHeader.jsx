@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+function decodeHtml(html) {
+  let areaElement = document.createElement("textarea");
+  areaElement.innerHTML = html;
+
+  return areaElement.value;
+}
+
 class QuestionHeader extends React.Component {
   render() {
     const { question } = this.props;
@@ -10,7 +17,7 @@ class QuestionHeader extends React.Component {
           { question.category }
         </div>
         <div data-testid="question-text">
-          { question.question }
+          { decodeHtml(question.question) }
         </div>
       </header>
     );

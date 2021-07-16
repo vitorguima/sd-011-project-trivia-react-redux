@@ -6,7 +6,7 @@ const SECOND = 1000;
 class Countdown extends React.Component {
   constructor(props) {
     super(props);
-
+    this.complete = false;
     this.state = { timer: 30 };
   }
 
@@ -21,8 +21,9 @@ class Countdown extends React.Component {
     const { timer } = this.state;
     const { onComplete } = this.props;
 
-    if (timer === 0) {
+    if (timer === 0 && this.complete === false) {
       clearInterval(this.interval);
+      this.complete = true;
       onComplete();
     }
   }

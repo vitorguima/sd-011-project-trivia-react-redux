@@ -8,7 +8,7 @@ import { requestApiQuestions } from '../actions';
 class Game extends React.Component {
   constructor() {
     super();
-
+this.state = {disabled: false}
     this.onComplete = this.onComplete.bind(this);
   }
 
@@ -19,11 +19,13 @@ class Game extends React.Component {
   }
 
   onComplete() {
-    console.log('CABOOOOU');
+    this.setState({disabled: true})
   }
 
   render() {
     const { userName, gravatarImage } = this.props;
+const {disabled} = this.state
+
     return (
       <>
         <header>
@@ -37,7 +39,7 @@ class Game extends React.Component {
         </header>
         <Countdown onComplete={ this.onComplete } />
         <main>
-          <Question />
+          <Question disabled={disabled} />
         </main>
       </>
     );

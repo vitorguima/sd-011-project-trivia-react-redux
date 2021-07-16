@@ -8,7 +8,8 @@ import Loading from './Loading';
 
 class Question extends React.Component {
   render() {
-    const { questions } = this.props;
+    const { questions, disabled } = this.props;
+
     return (
       <section>
         {(questions[0])
@@ -17,8 +18,8 @@ class Question extends React.Component {
               <QuestionHeader question={ questions[0] } />
               <div className="answer-options">
                 { (questions[0].type === 'boolean')
-                  ? <BooleanQuestion question={ questions[0] } />
-                  : <MultipleChoice question={ questions[0] } /> }
+                  ? <BooleanQuestion disabled={disabled} question={ questions[0] } />
+                  : <MultipleChoice disabled={disabled} question={ questions[0] } /> }
               </div>
             </>
           )
