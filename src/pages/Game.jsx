@@ -2,12 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Countdown from '../components/Countdown';
+import Question from '../components/Question';
+import { requestApiQuestions } from '../actions';
 
 class Game extends React.Component {
   constructor() {
     super();
 
     this.onComplete = this.onComplete.bind(this);
+  }
+
+  componentDidMount() {
+    const { questionsToStore } = this.props;
+    const token = localStorage.getItem('token');
+    questionsToStore(token);
   }
 
   onComplete() {
@@ -17,7 +25,7 @@ class Game extends React.Component {
   render() {
     const { userName, gravatarImage } = this.props;
     return (
-      <div>
+      <>
         <header>
           <img
             data-testid="header-profile-picture"
@@ -28,10 +36,17 @@ class Game extends React.Component {
           <p data-testid="header-score">0</p>
         </header>
         <Countdown onComplete={ this.onComplete } />
-      </div>
+        <main>
+          <Question />
+        </main>
+      </>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  questionsToStore: (token) => dispatch(requestApiQuestions(token)),
+});
 
 const mapStateToProps = (state) => ({
   userName: state.loginReducer.name,
@@ -41,9 +56,10 @@ const mapStateToProps = (state) => ({
 Game.propTypes = {
   userName: PropTypes.string.isRequired,
   gravatarImage: PropTypes.string.isRequired,
+  questionsToStore: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 // A imagem do perfil vinda do Gravatar em um elemento que deve possuir o atributo data-testid com o valor header-profile-picture
 // O nome da pessoa em um elemento que deve possuir o atributo data-testid com o valor header-player-name
