@@ -14,6 +14,7 @@ class Game extends Component {
     this.renderShowAnswer = this.renderShowAnswer.bind(this);
     this.renderTimeAnswer = this.renderTimeAnswer.bind(this);
     this.savePlayerLocal = this.savePlayerLocal.bind(this);
+    this.goToNextQuestion = this.goToNextQuestion.bind(this);
 
     this.state = {
       questions: [],
@@ -73,10 +74,21 @@ class Game extends Component {
     localStorage.setItem('state', JSON.stringify(teste));
   }
 
+  goToNextQuestion() {
+    this.setState({
+      showIncorrectAnswer: '',
+      showCorrectAnswer: '',
+      timer: 30,
+      disabled: false,
+    });
+    this.setState((prevstate) => ({ questionNum: prevstate.questionNum + 1 }));
+  }
+
   renderShowAnswer({ target }) {
     this.setState({
       showIncorrectAnswer: 'incorrect',
       showCorrectAnswer: 'correct',
+      disabled: true,
     });
 
     const { countdown, timer, questions, questionNum } = this.state;
@@ -188,12 +200,24 @@ class Game extends Component {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, disabled } = this.state;
     return (
       <div>
         <Header />
         {
           loading ? <div>Carregando</div> : this.renderQuestions()
+        }
+
+        {
+          disabled ? (
+            <button
+              data-testid="btn-next"
+              type="button"
+              onClick={ this.goToNextQuestion }
+            >
+              Proxima
+            </button>
+          ) : null
         }
       </div>
     );
