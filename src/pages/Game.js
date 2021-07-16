@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import Question from '../components/Question';
 import { getQuestions } from '../services';
 
 class Game extends React.Component {
@@ -8,9 +9,11 @@ class Game extends React.Component {
 
     this.state = {
       questions: [],
+      indexQuestion: 0,
     };
 
     this.getQuestions = this.getQuestions.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -25,22 +28,23 @@ class Game extends React.Component {
     });
   }
 
+  nextQuestion() {
+    this.setState((old) => ({
+      indexQuestion: old.indexQuestion + 1,
+    }));
+  }
+
   render() {
-    const { questions } = this.state;
+    const { questions, indexQuestion } = this.state;
     console.log(questions);
     return (
       <div>
         <Header />
-        {questions.length > 0 && (
-          <div>
-            <p data-testid="question-category">{ questions[0].category }</p>
-            <p data-testid="question-text">{ questions[0].question }</p>
-            <p data-testid="correct-answer">{ questions[0].correct_answer }</p>
-            { questions[0].incorrect_answers.map((inc, index) => (
-              <p data-testid={ `wrong-answer-${index}` } key={ index }>{ inc }</p>
-            )) }
-          </div>
-        )}
+        {questions.length > 0
+          && <Question
+            question={ questions[indexQuestion] }
+            onClick={ this.nextQuestion }
+          /> }
       </div>
     );
   }
