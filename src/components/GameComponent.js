@@ -67,6 +67,7 @@ class GameComponent extends Component {
 GameComponent.propTypes = {
   questions: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
+  buttonDisable: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

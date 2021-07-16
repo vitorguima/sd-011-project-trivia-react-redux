@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { timerButton } from '../actions';
 
 class TimerComponent extends Component {
@@ -40,6 +41,10 @@ class TimerComponent extends Component {
     );
   }
 }
+
+TimerComponent.propTypes = {
+  updateButton: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   updateButton: (state) => dispatch(timerButton(state)),
