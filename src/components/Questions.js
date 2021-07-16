@@ -2,7 +2,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Question extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      timer: 30,
+      stopTimer: false,
+      answered: false,
+    };
+  }
+
+  componentDidMount() {
+    this.startTimer();
+  }
+
+  componentDidUpdate() {
+    this.startTimer();
+  }
+
+  startTimer() {
+    const { timer, stopTimer, answered } = this.state;
+    const oneSecond = 1000;
+
+    if (!answered) {
+      if (timer > 0) {
+        setTimeout(() => this.setState({ timer: timer - 1 }), oneSecond);
+      }
+      if (timer === 0 && stopTimer) {
+        this.setState({ stopTimer: true });
+      }
+    }
+  }
+
   render() {
+    const { timer } = this.state;
     const { newQuestion:
       { question,
         correct_answer: correctAnswer,
@@ -15,6 +48,7 @@ class Question extends React.Component {
       .map((a) => a.value);
     return (
       <div>
+        <span>{ timer }</span>
         <h1 data-testid="question-text">
           { question }
         </h1>
