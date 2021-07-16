@@ -94,6 +94,7 @@ class Questions extends Component {
   }
 
   renderCorretBtn(answer, index) {
+    const { timeCount } = this.state;
     return (
       <button
         key={ index }
@@ -111,6 +112,7 @@ class Questions extends Component {
   }
 
   renderWrongBtn(answer, index) {
+    const { timeCount } = this.state;
     return (
       <button
         key={ index }
