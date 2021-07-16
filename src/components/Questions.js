@@ -12,9 +12,6 @@ class Question extends React.Component {
       answered: false,
       isDisabled: false,
     };
-
-    this.startTimer = this.startTimer.bind(this);
-    this.randomAnswers = this.randomAnswers.bind(this);
   }
 
   componentDidMount() {
