@@ -72,6 +72,7 @@ class Login extends Component {
         <Link to="/settings">
           <button
             type="button"
+            className="button-settings"
             data-testid="btn-settings"
           >
             Configurações
