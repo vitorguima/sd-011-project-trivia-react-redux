@@ -24,13 +24,16 @@ class Forms extends Component {
   }
 
   generateURL() {
-    const { settings: { category, level, nQuestions } } = this.props;
+    const { settings: { category, level, nQuestions, type } } = this.props;
     let url = `https://opentdb.com/api.php?amount=${nQuestions}`;
     if (level) {
       url = `${url}&difficulty=${level}`;
     }
     if (category) {
       url = `${url}&category=${category}`;
+    }
+    if (type) {
+      url = `${url}&type=${type}`;
     }
     return url;
   }

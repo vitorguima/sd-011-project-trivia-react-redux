@@ -15,6 +15,7 @@ class Settings extends React.Component {
       category: '',
       level: '',
       nQuestions: '',
+      type: '',
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -30,11 +31,12 @@ class Settings extends React.Component {
   }
 
   currentSettings() {
-    const { settings: { category, level, nQuestions } } = this.props;
+    const { settings: { category, level, nQuestions, type } } = this.props;
     this.setState({
       category,
       level,
       nQuestions,
+      type,
     });
   }
 
@@ -45,7 +47,7 @@ class Settings extends React.Component {
 
   categoriesForm() {
     const { categories } = this.props;
-    const { category, level, nQuestions } = this.state;
+    const { category, level, nQuestions, type } = this.state;
     return (
       <form>
         <label htmlFor="questions">
@@ -79,6 +81,13 @@ class Settings extends React.Component {
             <option value="easy">Fácil</option>
             <option value="medium">Médio</option>
             <option value="hard">Difícil</option>
+          </select>
+        </label>
+        <label htmlFor="type">
+          <select value={ type } name="type" onChange={ (e) => this.handleChange(e) }>
+            <option value="">Escolha um tipo</option>
+            <option value="boolean">Verdadeiro ou Falso</option>
+            <option value="multiple">Múltipla escolha</option>
           </select>
         </label>
       </form>

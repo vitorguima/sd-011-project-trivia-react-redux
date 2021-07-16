@@ -7,7 +7,8 @@ const INITIAL_STATE = {
   settings: {
     category: '',
     level: '',
-    nQuestions: 5 },
+    nQuestions: 5,
+    type: '' },
 };
 
 function gameReducer(state = INITIAL_STATE, action) {
