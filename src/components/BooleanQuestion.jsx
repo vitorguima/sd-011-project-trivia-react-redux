@@ -38,7 +38,7 @@ BooleanQuestion.propTypes = {
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-  disabled: (propTypes.bool).isRequired,
+  disabled: (PropTypes.bool).isRequired,
 };
 
 export default BooleanQuestion;

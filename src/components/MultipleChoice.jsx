@@ -38,7 +38,7 @@ MultipleChoice.propTypes = {
     answers: PropTypes.arrayOf(PropTypes.string),
     correct_answer: PropTypes.string,
   }).isRequired,
-  disabled: (propTypes.bool).isRequired,
+  disabled: (PropTypes.bool).isRequired,
 };
 
 export default MultipleChoice;

@@ -42,7 +42,7 @@ Question.defaultProps = {
 };
 
 Question.propTypes = {
-  disabled: (propTypes.bool).isRequired,
+  disabled: (PropTypes.bool).isRequired,
 };
 
 export default connect(mapStateToProps)(Question);
