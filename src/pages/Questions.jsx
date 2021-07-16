@@ -41,6 +41,7 @@ class Questions extends Component {
             <div key={ index }>
               <h2 data-testid="question-category">{ question.category }</h2>
               <p data-testid="question-text">{ question.question }</p>
+
               {[...question.incorrect_answers, question.correct_answer]
                 .map((ans, i) => (
                   <button
@@ -52,7 +53,7 @@ class Questions extends Component {
                     { ans }
                   </button>))}
             </div>
-          ))}
+          ))[0]}
         </section>
       </main>
     );
