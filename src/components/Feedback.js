@@ -36,6 +36,9 @@ class Feedback extends Component {
         <Link data-testid="btn-play-again" to="/">
           Jogar novamente
         </Link>
+        <Link data-testid="btn-ranking" to="/ranking">
+          Ver Ranking
+        </Link>
       </div>
     );
   }
