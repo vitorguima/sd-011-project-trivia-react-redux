@@ -13,9 +13,11 @@ class Questions extends Component {
       showNextButton: false,
     };
     this.handleNext = this.handleNext.bind(this);
+    this.handleNextStyle = this.handleNextStyle.bind(this);
     this.handleCorretAnswer = this.handleCorretAnswer.bind(this);
     this.handleLocalStorage = this.handleLocalStorage.bind(this);
     this.handleErrorAnswer = this.handleErrorAnswer.bind(this);
+    this.handleStyleAnswers = this.handleStyleAnswers.bind(this);
   }
 
   async componentDidMount() {
@@ -34,6 +36,11 @@ class Questions extends Component {
     }
   }
 
+  handleNextStyle() {
+    const styleAnswers = document.getElementsByName('answer');
+    styleAnswers.forEach((answerBtn) => { answerBtn.style = ''; });
+  }
+
   handleCorretAnswer() {
     this.setState((state) => ({
       totalScore: state.totalScore + 1,
@@ -45,6 +52,17 @@ class Questions extends Component {
     this.setState(() => ({
       showNextButton: true,
     }));
+  }
+
+  handleStyleAnswers() {
+    const styleAnswers = document.getElementsByName('answer');
+    styleAnswers.forEach((answerBtn) => {
+      if (answerBtn.getAttribute('data-testid') === 'correct-answer') {
+        answerBtn.style = 'border: 3px solid rgb(6, 240, 15)';
+      } else {
+        answerBtn.style = 'border: 3px solid rgb(255, 0, 0)';
+      }
+    });
   }
 
   handleLocalStorage() {
@@ -71,9 +89,7 @@ class Questions extends Component {
       return (
         <section>
           <div data-testid="question-category">{ category }</div>
-
           <div data-testid="question-text">{ question }</div>
-
           {answers.map((answer, index) => {
             if (answer === correctAnswer) {
               return (
@@ -81,7 +97,11 @@ class Questions extends Component {
                   key={ index }
                   type="button"
                   data-testid="correct-answer"
-                  onClick={ () => this.handleCorretAnswer() }
+                  name="answer"
+                  onClick={ () => {
+                    this.handleCorretAnswer();
+                    this.handleStyleAnswers();
+                  } }
                 >
                   {answer}
                 </button>);
@@ -90,14 +110,25 @@ class Questions extends Component {
               <button
                 key={ index }
                 type="button"
-                onClick={ () => this.handleErrorAnswer() }
+                onClick={ () => {
+                  this.handleErrorAnswer();
+                  this.handleStyleAnswers();
+                } }
                 data-testid={ `wrong-answer-${index}` }
+                name="answer"
               >
                 {answer}
               </button>);
           })}
           {showNextButton && (
-            <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ () => {
+                this.handleNext();
+                this.handleNextStyle();
+              } }
+            >
               Próxima
             </button>)}
         </section>
