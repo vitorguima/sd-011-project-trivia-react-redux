@@ -23,7 +23,8 @@ class Header extends Component {
 
   render() {
     const { gravatar, name } = this.state;
-
+    const storage = JSON.parse(localStorage.getItem('state'));
+    const { score } = storage.player;
     return (
       <div>
         <img
@@ -32,7 +33,7 @@ class Header extends Component {
           data-testid="header-profile-picture"
         />
         <p data-testid="header-player-name">{`Nome: ${name}`}</p>
-        <p data-testid="header-score">Score: 0</p>
+        <p data-testid="header-score">{ `Score: ${score}` }</p>
       </div>
     );
   }
