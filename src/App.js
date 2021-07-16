@@ -13,12 +13,12 @@ export default function App() {
         <p>
           SUA VEZ
         </p>
+        {/* <BrowserRouter> */}
+        <Switch>
+          <Route exact path="/" component={ Login } />
+        </Switch>
+        {/* </BrowserRouter> */}
       </header>
-      {/* <BrowserRouter> */}
-      <Switch>
-        <Route exact path="/" component={ Login } />
-      </Switch>
-      {/* </BrowserRouter> */}
     </div>
   );
 }
