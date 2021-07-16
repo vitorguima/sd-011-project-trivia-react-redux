@@ -39,6 +39,7 @@ class login extends Component {
       },
     };
     localStorage.setItem('state', JSON.stringify(player));
+    localStorage.setItem('numberQuestion', 0);
   }
 
   handleLogin() {

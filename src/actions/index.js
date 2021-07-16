@@ -5,6 +5,12 @@ export const REQUEST_TRIVIA_SUCCESS = 'REQUEST_TRIVIA_SUCCESS';
 export const REQUEST_TRIVIA_ERROR = 'REQUEST_TRIVIA_ERROR';
 export const TIMER_BUTTON = 'TIMER_BUTTON';
 export const REQUEST_CLICK_BUTTON = 'REQUEST_CLICK_BUTTON';
+export const NEXT_COUNT = 'NEXT_COUNT';
+
+export const nextQuestionCount = (state) => ({
+  type: NEXT_COUNT,
+  state,
+});
 
 export const sendUser = (state) => ({
   type: NEW_USER,

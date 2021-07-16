@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { timerButton } from '../actions';
+import { timerButton, nextQuestionCount } from '../actions';
 
 class TimerComponent extends Component {
   constructor() {
     super();
     this.state = {
       seconds: 30,
+      count: 0,
     };
     this.timer = this.timer.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
@@ -15,19 +16,18 @@ class TimerComponent extends Component {
 
   componentDidMount() {
     const second = 1000;
-    setInterval(() => this.timer(), second);
+    this.interval = setInterval(() => this.timer(), second);
   }
 
   componentDidUpdate() {
     const { buttonClick, rightBtnClicked } = this.props;
+    const { count } = this.state;
+    localStorage.setItem('numberQuestion', JSON.stringify(count));
     if (buttonClick) {
-      clearInterval(1);
+      clearInterval(this.interval);
       const stopTime = document.querySelector('.timer');
-      // const difficulty = document.querySelector('.difficulty');
       const question = document.querySelector('#question');
       const difficulty = question.getAttribute('difficulty');
-      // const rightBtn = document.querySelector('.green-border');
-      // const score = this.setScore();
       const score = rightBtnClicked
         ? this.setScore(stopTime.innerHTML, difficulty)
         : 0;
@@ -60,7 +60,6 @@ class TimerComponent extends Component {
     const player = JSON.parse(localStorage.getItem('state'));
     player.player.score = score;
     localStorage.setItem('state', JSON.stringify(player));
-    console.log(player);
   }
 
   timer() {
@@ -86,7 +85,23 @@ class TimerComponent extends Component {
           <p className="timer">{ seconds }</p>
         </div>
         <div>
-          { buttonClick && <button type="button" data-testid="btn-next">Próxima</button> }
+          { buttonClick
+            && (
+              <button
+                type="button"
+                data-testid="btn-next"
+                onClick={ async () => {
+                  await this.setState((prevState) => ({
+                    count: prevState.count + 1,
+                  }));
+                  const { count } = this.state;
+                  const { nextQuestionCount } = this.props;
+                  nextQuestionCount(count);
+                  // Falta redirecionar a pagina apos 5 perguntas
+                } }
+              >
+                Próxima
+              </button>)}
         </div>
       </div>
     );
@@ -106,6 +121,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateButton: (state) => dispatch(timerButton(state)),
+  nextQuestionCount: (state) => dispatch(nextQuestionCount(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimerComponent);
