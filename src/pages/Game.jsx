@@ -44,7 +44,6 @@ export default function Game() {
       <Header />
       <Timer />
       {questions && <ShowTrivia { ...props } />}
-
     </>
   );
 }
