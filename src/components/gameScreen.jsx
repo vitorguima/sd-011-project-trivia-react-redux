@@ -9,7 +9,14 @@ export default class gameScreen extends Component {
       question: 0,
       disabledButton: false,
     };
+    this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+  }
+
+  colorSelectCorrect() {
+    const btns = document.querySelectorAll('button');
+    btns.forEach((element) => {
+      element.classList.add('revel-color');
   }
 
   nextQuestion() {
@@ -29,15 +36,19 @@ export default class gameScreen extends Component {
     console.log(results);
     return (
       <div>
-        <div>
-          {results.length > 0 ? (
-            <div>
-              <p data-testid="question-category">{results[question].category}</p>
-              <p data-testid="question-text">{results[question].question}</p>
-              <button type="button" data-testid="correct-answer">
-                {results[question].correct_answer}
-              </button>
-              {results[question].incorrect_answers.map((answer, index) => (
+        {results.length > 0 ? (
+          <div>
+            <p data-testid="question-category">{results[question].category}</p>
+            <p data-testid="question-text">{results[question].question}</p>
+            <button
+              type="button"
+              data-testid="correct-answer"
+              className="green-border"
+              onClick={ () => this.colorSelectCorrect() }
+            >
+              {results[question].correct_answer}
+            </button>
+            {results[0].incorrect_answers.map((answer, index) => (
                 <button
                   key={ index }
                   type="button"
@@ -57,7 +68,9 @@ export default class gameScreen extends Component {
               <button
                 data-testid="btn-next"
                 type="button"
-                onClick={ this.handleNextButton }
+                data-testid={ `wrong-answer-${index}` }
+                className="red-border"
+                onClick={ () => this.colorSelectCorrect() }
               >
                 Próxima
               </button>
