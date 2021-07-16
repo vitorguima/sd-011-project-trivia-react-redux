@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import '../style/question.css';
+
 class Question extends React.Component {
   render() {
-    const { onClick, question: {
+    const { nextQuestion, showCorrect, setShowCorrect, question: {
       category,
       question,
       correct_answer: correctAnswer,
@@ -15,21 +17,24 @@ class Question extends React.Component {
         <p data-testid="question-text">{ question }</p>
         <button
           type="button"
-          onClick={ onClick }
+          onClick={ setShowCorrect }
           data-testid="correct-answer"
+          className={ showCorrect && 'correct' }
         >
           { correctAnswer }
         </button>
         { incorrectAnswers.map((inc, index) => (
           <button
             type="button"
-            onClick={ onClick }
+            onClick={ setShowCorrect }
             data-testid={ `wrong-answer-${index}` }
             key={ index }
+            className={ showCorrect && 'incorrect' }
           >
             { inc }
           </button>
         )) }
+        { showCorrect && <button type="button" onClick={ nextQuestion }>Próximo</button> }
       </div>
     );
   }
@@ -38,11 +43,13 @@ class Question extends React.Component {
 export default Question;
 
 Question.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
+  setShowCorrect: PropTypes.func.isRequired,
+  showCorrect: PropTypes.bool.isRequired,
   question: PropTypes.shape({
-    category: PropTypes.string.isRequired,
-    question: PropTypes.string.isRequired,
-    correct_answer: PropTypes.string.isRequired,
-    incorrect_answers: PropTypes.string.isRequired,
+    category: PropTypes.string,
+    question: PropTypes.string,
+    correct_answer: PropTypes.string,
+    incorrect_answers: PropTypes.string,
   }).isRequired,
 };
