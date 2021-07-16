@@ -10,14 +10,12 @@ export default function ShowAlternatives() {
   const { alternatives, correctAnswer } = currentQuestion;
 
   const paintButton = () => {
-    const allButtons = document.querySelectorAll('button');
+    const allButtons = document.querySelectorAll('button[name="q_answer"]');
     const btnPrimary = 'btn-primary';
     allButtons.forEach((el) => {
       el.classList.remove(btnPrimary);
-      if (el.name === 'q_answer') {
-        return el.innerText === correctAnswer ? el.classList.add('rightAnswer')
-          : el.classList.add('wrongAnswer');
-      }
+      return el.innerText === correctAnswer ? el.classList.add('rightAnswer')
+        : el.classList.add('wrongAnswer');
     });
   };
 
