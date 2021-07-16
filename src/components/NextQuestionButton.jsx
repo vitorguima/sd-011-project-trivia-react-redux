@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { nextIndex, setTimer, setPlayerChoice } from '../actions/gameActions';
 
+const magicNumber = 30;
+
 export default function NextQuestionButton() {
   const dispatch = useDispatch();
 
@@ -19,10 +21,9 @@ export default function NextQuestionButton() {
   };
 
   const resetConfig = () => {
-    dispatch(setTimer(5));
+    dispatch(setTimer(magicNumber));
     dispatch(setPlayerChoice(''));
     const allButtons = document.querySelectorAll('button');
-    console.log(allButtons);
     return allButtons.forEach((el) => {
       el.removeAttribute('disabled');
       el.classList.remove('btn-danger', 'btn-success', 'wrongAnswer', 'rightAnswer');

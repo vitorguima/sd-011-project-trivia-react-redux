@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { getAllQuestions, dataFailure } from '../actions/gameActions';
 
-export const fetchAPI = () => async (dispatch) => {
+const fetchAPI = () => async (dispatch) => {
   // const token = localStorage.getItem('token');
   const URL = 'https://opentdb.com/api.php?amount=5';
   // &token=${token}
@@ -13,3 +13,5 @@ export const fetchAPI = () => async (dispatch) => {
     return dispatch(dataFailure(`${error}`));
   }
 };
+
+export default fetchAPI;

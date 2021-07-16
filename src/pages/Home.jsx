@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -40,9 +39,9 @@ export default function Home() {
   return (
 
     <LoginPage
-      handleDisabled={handleDisabled}
-      handleSubmit={handleSubmit}
-      handleChange={handleChange}
+      handleDisabled={ handleDisabled }
+      handleSubmit={ handleSubmit }
+      handleChange={ handleChange }
     />
 
   );

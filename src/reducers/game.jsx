@@ -1,8 +1,6 @@
 import { GET_ALL_QUESTIONS,
   CURRENT_QUESTION,
-  NEXT_INDEX, SET_TIMER, SELECTED_CHOICE } from '../actions/gameActions';
-
-import { randomArray } from '../components/GameFunctions';
+  NEXT_INDEX, SET_TIMER, SELECTED_CHOICE, randomArray } from '../actions/gameActions';
 
 const initialState = {
   allQuestions: {},
@@ -19,14 +17,8 @@ const gameReducer = (state = initialState, action) => {
   }
   case CURRENT_QUESTION: {
     const { allQuestions, index } = state;
-    const curr = allQuestions[index];
-    const incorrectAnswers = curr.incorrect_answers;
-    const correctAnswer = curr.correct_answer;
-    const alternatives = randomArray(incorrectAnswers, correctAnswer);
-    delete curr.incorrect_answers;
-    delete curr.correct_answer;
-    curr.alternatives = alternatives;
-    return { ...state, currentQuestion: { ...curr, incorrectAnswers, correctAnswer } };
+    const curr = randomArray(allQuestions[index]);
+    return { ...state, currentQuestion: { ...curr } };
   }
 
   case NEXT_INDEX: {

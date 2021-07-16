@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 import { sendScore } from '../actions';
 import store from '../store';
 
@@ -40,30 +39,18 @@ export const nextQuestion = (setAnswer, index, questions, setIndex) => {
   return setIndex(0);
 };
 
-export const randomArray = (incorrect, correct) => {
-  const alternatives = Array.from([...incorrect, correct]);
-  const magic = 0.5;
-  const sortedArray = alternatives.sort(() => Math.random() - magic);
-  return sortedArray;
-};
-
 export const addScore = (e) => {
   const { state } = localStorage;
-  const { game } = store.getState();
-  const { currentQuestion } = game;
+  const { currentQuestion, timer } = store.getState().game;
   const { difficulty, correctAnswer } = currentQuestion;
   const answer = e.target.innerText;
-  const difficultyLevels = {
-    easy: 1,
-    medium: 2,
-    hard: 3,
-  };
+  const difficultyLevels = { easy: 1, medium: 2, hard: 3 };
   const { player } = JSON.parse(state);
   if (answer === correctAnswer) {
     const level = difficultyLevels[difficulty];
     let { assertions, score } = store.getState().player.state;
     assertions += 1;
-    score += (magicTen + (1 * level));
+    score += (magicTen + (timer * level));
     player.assertions = assertions;
     player.score = score;
     localStorage.state = JSON.stringify({ player });
