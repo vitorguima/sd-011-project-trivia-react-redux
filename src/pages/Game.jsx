@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import '../styles/TriviaGame.css';
 import getQuestions from '../services/mockedTriviaResults';
-import { Header, showQuestions, ShowTrivia } from '../components';
+import { Header, ShowTrivia } from '../components';
 import { paintButtons, nextQuestion, randomArray } from '../components/GameFunctions';
 
 const time = 5;
@@ -56,7 +56,6 @@ export default function Game() {
     index,
     questions,
     arrayQuestions,
-    showQuestions,
     showResults,
     answer,
     nextQuestion,

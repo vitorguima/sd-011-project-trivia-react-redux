@@ -1,29 +1,23 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-lines-per-function */
 import React from 'react';
 import PropTypes from 'prop-types';
-import showQuestions from './showQuestions';
 import NextQuestionButton from './NextQuestionButton';
 import Timer from './Timer';
+import Questions from './Questions';
 
 export default function ShowTrivia(props) {
   const {
     index,
     questions,
-    arrayQuestions,
-    showResults,
     answer,
-    setAnswer,
-    setIndex,
-    setPlayer,
-    player,
     count,
-    setCount,
     setCounter,
     counter,
   } = props;
   return (
     <div className="modal-dialog">
-      <Timer {...{ count, counter, setCounter }} />
+      <Timer { ...{ count, counter, setCounter } } />
       <div className="modal-content">
         <div className="modal-header">
           <h3>
@@ -34,8 +28,8 @@ export default function ShowTrivia(props) {
           </h3>
           <p data-testid="question-category">{questions[index].category}</p>
         </div>
-        {arrayQuestions && showQuestions(arrayQuestions, showResults, setCount, props)}
-        {(answer || counter === 0) && <NextQuestionButton {...props} />}
+        <Questions { ...props } />
+        {(answer || counter === 0) && <NextQuestionButton { ...props } />}
         <div className="modal-footer text-muted">
           <span id="answer" />
         </div>

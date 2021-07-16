@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 export default function Timer(props) {
   const { count, counter, setCounter } = props;
