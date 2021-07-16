@@ -11,7 +11,7 @@ const limitedTime = 1000;
 const RenderQuestion = () => {
   const dispatch = useDispatch();
   const { questions } = useSelector(({ questionsArray }) => questionsArray);
-  const { name, gravatarEmail } = useSelector(({ userInfo }) => userInfo);
+  const { name, gravatarEmail } = useSelector(({ userInfo }) => userInfo.player);
   const [enable, setEnable] = useState(false);
   const [answersYes, setAnswersYes] = useState(false);
   const [correctanswers, setCorrectanswers] = useState(false);

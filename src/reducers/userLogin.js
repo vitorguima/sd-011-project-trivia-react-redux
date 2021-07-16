@@ -19,8 +19,10 @@ function userLogin(state = USER_STATE, action) {
     };
   case SET_SCORE_POINTS:
     return {
-      ...state,
-      score: action.payload,
+      player: {
+        ...state.player,
+        score: action.payload,
+      },
     };
   default:
     return state;
