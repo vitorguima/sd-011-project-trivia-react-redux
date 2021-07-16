@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-export default class componentName extends Component {
+export default class Timer extends Component {
   constructor() {
     super();
 
     this.state = {
-      sec: 5,
+      sec: 30,
       setTime: null,
     };
     this.Timer = this.Timer.bind(this);
@@ -28,15 +29,21 @@ export default class componentName extends Component {
   }
 
   Timer() {
+    const { funcSetTime } = this.props;
     const ms = 1000;
     this.setState({
       setTime: setInterval(() => {
         this.setState((prev) => ({ sec: prev.sec - 1 }));
-      }, ms) });
+      }, ms) }, () => {
+      const { setTime } = this.state;
+      funcSetTime(setTime);
+    });
   }
 
   render() {
     const { sec } = this.state;
+    const { handleEnableButton } = this.props;
+    handleEnableButton(sec);
     return (
       <div>
         {`00:${sec}`}
@@ -44,3 +51,7 @@ export default class componentName extends Component {
     );
   }
 }
+
+Timer.propTypes = {
+  handleEnableButton: PropTypes.func,
+}.isRequired;

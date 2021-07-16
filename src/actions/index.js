@@ -4,11 +4,20 @@ export const ERROR_API = 'ERROR_API';
 export const USER_LOGIN = 'USER_LOGIN';
 export const USER_SCORE = 'USER_SCORE';
 
-export const userLogin = (name, gravatarEmail) => ({
-  type: USER_LOGIN,
-  name,
-  gravatarEmail,
-});
+export const userLogin = (name, gravatarEmail) => {
+  const state = { player: {
+    name,
+    assertions: 0,
+    score: 0,
+    gravatarEmail,
+  } };
+  localStorage.setItem('state', JSON.stringify(state));
+  return {
+    type: USER_LOGIN,
+    name,
+    gravatarEmail,
+  };
+};
 
 export const userScore = (score) => ({
   type: USER_SCORE,
