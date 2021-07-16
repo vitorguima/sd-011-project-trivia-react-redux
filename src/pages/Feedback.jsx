@@ -16,12 +16,12 @@ class Feedback extends Component {
     const { questions } = this.props;
     if (questions.value > numberHits) {
       return (
-        <h1>
+        <h1 data-testid="feedback-text">
           {lessThree}
         </h1>);
     }
     return (
-      <h1>
+      <h1 data-testid="feedback-text">
         {moreThree}
       </h1>);
   }
