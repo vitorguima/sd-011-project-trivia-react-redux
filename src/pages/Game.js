@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import './css/Game.css';
 
@@ -12,6 +13,7 @@ class Game extends Component {
     this.storeTokenOnLocalStorage = this.storeTokenOnLocalStorage.bind(this);
     this.renderShowAnswer = this.renderShowAnswer.bind(this);
     this.renderTimeAnswer = this.renderTimeAnswer.bind(this);
+    this.savePlayerLocal = this.savePlayerLocal.bind(this);
 
     this.state = {
       questions: [],
@@ -21,6 +23,9 @@ class Game extends Component {
       showCorrectAnswer: '',
       timer: 30,
       disabled: false,
+      countdown: '',
+      score: 0,
+      assertions: 0,
     };
   }
 
@@ -61,15 +66,59 @@ class Game extends Component {
     });
   }
 
+  savePlayerLocal() {
+    const { score, assertions } = this.state;
+    const { name, gravatarEmail } = this.props;
+    const teste = { player: { name, assertions, score, gravatarEmail } };
+    localStorage.setItem('state', JSON.stringify(teste));
+  }
+
+  renderShowAnswer({ target }) {
+    this.setState({
+      showIncorrectAnswer: 'incorrect',
+      showCorrectAnswer: 'correct',
+    });
+
+    const { countdown, timer, questions, questionNum } = this.state;
+    const { id } = target;
+    const { difficulty } = questions[questionNum];
+    let difficultyPoints = 3;
+
+    if (difficulty === 'easy') {
+      difficultyPoints = 1;
+    } else if (difficulty === 'medium') {
+      difficultyPoints = 2;
+    }
+
+    const ten = 10;
+    const result = ten + (timer * difficultyPoints);
+
+    if (id === 'right') {
+      this.setState(({ score, assertions }) => ({
+        score: score + result,
+        assertions: assertions + 1,
+      }), () => {
+        this.savePlayerLocal();
+      });
+    } else {
+      this.savePlayerLocal();
+    }
+
+    clearInterval(countdown);
+  }
+
   renderTimeAnswer() {
     const second = 1000;
     const { timer } = this.state;
-    if (timer > 0) {
-      this.setState({ timer: timer - 1 });
-      setTimeout(this.renderTimeAnswer, second);
-    }
+
+    if (timer > 0) this.setState({ timer: timer - 1 });
+
+    const countdown = setTimeout(this.renderTimeAnswer, second);
+    this.setState({ countdown });
+
     if (timer === 0) {
       this.setState({ disabled: true });
+      clearInterval(countdown);
     }
   }
 
@@ -90,13 +139,6 @@ class Game extends Component {
     );
   }
 
-  renderShowAnswer() {
-    this.setState({
-      showIncorrectAnswer: 'incorrect',
-      showCorrectAnswer: 'correct',
-    });
-  }
-
   renderAnswers(question) {
     const { showIncorrectAnswer, showCorrectAnswer, disabled } = this.state;
     let incorrectAnswers;
@@ -106,6 +148,7 @@ class Game extends Component {
           data-testid={ `wrong-answer-${index}` }
           type="button"
           key={ index }
+          id="wrong"
           className={ showIncorrectAnswer }
           onClick={ this.renderShowAnswer }
           disabled={ disabled }
@@ -117,6 +160,7 @@ class Game extends Component {
       incorrectAnswers = (
         <button
           data-testid="wrong-answer-0"
+          id="wrong"
           type="button"
           className={ showIncorrectAnswer }
           onClick={ this.renderShowAnswer }
@@ -132,6 +176,7 @@ class Game extends Component {
         <button
           data-testid="correct-answer"
           type="button"
+          id="right"
           className={ showCorrectAnswer }
           onClick={ this.renderShowAnswer }
           disabled={ disabled }
@@ -150,15 +195,14 @@ class Game extends Component {
         {
           loading ? <div>Carregando</div> : this.renderQuestions()
         }
-        {/* <div>
-          <h2>Categoria da pergunta</h2>
-          <div>
-            Alternativas
-          </div>
-        </div> */}
       </div>
     );
   }
 }
 
-export default Game;
+const mapStateToProps = (state) => ({
+  name: state.player.name,
+  gravatarEmail: state.player.gravatarEmail,
+});
+
+export default connect(mapStateToProps)(Game);
