@@ -160,7 +160,7 @@ class Game extends Component {
               this.confirmResponse();
             } }
           >
-            Proxima
+            Próxima
           </button>
         </header>
       </div>
