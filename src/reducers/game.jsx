@@ -1,13 +1,17 @@
-import { GET_ALL_QUESTIONS,
+import {
+  GET_ALL_QUESTIONS,
   CURRENT_QUESTION,
-  NEXT_INDEX, SET_TIMER, SELECTED_CHOICE, randomArray } from '../actions/gameActions';
+  CLEAN_STATE,
+  NEXT_INDEX, SET_TIMER, SELECTED_CHOICE, randomArray,
+} from '../actions/gameActions';
 
 const initialState = {
   allQuestions: {},
   index: 0,
   currentQuestion: {},
   timer: 30,
-  selectedChoice: '' };
+  selectedChoice: '',
+};
 
 const gameReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -30,6 +34,9 @@ const gameReducer = (state = initialState, action) => {
   }
   case SELECTED_CHOICE: {
     return { ...state, selectedChoice: payload };
+  }
+  case CLEAN_STATE: {
+    return initialState;
   }
   default:
     return { ...state };
