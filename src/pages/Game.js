@@ -54,7 +54,7 @@ class Game extends Component {
                   <button
                     key={ key }
                     type="button"
-                    data-testid="wrong-answer"
+                    data-testid={ `wrong-answer ${key}` }
                     id="wrong-answer"
                     onClick={ this.colorOptions }
                   >
