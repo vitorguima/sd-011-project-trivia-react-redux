@@ -1,25 +1,27 @@
+/* eslint-disable max-lines-per-function */
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sendInfo } from '../actions';
-import { sendToken } from '../actions/tokenAction';
-import getTriviaToken from '../services/trivia';
+// import { sendToken } from '../actions/tokenAction';
+import { getTriviaToken, fetchToken } from '../services/trivia';
 import LoginPage from '../components/LoginPage';
 
 export default function Home() {
   const [login, setLogin] = useState({ email: '', name: '' });
-  const [token, setToken] = useState('');
+  // const [token, setToken] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(() => {
-    const getToken = async () => {
-      const tokenCode = await getTriviaToken();
-      setToken(tokenCode.token);
-    };
+  // useEffect(() => {
+  // const getToken = async () => {
+  // dispatch(fetchToken());
+  // const tokenCode = await getTriviaToken();
+  // setToken(tokenCode.token);
+  // };
 
-    getToken();
-  }, []);
+  // getToken();
+  // }, []);
 
   const handleChange = (e) => {
     const { target } = e;
@@ -29,9 +31,10 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(sendInfo(login));
-    dispatch(sendToken(token));
-    localStorage.setItem('token', token);
+    // dispatch(sendInfo(login));
+    dispatch(fetchToken(login));
+    // dispatch(sendToken(token));
+    // localStorage.setItem('token', token);
     history.push('game');
   };
 
@@ -46,12 +49,12 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <LoginPage
-        handleDisabled={ handleDisabled }
-        handleSubmit={ handleSubmit }
-        handleChange={ handleChange }
-      />
-    </div>
+
+    <LoginPage
+      handleDisabled={ handleDisabled }
+      handleSubmit={ handleSubmit }
+      handleChange={ handleChange }
+    />
+
   );
 }

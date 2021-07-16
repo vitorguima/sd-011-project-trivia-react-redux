@@ -1,14 +1,17 @@
 /* eslint-disable max-lines-per-function */
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import '../styles/TriviaGame.css';
-import getQuestions from '../services/mockedTriviaResults';
+import { fetchAPI, getQuestions } from '../services/QuestionsAPI';
+import {getPlayerInfo} from '../services/trivia'
 import { Header, ShowTrivia } from '../components';
 import { paintButtons, nextQuestion, randomArray } from '../components/GameFunctions';
 
 const time = 5;
 
 export default function Game() {
+  const dispatch = useDispatch();
+
   const [index, setIndex] = useState(0);
   const [questions, setQuestions] = useState('');
   const [answer, setAnswer] = useState('');
@@ -21,6 +24,12 @@ export default function Game() {
   const loginState = useSelector((state) => state.login);
 
   useEffect(() => {
+    dispatch(fetchAPI(loginState.token));
+  }, []);
+
+  const gameState = useSelector((state) => state.game);
+
+  useEffect(() => {
     (async () => {
       const { token } = loginState;
       const response = await getQuestions(token);
@@ -29,16 +38,17 @@ export default function Game() {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      const { email, name } = loginState;
-      const state = {
-        name,
-        gravatarEmail: email,
-        assertions: 0,
-        score: 0,
-      };
-      setPlayer({ player: state });
-    })();
+    getPlayerInfo(setPlayer)
+    // (async () => {
+    //   const { email, name } = loginState;
+    //   const state = {
+    //     name,
+    //     gravatarEmail: email,
+    //     assertions: 0,
+    //     score: 0,
+    //   };
+    //   setPlayer({ player: state });
+    // })();
   }, []);
 
   useEffect(() => {

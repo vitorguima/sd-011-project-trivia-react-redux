@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { addScore, nextQuestion } from './GameFunctions';
+import PropTypes from 'prop-types';
+import { nextQuestion } from './GameFunctions';
 
 const time = 5;
 
@@ -11,12 +11,8 @@ export default function NextQuestionButton(props) {
     index,
     questions,
     setIndex,
-    answer,
-    player,
-    setPlayer,
     setCount,
     setCounter,
-    counter,
   } = props;
   const history = useHistory();
   const feedbackTransitor = (v) => {
@@ -28,13 +24,12 @@ export default function NextQuestionButton(props) {
   return (
     <button
       type="button"
-      onClick={() => {
+      onClick={ () => {
         nextQuestion(setAnswer, index, questions, setIndex);
         feedbackTransitor(index);
-        // addScore(questions, index, answer, player, setPlayer, counter);
         setCount(true);
         setCounter(time);
-      }}
+      } }
       className="btn btn btn-info btn-lg nextQuestion"
       data-testid="btn-next"
     >
@@ -42,3 +37,14 @@ export default function NextQuestionButton(props) {
     </button>
   );
 }
+
+NextQuestionButton.propTypes = {
+  index: PropTypes.number.isRequired,
+  questions: PropTypes.objectOf(PropTypes.object).isRequired,
+  arrayQuestions: PropTypes.shape({}).isRequired,
+  setCount: PropTypes.func.isRequired,
+  setIndex: PropTypes.func.isRequired,
+  setCounter: PropTypes.func.isRequired,
+  setAnswer: PropTypes.func.isRequired,
+
+};

@@ -1,11 +1,12 @@
 /* eslint-disable max-lines-per-function */
-/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { addScore } from './GameFunctions';
+import AlternativesButton from './AlternativesButton';
 
 export default function Questions(props) {
-  const { questions, index, player, setPlayer, counter, arrayQuestions, showResults, setCount } = props;
+  const { questions,
+    index, player, setPlayer, counter, arrayQuestions, showResults, setCount } = props;
   const [array, setArray] = useState('');
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function Questions(props) {
     if (array) {
       return array.map((el, idx) => {
         if (typeof el === 'string') {
+          const scoreProps = { questions, index, el, player, setPlayer, counter };
           return (
             <button
               data-testid={ `wrong-answer-${idx}` }
@@ -26,13 +28,15 @@ export default function Questions(props) {
               onClick={ () => {
                 showResults(el);
                 setCount(false);
-                addScore({ questions, index, el, player, setPlayer, counter });
+                addScore(scoreProps);
               } }
             >
               {el}
             </button>
           );
         }
+        const { correct } = el;
+        const rightProps = { questions, index, correct, player, setPlayer, counter };
         return (
           <button
             key={ idx }
@@ -42,10 +46,9 @@ export default function Questions(props) {
             type="button"
             name="q_answer"
             onClick={ () => {
-              const { correct } = el;
               showResults(el.correct);
               setCount(false);
-              addScore({ questions, index, correct, player, setPlayer, counter });
+              addScore(rightProps);
             } }
           >
             {el.correct}
@@ -56,5 +59,6 @@ export default function Questions(props) {
   };
   return (
     <>{showQuestions()}</>
+
   );
 }
