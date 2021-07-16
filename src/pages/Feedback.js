@@ -31,6 +31,9 @@ class Feedback extends Component {
             ? localStoragePlayer.player.assertions : 0}
         </h2>
         <h2 data-testid="feedback-text">{this.message()}</h2>
+        <Link to="/ranking">
+          <button type="button" data-testid="btn-ranking">Ranking</button>
+        </Link>
         <Link to="/">
           <button type="button" data-testid="btn-play-again">Jogar novamente</button>
         </Link>
