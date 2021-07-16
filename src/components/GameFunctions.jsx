@@ -1,3 +1,7 @@
+/* eslint-disable max-statements */
+import { sendScore } from '../actions';
+import store from '../store';
+
 const magicTen = 10;
 
 export const paintButtons = (array) => {
@@ -43,22 +47,26 @@ export const randomArray = (incorrectAnswers, correctAnswer) => {
   return sortedArray;
 };
 
-export const addScore = ({ ...props }) => {
-  const { questions, index, answer, player, setPlayer, counter } = props;
-  const correctAnswer = questions[index].correct_answer;
-  const { difficulty } = questions[index];
+export const addScore = (e) => {
+  const { state } = localStorage;
+  const { game } = store.getState();
+  const { currentQuestion } = game;
+  const { difficulty, correctAnswer } = currentQuestion;
+  const answer = e.target.innerText;
   const difficultyLevels = {
     easy: 1,
     medium: 2,
     hard: 3,
   };
+  const { player } = JSON.parse(state);
   if (answer === correctAnswer) {
     const level = difficultyLevels[difficulty];
-    const { assertions, score } = player.player;
-    const ass = assertions + 1;
-    console.log(counter);
-    const scr = score + (magicTen + (counter * level));
-    console.log(scr);
-    setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } });
+    let { assertions, score } = store.getState().player.state;
+    assertions += 1;
+    score += (magicTen + (1 * level));
+    player.assertions = assertions;
+    player.score = score;
+    localStorage.state = JSON.stringify({ player });
+    store.dispatch(sendScore({ assertions, score }));
   }
 };

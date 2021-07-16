@@ -11,7 +11,7 @@ export default function Home() {
   const history = useHistory();
 
   useEffect(() => {
-    fetchToken();
+    fetchToken(dispatch);
   }, []);
 
   const handleChange = (e) => {
@@ -40,9 +40,9 @@ export default function Home() {
   return (
 
     <LoginPage
-      handleDisabled={ handleDisabled }
-      handleSubmit={ handleSubmit }
-      handleChange={ handleChange }
+      handleDisabled={handleDisabled}
+      handleSubmit={handleSubmit}
+      handleChange={handleChange}
     />
 
   );

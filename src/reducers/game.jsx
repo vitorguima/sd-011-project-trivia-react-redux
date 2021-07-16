@@ -1,8 +1,16 @@
+/* eslint-disable import/no-cycle */
 import { GET_ALL_QUESTIONS,
-  CURRENT_QUESTION, NEXT_INDEX, SET_TIMER, SELECTED_CHOICE } from '../actions/gameActions';
+  CURRENT_QUESTION,
+  NEXT_INDEX, SET_TIMER, SELECTED_CHOICE } from '../actions/gameActions';
+
 import { randomArray } from '../components/GameFunctions';
 
-const initialState = { allQuestions: {}, index: 0, currentQuestion: {}, timer: 30, selectedChoice: '' };
+const initialState = {
+  allQuestions: {},
+  index: 0,
+  currentQuestion: {},
+  timer: 30,
+  selectedChoice: '' };
 
 const gameReducer = (state = initialState, action) => {
   const { type, payload } = action;

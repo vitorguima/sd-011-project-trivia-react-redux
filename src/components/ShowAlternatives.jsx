@@ -2,6 +2,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setPlayerChoice } from '../actions/gameActions';
+import { addScore } from './GameFunctions';
 
 export default function ShowAlternatives() {
   const dispatch = useDispatch();
@@ -36,7 +37,10 @@ export default function ShowAlternatives() {
           id={ `question-${index}` }
           type="button"
           name="q_answer"
-          onClick={ () => checkAnswer(el) }
+          onClick={ (e) => {
+            checkAnswer(e);
+            addScore(e);
+          } }
         >
           {el}
         </button>
