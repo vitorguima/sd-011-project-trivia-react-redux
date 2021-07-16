@@ -63,8 +63,8 @@ class Game extends Component {
       score: prev.score + magicMike + (numberTime * difficultyLevel[difficulty]),
       assertions: prev.assertions + 1,
     }), this.setLocalStorage);
-
   }
+
   nextQuestion() {
     this.setState((prev) => ({
       numberNext: prev.numberNext + 1,
