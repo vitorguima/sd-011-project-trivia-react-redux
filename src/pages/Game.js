@@ -17,7 +17,7 @@ class Game extends React.Component {
     const token = JSON.parse(localStorage.getItem('token'));
     const apiQuestions = await getQuestions(token);
     const results = apiQuestions.results.map((element) => {
-      const { category, question,
+      const { category, question, difficulty,
         correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = element;
       const newCorrectAnswer = { answer: correctAnswer, correct: true };
       const newIncorrectAnswers = incorrectAnswers
@@ -27,6 +27,7 @@ class Game extends React.Component {
         question,
         category,
         answers,
+        difficulty,
       };
     });
     this.setStateFunc(results);

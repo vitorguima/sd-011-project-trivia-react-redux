@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { scoreAction } from '../actions';
 import './styleButton.css';
 
 class Question extends React.Component {
@@ -12,6 +14,8 @@ class Question extends React.Component {
     };
     this.nextPage = this.nextPage.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleClickCorrect = this.handleClickCorrect.bind(this);
+    this.addScore = this.addScore.bind(this);
   }
 
   componentDidMount() {
@@ -43,11 +47,48 @@ class Question extends React.Component {
     });
   }
 
+  handleClickCorrect() {
+    this.setState({
+      answered: true,
+      stopTimer: true,
+    });
+    this.addScore();
+  }
+
   nextPage() {
     const { nextFunc } = this.props;
     this.setState({ timer: 30, answered: false });
     this.startTimer();
     nextFunc();
+  }
+
+  addScore() {
+    const { timer } = this.state;
+    const { newQuestion: { difficulty }, score } = this.props;
+    const hard = 3;
+    const medium = 2;
+    const easy = 1;
+    const ten = 10;
+    let newScore = 0;
+
+    if (difficulty === 'easy') {
+      newScore = (timer * easy) + ten;
+    } else if (difficulty === 'medium') {
+      newScore = (timer * medium) + ten;
+    } else if (difficulty === 'hard') {
+      newScore = (timer * hard) + ten;
+    }
+    const finalScore = score + newScore;
+    this.saveScore(finalScore);
+  }
+
+  saveScore(finalScore) {
+    const { updateScore } = this.props;
+    const dataStorage = { ...JSON.parse(localStorage.getItem('state')) };
+    dataStorage.player.score += finalScore;
+    dataStorage.player.assertions += 1;
+    updateScore(dataStorage.player.score);
+    localStorage.setItem('state', JSON.stringify({ ...dataStorage }));
   }
 
   render() {
@@ -68,7 +109,7 @@ class Question extends React.Component {
                 data-testid="correct-answer"
                 type="button"
                 disabled={ answered }
-                onClick={ this.handleClick }
+                onClick={ this.handleClickCorrect }
                 className={ answered ? 'right' : 'white' }
               >
                 {answer}
@@ -100,9 +141,19 @@ class Question extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  score: state.user.score,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateScore: (score) => dispatch(scoreAction(score)),
+});
+
 Question.propTypes = {
   newQuestion: PropTypes.isRequired,
-  nextFunc: PropTypes.isRequired,
+  nextFunc: PropTypes.func.isRequired,
+  score: PropTypes.number.isRequired,
+  updateScore: PropTypes.func.isRequired,
 };
 
-export default Question;
+export default connect(mapStateToProps, mapDispatchToProps)(Question);
