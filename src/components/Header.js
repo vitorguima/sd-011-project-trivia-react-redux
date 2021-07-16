@@ -7,7 +7,7 @@ const email = md5('email@email.com').toString();
 
 class Header extends React.Component {
   render() {
-    const { name } = this.props;
+    const { name, score } = this.props;
     return (
       <div className="header">
         <div className="gravatar">
@@ -21,7 +21,7 @@ class Header extends React.Component {
           <h4 data-testid="header-player-name">{ name }</h4>
         </div>
         <div className="score">
-          <h4 data-testid="header-score">{0}</h4>
+          <h4 data-testid="header-score">{ score }</h4>
         </div>
       </div>
     );
@@ -36,6 +36,7 @@ Header.propTypes = {
 const mapStateToProps = (state) => ({
   name: state.user.name,
   email: state.user.email,
+  score: state.user.score,
 });
 
 export default connect(mapStateToProps)(Header);

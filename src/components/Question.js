@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../App.css';
+import * as actions from '../actions';
 
 class Question extends Component {
   constructor() {
@@ -15,9 +17,11 @@ class Question extends Component {
       activeButtonNext: false,
     };
     this.answers = this.answers.bind(this);
-    this.wasClicked = this.wasClicked.bind(this);
+    this.wasClickedWrong = this.wasClickedWrong.bind(this);
     this.timer = this.timer.bind(this);
     this.handleClickNext = this.handleClickNext.bind(this);
+    this.scoreCalc = this.scoreCalc.bind(this);
+    this.wasClickedRight = this.wasClickedRight.bind(this);
   }
 
   componentDidMount() {
@@ -58,10 +62,9 @@ class Question extends Component {
         sec: previous.sec - 1,
       }));
     }, interval);
-    console.log('Estou executando ainda');
   }
 
-  wasClicked() {
+  wasClickedWrong() {
     const { setTime } = this.state;
     clearInterval(setTime);
     this.setState({
@@ -70,6 +73,11 @@ class Question extends Component {
       status: false,
       activeButtonNext: true,
     });
+  }
+
+  wasClickedRight() {
+    this.wasClickedWrong();
+    this.scoreCalc();
   }
 
   answers() {
@@ -81,10 +89,11 @@ class Question extends Component {
     const incorrects = question[questionIndex].incorrect_answers;
     return [
       <button
-        onClick={ () => this.wasClicked() }
+        onClick={ () => this.wasClickedRight() }
         className={ buttonClass1 }
         type="button"
         data-testid="correct-answer"
+        id="correct-answer"
         key="correct-answer"
         disabled={ statusAnswer }
       >
@@ -92,7 +101,7 @@ class Question extends Component {
       </button>,
       incorrects.map((element, index) => (
         <button
-          onClick={ () => this.wasClicked() }
+          onClick={ () => this.wasClickedWrong() }
           className={ buttonClass2 }
           type="button"
           data-testid={ `wrong-answer-${index}` }
@@ -102,7 +111,37 @@ class Question extends Component {
           {element}
         </button>
       )),
-    ].sort(console.log(Math.floor(Math.random() * incorrects.length)));
+    ];
+    // .sort(console.log(Math.floor(Math.random() * incorrects.length)));
+  }
+
+  convertDifficultyInNumber() {
+    const { question } = this.props;
+    const { questionIndex } = this.state;
+    const { difficulty } = question[questionIndex];
+    let points = 0;
+    if (difficulty === 'easy') {
+      points = 1;
+    } else if (difficulty === 'medium') {
+      points = 2;
+    } else {
+      points = 1 + 2;
+    }
+    return points;
+  }
+
+  scoreCalc() {
+    const difficulty = this.convertDifficultyInNumber();
+    const getKey = localStorage.getItem('state');
+    const state = JSON.parse(getKey);
+    const { sec } = this.state;
+    const { setGlobalScore } = this.props;
+    const multiply = 10;
+    const scoreFinal = multiply + (sec * difficulty);
+    state.score += scoreFinal;
+    state.assertions += 1;
+    setGlobalScore(state.score);
+    return localStorage.setItem('state', JSON.stringify(state));
   }
 
   handleClickNext() {
@@ -133,7 +172,7 @@ class Question extends Component {
               data-testid="btn-next"
               type="button"
               disabled={ status }
-              onClick={ this.handleClickNext }
+              onClick={ () => this.handleClickNext() }
             >
               Próxima
             </button>)
@@ -146,6 +185,11 @@ class Question extends Component {
 
 Question.propTypes = {
   question: PropTypes.string.isRequired,
+  setGlobalScore: PropTypes.func.isRequired,
 };
 
-export default Question;
+const mapDispatchToProps = (dispatch) => ({
+  setGlobalScore: (score) => dispatch(actions.setScore(score)),
+});
+
+export default connect(null, mapDispatchToProps)(Question);
