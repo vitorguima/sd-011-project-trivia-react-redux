@@ -35,7 +35,8 @@ class Game extends Component {
 
   gameQuestions() {
     const { questionIndex } = this.state;
-    const { questions } = this.props;
+    const { questions, isLoading } = this.props;
+    const LOADING = 'Carregando as perguntas';
     const question = questions[questionIndex];
     const alternatives = [...question.incorrect_answers, question.correct_answer];
     // http://www.buginit.com/javascript/javascript-sort-without-mutating-array/
@@ -47,7 +48,7 @@ class Game extends Component {
         <p data-testid="question-category">{ question.category }</p>
         <p data-testid="question-text">{ question.question }</p>
         <div className="alternativesContainer">
-          { alternativesToSort.map((alternative) => {
+          { isLoading ? LOADING : alternativesToSort.map((alternative) => {
             const index = alternatives.indexOf(alternative);
             return (
               <button
@@ -84,11 +85,13 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   questions: state.playerReducer.questions,
   error: state.playerReducer.error,
+  isLoading: state.playerReducer.loading,
 });
 
 Game.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.any).isRequired,
   error: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps)(Game);

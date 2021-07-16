@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     correct_answer: '',
     incorrect_answers: [],
   }],
+  loading: true,
   error: false,
 };
 
@@ -27,6 +28,7 @@ export default function playerReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       questions: action.questions.results,
+      loading: false,
       error: action.questions.response_code === ERROR_CODE,
     };
   default:
