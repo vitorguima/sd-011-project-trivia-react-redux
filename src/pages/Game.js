@@ -17,6 +17,7 @@ class Game extends Component {
     } = this.props;
 
     fetchAPIQuestions(token);
+    localStorage.setItem('token', JSON.stringify(token));
     if (!isLoading) {
       const player = {
         name,
@@ -24,7 +25,6 @@ class Game extends Component {
         score,
         gravatarEmail: email,
       };
-      localStorage.setItem('token', JSON.stringify(token));
       localStorage.setItem('player', JSON.stringify(player));
     }
   }
