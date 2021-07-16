@@ -18,9 +18,9 @@ export const requestApi = () => ({
   type: REQUEST_API,
 });
 
-export const requestApiSucess = (payload) => ({
+export const requestApiSucess = (questions) => ({
   type: REQUEST_API_SUCESS,
-  payload,
+  questions,
 });
 
 export const requestApiError = (payload) => ({

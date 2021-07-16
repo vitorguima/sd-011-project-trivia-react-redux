@@ -5,15 +5,17 @@ const INITIAL_STATE = {
   error: '',
 };
 
-export default function fetchReducers(state = INITIAL_STATE, action) {
+function fetchReducers(state = INITIAL_STATE, action) {
   switch (action.type) {
   case REQUEST_API:
     return { ...state };
   case REQUEST_API_SUCESS:
-    return { ...state, questions: action.payload };
+    return { ...state, questions: action.questions };
   case REQUEST_API_ERROR:
     return { ...state, error: 'Impossível fazer requisição' };
   default:
     return state;
   }
 }
+
+export default fetchReducers;

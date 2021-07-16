@@ -18,15 +18,13 @@ class TriviaQuestions extends Component {
     return (
       <div>
         <Headerlogin />
-        <h1 data-testid="question-category">Categoria</h1>
-        <h2 data-testid="question-text">Questão:</h2>
         <Answer />
       </div>);
   }
 }
 // export default TriviaQuestions;
 const mapDispatchToProps = (dispatch) => ({
-  setStateGame: (payload) => dispatch(requestApiThunk(payload)),
+  setStateGame: (questions) => dispatch(requestApiThunk(questions)),
 });
 
 const mapStateToProps = (state) => ({
@@ -37,5 +35,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(TriviaQuestions);
 
 TriviaQuestions.propTypes = {
   questions: PropTypes.array,
-  setStateGame: propTypes.func,
+  setStateGame: PropTypes.func,
 }.isRequired;
