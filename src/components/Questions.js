@@ -5,6 +5,7 @@ import questionAPI from '../services';
 import Header from './Header';
 import '../App.css';
 import { updateScore } from '../actions';
+import ResetButton from './ResetButton';
 
 class Questions extends Component {
   constructor() {
@@ -99,6 +100,15 @@ class Questions extends Component {
     return localStorage.setItem('state', JSON.stringify(player));
   }
 
+  resetBtn() {
+    this.setState({
+      timer: 30,
+      finishTimer: false,
+      clicked: false,
+      isDisabled: false,
+    });
+  }
+
   renderAnswers() {
     const { questions, index, incorrect, regularBorder, isDisabled } = this.state;
     const incorrectAnswers = questions[index].incorrect_answers;
@@ -185,7 +195,7 @@ class Questions extends Component {
               </h3>
               <h3>{ this.renderAnswers() }</h3>
               { !isDisabled ? null
-                : <button data-testid="btn-next" type="button">Próxima</button> }
+                : <ResetButton /> }
               <span>{ timer }</span>
             </div>
           )}
