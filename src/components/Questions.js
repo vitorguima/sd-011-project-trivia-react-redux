@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './styleButton.css';
 
 class Question extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isRevealed: false,
+    };
+  }
+
   render() {
+    const { isRevealed } = this.state;
     const { newQuestion:
       { question,
         correct_answer: correctAnswer,
@@ -26,6 +35,8 @@ class Question extends React.Component {
                 key={ index }
                 data-testid="correct-answer"
                 type="button"
+                onClick={ () => this.setState({ isRevealed: true }) }
+                className={ isRevealed ? 'right' : 'white' }
               >
                 {answer}
               </button>
@@ -36,6 +47,8 @@ class Question extends React.Component {
               key={ index }
               data-testid={ `wrong-answer-${index}` }
               type="button"
+              onClick={ () => this.setState({ isRevealed: true }) }
+              className={ isRevealed ? 'wrong' : 'white' }
             >
               {answer}
             </button>
