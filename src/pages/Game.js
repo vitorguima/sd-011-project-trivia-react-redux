@@ -10,10 +10,12 @@ class Game extends React.Component {
     this.state = {
       questions: [],
       indexQuestion: 0,
+      showCorrect: false,
     };
 
     this.getQuestions = this.getQuestions.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.setShowCorrect = this.setShowCorrect.bind(this);
   }
 
   componentDidMount() {
@@ -28,14 +30,21 @@ class Game extends React.Component {
     });
   }
 
+  setShowCorrect() {
+    this.setState({
+      showCorrect: true,
+    });
+  }
+
   nextQuestion() {
     this.setState((old) => ({
       indexQuestion: old.indexQuestion + 1,
+      showCorrect: false,
     }));
   }
 
   render() {
-    const { questions, indexQuestion } = this.state;
+    const { questions, indexQuestion, showCorrect } = this.state;
     console.log(questions);
     return (
       <div>
@@ -43,7 +52,9 @@ class Game extends React.Component {
         {questions.length > 0
           && <Question
             question={ questions[indexQuestion] }
-            onClick={ this.nextQuestion }
+            nextQuestion={ this.nextQuestion }
+            showCorrect={ showCorrect }
+            setShowCorrect={ this.setShowCorrect }
           /> }
       </div>
     );
