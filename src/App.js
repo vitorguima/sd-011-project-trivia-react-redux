@@ -18,7 +18,7 @@ export default function App() {
       </header>
       {/* <BrowserRouter> */}
       <Switch>
-        <Route exact path="/zz" component={ Login } />
+        <Route exact path="/" component={ Login } />
         <Route path="/settings" component={ Configurações } />
         <Route path="/game" component={ TelaJogo } />
       </Switch>

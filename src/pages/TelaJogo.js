@@ -13,12 +13,14 @@ class TelaJogo extends Component {
 
   componentDidMount() {
     const { recivedGameData } = this.props;
-    console.log(recivedGameData());
+    recivedGameData();
   }
 
   render() {
     const { score } = this.state;
-    const { getdata: { emailHash, name }, recivedGameData } = this.props;
+    const { getdata: { emailHash, name, email } /* gameData */ } = this.props;
+    localStorage.setItem('name', name);
+    localStorage.setItem('email', email);
     return (
       <div>
         <header>
@@ -31,7 +33,11 @@ class TelaJogo extends Component {
         </header>
         <div>
           {
-            console.log(recivedGameData())
+            // gameData.map((value, index) => (
+            //   <p key={ index }>
+            //     {value}
+            //   </p>
+            // ))
           }
         </div>
       </div>
@@ -41,6 +47,7 @@ class TelaJogo extends Component {
 
 const mapStateToProps = (state) => ({
   getdata: state.user.userData,
+  gameData: state.requestGameAPI.gameData,
 });
 
 const mapDispatchToProps = (dispatch) => ({

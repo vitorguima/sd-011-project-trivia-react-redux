@@ -5,7 +5,7 @@ import {
 } from '../actions/requestAPI';
 
 const INITIAL_STATE = {
-  gameData: {},
+  gameData: [],
   isFetching: false,
 };
 
@@ -20,7 +20,7 @@ function requestGameAPI(state = INITIAL_STATE, action = {}) {
     return {
       ...state,
       isFetching: false,
-      gameData: { ...action.payload },
+      gameData: action.payload,
     };
   case REQUEST_API_NEW_ERROR:
     return {
