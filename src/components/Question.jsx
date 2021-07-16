@@ -18,8 +18,8 @@ class Question extends React.Component {
               <QuestionHeader question={ questions[0] } />
               <div className="answer-options">
                 { (questions[0].type === 'boolean')
-                  ? <BooleanQuestion disabled={disabled} question={ questions[0] } />
-                  : <MultipleChoice disabled={disabled} question={ questions[0] } /> }
+                  ? <BooleanQuestion disabled={ disabled } question={ questions[0] } />
+                  : <MultipleChoice disabled={ disabled } question={ questions[0] } /> }
               </div>
             </>
           )
@@ -39,6 +39,10 @@ Question.propTypes = {
 
 Question.defaultProps = {
   questions: [{}],
+};
+
+Question.propTypes = {
+  disabled: (propTypes.bool).isRequired,
 };
 
 export default connect(mapStateToProps)(Question);

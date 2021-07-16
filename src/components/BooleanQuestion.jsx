@@ -7,7 +7,7 @@ class BooleanQuestion extends React.Component {
     return (
       <>
         <button
-        disabled={disabled}
+          disabled={ disabled }
           type="button"
           data-testid={
             (question.correct_answer === 'True')
@@ -18,7 +18,7 @@ class BooleanQuestion extends React.Component {
           True
         </button>
         <button
-          disabled={disabled}
+          disabled={ disabled }
           type="button"
           data-testid={
             (question.incorrect_answers.includes('True'))
@@ -38,6 +38,7 @@ BooleanQuestion.propTypes = {
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  disabled: (propTypes.bool).isRequired,
 };
 
 export default BooleanQuestion;
