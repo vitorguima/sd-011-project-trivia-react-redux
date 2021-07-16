@@ -170,6 +170,7 @@ class Game extends Component {
             ) : (
               <div />
             )}
+          <div />
         </header>
       </div>
     );
