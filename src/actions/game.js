@@ -4,6 +4,7 @@ export const GRAVATAR_IMAGE = 'GRAVATAR_IMAGE';
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
 export const REQUEST_QUESTIONS_ERROR = 'REQUEST_QUESTIONS_ERROR';
+export const HANDLE_ANSWERS_BUTTONS = 'HANDLE_ANSWERS_BUTTONS';
 
 export const gravatarImage = (payload) => ({
   type: GRAVATAR_IMAGE,
@@ -33,3 +34,8 @@ export const fetchQuestionsAPI = (token) => async (dispatch) => {
     dispatch(requestQuestionsError(error));
   }
 };
+
+export const handleAnswersButtons = (payload) => ({
+  type: HANDLE_ANSWERS_BUTTONS,
+  payload,
+});

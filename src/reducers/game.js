@@ -2,11 +2,13 @@ import {
   GRAVATAR_IMAGE,
   REQUEST_QUESTIONS,
   REQUEST_QUESTIONS_SUCCESS,
-  REQUEST_QUESTIONS_ERROR } from '../actions/game';
+  REQUEST_QUESTIONS_ERROR,
+  HANDLE_ANSWERS_BUTTONS } from '../actions/game';
 
 const INITIAL_STATE = {
   gravatarImage: '',
   questions: [],
+  answerButtons: false,
 };
 
 const game = (state = INITIAL_STATE, action) => {
@@ -29,6 +31,11 @@ const game = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       error: action.payload.error,
+    };
+  case HANDLE_ANSWERS_BUTTONS:
+    return {
+      ...state,
+      answerButtons: action.payload,
     };
   default:
     return state;
