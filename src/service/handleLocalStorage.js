@@ -1,7 +1,10 @@
-export const resetStore = () => {
+export const resetStore = (name, email) => {
   localStorage.removeItem('state');
   const store = {
     player: {
+      name,
+      gravatarEmail: email,
+      assertions: 0,
       score: 0,
     },
   };

@@ -56,6 +56,7 @@ class Game extends Component {
   render() {
     const { questionArray, currentQuestion } = this.props;
     const { disabled, count } = this.state;
+    if (questionArray.length === 0) return <h1>loading...</h1>;
     return (
       <div>
         <HeaderGame />

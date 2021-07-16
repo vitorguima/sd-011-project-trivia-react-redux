@@ -23,10 +23,6 @@ class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
   }
 
-  componentDidMount() {
-    resetStore();
-  }
-
   handleChange({ target: { name, value } }) {
     this.setState({
       [name]: value,
@@ -41,7 +37,7 @@ class Login extends Component {
   async handleLogin() {
     const { name, email } = this.state;
     const { initToken, setLogin, getQuestions } = this.props;
-
+    resetStore(name, email);
     await initToken();
     const { token } = this.props;
     this.handleLocalStorage();
