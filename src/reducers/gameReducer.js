@@ -1,6 +1,7 @@
 import {
   REQUEST_QUESTIONS,
   REQUEST_QUESTIONS_SUCCESS,
+  ADD_SCORE,
   NEXT_QUESTION,
 } from '../actions';
 
@@ -24,6 +25,11 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       isLoading: false,
       questions: [...payload.results],
+    };
+  case ADD_SCORE:
+    return {
+      ...state,
+      score: state.score + payload,
     };
   case NEXT_QUESTION: {
     const maxNumber = 4;

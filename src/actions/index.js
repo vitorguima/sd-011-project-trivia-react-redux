@@ -37,8 +37,9 @@ export const requestQuestionsSuccess = (payload) => ({
   payload,
 });
 
-export const addScore = () => ({
+export const addScore = (payload) => ({
   type: ADD_SCORE,
+  payload,
 });
 
 export const nextQuestion = () => ({

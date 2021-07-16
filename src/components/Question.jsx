@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import { nextQuestion as newQuestion } from '../actions';
+import { saveScoreToStore } from '../service/handleLocalStorage';
+import { nextQuestion as newQuestion, addScore } from '../actions';
 import '../styles/question.css';
 
 class Question extends Component {
@@ -17,6 +18,7 @@ class Question extends Component {
     this.handleDisabledButton = this.handleDisabledButton.bind(this);
     this.handleNextQuestion = this.handleNextQuestion.bind(this);
     this.returnNextButton = this.returnNextButton.bind(this);
+    this.calculateScore = this.calculateScore.bind(this);
   }
 
   handleNextQuestion() {
@@ -51,6 +53,38 @@ class Question extends Component {
     });
   }
 
+  calculateScore() {
+    const { count, question: { difficulty }, addNewScore } = this.props;
+    const scoreNumbers = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+      default: 10,
+    };
+    switch (difficulty) {
+    case ('easy'): {
+      const score = scoreNumbers.default + (Number(count) * scoreNumbers.easy);
+      addNewScore(score);
+      saveScoreToStore(score);
+      break;
+    }
+    case ('medium'): {
+      const score = scoreNumbers.default + (Number(count) * scoreNumbers.medium);
+      addNewScore(score);
+      saveScoreToStore(score);
+      break;
+    }
+    case ('hard'): {
+      const score = scoreNumbers.default + (Number(count) * scoreNumbers.hard);
+      addNewScore(score);
+      saveScoreToStore(score);
+      break;
+    }
+    default:
+      break;
+    }
+  }
+
   returnNextButton() {
     return (
       <button
@@ -81,7 +115,10 @@ class Question extends Component {
             type="button"
             data-testid="correct-answer"
             className={ isAnswered ? 'correct-color' : null }
-            onClick={ this.handleClick }
+            onClick={ () => {
+              this.calculateScore();
+              this.handleClick();
+            } }
             disabled={ disabled }
           >
             {correctAnswer}
@@ -111,6 +148,7 @@ const mapStateToProps = ({ gameReducer }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   nextQuestion: () => dispatch(newQuestion()),
+  addNewScore: (payload) => dispatch(addScore(payload)),
 });
 
 Question.propTypes = ({
@@ -118,15 +156,17 @@ Question.propTypes = ({
     category: PropTypes.string,
     type: PropTypes.string,
     question: PropTypes.string,
+    difficulty: PropTypes.string,
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   nextQuestion: PropTypes.func.isRequired,
   currentQuestion: PropTypes.number.isRequired,
   disabled: PropTypes.bool.isRequired,
-  // count: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
   reset: PropTypes.func.isRequired,
   clearInterval: PropTypes.func.isRequired,
+  addNewScore: PropTypes.func.isRequired,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

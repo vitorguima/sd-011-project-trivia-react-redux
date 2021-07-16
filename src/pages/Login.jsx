@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { fetchToken, loginAction, fetchQuestions } from '../actions';
-import { saveTokenToStore } from '../service/handleLocalStorage';
+import {
+  saveTokenToStore,
+  resetStore,
+} from '../service/handleLocalStorage';
 
 class Login extends Component {
   constructor() {
@@ -18,6 +21,10 @@ class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  componentDidMount() {
+    resetStore();
   }
 
   handleChange({ target: { name, value } }) {
