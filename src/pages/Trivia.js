@@ -14,11 +14,18 @@ class Trivia extends React.Component {
     this.handleQuestions();
   }
 
-  handleQuestions() {
-    fetch(`https://opentdb.com/api.php?amount=5&token=${localStorage.getItem('token')}`)
+  async handleQuestions() {
+    const token = localStorage.getItem('token');
+    await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
       .then((response) => response.json())
-      .then((resolve) => this.setState({ gameQuestions: resolve.results }));
+      .then((resolve) => {
+        this.setState({ gameQuestions: resolve.results });
+      });
   }
+
+  // changeColor() {
+  //   const answer-button = this.state.green
+  // }
 
   render() {
     const { gameQuestions } = this.state;

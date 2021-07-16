@@ -44,7 +44,7 @@ class Login extends React.Component {
   }
 
   async handleButton() {
-    fetch('https://opentdb.com/api_token.php?command=request')
+    await fetch('https://opentdb.com/api_token.php?command=request')
       .then((response) => response.json())
       .then((resolve) => {
         const { name, email } = this.state;
@@ -61,7 +61,6 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
-    console.log(this.state);
     return (
       <header className="App-header">
         <img src={ logo } height="150px" alt="logo" />
@@ -95,9 +94,9 @@ class Login extends React.Component {
             >
               Jogar
             </button>
-            <Link to="/settings">
-              <button type="button" data-testid="btn-settings">Configurações</button>
-            </Link>
+          </Link>
+          <Link to="/settings">
+            <button type="button" data-testid="btn-settings">Configurações</button>
           </Link>
         </form>
       </header>
