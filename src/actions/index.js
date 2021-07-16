@@ -4,6 +4,8 @@ import shuffleArray from '../services/shuffleArray';
 export const USER_DATA = 'USER_DATA';
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
+export const SHOW_NEXT_BTN = 'SHOW_NEXT_BTN';
+export const CHANGE_TO_NEXT_QUESTION = 'CHANGE_TO_NEXT_QUESTION';
 
 export const getUserData = (name, email, token) => {
   const hash = md5(email).toString();
@@ -43,3 +45,11 @@ export const requestApiQuestions = (token) => (dispatch) => {
       })
   );
 };
+
+export const showNextBtn = () => ({
+  type: SHOW_NEXT_BTN,
+});
+
+export const changeToNextQuestion = () => ({
+  type: CHANGE_TO_NEXT_QUESTION,
+});
