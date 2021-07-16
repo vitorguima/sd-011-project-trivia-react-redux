@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { addScore } from './GameFunctions';
-import AlternativesButton from './AlternativesButton';
 
 export default function Questions(props) {
   const { questions,

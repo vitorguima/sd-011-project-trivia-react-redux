@@ -1,35 +1,30 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { nextQuestion } from './GameFunctions';
+import { nextIndex } from '../actions/gameActions';
 
-const time = 5;
-
-export default function NextQuestionButton(props) {
-  const {
-    setAnswer,
-    index,
-    questions,
-    setIndex,
-    setCount,
-    setCounter,
-  } = props;
+export default function NextQuestionButton() {
   const history = useHistory();
-  const feedbackTransitor = (v) => {
-    if (v === questions.length - 1) {
-      history.push('feedback');
+  const gameState = useSelector((state) => state.game);
+  const { allQuestions, index } = gameState;
+  const dispatch = useDispatch();
+
+  const changeIndex = () => {
+    if (index < allQuestions.length - 1) {
+      return dispatch(nextIndex());
     }
+
+    history.push('/feedback');
   };
 
   return (
     <button
       type="button"
-      onClick={ () => {
-        nextQuestion(setAnswer, index, questions, setIndex);
-        feedbackTransitor(index);
-        setCount(true);
-        setCounter(time);
-      } }
+      onClick={ () => changeIndex() }
+      // setCount(true);
+      // setCounter(time);
+
       className="btn btn btn-info btn-lg nextQuestion"
       data-testid="btn-next"
     >
