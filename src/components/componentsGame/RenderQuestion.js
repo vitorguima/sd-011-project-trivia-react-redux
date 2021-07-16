@@ -20,7 +20,17 @@ const RenderQuestion = () => {
     }, limitedTime);
   }, []);
 
-  const globalScore = (value) => dispatch(sendScorePoints(value));
+  const globalScore = (score) => {
+    localStorage.setItem('player', JSON.stringify({
+      name: '',
+      assertions: 0,
+      score,
+      gravatarEmail: '',
+      token: '',
+      ranking: [],
+    }));
+    dispatch(sendScorePoints(score));
+  };
 
   const renderResult = () => (
     <div className="question">
