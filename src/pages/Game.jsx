@@ -1,49 +1,66 @@
-import React, { useEffect, useState, createContext } from 'react';
-import { useSelector } from 'react-redux';
+/* eslint-disable max-lines-per-function */
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import '../styles/TriviaGame.css';
-import getQuestions from '../services/mockedTriviaResults';
-import { Header, showQuestions, ShowTrivia } from '../components';
-import { paintButtons, nextQuestion, randomArray } from '../components/GameFunctions';
-import Timer from '../components/Timer';
-
-export const GameStateContext = createContext({});
+import { fetchAPI } from '../services/QuestionsAPI';
+import { Header, ShowTrivia } from '../components';
+// import { paintButtons, nextQuestion, randomArray } from '../components/GameFunctions';
 
 export default function Game() {
-  const [index, setIndex] = useState(0);
-  const [questions, setQuestions] = useState('');
-  const [answer, setAnswer] = useState('');
-  const [arrayQuestions, setArray] = useState('');
-  const loginState = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+  // const [index, setIndex] = useState(0);
+  // const [questions, setQuestions] = useState('');
+  // const [answer, setAnswer] = useState('');
+  // const [arrayQuestions, setArray] = useState('');
+  // const [player, setPlayer] = useState({
+  //   player: { name: '', gravatarEmail: '', score: 0, assertions: 0 },
+  // });
+  // const [count, setCount] = useState(true);
+  // const [counter, setCounter] = useState(time);
+  // const loginState = useSelector((state) => state.login);
 
-  useEffect(async () => {
-    (async () => {
-      const { token } = loginState;
-      const response = await getQuestions(token);
-      setQuestions(response);
-    })();
+  useEffect(() => {
+    dispatch(fetchAPI());
   }, []);
 
-  useEffect(() => randomArray(questions, setArray, index), [questions, index]);
+  // useEffect(() => {
+  //   localStorage.state = JSON.stringify(player);
+  // }, [player]);
 
-  const showResults = (e) => {
-    setAnswer(e);
-    paintButtons(arrayQuestions);
-  };
+  // useEffect(() => randomArray(questions, setArray, index), [questions, index]);
 
-  const props = { index,
-    questions,
-    arrayQuestions,
-    showQuestions,
-    showResults,
-    answer,
-    nextQuestion,
-    setAnswer,
-    setIndex };
+  // const showResults = (e) => {
+  //   setAnswer(e);
+  //   paintButtons(arrayQuestions);
+  // };
+
+  // const props = {
+  //   index,
+  //   questions,
+  //   arrayQuestions,
+  //   showResults,
+  //   answer,
+  //   nextQuestion,
+  //   setAnswer,
+  //   setIndex,
+  //   setPlayer,
+  //   player,
+  //   count,
+  //   setCount,
+  //   counter,
+  //   setCounter,
+  // };
+
   return (
     <>
       <Header />
+<<<<<<< HEAD
       <Timer />
       {questions && <ShowTrivia { ...props } />}
+=======
+      <ShowTrivia />
+      {/* {questions && <ShowTrivia {...props} />} */}
+>>>>>>> c6841dfd565c2fbdca41c7bda777c6cd33959ddd
     </>
   );
 }

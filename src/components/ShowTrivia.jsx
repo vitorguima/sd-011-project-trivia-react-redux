@@ -1,45 +1,33 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-// import { GameStateContext } from '../pages/Game';
+/* eslint-disable react/prop-types */
+/* eslint-disable max-lines-per-function */
+import React, { useEffect } from 'react';
+// import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import NextQuestionButton from './NextQuestionButton';
+// import Timer from './Timer';
+import { getCurrentQuestion } from '../actions/gameActions';
+import ShowQuestion from './ShowQuestion';
+import ShowAlternatives from './ShowAlternatives';
+// import Questions from './Questions';
 
-export default function ShowTrivia(props) {
-  const { index,
-    questions,
-    arrayQuestions,
-    showQuestions,
-    showResults,
-    answer,
-    nextQuestion,
-    setAnswer,
-    setIndex } = props;
+export default function ShowTrivia() {
+  const dispatch = useDispatch();
+  const gameState = useSelector((state) => state.game);
+  const { allQuestions, index } = gameState;
+
+  useEffect(() => {
+    if (Object.keys(allQuestions).length > 1) { dispatch(getCurrentQuestion()); }
+  }, [allQuestions, index]);
 
   return (
     <div className="modal-dialog">
+      {/* <Timer { ...{ count, counter, setCounter } } /> */}
       <div className="modal-content">
         <div className="modal-header">
-          <h3>
-            <span className="label label-warning gameIndex" data-testid="question-text">
-              {index + 1}
-            </span>
-            {questions[index].question}
-          </h3>
-          Functions: PropTypes.func.isRequired,
-          onChange: PropTypes.func.isRequired,
-          <p data-testid="question-category">{questions[index].category}</p>
+          <ShowQuestion />
         </div>
-        {arrayQuestions && showQuestions(arrayQuestions, showResults)}
-
-        {answer && (
-          <button
-            type="button"
-            onClick={ () => nextQuestion(setAnswer, index, questions, setIndex) }
-            className="btn btn btn-info btn-lg nextQuestion"
-            data-testid="btn-next"
-          >
-            Próxima pergunta
-          </button>
-        )}
-
+        <ShowAlternatives />
+        <NextQuestionButton />
         <div className="modal-footer text-muted">
           <span id="answer" />
         </div>
@@ -47,15 +35,15 @@ export default function ShowTrivia(props) {
     </div>
   );
 }
-ShowTrivia.propTypes = {
-  index: PropTypes.number.isRequired,
-  questions: PropTypes.objectOf(PropTypes.object).isRequired,
-  arrayQuestions: PropTypes.shape({}).isRequired,
-  answer: PropTypes.objectOf(PropTypes.object).isRequired,
-  nextQuestion: PropTypes.func.isRequired,
-  setIndex: PropTypes.func.isRequired,
-  showQuestions: PropTypes.func.isRequired,
-  showResults: PropTypes.func.isRequired,
-  setAnswer: PropTypes.func.isRequired,
-
-};
+// ShowTrivia.propTypes = {
+//   index: PropTypes.number.isRequired,
+//   questions: PropTypes.objectOf(PropTypes.object).isRequired,
+//   arrayQuestions: PropTypes.shape({}).isRequired,
+//   answer: PropTypes.objectOf(PropTypes.object).isRequired,
+//   nextQuestion: PropTypes.func.isRequired,
+//   setIndex: PropTypes.func.isRequired,
+//   showResults: PropTypes.func.isRequired,
+//   setAnswer: PropTypes.func.isRequired,
+//   setPlayer: PropTypes.func.isRequired,
+//   player: PropTypes.objectOf(PropTypes.object).isRequired,
+// };
