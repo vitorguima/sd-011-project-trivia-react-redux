@@ -17,6 +17,7 @@ class Question extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleClickCorrect = this.handleClickCorrect.bind(this);
     this.addScore = this.addScore.bind(this);
+    this.addToRanking = this.addToRanking.bind(this);
   }
 
   componentDidMount() {
@@ -92,6 +93,17 @@ class Question extends React.Component {
     localStorage.setItem('state', JSON.stringify({ ...dataStorage }));
   }
 
+  addToRanking() {
+    const { ranking } = localStorage;
+    const { username, score, avatar } = this.props;
+    const player = { username, score, avatar };
+    if (!ranking) {
+      localStorage.setItem('ranking', JSON.stringify([player]));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([player, ...JSON.parse(ranking)]));
+    }
+  }
+
   renderCondition() {
     const { index } = this.props;
     const { answered } = this.state;
@@ -99,7 +111,7 @@ class Question extends React.Component {
     if (answered) {
       if (index >= four) {
         return (
-          <Link to="/feedback" data-testid="btn-next">
+          <Link to="/feedback" data-testid="btn-next" onClick={ this.addToRanking }>
             Próxima
           </Link>
         );
@@ -160,7 +172,9 @@ class Question extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  username: state.user.username,
   score: state.user.score,
+  avatar: state.user.avatar,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -173,6 +187,8 @@ Question.propTypes = {
   score: PropTypes.number.isRequired,
   updateScore: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
+  avatar: PropTypes.isRequired,
+  username: PropTypes.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
