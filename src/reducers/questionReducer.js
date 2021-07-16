@@ -1,8 +1,7 @@
 import {
   REQUEST_QUESTIONS_SUCCESS,
-  REQUEST_QUESTIONS_FAILED, 
-}
-  from '../actions';
+  REQUEST_QUESTIONS_FAILED,
+} from '../actions/index';
 
 const INITIAL_STATE = {
   questions: [],

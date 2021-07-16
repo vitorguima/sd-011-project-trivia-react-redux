@@ -1,8 +1,10 @@
-import getToken from '../services/API';
+import { getToken } from '../services/API';
 
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const SUCESS = 'SUCESS';
 export const FAIL = 'SUCESS';
+export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
+export const REQUEST_QUESTIONS_FAILED = 'REQUEST_QUESTIONS_FAILED';
 
 /* export const loading = (payload) => ({
   type: LOADING,
@@ -35,7 +37,9 @@ export const requestQuestionsFailed = (payload) => ({
   payload,
 });
 
-export const fetchQuestions = (token) => fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-  .then((result) => result.json())
-  .then((data) => dispatch(requestQuestionsSuccess(data)))
-  .catch((error) => dispatch(requestQuestionsFailed(error)));
+export const fetchQuestions = (token) => (dispatch) => {
+  fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+    .then((result) => result.json())
+    .then((data) => dispatch(requestQuestionsSuccess(data)))
+    .catch((error) => dispatch(requestQuestionsFailed(error)));
+};

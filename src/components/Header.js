@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 
 class header extends Component {
   render() {
-    // const { player: { gravatarEmail, name } } = getStorage();
+    const getStorage = () => JSON.parse(localStorage.state);
+    const { player: { gravatarEmail, name } } = getStorage();
     return (
       <div>
         <header>
-          <h1>Settings</h1>
+          <h1>JOGO</h1>
           <img
-            src="teste"
-            testedata-testid="header-profile-picture"
-            alt="teste"
+            src={ gravatarEmail }
+            data-testid="header-profile-picture"
+            alt={ name }
           />
           <span
             data-testid="header-player-name"
           >
-            teste
+            { name }
           </span>
           <span
             data-testid="header-score"

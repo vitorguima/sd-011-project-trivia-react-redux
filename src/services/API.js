@@ -1,6 +1,6 @@
 const URL = 'https://opentdb.com/api_token.php?command=request';
 
-const getToken = () => fetch(URL)
+export const getToken = () => fetch(URL)
   .then((res) => res.json())
   .then((data) => {
     const { token } = data;
@@ -11,7 +11,7 @@ const getToken = () => fetch(URL)
   // .then((res) => res.json())
   // .then(({ results }) => results);
 
-// const getStorage = () => JSON.parse(localStorage.state);
+// export const getStorage = () => JSON.parse(localStorage.state);
 // export const getRanking = () => JSON.parse(localStorage.ranking);
 
 export default getToken;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -14,6 +15,7 @@ class Login extends Component {
       buttonDisabled: true,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   validateLogin() {
@@ -43,6 +45,19 @@ class Login extends Component {
   handleClick() {
     const { actionBtn } = this.props;
     actionBtn();
+  }
+
+  submit() {
+    const { name, email } = this.state;
+    const hash = md5(email).toString();
+    localStorage.state = JSON.stringify({
+      player: {
+        name,
+        gravatarEmail: `https://www.gravatar.com/avatar/${hash}`,
+        score: 0,
+        assertions: 0,
+      },
+    });
   }
 
   render() {
@@ -76,7 +91,7 @@ class Login extends Component {
               data-testid="btn-play"
               type="button"
               disabled={ buttonDisabled }
-              onClick={ this.handleClick() }
+              onClick={ () => { this.handleClick(); this.submit(); } }
             >
               Jogar
             </button>
