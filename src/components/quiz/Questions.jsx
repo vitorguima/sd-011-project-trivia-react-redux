@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import '../../style/quiz.css';
 import PropTypes from 'prop-types';
 import { getQuestionsThunk } from '../../actions';
+import ButtonNext from './ButtonNext';
+import Answers from './Answers';
 
 class Questions extends React.Component {
   constructor(props) {
@@ -10,9 +14,12 @@ class Questions extends React.Component {
       questionsList: [],
       indexQuestion: 0,
       endGame: false,
+      buttonDisabled: false,
     };
     this.fetchTrivia = this.fetchTrivia.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.startTime = this.startTime.bind(this);
+    this.handleButtons = this.handleButtons.bind(this);
   }
 
   componentDidMount() {
@@ -21,16 +28,19 @@ class Questions extends React.Component {
 
   nextQuestion() {
     this.setState((currentState) => {
-      const finalArray = 4;
+      const finalArray = 3;
       if (currentState.indexQuestion < finalArray) {
         return {
           indexQuestion: currentState.indexQuestion + 1,
         };
       }
       return {
+        indexQuestion: currentState.indexQuestion + 1,
         endGame: true,
       };
     });
+    this.handleButtons(false);
+    this.startTime();
   }
 
   async fetchTrivia() {
@@ -39,45 +49,44 @@ class Questions extends React.Component {
     const { questions } = this.props;
     this.setState({
       questionsList: questions,
+    }, () => this.startTime());
+  }
+
+  handleButtons(disabled) {
+    this.setState({
+      buttonDisabled: disabled,
     });
+  }
+
+  startTime() {
+    const timer = 30000;
+    setTimeout(() => this.handleButtons(true), timer);
   }
 
   render() {
     const { loading } = this.props;
-    const { questionsList, indexQuestion, endGame } = this.state;
-    console.log(endGame); // TIRAR ISSO DAQUI
+    const { questionsList, indexQuestion, endGame, buttonDisabled } = this.state;
     if (!loading && questionsList.length !== 0) {
       return (
         <div>
           <div>
             <p data-testid="question-text">{ questionsList[indexQuestion].question }</p>
-            <p
-              data-testid="question-category"
-            >
+            <p data-testid="question-category">
               { questionsList[indexQuestion].category }
             </p>
           </div>
-          <ul>
-            <li>
-              <button
-                data-testid="correct-answer"
-                type="button"
-              >
-                { questionsList[indexQuestion].correct_answer }
-              </button>
-              { questionsList[indexQuestion].incorrect_answers.map((wrong, index) => (
-                <button
-                  data-testid={ `wrong-answer-${index}` }
-                  key={ index }
-                  type="button"
-                >
-                  { wrong }
-                </button>
-              )) }
-            </li>
-          </ul>
-          <button type="button" onClick={ this.nextQuestion }>Proximo</button>
-        </div>);
+          <Answers
+            handleButtons={ this.handleButtons }
+            questionsList={ questionsList[indexQuestion] }
+            isDisabled={ buttonDisabled }
+          />
+          { !endGame ? <ButtonNext testid="btn-next" nextQuestion={ this.nextQuestion } />
+            : (
+              <Link to="/feedback">
+                <ButtonNext testid="btn-next" />
+              </Link>)}
+        </div>
+      );
     }
     return (<p>LOADING...</p>);
   }
