@@ -21,7 +21,8 @@ class Questions extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => this.handleClick(), 30000);
+    const { timer } = this.state;
+    setTimeout(() => this.handleClick(), timer);
   }
 
   handleGravatar() {
