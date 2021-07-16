@@ -13,6 +13,9 @@ class Feedback extends Component {
         <h1 data-testid="feedback-text">
           FeedBack
         </h1>
+        <h2 data-testid="feedback-text">
+          Mensagem
+        </h2>
         <header>
           <img src={ `https://www.gravatar.com/avatar/${MD5}` } alt="avatar" data-testid="header-profile-picture" />
           <p data-testid="header-player-name">{ name }</p>

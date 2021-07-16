@@ -1,9 +1,10 @@
-import { USER_LOGIN, USER_SCORE } from '../actions';
+import { USER_LOGIN, USER_SCORE, PLAYER_HITS } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
   gravatarEmail: '',
   score: 0,
+  hits: 0,
 };
 
 function playerReducer(state = INITIAL_STATE, action) {
@@ -18,6 +19,11 @@ function playerReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       score: action.score,
+    };
+  case PLAYER_HITS:
+    return {
+      ...state,
+      hits: action.hits,
     };
   default:
     return state;
