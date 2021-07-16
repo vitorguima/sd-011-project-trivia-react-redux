@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Time extends Component {
   constructor() {
     super();
     this.state = {
-      initialTime: 30,
+      initialTime: 3,
       setTime: null,
     };
     this.timeQuestion = this.timeQuestion.bind(this);
@@ -27,11 +28,15 @@ export default class Time extends Component {
   }
 
   timeQuestion() {
+    const { funcSetTime } = this.props;
     const mil = 1000;
     this.setState({
       setTime: setInterval(() => {
         this.setState((prev) => ({ initialTime: prev.initialTime - 1 }));
-      }, mil) });
+      }, mil) }, () => {
+      const { setTime } = this.state;
+      funcSetTime(setTime);
+    });
   }
 
   render() {
@@ -43,3 +48,7 @@ export default class Time extends Component {
     );
   }
 }
+
+Time.propTypes = {
+  funcSetTime: PropTypes.func.isRequired,
+};
