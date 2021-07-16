@@ -13,22 +13,27 @@ class Game extends React.Component {
     this.nextQuestion = this.nextQuestion.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const token = JSON.parse(localStorage.getItem('token'));
-    getQuestions(token).then((apiQuestions) => {
-      const results = apiQuestions.results.map((element) => {
-        const { category, question, correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = element;
-        const newCorrectAnswer = { answer: correctAnswer, correct: true };
-        const newIncorrectAnswers = incorrectAnswers.map((element) => ({ answer: element, correct: false }));
-        const answers = [newCorrectAnswer, ...newIncorrectAnswers];
-        return {
-          question,
-          category,
-          answers,
-        };
-      });
-      this.setState({ questions: results });
+    const apiQuestions = await getQuestions(token);
+    const results = apiQuestions.results.map((element) => {
+      const { category, question,
+        correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = element;
+      const newCorrectAnswer = { answer: correctAnswer, correct: true };
+      const newIncorrectAnswers = incorrectAnswers
+        .map((answer) => ({ answer, correct: false }));
+      const answers = this.randomAnswers([newCorrectAnswer, ...newIncorrectAnswers]);
+      return {
+        question,
+        category,
+        answers,
+      };
     });
+    this.setStateFunc(results);
+  }
+
+  setStateFunc(questions) {
+    this.setState({ questions });
   }
 
   randomAnswers(array) {
