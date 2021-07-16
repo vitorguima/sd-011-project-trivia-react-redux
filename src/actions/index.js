@@ -1,5 +1,6 @@
 export const SUB_TIMER = 'SUB_TIMER';
 export const ENABLE_BTNS = 'ENABLE_BTNS';
+export const SCORE_UPDATE = 'SCORE_UPDATE';
 
 export const loginInputs = ({ target }) => {
   const { name } = target;
@@ -41,4 +42,9 @@ export const subTimer = () => ({
 
 export const enablebtns = () => ({
   type: ENABLE_BTNS,
+});
+
+export const dispatchScore = (score) => ({
+  type: SCORE_UPDATE,
+  payload: score,
 });

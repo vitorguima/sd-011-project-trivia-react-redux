@@ -4,14 +4,13 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import './GamePage.style.css';
 import Timer from '../compoments/Timer';
-import { enablebtns, subTimer } from '../actions';
+import { enablebtns, subTimer, dispatchScore } from '../actions';
 
 class GamePage extends Component {
   constructor() {
     super();
     this.state = {
       questionIndex: 0,
-      score: 0,
       click: false,
     };
     this.btnHandle = this.btnHandle.bind(this);
@@ -54,14 +53,42 @@ class GamePage extends Component {
       </section>
     );
   }
+  //  hard: 3, medium: 2, easy: 1
+
+  scoreUpdate(difficulty) {
+    const { timer } = this.props;
+    let result = 0;
+    const points = 10;
+    const levelHard = 3;
+    const levelMedium = 2;
+    const levelEasy = 1;
+    switch (difficulty) {
+    case 'hard':
+      result += points + (timer * levelHard);
+      return result;
+    case 'medium':
+      result += points + (timer * levelMedium);
+      return result;
+    case 'easy':
+      result += points + (timer * levelEasy);
+      return result;
+    default:
+      return result;
+    }
+  }
 
   answBtnCreator(results, questionIndex, click, disableBtn) {
     const result = results[questionIndex];
+    const { difficulty } = result;
+    const { upDateScore } = this.props;
     const btnCorrectAnsw = (
       <button
         key="correct-answer"
         className={ click ? 'rightAnswer' : null }
-        onClick={ this.clickAnswer }
+        onClick={ () => {
+          this.clickAnswer();
+          upDateScore(this.scoreUpdate(difficulty));
+        } }
         type="button"
         data-testid="correct-answer"
         disabled={ disableBtn }
@@ -92,9 +119,8 @@ class GamePage extends Component {
   }
 
   renderHeader() {
-    const { email, nome } = this.props;
+    const { email, nome, score } = this.props;
     const hash = md5(email).toString();
-    const { score } = this.state;
     return (
       <header>
         <img
@@ -147,12 +173,14 @@ GamePage.propTypes = {
   disableBtn: PropTypes.bool.isRequired,
   enableBtns: PropTypes.func.isRequired,
   timerDispatch: PropTypes.func.isRequired,
+  score: PropTypes.number.isRequired,
+  upDateScore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   enableBtns: () => dispatch(enablebtns()),
   timerDispatch: () => dispatch(subTimer()),
-
+  upDateScore: (result) => dispatch(dispatchScore(result)),
 });
 
 const mapStateToProps = (state) => ({
@@ -161,7 +189,7 @@ const mapStateToProps = (state) => ({
   results: state.triviaReducer.questions.results,
   timer: state.triviaReducer.timer,
   disableBtn: state.triviaReducer.isDisable,
-
+  score: state.triviaReducer.score,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePage);
