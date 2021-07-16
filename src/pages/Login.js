@@ -136,7 +136,7 @@ Login.propTypes = {
   sendImgSrc: PropTypes.func,
   sendQuestionList: PropTypes.func,
 };
-
+// -
 Login.defaultProps = {
   sendImgSrc: {},
   sendQuestionList: {},
