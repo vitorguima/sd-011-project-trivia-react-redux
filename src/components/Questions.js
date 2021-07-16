@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import './styleButton.css';
 
 class Question extends React.Component {
@@ -10,7 +11,6 @@ class Question extends React.Component {
       stopTimer: false,
       answered: false,
     };
-    this.answerFunc = this.answerFunc.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -44,14 +44,9 @@ class Question extends React.Component {
     });
   }
 
-  answerFunc() {
-    this.setState((state) => ({ answered: !state.answered }));
-    this.handleClick();
-  }
-
   nextPage() {
     const { nextFunc } = this.props;
-    this.answerFunc();
+    this.setState({ timer: 30, answered: false });
     this.startTimer();
     nextFunc();
   }
@@ -74,7 +69,7 @@ class Question extends React.Component {
                 data-testid="correct-answer"
                 type="button"
                 disabled={ answered }
-                onClick={ this.answerFunc }
+                onClick={ this.handleClick }
                 className={ answered ? 'right' : 'white' }
               >
                 {answer}
@@ -88,7 +83,7 @@ class Question extends React.Component {
               type="button"
               disabled={ answered }
               className={ answered ? 'wrong' : 'white' }
-              onClick={ this.answerFunc }
+              onClick={ this.handleClick }
             >
               {answer}
             </button>
