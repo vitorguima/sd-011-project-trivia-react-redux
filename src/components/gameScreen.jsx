@@ -65,7 +65,7 @@ export default class gameScreen extends Component {
             ))}
           </div>
         ) : (
-          <p>Baixando Questões</p>
+          <p> Baixando Questões </p>
         )}
         {answered ? (
           <button
