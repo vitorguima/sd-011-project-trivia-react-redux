@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router';
 import logo from './trivia.png';
 import './App.css';
 import Login from './pages/Login';
+import TelaJogo from './pages/TelaJogo';
 import Configurações from './pages/Configurações';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route path="/settings" component={ Configurações } />
+        <Route path="/game" component={ TelaJogo } />
       </Switch>
       {/* </BrowserRouter> */}
     </div>

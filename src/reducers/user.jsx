@@ -2,10 +2,12 @@ import {
   REQUEST_API,
   REQUEST_API_SUCESS,
   REQUEST_API_ERROR,
+  SEND_USER_DATA,
 } from '../actions/index';
 
 const INITIAL_STATE = {
   token: {},
+  userData: {},
   isFetching: false,
 };
 
@@ -27,6 +29,9 @@ function user(state = INITIAL_STATE, action = {}) {
       ...state,
       token: Error,
     };
+  case SEND_USER_DATA:
+    return { ...state, userData: { ...action.payload } };
+
   default:
     return state;
   }

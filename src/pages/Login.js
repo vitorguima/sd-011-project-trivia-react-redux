@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { fetchApi } from '../actions';
+import md5 from 'crypto-js/md5';
+import { fetchApi, sendUserData } from '../actions';
 
 // const recevedEmail = new RegExp('^[^s@]+@[^s@]+$');
 const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
@@ -10,8 +11,9 @@ const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
 class Login extends Component {
   constructor() {
     super();
-    // this.verifyAPI = this.verifyAPI.bind(this);
+
     this.form = this.form.bind(this);
+    this.clickJogarBtn = this.clickJogarBtn.bind(this);
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangeButton = this.handleChangeButton.bind(this);
@@ -19,6 +21,7 @@ class Login extends Component {
       name: '',
       email: '',
       isDisabled: true,
+      // emailHash: '', // Foi criado no Redux
     };
   }
 
@@ -47,11 +50,6 @@ class Login extends Component {
       });
     }
   }
-
-  // verifyAPI() { // Remover depois
-  //   const { apiReturn } = this.props;
-  //   console.log(apiReturn.token);
-  // }
 
   form() {
     const { name, email } = this.state;
@@ -84,22 +82,31 @@ class Login extends Component {
     );
   }
 
+  clickJogarBtn() {
+    const { fetch, sendLogin } = this.props;
+    const { name, email } = this.state;
+    const hashToEmail = md5(email).toString();
+    sendLogin({ name, email, emailHash: hashToEmail });
+
+    fetch();
+  }
+
   render() {
     const { isDisabled } = this.state;
-    const { fetch } = this.props;
     return (
       <div>
         {this.form()}
-        {/* <Link> */}
-        <button
-          disabled={ isDisabled }
-          data-testid="btn-play"
-          type="button"
-          onClick={ () => fetch() }
-        >
-          Jogar
-        </button>
-        {/* </Link> */}
+        <Link to="/game">
+          <button
+            disabled={ isDisabled }
+            data-testid="btn-play"
+            type="button"
+            // onClick={ () => fetch() }
+            onClick={ () => this.clickJogarBtn() }
+          >
+            Jogar
+          </button>
+        </Link>
         <Link to="/settings">
           <button
             data-testid="btn-settings"
@@ -115,14 +122,10 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   fetch: (state) => dispatch(fetchApi(state)),
+  sendLogin: (state) => dispatch(sendUserData(state)),
 });
 
-const mapStateToProps = (state) => ({ // Alteração
-  apiReturn: state.user.token,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
-// export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   fetch: PropTypes.func,
