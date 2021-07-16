@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
-import './Header.css';
+import '../CSS/Header.css';
 
 export default class Header extends Component {
   constructor() {
