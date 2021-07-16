@@ -43,8 +43,8 @@ class Game extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  triviaQuestions: state.trivia.questions,
-  idTrivia: state.trivia.idTrivia,
+  triviaQuestions: state.questions.questions,
+  idTrivia: state.questions.idTrivia,
 });
 
 Game.propTypes = ({
