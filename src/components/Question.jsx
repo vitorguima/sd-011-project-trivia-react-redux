@@ -40,6 +40,7 @@ class Question extends Component {
       previousScore = score * (timer * hard);
     }
     state.player.score += previousScore;
+    state.player.assertions += 1;
     state = localStorage.setItem('state', JSON.stringify(state));
   }
 
