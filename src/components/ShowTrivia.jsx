@@ -1,41 +1,33 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-lines-per-function */
-import React from 'react';
-import PropTypes from 'prop-types';
-import showQuestions from './showQuestions';
+import React, { useEffect } from 'react';
+// import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import NextQuestionButton from './NextQuestionButton';
 import Timer from './Timer';
+import { getCurrentQuestion } from '../actions/gameActions';
+import ShowQuestion from './ShowQuestion';
+import ShowAlternatives from './ShowAlternatives';
+// import Questions from './Questions';
 
-export default function ShowTrivia(props) {
-  const {
-    index,
-    questions,
-    arrayQuestions,
-    showResults,
-    answer,
-    setAnswer,
-    setIndex,
-    setPlayer,
-    player,
-    count,
-    setCount,
-    setCounter,
-    counter,
-  } = props;
+export default function ShowTrivia() {
+  const dispatch = useDispatch();
+  const gameState = useSelector((state) => state.game);
+  const { allQuestions, index } = gameState;
+
+  useEffect(() => {
+    if (Object.keys(allQuestions).length > 1) { dispatch(getCurrentQuestion()); }
+  }, [allQuestions, index]);
+
   return (
     <div className="modal-dialog">
-      <Timer {...{ count, counter, setCounter }} />
+      <Timer />
       <div className="modal-content">
         <div className="modal-header">
-          <h3>
-            <span className="label label-warning gameIndex" data-testid="question-text">
-              {index + 1}
-            </span>
-            {questions[index].question}
-          </h3>
-          <p data-testid="question-category">{questions[index].category}</p>
+          <ShowQuestion />
         </div>
-        {arrayQuestions && showQuestions(arrayQuestions, showResults, setCount, props)}
-        {(answer || counter === 0) && <NextQuestionButton {...props} />}
+        <ShowAlternatives />
+        <NextQuestionButton />
         <div className="modal-footer text-muted">
           <span id="answer" />
         </div>
@@ -43,15 +35,15 @@ export default function ShowTrivia(props) {
     </div>
   );
 }
-ShowTrivia.propTypes = {
-  index: PropTypes.number.isRequired,
-  questions: PropTypes.objectOf(PropTypes.object).isRequired,
-  arrayQuestions: PropTypes.shape({}).isRequired,
-  answer: PropTypes.objectOf(PropTypes.object).isRequired,
-  nextQuestion: PropTypes.func.isRequired,
-  setIndex: PropTypes.func.isRequired,
-  showResults: PropTypes.func.isRequired,
-  setAnswer: PropTypes.func.isRequired,
-  setPlayer: PropTypes.func.isRequired,
-  player: PropTypes.objectOf(PropTypes.object).isRequired,
-};
+// ShowTrivia.propTypes = {
+//   index: PropTypes.number.isRequired,
+//   questions: PropTypes.objectOf(PropTypes.object).isRequired,
+//   arrayQuestions: PropTypes.shape({}).isRequired,
+//   answer: PropTypes.objectOf(PropTypes.object).isRequired,
+//   nextQuestion: PropTypes.func.isRequired,
+//   setIndex: PropTypes.func.isRequired,
+//   showResults: PropTypes.func.isRequired,
+//   setAnswer: PropTypes.func.isRequired,
+//   setPlayer: PropTypes.func.isRequired,
+//   player: PropTypes.objectOf(PropTypes.object).isRequired,
+// };

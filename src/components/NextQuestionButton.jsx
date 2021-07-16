@@ -1,44 +1,50 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addScore, nextQuestion } from './GameFunctions';
+import { nextIndex, setTimer, setPlayerChoice } from '../actions/gameActions';
 
-const time = 5;
+const magicNumber = 30;
 
-export default function NextQuestionButton(props) {
-  const {
-    setAnswer,
-    index,
-    questions,
-    setIndex,
-    answer,
-    player,
-    setPlayer,
-    setCount,
-    setCounter,
-    counter,
-  } = props;
+export default function NextQuestionButton() {
+  const dispatch = useDispatch();
+
   const history = useHistory();
-  const feedbackTransitor = (v) => {
-    if (v === questions.length - 1) {
-      history.push('feedback');
+  const gameState = useSelector((state) => state.game);
+  const { allQuestions, index, timer, selectedChoice } = gameState;
+
+  const changeIndex = () => {
+    if (index < allQuestions.length - 1) {
+      return dispatch(nextIndex());
     }
+
+    history.push('/feedback');
   };
 
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        nextQuestion(setAnswer, index, questions, setIndex);
-        feedbackTransitor(index);
-        // addScore(questions, index, answer, player, setPlayer, counter);
-        setCount(true);
-        setCounter(time);
-      }}
-      className="btn btn btn-info btn-lg nextQuestion"
-      data-testid="btn-next"
-    >
-      Próxima pergunta
-    </button>
-  );
+  const resetConfig = () => {
+    dispatch(setTimer(magicNumber));
+    dispatch(setPlayerChoice(''));
+    const allButtons = document.querySelectorAll('button');
+    return allButtons.forEach((el) => {
+      el.removeAttribute('disabled');
+      el.classList.remove('btn-danger', 'btn-success', 'wrongAnswer', 'rightAnswer');
+      el.classList.add('btn-primary');
+    });
+  };
+
+  if (timer === 0 || selectedChoice) {
+    return (
+      <button
+        type="button"
+        onClick={ () => {
+          changeIndex();
+          resetConfig();
+        } }
+        className="btn btn-info btn-lg nextQuestion"
+        data-testid="btn-next"
+      >
+        Próxima pergunta
+      </button>
+    );
+  }
+  return null;
 }

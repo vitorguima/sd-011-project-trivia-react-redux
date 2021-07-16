@@ -1,43 +1,50 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setTimer } from '../actions/gameActions';
 
-export default function Timer(props) {
-  const { count, counter, setCounter } = props;
+export default function Timer() {
+  const dispatch = useDispatch();
+  const totalTime = 30;
+  const gameStore = useSelector((state) => state.game);
+  const { timer, selectedChoice } = gameStore;
 
-  const timer = () => {
+  useEffect(() => {
+    dispatch(setTimer(totalTime));
+  }, []);
+
+  const disableButtons = () => {
+    const buttons = document.querySelectorAll('button[name="q_answer"]');
+    buttons.forEach((button) => button.setAttribute('disabled', true));
+    const allLabels = document.querySelectorAll('label');
+    const btnPrimary = 'btn-primary';
+    allLabels.forEach((el) => {
+      el.classList.add('btn-danger', 'wrongAnswer');
+      el.classList.remove(btnPrimary);
+    });
+  };
+
+  const timeChanger = () => {
     const interval = 1000;
-    let timeLeft = setTimeout(() => setCounter(counter - 1), interval);
-    if (counter > 0 && count) {
-      timeLeft = setTimeout(() => setCounter(counter - 1), interval);
+    const timeLeft = setTimeout(() => dispatch(setTimer(timer - 1)), interval);
+    if (timer > 0 && !selectedChoice) {
       return timeLeft;
-    }
-    if (!count || counter === 0) {
+    } if (timer === 0 || selectedChoice) {
       clearTimeout(timeLeft);
+      disableButtons();
     }
   };
 
   useEffect(() => {
-    timer();
-  }, [counter]);
-
-  const buttons = document.querySelectorAll('button[name="q_answer"]');
-  if (counter === 0) {
-    buttons.forEach((button) => button.setAttribute('disabled', true));
-    // const allLabels = document.querySelectorAll('label');
-    // const btnPrimary = 'btn-primary';
-    // allLabels.forEach((el) => {
-    //   el.classList.add('btn-danger', 'wrongAnswer');
-    //   el.classList.remove(btnPrimary);
-    // }
-    // );
-  }
+    timeChanger();
+  }, [timer]);
 
   return (
     <div>
       <div>
         <h1>
           Time left:
-          {counter}
+          {timer}
         </h1>
       </div>
     </div>
