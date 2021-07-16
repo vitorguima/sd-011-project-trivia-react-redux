@@ -43,10 +43,11 @@ export default class Timer extends Component {
   render() {
     const { sec } = this.state;
     const { handleEnableButton } = this.props;
+    const tenSec = 10;
     handleEnableButton(sec);
     return (
       <div>
-        {`00:${sec}`}
+        {sec >= tenSec ? `00:${sec}` : `00:0${sec}`}
       </div>
     );
   }
@@ -54,4 +55,5 @@ export default class Timer extends Component {
 
 Timer.propTypes = {
   handleEnableButton: PropTypes.func,
+  funcSetTime: PropTypes.func,
 }.isRequired;

@@ -10,15 +10,18 @@ class Questions extends Component {
     super();
     this.state = {
       questions: [],
-      enableButtons: true,
+      questionNumber: 0,
+      enableButtons: false,
       selectAnswer: false,
-      sec: 0,
+      sec: 30,
+      renderTimer: true,
     };
     this.getQuestions = this.getUnities.bind(this);
     this.handleEnableButton = this.handleEnableButton.bind(this);
     this.addWrongBorder = this.addWrongBorder.bind(this);
     this.funcSetTime = this.funcSetTime.bind(this);
     this.setRanking = this.setRanking.bind(this);
+    this.changeQuestion = this.changeQuestion.bind(this);
   }
 
   async componentDidMount() {
@@ -34,7 +37,6 @@ class Questions extends Component {
     const api = `https://opentdb.com/api.php?amount=5&token${token}`;
     const questions = await fetch(api)
       .then((result) => result.json());
-
     this.setState(() => ({
       questions: questions.results,
       setTime: null,
@@ -63,14 +65,14 @@ class Questions extends Component {
     const tru = [...document.getElementsByClassName('true')];
     tru.forEach((node) => { node.className = 'true-answer'; });
     wrong.forEach((node) => { node.className = 'wrong-answer'; });
-    this.setState({ selectAnswer: true });
+    this.setState({ selectAnswer: true, renderTimer: false });
     clearInterval(setTime);
     this.setRanking(difficulty);
   }
 
   incorrectAnswers() {
-    const { questions, enableButtons, selectAnswer } = this.state;
-    const getQuestion = questions[0];
+    const { questions, enableButtons, selectAnswer, questionNumber } = this.state;
+    const getQuestion = questions[questionNumber];
     const selectedQuestion = getQuestion && getQuestion.incorrect_answers;
     return selectedQuestion && selectedQuestion.map((question, index) => (
       <button
@@ -85,13 +87,12 @@ class Questions extends Component {
       </button>));
   }
 
-  handleEnableButton(sec) {
-    const { enableButtons } = this.state;
-    const num = 26;
-    if (sec < num && sec > 0 && enableButtons) {
-      this.setState({ enableButtons: false, sec });
-    } else if (sec <= 0 && !enableButtons) {
-      this.setState({ enableButtons: true, sec });
+  handleEnableButton(seconds) {
+    const { enableButtons, sec } = this.state;
+    if (seconds < sec) {
+      this.setState({ sec: seconds });
+    }
+    if (seconds <= 0 && !enableButtons) {
       this.addWrongBorder('wrong');
     }
   }
@@ -100,31 +101,64 @@ class Questions extends Component {
     this.setState({ setTime });
   }
 
+  changeQuestion() {
+    const tru = [...document.getElementsByClassName('true-answer')];
+    tru.forEach((node) => { node.className = 'true'; });
+    this.setState((prev) => ({ questionNumber: prev.questionNumber + 1,
+      selectAnswer: false,
+      enableButtons: false,
+      renderTimer: true,
+      sec: 30 }), () => {
+      this.timerQuestion();
+    });
+  }
+
+  timerQuestion() {
+    return (<Timer
+      handleEnableButton={ this.handleEnableButton }
+      funcSetTime={ this.funcSetTime }
+    />);
+  }
+
   render() {
-    const { questions, enableButtons, selectAnswer } = this.state;
-    const selectedQuestion = questions[0];
+    const { questions, enableButtons, selectAnswer,
+      questionNumber, renderTimer, sec } = this.state;
+    const selectedQuestion = questions[questionNumber];
+    const tenSec = 10;
+    const fixedTimer = sec >= tenSec ? `00:${sec}` : `00:0${sec}`;
+    if (!selectedQuestion) {
+      return (
+        <p>Carregando...</p>
+      );
+    }
     return (
       <div>
-        {selectedQuestion && <Timer
-          handleEnableButton={ this.handleEnableButton }
-          funcSetTime={ this.funcSetTime }
-        />}
+        {renderTimer ? this.timerQuestion() : fixedTimer }
         <h1 data-testid="question-category">
-          {selectedQuestion && selectedQuestion.category}
+          {selectedQuestion.category}
         </h1>
         <p data-testid="question-text">
-          {selectedQuestion && selectedQuestion.question}
+          {selectedQuestion.question}
         </p>
         <button
           data-testid="correct-answer"
           className="true"
           type="button"
           onClick={ () => this.addWrongBorder(selectedQuestion.difficulty) }
-          disabled={ !selectAnswer ? enableButtons : true }
+          disabled={ selectAnswer || enableButtons }
         >
-          {selectedQuestion && selectedQuestion.correct_answer}
+          {selectedQuestion.correct_answer}
         </button>
         {this.incorrectAnswers()}
+        { !(!selectAnswer || questionNumber >= questions.length - 1)
+          && (
+            <button
+              type="button"
+              onClick={ this.changeQuestion }
+              data-testid="btn-next"
+            >
+              Próxima
+            </button>)}
       </div>
     );
   }
