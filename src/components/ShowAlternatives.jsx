@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { addScore } from './GameFunctions';
 
 export default function ShowAlternatives() {
   const gameState = useSelector((state) => state.game);
@@ -10,19 +11,19 @@ export default function ShowAlternatives() {
     if (alternatives) {
       return alternatives.map((el, index) => (
         <button
-          key={ index }
+          key={index}
           data-testid={
             el !== correctAnswer ? `wrong-answer-${index}` : 'correct-answer'
           }
           className="btn btn-lg btn-primary btn-block"
-          id={ `question-${index}` }
+          id={`question-${index}`}
           type="button"
           name="q_answer"
-          onClick={ () => {
-          // showResults(el);
-          // setCount(false);
-          // addScore(scoreProps);
-          } }
+          onClick={(e) => {
+            // showResults(el);
+            // setCount(false);
+            addScore(e);
+          }}
         >
           {el}
         </button>

@@ -1,3 +1,5 @@
+import store from "../store";
+
 const magicTen = 10;
 
 export const paintButtons = (array) => {
@@ -43,22 +45,25 @@ export const randomArray = (incorrectAnswers, correctAnswer) => {
   return sortedArray;
 };
 
-export const addScore = ({ ...props }) => {
-  const { questions, index, answer, player, setPlayer, counter } = props;
-  const correctAnswer = questions[index].correct_answer;
-  const { difficulty } = questions[index];
-  const difficultyLevels = {
-    easy: 1,
-    medium: 2,
-    hard: 3,
-  };
-  if (answer === correctAnswer) {
-    const level = difficultyLevels[difficulty];
-    const { assertions, score } = player.player;
-    const ass = assertions + 1;
-    console.log(counter);
-    const scr = score + (magicTen + (counter * level));
-    console.log(scr);
-    setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } });
-  }
+export const addScore = (e) => {
+  // const { questions, index, answer, player, setPlayer, counter } = props;
+  // const correctAnswer = questions[index].correct_answer;
+  // const { difficulty } = questions[index];
+  // const difficultyLevels = {
+  //   easy: 1,
+  //   medium: 2,
+  //   hard: 3,
+  // };
+  // if (answer === correctAnswer) {
+  //   const level = difficultyLevels[difficulty];
+  //   const { assertions, score } = player.player;
+  //   const ass = assertions + 1;
+  //   console.log(counter);
+  //   const scr = score + (magicTen + (counter * level));
+  //   console.log(scr);
+  //   setPlayer({ ...player, player: { ...player.player, assertions: ass, score: scr } });
+  // 
+  const { game } = store.getState()
+  console.log(e.target)
+  console.log(game)
 };

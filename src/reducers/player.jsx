@@ -1,4 +1,4 @@
-import { USER_INFO } from '../actions';
+import { USER_INFO, SCORE_INFO } from '../actions';
 
 const initialState = {
   name: '',
@@ -10,12 +10,15 @@ const initialState = {
 const playerReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-  case USER_INFO: {
-    return { state: payload };
-  }
-
-  default:
-    return { ...state };
+    case USER_INFO: {
+      return { state: payload };
+    }
+    case SCORE_INFO: {
+      const { score, assertions } = payload;
+      return { ...state, score, assertions }
+    }
+    default:
+      return { ...state };
   }
 };
 
