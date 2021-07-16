@@ -9,7 +9,7 @@ const Header = () => {
       <img
         data-testid="header-profile-picture"
         src={ `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}` }
-        alt=""
+        alt={ gravatarEmail }
       />
       <span data-testid="header-player-name">{ name }</span>
       <span data-testid="header-score">{ score }</span>
