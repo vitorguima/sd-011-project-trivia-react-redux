@@ -79,9 +79,15 @@ class TimerComponent extends Component {
 
   render() {
     const { seconds } = this.state;
+    const { buttonClick } = this.props;
     return (
       <div>
-        <p className="timer">{ seconds }</p>
+        <div>
+          <p className="timer">{ seconds }</p>
+        </div>
+        <div>
+          { buttonClick && <button type="button" data-testid="btn-next">Próxima</button> }
+        </div>
       </div>
     );
   }
