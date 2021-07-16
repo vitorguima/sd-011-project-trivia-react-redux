@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Game extends Component {
@@ -55,7 +56,9 @@ class Game extends Component {
             { correctAnswer }
           </button>
         </div>
-
+        <Link to="/ranking">
+          <button type="button" data-testid="ranking-title">Ranking</button>
+        </Link>
       </div>
     );
   }
