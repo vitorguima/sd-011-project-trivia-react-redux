@@ -5,6 +5,7 @@ import { SAVE_LOGIN,
 const INNITIAL_STATE = {
   name: '',
   email: '',
+  score: 0,
   avatarURL: '',
   token: '',
 };
