@@ -5,7 +5,7 @@ class GamePage extends Component {
   render() {
     return (
       <div>
-        {/* <Header /> */}
+        <Header />
         <Questions />
       </div>
     );
