@@ -3,18 +3,18 @@ import React, { Component } from 'react';
 import Header from './Header';
 
 class Feedback extends Component {
-  // constructor(props) {
-  //   super(props)
-
-  //   this.state = {
-  //   }
-  // }
-
   render() {
+    const tres = 3;
+    const data = localStorage.getItem('state');
+    const state = JSON.parse(data);
+    const { assertions } = state.player;
+    const goodScore = assertions >= tres;
     return (
       <div>
         <Header />
-        <p data-testid="feedback-text">Boa</p>
+        <p data-testid="feedback-text">
+          {goodScore ? 'Mandou bem!' : 'Podia ser melhor...'}
+        </p>
       </div>
     );
   }
