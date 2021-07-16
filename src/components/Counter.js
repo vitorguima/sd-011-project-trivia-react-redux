@@ -7,7 +7,7 @@ class Counter extends Component {
   constructor() {
     super();
     this.state = {
-      currentCount: 5,
+      currentCount: 30,
     };
     this.handleCount = this.handleCount.bind(this);
   }

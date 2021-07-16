@@ -41,6 +41,5 @@ const game = (state = INITIAL_STATE, action) => {
     return state;
   }
 };
-// [...state.questions,
 
 export default game;

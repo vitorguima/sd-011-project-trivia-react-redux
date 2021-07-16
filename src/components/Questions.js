@@ -33,7 +33,7 @@ class Questions extends Component {
         <div className="main-container">
           <Header />
           <div className="questions-container">
-            <Counter buttonStatus={ this.handleButton } />
+            <Counter />
             <p data-testid="question-category">{ questionOne.category }</p>
             <p data-testid="question-text">{ questionOne.question }</p>
             <div className="buttons-container">
@@ -54,7 +54,6 @@ class Questions extends Component {
                   onClick={ this.toggleButtonClass }
                   className={ toggleButton ? 'incorrect-btn' : null }
                   disabled={ buttonsStatus }
-
                 >
                   { answer }
                 </button>
