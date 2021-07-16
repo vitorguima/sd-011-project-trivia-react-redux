@@ -31,6 +31,7 @@ class Game extends Component {
 
   componentDidMount() {
     const { fetchQuestions, token } = this.props;
+    this.timeQuestion();
     fetchQuestions(token);
   }
 
@@ -62,7 +63,7 @@ class Game extends Component {
       score: prev.score + magicMike + (numberTime * difficultyLevel[difficulty]),
       assertions: prev.assertions + 1,
     }), this.setLocalStorage);
-  }
+
 
   nextQuestion() {
     this.setState((prev) => ({
@@ -177,6 +178,7 @@ class Game extends Component {
     const { renderTime, numberTime, score } = this.state;
     // const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
     const hashGenerator = md5(email).toString();
+    // const { initialTime } = this.state;
     return (
       <div>
         <header>
