@@ -7,21 +7,21 @@ import HandleQuestions from './components/HandleQuestions';
 
 class Game extends Component {
   componentDidMount() {
-    const { isLoading, name, email, score, token, assertions } = this.props;
-    localStorage.setItem('token', JSON.stringify(token));
-    if (!isLoading) {
-      const player = {
+    const { name, email, score, assertions } = this.props;
+    const player = {
+      player: {
         name,
         assertions,
         score,
         gravatarEmail: email,
-      };
-      localStorage.setItem('player', JSON.stringify(player));
-    }
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   render() {
-    const { name, email, score } = this.props;
+    const { name, email, score, token } = this.props;
+    localStorage.setItem('token', JSON.stringify(token));
     return (
       <div>
         <header>
@@ -54,7 +54,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Game.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
   token: PropTypes.string.isRequired,
   assertions: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
