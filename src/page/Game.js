@@ -5,6 +5,8 @@ import './Gaming.css';
 import md5 from 'crypto-js/md5';
 import { fetchQuestion } from '../redux/actions';
 
+let renderButton = false;
+
 class Game extends Component {
   constructor() {
     super();
@@ -85,6 +87,7 @@ class Game extends Component {
     const { styleButton } = this.state;
 
     if (!styleButton) {
+      renderButton = true;
       this.setState({
         styleButton: true,
       });
@@ -152,16 +155,21 @@ class Game extends Component {
             {this.handleQuestion()}
             {this.handleResponse()}
           </div>
-          <button
-            type="button"
-            data-testid="btn-next"
-            onClick={ () => {
-              this.nextQuestion();
-              this.confirmResponse();
-            } }
-          >
-            Próxima
-          </button>
+          { renderButton
+            ? (
+              <button
+                type="button"
+                data-testid="btn-next"
+                onClick={ () => {
+                  this.nextQuestion();
+                  this.confirmResponse();
+                } }
+              >
+                Próxima
+              </button>
+            ) : (
+              <div />
+            )}
         </header>
       </div>
     );
