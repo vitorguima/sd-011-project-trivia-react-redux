@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { fetchQuestions } from '../actions';
 import Header from '../components/Header';
+import Questions from '../components/Questions';
 
 class Jogo extends Component {
-  /* constructor() {
-    super();
-    this.state = {
-      game: [],
-      loading: true,
-      value: 0,
-    };
-    this.change = this.change.bind(this);
-  } */
+  constructor(props) {
+    super(props);
 
-  /* componentDidMount() {
-    getToken().then((game) => {
-      console.log(game);
-      this.setState({ game, loading: false });
-    });
-  } */
+    this.state = {
+      oi: 'a',
+    };
+  }
+
+  componentDidMount() {
+    const getToken2 = localStorage.getItem('token');
+    console.log(getToken2);
+    const renderQuestions = () => {
+      fetchQuestions(getToken2);
+    };
+    console.log(renderQuestions);
+  }
 
   /* change(val) {
     this.setState({ value: val });
@@ -28,6 +30,7 @@ class Jogo extends Component {
     return (
       <div className="game-container">
         <Header />
+        <Questions />
       </div>
     );
   }

@@ -37,9 +37,7 @@ export const requestQuestionsFailed = (payload) => ({
   payload,
 });
 
-export const fetchQuestions = (token) => (dispatch) => {
-  fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-    .then((result) => result.json())
-    .then((data) => dispatch(requestQuestionsSuccess(data)))
-    .catch((error) => dispatch(requestQuestionsFailed(error)));
+export const fetchQuestions = (token) => async (dispatch) => {
+  const getFetch = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`).json();
+  dispatch(requestQuestionsSuccess(getFetch));
 };
