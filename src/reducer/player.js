@@ -1,3 +1,5 @@
+import { INPUT_NAME } from '../actions';
+
 const INITIAL_STATE = {
   name: '',
   assertions: 0,
@@ -7,8 +9,8 @@ const INITIAL_STATE = {
 
 function playerReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'INITIAL_STATE':
-    return ({ ...state });
+  case INPUT_NAME:
+    return ({ ...state, name: action.name });
   default:
     return state;
   }

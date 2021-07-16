@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { inputName } from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -28,12 +30,13 @@ class Login extends Component {
     return true;
   }
 
-  submit() {
+  submit(name) {
     const { email } = this.state;
-    const { history } = this.props;
+    const { history, setUserDataAction } = this.props;
     const hash = md5(email).toString();
     localStorage.setItem('token', hash);
     history.push('/game');
+    setUserDataAction(name);
   }
 
   render() {
@@ -66,7 +69,7 @@ class Login extends Component {
             value="Jogar"
             data-testid="btn-play"
             disabled={ this.inputVerification() }
-            onClick={ () => this.submit() }
+            onClick={ () => this.submit(name) }
           />
 
           <input
@@ -82,9 +85,14 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  setUserDataAction: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  setUserDataAction: (name) => dispatch(inputName(name)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
