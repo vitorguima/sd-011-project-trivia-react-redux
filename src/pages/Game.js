@@ -21,8 +21,8 @@ class Game extends Component {
     if (loading) return <h3>Loading</h3>;
     return (
       <>
-      <Header />
-      <Question />
+        <Header />
+        <Question />
       </>
     );
   }
