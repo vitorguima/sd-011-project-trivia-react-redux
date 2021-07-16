@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Headerlogin from '../components/header';
+import Header from '../components/Header';
 import { requestApiThunk } from '../actions';
-import Answer from '../components/Answer';
+import Answer from '../components/Question';
 
 class TriviaQuestions extends Component {
   constructor(props) {
-    super(props)
-  
+    super(props);
+
     this.state = {
-       question: 1;
-    }
+      questionCounter: 1,
+    };
   }
-  
 
   componentDidMount() {
     const token = localStorage.getItem('token');
@@ -23,17 +22,19 @@ class TriviaQuestions extends Component {
 
   render() {
     const { questions } = this.props;
-    // const category = 'multiple';
+    const { results } = questions;
+    const eachResult = Object.values({ ...results });
+    const { questionCounter } = this.state;
     return (
       <div>
-        <Headerlogin />
+        <Header />
         <h1 data-testid="question-category">Categoria</h1>
         <h2 data-testid="question-text">Questão:</h2>
-        <Answer question={ results[question] } answers={ answner[question] } />
+        { eachResult ? <Answer eachResult={ eachResult[questionCounter] } /> : null }
       </div>);
   }
 }
-// export default TriviaQuestions;
+
 const mapDispatchToProps = (dispatch) => ({
   setStateGame: (payload) => dispatch(requestApiThunk(payload)),
 });
