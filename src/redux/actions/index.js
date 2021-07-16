@@ -5,7 +5,7 @@ export const requestQuestionsSuccess = (payload) => ({
   payload,
 });
 
-export const fetchQuestions = (token) => (dispatch) => fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+export const fetchQuestions = (token, url) => (dispatch) => fetch(`${url}${token}`)
   .then((response) => response.json())
   .then((payload) => dispatch(requestQuestionsSuccess(payload)));
 
@@ -14,11 +14,12 @@ export const requestTokenSuccess = (payload) => ({
   payload,
 });
 
-export const fetchToken = () => (dispatch) => fetch('https://opentdb.com/api_token.php?command=request')
+export const fetchToken = (url) => (dispatch) => fetch('https://opentdb.com/api_token.php?command=request')
   .then((response) => response.json())
   .then((payload) => {
     dispatch(requestTokenSuccess(payload));
-    dispatch(fetchQuestions(payload.token));
+    console.log(url);
+    dispatch(fetchQuestions(payload.token, url));
   });
 
 export const getHashGravatar = (email, name) => {
@@ -34,4 +35,9 @@ export const getHashGravatar = (email, name) => {
 export const savePlayerToRank = (payload) => ({
   type: 'SAVE_PLAYER_RANK',
   payload,
+});
+
+export const changeSettings = (url) => ({
+  type: 'CHANGE_SETTINGS',
+  url,
 });
