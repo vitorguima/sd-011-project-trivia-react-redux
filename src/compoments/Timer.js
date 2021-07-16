@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { subTimer } from '../actions';
 
 class Timer extends Component {
-  constructor() {
-    super();
-    this.state = { timer: 30 };
+  constructor(prop) {
+    super(prop);
     this.timerFunc = this.timerFunc.bind(this);
   }
 
@@ -14,18 +13,25 @@ class Timer extends Component {
     this.timerFunc();
   }
 
+  componentDidUpdate() {
+    const { timer } = this.props;
+    if (timer <= 0) {
+      clearInterval(this.setTimer);
+    }
+  }
+
   componentWillUnmount() {
-    clearInterval(this.timer);
+    clearInterval(this.setTimer);
   }
 
   timerFunc() {
     const { timerDispatch } = this.props;
     const limit = 1000;
-    this.timer = setInterval(() => timerDispatch(), limit);
+    this.setTimer = setInterval(() => timerDispatch(), limit);
   }
 
   render() {
-    const { timer } = this.state;
+    const { timer } = this.props;
     return (
       <div>
         <span>
@@ -36,9 +42,9 @@ class Timer extends Component {
   }
 }
 
-// mapStateToProps(state) ({
-//   timer: state.
-// });
+const mapStateToProps = (state) => ({
+  timer: state.triviaReducer.timer,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   timerDispatch: () => dispatch(subTimer()),
@@ -46,6 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Timer.propTypes = {
   timerDispatch: PropTypes.func.isRequired,
+  timer: PropTypes.number.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Timer);
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

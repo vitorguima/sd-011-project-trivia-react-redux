@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   error: '',
   questions: {},
   gravatarAvatar: '',
-  timer: 30,
+  timer: 5,
 };
 
 export default function triviaReducer(state = INITIAL_STATE, action) {
