@@ -3,7 +3,24 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class Game extends Component {
+  constructor() {
+    super();
+    this.state = {
+      borderCorrect: '',
+      borderIncorrect: '',
+    };
+    this.changeBorderColor = this.changeBorderColor.bind(this);
+  }
+
+  changeBorderColor() {
+    this.setState({
+      borderCorrect: '3px solid rgb(6, 240, 15)',
+      borderIncorrect: '3px solid rgb(255, 0, 0)',
+    });
+  }
+
   renderQuestion() {
+    const { borderCorrect, borderIncorrect } = this.state;
     const { triviaQuestions, idTrivia } = this.props;
     const { category,
       question,
@@ -21,11 +38,20 @@ class Game extends Component {
               type="button"
               key={ `wrong-answer-${index}` }
               data-testid={ `wrong-answer-${index}` }
+              style={ { border: borderIncorrect } }
+              onClick={ this.changeBorderColor }
             >
               { incorrectAnswer }
             </button>
           )) }
-          <button type="button" data-testid="correct-answer">{ correctAnswer }</button>
+          <button
+            style={ { border: borderCorrect } }
+            type="button"
+            data-testid="correct-answer"
+            onClick={ this.changeBorderColor }
+          >
+            { correctAnswer }
+          </button>
         </div>
 
       </div>
