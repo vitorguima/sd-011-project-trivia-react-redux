@@ -2,7 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Question extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      answered: false,
+    };
+    this.answerFunc = this.answerFunc.bind(this);
+    this.nextPage = this.nextPage.bind(this);
+  }
+
+  answerFunc() {
+    this.setState((state) => ({ answered: !state.answered }));
+  }
+
+  nextPage() {
+    const { nextFunc } = this.props;
+    this.answerFunc();
+    nextFunc();
+  }
+
   render() {
+    const { answered } = this.state;
     const { newQuestion:
       { question,
         correct_answer: correctAnswer,
@@ -10,9 +30,7 @@ class Question extends React.Component {
         category,
       } } = this.props;
     const randomAnswers = [correctAnswer, ...incorrectAnswers]
-      .map((a) => ({ sort: Math.random(), value: a }))
-      .sort((a, b) => a.sort - b.sort)
-      .map((a) => a.value);
+      .map((a) => ({ s: Math.random(), v: a })).sort((a, b) => a.s - b.s).map((a) => a.v);
     return (
       <div>
         <h1 data-testid="question-text">
@@ -26,6 +44,7 @@ class Question extends React.Component {
                 key={ index }
                 data-testid="correct-answer"
                 type="button"
+                onClick={ this.answerFunc }
               >
                 {answer}
               </button>
@@ -36,19 +55,27 @@ class Question extends React.Component {
               key={ index }
               data-testid={ `wrong-answer-${index}` }
               type="button"
+              onClick={ this.answerFunc }
             >
               {answer}
             </button>
           );
         })}
+        {
+          (answered) && (
+            <button type="button" onClick={ this.nextPage } data-testid="btn-next">
+              Próxima
+            </button>
+          )
+        }
       </div>
-
     );
   }
 }
 
 Question.propTypes = {
   newQuestion: PropTypes.isRequired,
+  nextFunc: PropTypes.isRequired,
 };
 
 export default Question;
