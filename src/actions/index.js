@@ -1,3 +1,6 @@
+export const SUB_TIMER = 'SUB_TIMER';
+export const ENABLE_BTNS = 'ENABLE_BTNS';
+
 export const loginInputs = ({ target }) => {
   const { name } = target;
   const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -31,3 +34,11 @@ export const requestQuestions = (payload) => ({
 export const fetchTriviaQuestions = (token) => (dispatch) => fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
   .then((result) => result.json())
   .then((resJson) => dispatch(requestQuestions(resJson)));
+
+export const subTimer = () => ({
+  type: SUB_TIMER,
+});
+
+export const enablebtns = () => ({
+  type: ENABLE_BTNS,
+});
