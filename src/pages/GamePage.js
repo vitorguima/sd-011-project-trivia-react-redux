@@ -13,11 +13,9 @@ class GamePage extends Component {
       questionIndex: 0,
       score: 0,
       click: false,
-      // disableBtn: true,
     };
     this.btnHandle = this.btnHandle.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
-    // this.disableBtns = this.disableBtns.bind(this);
   }
 
   componentDidUpdate() {
@@ -26,10 +24,6 @@ class GamePage extends Component {
       clearInterval(this.setTimer);
     }
   }
-
-  // disableBtns() {
-  //   this.setState({ disableBtn: true });
-  // }
 
   btnHandle() {
     const { enableBtns } = this.props;

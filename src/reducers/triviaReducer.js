@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   error: '',
   questions: {},
   gravatarAvatar: '',
-  timer: 5,
+  timer: 30,
   isDisable: false,
 };
 
