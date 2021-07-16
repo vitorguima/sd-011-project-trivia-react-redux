@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import '../../style/quiz.css';
 import PropTypes from 'prop-types';
 import { getQuestionsThunk } from '../../actions';
+import ButtonNext from './ButtonNext';
+import Answers from './Answers';
 
 class Questions extends React.Component {
   constructor(props) {
@@ -22,13 +25,14 @@ class Questions extends React.Component {
 
   nextQuestion() {
     this.setState((currentState) => {
-      const finalArray = 4;
+      const finalArray = 3;
       if (currentState.indexQuestion < finalArray) {
         return {
           indexQuestion: currentState.indexQuestion + 1,
         };
       }
       return {
+        indexQuestion: currentState.indexQuestion + 1,
         endGame: true,
       };
     });
@@ -57,40 +61,14 @@ class Questions extends React.Component {
               { questionsList[indexQuestion].category }
             </p>
           </div>
-          <ul>
-            <li>
-              <button data-testid="correct-answer" type="button">
-                { questionsList[indexQuestion].correct_answer }
-              </button>
-              { questionsList[indexQuestion].incorrect_answers.map((wrong, index) => (
-                <button
-                  data-testid={ `wrong-answer-${index}` }
-                  key={ index }
-                  type="button"
-                >
-                  { wrong }
-                </button>
-              )) }
-            </li>
-          </ul>
-
-          { !endGame ? (<button
-            data-testid="btn-next"
-            type="button"
-            onClick={ this.nextQuestion }
-          >
-            Proximo
-          </button>)
-            : (<Link to="/feedback">
-              <button
-                type="button"
-                onClick={ this.nextQuestion }
-              >
-                Proximo
-              </button>
-            </Link>)}
-
-        </div>);
+          <Answers questionsList={ questionsList[indexQuestion] } />
+          { !endGame ? <ButtonNext testid="btn-next" nextQuestion={ this.nextQuestion } />
+            : (
+              <Link to="/feedback">
+                <ButtonNext testid="btn-next" />
+              </Link>)}
+        </div>
+      );
     }
     return (<p>LOADING...</p>);
   }
