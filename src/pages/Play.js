@@ -47,30 +47,28 @@ class Play extends Component {
   }
 
   nextQuestion() {
-    const { questions } = this.props;
+    const { questions, history } = this.props;
     const { qIndex } = this.state;
     if (qIndex < questions.length - 1) {
       this.setState((state) => ({
         qIndex: state.qIndex + 1,
         answered: false,
       }));
+    } else {
+      history.push('/Feedback');
     }
   }
 
   renderNxtBtn() {
-    const { qIndex } = this.state;
-    const { questions } = this.props;
-    if (qIndex < questions.length - 1) {
-      return (
-        <button
-          type="submit"
-          onClick={ this.nextQuestion }
-          data-testid="btn-next"
-        >
-          Next
-        </button>
-      );
-    }
+    return (
+      <button
+        type="submit"
+        onClick={ this.nextQuestion }
+        data-testid="btn-next"
+      >
+        Next
+      </button>
+    );
   }
 
   renderQuestion() {
@@ -154,6 +152,9 @@ Play.propTypes = {
   score: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   name: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Play);
