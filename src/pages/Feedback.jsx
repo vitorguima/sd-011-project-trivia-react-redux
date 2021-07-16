@@ -28,17 +28,17 @@ export default function Feedback() {
         <button
           type="button"
           data-testid="btn-play-again"
-          onClick={() => {
+          onClick={ () => {
             history.push('/');
             dispatch(cleanState());
-          }}
+          } }
         >
           Jogar Novamente
         </button>
       </div>
       <button
         type="button"
-        onClick={() => history.push('/ranking')}
+        onClick={ () => history.push('/ranking') }
         data-testid="btn-ranking"
       >
         Ver Ranking
