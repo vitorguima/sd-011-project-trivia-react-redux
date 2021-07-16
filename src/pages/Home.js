@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Forms from '../components/Forms';
-import './Home.css';
+import '../CSS/Home.css';
 
 class Home extends Component {
   render() {

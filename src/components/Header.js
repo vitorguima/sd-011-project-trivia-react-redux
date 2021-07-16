@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
-import './Header.css';
+import '../CSS/Header.css';
 
 export default class Header extends Component {
   constructor() {
@@ -15,7 +15,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { name, gravatarEmail, score } = this.getPlayerFromLocalStorage();
+    const { player: { name, gravatarEmail, score } } = this.getPlayerFromLocalStorage();
     const emailHash = md5(gravatarEmail.trim().toLowerCase()).toString();
     const gravatarPicture = `https://www.gravatar.com/avatar/${emailHash}`;
     console.log(emailHash);
