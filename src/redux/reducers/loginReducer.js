@@ -1,4 +1,4 @@
-import { USER_LOGIN, REQUEST_API, GET_DATA } from '../actions';
+import { REQUEST_API, GET_DATA } from '../actions';
 
 const INITIAL_STATE = {
   isLoading: false,
@@ -11,10 +11,6 @@ export default function loginReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       isLoading: true,
-    };
-  case USER_LOGIN:
-    return {
-      ...state,
     };
   case GET_DATA:
     return {

@@ -1,9 +1,9 @@
-export const USER_LOGIN = 'USER_LOGIN';
 export const REQUEST_API = 'REQUEST_API';
 export const GET_DATA = 'GET_DATA';
 export const GET_USER_NAME_AND_EMAIL = 'GET_USER_NAME_AND_EMAIL';
 export const REQUEST_API_QUESTIONS = 'REQUEST_API_QUESTIONS';
 export const GET_DATA_QUESTIONS = 'GET_DATA_QUESTIONS';
+export const HANDLE_CLICKED_BUTTON = 'HANDLE_CLICKED_BUTTON';
 
 export const requestAPI = () => ({ type: REQUEST_API });
 
@@ -38,4 +38,9 @@ export const getUserNameAndEmail = (name, email) => ({
   type: GET_USER_NAME_AND_EMAIL,
   name,
   email,
+});
+
+export const clickedHandle = (bool) => ({
+  type: HANDLE_CLICKED_BUTTON,
+  bool,
 });

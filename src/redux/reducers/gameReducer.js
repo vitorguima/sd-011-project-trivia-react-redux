@@ -1,8 +1,10 @@
-import { GET_DATA_QUESTIONS, REQUEST_API_QUESTIONS } from '../actions';
+import { GET_DATA_QUESTIONS,
+  REQUEST_API_QUESTIONS, HANDLE_CLICKED_BUTTON } from '../actions';
 
 const INITIAL_STATE = {
   questionsData: {},
   isReady: false,
+  clicked: false,
 };
 
 export default function gameReducer(state = INITIAL_STATE, action) {
@@ -17,6 +19,11 @@ export default function gameReducer(state = INITIAL_STATE, action) {
       ...state,
       questionsData: action.payload.data,
       isReady: false,
+    };
+  case HANDLE_CLICKED_BUTTON:
+    return {
+      ...state,
+      clicked: true,
     };
   default:
     return state;
