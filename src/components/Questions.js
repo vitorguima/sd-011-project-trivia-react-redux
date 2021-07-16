@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import { fetchQuestions } from '../actions';
+import { fetchQuestions, submitScore } from '../actions';
 
 class Questions extends Component {
   constructor(props) {
@@ -36,6 +36,10 @@ class Questions extends Component {
     return (timeCount > nextState);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.myInteval);
+  }
+
   timerCounter() {
     const intervalTimer = 1000;
     this.myInteval = setInterval(() => {
@@ -52,7 +56,7 @@ class Questions extends Component {
       this.setState({
         indexQuestion: indexQuestion + 1,
         showNextButton: false,
-      });
+      }, () => this.handleLocalStorage());
     }
   }
 
@@ -90,7 +94,6 @@ class Questions extends Component {
     const retrievelocalStorage = JSON.parse(localStorage.getItem('state'));
     retrievelocalStorage.player.score = totalScore;
     localStorage.setItem('state', JSON.stringify(retrievelocalStorage));
-    return <Redirect to="/feedback" />;
   }
 
   renderCorretBtn(answer, index) {
@@ -130,11 +133,11 @@ class Questions extends Component {
   }
 
   render() {
-    const { questions } = this.props;
-    const { indexQuestion, showNextButton, timeCount } = this.state;
+    const { questions, disapatchScore } = this.props;
+    const { indexQuestion, showNextButton, timeCount, totalScore } = this.state;
     const maxIndexQuestion = 4;
     if (indexQuestion > maxIndexQuestion) {
-      return this.handleLocalStorage();
+      return <Redirect to="/feedback" />;
     }
     if (questions.length && indexQuestion <= maxIndexQuestion) {
       const correctAnswer = questions[indexQuestion].correct_answer;
@@ -161,6 +164,7 @@ class Questions extends Component {
               onClick={ () => {
                 this.handleNext();
                 this.handleNextStyle();
+                disapatchScore(totalScore);
               } }
             >
               Próxima
@@ -180,6 +184,7 @@ Questions.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (token) => dispatch(fetchQuestions(token)),
+  disapatchScore: (score) => dispatch(submitScore(score)),
 });
 
 const mapStateToProps = (state) => ({
