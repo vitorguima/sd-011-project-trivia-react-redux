@@ -10,11 +10,57 @@ class TimerComponent extends Component {
       seconds: 30,
     };
     this.timer = this.timer.bind(this);
+    this.updateLocalStorage = this.updateLocalStorage.bind(this);
   }
 
   componentDidMount() {
     const second = 1000;
     setInterval(() => this.timer(), second);
+  }
+
+  componentDidUpdate() {
+    const { buttonClick, rightBtnClicked } = this.props;
+    if (buttonClick) {
+      clearInterval(1);
+      const stopTime = document.querySelector('.timer');
+      // const difficulty = document.querySelector('.difficulty');
+      const question = document.querySelector('#question');
+      const difficulty = question.getAttribute('difficulty');
+      // const rightBtn = document.querySelector('.green-border');
+      // const score = this.setScore();
+      const score = rightBtnClicked
+        ? this.setScore(stopTime.innerHTML, difficulty)
+        : 0;
+      this.updateLocalStorage(score);
+    }
+  }
+
+  setScore(timer, difficulty) {
+    const ten = 10;
+    const questionLevel = (dif) => {
+      const one = 1;
+      const two = 2;
+      const three = 3;
+      switch (dif) {
+      case 'easy':
+        return one;
+      case 'medium':
+        return two;
+      case 'hard':
+        return three;
+      default:
+        break;
+      }
+    };
+    // const score = 10 + (timer * questionLevel(obj1));
+    return ten + (timer * questionLevel(difficulty));
+  }
+
+  updateLocalStorage(score) {
+    const player = JSON.parse(localStorage.getItem('state'));
+    player.player.score = score;
+    localStorage.setItem('state', JSON.stringify(player));
+    console.log(player);
   }
 
   timer() {
@@ -35,7 +81,7 @@ class TimerComponent extends Component {
     const { seconds } = this.state;
     return (
       <div>
-        <p>{ seconds }</p>
+        <p className="timer">{ seconds }</p>
       </div>
     );
   }
@@ -45,8 +91,13 @@ TimerComponent.propTypes = {
   updateButton: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  buttonClick: state.triviaReducer.buttonClick,
+  rightBtnClicked: state.triviaReducer.rightBtnClicked,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   updateButton: (state) => dispatch(timerButton(state)),
 });
 
-export default connect(null, mapDispatchToProps)(TimerComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(TimerComponent);
