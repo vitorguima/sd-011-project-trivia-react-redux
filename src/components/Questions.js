@@ -8,12 +8,18 @@ class Question extends React.Component {
     this.state = {
       timer: 30,
       stopTimer: false,
+      answers: [],
       answered: false,
+      isDisabled: false,
     };
+
+    this.startTimer = this.startTimer.bind(this);
+    this.randomAnswers = this.randomAnswers.bind(this);
   }
 
   componentDidMount() {
     this.startTimer();
+    this.randomAnswers();
   }
 
   componentDidUpdate() {
@@ -28,24 +34,39 @@ class Question extends React.Component {
       if (timer > 0) {
         setTimeout(() => this.setState({ timer: timer - 1 }), oneSecond);
       }
-      if (timer === 0 && stopTimer) {
-        this.setState({ stopTimer: true });
+      if (timer === 0 && !stopTimer) {
+        this.setState({ stopTimer: true, isDisabled: true });
       }
     }
   }
 
-  render() {
-    const { timer } = this.state;
+  randomAnswers() {
     const { newQuestion:
-      { question,
-        correct_answer: correctAnswer,
+      { correct_answer: correctAnswer,
         incorrect_answers: incorrectAnswers,
-        category,
       } } = this.props;
     const randomAnswers = [correctAnswer, ...incorrectAnswers]
       .map((a) => ({ sort: Math.random(), value: a }))
       .sort((a, b) => a.sort - b.sort)
       .map((a) => a.value);
+    this.setState({ answers: randomAnswers });
+  }
+
+  handleClick() {
+    this.setState({
+      isDisabled: true,
+      answered: true,
+      stopTimer: true,
+    });
+  }
+
+  render() {
+    const { timer, answers, isDisabled } = this.state;
+    const { newQuestion:
+      { question,
+        correct_answer: correctAnswer,
+        category,
+      } } = this.props;
     return (
       <div>
         <span>{ timer }</span>
@@ -53,13 +74,15 @@ class Question extends React.Component {
           { question }
         </h1>
         <p data-testid="question-category">{ category }</p>
-        {randomAnswers.map((answer, index) => {
+        { answers.map((answer, index) => {
           if (answer === correctAnswer) {
             return (
               <button
                 key={ index }
                 data-testid="correct-answer"
                 type="button"
+                disabled={ isDisabled }
+                onClick={ () => this.handleClick() }
               >
                 {answer}
               </button>
@@ -70,13 +93,14 @@ class Question extends React.Component {
               key={ index }
               data-testid={ `wrong-answer-${index}` }
               type="button"
+              disabled={ isDisabled }
+              onClick={ () => this.handleClick() }
             >
               {answer}
             </button>
           );
-        })}
+        }) }
       </div>
-
     );
   }
 }
