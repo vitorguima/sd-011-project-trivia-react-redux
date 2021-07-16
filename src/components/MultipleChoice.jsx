@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 
 class MultipleChoice extends React.Component {
   render() {
-    const { question } = this.props;
+    const { question, disabled } = this.props;
     return (
       question.answers.map((answer, index) => {
         if (question.correct_answer === answer) {
           return (
             <button
+              disabled={ disabled }
               data-testid="correct-answer"
               key={ index }
               type="button"
@@ -19,6 +20,7 @@ class MultipleChoice extends React.Component {
         }
         return (
           <button
+            disabled={ disabled }
             data-testid={ `wrong-answer-${index}` }
             key={ index }
             type="button"
@@ -36,6 +38,7 @@ MultipleChoice.propTypes = {
     answers: PropTypes.arrayOf(PropTypes.string),
     correct_answer: PropTypes.string,
   }).isRequired,
+  disabled: (PropTypes.bool).isRequired,
 };
 
 export default MultipleChoice;
