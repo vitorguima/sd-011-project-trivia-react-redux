@@ -1,78 +1,51 @@
 import React, { Component } from 'react';
-import Headerlogin from '../components/header';
-// import { connect } from 'react-redux';
-// import { requestApiThunk } from '../actions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Header from '../components/Header';
+import { requestApiThunk } from '../actions';
+import Question from '../components/Question';
 
 class TriviaQuestions extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   console.log(' ');a
-  // }
+  constructor(props) {
+    super(props);
 
-  // componentDidMount() {
-  //   const token = '6700ac1d12b6846c9924b2138f513f9b3ab77a8ba4b63d4d0b4bcd5c6560734a';
-  //   const { setStateGame } = this.props;
-  //   setStateGame(token);
-  // }
+    this.state = {
+      questionCounter: 1,
+    };
+  }
+
+  componentDidMount() {
+    const token = localStorage.getItem('token');
+    const { setStateGame } = this.props;
+    setStateGame(token);
+  }
 
   render() {
-    // const { questions } = this.props;
-    const category = 'multiple';
-
+    const { questions } = this.props;
+    const { results } = questions;
+    const eachResult = Object.values({ ...results });
+    const { questionCounter } = this.state;
     return (
       <div>
-        <Headerlogin />
-        <h1 data-testId="question-category">Categoria</h1>
-        <h2 data-testId="question-text">Questão:</h2>
-        {
-          category === 'multiple' ? (
-            <div>
-              <button
-                type="button"
-                data-testid="{`wrong-answer-{index}`}"
-              >
-                Questão 1
-              </button>
-              <button
-                type="button"
-                data-testid="{`wrong-answer-{index}`}"
-              >
-                Questão 2
-              </button>
-              <button
-                type="button"
-                data-testid="{`wrong-answer-{index}`}"
-              >
-                Questão 3
-              </button>
-              <button
-                type="button"
-                data-testid="correct-answer"
-              >
-                Questão 4
-              </button>
-            </div>
-          ) : (
-            <div>
-              <button type="button" data-testid="{`wrong-answer-{index}`}">
-                verdadeiro
-              </button>
-              <button type="button" data-testid="correct-answer">
-                falso
-              </button>
-            </div>
-          )
-        }
+        <Header />
+        <h1 data-testid="question-category">Categoria</h1>
+        <h2 data-testid="question-text">Questão:</h2>
+        { eachResult ? <Question eachResult={ eachResult[questionCounter] } /> : null }
       </div>);
   }
 }
-export default TriviaQuestions;
-// const mapDispatchToProps = (dispatch) => ({
-//   setStateGame: (payload) => dispatch(requestApiThunk(payload)),
-// });
 
-// const mapStateToProps = (state) => ({
-//   questions: state.fetchReducers.questions.results,
-// });
+const mapDispatchToProps = (dispatch) => ({
+  setStateGame: (payload) => dispatch(requestApiThunk(payload)),
+});
 
-// export default connect(mapStateToProps, mapDispatchToProps)(TriviaQuestions);
+const mapStateToProps = (state) => ({
+  questions: state.fetchReducers.questions,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TriviaQuestions);
+
+TriviaQuestions.propTypes = {
+  questions: PropTypes.array,
+  setStateGame: PropTypes.func,
+}.isRequired;
