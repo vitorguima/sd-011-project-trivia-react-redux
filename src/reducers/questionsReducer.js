@@ -1,9 +1,16 @@
-import { REQUEST_QUESTIONS, RECEIVE_QUESTIONS } from '../actions';
+import {
+  REQUEST_QUESTIONS,
+  RECEIVE_QUESTIONS,
+  SHOW_NEXT_BTN,
+  CHANGE_TO_NEXT_QUESTION,
+} from '../actions';
 
 const INITIAL_STATE = {
   response_code: '',
   results: [],
   isFetching: false,
+  currentQuestion: 0,
+  showBtn: false,
 };
 
 const questionsReducer = (state = INITIAL_STATE, action) => {
@@ -19,6 +26,17 @@ const questionsReducer = (state = INITIAL_STATE, action) => {
       response_code: action.data.response_code,
       results: action.data.results,
       isFetching: false,
+    };
+  case SHOW_NEXT_BTN:
+    return {
+      ...state,
+      showBtn: true,
+    };
+  case CHANGE_TO_NEXT_QUESTION:
+    return {
+      ...state,
+      currentQuestion: state.currentQuestion + 1,
+      showBtn: false,
     };
   default:
     return state;

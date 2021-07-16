@@ -55,3 +55,11 @@
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.show-btn {
+  display: inline-block;
+}
+
+.hide-btn {
+  display: none;
+}

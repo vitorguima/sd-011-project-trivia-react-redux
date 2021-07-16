@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { showNextBtn } from '../actions';
 
 class BooleanQuestion extends React.Component {
   render() {
-    const { question } = this.props;
+    const { question, showBtn } = this.props;
     return (
       <>
         <button
@@ -13,6 +15,7 @@ class BooleanQuestion extends React.Component {
               ? 'correct-answer'
               : 'wrong-answer'
           }
+          onClick={ () => showBtn() }
         >
           True
         </button>
@@ -23,6 +26,7 @@ class BooleanQuestion extends React.Component {
               ? 'correct-answer'
               : 'wrong-answer'
           }
+          onClick={ () => showBtn() }
         >
           False
         </button>
@@ -31,11 +35,16 @@ class BooleanQuestion extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  showBtn: () => dispatch(showNextBtn()),
+});
+
 BooleanQuestion.propTypes = {
   question: PropTypes.shape({
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  showBtn: PropTypes.func.isRequired,
 };
 
-export default BooleanQuestion;
+export default connect(null, mapDispatchToProps)(BooleanQuestion);
