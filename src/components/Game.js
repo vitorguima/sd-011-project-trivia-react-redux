@@ -83,7 +83,7 @@ class Game extends Component {
     localStorage.setItem('state', JSON.stringify(storage));
   }
 
-  renderTimer(timer, results, clickedQuestions) {
+  renderTimer(timer, results, clickedQuestions, index) {
     return (
       <div>
         <span>{timer}</span>
@@ -122,7 +122,7 @@ class Game extends Component {
           <p data-testid="question-text" onLoad={ this.startTimer() }>
             {results[index].question}
           </p>
-          {this.renderTimer(timer, results, clickedQuestions)}
+          {this.renderTimer(timer, results, clickedQuestions, index)}
           {results[index].incorrect_answers.map((answer, idx) => (
             <button
               disabled={ timer === 0 }
