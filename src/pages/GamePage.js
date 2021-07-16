@@ -39,11 +39,26 @@ class GamePage extends Component {
     this.timerFunc();
   }
 
+  // Essa função tbm deve setar o local storage
+  // localStorage.setItem('ranking', JSON.stringify(infosGamePlayer));
+  // infosGamePlayer = [
+  //  { name: nome-da-pessoa, score: 10, picture: url-da-foto-no-gravatar }
+  // ]
+  // const { nome, score,  } = this.props;
+  // this.URL
   clickAnswer() {
     clearInterval(this.setTimer);
     this.setState({
       click: true,
     });
+    this.saveLocalScorage();
+  }
+
+  saveLocalScorage() {
+    const { nome, score } = this.props;
+    const infosGamePlayer = [{ name: nome, score, picture: this.URL }];
+    localStorage.setItem('ranking', JSON.stringify(infosGamePlayer));
+    localStorage.setItem('ranking', JSON.stringify(infosGamePlayer));
   }
 
   questionSection(results, questionIndex) {
@@ -59,6 +74,7 @@ class GamePage extends Component {
 
   scoreUpdate(difficulty) {
     const { timer } = this.props;
+    console.log(timer);
     let result = 0;
     const points = 10;
     const levelHard = 3;
@@ -66,13 +82,16 @@ class GamePage extends Component {
     const levelEasy = 1;
     switch (difficulty) {
     case 'hard':
-      result += points + (timer * levelHard);
+      console.log('hard');
+      result = points + (timer * levelHard);
       return result;
     case 'medium':
-      result += points + (timer * levelMedium);
+      console.log('medium');
+      result = points + (timer * levelMedium);
       return result;
     case 'easy':
-      result += points + (timer * levelEasy);
+      console.log('easy');
+      result = points + (timer * levelEasy);
       return result;
     default:
       return result;
@@ -109,8 +128,9 @@ class GamePage extends Component {
       >
         {wrngAnsw}
       </button>))];
-    const randomNb = 0.5;
-    const allBtns = [...btnWrngAnsw, btnCorrectAnsw].sort(() => Math.random() - randomNb);
+    // const randomNb = 0.5;
+    const allBtns = [...btnWrngAnsw, btnCorrectAnsw];
+    // .sort(() => Math.random() - randomNb);
     return allBtns;
   }
 
@@ -120,13 +140,17 @@ class GamePage extends Component {
     this.setTimer = setInterval(() => timerDispatch(), limit);
   }
 
-  renderHeader() {
-    const { email, nome, score } = this.props;
-    const hash = md5(email).toString();
+  urlCreator(email) {
+    const hash = `https://www.gravatar.com/avatar/${md5(email).toString()}`;
+    return hash;
+  }
+
+  renderHeader(urlSrc) {
+    const { nome, score } = this.props;
     return (
       <header>
         <img
-          src={ `https://www.gravatar.com/avatar/${hash}` }
+          src={ urlSrc }
           alt="avatar"
           data-testid="header-profile-picture"
         />
@@ -142,14 +166,14 @@ class GamePage extends Component {
   }
 
   render() {
-    const { results, disableBtn } = this.props;
+    const { email, results, disableBtn } = this.props;
     const { questionIndex, click } = this.state;
     const indexLimit = 4;
-    // if (timer <= 0) this.disableBtns();
+    this.URL = this.urlCreator(email);
 
     return (
       <div>
-        {this.renderHeader()}
+        {this.renderHeader(this.URL)}
         <Timer />
         {results && this.questionSection(results, questionIndex)}
         {results && this.answBtnCreator(results, questionIndex, click, disableBtn)}

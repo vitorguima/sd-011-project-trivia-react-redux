@@ -12,10 +12,15 @@ class Login extends Component {
   }
 
   setPlayerLocalStorage(name, email, token) {
+    const { score } = this.props;
+    // let result = score;
+    // if (score === 0) {
+    //   result = '';
+    // }
     const playerObj = { player: {
       name,
       assertions: '',
-      score: '',
+      score,
       gravatarEmail: email,
     },
     };
@@ -96,12 +101,14 @@ Login.propTypes = {
   loginInputsDispatch: PropTypes.func.isRequired,
   nome: PropTypes.string.isRequired,
   token: PropTypes.string,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   nome: state.loginReducer.login.nome,
   email: state.loginReducer.login.email,
   token: state.triviaReducer.token.token,
+  score: state.triviaReducer.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -42,7 +42,7 @@ export default function triviaReducer(state = INITIAL_STATE, action) {
   case SCORE_UPDATE:
     return {
       ...state,
-      score: [state.score, action.payload].reduce((acc, curr) => acc + curr, state.score),
+      score: (state.score + action.payload),
     };
   case RESET_TIMER:
     return {
