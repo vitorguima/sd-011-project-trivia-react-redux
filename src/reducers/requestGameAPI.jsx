@@ -5,7 +5,7 @@ import {
 } from '../actions/requestAPI';
 
 const INITIAL_STATE = {
-  gameData: [],
+  gameData: {},
   isFetching: false,
 };
 

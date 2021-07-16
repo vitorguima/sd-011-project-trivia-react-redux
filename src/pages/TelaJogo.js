@@ -18,9 +18,10 @@ class TelaJogo extends Component {
 
   render() {
     const { score } = this.state;
-    const { getdata: { emailHash, name, email } /* gameData */ } = this.props;
-    localStorage.setItem('name', name);
-    localStorage.setItem('email', email);
+    const { getdata: { emailHash, name, email }, gameData } = this.props;
+    const player = { name, assertions: 0, score, gravatarEmail: email };
+    localStorage.setItem('player', JSON.stringify(player));
+    // localStorage.setItem('email', email);
     return (
       <div>
         <header>
@@ -33,6 +34,7 @@ class TelaJogo extends Component {
         </header>
         <div>
           {
+            // console.log(Object.values(gameData)[0])
             // gameData.map((value, index) => (
             //   <p key={ index }>
             //     {value}
