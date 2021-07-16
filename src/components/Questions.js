@@ -71,7 +71,7 @@ class Questions extends Component {
                   key={ index }
                   type="button"
                   data-testid="correct-answer"
-                  onClick={ this.handleCorretAnswer }
+                  onClick={ () => this.handleCorretAnswer() }
                 >
                   {answer}
                 </button>);
