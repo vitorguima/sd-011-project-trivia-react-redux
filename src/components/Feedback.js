@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from './Header';
 
-const THREE = 3
+const THREE = 3;
 class Feedback extends Component {
   render() {
     const { assertions } = this.props;
