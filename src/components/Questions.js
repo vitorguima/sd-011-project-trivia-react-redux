@@ -10,10 +10,12 @@ class Questions extends Component {
     this.state = {
       indexQuestion: 0,
       totalScore: 0,
+      showNextButton: false,
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleCorretAnswer = this.handleCorretAnswer.bind(this);
     this.handleLocalStorage = this.handleLocalStorage.bind(this);
+    this.handleErrorAnswer = this.handleErrorAnswer.bind(this);
   }
 
   async componentDidMount() {
@@ -27,6 +29,7 @@ class Questions extends Component {
     if (indexQuestion <= maxQuestions) {
       this.setState({
         indexQuestion: indexQuestion + 1,
+        showNextButton: false,
       });
     }
   }
@@ -34,6 +37,13 @@ class Questions extends Component {
   handleCorretAnswer() {
     this.setState((state) => ({
       totalScore: state.totalScore + 1,
+      showNextButton: true,
+    }));
+  }
+
+  handleErrorAnswer() {
+    this.setState(() => ({
+      showNextButton: true,
     }));
   }
 
@@ -47,7 +57,7 @@ class Questions extends Component {
 
   render() {
     const { questions } = this.props;
-    const { indexQuestion } = this.state;
+    const { indexQuestion, showNextButton } = this.state;
     const maxIndexQuestion = 4;
 
     if (indexQuestion > maxIndexQuestion) {
@@ -80,14 +90,16 @@ class Questions extends Component {
               <button
                 key={ index }
                 type="button"
+                onClick={ () => this.handleErrorAnswer() }
                 data-testid={ `wrong-answer-${index}` }
               >
                 {answer}
               </button>);
           })}
-          <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
-            Próxima
-          </button>
+          {showNextButton && (
+            <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
+              Próxima
+            </button>)}
         </section>
       );
     }
