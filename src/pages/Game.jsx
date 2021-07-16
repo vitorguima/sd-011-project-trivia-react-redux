@@ -32,20 +32,42 @@ class Game extends Component {
     });
   }
 
-  shuffle(originalArray) {
-    const array = [...originalArray];
-    let backPileFrontier = array.length - 1;
+  // shuffle(originalArray) {
+  //   const array = [...originalArray];
+  //   let backPileFrontier = array.length - 1;
 
-    while (backPileFrontier) {
-      const randomIndex = Math.floor(Math.random() * backPileFrontier);
-      const swap = array[backPileFrontier];
-      array[backPileFrontier] = array[randomIndex];
-      array[randomIndex] = swap;
+  //   while (backPileFrontier) {
+  //     const randomIndex = Math.floor(Math.random() * backPileFrontier);
+  //     const swap = array[backPileFrontier];
+  //     array[backPileFrontier] = array[randomIndex];
+  //     array[randomIndex] = swap;
 
-      backPileFrontier -= 1;
+  //     backPileFrontier -= 1;
+  //   }
+
+  //   return array;
+  // } fisher-yates (inacio)
+
+  shuffle() {
+    const { alternatives } = this.state;
+    let newArray = [];
+    const stopAt = -1;
+    if (alternatives[0].length > 2) {
+      const arrayLength = 3;
+      for (let index = arrayLength, original = [...alternatives[0]];
+        index > stopAt;
+        index -= 1) {
+        const random = Math.round(Math.random() * index);
+        newArray = [...newArray, original[random]];
+        original = original.filter((option) => option !== original[random]);
+      }
+      return newArray;
     }
-
-    return array;
+    const original = [...alternatives[0]];
+    const random = Math.round(Math.random());
+    newArray[0] = original[random];
+    newArray[1] = original[1 - random];
+    return newArray;
   }
 
   renderButtons(answer, index) {
@@ -65,29 +87,10 @@ class Game extends Component {
         { answer }
       </button>);
   }
-  // teste() {
-  //   const { alternatives } = this.state;
-  //   let original = [...alternatives[0]];
-  //   let newArray = [];
-  //   const stopAt = -1;
-  //   if (alternatives[0].length > 2) {
-  //     const arrayLength = 3;
-  //     for (let index = arrayLength; index > stopAt; index -= 1) {
-  //       const random = Math.round(Math.random() * index);
-  //       newArray = [...newArray, original[random]];
-  //       original = original.filter((option) => option !== original[random]);
-  //     }
-  //     return newArray;
-  //   }
-  //   const random = Math.round(Math.random());
-  //   newArray[0] = original[random];
-  //   newArray[1] = original[1 - random];
-  //   return newArray;
-  // }
 
   render() {
     const { email, name, score } = this.props;
-    const { questions, loading, alternatives } = this.state;
+    const { questions, loading } = this.state;
     return (
       <Layout title="Game">
         <main>
@@ -116,7 +119,7 @@ class Game extends Component {
             </p>
             <div>
               { loading ? <span>Carregando...</span>
-                : this.shuffle(alternatives[0])
+                : this.shuffle()
                   .map((answer, index) => this.renderButtons(answer, index)) }
             </div>
           </div>
