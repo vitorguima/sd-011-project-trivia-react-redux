@@ -36,7 +36,6 @@ export const requestToken = (userName, email) => async (dispatch) => {
       score: 0,
       gravatarEmail: email,
       token,
-      ranking: [],
     },
   };
   localStorage.setItem('state', JSON.stringify(infos));
