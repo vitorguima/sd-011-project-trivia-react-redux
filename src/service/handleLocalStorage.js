@@ -41,3 +41,15 @@ export const saveToStore = (key, value) => {
   player[key] = value;
   localStorage.setItem('state', JSON.stringify(receivedStore));
 };
+
+export const saveAssertionToStore = () => {
+  const defaultStore = {
+    player: {
+      assertions: 0,
+    },
+  };
+
+  const receivedStore = getFromStore() || defaultStore;
+  receivedStore.player.assertions += 1;
+  localStorage.setItem('state', JSON.stringify(receivedStore));
+};
