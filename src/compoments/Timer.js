@@ -35,9 +35,9 @@ class Timer extends Component {
   }
 }
 
-mapStateToProps(state) {
-  timer
-}
+mapStateToProps(state) ({
+  timer: state.
+});
 
 const mapDispatchToProps = (dispatch) => ({
   timerDispatch: () => dispatch(subTimer()),
