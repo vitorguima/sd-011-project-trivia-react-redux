@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 export default class Feedbacks extends Component {
@@ -7,11 +8,25 @@ export default class Feedbacks extends Component {
     this.state = {
       score: JSON.parse(localStorage.state).player.score,
       name: JSON.parse(localStorage.state).player.name,
+      assertions: JSON.parse(localStorage.state).player.assertions,
     };
   }
 
+  mensage() {
+    const tres = 3;
+    const { assertions } = this.state;
+    if (assertions >= tres) {
+      return (
+        'Mandou bem!'
+      );
+    }
+    return (
+      'Podia ser melhor...'
+    );
+  }
+
   render() {
-    const { score, name } = this.state;
+    const { score, name, assertions } = this.state;
     return (
       <div>
         <p data-testid="feedback-text">Feedback</p>
@@ -19,6 +34,14 @@ export default class Feedbacks extends Component {
           score={ score }
           name={ name }
         />
+        <p data-testid="feedback-total-score">{score}</p>
+        <p data-testid="feedback-total-question">{assertions}</p>
+        <p data-testid="feedback-text">{this.mensage()}</p>
+        <Link to="/">
+          <button type="button" data-testid="btn-play-again">
+            Jogar novamente
+          </button>
+        </Link>
       </div>
     );
   }
