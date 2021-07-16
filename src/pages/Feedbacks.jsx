@@ -25,7 +25,7 @@ export default class Feedbacks extends Component {
   }
 
   render() {
-    const { score, name } = this.state;
+    const { score, name, assertions } = this.state;
     return (
       <div>
         <p data-testid="feedback-text">Feedback</p>
@@ -33,6 +33,8 @@ export default class Feedbacks extends Component {
           score={ score }
           name={ name }
         />
+        <p data-testid="feedback-total-score">{score}</p>
+        <p data-testid="feedback-total-question">{assertions}</p>
         <p data-testid="feedback-text">{this.mensage()}</p>
       </div>
     );
