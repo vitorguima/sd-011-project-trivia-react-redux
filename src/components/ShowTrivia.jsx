@@ -1,20 +1,29 @@
+/* eslint-disable max-lines-per-function */
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { GameStateContext } from '../pages/Game';
+import showQuestions from './showQuestions';
+import NextQuestionButton from './NextQuestionButton';
+import Timer from './Timer';
 
 export default function ShowTrivia(props) {
-  const { index,
+  const {
+    index,
     questions,
     arrayQuestions,
-    showQuestions,
     showResults,
     answer,
-    nextQuestion,
     setAnswer,
-    setIndex } = props;
-
+    setIndex,
+    setPlayer,
+    player,
+    count,
+    setCount,
+    setCounter,
+    counter,
+  } = props;
   return (
     <div className="modal-dialog">
+      <Timer {...{ count, counter, setCounter }} />
       <div className="modal-content">
         <div className="modal-header">
           <h3>
@@ -23,23 +32,10 @@ export default function ShowTrivia(props) {
             </span>
             {questions[index].question}
           </h3>
-          Functions: PropTypes.func.isRequired,
-          onChange: PropTypes.func.isRequired,
           <p data-testid="question-category">{questions[index].category}</p>
         </div>
-        {arrayQuestions && showQuestions(arrayQuestions, showResults)}
-
-        {answer && (
-          <button
-            type="button"
-            onClick={ () => nextQuestion(setAnswer, index, questions, setIndex) }
-            className="btn btn btn-info btn-lg nextQuestion"
-            data-testid="btn-next"
-          >
-            Próxima pergunta
-          </button>
-        )}
-
+        {arrayQuestions && showQuestions(arrayQuestions, showResults, setCount, props)}
+        {(answer || counter === 0) && <NextQuestionButton {...props} />}
         <div className="modal-footer text-muted">
           <span id="answer" />
         </div>
@@ -54,8 +50,8 @@ ShowTrivia.propTypes = {
   answer: PropTypes.objectOf(PropTypes.object).isRequired,
   nextQuestion: PropTypes.func.isRequired,
   setIndex: PropTypes.func.isRequired,
-  showQuestions: PropTypes.func.isRequired,
   showResults: PropTypes.func.isRequired,
   setAnswer: PropTypes.func.isRequired,
-
+  setPlayer: PropTypes.func.isRequired,
+  player: PropTypes.objectOf(PropTypes.object).isRequired,
 };

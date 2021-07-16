@@ -1,50 +1,45 @@
+/* eslint-disable max-lines-per-function */
 import React from 'react';
+import { addScore } from './GameFunctions';
 
-const showQuestions = (arrayQuestions, onChange) => arrayQuestions.map((el, index) => {
-  if (typeof el === 'string') {
-    return (
-      <label
-        id={ `label${index}` }
-        htmlFor={ `question-${index}` }
-        key={ index }
-        className="btn btn-lg btn-primary btn-block"
-        data-testid={ `wrong-answer-${index}` }
-      >
-        <span className="btn-label" />
-        <input
-          id={ `question-${index}` }
-          type="radio"
+const showQuestions = (arrayQuestions, onChange, setCount, props) =>
+  arrayQuestions.map((el, idx) => {
+    const { questions, index, answer, player, setPlayer, counter } = props;
+    if (typeof el === 'string') {
+      return (
+        <button
+          data-testid={`wrong-answer-${idx}`}
+          className="btn btn-lg btn-primary btn-block"
+          id={`question-${idx}`}
+          type="button"
           name="q_answer"
-          value={ el }
-          onChange={ () => {
+          onClick={() => {
             onChange(el);
-          } }
-        />
-        {el}
-      </label>
-    );
-  }
-  return (
-    <label
-      id={ `label${index}` }
-      htmlFor={ `question-${index}` }
-      key={ index }
-      className="btn btn-lg btn-primary btn-block"
-      data-testid="correct-answer"
-    >
-      <span className="btn-label" />
-      <input
-        id={ `question-${index}` }
-        type="radio"
+            setCount(false);
+            addScore(questions, index, el, player, setPlayer, counter)
+          }}
+        >
+          {el}
+        </button>
+      );
+    }
+    return (
+      <button
+        key={idx}
+        data-testid="correct-answer"
+        className="btn btn-lg btn-primary btn-block"
+        id={`question-${idx}`}
+        type="button"
         name="q_answer"
-        value={ el.correct }
-        onChange={ () => {
-          onChange({ answer: el.correct, id: index });
-        } }
-      />
-      {el.correct}
-    </label>
-  );
-});
+        onClick={() => {
+          onChange(el.correct);
+          setCount(false);
+          addScore(questions, index, el.correct, player, setPlayer, counter)
+        }}
+      >
+        {el.correct}
+      </button>
+    );
+  });
 
 export default showQuestions;
