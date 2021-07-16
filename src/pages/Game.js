@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import './css/Game.css';
 
@@ -33,6 +34,8 @@ class Game extends Component {
   componentDidMount() {
     this.fetchTriviaApi();
     this.renderTimeAnswer();
+    const teste = { player: { name: '', assertions: 0, score: 0, gravatarEmail: '' } };
+    localStorage.setItem('state', JSON.stringify(teste));
   }
 
   getTokenOnLocalStorage() {
@@ -231,3 +234,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Game);
+
+Game.propTypes = {
+  name: PropTypes.string,
+  gravatarEmail: PropTypes.string,
+}.isRequired;
