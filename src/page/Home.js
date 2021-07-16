@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchToken, getMailName } from '../redux/actions';
 import logo from '../trivia.png';
+import Feedback from './Feedback';
 
 class Home extends Component {
   constructor() {
@@ -76,6 +77,7 @@ class Home extends Component {
               Configuração
             </button>
           </Link>
+          <Feedback />
         </header>
       </div>
     );
