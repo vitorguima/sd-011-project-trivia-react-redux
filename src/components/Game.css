@@ -1,14 +1,14 @@
 .alternativesContainer {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 
 .clicked {
   opacity: 0.5;
   transform: scale(1.4);
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .alternativesContainer button {
@@ -21,11 +21,10 @@
   width: 150px;
 }
 
-button[class*="correct"] {
+[ class *= 'correct' ] {
   border: 3px solid rgb(6, 240, 15);
 }
 
-button[class*="wrong"] {
-  border: 3px solid rgb(255, 0, 0)
+[ class *= 'wrong' ] {
+  border: 3px solid red;
 }
-
