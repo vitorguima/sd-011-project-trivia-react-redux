@@ -100,7 +100,7 @@ class Question extends React.Component {
     if (!ranking) {
       localStorage.setItem('ranking', JSON.stringify([player]));
     } else {
-      localStorage.setItem('ranking', JSON.stringify([player, ...JSON.parse(ranking)]));
+      localStorage.setItem('ranking', JSON.stringify([...JSON.parse(ranking), player]));
     }
   }
 

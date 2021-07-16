@@ -12,7 +12,7 @@ class Ranking extends React.Component {
         <ol>
           {sortRanking.map((element, index) => (
             <li key={ index }>
-              <p data-testid={ `player-name-${index}` }>{element.name}</p>
+              <p data-testid={ `player-name-${index}` }>{element.username}</p>
               <p data-testid={ `player-score-${index}` }>{element.score}</p>
               <img src={ element.avatar } alt="Foto do jogador" />
             </li>))}
