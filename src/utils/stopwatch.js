@@ -8,16 +8,15 @@ const createStopwatch = (initialTime, callbacks) => {
 
   return {
     getRemaining: () => remaining,
-    reset: () => {
+    reset() {
       if (isRunning) return;
-
       remaining = initialTime || DEFAULT_TIME;
       if (callbacks.reset) {
-        callbacks.reset();
+        callbacks.reset(remaining);
       }
       return this;
     },
-    stop: () => {
+    stop() {
       if (callbacks.stop) {
         callbacks.stop();
       }

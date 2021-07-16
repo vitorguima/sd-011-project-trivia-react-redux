@@ -20,11 +20,14 @@ class Game extends Component {
       hasPicked: false,
       remainingTime: null,
       stopwatch: null,
+      currentQuestionIndex: 0,
     };
     this.initializeState = this.initializeState.bind(this);
     this.handlePickOption = this.handlePickOption.bind(this);
     this.handleStopwatchEnd = this.handleStopwatchEnd.bind(this);
     this.handleStopwatchTick = this.handleStopwatchTick.bind(this);
+    this.handleNextQuestion = this.handleNextQuestion.bind(this);
+    this.handleStopwatchReset = this.handleStopwatchReset.bind(this);
   }
 
   async componentDidMount() {
@@ -50,6 +53,22 @@ class Game extends Component {
     });
   }
 
+  handleStopwatchReset(initialTime) {
+    this.setState({
+      remainingTime: initialTime,
+    });
+  }
+
+  handleNextQuestion() {
+    const { stopwatch, currentQuestionIndex, questions } = this.state;
+    if (currentQuestionIndex > questions.length - 2) return;
+    this.setState(({ currentQuestionIndex: index }) => ({
+      currentQuestionIndex: index + 1,
+      hasPicked: false,
+    }));
+    stopwatch.reset().start();
+  }
+
   initializeState() {
     const { quest } = this.props;
 
@@ -58,6 +77,7 @@ class Game extends Component {
     const callbacks = {
       tick: this.handleStopwatchTick,
       end: this.handleStopwatchEnd,
+      reset: this.handleStopwatchReset,
     };
 
     this.setState({
@@ -123,8 +143,8 @@ class Game extends Component {
   }
 
   renderButtons(answer, index) {
-    const { questions, hasPicked } = this.state;
-    if (answer === questions[0].correct_answer) {
+    const { questions, hasPicked, currentQuestionIndex } = this.state;
+    if (answer === questions[currentQuestionIndex].correct_answer) {
       return (
         <button
           onClick={ this.handlePickOption }
@@ -152,7 +172,7 @@ class Game extends Component {
 
   render() {
     const { email, name, score } = this.props;
-    const { questions, loading, alternatives, remainingTime } = this.state;
+    const { questions, loading, alternatives, remainingTime, hasPicked, currentQuestionIndex } = this.state;
     return (
       <Layout title="Game">
         <main>
@@ -173,15 +193,15 @@ class Game extends Component {
           <div>
             <p>
               { loading ? <span>Carregando...</span>
-                : <span data-testid="question-category">{questions[0].category}</span> }
+                : <span data-testid="question-category">{questions[currentQuestionIndex].category}</span> }
             </p>
             <p>
               { loading ? <span>Carregando...</span>
-                : <span data-testid="question-text">{questions[0].question}</span> }
+                : <span data-testid="question-text">{questions[currentQuestionIndex].question}</span> }
             </p>
             <div>
               { loading ? <span>Carregando...</span>
-                : alternatives[0]
+                : alternatives[currentQuestionIndex]
                   .map((answer, index) => this.renderButtons(answer, index)) }
             </div>
           </div>
@@ -189,6 +209,7 @@ class Game extends Component {
             Tempo restante:&nbsp;
             { remainingTime }
           </p>
+          {hasPicked && <button type="button" data-testid="btn-next" onClick={ this.handleNextQuestion }>Próxima pergunta</button>}
         </main>
       </Layout>
     );
