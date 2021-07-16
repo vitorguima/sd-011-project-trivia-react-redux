@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { subTimer } from '../actions';
 
 class Timer extends Component {
@@ -35,12 +36,16 @@ class Timer extends Component {
   }
 }
 
-mapStateToProps(state) ({
-  timer: state.
-});
+// mapStateToProps(state) ({
+//   timer: state.
+// });
 
 const mapDispatchToProps = (dispatch) => ({
   timerDispatch: () => dispatch(subTimer()),
 });
+
+Timer.propTypes = {
+  timerDispatch: PropTypes.func.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Timer);
