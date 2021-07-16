@@ -12,6 +12,7 @@ class Game extends Component {
       number: 0,
       disabled: false,
       seconds: 30,
+      score: 0,
     };
 
     this.colorOptions = this.colorOptions.bind(this);
@@ -30,13 +31,36 @@ class Game extends Component {
     this.interval = setInterval(this.timer, miliSeconds);
   }
 
-  colorOptions() {
+  colorOptions({ target }) {
+    const { questions, name } = this.props;
+    const { number, seconds } = this.state;
     const rightAnswer = document.querySelector('#correct-answer');
     const wrongAnswers = document.querySelectorAll('#wrong-answer');
     rightAnswer.classList.add('correct-color');
     wrongAnswers.forEach((answer) => {
       answer.classList.add('wrong-color');
     });
+    if (target === rightAnswer) {
+      let sum = 0;
+      const difficulty = questions.results[number].difficulty;
+      switch (difficulty) {
+      case 'easy':
+        sum = seconds * 1;
+        break;
+      case 'medium':
+        sum = seconds * 2;
+        break;
+      case 'hard':
+        sum = seconds * 3;
+        break;
+      default:
+        break;
+      }
+      this.setState((state) => ({
+        score: state.score + 10 + sum,
+      }));
+      localStorage.setItem(name, this.state.score);
+    }
     clearInterval(this.interval);
     this.setState({
       disabled: true,
@@ -96,7 +120,7 @@ class Game extends Component {
           type="button"
           data-testid="correct-answer"
           id="correct-answer"
-          onClick={ this.colorOptions }
+          onClick={ (event) => this.colorOptions(event) }
           disabled={ disabled }
         >
           {questions.results[number].correct_answer}
@@ -107,7 +131,7 @@ class Game extends Component {
             type="button"
             data-testid={ `wrong-answer ${key}` }
             id="wrong-answer"
-            onClick={ this.colorOptions }
+            onClick={ (event) => this.colorOptions(event) }
             disabled={ disabled }
           >
             { incorrect }
@@ -118,8 +142,8 @@ class Game extends Component {
   }
 
   render() {
-    const { loading, hash, name, score } = this.props;
-    const { disabled, seconds, number } = this.state;
+    const { loading, hash, name } = this.props;
+    const { disabled, seconds, number, score } = this.state;
     const maxQuestions = 5;
     if (number === maxQuestions) {
       return <Redirect to="/feedback" />;
