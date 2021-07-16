@@ -1,22 +1,17 @@
-import {
-  SEND_QUESTIONS,
-} from '../actions';
+import { SEND_QUESTIONS } from '../actions';
 
-const INITIAL_STATE = {
-  questions: [],
-};
+const INITIAL_STATE = { idTrivia: 0, questions: [] };
 
-function questions(state = INITIAL_STATE, action) {
+function trivia(state = INITIAL_STATE, action) {
   switch (action.type) {
   case SEND_QUESTIONS:
-    return {
+    return ({
       ...state,
-      questions: action.questions,
-    };
-
+      questions: [...action.questions],
+    });
   default:
     return state;
   }
 }
 
-export default questions;
+export default trivia;
