@@ -5,20 +5,26 @@ import PropTypes from 'prop-types';
 import Layout from '../components/common/Layout';
 import { getQuestions } from '../redux/actions';
 
+import createStopwatch from '../utils/stopwatch';
+
 import './Game.css';
 
 class Game extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.state = {
       questions: [],
       loading: true,
       alternatives: [],
       hasPicked: false,
+      remainingTime: null,
+      stopwatch: null,
     };
     this.initializeState = this.initializeState.bind(this);
     this.handlePickOption = this.handlePickOption.bind(this);
-    // this.teste = this.teste.bind(this);
+    this.handleStopwatchEnd = this.handleStopwatchEnd.bind(this);
+    this.handleStopwatchTick = this.handleStopwatchTick.bind(this);
   }
 
   async componentDidMount() {
@@ -27,13 +33,40 @@ class Game extends Component {
     this.initializeState();
   }
 
+  componentWillUnmount() {
+    const { stopwatch } = this.state;
+    stopwatch.stop();
+  }
+
+  handleStopwatchEnd() {
+    this.setState({
+      hasPicked: true,
+    });
+  }
+
+  handleStopwatchTick(remainingTime) {
+    this.setState({
+      remainingTime,
+    });
+  }
+
   initializeState() {
     const { quest } = this.props;
+
+    const TIME_TO_CHOOSE = 30;
+
+    const callbacks = {
+      tick: this.handleStopwatchTick,
+      end: this.handleStopwatchEnd,
+    };
+
     this.setState({
       questions: quest,
       loading: false,
       alternatives: quest.map((alt) => (
         this.shuffle([...alt.incorrect_answers, alt.correct_answer]))),
+      remainingTime: TIME_TO_CHOOSE,
+      stopwatch: createStopwatch(TIME_TO_CHOOSE, callbacks).start(),
     });
   }
 
@@ -54,6 +87,9 @@ class Game extends Component {
   // } fisher-yates (inacio)
 
   handlePickOption({ target }) {
+    const { stopwatch } = this.state;
+    stopwatch.stop();
+
     if (target.dataset.testid === 'correct-answer') {
       console.log('acertou');
     } else {
@@ -96,6 +132,7 @@ class Game extends Component {
           type="button"
           data-testid="correct-answer"
           className={ `choices--correct${hasPicked ? '--picked' : ''}` }
+          disabled={ hasPicked }
         >
           {answer}
         </button>);
@@ -107,6 +144,7 @@ class Game extends Component {
         data-testid={ `wrong-answer-${index}` }
         type="button"
         className={ `choices--wrong${hasPicked ? '--picked' : ''}` }
+        disabled={ hasPicked }
       >
         { answer }
       </button>);
@@ -114,7 +152,7 @@ class Game extends Component {
 
   render() {
     const { email, name, score } = this.props;
-    const { questions, loading, alternatives } = this.state;
+    const { questions, loading, alternatives, remainingTime } = this.state;
     return (
       <Layout title="Game">
         <main>
@@ -147,6 +185,10 @@ class Game extends Component {
                   .map((answer, index) => this.renderButtons(answer, index)) }
             </div>
           </div>
+          <p>
+            Tempo restante:&nbsp;
+            { remainingTime }
+          </p>
         </main>
       </Layout>
     );
