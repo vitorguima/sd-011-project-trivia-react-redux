@@ -11,6 +11,7 @@ class Game extends Component {
     this.fetchTriviaApi = this.fetchTriviaApi.bind(this);
     this.storeTokenOnLocalStorage = this.storeTokenOnLocalStorage.bind(this);
     this.renderShowAnswer = this.renderShowAnswer.bind(this);
+    this.renderTimeAnswer = this.renderTimeAnswer.bind(this);
 
     this.state = {
       questions: [],
@@ -18,11 +19,14 @@ class Game extends Component {
       loading: true,
       showIncorrectAnswer: '',
       showCorrectAnswer: '',
+      timer: 30,
+      disabled: false,
     };
   }
 
   componentDidMount() {
     this.fetchTriviaApi();
+    this.renderTimeAnswer();
   }
 
   getTokenOnLocalStorage() {
@@ -57,18 +61,24 @@ class Game extends Component {
     });
   }
 
-  renderShowAnswer() {
-    this.setState({
-      showIncorrectAnswer: 'incorrect',
-      showCorrectAnswer: 'correct',
-    });
+  renderTimeAnswer() {
+    const second = 1000;
+    const { timer } = this.state;
+    if (timer > 0) {
+      this.setState({ timer: timer - 1 });
+      setTimeout(this.renderTimeAnswer, second);
+    }
+    if (timer === 0) {
+      this.setState({ disabled: true });
+    }
   }
 
   renderQuestions() {
-    const { questions, questionNum } = this.state;
+    const { questions, questionNum, timer } = this.state;
 
     return (
       <>
+        <span>{ `Tempo: ${timer}` }</span>
         <h1 data-testid="question-text">
           { questions[questionNum].question }
         </h1>
@@ -80,50 +90,51 @@ class Game extends Component {
     );
   }
 
-  renderAnswers(question) {
-    const { showIncorrectAnswer, showCorrectAnswer } = this.state;
+  renderShowAnswer() {
+    this.setState({
+      showIncorrectAnswer: 'incorrect',
+      showCorrectAnswer: 'correct',
+    });
+  }
 
+  renderAnswers(question) {
+    const { showIncorrectAnswer, showCorrectAnswer, disabled } = this.state;
+    let incorrectAnswers;
     if (question.type === 'multiple') {
-      const incorrectAnswers = question.incorrect_answers.map((answer, index) => (
+      incorrectAnswers = question.incorrect_answers.map((answer, index) => (
         <button
           data-testid={ `wrong-answer-${index}` }
           type="button"
           key={ index }
           className={ showIncorrectAnswer }
           onClick={ this.renderShowAnswer }
+          disabled={ disabled }
         >
           { answer }
         </button>
       ));
-      return (
-        <>
-          {incorrectAnswers}
-          <button
-            data-testid="correct-answer"
-            type="button"
-            className={ showCorrectAnswer }
-            onClick={ this.renderShowAnswer }
-          >
-            { question.correct_answer }
-          </button>
-        </>
+    } else {
+      incorrectAnswers = (
+        <button
+          data-testid="wrong-answer-0"
+          type="button"
+          className={ showIncorrectAnswer }
+          onClick={ this.renderShowAnswer }
+          disabled={ disabled }
+        >
+          { question.incorrect_answers[0] }
+        </button>
       );
     }
     return (
       <>
-        <button
-          data-testid={ `wrong-answer-${0}` }
-          type="button"
-          className={ showIncorrectAnswer }
-          onClick={ this.renderShowAnswer }
-        >
-          { question.incorrect_answers[0] }
-        </button>
+        {incorrectAnswers}
         <button
           data-testid="correct-answer"
           type="button"
           className={ showCorrectAnswer }
           onClick={ this.renderShowAnswer }
+          disabled={ disabled }
         >
           { question.correct_answer }
         </button>
@@ -133,19 +144,18 @@ class Game extends Component {
 
   render() {
     const { loading } = this.state;
-
     return (
       <div>
         <Header />
         {
           loading ? <div>Carregando</div> : this.renderQuestions()
         }
-        <div>
+        {/* <div>
           <h2>Categoria da pergunta</h2>
           <div>
             Alternativas
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }
