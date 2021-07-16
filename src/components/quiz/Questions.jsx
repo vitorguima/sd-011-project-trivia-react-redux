@@ -14,9 +14,12 @@ class Questions extends React.Component {
       questionsList: [],
       indexQuestion: 0,
       endGame: false,
+      buttonDisabled: false,
     };
     this.fetchTrivia = this.fetchTrivia.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.startTime = this.startTime.bind(this);
+    this.handleButtons = this.handleButtons.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +39,8 @@ class Questions extends React.Component {
         endGame: true,
       };
     });
+    this.handleButtons(false);
+    this.startTime();
   }
 
   async fetchTrivia() {
@@ -44,24 +49,37 @@ class Questions extends React.Component {
     const { questions } = this.props;
     this.setState({
       questionsList: questions,
+    }, () => this.startTime());
+  }
+
+  handleButtons(disabled) {
+    this.setState({
+      buttonDisabled: disabled,
     });
+  }
+
+  startTime() {
+    const timer = 30000;
+    setTimeout(() => this.handleButtons(true), timer);
   }
 
   render() {
     const { loading } = this.props;
-    const { questionsList, indexQuestion, endGame } = this.state;
+    const { questionsList, indexQuestion, endGame, buttonDisabled } = this.state;
     if (!loading && questionsList.length !== 0) {
       return (
         <div>
           <div>
             <p data-testid="question-text">{ questionsList[indexQuestion].question }</p>
-            <p
-              data-testid="question-category"
-            >
+            <p data-testid="question-category">
               { questionsList[indexQuestion].category }
             </p>
           </div>
-          <Answers questionsList={ questionsList[indexQuestion] } />
+          <Answers
+            handleButtons={ this.handleButtons }
+            questionsList={ questionsList[indexQuestion] }
+            isDisabled={ buttonDisabled }
+          />
           { !endGame ? <ButtonNext testid="btn-next" nextQuestion={ this.nextQuestion } />
             : (
               <Link to="/feedback">
