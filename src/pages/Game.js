@@ -11,6 +11,7 @@ class Game extends React.Component {
       questions: [],
       indexQuestion: 0,
       showCorrect: false,
+      timer: 30,
     };
 
     this.getQuestions = this.getQuestions.bind(this);
@@ -44,7 +45,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { questions, indexQuestion, showCorrect } = this.state;
+    const { questions, indexQuestion, showCorrect, timer } = this.state;
     console.log(questions);
     return (
       <div>
@@ -55,6 +56,7 @@ class Game extends React.Component {
             nextQuestion={ this.nextQuestion }
             showCorrect={ showCorrect }
             setShowCorrect={ this.setShowCorrect }
+            timer={ timer }
           /> }
       </div>
     );
