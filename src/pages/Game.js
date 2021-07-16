@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor() {
@@ -30,6 +31,7 @@ class Game extends Component {
 
     return (
       <div>
+        <Header />
         <h4 data-testid="question-category">{ category }</h4>
         <h3 data-testid="question-text">{ question }</h3>
         <div>

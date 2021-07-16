@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-export class Header extends Component {
-// ..
+class Header extends Component {
   render() {
     const { profileImg, profileName, profileScore } = this.props;
     return (
