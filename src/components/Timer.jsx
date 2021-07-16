@@ -13,6 +13,17 @@ export default function Timer() {
     dispatch(setTimer(totalTime));
   }, []);
 
+  const disableButtons = () => {
+    const buttons = document.querySelectorAll('button[name="q_answer"]');
+    buttons.forEach((button) => button.setAttribute('disabled', true));
+    const allLabels = document.querySelectorAll('label');
+    const btnPrimary = 'btn-primary';
+    allLabels.forEach((el) => {
+      el.classList.add('btn-danger', 'wrongAnswer');
+      el.classList.remove(btnPrimary);
+    });
+  };
+
   const timeChanger = () => {
     const interval = 1000;
     const timeLeft = setTimeout(() => dispatch(setTimer(timer - 1)), interval);
@@ -20,6 +31,7 @@ export default function Timer() {
       return timeLeft;
     } if (timer === 0 || selectedChoice) {
       clearTimeout(timeLeft);
+      disableButtons();
     }
   };
 
@@ -68,11 +80,10 @@ export default function Timer() {
 // const buttons = document.querySelectorAll('button[name="q_answer"]');
 // if (counter === 0) {
 //   buttons.forEach((button) => button.setAttribute('disabled', true));
-// const allLabels = document.querySelectorAll('label');
-// const btnPrimary = 'btn-primary';
-// allLabels.forEach((el) => {
+//   const allLabels = document.querySelectorAll('label');
+//   const btnPrimary = 'btn-primary';
+//   allLabels.forEach((el) => {
 //   el.classList.add('btn-danger', 'wrongAnswer');
 //   el.classList.remove(btnPrimary);
 // }
 // );
-// }
