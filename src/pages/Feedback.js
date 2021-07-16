@@ -21,6 +21,8 @@ class Feedback extends Component {
       <div>
         <Header />
         <h2 data-testid="feedback-text">{ this.msg }</h2>
+        <h3 data-testid="feedback-total-score">Total de score</h3>
+        <h3 data-testid="feedback-total-question">Total de acertos</h3>
       </div>
     );
   }
