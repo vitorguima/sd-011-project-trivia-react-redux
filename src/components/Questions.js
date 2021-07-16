@@ -18,6 +18,8 @@ class Questions extends Component {
     this.handleLocalStorage = this.handleLocalStorage.bind(this);
     this.handleErrorAnswer = this.handleErrorAnswer.bind(this);
     this.handleStyleAnswers = this.handleStyleAnswers.bind(this);
+    this.renderCorretBtn = this.renderCorretBtn.bind(this);
+    this.renderWrongBtn = this.renderWrongBtn.bind(this);
   }
 
   async componentDidMount() {
@@ -73,6 +75,38 @@ class Questions extends Component {
     return <Redirect to="/feedback" />;
   }
 
+  renderCorretBtn(answer, index) {
+    return (
+      <button
+        key={ index }
+        type="button"
+        data-testid="correct-answer"
+        name="answer"
+        onClick={ () => {
+          this.handleCorretAnswer();
+          this.handleStyleAnswers();
+        } }
+      >
+        {answer}
+      </button>);
+  }
+
+  renderWrongBtn(answer, index) {
+    return (
+      <button
+        key={ index }
+        type="button"
+        onClick={ () => {
+          this.handleErrorAnswer();
+          this.handleStyleAnswers();
+        } }
+        data-testid={ `wrong-answer-${index}` }
+        name="answer"
+      >
+        {answer}
+      </button>);
+  }
+
   render() {
     const { questions } = this.props;
     const { indexQuestion, showNextButton } = this.state;
@@ -93,32 +127,10 @@ class Questions extends Component {
           {answers.map((answer, index) => {
             if (answer === correctAnswer) {
               return (
-                <button
-                  key={ index }
-                  type="button"
-                  data-testid="correct-answer"
-                  name="answer"
-                  onClick={ () => {
-                    this.handleCorretAnswer();
-                    this.handleStyleAnswers();
-                  } }
-                >
-                  {answer}
-                </button>);
+                this.renderCorretBtn(answer, index));
             }
             return (
-              <button
-                key={ index }
-                type="button"
-                onClick={ () => {
-                  this.handleErrorAnswer();
-                  this.handleStyleAnswers();
-                } }
-                data-testid={ `wrong-answer-${index}` }
-                name="answer"
-              >
-                {answer}
-              </button>);
+              this.renderWrongBtn(answer, index));
           })}
           {showNextButton && (
             <button
