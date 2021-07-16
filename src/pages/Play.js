@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchToken, fetchQuestions, addPoint } from '../actions';
@@ -98,13 +97,6 @@ class Play extends Component {
           <span data-testid="header-score">{ score }</span>
         </header>
         { questions.length ? this.renderQuestion() : carr }
-        <Link
-          to="/Ranking"
-        >
-          <button type="button" data-testid="btn-settings">
-            Ranking
-          </button>
-        </Link>
       </div>
     );
   }
