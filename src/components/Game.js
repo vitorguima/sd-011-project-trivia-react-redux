@@ -3,16 +3,29 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import Timer from './Timer';
+import * as actions from '../actions';
 
+const ONE_SECOND = 1000;
+const ONE = 1;
+const THREE = 3;
+const TWO = 2;
+const FOUR = 4;
 class Game extends React.Component {
   constructor() {
     super();
     this.state = {
       answered: false,
       questionIndex: 0,
+      count: 30,
     };
     this.handleClickAndTimeOut = this.handleClickAndTimeOut.bind(this);
     this.handleNext = this.handleNext.bind(this);
+    this.decrementCount = this.decrementCount.bind(this);
+    this.handleCorrectAnswer = this.handleCorrectAnswer.bind(this);
+  }
+
+  componentDidMount() {
+    this.intervalId = setInterval(this.decrementCount, ONE_SECOND);
   }
 
   handleClickAndTimeOut() {
@@ -21,25 +34,52 @@ class Game extends React.Component {
     });
   }
 
+  handleCorrectAnswer() {
+    const { count, questionIndex } = this.state;
+    const { questions: { allQuestions }, handleNewCorrectAnswer } = this.props;
+    const currentQuestion = allQuestions[questionIndex];
+    const initPoint = 10;
+    // const storage = JSON.parse(localStorage.getItem('state'));
+    let difficultyNumber;
+    if (currentQuestion.difficulty === 'hard') {
+      difficultyNumber = THREE;
+    } else if (currentQuestion.difficulty === 'medium') {
+      difficultyNumber = TWO;
+    } else {
+      difficultyNumber = ONE;
+    }
+    const score = (initPoint + (count * difficultyNumber));
+    handleNewCorrectAnswer(score);
+    // localStorage.setItem('state', JSON.stringify(storage));
+    this.setState({
+      answered: true,
+    });
+  }
+
+  decrementCount() {
+    const { count } = this.state;
+
+    if (count - 1 <= 0) {
+      this.handleClickAndTimeOut();
+      clearInterval(this.intervalId);
+    }
+
+    this.setState({ count: count - 1 });
+  }
+
   handleNext() {
-    const { questions: { allQuestions } } = this.props;
-    console.log(allQuestions);
     this.setState((prevState) => ({
       questionIndex: prevState.questionIndex + 1,
       answered: false,
     }));
-    // if (questionIndex === 4) {
-    //   //chamar função para o feedback
-    // }
   }
 
   renderQuestions() {
     const { questions: { allQuestions } } = this.props;
-    const { answered, questionIndex } = this.state;
+    const { answered, questionIndex, count } = this.state;
     if (allQuestions.length === 0) {
       return null;
     }
-    // const currentIndex = 0;
     const currentQuestion = allQuestions[questionIndex];
     const correctAnswerClassName = answered ? {
       border: '3px solid rgb(6, 240, 15)',
@@ -56,7 +96,7 @@ class Game extends React.Component {
           style={ { ...correctAnswerClassName } }
           type="button"
           data-testid="correct-answer"
-          onClick={ this.handleClickAndTimeOut }
+          onClick={ this.handleCorrectAnswer }
         >
           { currentQuestion.correct_answer }
         </button>
@@ -74,11 +114,11 @@ class Game extends React.Component {
             </button>
           ))
         }
-        { answered && (
+        { answered && questionIndex < FOUR && (
           <button type="button" data-testid="btn-next" onClick={ this.handleNext }>
             Próxima
           </button>) }
-        { !answered && <Timer handleClickAndTimeOut={ this.handleClickAndTimeOut } /> }
+        { !answered && <Timer count={ count } /> }
       </div>
     );
   }
@@ -94,15 +134,20 @@ class Game extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  handleNewCorrectAnswer: (score) => dispatch(actions.handleNewCorrectAnswer(score)),
+});
+
 const mapStateToProps = (state) => ({
   questions: state.questions,
   token: state.player.token,
 });
 
 Game.propTypes = {
+  handleNewCorrectAnswer: PropTypes.func.isRequired,
   questions: PropTypes.shape({
     allQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
 };
 
-export default connect(mapStateToProps, null)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

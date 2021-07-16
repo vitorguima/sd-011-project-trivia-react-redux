@@ -10,4 +10,16 @@ const store = createStore(
   ),
 );
 
+store.subscribe(() => {
+  const reduxState = store.getState();
+  const modifyState = {
+    player: {
+      name: reduxState.player.name,
+      assertions: 0,
+      score: reduxState.player.score,
+      gravatarEmail: reduxState.player.email,
+    },
+  };
+  localStorage.setItem('state', JSON.stringify(modifyState));
+});
 export default store;

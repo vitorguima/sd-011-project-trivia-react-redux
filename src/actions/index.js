@@ -1,6 +1,7 @@
 export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const STORE_LOGIN_EMAIL = 'STORE_LOGIN_EMAIL';
 export const QUESTION_REQUEST = 'QUESTION_REQUEST';
+export const NEW_CORRECT_ANSWER = 'NEW_CORRECT_ANSWER';
 
 function handleStoreLoginEmail(name, email) {
   return { type: STORE_LOGIN_EMAIL, payload: { name, email } };
@@ -13,6 +14,10 @@ function handleFetchTokenSuccess(json) {
 
 function handleQuestionsSuccess(json) {
   return { type: QUESTION_REQUEST, payload: json };
+}
+
+export function handleNewCorrectAnswer(score) {
+  return { type: NEW_CORRECT_ANSWER, payload: score };
 }
 
 function questionsGame(token) {
