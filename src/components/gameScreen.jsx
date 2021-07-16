@@ -7,7 +7,6 @@ export default class gameScreen extends Component {
 
     this.state = {
       question: 0,
-      disabledButton: false,
     };
 
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
@@ -15,8 +14,8 @@ export default class gameScreen extends Component {
   }
 
   colorSelectCorrect() {
-    const btns = document.querySelectorAll('button')
-    btns.forEach((element) => { element.classList.add('revel-color')});
+    const btns = document.querySelectorAll('button');
+    btns.forEach((element) => { element.classList.add('revel-color'); });
   }
 
   nextQuestion() {
@@ -25,15 +24,13 @@ export default class gameScreen extends Component {
     if (question < results.length - 1) {
       this.setState({
         question: question + 1,
-        disabledButton: true,
       });
     }
   }
 
-
   render() {
     const { results } = this.props;
-    const { question, disabledButton } = this.state;
+    const { question } = this.state;
     return (
       <div>
         {results.length > 0 ? (
@@ -49,20 +46,20 @@ export default class gameScreen extends Component {
               {results[question].correct_answer}
             </button>
             {results[0].incorrect_answers.map((answer, index) => (
-                <button
-                  key={ index }
-                  type="button"
-                  data-testid={ `wrong-answer-${index}` }
-                  className="red-border"
-                  onClick={ () => this.colorSelectCorrect() }
-                >
-                  {answer}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <p>Baixando Questões</p>
-          )}
+              <button
+                key={ index }
+                type="button"
+                data-testid={ `wrong-answer-${index}` }
+                className="red-border"
+                onClick={ () => this.colorSelectCorrect() }
+              >
+                {answer}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p>Baixando Questões</p>
+        )}
       </div>
     );
   }
