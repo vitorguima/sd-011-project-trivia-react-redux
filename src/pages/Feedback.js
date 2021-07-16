@@ -41,6 +41,7 @@ class Feedback extends Component {
   }
 }
 
+// Abertura de novo PR para requisito 15
 // Secessário em algum momento trocar a origem da informação 'score' de localStorage para o estado global.
 
 const mapStateToProps = (state) => ({
