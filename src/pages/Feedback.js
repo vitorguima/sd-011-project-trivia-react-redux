@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -23,6 +24,14 @@ class Feedback extends Component {
           <p data-testid="header-player-name">{ name }</p>
           <p data-testid="header-score">{ state.player.score }</p>
         </header>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar Novamente
+          </button>
+        </Link>
         {/* <div>
           <h3 data-testid="feedback-total-score">Placar Final</h3>
           <h4 data-testid="feedback-total-question">Você acertou...</h4>
@@ -32,6 +41,7 @@ class Feedback extends Component {
   }
 }
 
+// Abertura de novo PR para requisito 15
 // Secessário em algum momento trocar a origem da informação 'score' de localStorage para o estado global.
 
 const mapStateToProps = (state) => ({
