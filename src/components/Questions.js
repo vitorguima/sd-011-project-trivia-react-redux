@@ -3,17 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import { fetchQuestionsAPI } from '../actions/game';
+import Counter from './Counter';
 import './Questions.css';
 
 class Questions extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = ({
-      buttonClick: false,
-    });
-
-    this.toggleClass = this.toggleClass.bind(this);
+  constructor() {
+    super();
+    this.state = {
+      toggleButton: false,
+    };
+    this.toggleButtonClass = this.toggleButtonClass.bind(this);
   }
 
   componentDidMount() {
@@ -21,41 +20,46 @@ class Questions extends Component {
     fetchQuestion(tokenData);
   }
 
-  toggleClass() {
-    this.setState({
-      buttonClick: true,
-    });
+  toggleButtonClass() {
+    this.setState({ toggleButton: true });
   }
 
   render() {
-    const { questionData } = this.props;
-    const { buttonClick } = this.state;
+    const { toggleButton } = this.state;
+    const { questionData, buttonsStatus } = this.props;
     if (questionData.length) {
       const questionOne = questionData[0];
       return (
-        <div>
+        <div className="main-container">
           <Header />
-          <p data-testid="question-category">{ questionOne.category }</p>
-          <p data-testid="question-text">{ questionOne.question }</p>
-          <button
-            type="button"
-            data-testid="correct-answer"
-            className={ buttonClick ? 'correctButton' : null }
-            onClick={ this.toggleClass }
-          >
-            { questionOne.correct_answer }
-          </button>
-          { questionOne.incorrect_answers.map((answer, inx) => (
-            <button
-              key={ inx }
-              type="button"
-              data-testid={ `wrong-answer-${inx}` }
-              className={ buttonClick ? 'wrongButtons' : null }
-              onClick={ this.toggleClass }
-            >
-              { answer }
-            </button>
-          ))}
+          <div className="questions-container">
+            <Counter />
+            <p data-testid="question-category">{ questionOne.category }</p>
+            <p data-testid="question-text">{ questionOne.question }</p>
+            <div className="buttons-container">
+              <button
+                type="button"
+                data-testid="correct-answer"
+                onClick={ this.toggleButtonClass }
+                className={ toggleButton ? 'correct-btn' : null }
+                disabled={ buttonsStatus }
+              >
+                { questionOne.correct_answer }
+              </button>
+              { questionOne.incorrect_answers.map((answer, inx) => (
+                <button
+                  key={ inx }
+                  type="button"
+                  data-testid={ `wrong-answer-${inx}` }
+                  onClick={ this.toggleButtonClass }
+                  className={ toggleButton ? 'incorrect-btn' : null }
+                  disabled={ buttonsStatus }
+                >
+                  { answer }
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       );
     }
@@ -66,6 +70,7 @@ class Questions extends Component {
 const mapStateToProps = (state) => ({
   tokenData: state.login.token,
   questionData: state.game.questions,
+  buttonsStatus: state.game.answerButtons,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -78,4 +83,5 @@ Questions.propTypes = {
   tokenData: PropTypes.string.isRequired,
   questionData: PropTypes.arrayOf.isRequired,
   fetchQuestion: PropTypes.func.isRequired,
+  buttonsStatus: PropTypes.func.isRequired,
 };

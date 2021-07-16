@@ -1,7 +1,28 @@
-.correctButton {
+.correct-btn {
   border: 3px solid rgb(6, 240, 15);
 }
 
-.wrongButtons {
+.incorrect-btn {
   border: 3px solid red;
+}
+
+.questions-container {
+  border: 3px solid black;
+  margin: 30px;
+  padding: 15px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  margin: 3px;
+  padding: 5px;
 }
