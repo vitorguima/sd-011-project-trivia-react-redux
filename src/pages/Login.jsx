@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { fetchToken, loginAction, fetchQuestions } from '../actions';
-import { saveTokenToStore } from '../service/handleLocalStorage';
+import {
+  saveTokenToStore,
+  resetStore,
+} from '../service/handleLocalStorage';
 
 class Login extends Component {
   constructor() {
@@ -34,7 +37,7 @@ class Login extends Component {
   async handleLogin() {
     const { name, email } = this.state;
     const { initToken, setLogin, getQuestions } = this.props;
-
+    resetStore(name, email);
     await initToken();
     const { token } = this.props;
     this.handleLocalStorage();
