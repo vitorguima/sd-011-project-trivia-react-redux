@@ -2,13 +2,28 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getQuestionsThunk } from '../actions';
+import './Game.css';
 
 class Game extends Component {
+  constructor() {
+    super();
+    this.colorOptions = this.colorOptions.bind(this);
+  }
+
   componentDidMount() {
     const { getQuestions } = this.props;
     if (localStorage.token) {
       getQuestions(localStorage.getItem('token'));
     }
+  }
+
+  colorOptions() {
+    const rightAnswer = document.querySelector('#correct-answer');
+    const wrongAnswers = document.querySelectorAll('#wrong-answer');
+    rightAnswer.classList.add('correct-color');
+    wrongAnswers.forEach((answer) => {
+      answer.classList.add('wrong-color');
+    });
   }
 
   render() {
@@ -30,6 +45,8 @@ class Game extends Component {
                 <button
                   type="button"
                   data-testid="correct-answer"
+                  id="correct-answer"
+                  onClick={ this.colorOptions }
                 >
                   {questions.results[0].correct_answer}
                 </button>
@@ -37,7 +54,9 @@ class Game extends Component {
                   <button
                     key={ key }
                     type="button"
-                    data-testid={ `wrong-answer-${key}` }
+                    data-testid={ `wrong-answer ${key}` }
+                    id="wrong-answer"
+                    onClick={ this.colorOptions }
                   >
                     { incorrect }
                   </button>
