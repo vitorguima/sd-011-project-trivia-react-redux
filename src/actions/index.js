@@ -1,4 +1,5 @@
 export const SUB_TIMER = 'SUB_TIMER';
+export const ENABLE_BTNS = 'ENABLE_BTNS';
 
 export const loginInputs = ({ target }) => {
   const { name } = target;
@@ -36,4 +37,8 @@ export const fetchTriviaQuestions = (token) => (dispatch) => fetch(`https://open
 
 export const subTimer = () => ({
   type: SUB_TIMER,
+});
+
+export const enablebtns = () => ({
+  type: ENABLE_BTNS,
 });

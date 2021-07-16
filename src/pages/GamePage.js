@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import './GamePage.style.css';
 import Timer from '../compoments/Timer';
+import { enablebtns } from '../actions';
 
 class GamePage extends Component {
   constructor() {
@@ -12,11 +13,11 @@ class GamePage extends Component {
       questionIndex: 0,
       score: 0,
       click: false,
-      isDisable: false,
+      // disableBtn: true,
     };
     this.btnHandle = this.btnHandle.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
-    this.disableBtns = this.disableBtns.bind(this);
+    // this.disableBtns = this.disableBtns.bind(this);
   }
 
   componentDidUpdate() {
@@ -26,15 +27,16 @@ class GamePage extends Component {
     }
   }
 
-  disableBtns() {
-    this.setState({ isDisable: true });
-  }
+  // disableBtns() {
+  //   this.setState({ disableBtn: true });
+  // }
 
   btnHandle() {
+    const { enableBtns } = this.props;
+    enableBtns();
     this.setState((ps) => ({
       questionIndex: ps.questionIndex + 1,
       click: false,
-      isDisable: false,
     }));
   }
 
@@ -54,7 +56,7 @@ class GamePage extends Component {
     );
   }
 
-  answBtnCreator(results, questionIndex, click, isDisable) {
+  answBtnCreator(results, questionIndex, click, disableBtn) {
     const result = results[questionIndex];
     const btnCorrectAnsw = (
       <button
@@ -63,7 +65,7 @@ class GamePage extends Component {
         onClick={ this.clickAnswer }
         type="button"
         data-testid="correct-answer"
-        disabled={ isDisable }
+        disabled={ disableBtn }
       >
         {result.correct_answer}
       </button>);
@@ -75,7 +77,7 @@ class GamePage extends Component {
         className={ click ? 'wrongAnswer' : null }
         type="button"
         data-testid={ `wrong-answer-${index}` }
-        disabled={ isDisable }
+        disabled={ disableBtn }
       >
         {wrngAnsw}
       </button>))];
@@ -107,21 +109,21 @@ class GamePage extends Component {
   }
 
   render() {
-    const { results, timer } = this.props;
-    const { questionIndex, click, isDisable } = this.state;
+    const { results, disableBtn } = this.props;
+    const { questionIndex, click } = this.state;
     const indexLimit = 4;
-    if (timer <= 0) this.disableBtns();
+    // if (timer <= 0) this.disableBtns();
 
     return (
       <div>
         {this.renderHeader()}
         <Timer />
         {results && this.questionSection(results, questionIndex)}
-        {results && this.answBtnCreator(results, questionIndex, click, isDisable)}
+        {results && this.answBtnCreator(results, questionIndex, click, disableBtn)}
         <br />
         <button
           type="button"
-          onClick={ this.btnHandle }
+          onClick={ () => this.btnHandle() }
           disabled={ questionIndex === indexLimit }
         >
           Próximo
@@ -131,19 +133,27 @@ class GamePage extends Component {
   }
 }
 
+// colocar um valor default para results proptypes
 GamePage.propTypes = {
   email: PropTypes.string.isRequired,
   nome: PropTypes.string.isRequired,
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
   timer: PropTypes.number.isRequired,
+  disableBtn: PropTypes.bool.isRequired,
+  enableBtns: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  enableBtns: () => dispatch(enablebtns()),
+});
 
 const mapStateToProps = (state) => ({
   nome: state.triviaReducer.login.nome,
   email: state.triviaReducer.login.email,
   results: state.triviaReducer.questions.results,
   timer: state.triviaReducer.timer,
+  disableBtn: state.triviaReducer.isDisable,
 
 });
 
-export default connect(mapStateToProps)(GamePage);
+export default connect(mapStateToProps, mapDispatchToProps)(GamePage);

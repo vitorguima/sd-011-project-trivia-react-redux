@@ -1,4 +1,4 @@
-import { SUB_TIMER } from '../actions';
+import { ENABLE_BTNS, SUB_TIMER } from '../actions';
 
 const INITIAL_STATE = {
   login: {
@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   questions: {},
   gravatarAvatar: '',
   timer: 5,
+  isDisable: false,
 };
 
 export default function triviaReducer(state = INITIAL_STATE, action) {
@@ -38,6 +39,12 @@ export default function triviaReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       timer: state.timer - 1,
+      isDisable: (state.timer <= 1),
+    };
+  case ENABLE_BTNS:
+    return {
+      ...state,
+      isDisable: false,
     };
   default:
     return state;
