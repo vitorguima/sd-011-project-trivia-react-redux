@@ -11,7 +11,7 @@ export default function player(state = INITIAL_STATE, action) {
   case LOGIN:
     return { ...state, name: action.name, email: action.email };
   case GET_SCORE:
-    return { ...state, score: action.score };
+    return { ...state, score: state.score + action.score };
   default:
     return state;
   }

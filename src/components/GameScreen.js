@@ -73,7 +73,7 @@ class GameScreen extends React.Component {
     const newState = {
       player: {
         ...state.player,
-        score,
+        score: state.player.score + score,
         assertions: state.player.assertions + 1,
       },
     };
@@ -98,7 +98,7 @@ class GameScreen extends React.Component {
   checkTimer() {
     const { timer, disabledButton } = this.state;
     if (timer === 0 && !disabledButton) {
-      this.handleAnswer();
+      this.handleAnswer(false);
     }
   }
 
@@ -113,6 +113,7 @@ class GameScreen extends React.Component {
         questionNumber: prevState.questionNumber + 1,
         styles: ['', ''],
         disabledButton: false,
+        timer: 30,
       }));
     }
   }
