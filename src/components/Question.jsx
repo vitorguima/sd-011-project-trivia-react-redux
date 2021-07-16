@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import { saveScoreToStore } from '../service/handleLocalStorage';
+import { saveScoreToStore, saveAssertionToStore } from '../service/handleLocalStorage';
 import { nextQuestion as newQuestion, addScore } from '../actions';
 import '../styles/question.css';
 
@@ -19,6 +19,7 @@ class Question extends Component {
     this.handleNextQuestion = this.handleNextQuestion.bind(this);
     this.returnNextButton = this.returnNextButton.bind(this);
     this.calculateScore = this.calculateScore.bind(this);
+    this.handleLocalStorage = this.handleLocalStorage.bind(this);
   }
 
   handleNextQuestion() {
@@ -53,31 +54,30 @@ class Question extends Component {
     });
   }
 
+  handleLocalStorage(score) {
+    const { addNewScore } = this.props;
+    addNewScore(score);
+    saveScoreToStore(score);
+    saveAssertionToStore();
+  }
+
   calculateScore() {
-    const { count, question: { difficulty }, addNewScore } = this.props;
-    const scoreNumbers = {
-      easy: 1,
-      medium: 2,
-      hard: 3,
-      default: 10,
-    };
+    const { count, question: { difficulty } } = this.props;
+    const scoreNumbers = { easy: 1, medium: 2, hard: 3, default: 10 };
     switch (difficulty) {
     case ('easy'): {
       const score = scoreNumbers.default + (Number(count) * scoreNumbers.easy);
-      addNewScore(score);
-      saveScoreToStore(score);
+      this.handleLocalStorage(score);
       break;
     }
     case ('medium'): {
       const score = scoreNumbers.default + (Number(count) * scoreNumbers.medium);
-      addNewScore(score);
-      saveScoreToStore(score);
+      this.handleLocalStorage(score);
       break;
     }
     case ('hard'): {
       const score = scoreNumbers.default + (Number(count) * scoreNumbers.hard);
-      addNewScore(score);
-      saveScoreToStore(score);
+      this.handleLocalStorage(score);
       break;
     }
     default:

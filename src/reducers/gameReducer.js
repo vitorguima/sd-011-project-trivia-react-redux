@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   questions: [],
   isLoading: false,
   score: 0,
-  correctAsnwers: 0,
+  correctAnswers: 0,
   currentQuestion: 0,
 };
 
@@ -30,6 +30,7 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       score: state.score + payload,
+      correctAnswers: state.correctAnswers + 1,
     };
   case NEXT_QUESTION: {
     const maxNumber = 4;
