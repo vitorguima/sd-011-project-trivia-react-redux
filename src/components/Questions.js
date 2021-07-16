@@ -11,7 +11,7 @@ class Questions extends Component {
       indexQuestion: 0,
       totalScore: 0,
       showNextButton: false,
-      timeCount: 5,
+      timeCount: 30,
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleCorretAnswer = this.handleCorretAnswer.bind(this);
