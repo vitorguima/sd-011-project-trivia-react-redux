@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 export default class Timer extends Component {
@@ -28,11 +27,13 @@ export default class Timer extends Component {
 
   decrementCount() {
     const { count, interval } = this.state;
-    const { onTimeout } = this.props;
 
     if (count - 1 <= 0) {
-      onTimeout();
       clearInterval(interval);
+      const btns = document.querySelectorAll('button');
+      btns.forEach((btn) => {
+        btn.disabled = true;
+      });
     }
 
     this.setState({ count: count - 1 });
@@ -40,10 +41,12 @@ export default class Timer extends Component {
 
   render() {
     const { count } = this.state;
-    return <div>{count}</div>;
+    return (
+      <div>
+        {' '}
+        Cronometro:
+        {count}
+      </div>
+    );
   }
 }
-
-Timer.propTypes = {
-  onTimeout: PropTypes.func.isRequired,
-};
