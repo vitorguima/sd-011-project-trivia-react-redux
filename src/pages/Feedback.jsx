@@ -31,15 +31,20 @@ class Feedback extends Component {
     const { img } = this.props;
     const three = 3;
     return (
-      <header>
-        <h1 data-testid="feedback-text">Feedback</h1>
-        <p data-testid="header-player-name">{name}</p>
-        <img data-testid="header-profile-picture" src={ img } alt="Player avatar" />
-        <p>{assertions}</p>
-        <p data-testid="header-score">{score}</p>
-        { assertions < three && <p data-testid="feedback-text">Podia ser melhor...</p> }
-        { assertions >= three && <p data-testid="feedback-text">Mandou bem!</p> }
-      </header>
+      <div>
+        <header>
+          <h1 data-testid="feedback-text">Feedback</h1>
+          <p data-testid="header-player-name">{name}</p>
+          <img data-testid="header-profile-picture" src={ img } alt="Player avatar" />
+          <p data-testid="header-score">{score}</p>
+          { assertions < three && <p data-testid="feedback-text">Podia ser melhor...</p> }
+          { assertions >= three && <p data-testid="feedback-text">Mandou bem!</p> }
+        </header>
+        <div>
+          <p data-testid="feedback-total-question">{assertions}</p>
+          <p data-testid="feedback-total-score">{score}</p>
+        </div>
+      </div>
     );
   }
 }
