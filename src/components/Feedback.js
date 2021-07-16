@@ -25,7 +25,6 @@ class Feedback extends Component {
     return (
       <div>
         <Header />
-
         <h2 data-testid="feedback-text">
           {state.player.assertions < three ? 'Podia ser melhor...' : 'Mandou bem!' }
         </h2>
