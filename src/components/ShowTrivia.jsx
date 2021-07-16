@@ -21,7 +21,7 @@ export default function ShowTrivia() {
 
   return (
     <div className="modal-dialog">
-      {/* <Timer /> */}
+      <Timer />
       <div className="modal-content">
         <div className="modal-header">
           <ShowQuestion />
