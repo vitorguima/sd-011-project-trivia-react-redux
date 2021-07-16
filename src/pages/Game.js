@@ -12,6 +12,7 @@ class Game extends Component {
     this.storeTokenOnLocalStorage = this.storeTokenOnLocalStorage.bind(this);
     this.renderShowAnswer = this.renderShowAnswer.bind(this);
     this.renderTimeAnswer = this.renderTimeAnswer.bind(this);
+    this.goToNextQuestion = this.goToNextQuestion.bind(this);
 
     this.state = {
       questions: [],
@@ -61,6 +62,16 @@ class Game extends Component {
     });
   }
 
+  goToNextQuestion() {
+    this.setState({
+      showIncorrectAnswer: '',
+      showCorrectAnswer: '',
+      timer: 30,
+      disabled: false,
+    });
+    this.setState((prevstate) => ({ questionNum: prevstate.questionNum + 1 }));
+  }
+
   renderTimeAnswer() {
     const second = 1000;
     const { timer } = this.state;
@@ -94,6 +105,7 @@ class Game extends Component {
     this.setState({
       showIncorrectAnswer: 'incorrect',
       showCorrectAnswer: 'correct',
+      disabled: true,
     });
   }
 
@@ -143,19 +155,24 @@ class Game extends Component {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, disabled } = this.state;
     return (
       <div>
         <Header />
         {
           loading ? <div>Carregando</div> : this.renderQuestions()
         }
-        {/* <div>
-          <h2>Categoria da pergunta</h2>
-          <div>
-            Alternativas
-          </div>
-        </div> */}
+        {
+          disabled ? (
+            <button
+              data-testid="btn-next"
+              type="button"
+              onClick={ this.goToNextQuestion }
+            >
+              Proxima
+            </button>
+          ) : null
+        }
       </div>
     );
   }
