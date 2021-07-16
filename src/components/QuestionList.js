@@ -8,7 +8,7 @@ class QuestionList extends Component {
     const { questions } = this.props;
     const questArray = Object.values(questions);
     if (questArray.length > 0) {
-      return (<Question question={ questArray[0] } />);
+      return (<Question question={ questArray } />);
     }
     return (<h1> Carregando </h1>);
   }
