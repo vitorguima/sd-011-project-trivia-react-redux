@@ -42,7 +42,7 @@ export default class Timer extends Component {
   render() {
     const { count } = this.state;
     return (
-      <div>
+      <div className="cronometer">
         {' '}
         Cronometro:
         {count}

@@ -29,6 +29,11 @@ class Login extends React.Component {
         res.json()
           .then((json) => {
             localStorage.setItem('token', json.token);
+            localStorage.setItem('state', JSON.stringify({ player:
+              { name,
+                assertions: 0,
+                score: 0,
+                gravatarEmail: email } }));
             this.setState({ play: true });
             dispatchUserInfo(name, email);
           });
