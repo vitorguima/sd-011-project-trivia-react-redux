@@ -9,8 +9,11 @@ class Questions extends Component {
     super(props);
     this.state = {
       indexQuestion: 0,
+      totalScore: 0,
     };
     this.handleNext = this.handleNext.bind(this);
+    this.handleCorretAnswer = this.handleCorretAnswer.bind(this);
+    this.handleLocalStorage = this.handleLocalStorage.bind(this);
   }
 
   async componentDidMount() {
@@ -28,13 +31,27 @@ class Questions extends Component {
     }
   }
 
+  handleCorretAnswer() {
+    this.setState((state) => ({
+      totalScore: state.totalScore + 1,
+    }));
+  }
+
+  handleLocalStorage() {
+    const { totalScore } = this.state;
+    const retrievelocalStorage = JSON.parse(localStorage.getItem('state'));
+    retrievelocalStorage.player.score = totalScore;
+    localStorage.setItem('state', JSON.stringify(retrievelocalStorage));
+    return <Redirect to="/feedback" />;
+  }
+
   render() {
     const { questions } = this.props;
     const { indexQuestion } = this.state;
     const maxIndexQuestion = 4;
     console.log(indexQuestion);
     if (indexQuestion > maxIndexQuestion) {
-      return <Redirect to="/feedback" />;
+      return this.handleLocalStorage();
     }
     if (questions.length && indexQuestion <= maxIndexQuestion) {
       const correctAnswer = questions[indexQuestion].correct_answer;
@@ -54,6 +71,7 @@ class Questions extends Component {
                   key={ index }
                   type="button"
                   data-testid="correct-answer"
+                  onClick={ () => this.handleCorretAnswer() }
                 >
                   {answer}
                 </button>);
