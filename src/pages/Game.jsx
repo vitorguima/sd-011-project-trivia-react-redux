@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Layout from '../components/common/Layout';
 import { getQuestions } from '../redux/actions';
 
+import './Game.css';
+
 class Game extends Component {
   constructor() {
     super();
@@ -12,23 +14,26 @@ class Game extends Component {
       questions: [],
       loading: true,
       alternatives: [],
+      hasPicked: false,
     };
-    this.updateState = this.updateState.bind(this);
+    this.initializeState = this.initializeState.bind(this);
+    this.handlePickOption = this.handlePickOption.bind(this);
     // this.teste = this.teste.bind(this);
   }
 
   async componentDidMount() {
     const { token, handleQuestions } = this.props;
     await handleQuestions(token);
-    this.updateState();
+    this.initializeState();
   }
 
-  updateState() {
+  initializeState() {
     const { quest } = this.props;
     this.setState({
       questions: quest,
       loading: false,
-      alternatives: quest.map((alt) => [...alt.incorrect_answers, alt.correct_answer]),
+      alternatives: quest.map((alt) => (
+        this.shuffle([...alt.incorrect_answers, alt.correct_answer]))),
     });
   }
 
@@ -48,41 +53,60 @@ class Game extends Component {
   //   return array;
   // } fisher-yates (inacio)
 
-  shuffle() {
-    const { alternatives } = this.state;
+  handlePickOption({ target }) {
+    if (target.dataset.testid === 'correct-answer') {
+      console.log('acertou');
+    } else {
+      console.log('errou');
+    }
+
+    this.setState({
+      hasPicked: true,
+    });
+  }
+
+  shuffle(original) {
     let newArray = [];
     const stopAt = -1;
-    if (alternatives[0].length > 2) {
+    if (original.length > 2) {
       const arrayLength = 3;
-      for (let index = arrayLength, original = [...alternatives[0]];
+      for (let index = arrayLength, clone = [...original];
         index > stopAt;
         index -= 1) {
         const random = Math.round(Math.random() * index);
-        newArray = [...newArray, original[random]];
-        original = original.filter((option) => option !== original[random]);
+        newArray = [...newArray, clone[random]];
+        clone = clone.filter((option) => option !== clone[random]);
       }
       return newArray;
     }
-    const original = [...alternatives[0]];
+    const clone = [...original];
     const random = Math.round(Math.random());
-    newArray[0] = original[random];
-    newArray[1] = original[1 - random];
+    newArray[0] = clone[random];
+    newArray[1] = clone[1 - random];
     return newArray;
   }
 
   renderButtons(answer, index) {
-    const { questions } = this.state;
+    const { questions, hasPicked } = this.state;
     if (answer === questions[0].correct_answer) {
       return (
-        <button type="button" data-testid="correct-answer">
+        <button
+          onClick={ this.handlePickOption }
+          key={ index }
+          type="button"
+          data-testid="correct-answer"
+          className={ `choices--correct${hasPicked ? '--picked' : ''}` }
+        >
           {answer}
         </button>);
     }
     return (
       <button
+        onClick={ this.handlePickOption }
         key={ index }
         data-testid={ `wrong-answer-${index}` }
         type="button"
+        className={ `choices--wrong${hasPicked ? '--picked' : ''}` }
       >
         { answer }
       </button>);
@@ -90,7 +114,7 @@ class Game extends Component {
 
   render() {
     const { email, name, score } = this.props;
-    const { questions, loading } = this.state;
+    const { questions, loading, alternatives } = this.state;
     return (
       <Layout title="Game">
         <main>
@@ -119,7 +143,7 @@ class Game extends Component {
             </p>
             <div>
               { loading ? <span>Carregando...</span>
-                : this.shuffle()
+                : alternatives[0]
                   .map((answer, index) => this.renderButtons(answer, index)) }
             </div>
           </div>
