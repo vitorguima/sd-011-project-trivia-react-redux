@@ -6,6 +6,16 @@ import { requestApiThunk } from '../actions';
 import Answer from '../components/Answer';
 
 class TriviaQuestions extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      question: 1,
+    };
+    const { question } = this.state;
+    console.log(question);
+  }
+
   componentDidMount() {
     const token = localStorage.getItem('token');
     const { setStateGame } = this.props;
@@ -13,8 +23,6 @@ class TriviaQuestions extends Component {
   }
 
   render() {
-    // const { questions } = this.props;
-    // const category = 'multiple';
     return (
       <div>
         <Headerlogin />
