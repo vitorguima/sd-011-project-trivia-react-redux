@@ -15,7 +15,7 @@ class Login extends React.Component {
       name: '',
       statusName: false,
       statusEmail: false,
-      redirect: false,
+      redirect: null,
     };
 
     this.readForm = this.readForm.bind(this);
@@ -67,10 +67,10 @@ class Login extends React.Component {
   async startGame() {
     const { saveLogin, fetchToken } = this.props;
     const { email, name } = this.state;
-    await fetchToken();
     saveLogin(email, name);
+    await fetchToken();
     this.setState({
-      redirect: true,
+      redirect: '/game',
     });
   }
 
@@ -114,7 +114,7 @@ class Login extends React.Component {
     const { statusName, statusEmail, redirect } = this.state;
     if (redirect) {
       return (
-        <Redirect to="/game" />
+        <Redirect to={ redirect } />
       );
     }
     return (

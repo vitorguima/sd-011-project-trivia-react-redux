@@ -8,7 +8,11 @@ class Game extends Component {
   componentDidMount() {
     const { getQuestions } = this.props;
     const token = localStorage.getItem('token');
-    getQuestions(token);
+    if (token) {
+      getQuestions(token);
+    } else {
+      getQuestions('');
+    }
   }
 
   render() {

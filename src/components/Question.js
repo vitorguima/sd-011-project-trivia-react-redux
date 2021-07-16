@@ -69,14 +69,14 @@ class Question extends Component {
     const { questionsArr, currentQuestion } = this.props;
     return (
       <div>
-        <p data-testid="question-category">
-          {' '}
-          { questionsArr[currentQuestion].category }
-          {' '}
-        </p>
         <p data-testid="question-text">
           {' '}
           { questionsArr[currentQuestion].question }
+          {' '}
+        </p>
+        <p data-testid="question-category">
+          {' '}
+          { questionsArr[currentQuestion].category }
           {' '}
         </p>
         { this.renderAwnserButtons() }
