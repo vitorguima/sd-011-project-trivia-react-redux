@@ -115,7 +115,7 @@ class Login extends Component {
               <PlayBtn func={ this.playHandle } />
             </form>
             <BtnSetupScreen />
-                { showImg ? this.showProfileImg() : '' }
+            { showImg ? this.showProfileImg() : '' }
           </section>
         </header>
       </div>
