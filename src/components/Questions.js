@@ -49,7 +49,7 @@ class Questions extends Component {
     const { questions } = this.props;
     const { indexQuestion } = this.state;
     const maxIndexQuestion = 4;
-    console.log(indexQuestion);
+
     if (indexQuestion > maxIndexQuestion) {
       return this.handleLocalStorage();
     }
