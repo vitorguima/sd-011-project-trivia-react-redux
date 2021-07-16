@@ -2,7 +2,7 @@ import React from 'react';
 import '../Login.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import logo from '../trivia.png';
 import * as actions from '../actions';
 
@@ -15,6 +15,7 @@ class Login extends React.Component {
       name: '',
       statusName: false,
       statusEmail: false,
+      redirect: null,
     };
 
     this.readForm = this.readForm.bind(this);
@@ -63,21 +64,28 @@ class Login extends React.Component {
     this.validName();
   }
 
-  startGame() {
+  async startGame() {
     const { saveLogin, fetchToken } = this.props;
     const { email, name } = this.state;
     saveLogin(email, name);
-    fetchToken();
+    await fetchToken();
+    this.setState({
+      redirect: '/game',
+    });
   }
 
-  render() {
-    const { statusName, statusEmail } = this.state;
+  renderHeader() {
     return (
-      <section className="login">
-        <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
-          <p> SUA VEZ </p>
-        </header>
+      <header className="App-header">
+        <img src={ logo } className="App-logo" alt="logo" />
+        <p> SUA VEZ </p>
+      </header>
+    );
+  }
+
+  renderLogin() {
+    return (
+      <>
         <div className="input">
           <input
             type="input"
@@ -98,18 +106,31 @@ class Login extends React.Component {
             required
           />
         </div>
-        <div className="input">
+      </>
+    );
+  }
+
+  render() {
+    const { statusName, statusEmail, redirect } = this.state;
+    if (redirect) {
+      return (
+        <Redirect to={ redirect } />
+      );
+    }
+    return (
+      <section className="login">
+        {this.renderHeader()}
+        {this.renderLogin()}
+        <div>
           <p>
-            <Link to="/game">
-              <button
-                type="button"
-                data-testid="btn-play"
-                disabled={ !statusEmail || !statusName }
-                onClick={ this.startGame }
-              >
-                Jogar
-              </button>
-            </Link>
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ !statusEmail || !statusName }
+              onClick={ this.startGame }
+            >
+              Jogar
+            </button>
             <Link to="/config">
               <button type="button" data-testid="btn-settings">
                 Configurações
