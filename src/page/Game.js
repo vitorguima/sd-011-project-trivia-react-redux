@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './Gaming.css';
 import md5 from 'crypto-js/md5';
 import { fetchQuestion } from '../redux/actions';
+import Time from './components/Time';
 
 let renderButton = false;
 
@@ -13,41 +14,17 @@ class Game extends Component {
     this.state = {
       numberNext: 0,
       styleButton: false,
-      initialTime: 30,
       disabled: false,
-      setTime: null,
     };
 
     this.handleResponse = this.handleResponse.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.confirmResponse = this.confirmResponse.bind(this);
-    this.timeQuestion = this.timeQuestion.bind(this);
   }
 
   componentDidMount() {
     const { fetchQuestions, token } = this.props;
-    this.timeQuestion();
     fetchQuestions(token);
-  }
-
-  componentDidUpdate() {
-    const { setTime, initialTime } = this.state;
-    if (initialTime <= 0) {
-      clearInterval(setTime);
-    }
-  }
-
-  componentWillUnmount() {
-    const { setTime } = this.state;
-    clearInterval(setTime);
-  }
-
-  timeQuestion() {
-    const ms = 1000;
-    this.setState({
-      setTime: setInterval(() => {
-        this.setState((prev) => ({ initialTime: prev.initialTime - 1 }));
-      }, ms) });
   }
 
   nextQuestion() {
@@ -133,7 +110,6 @@ class Game extends Component {
     const { players, email } = this.props;
     const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
     const hashGenerator = md5(email).toString();
-    const { initialTime } = this.state;
     return (
       <div>
         <header>
@@ -145,11 +121,11 @@ class Game extends Component {
           />
           <p>
             <span data-testid="header-score">
-              {!objectsLocalStorage ? 0 : objectsLocalStorage.score}
+              {!objectsLocalStorage ? 'carregando...' : objectsLocalStorage.player.score}
             </span>
           </p>
           <div>
-            { initialTime }
+            <Time />
           </div>
           <div>
             {this.handleQuestion()}
