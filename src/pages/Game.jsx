@@ -3,8 +3,14 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import Layout from '../components/common/Layout';
+import { getQuestions } from '../redux/actions';
 
 class Game extends Component {
+  componentDidMount() {
+    const { token, handleQuestions } = this.props;
+    handleQuestions(token);
+  }
+
   render() {
     const { email, name, score } = this.props;
     return (
@@ -35,9 +41,13 @@ const mapStateToProps = (state) => ({
   email: state.user.gravatarEmail,
   name: state.user.name,
   score: state.user.score,
+  token: state.user.token,
 });
 
-export default connect(mapStateToProps)(Game);
+const mapDispatchToProps = (dispatch) => ({
+  handleQuestions: (userToken) => dispatch(getQuestions(userToken)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
   email: PropTypes.string,
