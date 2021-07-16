@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 
 class Login extends Component {
@@ -25,6 +26,14 @@ class Login extends Component {
       return false;
     }
     return true;
+  }
+
+  submit() {
+    const { email } = this.state;
+    const { history } = this.props;
+    const hash = md5(email).toString();
+    localStorage.setItem('token', hash);
+    history.push('/game');
   }
 
   render() {
@@ -57,7 +66,14 @@ class Login extends Component {
             value="Jogar"
             data-testid="btn-play"
             disabled={ this.inputVerification() }
-            onClick={ () => history.push('/game') }
+            onClick={ () => this.submit() }
+          />
+
+          <input
+            type="button"
+            value="Configurações"
+            data-testid="btn-settings"
+            onClick={ () => history.push('/setting') }
           />
         </form>
       </div>
@@ -66,7 +82,9 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default Login;
