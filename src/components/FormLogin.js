@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { loginAction, fetchToken, fetchGravatar } from '../actions';
+import { loginAction, fetchToken, fetchGravatar, fetchGame } from '../actions';
 
 class FormLogin extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class FormLogin extends Component {
     };
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
@@ -25,9 +26,17 @@ class FormLogin extends Component {
     this.setState({ isValid: loginForm.checkValidity() });
   }
 
+  handleClick() {
+    const { token, login, gravatar, game, gameToken } = this.props;
+    const { name, email } = this.state;
+    token();
+    login(name, email);
+    gravatar(email);
+    game(gameToken);
+  }
+
   render() {
-    const { name, email, isValid } = this.state;
-    const { token, login, gravatar } = this.props;
+    const { isValid } = this.state;
     return (
       <form className="login-form" onChange={ this.handleFormChange }>
         <label htmlFor="player-name">
@@ -57,7 +66,7 @@ class FormLogin extends Component {
             data-testid="btn-play"
             type="button"
             disabled={ !isValid }
-            onClick={ () => { token(); login(name, email); gravatar(email); } }
+            onClick={ this.handleClick }
           >
             Jogar
           </button>
@@ -67,16 +76,23 @@ class FormLogin extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  gameToken: state.login.token,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   token: () => dispatch(fetchToken()),
   login: (name, email) => dispatch(loginAction(name, email)),
   gravatar: (email) => dispatch(fetchGravatar(email)),
+  game: (gameToken) => dispatch(fetchGame(gameToken)),
 });
 
 FormLogin.propTypes = {
   token: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   gravatar: PropTypes.func.isRequired,
+  game: PropTypes.func.isRequired,
+  gameToken: PropTypes.string.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(FormLogin);
+export default connect(mapStateToProps, mapDispatchToProps)(FormLogin);
