@@ -9,7 +9,7 @@ export class Header extends Component {
     return (
       <header>
         <img
-          src={ `https://www.gravatar.com/avatar/${profileImg}` }
+          src={profileImg}
           data-testid="header-profile-picture"
           alt="User profile"
         />
@@ -30,7 +30,7 @@ export class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  // profileImg: state.player.gravatarEmail, alterar para src;
+  profileImg: state.player.srcGravatarImg,
   profileName: state.player.name,
   profileScore: state.player.score,
 });
