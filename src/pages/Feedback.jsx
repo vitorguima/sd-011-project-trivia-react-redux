@@ -15,10 +15,12 @@ export default function Feedback() {
   return (
     <div>
       <Header />
-      <div>
-        <p data-testid="feedback-text">{showFeedbackMessage(assertions)}</p>
-        <p data-testid="feedback-total-score">{`Score final: ${score}`}</p>
-        <p data-testid="feedback-total-question">{`Acertou: ${assertions} perguntas`}</p>
+      <div className="feedback-container">
+        <h2>Score final</h2>
+        <h3 data-testid="feedback-total-score">{score}</h3>
+        <h2>Total de acertos</h2>
+        <h3 data-testid="feedback-total-question">{assertions}</h3>
+        <h2 data-testid="feedback-text">{showFeedbackMessage(assertions)}</h2>
       </div>
     </div>
   );
