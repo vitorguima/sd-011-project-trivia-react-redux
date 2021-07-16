@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -41,6 +42,11 @@ class Ranking extends Component {
     );
   }
 }
+
+Ranking.propTypes = {
+  rankState: PropTypes.arrayOf(PropTypes.object).isRequired,
+  savePlayerRankAct: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   rankState: state.rankingReducer.ranking,
