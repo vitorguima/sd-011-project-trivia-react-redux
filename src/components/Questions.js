@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
-class Jogo extends Component {
+class Questions extends Component {
   render() {
+    const { questions } = this.props;
     return (
       <>
-        quetions here
+        <p>oi</p>
+        <p>{ questions[0].question }</p>
       </>
     );
   }
 }
 
-export default Jogo;
+export default Questions;

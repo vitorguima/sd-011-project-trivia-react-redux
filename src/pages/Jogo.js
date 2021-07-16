@@ -1,25 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchQuestions } from '../actions';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
+import { getToken } from '../services/API';
 
 class Jogo extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
-      oi: 'a',
+      questions: [],
     };
   }
 
   componentDidMount() {
-    const getToken2 = localStorage.getItem('token');
-    console.log(getToken2);
-    const renderQuestions = () => {
-      fetchQuestions(getToken2);
-    };
-    console.log(renderQuestions);
+    getToken().then((questions) => {
+      this.setState({ questions });
+    });
   }
 
   /* change(val) {
@@ -27,10 +24,12 @@ class Jogo extends Component {
   } */
 
   render() {
+    const { questions } = this.state;
+    console.log(questions);
     return (
       <div className="game-container">
         <Header />
-        <Questions />
+        <Questions { ...questions } />
       </div>
     );
   }

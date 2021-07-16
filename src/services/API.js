@@ -6,10 +6,10 @@ export const getToken = () => fetch(URL)
     const { token } = data;
     localStorage.token = token;
     return token;
-  });
-  // .then((token) => fetch(`https://opentdb.com/api.php?amount=5&token=${token}`))
-  // .then((res) => res.json())
-  // .then(({ results }) => results);
+  })
+  .then((token) => fetch(`https://opentdb.com/api.php?amount=5&token=${token}`))
+  .then((res) => res.json())
+  .then(({ results }) => results);
 
 // export const getStorage = () => JSON.parse(localStorage.state);
 // export const getRanking = () => JSON.parse(localStorage.ranking);
