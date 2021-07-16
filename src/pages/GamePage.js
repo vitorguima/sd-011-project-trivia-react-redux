@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
+import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 import '../CSS/GamePage.css';
 
@@ -63,10 +64,8 @@ class GamePage extends Component {
     this.forceUpdate();
   }
 
-  // FUNÇÃO ATIVADA AO APERTAR A ALTERNATIVA INCORRETA
-  // IRÁ MOSTRAR AS RESPOSTAS CORRETAS E INCORRETAS
+  // FUNÇÃO ATIVADA AO APERTAR A ALTERNATIVA INCORRETA // IRÁ MOSTRAR AS RESPOSTAS CORRETAS E INCORRETAS
   wrong() {
-    console.log('errou');
     this.show();
   }
 
@@ -89,8 +88,7 @@ class GamePage extends Component {
 
   // FUNÇÃO QUE VAI PARA PRÓXIMA QUESTÃO
   // MUDA O ESTADO PARA ESCONDER AS RESPOSTAS ANTES DA PRÓXIMA QUESTÃO COM hide()
-  // ADICIONA 1 AO INDEX DE QUESTÕES(nQuestion)
-  // PARA O TIMER COM stopTimer()
+  // ADICIONA 1 AO INDEX DE QUESTÕES(nQuestion) // PARA O TIMER COM stopTimer()
   // ESPERA 0,2 SEGUNDOS PARA COMPENSAR O DELAY E REATIVAR OT TIMER
   nextQuestion() {
     this.hide();
@@ -192,7 +190,9 @@ class GamePage extends Component {
   generateRanking() {
     const { player } = JSON.parse(localStorage.state);
     const { name, score, gravatarEmail } = player;
-    const obj = { name, score, gravatarEmail };
+    const gravatarHash = md5(gravatarEmail.trim().toLowerCase()).toString();
+    const picture = `https://www.gravatar.com/avatar/${gravatarHash}`;
+    const obj = { name, score, picture };
     if (localStorage.ranking) {
       const ranking = JSON.parse(localStorage.ranking);
       const newRanking = [...ranking, obj];
