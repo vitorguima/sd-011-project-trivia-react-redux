@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import '../style/question.css';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { sendScore } from '../actions';
 
 let timeout;
 let timeout2;
@@ -12,12 +16,17 @@ class Question extends React.Component {
 
     this.state = {
       timer: 0,
+      assertions: 0,
+      totalScore: 0,
+      redirectToFeedBack: false,
+      noTimer: true,
     };
 
     this.setTimer = this.setTimer.bind(this);
     this.clearTimer = this.clearTimer.bind(this);
     this.handleClickNext = this.handleClickNext.bind(this);
     this.setInitialState = this.setInitialState.bind(this);
+    this.calcScore = this.calcScore.bind(this);
   }
 
   componentDidMount() {
@@ -25,10 +34,10 @@ class Question extends React.Component {
   }
 
   componentDidUpdate() {
-    const { timer } = this.state;
+    const { timer, noTimer } = this.state;
     const { timer: initialTimer } = this.props;
     const second = 1000;
-    if (timer === initialTimer) {
+    if (timer === initialTimer && noTimer) {
       timeout = setTimeout(() => this.clearTimer(), timer * second);
       timeout2 = setInterval(this.setTimer, second);
     }
@@ -37,6 +46,7 @@ class Question extends React.Component {
   setTimer() {
     this.setState((old) => ({
       timer: old.timer - 1,
+      noTimer: false,
     }));
   }
 
@@ -44,23 +54,70 @@ class Question extends React.Component {
     const { timer } = this.props;
     this.setState({
       timer,
+      noTimer: false,
     });
   }
 
-  clearTimer() {
-    const { setShowCorrect } = this.props;
+  clearTimer({ target }) {
+    const { setShowCorrect, question: { correct_answer:
+      correctAnswer,
+    difficulty,
+    } } = this.props;
     clearInterval(timeout);
     clearInterval(timeout2);
+    this.setState({
+      noTimer: true,
+    });
+    if (target.innerText === correctAnswer) {
+      this.calcScore(this.scoreDifficulty(difficulty));
+    }
     // To Dispatch para o score
     setShowCorrect();
   }
 
+  calcScore(difficulty) {
+    const ten = 10;
+    const { sendScoreDispatch } = this.props;
+    const { timer } = this.state;
+    const score = ten + (timer * difficulty);
+    this.setState((old) => ({
+      assertions: old.assertions + 1,
+      totalScore: old.totalScore + (score),
+    }));
+    sendScoreDispatch(score);
+  }
+
+  scoreDifficulty(difficulty) {
+    const easy = 1;
+    const medium = 2;
+    const hard = 3;
+    switch (difficulty.toLowerCase()) {
+    case 'easy':
+      return easy;
+    case 'medium':
+      return medium;
+    case 'hard':
+      return hard;
+    default:
+      return easy;
+    }
+  }
+
   handleClickNext() {
-    const { nextQuestion } = this.props;
-    this.setState({
-      timer: 30,
-    });
-    nextQuestion();
+    const { nextQuestion, index, finalQuestion } = this.props;
+    const { assertions, totalScore } = this.state;
+    const four = 4;
+    if (index !== four) {
+      this.setState({
+        timer: 30,
+      });
+      nextQuestion();
+    } else {
+      this.setState({
+        redirectToFeedBack: true,
+      });
+      finalQuestion(assertions, totalScore);
+    }
   }
 
   render() {
@@ -71,7 +128,7 @@ class Question extends React.Component {
       incorrect_answers: incorrectAnswers,
     } } = this.props;
 
-    const { timer } = this.state;
+    const { timer, redirectToFeedBack } = this.state;
 
     return (
       <div>
@@ -104,22 +161,34 @@ class Question extends React.Component {
         )) }
         { showCorrect
           && <button type="button" onClick={ this.handleClickNext }>Próximo</button> }
+        { redirectToFeedBack
+          && <Redirect to="/feedback" /> }
       </div>
     );
   }
 }
 
-export default Question;
+const mapDispatchToProps = (dispatch) => ({
+  sendScoreDispatch: (score) => {
+    dispatch(sendScore(score));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(Question);
 
 Question.propTypes = {
   nextQuestion: PropTypes.func.isRequired,
+  sendScoreDispatch: PropTypes.func.isRequired,
   setShowCorrect: PropTypes.func.isRequired,
+  finalQuestion: PropTypes.func.isRequired,
   showCorrect: PropTypes.bool.isRequired,
   timer: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
   question: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.string,
+    difficulty: PropTypes.string,
   }).isRequired,
 };
