@@ -13,6 +13,7 @@ class Questions extends Component {
       toggleButton: false,
     };
     this.toggleButtonClass = this.toggleButtonClass.bind(this);
+
   }
 
   componentDidMount() {
