@@ -11,16 +11,34 @@ class Questions extends Component {
       indexQuestion: 0,
       totalScore: 0,
       showNextButton: false,
+      timeCount: 5,
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleCorretAnswer = this.handleCorretAnswer.bind(this);
     this.handleLocalStorage = this.handleLocalStorage.bind(this);
     this.handleErrorAnswer = this.handleErrorAnswer.bind(this);
+    this.timerCounter = this.timerCounter.bind(this);
   }
 
   async componentDidMount() {
     const { getQuestions, token } = this.props;
     await getQuestions(token);
+    this.timerCounter();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { timeCount } = this.state;
+    nextState = 0;
+    return (timeCount > nextState);
+  }
+
+  timerCounter() {
+    const intervalTimer = 1000;
+    this.myInteval = setInterval(() => {
+      this.setState((prevState) => ({
+        timeCount: prevState.timeCount - 1,
+      }));
+    }, intervalTimer);
   }
 
   handleNext() {
@@ -57,9 +75,8 @@ class Questions extends Component {
 
   render() {
     const { questions } = this.props;
-    const { indexQuestion, showNextButton } = this.state;
+    const { indexQuestion, showNextButton, timeCount } = this.state;
     const maxIndexQuestion = 4;
-
     if (indexQuestion > maxIndexQuestion) {
       return this.handleLocalStorage();
     }
@@ -71,9 +88,8 @@ class Questions extends Component {
       return (
         <section>
           <div data-testid="question-category">{ category }</div>
-
           <div data-testid="question-text">{ question }</div>
-
+          {timeCount}
           {answers.map((answer, index) => {
             if (answer === correctAnswer) {
               return (
@@ -82,6 +98,7 @@ class Questions extends Component {
                   type="button"
                   data-testid="correct-answer"
                   onClick={ () => this.handleCorretAnswer() }
+                  disabled={ timeCount === 0 }
                 >
                   {answer}
                 </button>);
@@ -92,6 +109,7 @@ class Questions extends Component {
                 type="button"
                 onClick={ () => this.handleErrorAnswer() }
                 data-testid={ `wrong-answer-${index}` }
+                disabled={ timeCount === 0 }
               >
                 {answer}
               </button>);
