@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import { fetchTokenApi } from '../actions/index';
+import { Redirect } from 'react-router-dom';
 
 class Game extends Component {
   constructor() {
@@ -84,6 +85,9 @@ class Game extends Component {
     const { results } = questions.questions;
     const { clickedQuestions, timer, index } = this.state;
     if (!results) return <h3>Loading...</h3>;
+    if(index === 5){
+      return  < Redirect to="feedback" />
+    }
     return (
       <div>
         <Header />
