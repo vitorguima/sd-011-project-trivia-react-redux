@@ -8,6 +8,8 @@ export const GET_QUESTIONS_FAILED = 'GET_QUESTIONS_FAILED';
 
 export const SEND_EMAIL = 'SEND_EMAIL';
 
+export const ADD_PLAYER = 'ADD_PLAYER';
+
 export const sendEmail = (email, name) => ({
   type: SEND_EMAIL,
   payload: email,
@@ -40,6 +42,12 @@ export const getQuestionsSuccess = (payload) => ({
 export const getQuestionsFailed = (payload) => ({
   type: GET_QUESTIONS_FAILED,
   payload,
+});
+
+export const addPlayer = (name, email) => ({
+  type: ADD_PLAYER,
+  payload: name,
+  payload2: email,
 });
 
 export const getQuestionsThunk = (token) => async (dispatch) => {
