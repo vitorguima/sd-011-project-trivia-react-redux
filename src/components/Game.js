@@ -26,14 +26,18 @@ class Game extends React.Component {
     }
     const currentIndex = 0;
     const currentQuestion = allQuestions[currentIndex];
-    const correctAnswerClassName = answered ? 'correct_answer_btn' : '';
-    const wrongAnswerClassName = answered ? 'wrong_answer_btn' : '';
+    const correctAnswerClassName = answered ? {
+      border: '3px solid rgb(6, 240, 15)',
+    } : {};
+    const wrongAnswerClassName = answered ? {
+      border: '3px solid rgb(255, 0, 0)',
+    } : '';
     return (
       <div>
         <p data-testid="question-category">{currentQuestion.category}</p>
         <p data-testid="question-text">{currentQuestion.question}</p>
         <button
-          className={ correctAnswerClassName }
+          style={ { ...correctAnswerClassName } }
           type="button"
           data-testid="correct-answer"
           onClick={ this.handleAnsweredQuestion }
@@ -43,7 +47,7 @@ class Game extends React.Component {
         {
           currentQuestion.incorrect_answers.map((item, index) => (
             <button
-              className={ wrongAnswerClassName }
+              style={ { ...wrongAnswerClassName } }
               type="button"
               key={ index }
               data-testid={ `wrong-answer${index}` }
