@@ -7,6 +7,7 @@ export default class gameScreen extends Component {
     const { player } = JSON.parse(localStorage.getItem('state'));
     this.state = {
       question: 0,
+      answered: false,
       player,
     };
 
@@ -47,6 +48,9 @@ export default class gameScreen extends Component {
   colorSelectCorrect() {
     const btns = document.querySelectorAll('button');
     btns.forEach((element) => { element.classList.add('revel-color'); });
+    this.setState({
+      answered: true,
+    });
   }
 
   nextQuestion() {
@@ -55,13 +59,16 @@ export default class gameScreen extends Component {
     if (question < results.length - 1) {
       this.setState({
         question: question + 1,
+        answered: false,
       });
     }
+    const btns = document.querySelectorAll('button');
+    btns.forEach((element) => { element.classList.remove('revel-color'); });
   }
 
   render() {
     const { results } = this.props;
-    const { question } = this.state;
+    const { question, answered } = this.state;
     return (
       <div>
         {results.length > 0 ? (
@@ -91,6 +98,14 @@ export default class gameScreen extends Component {
         ) : (
           <p>Baixando Questões</p>
         )}
+        {answered ? (
+          <button
+            type="button"
+            onClick={ this.nextQuestion }
+            data-testid="btn-next"
+          >
+            Próxima questão
+          </button>) : null}
       </div>
     );
   }
