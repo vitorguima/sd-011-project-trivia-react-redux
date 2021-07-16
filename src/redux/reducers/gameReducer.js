@@ -23,7 +23,7 @@ export default function gameReducer(state = INITIAL_STATE, action) {
   case HANDLE_CLICKED_BUTTON:
     return {
       ...state,
-      clicked: true,
+      clicked: action.bool,
     };
   default:
     return state;
