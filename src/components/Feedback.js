@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5'; 
+import { Link } from 'react-router-dom';
 
 class Feedback extends Component {
 
@@ -16,7 +17,7 @@ renderScore(){
 	render() {
 		const store = JSON.parse(localStorage.getItem("state"));
 		const email = md5(store.player.gravatarEmail).toString();
-		console.log(email)
+	
 		return (
 			<div>
 				<header>
@@ -27,7 +28,11 @@ renderScore(){
 				<span data-testid="feedback-text">
          { this.renderScore() }
 				</span>
+				<span data-testid="feedback-total-score">{store.player.score}</span>
+				<span data-testid="feedback-total-question">{store.player.assertions}</span>
+				<Link data-testid="btn-play-again" to="/">Jogar novamente</Link>
 			</div>
+	
 		);
 	}
 }
