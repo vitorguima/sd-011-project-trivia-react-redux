@@ -8,10 +8,26 @@ class Feedback extends React.Component {
   }
 
   render() {
+    const minHit = 3;
+    const assertions = 2; //  this.props;
+
     return (
-      <Header />
+      <>
+        <Header />
+        <h3 data-testid="feedback-text">
+          {
+            (assertions >= minHit)
+              ? 'Mandou bem!'
+              : 'Podia ser melhor...'
+          }
+        </h3>
+      </>
     );
   }
 }
+
+// const mapStateToProps = (state) => ({
+//   assertions: state.player.assertions,
+// });
 
 export default Feedback;
