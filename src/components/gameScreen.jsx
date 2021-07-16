@@ -9,14 +9,14 @@ export default class gameScreen extends Component {
       question: 0,
       disabledButton: false,
     };
+
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
   }
 
   colorSelectCorrect() {
-    const btns = document.querySelectorAll('button');
-    btns.forEach((element) => {
-      element.classList.add('revel-color');
+    const btns = document.querySelectorAll('button')
+    btns.forEach((element) => { element.classList.add('revel-color')});
   }
 
   nextQuestion() {
@@ -30,10 +30,10 @@ export default class gameScreen extends Component {
     }
   }
 
+
   render() {
     const { results } = this.props;
     const { question, disabledButton } = this.state;
-    console.log(results);
     return (
       <div>
         {results.length > 0 ? (
@@ -53,6 +53,8 @@ export default class gameScreen extends Component {
                   key={ index }
                   type="button"
                   data-testid={ `wrong-answer-${index}` }
+                  className="red-border"
+                  onClick={ () => this.colorSelectCorrect() }
                 >
                   {answer}
                 </button>
@@ -61,22 +63,6 @@ export default class gameScreen extends Component {
           ) : (
             <p>Baixando Questões</p>
           )}
-        </div>
-        <div>
-          {disabledButton ? (
-            <div>
-              <button
-                data-testid="btn-next"
-                type="button"
-                data-testid={ `wrong-answer-${index}` }
-                className="red-border"
-                onClick={ () => this.colorSelectCorrect() }
-              >
-                Próxima
-              </button>
-            </div>
-          ) : null}
-        </div>
       </div>
     );
   }
