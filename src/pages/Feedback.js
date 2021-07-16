@@ -32,10 +32,10 @@ class Feedback extends Component {
             Jogar Novamente
           </button>
         </Link>
-        {/* <div>
-          <h3 data-testid="feedback-total-score">Placar Final</h3>
-          <h4 data-testid="feedback-total-question">Você acertou...</h4>
-        </div> */}
+        <div>
+          <h3 data-testid="feedback-total-score">{ state.player.score }</h3>
+          <h4 data-testid="feedback-total-question">{ hits }</h4>
+        </div>
       </div>
     );
   }
