@@ -23,20 +23,24 @@ class Game extends React.Component {
 
   handleNext() {
     const { questions: { allQuestions } } = this.props;
+    console.log(allQuestions);
     this.setState((prevState) => ({
-      questionIndex: (prevState.questionIndex + 1) % allQuestions.length,
+      questionIndex: prevState.questionIndex + 1,
       answered: false,
     }));
+    // if (questionIndex === 4) {
+    //   //chamar função para o feedback
+    // }
   }
 
   renderQuestions() {
     const { questions: { allQuestions } } = this.props;
-    const { answered } = this.state;
+    const { answered, questionIndex } = this.state;
     if (allQuestions.length === 0) {
       return null;
     }
-    const currentIndex = 0;
-    const currentQuestion = allQuestions[currentIndex];
+    // const currentIndex = 0;
+    const currentQuestion = allQuestions[questionIndex];
     const correctAnswerClassName = answered ? {
       border: '3px solid rgb(6, 240, 15)',
     } : {};
