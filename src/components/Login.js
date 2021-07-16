@@ -1,4 +1,8 @@
 import React from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import * as actions from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -19,9 +23,21 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
+    const { startGame, allQuestions } = this.props;
     const isDisabled = name.length === 0 || email.length === 0;
+    if (allQuestions.length > 0) {
+      return <Redirect to="/game" />;
+    }
     return (
       <div>
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configuração
+          </button>
+        </Link>
         <form>
           <label htmlFor="name">
             Nome:
@@ -30,7 +46,6 @@ class Login extends React.Component {
               data-testid="input-player-name"
               name="name"
               id="name"
-              required
               onChange={ this.handleOnChange }
             />
           </label>
@@ -38,14 +53,18 @@ class Login extends React.Component {
             Email:
             <input
               type="email"
-              data-testid="input-gravatar-email"
               id="email"
+              data-testid="input-gravatar-email"
               name="email"
-              required
               onChange={ this.handleOnChange }
             />
           </label>
-          <button data-testid="btn-play" type="button" disabled={ isDisabled }>
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ isDisabled }
+            onClick={ () => startGame(name, email) }
+          >
             Jogar
           </button>
         </form>
@@ -54,4 +73,17 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  startGame: (name, email) => dispatch(actions.startGame(name, email)),
+});
+
+const mapStateToProps = (state) => ({
+  allQuestions: state.questions.allQuestions,
+});
+
+Login.propTypes = {
+  startGame: PropTypes.func.isRequired,
+  allQuestions: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
-
-// importar o reducer
+import player from './player';
+import questions from './questions';
 
 const rootReducer = combineReducers({
-  // reducer
+  player,
+  questions,
 });
 
 export default rootReducer;
