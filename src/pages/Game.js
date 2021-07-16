@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import './css/Game.css';
 
@@ -63,13 +64,22 @@ class Game extends Component {
   }
 
   goToNextQuestion() {
-    this.setState({
-      showIncorrectAnswer: '',
-      showCorrectAnswer: '',
-      timer: 30,
-      disabled: false,
-    });
-    this.setState((prevstate) => ({ questionNum: prevstate.questionNum + 1 }));
+    const { questionNum } = this.state;
+    const maxQuestionNumIndex = 4;
+
+    if (questionNum < maxQuestionNumIndex) {
+      this.setState({
+        showIncorrectAnswer: '',
+        showCorrectAnswer: '',
+        timer: 30,
+        disabled: false,
+      });
+      this.setState((prevstate) => ({ questionNum: prevstate.questionNum + 1 }));
+    } else {
+      const { history } = this.props;
+
+      history.push('/feedback');
+    }
   }
 
   renderTimeAnswer() {
@@ -179,3 +189,9 @@ class Game extends Component {
 }
 
 export default Game;
+
+Game.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+}.isRequired;
