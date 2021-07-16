@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './styleButton.css';
 
 class Question extends React.Component {
   constructor() {
@@ -24,9 +25,7 @@ class Question extends React.Component {
   render() {
     const { answered } = this.state;
     const { newQuestion:
-      { question,
-        correct_answer: correctAnswer,
-        incorrect_answers: incorrectAnswers,
+      { question, correct_answer: correctAnswer, incorrect_answers: incorrectAnswers,
         category,
       } } = this.props;
     const randomAnswers = [correctAnswer, ...incorrectAnswers]
@@ -45,6 +44,7 @@ class Question extends React.Component {
                 data-testid="correct-answer"
                 type="button"
                 onClick={ this.answerFunc }
+                className={ answered ? 'right' : 'white' }
               >
                 {answer}
               </button>
@@ -55,6 +55,7 @@ class Question extends React.Component {
               key={ index }
               data-testid={ `wrong-answer-${index}` }
               type="button"
+              className={ answered ? 'wrong' : 'white' }
               onClick={ this.answerFunc }
             >
               {answer}
