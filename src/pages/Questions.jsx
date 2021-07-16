@@ -13,8 +13,15 @@ class Questions extends Component {
       score: 0,
       isCorrect: '',
       isIncorrect: '',
+      disable: false,
+      questionIndex: 0,
+      timer: 30000,
     };
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    setTimeout(() => this.handleClick(), 30000);
   }
 
   handleGravatar() {
@@ -26,12 +33,13 @@ class Questions extends Component {
     this.setState({
       isCorrect: 'correct',
       isIncorrect: 'incorrect',
+      disable: true,
     });
   }
 
   render() {
     const { name, questions } = this.props;
-    const { score, isCorrect, isIncorrect } = this.state;
+    const { score, isCorrect, isIncorrect, questionIndex, disable } = this.state;
     console.log(isCorrect, isIncorrect);
     return (
       <main>
@@ -62,12 +70,13 @@ class Questions extends Component {
                     key={ i }
                     className={ ans === question.correct_answer
                       ? isCorrect : isIncorrect }
+                    disabled={ disable }
                     onClick={ this.handleClick }
                   >
                     { ans }
                   </button>))}
             </div>
-          ))[0]}
+          ))[questionIndex]}
         </section>
       </main>
     );
