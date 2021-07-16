@@ -3,6 +3,7 @@ export const GET_EMAIL = 'GET_EMAIL';
 export const FETCH_STARTED = 'FETCH_STARTED';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_ERROR = 'FETCH_ERROR';
+export const GET_QUESTION = 'GET_QUESTION';
 
 export const setName = (payload) => ({
   type: GET_NAME,
@@ -14,13 +15,19 @@ export const setEmail = (payload) => ({
   payload,
 });
 
-const requestAPI = () => ({ type: FETCH_STARTED });
+export const requestAPI = () => ({ type: FETCH_STARTED });
 const requestApiSuccess = (payload) => ({
   type: FETCH_SUCCESS,
   payload,
 });
-const requestApiError = (payload) => ({
+
+export const requestApiError = (payload) => ({
   type: FETCH_ERROR,
+  payload,
+});
+
+export const getQuestion = (payload) => ({
+  type: GET_QUESTION,
   payload,
 });
 
@@ -31,4 +38,10 @@ export const fetchApi = () => async (dispatch) => {
     const result = await response.json();
     return dispatch(requestApiSuccess(result));
   } catch (error) { dispatch(requestApiError(error.message)); }
+};
+
+export const fetchQuestions = (token) => async (dispatch) => {
+  const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+  const result = await response.json();
+  return dispatch(getQuestion(result.results));
 };

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
-import { setEmail, setName, fetchApi } from '../actions/index';
+import { setEmail, setName, fetchApi, fetchQuestions } from '../actions/index';
 
 class Login extends Component {
   constructor() {
@@ -12,7 +12,13 @@ class Login extends Component {
       user: null,
       email: null,
     };
+    this.handleFetch = this.handleFetch.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.handleFetch();
   }
 
   handleChange({ target }) {
@@ -31,14 +37,20 @@ class Login extends Component {
   }
 
   async handleFetch() {
-    const { requestApi } = this.props;
+    const { requestApi, questionsResult } = this.props;
     const { payload } = await requestApi();
-    window.localStorage.setItem('token', JSON.stringify(payload.token));
+    window.localStorage.setItem('token', payload.token);
+    questionsResult(payload.token);
+  }
+
+  handleClick() {
+    const { user, email } = this.state;
+    const { userName, userEmail } = this.props;
+    userName(user);
+    userEmail(email);
   }
 
   render() {
-    const { user, email } = this.state;
-    const { userName, userEmail } = this.props;
     return (
       <>
         <img src={ logo } className="App-logo" alt="logo" />
@@ -57,16 +69,18 @@ class Login extends Component {
             data-testid="input-gravatar-email"
             onChange={ this.handleChange }
           />
+
           <Link to="/questions">
             <button
               type="button"
               data-testid="btn-play"
-              onClick={ () => { userName(user); userEmail(email); this.handleFetch(); } }
+              onClick={ this.handleClick }
               disabled={ this.disableButton() }
             >
               Jogar
             </button>
           </Link>
+
         </form>
         <Link to="/config">
           <button
@@ -85,12 +99,14 @@ const mapDispatchToProps = (dispatch) => ({
   userName: (user) => dispatch(setName(user)),
   userEmail: (email) => dispatch(setEmail(email)),
   requestApi: () => dispatch(fetchApi()),
+  questionsResult: (token) => dispatch(fetchQuestions(token)),
 });
 
 Login.propTypes = {
   userName: PropTypes.func.isRequired,
   userEmail: PropTypes.func.isRequired,
   requestApi: PropTypes.func.isRequired,
+  questionsResult: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
