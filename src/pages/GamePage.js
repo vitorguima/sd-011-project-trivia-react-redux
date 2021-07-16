@@ -12,15 +12,29 @@ class GamePage extends Component {
       questionIndex: 0,
       score: 0,
       click: false,
+      isDisable: false,
     };
     this.btnHandle = this.btnHandle.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
+    this.disableBtns = this.disableBtns.bind(this);
+  }
+
+  componentDidUpdate() {
+    const { timer } = this.props;
+    if (timer <= 0) {
+      clearInterval(this.setTimer);
+    }
+  }
+
+  disableBtns() {
+    this.setState({ isDisable: true });
   }
 
   btnHandle() {
     this.setState((ps) => ({
       questionIndex: ps.questionIndex + 1,
       click: false,
+      isDisable: false,
     }));
   }
 
@@ -40,7 +54,7 @@ class GamePage extends Component {
     );
   }
 
-  answBtnCreator(results, questionIndex, click) {
+  answBtnCreator(results, questionIndex, click, isDisable) {
     const result = results[questionIndex];
     const btnCorrectAnsw = (
       <button
@@ -49,6 +63,7 @@ class GamePage extends Component {
         onClick={ this.clickAnswer }
         type="button"
         data-testid="correct-answer"
+        disabled={ isDisable }
       >
         {result.correct_answer}
       </button>);
@@ -60,6 +75,7 @@ class GamePage extends Component {
         className={ click ? 'wrongAnswer' : null }
         type="button"
         data-testid={ `wrong-answer-${index}` }
+        disabled={ isDisable }
       >
         {wrngAnsw}
       </button>))];
@@ -74,7 +90,11 @@ class GamePage extends Component {
     const { score } = this.state;
     return (
       <header>
-        <img src={ `https://www.gravatar.com/avatar/${hash}` } alt="avatar" data-testid="header-profile-picture" />
+        <img
+          src={ `https://www.gravatar.com/avatar/${hash}` }
+          alt="avatar"
+          data-testid="header-profile-picture"
+        />
         <h2 data-testid="header-player-name">{nome}</h2>
         <h2
           data-testid="header-score"
@@ -88,14 +108,15 @@ class GamePage extends Component {
 
   render() {
     const { results } = this.props;
-    const { questionIndex, click } = this.state;
+    const { questionIndex, click, isDisable } = this.state;
     const indexLimit = 4;
+
     return (
       <div>
         {this.renderHeader()}
         <Timer />
         {results && this.questionSection(results, questionIndex)}
-        {results && this.answBtnCreator(results, questionIndex, click)}
+        {results && this.answBtnCreator(results, questionIndex, click, isDisable)}
         <br />
         <button
           type="button"
@@ -113,12 +134,15 @@ GamePage.propTypes = {
   email: PropTypes.string.isRequired,
   nome: PropTypes.string.isRequired,
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
+  timer: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   nome: state.triviaReducer.login.nome,
   email: state.triviaReducer.login.email,
   results: state.triviaReducer.questions.results,
+  timer: state.triviaReducer.timer,
+
 });
 
 export default connect(mapStateToProps)(GamePage);

@@ -84,13 +84,17 @@ class Login extends Component {
   }
 }
 
+Login.defaultProps = {
+  token: 'loading',
+};
+
 Login.propTypes = {
   email: PropTypes.string.isRequired,
   fetchQstionsDispatch: PropTypes.func.isRequired,
   fetchTriviaDispatch: PropTypes.func.isRequired,
   loginInputsDispatch: PropTypes.func.isRequired,
   nome: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired,
+  token: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
