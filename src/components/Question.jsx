@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Question.css';
 import { connect } from 'react-redux';
-import { actionBtn } from '../actions';
+import { actionBtn, actionClicked, actionTimer } from '../actions';
 
 class Question extends Component {
   constructor() {
     super();
     this.state = {
-      clicked: false,
-      seconds: 31,
       disableBtn: false,
     };
     this.handleClick = this.handleClick.bind(this);
@@ -22,27 +20,24 @@ class Question extends Component {
   }
 
   handleClick() {
-    const { setHidden } = this.props;
-    this.setState({
-      clicked: true,
-    });
+    const { setHidden, setClicked } = this.props;
+    setClicked(true);
     setHidden(false);
   }
 
   countScore() {
     const score = 10;
-    const { questions } = this.props;
+    const { questions, timer } = this.props;
     const hard = 3;
     const medium = 2;
-    const { seconds } = this.state;
     let state = JSON.parse(localStorage.getItem(('state')));
     let previousScore = 0;
     if (questions.difficulty === 'easy') {
-      previousScore = score * (seconds);
+      previousScore = score * (timer);
     } if (questions.difficulty === 'medium') {
-      previousScore = score * (seconds * medium);
+      previousScore = score * (timer * medium);
     } else {
-      previousScore = score * (seconds * hard);
+      previousScore = score * (timer * hard);
     }
     state.player.score += previousScore;
     state = localStorage.setItem('state', JSON.stringify(state));
@@ -50,24 +45,18 @@ class Question extends Component {
 
   countDown() {
     const second = 1000;
-    const { seconds } = this.state;
-    const { setHidden } = this.props;
-    if (seconds > 0) {
-      this.setState((prevState) => ({
-        seconds: prevState.seconds - 1,
-      }));
+    const { setHidden, timer, setTimer } = this.props;
+    if (timer > 0) {
+      const newTimer = timer - 1;
+      setTimer(newTimer);
       setTimeout(this.countDown, second);
     }
-    if (seconds === 0) {
+    if (timer === 0) {
       this.setState({
         disableBtn: true,
       });
       setHidden(false);
     }
-  }
-
-  teste() {
-    console.log('teste');
   }
 
   render() {
@@ -77,15 +66,15 @@ class Question extends Component {
         question,
         correct_answer: correctAnswer,
         incorrect_answers: incorrectAnswers,
-      } } = this.props;
-    const { clicked, seconds, disableBtn } = this.state;
+      }, getClicked, timer } = this.props;
+    const { disableBtn } = this.state;
     return (
       <div>
-        <p>{ seconds }</p>
+        <p>{ timer }</p>
         <p data-testid="question-category">{category}</p>
         <p data-testid="question-text">{question}</p>
         <button
-          className={ clicked && 'correct-answer' }
+          className={ getClicked && 'correct-answer' }
           type="button"
           data-testid="correct-answer"
           onClick={ () => { this.handleClick(); this.countScore(); } }
@@ -95,7 +84,7 @@ class Question extends Component {
         </button>
         { incorrectAnswers.map((answer, index) => (
           <button
-            className={ clicked && 'wrong-answer' }
+            className={ getClicked && 'wrong-answer' }
             key={ index }
             type="button"
             data-testid={ `wrong-answer-${index}` }
@@ -109,8 +98,15 @@ class Question extends Component {
   }
 }
 
+const MapStateToProps = (state) => ({
+  getClicked: state.game.clicked,
+  timer: state.game.timer,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   setHidden: (button) => dispatch(actionBtn(button)),
+  setClicked: (clicked) => dispatch(actionClicked(clicked)),
+  setTimer: (timer) => dispatch(actionTimer(timer)),
 });
 
 Question.propTypes = {
@@ -122,6 +118,10 @@ Question.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   setHidden: PropTypes.func.isRequired,
+  setTimer: PropTypes.func.isRequired,
+  setClicked: PropTypes.func.isRequired,
+  getClicked: PropTypes.bool.isRequired,
+  timer: PropTypes.number.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Question);
+export default connect(MapStateToProps, mapDispatchToProps)(Question);
