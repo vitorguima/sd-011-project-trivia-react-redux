@@ -23,6 +23,8 @@ class Feedback extends Component {
   }
 }
 
+// Secessário em algum momento trocar a origem da informação 'score' de localStorage para o estado global.
+
 const mapStateToProps = (state) => ({
   gravatarEmail: state.playerReducer.gravatarEmail,
   name: state.playerReducer.name,
