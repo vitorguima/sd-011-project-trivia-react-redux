@@ -64,7 +64,7 @@ class Game extends Component {
       assertions: prev.assertions + 1,
     }), this.setLocalStorage);
 
-
+  }
   nextQuestion() {
     this.setState((prev) => ({
       numberNext: prev.numberNext + 1,
