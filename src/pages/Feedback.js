@@ -19,7 +19,6 @@ export default class FeedBack extends Component {
 
   getStorageAssertions() {
     const storage = JSON.parse(localStorage.getItem('state'));
-    console.log(storage);
     this.setState({
       assertions: storage.player.assertions,
     });
@@ -53,7 +52,7 @@ export default class FeedBack extends Component {
         <h4 data-testid="feedback-total-question">{ assertions }</h4>
         <Link to="/">
           <button type="button" data-testid="btn-play-again">
-            Jogar novament
+            Jogar novamente
           </button>
         </Link>
         <Link to="/ranking">
