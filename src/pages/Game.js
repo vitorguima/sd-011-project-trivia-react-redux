@@ -27,33 +27,17 @@ class Game extends Component {
   componentDidMount() {
     const ms = 1000;
     this.countdownTime = setInterval(this.timerHandle, ms);
-    if (localStorage.getItem('state')) {
-      this.getUserData();
-    } else {
-      const { userEmail, userName } = this.props;
-      const { score, assertions } = this.state;
-      const player = {
-        player: {
-          name: userName,
-          gravatarEmail: userEmail,
-          score,
-          assertions,
-        },
-      };
-      localStorage.setItem('state', JSON.stringify(player));
-    }
-  }
-
-  getUserData() {
-    const localData = JSON.parse(localStorage.getItem('state'));
-    const { assertions, score, name, gravatarEmail } = localData.player;
-    const { userName, userEmail } = this.props;
-    if (name === userName && gravatarEmail === userEmail) {
-      this.setState({
-        assertions,
+    const { userEmail, userName } = this.props;
+    const { score, assertions } = this.state;
+    const player = {
+      player: {
+        name: userName,
+        gravatarEmail: userEmail,
         score,
-      });
-    }
+        assertions,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   answerClickHandle({ target }, correctAnswer, difficulty) {
@@ -157,7 +141,6 @@ class Game extends Component {
 
   render() {
     const { questionsState } = this.props;
-    console.log(questionsState);
     const { questionNumber, timer, score, answered, isLoading } = this.state;
 
     const maxQuestion = 4;
