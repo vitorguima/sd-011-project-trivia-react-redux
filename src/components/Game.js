@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Game.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -7,8 +8,29 @@ class Game extends Component {
     super(props);
     this.state = {
       questionIndex: 0,
+      assertions: 0,
     };
     this.gameQuestions = this.gameQuestions.bind(this);
+    this.checkCorrectAnswer = this.checkCorrectAnswer.bind(this);
+  }
+
+  checkCorrectAnswer({ target }) {
+    const { dataset: { testid: answer } } = target;
+    if (answer.includes('correct')) {
+      this.setState((prevState) => ({
+        assertions: prevState.assertions + 1,
+      }));
+    }
+    target.classList.add('clicked');
+
+    const father = target.parentElement;
+    const childs = [...father.children];
+    console.log(childs);
+    childs.forEach((child) => {
+      const { testid } = child.dataset;
+      child.classList.add(testid);
+      child.disabled = true;
+    });
   }
 
   gameQuestions() {
@@ -16,28 +38,31 @@ class Game extends Component {
     const { questions } = this.props;
     const question = questions[questionIndex];
     const alternatives = [...question.incorrect_answers, question.correct_answer];
+    // http://www.buginit.com/javascript/javascript-sort-without-mutating-array/
+    const alternativesToSort = alternatives.concat().sort();
     const correctAnswer = question.correct_answer;
 
     return (
       <div>
         <p data-testid="question-category">{ question.category }</p>
         <p data-testid="question-text">{ question.question }</p>
-        <label htmlFor="alternative">
-          { alternatives.map((alternative, index) => (
-            <div key={ index }>
-              { alternative }
-              <input
-                type="radio"
-                id="alternative"
-                name="alternative-question"
+        <div className="alternativesContainer">
+          { alternativesToSort.map((alternative) => {
+            const index = alternatives.indexOf(alternative);
+            return (
+              <button
+                key={ index }
+                type="button"
+                onClick={ this.checkCorrectAnswer }
                 data-testid={ alternative === correctAnswer
                   ? 'correct-answer'
                   : `wrong-answer-${index}` }
-                value={ alternative }
-              />
-            </div>
-          )).sort()}
-        </label>
+              >
+                { alternative }
+              </button>
+            );
+          })}
+        </div>
       </div>
     );
   }
