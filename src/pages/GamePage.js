@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import './GamePage.style.css';
 import Timer from '../compoments/Timer';
-import { enablebtns, subTimer, dispatchScore } from '../actions';
+import { enablebtns, subTimer, dispatchScore, resetTimer } from '../actions';
 
 class GamePage extends Component {
   constructor() {
@@ -29,12 +29,13 @@ class GamePage extends Component {
   }
 
   btnHandle() {
-    const { enableBtns } = this.props;
+    const { enableBtns, resetDispatch } = this.props;
     enableBtns();
     this.setState((ps) => ({
       questionIndex: ps.questionIndex + 1,
       click: false,
     }));
+    resetDispatch();
   }
 
   clickAnswer() {
@@ -175,17 +176,19 @@ GamePage.propTypes = {
   timerDispatch: PropTypes.func.isRequired,
   score: PropTypes.number.isRequired,
   upDateScore: PropTypes.func.isRequired,
+  resetDispatch: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   enableBtns: () => dispatch(enablebtns()),
   timerDispatch: () => dispatch(subTimer()),
   upDateScore: (result) => dispatch(dispatchScore(result)),
+  resetDispatch: () => dispatch(resetTimer()),
 });
 
 const mapStateToProps = (state) => ({
-  nome: state.triviaReducer.login.nome,
-  email: state.triviaReducer.login.email,
+  nome: state.loginReducer.login.nome,
+  email: state.loginReducer.login.email,
   results: state.triviaReducer.questions.results,
   timer: state.triviaReducer.timer,
   disableBtn: state.triviaReducer.isDisable,

@@ -51,6 +51,7 @@ class Login extends Component {
 
   render() {
     const { nome, email, fetchQstionsDispatch, token } = this.props;
+    console.log(nome);
     return (
       <div>
         <Header />
@@ -98,8 +99,8 @@ Login.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  nome: state.triviaReducer.login.nome,
-  email: state.triviaReducer.login.email,
+  nome: state.loginReducer.login.nome,
+  email: state.loginReducer.login.email,
   token: state.triviaReducer.token.token,
 });
 
