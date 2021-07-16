@@ -107,9 +107,10 @@ class GamePage extends Component {
   }
 
   render() {
-    const { results } = this.props;
+    const { results, timer } = this.props;
     const { questionIndex, click, isDisable } = this.state;
     const indexLimit = 4;
+    if (timer <= 0) this.disableBtns();
 
     return (
       <div>
