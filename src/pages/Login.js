@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import logo from '../trivia.png';
+import BtnSetupScreen from '../components/btnSetupScreen';
 import fetchGravatar from '../services/GravatarApi';
 import { sendGravatarSrcImg, sendQuestions } from '../redux/actions/index';
 import InputName from '../components/InputName';
@@ -113,6 +114,7 @@ class Login extends Component {
               <InputEmail func={ this.handleOnChangeInputValidate } />
               <PlayBtn func={ this.playHandle } />
             </form>
+            <BtnSetupScreen />
             { showImg ? this.showProfileImg() : '' }
           </section>
         </header>
@@ -134,7 +136,7 @@ Login.propTypes = {
   sendImgSrc: PropTypes.func,
   sendQuestionList: PropTypes.func,
 };
-
+// -
 Login.defaultProps = {
   sendImgSrc: {},
   sendQuestionList: {},
