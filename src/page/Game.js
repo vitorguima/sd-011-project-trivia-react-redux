@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './Gaming.css';
 import md5 from 'crypto-js/md5';
 import { fetchQuestion } from '../redux/actions';
-// import Time from './components/Time';
+import Time from './components/Time';
 
 let renderButton = false;
 
@@ -14,15 +14,13 @@ class Game extends Component {
     this.state = {
       numberNext: 0,
       styleButton: false,
-      initialTime: 30,
-      disabled: false,
-      setTime: null,
+      // setTime: null,
     };
 
     this.handleResponse = this.handleResponse.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.confirmResponse = this.confirmResponse.bind(this);
-    this.timeQuestion = this.timeQuestion.bind(this);
+    // this.funcSetTime = this.funcSetTime.bind(this);
   }
 
   componentDidMount() {
@@ -99,9 +97,13 @@ class Game extends Component {
     }
   }
 
+  // funcSetTime(setTime) {
+  //   this.setState({ setTime });
+  // }
+
   handleResponse() {
     const { questions } = this.props;
-    const { numberNext, styleButton, disabled } = this.state;
+    const { numberNext, styleButton } = this.state;
     if (questions.length > 0) {
       return [
         ...questions[numberNext].incorrect_answers.map((item, index) => (
@@ -110,7 +112,7 @@ class Game extends Component {
             onClick={ this.confirmResponse }
             data-testid={ `wrong-answer-${numberNext}` }
             type="button"
-            disabled={ disabled }
+            // disabled={ disabled }
             key={ index }
           >
             <div>{item}</div>
@@ -121,7 +123,7 @@ class Game extends Component {
             onClick={ this.confirmResponse }
             data-testid="correct-answer"
             key={ numberNext }
-            disabled={ disabled }
+            // disabled={ disabled }
             type="button"
           >
             {questions[numberNext].correct_answer}
@@ -134,7 +136,7 @@ class Game extends Component {
     const { players, email } = this.props;
     const objectsLocalStorage = JSON.parse(localStorage.getItem('state'));
     const hashGenerator = md5(email).toString();
-    const { initialTime } = this.state;
+    // const { initialTime } = this.state;
     return (
       <div>
         <header>
@@ -150,7 +152,7 @@ class Game extends Component {
             </span>
           </p>
           <div>
-            { initialTime }
+            <Time funcSetTime={ this.funcSetTime } />
           </div>
           <div>
             {this.handleQuestion()}
@@ -171,6 +173,7 @@ class Game extends Component {
             ) : (
               <div />
             )}
+          <div />
         </header>
       </div>
     );
