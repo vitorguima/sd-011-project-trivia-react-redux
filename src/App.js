@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router';
 import logo from './trivia.png';
 import './App.css';
 import Login from './pages/Login';
+import Configurações from './pages/Configurações';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       {/* <BrowserRouter> */}
       <Switch>
         <Route exact path="/" component={ Login } />
+        <Route path="/settings" component={ Configurações } />
       </Switch>
       {/* </BrowserRouter> */}
     </div>

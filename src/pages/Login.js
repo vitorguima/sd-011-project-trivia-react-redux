@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchApi } from '../actions';
 
@@ -10,7 +10,8 @@ const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
 class Login extends Component {
   constructor() {
     super();
-    this.verifyAPI = this.verifyAPI.bind(this);
+    // this.verifyAPI = this.verifyAPI.bind(this);
+    this.form = this.form.bind(this);
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangeButton = this.handleChangeButton.bind(this);
@@ -47,41 +48,48 @@ class Login extends Component {
     }
   }
 
-  verifyAPI() {
-    const { apiReturn } = this.props;
-    console.log(apiReturn.token);
+  // verifyAPI() { // Remover depois
+  //   const { apiReturn } = this.props;
+  //   console.log(apiReturn.token);
+  // }
+
+  form() {
+    const { name, email } = this.state;
+    return (
+      <form>
+        <label htmlFor="name">
+          Nome:
+          <input
+            type="text"
+            id="name"
+            value={ name }
+            onChange={ this.handleChangeName }
+            data-testid="input-player-name"
+            onKeyUp={ this.handleChangeButton }
+          />
+        </label>
+
+        <label htmlFor="name">
+          Email:
+          <input
+            type="Email"
+            id="email"
+            value={ email }
+            onChange={ this.handleChangeEmail }
+            data-testid="input-gravatar-email"
+            onKeyUp={ this.handleChangeButton }
+          />
+        </label>
+      </form>
+    );
   }
 
   render() {
-    const { name, email, isDisabled } = this.state;
+    const { isDisabled } = this.state;
     const { fetch } = this.props;
     return (
       <div>
-        <form>
-          <label htmlFor="name">
-            Nome:
-            <input
-              type="text"
-              id="name"
-              value={ name }
-              onChange={ this.handleChangeName }
-              data-testid="input-player-name"
-              onKeyUp={ this.handleChangeButton }
-            />
-          </label>
-
-          <label htmlFor="name">
-            Email:
-            <input
-              type="Email"
-              id="email"
-              value={ email }
-              onChange={ this.handleChangeEmail }
-              data-testid="input-gravatar-email"
-              onKeyUp={ this.handleChangeButton }
-            />
-          </label>
-        </form>
+        {this.form()}
         {/* <Link> */}
         <button
           disabled={ isDisabled }
@@ -91,16 +99,15 @@ class Login extends Component {
         >
           Jogar
         </button>
-
-        {/* Botão para teste de vericar conteudo retornado da API */}
-        <button
-          disabled={ isDisabled }
-          onClick={() => this.verifyAPI() }
-        >
-          Verficar API
-        </button>
-
         {/* </Link> */}
+        <Link to="/settings">
+          <button
+            data-testid="btn-settings"
+            type="button"
+          >
+            Configurações
+          </button>
+        </Link>
       </div>
     );
   }
