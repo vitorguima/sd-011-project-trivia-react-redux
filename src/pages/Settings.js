@@ -25,7 +25,7 @@ class Settings extends React.Component {
   }
 
   categoriesForm() {
-    const { categories } = this.props || [];
+    const { categories } = this.props;
     return (
       <form>
         <label htmlFor="questions">
@@ -47,7 +47,7 @@ class Settings extends React.Component {
       <div>
         <Link to="/">Voltar</Link>
         <h1 data-testid="settings-title">Settings</h1>
-        {isLoading ? 'Carregando...' : this.categoriesForm()}
+        {isLoading ? <p>Carregando...</p> : this.categoriesForm()}
       </div>
     );
   }
