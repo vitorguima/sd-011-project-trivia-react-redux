@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { playerScore } from '../actions';
 
-export default class gameScreen extends Component {
+class gameScreen extends Component {
   constructor() {
     super();
     const { player } = JSON.parse(localStorage.getItem('state'));
@@ -26,29 +28,44 @@ export default class gameScreen extends Component {
   correctAnswer() {
     const fixedPoints = 10;
     const { question, player } = this.state;
-    const { results } = this.props;
+    const { results, dispatchUserScore } = this.props;
     let difValue = 0;
     const hard = 3;
     const medium = 2;
-    const easy = 1;
-    const cronoValue = document.querySelector('.cronometer').innerHTML.split(':')[1];
-    if ((results[question].difficulty) === 'hard') {
+    const cronoValue = document
+      .querySelector('.cronometer')
+      .innerHTML.split(':')[1];
+    if (results[question].difficulty === 'hard') {
       difValue = hard;
-    } if ((results[question].difficulty) === 'medium') {
-      difValue = medium;
-    } if ((results[question].difficulty) === 'easy') {
-      difValue = easy;
     }
-    localStorage.setItem('state', JSON.stringify({ player:
-      { name: player.name,
-        assertions: player.assertions + 1,
-        score: player.score + (fixedPoints + (cronoValue * difValue)),
-        gravatarEmail: player.email } }));
+    if (results[question].difficulty === 'medium') {
+      difValue = medium;
+    }
+    if (results[question].difficulty === 'easy') {
+      difValue = 1;
+    }
+    localStorage.setItem(
+      'state',
+      JSON.stringify({
+        player: {
+          name: player.name,
+          assertions: player.assertions + 1,
+          score: player.score + (fixedPoints + cronoValue * difValue),
+          gravatarEmail: player.email,
+        },
+      }),
+    );
+    dispatchUserScore(
+      JSON.parse(localStorage.getItem('state')).player.score,
+      JSON.parse(localStorage.getItem('state')).player.assertions,
+    );
   }
 
   colorSelectCorrect() {
     const btns = document.querySelectorAll('button');
-    btns.forEach((element) => { element.classList.add('revel-color'); });
+    btns.forEach((element) => {
+      element.classList.add('revel-color');
+    });
     this.setState({
       answered: true,
     });
@@ -64,7 +81,9 @@ export default class gameScreen extends Component {
       });
     }
     const btns = document.querySelectorAll('button');
-    btns.forEach((element) => { element.classList.remove('revel-color'); });
+    btns.forEach((element) => {
+      element.classList.remove('revel-color');
+    });
   }
 
   render() {
@@ -112,7 +131,8 @@ export default class gameScreen extends Component {
             data-testid="btn-next"
           >
             Próxima questão
-          </button>) : null}
+          </button>
+        ) : null}
       </div>
     );
   }
@@ -120,4 +140,11 @@ export default class gameScreen extends Component {
 
 gameScreen.propTypes = {
   results: PropTypes.arrayOf(PropTypes.any).isRequired,
+  dispatchUserScore: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchUserScore: (score, assertions) => dispatch(playerScore(score, assertions)),
+});
+
+export default connect(null, mapDispatchToProps)(gameScreen);

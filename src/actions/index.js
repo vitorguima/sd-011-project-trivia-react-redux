@@ -9,9 +9,10 @@ export function getLogin(name, email) {
   };
 }
 
-export function playerScore(score) {
+export function playerScore(score, assertions) {
   return {
     type: GET_SCORE,
     score,
+    assertions,
   };
 }
