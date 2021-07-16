@@ -40,8 +40,8 @@ export const nextQuestion = (setAnswer, index, questions, setIndex) => {
   return setIndex(0);
 };
 
-export const randomArray = (incorrectAnswers, correctAnswer) => {
-  const alternatives = Array.from([...incorrectAnswers, correctAnswer]);
+export const randomArray = (incorrect, correct) => {
+  const alternatives = Array.from([...incorrect, correct]);
   const magic = 0.5;
   const sortedArray = alternatives.sort(() => Math.random() - magic);
   return sortedArray;

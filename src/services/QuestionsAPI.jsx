@@ -2,8 +2,9 @@
 import { getAllQuestions, dataFailure } from '../actions/gameActions';
 
 export const fetchAPI = () => async (dispatch) => {
-  const token = localStorage.getItem('token');
-  const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
+  // const token = localStorage.getItem('token');
+  const URL = 'https://opentdb.com/api.php?amount=5';
+  // &token=${token}
   const r = await fetch(URL);
   const q = await r.json();
   try {

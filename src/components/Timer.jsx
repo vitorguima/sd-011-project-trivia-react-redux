@@ -5,7 +5,7 @@ import { setTimer } from '../actions/gameActions';
 
 export default function Timer() {
   const dispatch = useDispatch();
-  const totalTime = 30;
+  const totalTime = 6;
   const gameStore = useSelector((state) => state.game);
   const { timer, selectedChoice } = gameStore;
 

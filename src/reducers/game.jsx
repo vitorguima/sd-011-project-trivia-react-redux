@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { GET_ALL_QUESTIONS,
   CURRENT_QUESTION,
   NEXT_INDEX, SET_TIMER, SELECTED_CHOICE } from '../actions/gameActions';
@@ -9,7 +8,7 @@ const initialState = {
   allQuestions: {},
   index: 0,
   currentQuestion: {},
-  timer: 30,
+  timer: 6,
   selectedChoice: '' };
 
 const gameReducer = (state = initialState, action) => {
@@ -40,7 +39,6 @@ const gameReducer = (state = initialState, action) => {
   case SELECTED_CHOICE: {
     return { ...state, selectedChoice: payload };
   }
-
   default:
     return { ...state };
   }

@@ -38,7 +38,7 @@ export default function ShowAlternatives() {
           type="button"
           name="q_answer"
           onClick={ (e) => {
-            checkAnswer(e);
+            checkAnswer(el);
             addScore(e);
           } }
         >

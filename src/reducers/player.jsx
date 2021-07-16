@@ -1,10 +1,12 @@
 import { USER_INFO, SCORE_INFO } from '../actions';
 
 const initialState = {
-  name: '',
-  gravatarEmail: 'GET',
-  assertions: 0,
-  score: 0,
+  state: {
+    name: '',
+    gravatarEmail: 'GET',
+    assertions: 0,
+    score: 0,
+  },
 };
 
 const playerReducer = (state = initialState, action) => {
