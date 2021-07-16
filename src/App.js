@@ -11,7 +11,7 @@ export default function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Inicial } />
-      <Route exact path="/Play" component={ Play } />
+      <Route exact path="/Play" render={ (props) => <Play { ...props } /> } />
       <Route exact path="/Feedback" component={ Feedback } />
       <Route exact path="/Ranking" component={ Ranking } />
       <Route exact path="/Settings" component={ Settings } />
