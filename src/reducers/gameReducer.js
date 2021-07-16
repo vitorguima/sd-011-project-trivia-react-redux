@@ -1,8 +1,9 @@
-import { REQUEST_API, GET_GAME } from '../actions';
+import { REQUEST_API, GET_GAME, GET_CATEGORIES } from '../actions';
 
 const INITIAL_STATE = {
   isLoading: false,
   gameData: [],
+  categories: [],
 };
 
 function gameReducer(state = INITIAL_STATE, action) {
@@ -17,6 +18,11 @@ function gameReducer(state = INITIAL_STATE, action) {
       ...state,
       isLoading: false,
       gameData: action.data,
+    };
+  case GET_CATEGORIES:
+    return {
+      ...state,
+      categories: action.data,
     };
   default:
     return state;
