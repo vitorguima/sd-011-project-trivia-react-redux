@@ -3,6 +3,7 @@ export const REQUEST_API_SUCESS = 'REQUEST_API_SUCESS';
 export const REQUEST_API_ERROR = 'REQUEST_API_ERROR';
 export const GET_EMAIL = 'GET_EMAIL';
 export const GET_NAME = 'GET_NAME';
+export const GET_SECONDS = 'GET_SECONDS';
 
 export const getEmail = (email) => ({
   type: 'GET_EMAIL',
@@ -35,3 +36,8 @@ export const requestApiThunk = (token) => (dispatch) => {
     .then((data) => dispatch(requestApiSucess(data)))
     .catch((error) => dispatch(requestApiError(error)));
 };
+
+export const getSeconds = (seconds) => ({
+  type: GET_SECONDS,
+  seconds,
+});

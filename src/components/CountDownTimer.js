@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import * as userActions from '../actions';
 
-export default class CountdownTimer extends Component {
+class CountdownTimer extends Component {
   constructor() {
     super();
     this.state = {
       minutes: 0,
-      seconds: 10,
-      // disabled: true,
+      seconds: 30,
     };
   }
 
@@ -28,8 +30,20 @@ export default class CountdownTimer extends Component {
     }, interval);
   }
 
+  componentDidUpdate() {
+    this.dispatchDisable();
+  }
+
   componentWillUnmount() {
     clearInterval(this.myInterval);
+  }
+
+  dispatchDisable() {
+    const { setSeconds } = this.props;
+    const { seconds } = this.state;
+    if (seconds === 0) {
+      setSeconds(seconds);
+    }
   }
 
   render() {
@@ -50,3 +64,13 @@ export default class CountdownTimer extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  setSeconds: (seconds) => dispatch(userActions.getSeconds(seconds)),
+});
+
+export default connect(null, mapDispatchToProps)(CountdownTimer);
+
+CountdownTimer.propTypes = {
+  setSeconds: PropTypes.func,
+}.isRequired;

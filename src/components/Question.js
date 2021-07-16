@@ -60,7 +60,7 @@ class Question extends Component {
   }
 
   render() {
-    const { eachResult } = this.props;
+    const { eachResult, seconds } = this.props;
     const correctAnswer = this.getCorrectAnswer();
     const randomAnswers = this.randomAnswers();
     return (
@@ -72,6 +72,7 @@ class Question extends Component {
           <button
             id="answer"
             type="button"
+            disabled={ (seconds === 0 || false) }
             key={ `answer ${index}` }
             data-testid={ correctAnswer === answer
               ? 'correct-answer'
@@ -90,6 +91,7 @@ class Question extends Component {
 
 const mapStateToProps = (state) => ({
   questions: state.fetchReducers.questions,
+  seconds: state.getSeconds.seconds,
 });
 
 export default connect(mapStateToProps)(Question);
