@@ -27,11 +27,9 @@ class Forms extends Component {
     const { settings: { category, level, nQuestions } } = this.props;
     let url = `https://opentdb.com/api.php?amount=${nQuestions}`;
     if (level) {
-      console.log('caiu no level');
       url = `${url}&difficulty=${level}`;
     }
     if (category) {
-      console.log('caiu no category');
       url = `${url}&category=${category}`;
     }
     return url;
