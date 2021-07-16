@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import Header from './Header';
 import { fetchTokenApi } from '../actions/index';
-import { Redirect } from 'react-router-dom';
 
 class Game extends Component {
   constructor() {
@@ -31,6 +31,9 @@ class Game extends Component {
     });
     if (name === 'correctAnswer') {
       this.sumScore();
+      const store = JSON.parse(localStorage.getItem("state"));
+      store.player.assertions += 1;
+      localStorage.setItem("state", JSON.stringify(store));
     }
   }
 
