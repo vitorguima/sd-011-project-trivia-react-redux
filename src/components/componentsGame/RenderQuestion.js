@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { rquestQuestions } from '../../actions';
+import { rquestQuestions, sendScorePoints } from '../../actions';
 import ButtonNext from './ButtonNext';
 import ButtonsQuestions from './ButtonsQuestions';
 import ComponentTime from './ComponentTime';
@@ -19,6 +19,9 @@ const RenderQuestion = () => {
       dispatch(rquestQuestions());
     }, limitedTime);
   }, []);
+
+  const globalScore = (value) => dispatch(sendScorePoints(value));
+
   const renderResult = () => (
     <div className="question">
       <ComponentTime
@@ -26,6 +29,7 @@ const RenderQuestion = () => {
         correctAsw={ correctanswers }
         idQuestion={ questions[0] }
         cancelSomeScore={ setCorrectanswers }
+        sendScore={ globalScore }
       />
       <QuestionDesc descQuestion={ questions[0] } />
       <ButtonsQuestions
