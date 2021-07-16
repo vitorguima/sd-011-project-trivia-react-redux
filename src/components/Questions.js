@@ -2,47 +2,104 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/Questions.css';
-import Timer from './Timer';
+import { disableButtonTrue } from '../actions';
 
 class Questions extends Component {
   constructor(props) {
     super(props);
 
+    const { difficulty } = props;
+
     this.state = {
-      // answered: false,
       correctAnswer: 'answer',
       wrongAnswer: 'answer',
+      time: null,
+      answered: false,
+      difficulty: difficulty,
+      score: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
-    // this.correctAnswer = this.correctAnswer.bind(this);
-    // this.wrongAnswer = this.wrongAnswer.bind(this);
+    this.initailTime = this.initailTime.bind(this);
+    this.decrementTime = this.decrementTime.bind(this);
+    this.saveScoreState = this.saveScoreState.bind(this);
+    this.scoreMode = this.scoreMode.bind(this);
+  }
+
+  componentDidMount() {
+    this.initailTime();
+  }
+
+  componentDidUpdate() {
+    const { answered } = this.state;
+    if (!answered) {
+      this.decrementTime();
+    }
   }
 
   handleClick() {
     this.setState({
       correctAnswer: 'correct-answer',
       wrongAnswer: 'wrong-answer',
+      answered: true,
+    }, () => {
+      this.saveScoreState();
     });
   }
 
-  // correctAnswer() {
-  //   const { answered } = this.state;
-  //   return answered ? 'correct-answer' : 'answer';
-  // }
+  decrementTime() {
+    const { time } = this.state;
+    const interval = 1000;
+    if (time > 0) {
+      setTimeout(() => {
+        this.setState({
+          time: time - 1,
+        });
+      }, interval);
+    } else {
+      const { timeOut } = this.props;
+      timeOut(true);
+    }
+  }
 
-  // wrongAnswer() {
-  //   const { answered } = this.state;
-  //   return answered ? 'wrong-answer' : 'answer';
-  // }
+  initailTime() {
+    this.setState({
+      time: 30,
+    });
+  }
+
+  scoreMode() {
+    const { difficulty, time } = this.state;
+    let score = 0;
+    const ten = 10;
+    const hard = 3;
+    const medium = 2;
+    const easy = 1;
+    if (difficulty === 'hard') {
+      score = ten + (time * hard);
+    } else if (difficulty === 'medium') {
+      score = ten + (time * medium);
+    } else if (difficulty === 'easy') {
+      score = ten + (time * easy);
+    }
+    return score;
+  }
+
+  saveScoreState() {
+    const newScore = this.scoreMode();
+    this.setState({
+      score: newScore,
+    });
+  }
 
   render() {
     const { questionsState, loading, buttonsDisabled } = this.props;
-    const { correctAnswer, wrongAnswer } = this.state;
+    const { correctAnswer, wrongAnswer, time, score } = this.state;
 
     return (
       <div>
-        <Timer />
+        <p>{ time }</p>
+        <p>{ score }</p>
         {loading
           ? <h4>Loading...</h4>
           : (
@@ -83,10 +140,15 @@ const mapStateToProps = (state) => ({
   buttonsDisabled: state.timerReducer.buttonsDisabledFromTimer,
 });
 
-export default connect(mapStateToProps)(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  timeOut: (disabled) => dispatch(disableButtonTrue(disabled)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
 
 Questions.propTypes = {
   buttonsDisabled: PropTypes.func.isRequired,
   questionsState: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
+  timeOut: PropTypes.func.isRequired,
 };
