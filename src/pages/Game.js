@@ -41,7 +41,6 @@ class Game extends Component {
   getTokenOnLocalStorage() {
     const tokenStr = localStorage.getItem('token');
     const tokenObj = JSON.parse(tokenStr);
-
     this.fetchQuestions(tokenObj.token);
   }
 
@@ -53,7 +52,6 @@ class Game extends Component {
   async fetchTriviaApi() {
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const token = await response.json();
-    console.log(token);
 
     this.storeTokenOnLocalStorage(token);
   }
@@ -61,8 +59,6 @@ class Game extends Component {
   async fetchQuestions(token) {
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const questions = await response.json();
-
-    console.log(questions.results);
 
     this.setState({
       questions: questions.results,
@@ -78,13 +74,22 @@ class Game extends Component {
   }
 
   goToNextQuestion() {
-    this.setState({
-      showIncorrectAnswer: '',
-      showCorrectAnswer: '',
-      timer: 30,
-      disabled: false,
-    });
-    this.setState((prevstate) => ({ questionNum: prevstate.questionNum + 1 }));
+    const { questionNum } = this.state;
+    const maxQuestionNumIndex = 4;
+
+    if (questionNum < maxQuestionNumIndex) {
+      this.setState({
+        showIncorrectAnswer: '',
+        showCorrectAnswer: '',
+        timer: 30,
+        disabled: false,
+      });
+      this.setState((prevstate) => ({ questionNum: prevstate.questionNum + 1 }));
+    } else {
+      const { history } = this.props;
+
+      history.push('/feedback');
+    }
   }
 
   renderShowAnswer({ target }) {
@@ -238,4 +243,7 @@ export default connect(mapStateToProps)(Game);
 Game.propTypes = {
   name: PropTypes.string,
   gravatarEmail: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
 }.isRequired;
