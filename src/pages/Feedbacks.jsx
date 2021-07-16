@@ -7,7 +7,21 @@ export default class Feedbacks extends Component {
     this.state = {
       score: JSON.parse(localStorage.state).player.score,
       name: JSON.parse(localStorage.state).player.name,
+      assertions: JSON.parse(localStorage.state).player.assertions,
     };
+  }
+
+  mensage() {
+    const tres = 3;
+    const { assertions } = this.state;
+    if (assertions >= tres) {
+      return (
+        'Mandou bem!'
+      );
+    }
+    return (
+      'Podia ser melhor...'
+    );
   }
 
   render() {
@@ -19,6 +33,7 @@ export default class Feedbacks extends Component {
           score={ score }
           name={ name }
         />
+        <p data-testid="feedback-text">{this.mensage()}</p>
       </div>
     );
   }

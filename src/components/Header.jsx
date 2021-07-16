@@ -7,7 +7,6 @@ class Header extends Component {
     const hash = md5(localStorage.token).toString();
     const userImage = `https://www.gravatar.com/avatar/${hash}`;
     const { name, score } = this.props;
-    // const { score } = this.state;
     return (
       <header>
         <img
