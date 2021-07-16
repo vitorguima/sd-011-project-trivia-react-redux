@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import Header from '../components/Header';
 
 class Feedback extends Component {
@@ -7,7 +7,7 @@ class Feedback extends Component {
       <div>
         <Header />
       </div>
-    )
+    );
   }
 }
 
