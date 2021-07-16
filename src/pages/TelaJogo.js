@@ -12,8 +12,9 @@ class TelaJogo extends Component {
   }
 
   componentDidMount() {
-    const { recivedGameData } = this.props;
+    const { recivedGameData, gameData } = this.props;
     recivedGameData();
+    // console.log(gameData.results);
   }
 
   render() {
@@ -22,6 +23,7 @@ class TelaJogo extends Component {
     const player = { name, assertions: 0, score, gravatarEmail: email };
     localStorage.setItem('player', JSON.stringify(player));
     // localStorage.setItem('email', email);
+    const array = gameData.results;
     return (
       <div>
         <header>
@@ -33,14 +35,22 @@ class TelaJogo extends Component {
           </span>
         </header>
         <div>
-          {
-            // console.log(Object.values(gameData)[0])
-            // gameData.map((value, index) => (
-            //   <p key={ index }>
-            //     {value}
-            //   </p>
-            // ))
-          }
+          {array && array.map((value) => console.log(value.category))}
+          {array && array.map((value) => (
+            <p key={ value.category }>
+              {value.category}
+            </p>
+          ))}
+          {/* {array[0]} */}
+          {/* {array && console.log(array)} */}
+          {/* {
+            console.log(Object.values(gameData)[0])
+            gameData.map((value, index) => (
+              <p key={ index }>
+                {value}
+              </p>
+            ))
+          } */}
         </div>
       </div>
     );
