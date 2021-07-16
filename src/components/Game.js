@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import Header from './Header';
 import { fetchTokenApi } from '../actions/index';
 
@@ -30,6 +31,9 @@ class Game extends Component {
     });
     if (name === 'correctAnswer') {
       this.sumScore();
+      const store = JSON.parse(localStorage.getItem("state"));
+      store.player.assertions += 1;
+      localStorage.setItem("state", JSON.stringify(store));
     }
   }
 
@@ -84,6 +88,9 @@ class Game extends Component {
     const { results } = questions.questions;
     const { clickedQuestions, timer, index } = this.state;
     if (!results) return <h3>Loading...</h3>;
+    if(index === 5){
+      return  < Redirect to="feedback" />
+    }
     return (
       <div>
         <Header />

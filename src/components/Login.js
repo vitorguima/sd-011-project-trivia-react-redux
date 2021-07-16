@@ -27,7 +27,7 @@ class Login extends Component {
       JSON.stringify({
         player: {
           name,
-          assertions: '',
+          assertions: 0,
           score: 0,
           gravatarEmail: email,
         },
