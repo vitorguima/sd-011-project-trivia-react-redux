@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends Component {
@@ -23,6 +24,14 @@ class Feedback extends Component {
         <h2 data-testid="feedback-text">{ this.msg }</h2>
         <h3 data-testid="feedback-total-score">Total de score</h3>
         <h3 data-testid="feedback-total-question">Total de acertos</h3>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar Novamente
+          </button>
+        </Link>
       </div>
     );
   }
