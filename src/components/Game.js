@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import md5 from 'crypto-js/md5';
 import Header from './Header';
 import { fetchTokenApi } from '../actions/index';
 
@@ -37,6 +38,37 @@ class Game extends Component {
     }
   }
 
+  setPlayerRanking() {
+    const store = JSON.parse(localStorage.getItem('state')).player;
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    const { score, gravatarEmail, name } = store;
+    const hashEmail = md5(gravatarEmail).toString();
+
+    const playerInfos = {
+      name,
+      score,
+      picture: `https://www.gravatar.com/avatar/${hashEmail}`,
+    };
+
+    if (ranking) {
+      localStorage.setItem('ranking', JSON.stringify([...ranking, playerInfos]));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([playerInfos]));
+    }
+  }
+
+  questionAnswered() {
+    const { clickedQuestions, timer } = this.state;
+    if (clickedQuestions || timer === 0) {
+      return true;
+    }
+    return false;
+  }
+
+  goNextQuestion() {
+    this.setState((prevState) => ({ index: prevState.index + 1, timer: 30 }));
+  }
+
   startTimer() {
     const { timer, clickedQuestions } = this.state;
     const time = 1000;
@@ -47,18 +79,6 @@ class Game extends Component {
     if (timer === 0 || clickedQuestions) {
       clearTimeout(timeout);
     }
-  }
-
-  goNextQuestion() {
-    this.setState((prevState) => ({ index: prevState.index + 1, timer: 30 }));
-  }
-
-  questionAnswered() {
-    const { clickedQuestions, timer } = this.state;
-    if (clickedQuestions || timer === 0) {
-      return true;
-    }
-    return false;
   }
 
   sumScore() {
@@ -108,10 +128,9 @@ class Game extends Component {
     const { results } = questions.questions;
     const { clickedQuestions, timer, index } = this.state;
     const finalQuestion = 5;
-
     if (!results) return <h3>Loading...</h3>;
-
     if (index === finalQuestion) {
+      this.setPlayerRanking();
       return <Redirect to="feedback" />;
     }
     return (
