@@ -25,8 +25,19 @@ class Feedback extends Component {
     return (
       <div>
         <Header />
-        <h5 data-testid="feedback-text">{ this.handleQuestions() }</h5>
-        <Link to="/" data-testid="btn-play-again">Jogar novamente</Link>
+        <div>
+          <h5 data-testid="feedback-text">{ this.handleQuestions() }</h5>
+          <h5 data-testid="feedback-total-score">Total de pontos:</h5>
+          <h5 data-testid="feedback-total-question">Total de questões:</h5>
+        </div>
+        <nav>
+          <Link to="/ranking" data-testid="btn-ranking">
+            <button type="button">Ver Ranking</button>
+          </Link>
+          <Link to="/" data-testid="btn-play-again">
+            <button type="button">Jogar novamente</button>
+          </Link>
+        </nav>
       </div>
     );
   }

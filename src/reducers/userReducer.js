@@ -4,6 +4,7 @@ import {
   CREATE_USER_NAME,
   CREATE_USER_SCORE,
   CREATE_USER_ASSERTION,
+  CREATE_USER_QUESTION,
   // GET_TOKEN_SUCCESS,
   // GET_TOKEN_ERROR
 } from '../actions';
@@ -14,6 +15,7 @@ const INITIAL_STATE = {
   hash: '',
   score: 0,
   assertion: 0,
+  question: [],
 };
 
 function userReducer(state = INITIAL_STATE, action) {
@@ -42,6 +44,11 @@ function userReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       assertion: action.payload,
+    };
+  case CREATE_USER_QUESTION:
+    return {
+      ...state,
+      question: action.payload,
     };
   default:
     return state;
