@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from './Header';
 
 class Feedback extends Component {
@@ -7,6 +9,10 @@ class Feedback extends Component {
     super();
     this.handleClickPlayAgain = this.handleClickPlayAgain.bind(this);
     this.handleClickRanking = this.handleClickRanking.bind(this);
+  }
+
+  componentDidMount() {
+    this.rankingToLocalStorage();
   }
 
   handleClickPlayAgain() {
@@ -17,6 +23,23 @@ class Feedback extends Component {
   handleClickRanking() {
     const { history } = this.props;
     history.push('/ranking');
+  }
+
+  rankingToLocalStorage() {
+    const { gravatarEmail, name, score } = this.props;
+    const HASH = md5(gravatarEmail).toString();
+    const response = [{ name, score, picture: `https://www.gravatar.com/avatar/${HASH}` }];
+    let initial = false;
+
+    if (!localStorage.ranking || localStorage.length === 0) {
+      localStorage.setItem('ranking', JSON.stringify([response]));
+      initial = true;
+    }
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    if (!initial) {
+      ranking.push(response);
+    }
+    localStorage.setItem('ranking', JSON.stringify(ranking));
   }
 
   render() {
@@ -49,8 +72,17 @@ class Feedback extends Component {
   }
 }
 
-export default Feedback;
+const mapStateToProps = (state) => ({
+  gravatarEmail: state.playerReducer.gravatarEmail,
+  name: state.playerReducer.name,
+  score: state.playerReducer.score,
+});
+
+export default connect(mapStateToProps)(Feedback);
 
 Feedback.propTypes = {
   history: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };

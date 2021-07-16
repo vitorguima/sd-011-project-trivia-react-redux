@@ -95,7 +95,6 @@ class Questions extends Component {
       assertions: finalAssertions,
     } };
     updateNewScore(newScore, finalAssertions);
-    console.log(player);
     return localStorage.setItem('state', JSON.stringify(player));
   }
 
