@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import questionAPI from '../services';
 import Header from './Header';
 import '../App.css';
+import { updateScore } from '../actions';
 
 class Questions extends Component {
   constructor() {
@@ -35,13 +38,23 @@ class Questions extends Component {
     });
   }
 
-  handleClick() {
+  handleClickIncorrect() {
     this.setState({
       incorrect: true,
       correct: true,
       clicked: true,
       isDisabled: true,
     });
+  }
+
+  handleClickCorrect() {
+    this.setState({
+      incorrect: true,
+      correct: true,
+      clicked: true,
+      isDisabled: true,
+    });
+    this.sumScore();
   }
 
   startTimer() {
@@ -56,46 +69,34 @@ class Questions extends Component {
         this.setState({
           finishTimer: true,
         });
-        this.handleClick();
+        this.handleClickIncorrect();
       }
     }
   }
 
-  renderIncorrectAnswers() {
-    const { questions, index, incorrect, regularBorder, isDisabled } = this.state;
-    const incorrectAnswers = questions[index].incorrect_answers;
-    const redBorder = 'red-border';
-    return (
-      <div>
-        <button
-          type="button"
-          disabled={ isDisabled }
-          data-testid={ `wrong-answer-${0}` }
-          className={ incorrect ? redBorder : regularBorder }
-          onClick={ () => this.handleClick(!incorrect) }
-        >
-          { incorrectAnswers[0] }
-        </button>
-        <button
-          type="button"
-          disabled={ isDisabled }
-          data-testid={ `wrong-answer-${1}` }
-          className={ incorrect ? redBorder : regularBorder }
-          onClick={ () => this.handleClick(!incorrect) }
-        >
-          { incorrectAnswers[1] }
-        </button>
-        <button
-          type="button"
-          disabled={ isDisabled }
-          data-testid={ `wrong-answer-${2}` }
-          className={ incorrect ? redBorder : regularBorder }
-          onClick={ () => this.handleClick(!incorrect) }
-        >
-          { incorrectAnswers[2] }
-        </button>
-      </div>
-    );
+  sumScore() {
+    const { timer, questions, index } = this.state;
+    const { score, assertions, name, gravatarEmail, updateNewScore } = this.props;
+    let newScore = 0;
+    const three = 3;
+    const ten = 10;
+    if (questions[index].difficulty === 'easy') {
+      newScore = (timer * 1) + ten;
+    } else if (questions[index].difficulty === 'medium') {
+      newScore = (timer * 2) + ten;
+    } else if (questions[index].difficulty === 'hard') {
+      newScore = (timer * three) + ten;
+    }
+    const finalScore = score + newScore;
+    const finalAssertions = assertions + 1;
+    const player = { player: {
+      gravatarEmail,
+      name,
+      score: finalScore,
+      assertions: finalAssertions,
+    } };
+    updateNewScore(finalScore, finalAssertions);
+    return localStorage.setItem('player', JSON.stringify(player));
   }
 
   renderAnswers() {
@@ -114,9 +115,46 @@ class Questions extends Component {
           disabled={ isDisabled }
           data-testid={ `wrong-answer-${0}` }
           className={ incorrect ? redBorder : regularBorder }
-          onClick={ () => this.handleClick(!incorrect) }
+          onClick={ () => this.handleClickIncorrect(!incorrect) }
         >
           { incorrectAnswers[0] }
+        </button>
+      </div>
+    );
+  }
+
+  renderIncorrectAnswers() {
+    const { questions, index, incorrect, regularBorder, isDisabled } = this.state;
+    const incorrectAnswers = questions[index].incorrect_answers;
+    const redBorder = 'red-border';
+    return (
+      <div>
+        <button
+          type="button"
+          disabled={ isDisabled }
+          data-testid={ `wrong-answer-${0}` }
+          className={ incorrect ? redBorder : regularBorder }
+          onClick={ () => this.handleClickIncorrect(!incorrect) }
+        >
+          { incorrectAnswers[0] }
+        </button>
+        <button
+          type="button"
+          disabled={ isDisabled }
+          data-testid={ `wrong-answer-${1}` }
+          className={ incorrect ? redBorder : regularBorder }
+          onClick={ () => this.handleClickIncorrect(!incorrect) }
+        >
+          { incorrectAnswers[1] }
+        </button>
+        <button
+          type="button"
+          disabled={ isDisabled }
+          data-testid={ `wrong-answer-${2}` }
+          className={ incorrect ? redBorder : regularBorder }
+          onClick={ () => this.handleClickIncorrect(!incorrect) }
+        >
+          { incorrectAnswers[2] }
         </button>
       </div>
     );
@@ -138,8 +176,9 @@ class Questions extends Component {
                   disabled={ isDisabled }
                   type="button"
                   data-testid="correct-answer"
+                  value="correct"
                   className={ correct ? 'green-border' : regularBorder }
-                  onClick={ () => this.handleClick(!correct) }
+                  onClick={ () => this.handleClickCorrect(!correct) }
                 >
                   { questions[index].correct_answer }
                 </button>
@@ -153,4 +192,23 @@ class Questions extends Component {
   }
 }
 
-export default Questions;
+const mapStateToProps = (state) => ({
+  score: state.playerReducer.score,
+  assertions: state.playerReducer.assertions,
+  name: state.playerReducer.name,
+  gravatarEmail: state.playerReducer.gravatarEmail,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateNewScore: (score, assertions) => dispatch(updateScore(score, assertions)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
+
+Questions.propTypes = {
+  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+  updateNewScore: PropTypes.func.isRequired,
+};

@@ -7,7 +7,8 @@ export const validateLogin = (gravatarEmail, name) => ({
   name,
 });
 
-export const updateScore = (score) => ({
-  type: VALIDATE_LOGIN,
+export const updateScore = (score, assertions) => ({
+  type: UPDATE_SCORE,
   score,
+  assertions,
 });

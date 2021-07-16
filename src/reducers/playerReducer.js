@@ -3,7 +3,8 @@ import { VALIDATE_LOGIN, UPDATE_SCORE } from '../actions';
 const INITIAL_STATE = {
   gravatarEmail: '',
   name: '',
-  score: 0,
+  score: 10,
+  assertions: 0,
 };
 
 function playerReducer(state = INITIAL_STATE, action) {
@@ -17,7 +18,8 @@ function playerReducer(state = INITIAL_STATE, action) {
   case UPDATE_SCORE:
     return {
       ...state,
-      score: action.score + 1,
+      score: action.score,
+      assertions: action.assertions,
     };
   default:
     return state;
