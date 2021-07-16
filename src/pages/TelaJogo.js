@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { fetchNewApi } from '../actions/requestAPI';
 
 class TelaJogo extends Component {
   constructor() {
@@ -10,9 +11,14 @@ class TelaJogo extends Component {
     };
   }
 
+  componentDidMount() {
+    const { recivedGameData } = this.props;
+    console.log(recivedGameData());
+  }
+
   render() {
     const { score } = this.state;
-    const { getdata: { emailHash, name } } = this.props;
+    const { getdata: { emailHash, name }, recivedGameData } = this.props;
     return (
       <div>
         <header>
@@ -23,6 +29,11 @@ class TelaJogo extends Component {
             { score }
           </span>
         </header>
+        <div>
+          {
+            console.log(recivedGameData())
+          }
+        </div>
       </div>
     );
   }
@@ -32,11 +43,16 @@ const mapStateToProps = (state) => ({
   getdata: state.user.userData,
 });
 
-TelaJogo.propTypes = {
+const mapDispatchToProps = (dispatch) => ({
+  recivedGameData: (state) => dispatch(fetchNewApi(state)),
+});
+
+TelaJogo.propTypes = ({
   getdata: PropTypes.shape({
     emailHash: PropTypes.string,
     name: PropTypes.string,
-  }).isRequired,
-};
+  }),
+  recivedGameData: PropTypes.func,
+}).isRequired;
 
-export default connect(mapStateToProps, null)(TelaJogo);
+export default connect(mapStateToProps, mapDispatchToProps)(TelaJogo);
