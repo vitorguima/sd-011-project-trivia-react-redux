@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import fetchToken from '../services/Api';
+import PropTypes from 'prop-types';
+import fetchToken, { fetchGravatar } from '../services/Api';
 
 class Login extends Component {
   constructor() {
@@ -31,7 +32,12 @@ class Login extends Component {
   }
 
   handleClick() {
-    fetchToken();
+    const { user, email } = this.state;
+    const { history } = this.props;
+    fetchToken()
+
+      .then(() => fetchGravatar(email, user))
+      .then(() => history.push('/gameplay'));
   }
 
   render() {
@@ -55,16 +61,14 @@ class Login extends Component {
           data-testid="input-gravatar-email"
           onChange={ this.handleChange }
         />
-        <Link to="/gameplay">
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ isDisabled }
-            onClick={ this.handleClick }
-          >
-            Jogar
-          </button>
-        </Link>
+        <button
+          type="button"
+          data-testid="btn-play"
+          disabled={ isDisabled }
+          onClick={ this.handleClick }
+        >
+          Jogar
+        </button>
         <Link to="/settings">
           <button
             type="button"
@@ -79,3 +83,11 @@ class Login extends Component {
 }
 
 export default Login;
+
+Login.propTypes = {
+  history: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+  ])).isRequired,
+};
