@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './Header';
+import Timer from './Timer';
 
 class Game extends React.Component {
   constructor() {
@@ -9,10 +10,10 @@ class Game extends React.Component {
     this.state = {
       answered: false,
     };
-    this.handleAnsweredQuestion = this.handleAnsweredQuestion.bind(this);
+    this.handleClickAndTimeOut = this.handleClickAndTimeOut.bind(this);
   }
 
-  handleAnsweredQuestion() {
+  handleClickAndTimeOut() {
     this.setState({
       answered: true,
     });
@@ -37,26 +38,29 @@ class Game extends React.Component {
         <p data-testid="question-category">{currentQuestion.category}</p>
         <p data-testid="question-text">{currentQuestion.question}</p>
         <button
+          disabled={ answered }
           style={ { ...correctAnswerClassName } }
           type="button"
           data-testid="correct-answer"
-          onClick={ this.handleAnsweredQuestion }
+          onClick={ this.handleClickAndTimeOut }
         >
           {currentQuestion.correct_answer}
         </button>
         {
           currentQuestion.incorrect_answers.map((item, index) => (
             <button
+              disabled={ answered }
               style={ { ...wrongAnswerClassName } }
               type="button"
               key={ index }
               data-testid={ `wrong-answer${index}` }
-              onClick={ this.handleAnsweredQuestion }
+              onClick={ this.handleClickAndTimeOut }
             >
               {item}
             </button>
           ))
         }
+        {!answered && <Timer handleClickAndTimeOut={ this.handleClickAndTimeOut } />}
       </div>
     );
   }
