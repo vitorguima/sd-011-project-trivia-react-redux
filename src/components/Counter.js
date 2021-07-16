@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { handleAnswersButtons } from '../actions/game';
+import { handleAnswersButtons, updateScore } from '../actions/game';
+import { startCounter, stopCounter, saveCounter } from '../actions/counter';
+import scoreCalculator from '../helpers/scoreCalculator';
 
 class Counter extends Component {
   constructor() {
@@ -13,6 +15,8 @@ class Counter extends Component {
   }
 
   componentDidMount() {
+    const { startingCounter } = this.props;
+    startingCounter();
     this.counter();
   }
 
@@ -25,15 +29,28 @@ class Counter extends Component {
   }
 
   counter() {
+    const { stoppingCounter, saveCounterTime, handleButton } = this.props;
     const timeInterval = 1000;
-    const { handleButton } = this.props;
     handleButton(false);
     const questionInterval = setInterval(() => {
+      const { counterStatus } = this.props;
       const { currentCount } = this.state;
-      if (currentCount === 0) {
+      if (!counterStatus) {
         clearInterval(questionInterval);
+        saveCounterTime(currentCount);
+        const { questionDifficulty, currentScore, score } = this.props;
+        scoreCalculator(currentCount, questionDifficulty, currentScore, score);
       }
-      this.handleCount();
+      if (counterStatus) {
+        this.handleCount();
+      }
+      if (currentCount === 0) {
+        stoppingCounter();
+        clearInterval(questionInterval);
+        saveCounterTime(currentCount);
+        const { questionDifficulty, currentScore, score } = this.props;
+        scoreCalculator(currentCount, questionDifficulty, currentScore, score);
+      }
     }, timeInterval);
   }
 
@@ -47,12 +64,25 @@ class Counter extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  handleButton: (bool) => dispatch(handleAnswersButtons(bool)),
+const mapStateToProps = (state) => ({
+  currentCounter: state.counter.counter,
+  counterStatus: state.counter.counterStatus,
+  counterTime: state.counter.counterPoints,
+  questionDifficulty: state.game.difficulty,
+  currentScore: state.game.score,
 });
 
-export default connect(null, mapDispatchToProps)(Counter);
+const mapDispatchToProps = (dispatch) => ({
+  handleButton: (bool) => dispatch(handleAnswersButtons(bool)),
+  startingCounter: () => dispatch(startCounter()),
+  stoppingCounter: () => dispatch(stopCounter()),
+  saveCounterTime: (time) => dispatch(saveCounter(time)),
+  score: (questionScore) => dispatch(updateScore(questionScore)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 
 Counter.propTypes = {
   handleButton: PropTypes.func.isRequired,
+  counterStatus: PropTypes.bool.isRequired,
 };
