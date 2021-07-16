@@ -122,7 +122,7 @@ class Game extends Component {
     const { disabled, seconds, number } = this.state;
     const maxQuestions = 5;
     if (number === maxQuestions) {
-      return <Redirect to="/" />;
+      return <Redirect to="/feedback" />;
     }
     return (
       <div>
