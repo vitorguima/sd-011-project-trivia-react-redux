@@ -1,9 +1,13 @@
-import { REQUEST_API, GET_GAME, GET_CATEGORIES } from '../actions';
+import { REQUEST_API, GET_GAME, GET_CATEGORIES, SET_SETTINGS } from '../actions';
 
 const INITIAL_STATE = {
   isLoading: false,
   gameData: [],
   categories: { trivia_categories: [] },
+  settings: {
+    category: '',
+    level: '',
+    nQuestions: '' },
 };
 
 function gameReducer(state = INITIAL_STATE, action) {
@@ -24,6 +28,11 @@ function gameReducer(state = INITIAL_STATE, action) {
       ...state,
       isLoading: false,
       categories: action.data,
+    };
+  case SET_SETTINGS:
+    return {
+      ...state,
+      settings: action.data,
     };
   default:
     return state;

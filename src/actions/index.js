@@ -2,6 +2,7 @@
 export const REQUEST_API = 'REQUEST_API';
 export const GET_GAME = 'GET_GAME';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
+export const SET_SETTINGS = 'SET_SETTINGS';
 
 // ESTA ACTION MUDA O ESTADO DE isLoading para true
 export const requestAPI = () => ({ type: REQUEST_API });
@@ -11,6 +12,9 @@ export const getGameAction = (data) => ({ type: GET_GAME, data });
 
 // ESTA ACTION CONFIGURA AS CATEGORIAS
 export const getCategoriesAction = (data) => ({ type: GET_CATEGORIES, data });
+
+// ESTA ACTION SETA AS CONFIGURAÇÕES
+export const setSettingsAction = (data) => ({ type: SET_SETTINGS, data });
 
 // COMBINA AS DUAS ACTIONS E CRIA O AMBIENTE THUNK PARA OCORRER O FETCH
 export const fetchGameAction = () => async (dispatch) => {
