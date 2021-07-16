@@ -88,3 +88,11 @@ section {
   margin-top: 20px;
   width: 330px;
 }
+
+.sucess {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.loss {
+  border: 3px solid red;
+}
