@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services/api';
 import Question from '../components/Question';
+import { actionClicked, actionTimer } from '../actions';
 
 class Game extends Component {
   constructor() {
@@ -32,9 +33,20 @@ class Game extends Component {
 
   nextQuestion() {
     const { index } = this.state;
-    this.setState({
-      index: index + 1,
-    });
+    const timer = 30;
+    const numberOfQuestions = 5;
+    const limit = 4;
+    const { setClicked, setTimer, history: { push } } = this.props;
+    if (index < numberOfQuestions) {
+      this.setState({
+        index: index + 1,
+      });
+      setClicked(false);
+      setTimer(timer);
+    }
+    if (index === limit) {
+      push('/feedback');
+    }
   }
 
   render() {
@@ -65,8 +77,18 @@ const mapStatetoProps = (state) => ({
   hiddenBtn: state.game.hidden,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  setClicked: (clicked) => dispatch(actionClicked(clicked)),
+  setTimer: (timer) => dispatch(actionTimer(timer)),
+});
+
 Game.propTypes = {
   hiddenBtn: PropTypes.bool.isRequired,
+  setClicked: PropTypes.func.isRequired,
+  setTimer: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default connect(mapStatetoProps)(Game);
+export default connect(mapStatetoProps, mapDispatchToProps)(Game);
