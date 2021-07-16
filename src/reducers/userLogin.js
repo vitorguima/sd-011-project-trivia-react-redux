@@ -1,4 +1,4 @@
-import { USER_LOGIN } from '../actions';
+import { USER_LOGIN, SET_SCORE_POINTS } from '../actions';
 
 const USER_STATE = {
   name: '',
@@ -15,6 +15,11 @@ function userLogin(state = USER_STATE, action) {
     return {
       ...state,
       ...action.payload,
+    };
+  case SET_SCORE_POINTS:
+    return {
+      ...state,
+      score: action.payload,
     };
   default:
     return state;
