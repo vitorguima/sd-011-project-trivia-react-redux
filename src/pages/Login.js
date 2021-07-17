@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
 import { loginInputs, fetchTriviaApi, fetchTriviaQuestions } from '../actions';
-import Header from '../Header';
 
 class Login extends Component {
   componentDidMount() {

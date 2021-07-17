@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
-import './GamePage.style.css';
-import Timer from '../compoments/Timer';
+import '../style/GamePage.style.css';
+import Timer from '../components/Timer';
 import { enablebtns, subTimer, dispatchScore, resetTimer } from '../actions';
 
 class GamePage extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       questionIndex: 0,
       click: false,
