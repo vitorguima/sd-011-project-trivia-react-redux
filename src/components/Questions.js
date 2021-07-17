@@ -96,7 +96,6 @@ class Question extends React.Component {
   addToRanking() {
     const { ranking } = localStorage;
     const { username, score, avatar } = this.props;
-    console.log(assertions);
     const player = { username, score, avatar };
     if (!ranking) {
       localStorage.setItem('ranking', JSON.stringify([player]));
