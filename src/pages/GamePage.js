@@ -12,6 +12,7 @@ class GamePage extends Component {
     this.state = {
       questionIndex: 0,
       click: false,
+      nextBtnDisable: true,
     };
     this.btnHandle = this.btnHandle.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
@@ -34,6 +35,7 @@ class GamePage extends Component {
     this.setState((ps) => ({
       questionIndex: ps.questionIndex + 1,
       click: false,
+      nextBtnDisable: true,
     }));
     resetDispatch();
     this.timerFunc();
@@ -50,6 +52,7 @@ class GamePage extends Component {
     clearInterval(this.setTimer);
     this.setState({
       click: true,
+      nextBtnDisable: false,
     });
     this.saveLocalScorage();
   }
@@ -167,10 +170,9 @@ class GamePage extends Component {
 
   render() {
     const { email, results, disableBtn } = this.props;
-    const { questionIndex, click } = this.state;
+    const { questionIndex, click, nextBtnDisable } = this.state;
     const indexLimit = 4;
     this.URL = this.urlCreator(email);
-
     return (
       <div>
         {this.renderHeader(this.URL)}
@@ -181,7 +183,7 @@ class GamePage extends Component {
         <button
           type="button"
           onClick={ () => this.btnHandle() }
-          disabled={ questionIndex === indexLimit }
+          disabled={ nextBtnDisable || indexLimit === questionIndex }
         >
           Próximo
         </button>
