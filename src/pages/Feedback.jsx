@@ -24,7 +24,7 @@ export default class Feedback extends Component {
         </h2>
         <p data-testid="header-score">{ score }</p>
         <h1 data-testid="feedback-text">
-          Fd
+          Fdd
         </h1>
       </header>
 
