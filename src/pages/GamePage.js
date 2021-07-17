@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import '../style/GamePage.style.css';
@@ -192,8 +193,10 @@ class GamePage extends Component {
     const { questionIndex, click, nextBtnDisable } = this.state;
     const indexLimit = 4;
     this.URL = this.urlCreator(email);
+
     return (
       <div>
+        { (questionIndex === indexLimit) ? <Redirect to="/feedback" /> : null }
         {this.renderHeader(this.URL)}
         <Timer />
         {results && this.questionSection(results, questionIndex)}
