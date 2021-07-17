@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   render() {
-    const { userEmail, UserName, score, assertions } = this.props;
+    const { userEmail, userName, score, assertions } = this.props;
     const getEmail = md5(userEmail).toString();
     const state = JSON.stringify({
       player: {
-        name: UserName,
+        name: userName,
         assertions,
         score,
         gravatarEmail: userEmail,
@@ -24,7 +24,7 @@ class Header extends React.Component {
           alt="avatar's search"
         />
         <p data-testid="header-player-name">
-          Nome da pessoa
+          {userName}
         </p>
         <span data-testid="header-score">0</span>
         { score }
@@ -35,13 +35,13 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   userEmail: state.user.gravatarEmail,
-  UserName: state.user.name,
+  userName: state.user.name,
   score: state.user.score,
   assertions: state.user.assertions,
 });
 
 Header.propTypes = {
-  UserName: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
   userEmail: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   assertions: PropTypes.string.isRequired,
