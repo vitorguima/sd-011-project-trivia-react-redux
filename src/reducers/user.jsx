@@ -3,10 +3,10 @@ import {
   REQUEST_API_SUCESS,
   REQUEST_API_ERROR,
   SEND_USER_DATA,
-} from '../actions/index';
+} from '../actions/user';
 
 const INITIAL_STATE = {
-  token: {},
+  token: '',
   userData: {},
   isFetching: false,
 };

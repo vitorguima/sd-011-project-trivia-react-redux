@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchNewApi } from '../actions/requestAPI';
 import WrongAnswer from '../components/WrongAnswer';
 
 class TelaJogo extends Component {
@@ -12,12 +11,6 @@ class TelaJogo extends Component {
       count: 0,
     };
     this.alternativesAnswers = this.alternativesAnswers.bind(this);
-  }
-
-  componentDidMount() {
-    const { recivedGameData } = this.props;
-    recivedGameData();
-    // console.log(gameData.results);
   }
 
   alternativesAnswers(count, gameData) {
@@ -41,7 +34,6 @@ class TelaJogo extends Component {
               {array[count].correct_answer}
             </button>
             <WrongAnswer array={ Object.values(array[count])[5] } />
-            {/* { console.log(Object.values(array[count])[5])} */}
           </>
         ) : (
           <p> Fim do jogo </p>
@@ -69,9 +61,9 @@ class TelaJogo extends Component {
         <button
           type="button"
           onClick={ () => {
-            this.setState({
-              count: count + 1,
-            });
+            this.setState((prevState) => ({
+              count: prevState.count + 1,
+            }));
           } }
         >
           botão
@@ -82,12 +74,9 @@ class TelaJogo extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  getdata: state.user.userData,
-  gameData: state.requestGameAPI.gameData,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  recivedGameData: (state) => dispatch(fetchNewApi(state)),
+  getdata: state.user.userData, // Pega Nome de usuario
+  getTokenStatus: state.user.token,
+  gameData: state.requestGameAPI.gameData, // Pega as perguntas
 });
 
 TelaJogo.propTypes = ({
@@ -98,4 +87,4 @@ TelaJogo.propTypes = ({
   recivedGameData: PropTypes.func,
 }).isRequired;
 
-export default connect(mapStateToProps, mapDispatchToProps)(TelaJogo);
+export default connect(mapStateToProps)(TelaJogo);

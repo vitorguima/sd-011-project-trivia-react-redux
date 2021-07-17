@@ -2,25 +2,24 @@ export const REQUEST_API_NEW = 'REQUEST_API_NEW';
 export const REQUEST_API_NEW_SUCESS = 'REQUEST_API_NEW_SUCESS';
 export const REQUEST_API_NEW_ERROR = 'REQUEST_API_NEW_ERROR';
 
-export const requestApiNew = (payload) => ({
+const requestApiNew = (payload) => ({
   type: REQUEST_API_NEW,
   payload,
 });
 
-export const requestApiNewSucess = (payload) => ({
+const requestApiNewSucess = (payload) => ({
   type: REQUEST_API_NEW_SUCESS,
   payload,
 });
 
-export const requestApiNewError = (payload) => ({
+const requestApiNewError = (payload) => ({
   type: REQUEST_API_NEW_ERROR,
   payload,
 });
 
-const getToken = localStorage.getItem('token');
-const API = `https://opentdb.com/api.php?amount=5&token=${getToken}`;
-
 export const fetchNewApi = () => (dispatch) => {
+  const getToken = localStorage.getItem('token'); // Req 5
+  const API = `https://opentdb.com/api.php?amount=5&token=${getToken}`; // Req 5
   dispatch(requestApiNew());
   return fetch(API)
     .then((result) => result.json())

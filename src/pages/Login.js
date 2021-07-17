@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
-import { fetchApi, sendUserData } from '../actions';
+import { fetchApi, sendUserData } from '../actions/user';
 
-// const recevedEmail = new RegExp('^[^s@]+@[^s@]+$');
 const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
 
 class Login extends Component {
@@ -21,7 +20,6 @@ class Login extends Component {
       name: '',
       email: '',
       isDisabled: true,
-      // emailHash: '', // Foi criado no Redux
     };
   }
 
@@ -83,10 +81,10 @@ class Login extends Component {
   }
 
   clickJogarBtn() {
-    const { fetch, sendLogin } = this.props;
+    const { fetch, sendLogin } = this.props; // Teste Req 5
     const { name, email } = this.state;
     const hashToEmail = md5(email).toString();
-    sendLogin({ name, email, emailHash: hashToEmail });
+    sendLogin({ name, email, emailHash: hashToEmail }); // "emailHash" é criado dentro da Key que recebe esse payload
 
     fetch();
   }
@@ -101,7 +99,6 @@ class Login extends Component {
             disabled={ isDisabled }
             data-testid="btn-play"
             type="button"
-            // onClick={ () => fetch() }
             onClick={ () => this.clickJogarBtn() }
           >
             Jogar

@@ -2,7 +2,7 @@ import {
   REQUEST_API_NEW,
   REQUEST_API_NEW_SUCESS,
   REQUEST_API_NEW_ERROR,
-} from '../actions/requestAPI';
+} from '../actions/requestGameAPI';
 
 const INITIAL_STATE = {
   gameData: {},
