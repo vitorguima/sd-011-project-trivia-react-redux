@@ -27,8 +27,9 @@ class GamePage extends Component {
     this.saveLocalStorage();
     const { timer } = this.props;
     if (timer <= 0) {
-      clearInterval(this.enableBtn);
+      console.log('zerou timer btn');
       clearInterval(this.setTimer);
+      console.log('zerou timer');
     }
   }
 
@@ -45,15 +46,12 @@ class GamePage extends Component {
   }
 
   clickAnswer() {
-    // this.saveLocalStorage();
     clearInterval(this.setTimer);
-    clearInterval(this.enableBtn);
     this.setState({
       click: true,
       nextBtnDisable: false,
     });
   }
-  //  problema que as informações de score e assertion vãoa trasadas para o local storage pois quando a função saveLocalS
 
   saveLocalStorage() {
     const { nome, score, email, assertionsGame } = this.props;
@@ -81,7 +79,6 @@ class GamePage extends Component {
     );
   }
 
-  //  hard: 3, medium: 2, easy: 1
   scoreUpdate(difficulty) {
     const { timer } = this.props;
     let result = 0;
@@ -148,7 +145,7 @@ class GamePage extends Component {
 
   enableBtnsTimer() {
     const limit = 30000;
-    this.enableBtn = setInterval(() => this.setState({ nextBtnDisable: false }), limit);
+    this.enableBtn = setTimeout(() => this.setState({ nextBtnDisable: false }), limit);
   }
 
   urlCreator(email) {
