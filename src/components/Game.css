@@ -1,12 +1,77 @@
+.gameContainer {
+  height: 80vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes piscar {
+  0% {
+    
+  }
+  100% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes carregando {
+  0% {
+    width: 0vw;
+  }
+  50% {
+    background-color: white;
+  }
+  90% {
+    background-color: red;
+  }
+  100% {
+    width: 100vw;
+    background-color: red;
+  }
+}
+
+.loadingBar {
+  animation-name: carregando;
+  animation-iteration-count: 1;
+  animation-duration: 30s;
+  animation-timing-function:linear;
+  height: 5px;
+  background-color: white;
+}
+
+.questionTitle {
+  background: none;
+  color: #036B52;
+  animation-name: piscar;
+  animation-duration: 0.95s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+
+.question-category {
+  color: white;
+  font-size: 22px;
+  width: 100vw;
+  text-align: center;
+}
+
+.question {
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+  -webkit-text-stroke: 2px black;
+  width: 100vw;
+}
+
 .alternativesContainer {
   align-items: center;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .clicked {
-  opacity: 0.5;
   transform: scale(1.4);
   transition: 0.5s;
 }
@@ -16,15 +81,31 @@
   border-radius: 6px;
   box-shadow: 0 1px 5px black;
   cursor: pointer;
+  font-size: 22px;
   height: 60px;
   margin: 15px 0;
+  transition: 0.5s;
   width: 150px;
 }
 
+
 [ class *= 'correct' ] {
+  cursor: not-allowed;
+  background-color: white;
+  color: green;
   border: 3px solid rgb(6, 240, 15);
 }
 
 [ class *= 'wrong' ] {
+  background-color: white;
   border: 3px solid red;
 }
+
+[ class *= 'correct' ]:hover {
+  cursor: not-allowed;
+}
+
+[ class *= 'wrong' ]:hover {
+  cursor: not-allowed;
+}
+

@@ -1,0 +1,25 @@
+.loginPageContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  width: 100vw;
+}
+
+.configuration-button {
+  background: none;
+  background-image: url('../config_icon.png');
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+  font-size: 0px;
+  height: 100px;
+  width: 100px;
+  transition: 1.5s;
+}
+
+.configuration-button:hover {
+  transform: scale(1.4) rotate(720deg);
+  transition: 1.5s;
+}

@@ -1,0 +1,29 @@
+.headerContainer {
+  align-items: center;
+  background-color: #036B52;
+  box-shadow: 0px -30px 20px 40px #0FA36B;
+  display: flex;
+  height: 20vh;
+  justify-content: space-between;
+  margin-top: -16px;
+  width: 100vw;
+}
+
+.pontuation {
+  color: white;
+  font-size: 26px;
+  margin-left: 7%;
+}
+
+.headerContainer .playerName {
+  color: white;
+  font-size: 36px;
+  font-weight:lighter;
+} 
+
+.headerContainer img {
+  border-radius: 100%;
+  border-style: ridge;
+  width: 100px;
+  margin-right: 10%;
+}

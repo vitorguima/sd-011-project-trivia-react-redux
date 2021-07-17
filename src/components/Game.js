@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Game.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Cronometer from './Cronometer';
 
 class Game extends Component {
   constructor(props) {
@@ -45,8 +46,13 @@ class Game extends Component {
 
     return (
       <div>
-        <p data-testid="question-category">{ question.category }</p>
-        <p data-testid="question-text">{ question.question }</p>
+        <p
+          className="question-category"
+          data-testid="question-category"
+        >
+          { question.category }
+        </p>
+        <p className="question" data-testid="question-text">{ question.question }</p>
         <div className="alternativesContainer">
           { isLoading ? LOADING : alternativesToSort.map((alternative) => {
             const index = alternatives.indexOf(alternative);
@@ -74,8 +80,10 @@ class Game extends Component {
     const errorTrue = 'Token expirado, por favor faça o login novamente';
     console.log(question);
     return (
-      <div>
-        <h1>Pergunta:</h1>
+      <div className="gameContainer">
+        <h1 className="questionTitle">Pergunta:</h1>
+        <Cronometer />
+        <span className="loadingBar" />
         { error ? errorTrue : this.gameQuestions() }
       </div>
     );
