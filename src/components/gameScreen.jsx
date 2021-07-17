@@ -93,17 +93,19 @@ class gameScreen extends Component {
     this.setState({
       answered: true,
     });
+    const maxquestions = 4;
+    if (question === maxquestions) {
+      return (
+        // <Redirect to="/feedback" />
+        console.log('teste')
+      );
+    }
   }
 
   render() {
     const { results } = this.props;
     const { question, answered } = this.state;
-    const maxquestions = 4;
-    if (question === maxquestions) {
-      return (
-        <Redirect to="/feedback" />
-      );
-    }
+    
     return (
       <div>
         <Timer key={ question } />
