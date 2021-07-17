@@ -1,29 +1,31 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Header from './Header';
 
+const THREE = 3;
 class Feedback extends Component {
   render() {
-    const { assertions, score } = this.props;
+    const state = JSON.parse(localStorage.getItem('state'));
+    const { score, assertions } = state.player;
     return (
       <div>
         <Header />
+        <p data-testid="feedback-text">Testando</p>
         <h3 data-testid="feedback-text">
           {
-            (assertions >= (1 + 2)) // Se for 3 o lint dá erro
+            (assertions >= (THREE))
               ? 'Mandou bem!'
               : 'Podia ser melhor...'
           }
         </h3>
         <h4 data-testid="feedback-total-score">{ score }</h4>
-        <h4 data-testid="feedback-total-question">{ assertions }</h4>
+        <h2 data-testid="feedback-total-question">
+          { assertions }
+        </h2>
         <div>
           <Link to="/">
-            <button type="button" data-testid="btn-play-again">
-              Jogar novamente
-            </button>
+            <button data-testid="btn-play-again" type="button">Jogar novamente</button>
           </Link>
           <Link to="/ranking">
             <button type="button" data-testid="btn-ranking">
@@ -36,14 +38,8 @@ class Feedback extends Component {
   }
 }
 
-Feedback.propTypes = {
-  assertions: PropTypes.number.isRequired,
-  score: PropTypes.number.isRequired,
-};
+const mapStateToProps = (state) => ({
+  assertions: state.player.assertions,
+});
 
-// const mapStateToProps = (state) => ({
-//   assertions: state.player.assertions,
-//   score: state.player.score,
-// });
-
-export default Feedback; // connect(mapStateToProps)(FeedBack);
+export default connect(mapStateToProps)(Feedback);
