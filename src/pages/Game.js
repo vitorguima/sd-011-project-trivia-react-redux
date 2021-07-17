@@ -4,7 +4,7 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { fetchTokenAPI } from '../actions/login';
 import { gravatarImage } from '../actions/game';
-// import Header from '../components/Header';
+import Header from '../components/Header';
 import Questions from '../components/Questions';
 
 class Game extends Component {
@@ -20,6 +20,8 @@ class Game extends Component {
     localStorage.setItem('token', tokenData);
     return (
       <div>
+        <Header />
+
         { tokenData ? <Questions /> : <h1>LOADING</h1> }
       </div>
     );
