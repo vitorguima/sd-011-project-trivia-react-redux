@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { rquestQuestions, sendScorePoints } from '../../actions';
+import { sendScorePoints } from '../../actions';
 import ButtonNext from './ButtonNext';
 import ButtonsQuestions from './ButtonsQuestions';
 import ComponentTime from './ComponentTime';
 import QuestionDesc from './QuestionDec';
-
-const limitedTime = 1000;
 
 const RenderQuestion = () => {
   const dispatch = useDispatch();
@@ -15,11 +13,6 @@ const RenderQuestion = () => {
   const [enable, setEnable] = useState(false);
   const [answersYes, setAnswersYes] = useState(false);
   const [correctanswers, setCorrectanswers] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(rquestQuestions());
-    }, limitedTime);
-  }, []);
 
   const globalScore = (score) => {
     localStorage.setItem('state', JSON.stringify({
