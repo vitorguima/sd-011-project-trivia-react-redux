@@ -32,12 +32,12 @@ class Feedback extends Component {
     let initial = false;
 
     if (!localStorage.ranking || localStorage.length === 0) {
-      localStorage.setItem('ranking', JSON.stringify([response]));
+      localStorage.setItem('ranking', JSON.stringify([response[0]]));
       initial = true;
     }
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     if (!initial) {
-      ranking.push(response);
+      ranking.push(response[0]);
     }
     localStorage.setItem('ranking', JSON.stringify(ranking));
   }
