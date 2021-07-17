@@ -38,7 +38,6 @@ class GamePage extends Component {
   // FUNÇÃO ATIVADA AO APERTAR A ALTERNATIVA CORRETA
   // IRÁ MOSTRAR AS RESPOSTAS CORRETAS E INCORRETAS
   correct(dificult) {
-    console.log('acertou');
     this.show();
     this.addPoint(dificult);
   }
