@@ -17,10 +17,20 @@ class Header extends Component {
         <h2
           data-testid="feedback-total-score"
         >
+          { profileScore }
+        </h2>
+        <h2
+          data-testid="feedback-total-question"
+        >
           { profileAssertion }
         </h2>
         <Link to="/">
-          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar novamente
+          </button>
         </Link>
       </div>
     );
