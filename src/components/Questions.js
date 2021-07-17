@@ -58,13 +58,14 @@ class Questions extends Component {
 
   scoreCalculator(currentCounter) {
     const { questionData, score, userName } = this.props;
-    const { difficulty } = questionData[0]; // mudar depois para pegar de forma dinâmica.
     const questionDifficulty = {
       easy: 1,
       medium: 2,
       hard: 3,
     };
-    const { currentScore } = this.state;
+    const { currentScore, questionNumber } = this.state;
+    const { difficulty } = questionData[questionNumber];
+
     const scorePoints = 10;
     const questionScore = (
       currentScore
@@ -108,7 +109,7 @@ class Questions extends Component {
       question,
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
-    } = questionData[questionNumber]; // aqui teremos que alterar pra pegar uma por vez
+    } = questionData[questionNumber];
 
     return (
       <div className="questions-container">
