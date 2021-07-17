@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Header from './Header';
 
 class Ranking extends Component {
   constructor() {
@@ -18,7 +17,6 @@ class Ranking extends Component {
       .sort((a, b) => b.score - a.score);
     return (
       <div>
-        <Header />
         <h2 data-testid="ranking-title">Ranking</h2>
         <h3>
           { ranking && ranking.map((player, index) => (
