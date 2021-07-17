@@ -10,7 +10,8 @@ export default class Feedback extends Component {
 
   render() {
     const localStg = JSON.parse(localStorage.getItem('state'));
-    const { score, name } = localStg.player;
+    const { score, name, assertions } = localStg.player;
+    const magicNumber = 3;
     return (
       <header>
         <img
@@ -26,6 +27,9 @@ export default class Feedback extends Component {
         <h1 data-testid="feedback-text">
           Fdd
         </h1>
+        <p data-testid="feedback-text">
+          {assertions < magicNumber ? 'Podia ser melhor...' : 'Mandou bem!' }
+        </p>
       </header>
 
     );
