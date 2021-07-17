@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 
 export default class Feedback extends Component {
@@ -12,7 +13,6 @@ export default class Feedback extends Component {
     const localStg = JSON.parse(localStorage.getItem('state'));
     const { score, name, assertions } = localStg.player;
     const magicNumber = 3;
-    console.log(score, assertions);
     return (
       <>
         <header>
@@ -35,6 +35,14 @@ export default class Feedback extends Component {
             { assertions }
           </p>
           <p data-testid="feedback-total-score">{ score }</p>
+          <Link to="/">
+            <button
+              type="button"
+              data-testid="btn-play-again"
+            >
+              Jogar novamente
+            </button>
+          </Link>
         </section>
       </>
     );
