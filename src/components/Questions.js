@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './Header';
-import { fetchQuestionsAPI, updateScore, questionDifficulty } from '../actions/game';
-import { stopCounter } from '../actions/counter';
-import Counter from './Counter';
+import { fetchQuestionsAPI, updateScore } from '../actions/game';
 import './Questions.css';
 
 class Questions extends Component {
@@ -12,9 +10,14 @@ class Questions extends Component {
     super();
     this.state = {
       toggleButton: false,
+      currentCounter: 30,
+      isAnswered: false,
+      currentScore: 0,
     };
-    this.toggleButtonClass = this.toggleButtonClass.bind(this);
-    this.handleScore = this.handleScore.bind(this);
+    this.handleAnswer = this.handleAnswer.bind(this);
+    this.counter = this.counter.bind(this);
+    this.handleCounter = this.handleCounter.bind(this);
+    this.scoreCalculator = this.scoreCalculator.bind(this);
   }
 
   componentDidMount() {
@@ -32,59 +35,106 @@ class Questions extends Component {
       };
       localStorage.setItem('state', JSON.stringify(state));
     }
+    this.counter();
   }
 
-  toggleButtonClass() {
-    this.setState({ toggleButton: true });
+  counter() {
+    const time = 1000;
+    this.questionTime = setInterval(this.handleCounter, time);
   }
 
-  handleScore(difficulty) {
-    const { sendDifficulty, stoppingCounter } = this.props;
-    stoppingCounter();
-    sendDifficulty(difficulty);
-    this.toggleButtonClass();
+  handleCounter() {
+    const { currentCounter, isAnswered } = this.state;
+    if (currentCounter > 0 && !isAnswered) {
+      return this.setState((prevState) => ({
+        currentCounter: prevState.currentCounter - 1,
+      }));
+    }
+    if (currentCounter === 0 || isAnswered) {
+      clearInterval(this.questionTime);
+    }
+  }
+
+  handleAnswer(isCorrect) {
+    const { currentCounter } = this.state;
+    this.setState({
+      toggleButton: true,
+      isAnswered: true,
+    });
+    if (isCorrect) {
+      this.scoreCalculator(currentCounter);
+    }
+  }
+
+  scoreCalculator(currentCounter) {
+    const { questionData } = this.props;
+    const { difficulty } = questionData[0]; // mudar depois para pegar de forma dinâmica.
+    const questionDifficulty = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
+    const scorePoints = 10;
+    const questionScore = scorePoints + (currentCounter * questionDifficulty[difficulty]);
+    this.setState({ currentScore: questionScore });
+    const state = JSON.parse(localStorage.getItem('state'));
+    state.player.score = questionScore;
+    localStorage.setItem('state', JSON.stringify(state));
+  }
+
+  renderQuestions() {
+    const { questionData } = this.props;
+    const { toggleButton, currentCounter, isAnswered } = this.state;
+    const {
+      category,
+      question,
+      correct_answer: correctAnswer,
+      incorrect_answers: incorrectAnswers,
+    } = questionData[0]; // aqui teremos que alterar pra pegar uma por vez
+
+    return (
+      <div className="questions-container">
+        <p data-testid="question-category">{ category }</p>
+        <p data-testid="question-text">{ question }</p>
+        <div className="buttons-container">
+          <button
+            type="button"
+            data-testid="correct-answer"
+            onClick={ () => this.handleAnswer(true) }
+            className={ toggleButton ? 'correct-btn' : null }
+            disabled={ currentCounter === 0 || isAnswered }
+          >
+            { correctAnswer }
+          </button>
+          { incorrectAnswers.map((answer, inx) => (
+            <button
+              key={ inx }
+              type="button"
+              data-testid={ `wrong-answer-${inx}` }
+              onClick={ () => this.handleAnswer(false) }
+              className={ toggleButton ? 'incorrect-btn' : null }
+              disabled={ currentCounter === 0 || isAnswered }
+            >
+              { answer }
+            </button>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   render() {
-    const { toggleButton } = this.state;
-    const { questionData, buttonsStatus } = this.props;
-    if (questionData.length) {
-      const questionOne = questionData[0];
-      return (
-        <div className="main-container">
-          <Header />
-          <div className="questions-container">
-            <Counter />
-            <p data-testid="question-category">{ questionOne.category }</p>
-            <p data-testid="question-text">{ questionOne.question }</p>
-            <div className="buttons-container">
-              <button
-                type="button"
-                data-testid="correct-answer"
-                onClick={ () => this.handleScore(questionOne.difficulty) }
-                className={ toggleButton ? 'correct-btn' : null }
-                disabled={ buttonsStatus }
-              >
-                { questionOne.correct_answer }
-              </button>
-              { questionOne.incorrect_answers.map((answer, inx) => (
-                <button
-                  key={ inx }
-                  type="button"
-                  data-testid={ `wrong-answer-${inx}` }
-                  onClick={ this.toggleButtonClass }
-                  className={ toggleButton ? 'incorrect-btn' : null }
-                  disabled={ buttonsStatus }
-                >
-                  { answer }
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    }
-    return <p>Loading questions...</p>;
+    const { questionData } = this.props;
+    const { currentCounter, currentScore } = this.state;
+    return (
+      <div className="main-container">
+        <Header score={ currentScore } />
+        { questionData.length ? this.renderQuestions() : <h2>Loading questions...</h2>}
+        <p>
+          { currentCounter }
+        </p>
+      </div>
+    );
   }
 }
 
@@ -93,17 +143,12 @@ const mapStateToProps = (state) => ({
   userEmail: state.login.email,
   tokenData: state.login.token,
   questionData: state.game.questions,
-  buttonsStatus: state.game.answerButtons,
   currentScore: state.game.score,
-  counterStatus: state.counter.counterStatus,
-  timePoints: state.counter.counterPoints,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchQuestion: (token) => dispatch(fetchQuestionsAPI(token)),
   score: (questionScore) => dispatch(updateScore(questionScore)),
-  stoppingCounter: () => dispatch(stopCounter()),
-  sendDifficulty: (difficulty) => dispatch(questionDifficulty(difficulty)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
@@ -112,8 +157,4 @@ Questions.propTypes = {
   tokenData: PropTypes.string.isRequired,
   questionData: PropTypes.arrayOf.isRequired,
   fetchQuestion: PropTypes.func.isRequired,
-  buttonsStatus: PropTypes.func.isRequired,
-  currentScore: PropTypes.number.isRequired,
-  score: PropTypes.func.isRequired,
-  stoppingButton: PropTypes.bool.isRequired,
 };

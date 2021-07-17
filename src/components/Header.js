@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { userName, imageURL, userScore } = this.props;
+    const { userName, imageURL, userScore, score } = this.props;
     return (
       <header>
         <img src={ imageURL } alt="user" data-testid="header-profile-picture" />
         <p data-testid="header-player-name">{ `Jogador: ${userName}` }</p>
-        <p data-testid="header-score">{ `Pontuação: ${userScore}` }</p>
+        <p data-testid="header-score">{ `Pontuação: ${score}` }</p>
       </header>
     );
   }
