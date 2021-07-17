@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import './Questions.css';
+import { Redirect } from 'react-router-dom';
 
 class Questions extends Component {
   constructor() {
@@ -17,6 +18,7 @@ class Questions extends Component {
       questionIndex: 0,
       timer: 30,
       endTime: false,
+      redirect: false,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleTimer = this.handleTimer.bind(this);
@@ -97,8 +99,13 @@ class Questions extends Component {
 
   handleNextQuestion() {
     let { questionIndex } = this.state;
-    const maxQuestions = 5;
-    if (questionIndex < maxQuestions) {
+    const magicNumber = 4;
+    if (questionIndex === magicNumber) {
+      this.setState({
+        redirect: true,
+      });
+    }
+    if (questionIndex <= magicNumber) {
       this.setState({
         questionIndex: questionIndex += 1,
         timer: 30,
@@ -147,7 +154,7 @@ class Questions extends Component {
   render() {
     const { questions } = this.props;
     const { isCorrect, isIncorrect,
-      questionIndex, disable, timer, endTime } = this.state;
+      questionIndex, disable, timer, endTime, redirect } = this.state;
     return (
       <main>
         {this.renderHeader()}
@@ -181,6 +188,7 @@ class Questions extends Component {
           00:
           {timer}
         </p>
+        { redirect && <Redirect to="/feedback" />}
       </main>
     );
   }
