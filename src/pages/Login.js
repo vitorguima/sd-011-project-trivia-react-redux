@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getToken } from '../services/api';
-import { loginAction } from '../actions';
+import { loginAction, scoreAction } from '../actions';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -17,6 +17,12 @@ class Login extends React.Component {
     this.saveToken = this.saveToken.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    const { updateScore } = this.props;
+    localStorage.setItem('state', '{}');
+    updateScore(0);
   }
 
   handleChange(event) {
@@ -101,10 +107,12 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   login: (username, email) => dispatch(loginAction(username, email)),
+  updateScore: (score) => dispatch(scoreAction(score)),
 });
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
+  updateScore: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

@@ -96,11 +96,14 @@ class Question extends React.Component {
   addToRanking() {
     const { ranking } = localStorage;
     const { username, score, avatar } = this.props;
+    console.log(assertions);
     const player = { username, score, avatar };
     if (!ranking) {
       localStorage.setItem('ranking', JSON.stringify([player]));
     } else {
-      localStorage.setItem('ranking', JSON.stringify([...JSON.parse(ranking), player]));
+      const sortRanking = [...JSON.parse(ranking), player]
+        .sort((element, element2) => element2.score - element.score);
+      localStorage.setItem('ranking', JSON.stringify(sortRanking));
     }
   }
 
@@ -175,6 +178,7 @@ const mapStateToProps = (state) => ({
   username: state.user.username,
   score: state.user.score,
   avatar: state.user.avatar,
+  assertions: state.user.assertions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
