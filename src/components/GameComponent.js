@@ -87,6 +87,7 @@ GameComponent.propTypes = {
   loading: PropTypes.bool.isRequired,
   buttonDisable: PropTypes.func.isRequired,
   updateClickButton: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
