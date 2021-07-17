@@ -3,6 +3,7 @@ import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from './Header';
+import { updateScore } from '../actions';
 
 class Feedback extends Component {
   constructor() {
@@ -16,11 +17,19 @@ class Feedback extends Component {
   }
 
   handleClickPlayAgain() {
+    const { updateNewScore } = this.props;
+    const assertions = 0;
+    const score = 0;
+    updateNewScore(score, assertions);
     const { history } = this.props;
     history.push('/');
   }
 
   handleClickRanking() {
+    const { updateNewScore } = this.props;
+    const assertions = 0;
+    const score = 0;
+    updateNewScore(score, assertions);
     const { history } = this.props;
     history.push('/ranking');
   }
@@ -78,11 +87,16 @@ const mapStateToProps = (state) => ({
   score: state.playerReducer.score,
 });
 
-export default connect(mapStateToProps)(Feedback);
+const mapDispatchToProps = (dispatch) => ({
+  updateNewScore: (score, assertions) => dispatch(updateScore(score, assertions)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
 
 Feedback.propTypes = {
   history: PropTypes.string.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
+  updateNewScore: PropTypes.func.isRequired,
 };
