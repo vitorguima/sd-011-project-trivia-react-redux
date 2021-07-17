@@ -1,34 +1,52 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as userActions from '../actions';
 
 class AnswerButtons extends Component {
-  // Não adicionar estado e nem funções nesse componente, pois ele vai randomizar as respostas novamente toda vez que atualizar o componente
+  constructor(props) {
+    super(props);
+
+    this.verifyIfWasAnswered = this.verifyIfWasAnswered.bind(this);
+  }
+
+  verifyIfWasAnswered() {
+    const { answerObserver } = this.props;
+    answerObserver();
+  }
+
   render() {
     const { seconds, key, answer, correctAnswer, onClick } = this.props;
     return (
-      <button
-        id="answer"
-        type="button"
-        disabled={ (seconds === 0 || false) }
-        key={ key }
-        data-testid={ correctAnswer === answer
-          ? 'correct-answer'
-          : 'wrong-answer' }
-        onClick={ () => { onClick(); } }
-        className="answer"
-      >
-        { answer }
-      </button>
+      <section>
+        <button
+          id="answer"
+          type="button"
+          disabled={ (seconds === 0 || false) }
+          key={ key }
+          data-testid={ correctAnswer === answer
+            ? 'correct-answer'
+            : 'wrong-answer' }
+          onClick={ () => { onClick(); this.verifyIfWasAnswered(); } }
+          className="answer"
+        >
+          { answer }
+        </button>
+      </section>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   seconds: state.getSeconds.seconds,
+  questionCounter: state.question.questionCounter,
 });
 
-export default connect(mapStateToProps)(AnswerButtons);
+const mapDispatchToProps = (dispatch) => ({
+  answerObserver: () => dispatch(userActions.answerObserver()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AnswerButtons);
 
 AnswerButtons.propTypes = {
   seconds: PropTypes.number,

@@ -4,6 +4,18 @@ export const REQUEST_API_ERROR = 'REQUEST_API_ERROR';
 export const GET_EMAIL = 'GET_EMAIL';
 export const GET_NAME = 'GET_NAME';
 export const GET_SECONDS = 'GET_SECONDS';
+export const GET_NEXT_QUESTION = 'GET_NEXT_QUESTION';
+export const WAS_ANSWERED = 'WAS_ANSWERED';
+
+export const answerObserver = (wasAnswered) => ({
+  type: WAS_ANSWERED,
+  payload: wasAnswered,
+});
+
+export const sumQuestionNumber = (number) => ({
+  type: GET_NEXT_QUESTION,
+  payload: number,
+});
 
 export const getEmail = (email) => ({
   type: 'GET_EMAIL',
