@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import * as actions from '../../redux/actions';
 
 class HandleQuestions extends Component {
@@ -10,6 +11,10 @@ class HandleQuestions extends Component {
     this.state = {
       questionIndex: 0,
       timer: 30,
+      bool: false,
+      finalscore: 0,
+      assertions: 0,
+      IntervalTimer: null,
     };
   }
 
@@ -21,10 +26,20 @@ class HandleQuestions extends Component {
 
   nextQuestion() {
     const { questionIndex } = this.state;
-    this.setState({
-      questionIndex: (questionIndex + 1),
-      timer: 30,
-    });
+    const { clickedHandle } = this.props;
+    const QuestionsNumber = 4;
+    if (questionIndex < QuestionsNumber) {
+      this.setState({
+        questionIndex: (questionIndex + 1),
+        timer: 30,
+      });
+    }
+    clickedHandle(false);
+    if (questionIndex === QuestionsNumber) {
+      this.setState({
+        bool: true,
+      });
+    }
   }
 
   handleClick() {
@@ -39,6 +54,9 @@ class HandleQuestions extends Component {
       const { timer } = this.state;
       if (timer > 0) this.setState({ timer: timer - 1 });
     }, interval);
+    this.setState({
+      IntervalTimer,
+    });
     setTimeout(() => clearInterval(IntervalTimer), time);
     setTimeout(() => this.handleClick(), time);
   }
@@ -65,31 +83,40 @@ class HandleQuestions extends Component {
   }
 
   sumPoint({ target }) {
-    const { timer } = this.state;
+    const { timer, IntervalTimer } = this.state;
     const { scorePoint } = this.props;
     const correctAnswerValue = 10;
     const level = this.checkLevel();
     const score = correctAnswerValue + (timer * level);
     scorePoint(score);
-    localStorage.setItem('state', JSON.stringify({
-      player: { score },
-    }));
     this.handleClick(target);
+    this.setState((prev) => ({
+      finalscore: prev.finalscore + score,
+      assertions: prev.assertions + 1,
+    }), () => {
+      const { finalscore, assertions } = this.state;
+      const getStateStorage = JSON.parse(localStorage.getItem('state'));
+      getStateStorage.player.score = finalscore;
+      getStateStorage.player.assertions = assertions;
+      localStorage.setItem('state', JSON.stringify(getStateStorage));
+      clearInterval(IntervalTimer);
+    });
   }
 
   handleQuestions({ results }) {
     const { clicked } = this.props;
-    const { timer, questionIndex } = this.state;
+    const { timer, questionIndex, bool } = this.state;
     if (results) {
       return (
         <section>
           <h3 data-testid="question-category">{results[questionIndex].category}</h3>
           <h3 data-testid="question-text">{results[questionIndex].question}</h3>
           <button
-            onClick={ (event) => this.sumPoint(event.target) }
+            onClick={ (event) => this.sumPoint(event) }
             data-testid="correct-answer"
             type="button"
             disabled={ clicked }
+            value={ results[questionIndex].correct_answer }
             style={ clicked ? { border: '3px solid rgb(6, 240, 15)' } : null }
           >
             {results[questionIndex].correct_answer}
@@ -106,24 +133,27 @@ class HandleQuestions extends Component {
               {answer}
             </button>
           ))}
-          <button
-            type="button"
-            disabled={ !clicked }
-            onClick={ () => this.nextQuestion() }
-          >
-            Proximo
-          </button>
+          {
+            clicked
+          && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              disabled={ !clicked }
+              onClick={ () => this.nextQuestion() }
+            >
+              Próxima
+            </button>)
+          }
           <span>{timer}</span>
+          { bool && <Redirect to="/feedback" /> }
         </section>
       );
     }
   }
 
   render() {
-    const { questionIndex } = this.state;
     const { questionsData } = this.props;
-
-    console.log(questionsData[questionIndex]);
     return (
       <>
         {this.handleQuestions(questionsData)}
@@ -147,6 +177,9 @@ const mapStateToProps = (state) => ({
   token: state.loginReducer.token,
   questionsData: state.gameReducer.questionsData,
   clicked: state.gameReducer.clicked,
+  name: state.playerReducer.name,
+  assertions: state.playerReducer.assertions,
+  gravatarEmail: state.playerReducer.gravatarEmail,
 });
 
 const mapDispatchToProps = (dispatch) => ({
