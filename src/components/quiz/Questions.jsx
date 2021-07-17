@@ -32,11 +32,13 @@ class Questions extends React.Component {
       if (currentState.indexQuestion < finalArray) {
         return {
           indexQuestion: currentState.indexQuestion + 1,
+          hasAnswered: false,
         };
       }
       return {
         indexQuestion: currentState.indexQuestion + 1,
         endGame: true,
+        hasAnswered: false,
       };
     });
     this.handleButtons(false);
@@ -65,7 +67,8 @@ class Questions extends React.Component {
 
   render() {
     const { loading } = this.props;
-    const { questionsList, indexQuestion, endGame, buttonDisabled } = this.state;
+    const { questionsList,
+      indexQuestion, endGame, buttonDisabled } = this.state;
     if (!loading && questionsList.length !== 0) {
       return (
         <div className="card-question-quiz">

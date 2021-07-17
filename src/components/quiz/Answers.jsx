@@ -10,7 +10,7 @@ class Answers extends React.Component {
           <button
             disabled={ isDisabled }
             data-testid="correct-answer"
-            className="item-list-buttons-quiz-button correct-answer"
+            className={ isDisabled ? 'li-quiz-button correct-answer' : 'li-quiz-button' }
             type="button"
             onClick={ () => handleButtons(true) }
           >
@@ -22,8 +22,8 @@ class Answers extends React.Component {
             <button
               disabled={ isDisabled }
               data-testid={ `wrong-answer-${index}` }
+              className={ isDisabled ? 'li-quiz-button wrong-answer' : 'li-quiz-button' }
               type="button"
-              className="item-list-buttons-quiz-button wrong-answer"
               onClick={ () => handleButtons(true) }
             >
               { wrong }
