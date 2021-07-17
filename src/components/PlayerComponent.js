@@ -14,8 +14,8 @@ class PlayerComponent extends Component {
   // }
 
   render() {
-    const player = JSON.parse(localStorage.getItem('state'));
-    const pictureHash = md5(player.email).toString();
+    const player2 = JSON.parse(localStorage.getItem('state'));
+    const pictureHash = md5(player2.player.email).toString();
     const linkImage = `https://www.gravatar.com/avatar/${pictureHash}`;
     return (
       <header className="player-header">
@@ -30,7 +30,7 @@ class PlayerComponent extends Component {
           <p>
             Player:
             {' '}
-            <span data-testid="header-player-name">{ player.name }</span>
+            <span data-testid="header-player-name">{ player2.player.name }</span>
           </p>
           <p data-testid="header-score">Placar: 0</p>
         </div>

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { clickButton } from '../actions';
 
 class GameComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       assertions: 0,
+      buttonClick: false,
+      rightBtnClicked: false,
     };
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
   }
@@ -19,23 +22,37 @@ class GameComponent extends Component {
     if (target.value === 'correct') {
       this.setState((prevState) => ({
         assertions: prevState.assertions + 1,
+        rightBtnClicked: true,
       }
       ));
     }
+    this.setState(() => ({
+      buttonClick: true,
+    }));
   }
 
   render() {
-    const { questions, loading, buttonDisable } = this.props;
+    const { questions, loading, buttonDisable, updateClickButton, count } = this.props;
     const { results } = questions;
-    console.log(results);
+    const { buttonClick, rightBtnClicked } = this.state;
+    const updateButtonState = { buttonClick, rightBtnClicked };
+    // const numberQuestion = JSON.parse(localStorage.getItem('numberQuestion'));
+    // console.log(`Ver numero:${numberQuestion}`);
+    updateClickButton(updateButtonState);
     return (
       <div className="container-game">
         {loading
           ? <img src="https://media.giphy.com/media/kUTME7ABmhYg5J3psM/giphy.gif" alt="User Gravatar" />
           : (
             <div>
-              <p data-testid="question-category">{`Categoria: ${results[0].category}`}</p>
-              <h4 data-testid="question-text">{ `Questão: ${results[0].question}` }</h4>
+              <p data-testid="question-category">{ results[count].category }</p>
+              <h4
+                id="question"
+                data-testid="question-text"
+                difficulty={ results[count].difficulty }
+              >
+                { results[count].question }
+              </h4>
               <button
                 value="correct"
                 data-testid="correct-answer"
@@ -44,9 +61,9 @@ class GameComponent extends Component {
                 onClick={ (event) => this.colorSelectCorrect(event) }
                 disabled={ buttonDisable }
               >
-                { results[0].correct_answer }
+                { results[count].correct_answer }
               </button>
-              { results[0].incorrect_answers.map((incorrect, indexKey) => (
+              { results[count].incorrect_answers.map((incorrect, indexKey) => (
                 <button
                   data-testid={ `wrong-answer-${indexKey}` }
                   type="button"
@@ -68,12 +85,19 @@ class GameComponent extends Component {
 GameComponent.propTypes = {
   questions: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
+  buttonDisable: PropTypes.func.isRequired,
+  updateClickButton: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   questions: state.triviaReducer.questions,
   loading: state.triviaReducer.isLoading,
   buttonDisable: state.triviaReducer.buttonDisable,
+  count: state.triviaReducer.count,
 });
 
-export default connect(mapStateToProps)(GameComponent);
+const mapDispatchToProps = (dispatch) => ({
+  updateClickButton: (state) => dispatch(clickButton(state)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameComponent);
