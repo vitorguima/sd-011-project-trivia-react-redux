@@ -4,6 +4,7 @@ import './App.css';
 import Feedback from './pages/Feedback';
 import Login from './pages/Login';
 import Questions from './pages/Questions';
+import Ranking from './pages/Ranking';
 import Settings from './pages/Settings';
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
       <Route path="/questions" component={ Questions } />
       <Route path="/config" component={ Settings } />
       <Route path="/feedback" component={ Feedback } />
+      <Route path="/ranking" component={ Ranking } />
     </Switch>
   );
 }
