@@ -2,18 +2,18 @@
   background-color: #252525;
   border-radius: 4px;
   color: #eee;
-  text-decoration: none;
-  padding: 2px 7px;
   margin-left: 10px;
+  padding: 2px 7px;
+  text-decoration: none;
 }
 
 .btn-ranking {
   background-color: #252525;
   border-radius: 4px;
   color: #eee;
-  text-decoration: none;
-  padding: 2px 7px;
   margin-left: 10px;
+  padding: 2px 7px;
+  text-decoration: none;
 }
 
 .feedback-items {
@@ -22,8 +22,8 @@
 }
 
 .feedback-container {
-  text-align: center;
   margin-top: 80px;
+  text-align: center;
 }
 
 .feedback-gravatar {

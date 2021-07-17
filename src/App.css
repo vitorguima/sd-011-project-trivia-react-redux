@@ -4,8 +4,8 @@
 
 .App-logo {
   height: 30vmin;
-  pointer-events: none;
   margin-top: 60px;
+  pointer-events: none;
 }
 
 .enter-button {
