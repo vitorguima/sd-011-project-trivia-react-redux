@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchQuestionsAPI, updateScore } from '../actions/game';
@@ -19,6 +20,7 @@ class Questions extends Component {
     this.handleCounter = this.handleCounter.bind(this);
     this.scoreCalculator = this.scoreCalculator.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.buttonRedirect = this.buttonRedirect.bind(this);
   }
 
   componentDidMount() {
@@ -85,20 +87,27 @@ class Questions extends Component {
   }
 
   nextQuestion() {
+    const { questionNumber } = this.state;
+    const id = questionNumber + 1;
+    this.setState({
+      questionNumber: id,
+      toggleButton: false,
+      currentCounter: 30,
+      isAnswered: false,
+    });
+    this.counter();
+  }
+
+  buttonRedirect() {
     const { questionData } = this.props;
     const { questionNumber } = this.state;
-    if (questionNumber < questionData.length - 1) {
-      const id = questionNumber + 1;
-      this.setState({
-        questionNumber: id,
-        toggleButton: false,
-        currentCounter: 30,
-        isAnswered: false,
-      });
-      this.counter();
-    } else {
-      window.location.href = '/feedback';
+    if (!questionData.length) {
+      return (<h2>Loading questions...</h2>);
     }
+    if (questionNumber < questionData.length) {
+      return this.renderQuestions();
+    }
+    return (<Redirect to="/feedback" />);
   }
 
   renderQuestions() {
@@ -138,7 +147,6 @@ class Questions extends Component {
             </button>
           ))}
         </div>
-
         <button
           type="button"
           data-testid="btn-next"
@@ -152,11 +160,10 @@ class Questions extends Component {
   }
 
   render() {
-    const { questionData } = this.props;
     const { currentCounter } = this.state;
     return (
       <div className="main-container">
-        { questionData.length ? this.renderQuestions() : <h2>Loading questions...</h2>}
+        { this.buttonRedirect() }
         <p>
           { currentCounter }
         </p>
