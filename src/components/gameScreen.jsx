@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { playerScore } from '../actions';
@@ -105,7 +105,7 @@ class gameScreen extends Component {
   render() {
     const { results } = this.props;
     const { question, answered } = this.state;
-    
+
     return (
       <div>
         <Timer key={ question } />
