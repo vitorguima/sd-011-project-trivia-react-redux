@@ -2,27 +2,29 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchNewApi } from '../actions/requestAPI';
+import WrongAnswer from '../components/WrongAnswer';
 
 class TelaJogo extends Component {
   constructor() {
     super();
     this.state = {
       score: 0,
+      count: 0,
     };
   }
 
   componentDidMount() {
-    const { recivedGameData, gameData } = this.props;
+    const { recivedGameData } = this.props;
     recivedGameData();
     // console.log(gameData.results);
   }
 
   render() {
-    const { score } = this.state;
+    const { score, count } = this.state;
     const { getdata: { emailHash, name, email }, gameData } = this.props;
     const player = { name, assertions: 0, score, gravatarEmail: email };
     localStorage.setItem('player', JSON.stringify(player));
-    // localStorage.setItem('email', email);
+    const FIVE = 5;
     const array = gameData.results;
     return (
       <div>
@@ -35,23 +37,33 @@ class TelaJogo extends Component {
           </span>
         </header>
         <div>
-          {array && array.map((value) => console.log(value.category))}
-          {array && array.map((value) => (
-            <p key={ value.category }>
-              {value.category}
-            </p>
-          ))}
-          {/* {array[0]} */}
-          {/* {array && console.log(array)} */}
-          {/* {
-            console.log(Object.values(gameData)[0])
-            gameData.map((value, index) => (
-              <p key={ index }>
-                {value}
+          {array && count < FIVE ? (
+            <>
+              <p key={ array[count].category }>
+                {array[count].category}
               </p>
-            ))
-          } */}
+              <p key={ array[count].question }>
+                {array[count].question}
+              </p>
+              <p key={ array[count].correct_answer }>
+                {array[count].correct_answer}
+              </p>
+              <WrongAnswer count={ count } />
+            </>
+          ) : (
+            <p> Fim do jogo </p>
+          )}
         </div>
+        <button
+          type="button"
+          onClick={ () => {
+            this.setState({
+              count: count + 1,
+            });
+          } }
+        >
+          botão
+        </button>
       </div>
     );
   }
