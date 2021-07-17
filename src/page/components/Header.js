@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 class Header extends Component {
   render() {
+    const getLocalStorage = JSON.parse(localStorage.getItem('state'));
+    const point = getLocalStorage.player.score;
     const { players, email } = this.props;
     const hashGenerator = md5(email).toString();
     return (
@@ -15,6 +17,7 @@ class Header extends Component {
           alt="Gravatar"
           data-testid="header-profile-picture"
         />
+        <div data-testid="header-score">{ point }</div>
       </div>
     );
   }

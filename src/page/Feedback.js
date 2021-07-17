@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import md5 from 'crypto-js/md5';
-import { connect } from 'react-redux';
+import Header from './components/Header';
 
 class Feedback extends Component {
   constructor() {
@@ -11,17 +9,19 @@ class Feedback extends Component {
       rightAnswers: 0,
 
     };
+    this.performanceAnswer = this.performanceAnswer.bind(this);
   }
 
-  perfomanceAnswer() {
-    const { score } = this.state;
+  performanceAnswer() {
+    const getLocalStorage = JSON.parse(localStorage.getItem('state'));
+    const Assertions = getLocalStorage.player.assertions;
     const controlScore = 3;
-    if (score < controlScore) {
+    if (Assertions < controlScore) {
       return (
         <p>Podia ser melhor...</p>
       );
     }
-    if (score >= controlScore) {
+    if (Assertions >= controlScore) {
       return (
         <p>Mandou bem!</p>
       );
@@ -29,36 +29,25 @@ class Feedback extends Component {
   }
 
   render() {
-    const { score, rightAnswers } = this.state;
-    const { email, name } = this.props;
-    const hashGenerator = md5(email).toString();
+    const getLocalStorage = JSON.parse(localStorage.getItem('state'));
+    const point = getLocalStorage.player.score;
+    const Assertions = getLocalStorage.player.assertions;
+
     return (
       <>
         <header>
-          <img
-            src={ `https://www.gravatar.com/avatar/${hashGenerator}` }
-            data-testid="header-profile-picture"
-            alt="icon"
-          />
-          <h2 data-testid="header-player-name">
-            Nome:
-            { name }
-          </h2>
-          <h3 data-testid="header-score">
-            Placar:
-            Colocar placar aqui
-          </h3>
-          <h4 data-testid="feedback-text">{this.perfomanceAnswer()}</h4>
+          <Header />
+          <h4 data-testid="feedback-text">{this.performanceAnswer()}</h4>
         </header>
 
         <span>
           <h4 data-testid="feedback-total-score">
             Placar Final:
-            { score }
+            { point }
           </h4>
           <h4 data-testid="feedback-total-question">
-            {`${rightAnswers > 0
-              ? `Acertou ${rightAnswers} perguntas` : 'Não acertou nenhuma pergunta'}`}
+            {`${Assertions > 0
+              ? `Acertou ${Assertions} perguntas` : 'Não acertou nenhuma pergunta'}`}
           </h4>
         </span>
       </>
@@ -66,14 +55,4 @@ class Feedback extends Component {
   }
 }
 
-Feedback.propTypes = ({
-  email: PropTypes.string,
-  name: PropTypes.string,
-}).isRequired;
-
-const mapStateToProps = (state) => ({
-  email: state.homeReducer.email,
-  name: state.homeReducer.name,
-});
-
-export default connect(mapStateToProps)(Feedback);
+export default Feedback;
