@@ -8,7 +8,6 @@ class Timer extends Component {
     super();
     this.state = {
       time: null,
-      answered: false,
     };
 
     this.initailTime = this.initailTime.bind(this);
