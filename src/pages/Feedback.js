@@ -31,10 +31,14 @@ export default class Feedback extends Component {
 
   render() {
     const { mensagem } = this.state;
+    const getKey = localStorage.getItem('state');
+    const state = JSON.parse(getKey);
     return (
       <div>
-        <p data-testid="feedback-text">{mensagem}</p>
         <Header />
+        <p data-testid="feedback-text">{mensagem}</p>
+        <p data-testid="feedback-total-question">{state.player.assertions}</p>
+        <p data-testid="feedback-total-score">{state.player.score}</p>
       </div>
     );
   }
