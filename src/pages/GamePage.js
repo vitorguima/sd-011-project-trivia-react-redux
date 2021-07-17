@@ -16,7 +16,12 @@ class GamePage extends Component {
   render() {
     const { isLoading } = this.props;
     if (isLoading) {
-      return (<h1>Carregando</h1>);
+      return (
+        <div>
+          <h1>Carregando</h1>
+          <Header />
+        </div>
+      );
     }
     return (
       <div>

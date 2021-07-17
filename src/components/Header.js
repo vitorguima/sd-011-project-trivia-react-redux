@@ -8,6 +8,8 @@ const email = md5('email@email.com').toString();
 class Header extends React.Component {
   render() {
     const { name, score } = this.props;
+    // const getLocal = JSON.parse(localStorage.getItem('state'));
+    console.log(score);
     return (
       <div className="header">
         <div className="gravatar">

@@ -134,14 +134,15 @@ class Question extends Component {
     const difficulty = this.convertDifficultyInNumber();
     const getKey = localStorage.getItem('state');
     const state = JSON.parse(getKey);
+    console.log(state);
     const { sec } = this.state;
     const { setGlobalScore } = this.props;
     const multiply = 10;
     const scoreFinal = multiply + (sec * difficulty);
-    state.score += scoreFinal;
-    state.assertions += 1;
-    setGlobalScore(state.score);
-    return localStorage.setItem('state', JSON.stringify(state));
+    state.player.score += scoreFinal;
+    state.player.assertions += 1;
+    setGlobalScore(state.player.score);
+    localStorage.setItem('state', JSON.stringify(state));
   }
 
   handleClickNext() {
