@@ -20,6 +20,8 @@ class Counter extends Component {
     this.counter();
   }
 
+
+  // alterar counter
   handleCount() {
     const { currentCount } = this.state;
     const { handleButton } = this.props;
