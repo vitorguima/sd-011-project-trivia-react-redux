@@ -9,8 +9,9 @@ import CountdownTimer from '../components/CountDownTimer';
 class TriviaQuestions extends Component {
   constructor(props) {
     super(props);
-
+    this.wasSelectedAnswer = this.wasSelectedAnswer.bind(this);
     this.state = {
+      answerSeleceted: false,
       questionCounter: 1,
     };
   }
@@ -20,6 +21,50 @@ class TriviaQuestions extends Component {
     const { setStateGame } = this.props;
     setStateGame(token);
   }
+
+  wasSelectedAnswer() {
+    const { seconds } = this.props;
+    const { questionCounter, answerSeleceted } = this.state;
+    const answerSel = document.getElementsByClassName('correct-answer');
+    console.log(answerSel);
+    if (seconds === 0 || answerSeleceted) {
+      console.log('passou');
+      return true;
+      // return (
+      //   <label htmlFor="btn">
+      //     <input
+      //       id="btn-next"
+      //       type="button"
+      //       data-testid="btn-next"
+      //       value="Próxima"
+      //       onClick={ this.setState({ questionCounter: questionCounter + 1 }) }
+      //     />
+      //   </label>
+      // );
+    }
+    return null;
+  }
+
+  // renderNextQuestionBtn() {
+  //   const { seconds } = this.props;
+  //   const { questionCounter } = this.state;
+  //   const correctAnswer = document.getElementsByClassName('correct-answer')[0];
+  //   if (seconds === 0 || correctAnswer) {
+  //     console.log('passou');
+  //     // return (
+  //     //   <label htmlFor="btn">
+  //     //     <input
+  //     //       id="btn-next"
+  //     //       type="button"
+  //     //       data-testid="btn-next"
+  //     //       value="Próxima"
+  //     //       onClick={ this.setState({ questionCounter: questionCounter + 1 }) }
+  //     //     />
+  //     //   </label>
+  //     // );
+  //   }
+  //   return null;
+  // }
 
   render() {
     const { questions } = this.props;
@@ -43,6 +88,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   questions: state.fetchReducers.questions,
+  seconds: state.getSeconds.seconds,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TriviaQuestions);

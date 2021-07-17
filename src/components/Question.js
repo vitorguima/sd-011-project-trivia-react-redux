@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../App.css';
+import AnswerButtons from './AnswerButtons';
 
 class Question extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ class Question extends Component {
   }
 
   render() {
-    const { eachResult, seconds } = this.props;
+    const { eachResult } = this.props;
     const correctAnswer = this.getCorrectAnswer();
     const randomAnswers = this.randomAnswers();
     return (
@@ -69,19 +70,13 @@ class Question extends Component {
           ? <h3 data-testid="question text">{ eachResult.question }</h3>
           : null }
         { eachResult ? randomAnswers.map((answer, index) => (
-          <button
-            id="answer"
-            type="button"
-            disabled={ (seconds === 0 || false) }
-            key={ `answer ${index}` }
-            data-testid={ correctAnswer === answer
-              ? 'correct-answer'
-              : 'wrong-answer' }
-            onClick={ () => this.colorizeAnswers() }
-            className="answer"
-          >
-            { answer }
-          </button>
+          <AnswerButtons
+            answer={ answer }
+            key={ `chave ${index}` }
+            colorizeAnswers={ this.colorizeAnswers() }
+            correctAnswer={ correctAnswer }
+            onClick={ this.colorizeAnswers }
+          />
         ))
           : null }
       </section>
@@ -91,7 +86,6 @@ class Question extends Component {
 
 const mapStateToProps = (state) => ({
   questions: state.fetchReducers.questions,
-  seconds: state.getSeconds.seconds,
 });
 
 export default connect(mapStateToProps)(Question);
