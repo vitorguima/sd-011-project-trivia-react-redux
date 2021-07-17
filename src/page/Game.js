@@ -38,8 +38,8 @@ class Game extends Component {
 
   setLocalStorage() {
     const { score, assertions } = this.state;
-    console.log(assertions)
     const getLocalStorage = JSON.parse(localStorage.getItem('state'));
+
     const { name } = getLocalStorage.player;
     const { gravatarEmail } = getLocalStorage.player;
     localStorage.setItem('state', JSON.stringify({ player: {

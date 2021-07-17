@@ -6,52 +6,43 @@ class Feedback extends Component {
   constructor() {
     super();
     this.state = {
-      messages: '',
-      assertions: 0,
+      assertions: JSON.parse(localStorage.getItem('state')).player.assertions,
     };
     this.performanceAnswer = this.performanceAnswer.bind(this);
   }
 
-  componentDidMount() {
-    this.performanceAnswer();
-  }
-
   performanceAnswer() {
-    const { assertions } = this.state;
     const getLocalStorage = JSON.parse(localStorage.getItem('state'));
-    const Assertions = getLocalStorage.player.assertions
-      ? getLocalStorage.player.assertions : assertions;
-    console.log(Assertions);
     const controlScore = 3;
-    if (Assertions < controlScore) {
-      this.setState({
-        messages: 'Podia ser melhor...',
-      });
-    } else {
-      this.setState({
-        messages: 'Mandou bem!',
-      });
+    if (getLocalStorage.player.assertions >= controlScore) {
+      return (
+        <>
+          <p data-testid="feedback-text">Mandou bem!</p>
+          <p data-testid="feedback-total-score">{getLocalStorage.player.score}</p>
+        </>
+      );
     }
+    return (
+      <>
+        <p data-testid="feedback-text">Podia ser melhor...</p>
+        <p data-testid="feedback-total-score">{getLocalStorage.player.score}</p>
+      </>
+    );
   }
 
   render() {
-    const { messages, assertions } = this.state;
-    const getLocalStorage = JSON.parse(localStorage.getItem('state'));
-    const Assertions = getLocalStorage.player.score;
-
+    const { assertions } = this.state;
     return (
       <>
         <header>
           <Header />
-          <h4 data-testid="feedback-text">{messages}</h4>
-          <span>
-            <h4 data-testid="feedback-total-score">
-              { getLocalStorage.player.score }
-            </h4>
-            <h4 data-testid="feedback-total-question">
-              {getLocalStorage.player.assertions ? Assertions : assertions }
-            </h4>
-          </span>
+          <div>
+            { this.performanceAnswer() }
+            <p data-testid="feedback-total-question">
+              {assertions}
+            </p>
+
+          </div>
         </header>
 
         <div>
