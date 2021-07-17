@@ -101,6 +101,20 @@ class GamePage extends Component {
     }
   }
 
+  nextBtn(nextBtnDisable, indexLimit, questionIndex) {
+    return (
+      <button
+        type="button"
+        onClick={ () => this.btnHandle() }
+        data-testid="btn-next"
+        //                true                    false
+        disabled={ nextBtnDisable || indexLimit === questionIndex }
+      >
+        Próximo
+      </button>
+    );
+  }
+
   answBtnCreator(results, questionIndex, click, disableBtnByTime) {
     const result = results[questionIndex];
     const { difficulty } = result;
@@ -185,21 +199,16 @@ class GamePage extends Component {
         {results && this.questionSection(results, questionIndex)}
         {results && this.answBtnCreator(results, questionIndex, click, disableBtnByTime)}
         <br />
-        <button
-          type="button"
-          onClick={ () => this.btnHandle() }
-          data-testid="btn-next"
-          //                true                    false
-          disabled={ nextBtnDisable || indexLimit === questionIndex }
-        >
-          Próximo
-        </button>
+        {
+          (!nextBtnDisable || indexLimit === questionIndex)
+            ? this.nextBtn(nextBtnDisable, indexLimit, questionIndex)
+            : null
+        }
       </div>
     );
   }
 }
 
-// colocar um valor default para results proptypes
 GamePage.propTypes = {
   email: PropTypes.string.isRequired,
   nome: PropTypes.string.isRequired,
