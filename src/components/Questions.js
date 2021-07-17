@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchQuestionsAPI, updateScore } from '../actions/game';
@@ -19,6 +20,7 @@ class Questions extends Component {
     this.handleCounter = this.handleCounter.bind(this);
     this.scoreCalculator = this.scoreCalculator.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.buttonRedirect = this.buttonRedirect.bind(this);
   }
 
   componentDidMount() {
@@ -85,20 +87,32 @@ class Questions extends Component {
   }
 
   nextQuestion() {
-    const { questionData } = this.props;
     const { questionNumber } = this.state;
+    const id = questionNumber + 1;
+    this.setState({
+      questionNumber: id,
+      toggleButton: false,
+      currentCounter: 30,
+      isAnswered: false,
+    });
+    this.counter();
+  }
+
+  buttonRedirect(questionNumber, questionData) {
+    const { currentCounter, isAnswered } = this.state;
     if (questionNumber < questionData.length - 1) {
-      const id = questionNumber + 1;
-      this.setState({
-        questionNumber: id,
-        toggleButton: false,
-        currentCounter: 30,
-        isAnswered: false,
-      });
-      this.counter();
-    } else {
-      window.location.href = '/feedback';
+      return (
+        <button
+          type="button"
+          data-testid="btn-next"
+          onClick={ () => this.nextQuestion() }
+          hidden={ !(currentCounter === 0 || isAnswered) }
+        >
+          Próxima
+        </button>
+      );
     }
+    return (<Redirect to="/feedback" />);
   }
 
   renderQuestions() {
@@ -138,15 +152,7 @@ class Questions extends Component {
             </button>
           ))}
         </div>
-
-        <button
-          type="button"
-          data-testid="btn-next"
-          onClick={ () => this.nextQuestion() }
-          hidden={ !(currentCounter === 0 || isAnswered) }
-        >
-          Próxima
-        </button>
+        { this.buttonRedirect(questionNumber, questionData) }
       </div>
     );
   }
