@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
   render() {
@@ -18,6 +19,9 @@ class Header extends Component {
         >
           { profileAssertion }
         </h2>
+        <Link to="/">
+          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+        </Link>
       </div>
     );
   }
