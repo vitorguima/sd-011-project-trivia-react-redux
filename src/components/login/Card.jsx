@@ -56,33 +56,49 @@ class Card extends React.Component {
   render() {
     const { nome, email, isDisabled } = this.state;
     return (
-      <div className="card-login">
-        <input
-          type="text"
-          data-testid="input-player-name"
-          name="nome"
-          placeholder="Nome:"
-          value={ nome }
-          onChange={ this.handleChange }
-        />
-        <input
-          type="email"
-          data-testid="input-gravatar-email"
-          name="email"
-          placeholder="Email"
-          value={ email }
-          onChange={ this.handleChange }
-        />
-        <Link to="quiz">
-          <button
-            disabled={ isDisabled }
-            data-testid="btn-play"
-            type="button"
-            onClick={ this.handleSubmit }
-          >
-            Jogar
-          </button>
-        </Link>
+      <div className="container-form">
+        <form className="card-login">
+          <h1>Login</h1>
+          <input
+            className="input-field"
+            type="text"
+            data-testid="input-player-name"
+            name="nome"
+            placeholder="Nome:"
+            value={ nome }
+            onChange={ this.handleChange }
+          />
+          <input
+            className="input-field"
+            type="email"
+            data-testid="input-gravatar-email"
+            name="email"
+            placeholder="Email"
+            value={ email }
+            onChange={ this.handleChange }
+          />
+          <Link to="quiz">
+            <button
+              className="button-login"
+              disabled={ isDisabled }
+              data-testid="btn-play"
+              type="button"
+              onClick={ this.handleSubmit }
+            >
+              Jogar
+            </button>
+          </Link>
+          <hr />
+          <Link to="/settings">
+            <button
+              className="settings-button"
+              type="button"
+              data-testid="btn-settings"
+            >
+              Configurações
+            </button>
+          </Link>
+        </form>
       </div>
     );
   }
