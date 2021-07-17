@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../css/Header.css';
 import md5 from 'crypto-js/md5';
 
 class Header extends Component {
@@ -26,14 +27,15 @@ class Header extends Component {
     const storage = JSON.parse(localStorage.getItem('state'));
     const { score } = storage.player;
     return (
-      <div>
+      <div className="header-container">
         <img
+          className="gravatar-game"
           src={ `https://www.gravatar.com/avatar/${gravatar}` }
           alt="gravatar"
           data-testid="header-profile-picture"
         />
-        <p data-testid="header-player-name">{`Nome: ${name}`}</p>
-        <p data-testid="header-score">{ `Score: ${score}` }</p>
+        <span className="name-header" data-testid="header-player-name">{name}</span>
+        <p className="score" data-testid="header-score">{`Score: ${score}`}</p>
       </div>
     );
   }

@@ -1,0 +1,49 @@
+.btn-play-again {
+  background-color: #252525;
+  border-radius: 4px;
+  color: #eee;
+  text-decoration: none;
+  padding: 2px 7px;
+  margin-left: 10px;
+}
+
+.btn-ranking {
+  background-color: #252525;
+  border-radius: 4px;
+  color: #eee;
+  text-decoration: none;
+  padding: 2px 7px;
+  margin-left: 10px;
+}
+
+.feedback-items {
+  color: #161b22;
+  font-size: 16px;
+}
+
+.feedback-container {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.feedback-gravatar {
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.feedback-score {
+  color: #252525;
+  font-size: 20px;
+}
+
+.feedback-name {
+  color: #252525;
+  font-size: 25px;
+}
+
+.feedback-text {
+  color: #252525;
+  font-size: 20px;
+}

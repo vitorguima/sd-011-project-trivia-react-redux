@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import Header from './Header';
 import { fetchTokenApi } from '../actions/index';
+import '../css/Game.css';
 
 class Game extends Component {
   constructor() {
@@ -105,9 +106,10 @@ class Game extends Component {
 
   renderTimer(timer, results, clickedQuestions, index) {
     return (
-      <div>
-        <span>{timer}</span>
+      <>
+        <span className="timer">{`Tempo restante: 00:${timer}s`}</span>
         <button
+          className="answer-button"
           disabled={ timer === 0 }
           type="button"
           data-testid="correct-answer"
@@ -119,7 +121,7 @@ class Game extends Component {
         >
           {results[index].correct_answer}
         </button>
-      </div>
+      </>
     );
   }
 
@@ -134,7 +136,7 @@ class Game extends Component {
       return <Redirect to="feedback" />;
     }
     return (
-      <div>
+      <div className="game-container">
         <Header />
         <div>
           <p data-testid="question-category">{results[index].category}</p>
@@ -144,6 +146,7 @@ class Game extends Component {
           {this.renderTimer(timer, results, clickedQuestions, index)}
           {results[index].incorrect_answers.map((answer, idx) => (
             <button
+              className="answer-button"
               disabled={ timer === 0 }
               type="button"
               key={ idx }
@@ -159,6 +162,7 @@ class Game extends Component {
           ))}
           {this.questionAnswered() && (
             <button
+              className="next-button"
               type="button"
               data-testid="btn-next"
               onClick={ this.goNextQuestion }

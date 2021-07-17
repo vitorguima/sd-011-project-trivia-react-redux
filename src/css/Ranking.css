@@ -1,0 +1,46 @@
+.ranking-container {
+  color: #eee;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.home-btn {
+  background-color: #252525;
+  border-radius: 5px;
+  color: #eee;
+  display: block;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 0.5s;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  width: 100px;
+}
+
+.home-btn:hover {
+  background-color: #eee;
+  color: #252525;
+  transition: 0.5s;
+}
+
+.ranking-title {
+  color: #252525;
+  font-size: 30px;
+}
+
+.user-img {
+  border-radius: 50%;
+}
+
+.user-name {
+  color: #eee;
+}
+
+.user-container {
+  background-color: #252525;
+  border-radius: 10px;
+  margin: 0 auto 10px auto;
+  padding: 10px 10px;
+  text-align: center;
+  width: 200px;
+}
