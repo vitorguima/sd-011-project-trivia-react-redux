@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/feedback/Header';
 import Scoreboard from '../components/feedback/Scoreboard';
+import '../style/feedback.css';
 
 class Feedback extends React.Component {
   constructor(props) {
@@ -16,20 +17,22 @@ class Feedback extends React.Component {
     return (
       <>
         <Header />
-        <h3 data-testid="feedback-text">
-          {
-            (assertions >= minHit)
-              ? 'Mandou bem!'
-              : 'Podia ser melhor...'
-          }
-        </h3>
-        <Scoreboard />
-
-        <Link to="/ranking">
-          <button type="button" data-testid="btn-ranking">
-            Ver Ranking
-          </button>
-        </Link>
+        <div className="container-feedback">
+          <h1 data-testid="feedback-text" className="feedback-title">
+            {
+              (assertions >= minHit)
+                ? 'Mandou bem!'
+                : 'Podia ser melhor...'
+            }
+          </h1>
+          <Scoreboard />
+          <hr className="hr-feedback" />
+          <Link to="/ranking">
+            <button className="feedback-buttons" type="button" data-testid="btn-ranking">
+              Ver Ranking
+            </button>
+          </Link>
+        </div>
       </>
     );
   }
