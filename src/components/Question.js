@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../App.css';
@@ -15,6 +16,7 @@ class Question extends Component {
       setTime: true,
       questionIndex: 0,
       activeButtonNext: false,
+      redirect: false,
     };
     this.answers = this.answers.bind(this);
     this.wasClickedWrong = this.wasClickedWrong.bind(this);
@@ -146,20 +148,30 @@ class Question extends Component {
   }
 
   handleClickNext() {
-    this.setState((previous) => ({
-      sec: 30,
-      setTime: true,
-      statusAnswer: false,
-      clicked: false,
-      questionIndex: previous.questionIndex + 1,
-      activeButtonNext: false,
-
-    }), () => this.updateTimer());
+    const { questionIndex } = this.state;
+    const maxLength = 4;
+    if (questionIndex < maxLength) {
+      this.setState((previous) => ({
+        sec: 30,
+        setTime: true,
+        statusAnswer: false,
+        clicked: false,
+        questionIndex: previous.questionIndex + 1,
+        activeButtonNext: false,
+      }), () => this.updateTimer());
+    } else {
+      this.setState({
+        redirect: true,
+      });
+    }
   }
 
   render() {
     const { question } = this.props;
-    const { status, sec, questionIndex, activeButtonNext } = this.state;
+    const { status, sec, questionIndex, activeButtonNext, redirect } = this.state;
+    if (redirect) {
+      return (<Redirect to="/feedback" />);
+    }
     return (
       <div>
         Pergunta
