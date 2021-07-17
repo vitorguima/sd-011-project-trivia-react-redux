@@ -98,19 +98,14 @@ class Questions extends Component {
     this.counter();
   }
 
-  buttonRedirect(questionNumber, questionData) {
-    const { currentCounter, isAnswered } = this.state;
-    if (questionNumber < questionData.length - 1) {
-      return (
-        <button
-          type="button"
-          data-testid="btn-next"
-          onClick={ () => this.nextQuestion() }
-          hidden={ !(currentCounter === 0 || isAnswered) }
-        >
-          Próxima
-        </button>
-      );
+  buttonRedirect() {
+    const { questionData } = this.props;
+    const { questionNumber } = this.state;
+    if (!questionData.length) {
+      return (<h2>Loading questions...</h2>);
+    }
+    if (questionNumber < questionData.length) {
+      return this.renderQuestions();
     }
     return (<Redirect to="/feedback" />);
   }
@@ -152,17 +147,23 @@ class Questions extends Component {
             </button>
           ))}
         </div>
-        { this.buttonRedirect(questionNumber, questionData) }
+        <button
+          type="button"
+          data-testid="btn-next"
+          onClick={ () => this.nextQuestion() }
+          hidden={ !(currentCounter === 0 || isAnswered) }
+        >
+          Próxima
+        </button>
       </div>
     );
   }
 
   render() {
-    const { questionData } = this.props;
     const { currentCounter } = this.state;
     return (
       <div className="main-container">
-        { questionData.length ? this.renderQuestions() : <h2>Loading questions...</h2>}
+        { this.buttonRedirect() }
         <p>
           { currentCounter }
         </p>
