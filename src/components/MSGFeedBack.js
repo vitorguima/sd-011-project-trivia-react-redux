@@ -3,25 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.feedbackScore = this.feedbackScore.binf(this);
-  }
-
-  feedbackScore() {
-    const { profileScore } = this.props;
-    const expectedScore = 3;
-    return profileScore < expectedScore ? 'Podia ser melhor...' : 'Mandou bem!';
-  }
-
   render() {
+    const { profileScore, profileAssertion } = this.props;
+    const expectedScore = 3;
     return (
       <div>
         <h3
           data-testid="feedback-text"
         >
-          { this.feedbackScore() }
+          { profileScore < expectedScore ? 'Podia ser melhor...' : 'Mandou bem!' }
         </h3>
+        <h2
+          data-testid="feedback-total-score"
+        >
+          { profileAssertion }
+        </h2>
       </div>
     );
   }
@@ -29,10 +25,12 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
   profileScore: state.player.score,
+  profileAssertion: state.player.assertions,
 });
 
 export default connect(mapStateToProps)(Header);
 
 Header.propTypes = {
   profileScore: PropTypes.string.isRequired,
+  profileAssertion: PropTypes.number.isRequired,
 };
