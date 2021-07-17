@@ -20,11 +20,14 @@ class GamePage extends Component {
 
   componentDidMount() {
     this.timerFunc();
+    this.enableBtnsTimer();
   }
 
   componentDidUpdate() {
+    this.saveLocalStorage();
     const { timer } = this.props;
     if (timer <= 0) {
+      clearInterval(this.enableBtn);
       clearInterval(this.setTimer);
     }
   }
@@ -42,19 +45,30 @@ class GamePage extends Component {
   }
 
   clickAnswer() {
+    // this.saveLocalStorage();
     clearInterval(this.setTimer);
+    clearInterval(this.enableBtn);
     this.setState({
       click: true,
       nextBtnDisable: false,
     });
-    this.saveLocalScorage();
   }
+  //  problema que as informações de score e assertion vãoa trasadas para o local storage pois quando a função saveLocalS
 
-  saveLocalScorage() {
-    const { nome, score } = this.props;
+  saveLocalStorage() {
+    const { nome, score, email, assertionsGame } = this.props;
+    const state = {
+      player: {
+        nome,
+        assertions: assertionsGame,
+        score,
+        gravatarEmail: email,
+      },
+    };
+
     const infosGamePlayer = [{ name: nome, score, picture: this.URL }];
     localStorage.setItem('ranking', JSON.stringify(infosGamePlayer));
-    localStorage.setItem('ranking', JSON.stringify(infosGamePlayer));
+    localStorage.setItem('state', JSON.stringify(state));
   }
 
   questionSection(results, questionIndex) {
@@ -70,7 +84,6 @@ class GamePage extends Component {
   //  hard: 3, medium: 2, easy: 1
   scoreUpdate(difficulty) {
     const { timer } = this.props;
-    console.log(timer);
     let result = 0;
     const points = 10;
     const levelHard = 3;
@@ -78,15 +91,12 @@ class GamePage extends Component {
     const levelEasy = 1;
     switch (difficulty) {
     case 'hard':
-      console.log('hard');
       result = points + (timer * levelHard);
       return result;
     case 'medium':
-      console.log('medium');
       result = points + (timer * levelMedium);
       return result;
     case 'easy':
-      console.log('easy');
       result = points + (timer * levelEasy);
       return result;
     default:
@@ -136,6 +146,11 @@ class GamePage extends Component {
     this.setTimer = setInterval(() => timerDispatch(), limit);
   }
 
+  enableBtnsTimer() {
+    const limit = 30000;
+    this.enableBtn = setInterval(() => this.setState({ nextBtnDisable: false }), limit);
+  }
+
   urlCreator(email) {
     const hash = `https://www.gravatar.com/avatar/${md5(email).toString()}`;
     return hash;
@@ -176,6 +191,8 @@ class GamePage extends Component {
         <button
           type="button"
           onClick={ () => this.btnHandle() }
+          data-testid="btn-next"
+          //                true                    false
           disabled={ nextBtnDisable || indexLimit === questionIndex }
         >
           Próximo
@@ -197,6 +214,7 @@ GamePage.propTypes = {
   score: PropTypes.number.isRequired,
   upDateScore: PropTypes.func.isRequired,
   resetDispatch: PropTypes.func.isRequired,
+  assertionsGame: PropTypes.number.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -213,6 +231,7 @@ const mapStateToProps = (state) => ({
   timer: state.triviaReducer.timer,
   disableBtnByTime: state.triviaReducer.isDisable,
   score: state.triviaReducer.score,
+  assertionsGame: state.triviaReducer.assertions,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GamePage);

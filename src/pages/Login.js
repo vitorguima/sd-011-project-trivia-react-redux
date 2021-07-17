@@ -56,7 +56,6 @@ class Login extends Component {
 
   render() {
     const { nome, email, fetchQstionsDispatch, token } = this.props;
-    console.log(nome);
     return (
       <div>
         <Header />

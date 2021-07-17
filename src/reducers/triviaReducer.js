@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   timer: 30,
   isDisable: false,
   score: 0,
-
+  assertions: 0,
 };
 
 export default function triviaReducer(state = INITIAL_STATE, action) {
@@ -43,6 +43,7 @@ export default function triviaReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       score: (state.score + action.payload),
+      assertions: state.assertions + 1,
     };
   case RESET_TIMER:
     return {
