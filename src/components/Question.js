@@ -46,6 +46,7 @@ class Question extends Component {
   changeStatusAnswer() {
     this.setState({
       statusAnswer: true,
+      activeButtonNext: true,
     });
   }
 
@@ -197,7 +198,7 @@ class Question extends Component {
 }
 
 Question.propTypes = {
-  question: PropTypes.string.isRequired,
+  question: PropTypes.arrayOf.isRequired,
   setGlobalScore: PropTypes.func.isRequired,
 };
 
