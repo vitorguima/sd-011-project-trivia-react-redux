@@ -6,8 +6,8 @@ import { fetchQuestionsAPI, updateScore } from '../actions/game';
 import './Questions.css';
 
 class Questions extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       toggleButton: false,
       currentCounter: 30,
@@ -67,19 +67,21 @@ class Questions extends Component {
   }
 
   scoreCalculator(currentCounter) {
-    const { questionData } = this.props;
+    const { questionData, score } = this.props;
     const { difficulty } = questionData[0]; // mudar depois para pegar de forma dinâmica.
     const questionDifficulty = {
       easy: 1,
       medium: 2,
       hard: 3,
     };
+    const {currentScore} = this.state;
     const scorePoints = 10;
-    const questionScore = scorePoints + (currentCounter * questionDifficulty[difficulty]);
+    const questionScore = currentScore + (scorePoints + (currentCounter * questionDifficulty[difficulty]));
     this.setState({ currentScore: questionScore });
     const state = JSON.parse(localStorage.getItem('state'));
     state.player.score = questionScore;
     localStorage.setItem('state', JSON.stringify(state));
+    score(questionScore);
   }
 
   renderQuestions() {
