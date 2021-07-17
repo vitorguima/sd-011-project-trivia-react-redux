@@ -5,7 +5,7 @@ class Question extends React.Component {
   render() {
     const { array, count } = this.props;
     return (
-      <p key={ array[count].question }>
+      <p data-testid="question-text">
         {array[count].question}
       </p>
     );

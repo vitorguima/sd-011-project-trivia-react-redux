@@ -6,8 +6,8 @@ class CorrectAnswer extends React.Component {
     const { array, count } = this.props;
     return (
       <button
+        data-testid="correct-answer"
         type="button"
-        key={ array[count].correct_answer }
       >
         {array[count].correct_answer}
       </button>

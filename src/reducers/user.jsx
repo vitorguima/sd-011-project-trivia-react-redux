@@ -6,7 +6,7 @@ import {
 } from '../actions/index';
 
 const INITIAL_STATE = {
-  token: {},
+  token: '',
   userData: {},
   isFetching: false,
 };
@@ -22,7 +22,7 @@ function user(state = INITIAL_STATE, action = {}) {
     return {
       ...state,
       isFetching: false,
-      token: action.payload,
+      token: action.payload.token,
     };
   case REQUEST_API_ERROR:
     return {
