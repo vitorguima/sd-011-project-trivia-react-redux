@@ -48,6 +48,15 @@ class Login extends Component {
     const { userName, userEmail } = this.props;
     userName(user);
     userEmail(email);
+    const localObj = {
+      player: {
+        name: user,
+        assertions: '',
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    window.localStorage.setItem('state', JSON.stringify(localObj));
   }
 
   render() {
@@ -80,13 +89,9 @@ class Login extends Component {
               Jogar
             </button>
           </Link>
-
         </form>
         <Link to="/config">
-          <button
-            type="button"
-            data-testid="btn-settings"
-          >
+          <button type="button" data-testid="btn-settings">
             Configurações
           </button>
         </Link>
