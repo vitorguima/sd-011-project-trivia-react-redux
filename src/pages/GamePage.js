@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getQuestionsThunk } from '../actions';
 import QuestionList from '../components/QuestionList';
+import Header from '../components/Header';
 
 class GamePage extends Component {
   componentDidMount() {
@@ -15,9 +16,19 @@ class GamePage extends Component {
   render() {
     const { isLoading } = this.props;
     if (isLoading) {
-      return (<h1>Carregando</h1>);
+      return (
+        <div>
+          <h1>Carregando</h1>
+          <Header />
+        </div>
+      );
     }
-    return (<QuestionList />);
+    return (
+      <div>
+        <Header />
+        <QuestionList />
+      </div>
+    );
   }
 }
 

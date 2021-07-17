@@ -5,10 +5,16 @@ export const GET_QUESTIONS_FAILED = 'GET_QUESTIONS_FAILED';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_TOKEN_SUCESS = 'REQUEST_TOKEN_SUCESS';
 export const REQUEST_TOKEN_FAIL = 'REQUEST_TOKEN_FAIL';
+export const SET_SCORE = 'SET_SCORE';
 
 export const userEmail = (name) => ({
   type: USER_EMAIL,
   name,
+});
+
+export const setScore = (score) => ({
+  type: SET_SCORE,
+  score,
 });
 
 const requestToken = () => ({

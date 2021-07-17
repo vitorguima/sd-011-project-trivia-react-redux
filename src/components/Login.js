@@ -18,6 +18,20 @@ class Login extends Component {
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.ableButton = this.ableButton.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.setLocalStorage = this.setLocalStorage.bind(this);
+  }
+
+  setLocalStorage() {
+    const { name, email } = this.state;
+    const playerInfos = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    return localStorage.setItem('state', JSON.stringify(playerInfos));
   }
 
   handleChangeName({ target }) {
@@ -49,6 +63,7 @@ class Login extends Component {
     const { name } = this.state;
     fetchApiToken();
     playerToName(name);
+    this.setLocalStorage();
   }
 
   render() {

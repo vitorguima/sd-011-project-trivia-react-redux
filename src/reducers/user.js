@@ -1,5 +1,6 @@
 import {
   USER_EMAIL,
+  SET_SCORE,
   REQUEST_TOKEN,
   REQUEST_TOKEN_SUCESS,
   REQUEST_TOKEN_FAIL,
@@ -9,6 +10,7 @@ const INITIAL_STATE = {
   name: '',
   email: '',
   token: '',
+  score: 0,
   loading: false,
 };
 
@@ -19,6 +21,11 @@ export default function reducerUser(state = INITIAL_STATE, action) {
       ...state,
       name: action.name,
       email: action.email,
+    };
+  case SET_SCORE:
+    return {
+      ...state,
+      score: action.score,
     };
   case REQUEST_TOKEN:
     return {
