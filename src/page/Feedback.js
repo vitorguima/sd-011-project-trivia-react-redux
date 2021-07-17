@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import md5 from 'crypto-js/md5';
 import Header from './components/Header';
 
 class Feedback extends Component {
@@ -8,7 +9,23 @@ class Feedback extends Component {
     this.state = {
       assertions: JSON.parse(localStorage.getItem('state')).player.assertions,
     };
+    this.seeRanking = this.seeRanking.bind(this);
     this.performanceAnswer = this.performanceAnswer.bind(this);
+  }
+
+  seeRanking() {
+    const getLocalStorage = JSON.parse(localStorage.getItem('state'));
+    const { gravatarEmail, name, score } = getLocalStorage.player;
+    const hashGenerator = md5(gravatarEmail).toString();
+    const gravatar = `https://www.gravatar.com/avatar/${hashGenerator}`;
+    const ranking = {
+      name,
+      score,
+      picture: gravatar,
+    };
+    localStorage.setItem('ranking',
+      JSON.stringify(localStorage.getItem('ranking') === null
+        ? [ranking] : [...JSON.parse(localStorage.getItem('ranking')), ranking]));
   }
 
   performanceAnswer() {
@@ -50,7 +67,13 @@ class Feedback extends Component {
             <button type="button" data-testid="btn-play-again">Jogar novamente</button>
           </Link>
           <Link to="/ranking">
-            <button type="button" data-testid="btn-ranking">Ver Ranking</button>
+            <button
+              type="button"
+              onClick={ this.seeRanking }
+              data-testid="btn-ranking"
+            >
+              Ver Ranking
+            </button>
           </Link>
         </div>
       </>
