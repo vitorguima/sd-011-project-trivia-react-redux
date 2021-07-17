@@ -35,13 +35,17 @@ class Feedback extends Component {
         <div>
           <h3 data-testid="feedback-total-score">{ state.player.score }</h3>
           <h4 data-testid="feedback-total-question">{ hits }</h4>
+          <Link to="/ranking">
+            <button type="button" data-testid="btn-ranking">
+              Ver Ranking
+            </button>
+          </Link>
         </div>
       </div>
     );
   }
 }
 
-// Abertura de novo PR para requisito 15
 // Secessário em algum momento trocar a origem da informação 'score' de localStorage para o estado global.
 
 const mapStateToProps = (state) => ({
