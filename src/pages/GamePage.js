@@ -41,13 +41,6 @@ class GamePage extends Component {
     this.timerFunc();
   }
 
-  // Essa função tbm deve setar o local storage
-  // localStorage.setItem('ranking', JSON.stringify(infosGamePlayer));
-  // infosGamePlayer = [
-  //  { name: nome-da-pessoa, score: 10, picture: url-da-foto-no-gravatar }
-  // ]
-  // const { nome, score,  } = this.props;
-  // this.URL
   clickAnswer() {
     clearInterval(this.setTimer);
     this.setState({
@@ -73,8 +66,8 @@ class GamePage extends Component {
       </section>
     );
   }
-  //  hard: 3, medium: 2, easy: 1
 
+  //  hard: 3, medium: 2, easy: 1
   scoreUpdate(difficulty) {
     const { timer } = this.props;
     console.log(timer);
@@ -101,7 +94,7 @@ class GamePage extends Component {
     }
   }
 
-  answBtnCreator(results, questionIndex, click, disableBtn) {
+  answBtnCreator(results, questionIndex, click, disableBtnByTime) {
     const result = results[questionIndex];
     const { difficulty } = result;
     const { upDateScore } = this.props;
@@ -115,7 +108,7 @@ class GamePage extends Component {
         } }
         type="button"
         data-testid="correct-answer"
-        disabled={ disableBtn }
+        disabled={ disableBtnByTime || click }
       >
         {result.correct_answer}
       </button>);
@@ -127,7 +120,7 @@ class GamePage extends Component {
         className={ click ? 'wrongAnswer' : null }
         type="button"
         data-testid={ `wrong-answer-${index}` }
-        disabled={ disableBtn }
+        disabled={ disableBtnByTime || click }
       >
         {wrngAnsw}
       </button>))];
@@ -169,7 +162,7 @@ class GamePage extends Component {
   }
 
   render() {
-    const { email, results, disableBtn } = this.props;
+    const { email, results, disableBtnByTime } = this.props;
     const { questionIndex, click, nextBtnDisable } = this.state;
     const indexLimit = 4;
     this.URL = this.urlCreator(email);
@@ -178,7 +171,7 @@ class GamePage extends Component {
         {this.renderHeader(this.URL)}
         <Timer />
         {results && this.questionSection(results, questionIndex)}
-        {results && this.answBtnCreator(results, questionIndex, click, disableBtn)}
+        {results && this.answBtnCreator(results, questionIndex, click, disableBtnByTime)}
         <br />
         <button
           type="button"
@@ -198,7 +191,7 @@ GamePage.propTypes = {
   nome: PropTypes.string.isRequired,
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
   timer: PropTypes.number.isRequired,
-  disableBtn: PropTypes.bool.isRequired,
+  disableBtnByTime: PropTypes.bool.isRequired,
   enableBtns: PropTypes.func.isRequired,
   timerDispatch: PropTypes.func.isRequired,
   score: PropTypes.number.isRequired,
@@ -218,7 +211,7 @@ const mapStateToProps = (state) => ({
   email: state.loginReducer.login.email,
   results: state.triviaReducer.questions.results,
   timer: state.triviaReducer.timer,
-  disableBtn: state.triviaReducer.isDisable,
+  disableBtnByTime: state.triviaReducer.isDisable,
   score: state.triviaReducer.score,
 });
 
