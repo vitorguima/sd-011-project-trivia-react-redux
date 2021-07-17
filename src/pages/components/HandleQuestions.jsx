@@ -14,6 +14,7 @@ class HandleQuestions extends Component {
       bool: false,
       finalscore: 0,
       assertions: 0,
+      IntervalTimer: null,
     };
   }
 
@@ -26,15 +27,15 @@ class HandleQuestions extends Component {
   nextQuestion() {
     const { questionIndex } = this.state;
     const { clickedHandle } = this.props;
-    const number = 4;
-    if (questionIndex < number) {
+    const QuestionsNumber = 4;
+    if (questionIndex < QuestionsNumber) {
       this.setState({
         questionIndex: (questionIndex + 1),
         timer: 30,
       });
     }
     clickedHandle(false);
-    if (questionIndex === number) {
+    if (questionIndex === QuestionsNumber) {
       this.setState({
         bool: true,
       });
@@ -53,6 +54,9 @@ class HandleQuestions extends Component {
       const { timer } = this.state;
       if (timer > 0) this.setState({ timer: timer - 1 });
     }, interval);
+    this.setState({
+      IntervalTimer,
+    });
     setTimeout(() => clearInterval(IntervalTimer), time);
     setTimeout(() => this.handleClick(), time);
   }
@@ -79,7 +83,7 @@ class HandleQuestions extends Component {
   }
 
   sumPoint({ target }) {
-    const { timer } = this.state;
+    const { timer, IntervalTimer } = this.state;
     const { scorePoint } = this.props;
     const correctAnswerValue = 10;
     const level = this.checkLevel();
@@ -95,6 +99,7 @@ class HandleQuestions extends Component {
       getStateStorage.player.score = finalscore;
       getStateStorage.player.assertions = assertions;
       localStorage.setItem('state', JSON.stringify(getStateStorage));
+      clearInterval(IntervalTimer);
     });
   }
 
@@ -128,15 +133,20 @@ class HandleQuestions extends Component {
               {answer}
             </button>
           ))}
-          <button
-            type="button"
-            disabled={ !clicked }
-            onClick={ () => this.nextQuestion() }
-          >
-            Proximo
-          </button>
+          {
+            clicked
+          && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              disabled={ !clicked }
+              onClick={ () => this.nextQuestion() }
+            >
+              Próxima
+            </button>)
+          }
           <span>{timer}</span>
-          { bool && <Redirect to="/" /> }
+          { bool && <Redirect to="/feedback" /> }
         </section>
       );
     }
