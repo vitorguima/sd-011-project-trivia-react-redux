@@ -48,7 +48,8 @@ class TelaJogo extends Component {
               <p key={ array[count].correct_answer }>
                 {array[count].correct_answer}
               </p>
-              <WrongAnswer count={ count } />
+              <WrongAnswer array={ Object.values(array[count])[5] } />
+              {/* { console.log(Object.values(array[count])[5])} */}
             </>
           ) : (
             <p> Fim do jogo </p>

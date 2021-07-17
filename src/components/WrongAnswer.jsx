@@ -11,14 +11,14 @@ class WrongAnswer extends React.Component {
   }
 
   render() {
-    const { gameData, count } = this.props;
-    const array = gameData.results;
+    const { array } = this.props;
+    // const array = gameData.results;
     return (
       <div>
         {
           array && array.map((value, index) => (
             <p key={ index }>
-              oi
+              {value}
             </p>
           ))
         }
