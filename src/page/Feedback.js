@@ -1,55 +1,64 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Header from './components/Header';
 
 class Feedback extends Component {
   constructor() {
     super();
     this.state = {
-      score: 3,
-      rightAnswers: 0,
-
+      messages: '',
+      assertions: 0,
     };
     this.performanceAnswer = this.performanceAnswer.bind(this);
   }
 
+  componentDidMount() {
+    this.performanceAnswer();
+  }
+
   performanceAnswer() {
+    const { assertions } = this.state;
     const getLocalStorage = JSON.parse(localStorage.getItem('state'));
-    const Assertions = getLocalStorage.player.assertions;
+    const Assertions = getLocalStorage.player.assertions
+      ? getLocalStorage.player.assertions : assertions;
+    console.log(Assertions);
     const controlScore = 3;
     if (Assertions < controlScore) {
-      return (
-        <p>Podia ser melhor...</p>
-      );
-    }
-    if (Assertions >= controlScore) {
-      return (
-        <p>Mandou bem!</p>
-      );
+      this.setState({
+        messages: 'Podia ser melhor...',
+      });
+    } else {
+      this.setState({
+        messages: 'Mandou bem!',
+      });
     }
   }
 
   render() {
+    const { messages, assertions } = this.state;
     const getLocalStorage = JSON.parse(localStorage.getItem('state'));
-    const point = getLocalStorage.player.score;
-    const Assertions = getLocalStorage.player.assertions;
+    const Assertions = getLocalStorage.player.score;
 
     return (
       <>
         <header>
           <Header />
-          <h4 data-testid="feedback-text">{this.performanceAnswer()}</h4>
+          <h4 data-testid="feedback-text">{messages}</h4>
+          <span>
+            <h4 data-testid="feedback-total-score">
+              { getLocalStorage.player.score }
+            </h4>
+            <h4 data-testid="feedback-total-question">
+              {getLocalStorage.player.assertions ? Assertions : assertions }
+            </h4>
+          </span>
         </header>
 
-        <span>
-          <h4 data-testid="feedback-total-score">
-            Placar Final:
-            { point }
-          </h4>
-          <h4 data-testid="feedback-total-question">
-            {`${Assertions > 0
-              ? `Acertou ${Assertions} perguntas` : 'Não acertou nenhuma pergunta'}`}
-          </h4>
-        </span>
+        <div>
+          <Link to="/">
+            <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+          </Link>
+        </div>
       </>
     );
   }
