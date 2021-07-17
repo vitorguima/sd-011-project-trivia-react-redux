@@ -11,6 +11,7 @@ class TelaJogo extends Component {
       score: 0,
       count: 0,
     };
+    this.alternativesAnswers = this.alternativesAnswers.bind(this);
   }
 
   componentDidMount() {
@@ -19,13 +20,41 @@ class TelaJogo extends Component {
     // console.log(gameData.results);
   }
 
+  alternativesAnswers(count, gameData) {
+    const FIVE = 5;
+    const array = gameData.results;
+    return (
+      <div>
+        {array && count < FIVE ? (
+          <>
+            <p data-testid="question-category" key={ array[count].category }>
+              {array[count].category}
+            </p>
+            <p data-testid="question-text" key={ array[count].question }>
+              {array[count].question}
+            </p>
+            <button
+              data-testid="correct-answer"
+              type="button"
+              key={ array[count].correct_answer }
+            >
+              {array[count].correct_answer}
+            </button>
+            <WrongAnswer array={ Object.values(array[count])[5] } />
+            {/* { console.log(Object.values(array[count])[5])} */}
+          </>
+        ) : (
+          <p> Fim do jogo </p>
+        )}
+      </div>
+    );
+  }
+
   render() {
     const { score, count } = this.state;
     const { getdata: { emailHash, name, email }, gameData } = this.props;
     const player = { name, assertions: 0, score, gravatarEmail: email };
     localStorage.setItem('player', JSON.stringify(player));
-    const FIVE = 5;
-    const array = gameData.results;
     return (
       <div>
         <header>
@@ -36,25 +65,7 @@ class TelaJogo extends Component {
             { score }
           </span>
         </header>
-        <div>
-          {array && count < FIVE ? (
-            <>
-              <p key={ array[count].category }>
-                {array[count].category}
-              </p>
-              <p key={ array[count].question }>
-                {array[count].question}
-              </p>
-              <p key={ array[count].correct_answer }>
-                {array[count].correct_answer}
-              </p>
-              <WrongAnswer array={ Object.values(array[count])[5] } />
-              {/* { console.log(Object.values(array[count])[5])} */}
-            </>
-          ) : (
-            <p> Fim do jogo </p>
-          )}
-        </div>
+        { this.alternativesAnswers(count, gameData) }
         <button
           type="button"
           onClick={ () => {

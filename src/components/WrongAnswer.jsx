@@ -17,9 +17,13 @@ class WrongAnswer extends React.Component {
       <div>
         {
           array && array.map((value, index) => (
-            <p key={ index }>
+            <button
+              data-testid={ `wrong-answer-${index}` }
+              type="button"
+              key={ index }
+            >
               {value}
-            </p>
+            </button>
           ))
         }
       </div>
