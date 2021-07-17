@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { getQuestionsThunk } from '../actions';
+import { getQuestionsThunk, sendScore } from '../actions';
 import './Game.css';
 
 class Game extends Component {
@@ -13,26 +13,35 @@ class Game extends Component {
       disabled: false,
       seconds: 30,
       score: 0,
+      assertions: 0,
     };
 
     this.colorOptions = this.colorOptions.bind(this);
-    this.startTimer = this.startTimer.bind(this);
     this.timer = this.timer.bind(this);
     this.handleQuestion = this.handleQuestion.bind(this);
   }
 
   componentDidMount() {
-    const { getQuestions } = this.props;
+    const { getQuestions, name, email } = this.props;
+    const { score, assertions } = this.state;
     const miliSeconds = 1000;
+    this.interval = setInterval(this.timer, miliSeconds);
     if (localStorage.token) {
       getQuestions(localStorage.getItem('token'));
     }
-    this.startTimer();
-    this.interval = setInterval(this.timer, miliSeconds);
+    const player = {
+      player: {
+        name,
+        gravatarEmail: email,
+        score,
+        assertions,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   colorOptions({ target }) {
-    const { questions, name } = this.props;
+    const { questions } = this.props;
     const { number, seconds } = this.state;
     const rightAnswer = document.querySelector('#correct-answer');
     const wrongAnswers = document.querySelectorAll('#wrong-answer');
@@ -40,51 +49,61 @@ class Game extends Component {
     wrongAnswers.forEach((answer) => {
       answer.classList.add('wrong-color');
     });
+    this.setState({
+      disabled: true,
+    });
     if (target === rightAnswer) {
       let sum = 0;
-      const difficulty = questions.results[number].difficulty;
-      switch (difficulty) {
+      const easy = 1;
+      const medium = 2;
+      const hard = 3;
+      switch (questions.results[number]) {
       case 'easy':
-        sum = seconds * 1;
+        sum = seconds * easy;
         break;
       case 'medium':
-        sum = seconds * 2;
+        sum = seconds * medium;
         break;
       case 'hard':
-        sum = seconds * 3;
+        sum = seconds * hard;
         break;
       default:
         break;
       }
+      const ini = 10;
       this.setState((state) => ({
-        score: state.score + 10 + sum,
-      }));
-      localStorage.setItem(name, this.state.score);
+        score: state.score + ini + sum,
+        assertions: state.assertions + 1,
+      }), () => {
+        const { name, email, sendScoreR } = this.props;
+        const { score, assertions } = this.state;
+        const player = {
+          player: {
+            name,
+            gravatarEmail: email,
+            score,
+            assertions,
+          },
+        };
+        localStorage.setItem('state', JSON.stringify(player));
+        sendScoreR(player);
+      });
     }
-    clearInterval(this.interval);
-    this.setState({
-      disabled: true,
-      seconds: 0,
-    });
-  }
-
-  startTimer() {
-    const seconds = 30000;
-    setTimeout(() => {
-      this.colorOptions();
-    }, seconds);
   }
 
   timer() {
-    const { seconds } = this.state;
+    const { seconds, disabled } = this.state;
     this.setState((state) => ({
       seconds: state.seconds - 1,
     }));
-    if (seconds === 0) {
-      clearInterval(this.interval);
+    if (seconds < 1) {
       this.setState({
-        seconds: 0,
+        disabled: true,
       });
+      clearInterval(this.interval);
+    }
+    if (disabled) {
+      clearInterval(this.interval);
     }
   }
 
@@ -101,7 +120,6 @@ class Game extends Component {
       disabled: false,
       seconds: 30,
     }));
-    this.startTimer();
     this.interval = setInterval(this.timer, miliSeconds);
   }
 
@@ -184,10 +202,12 @@ const mapStateToProps = (state) => ({
   hash: state.login.hash,
   name: state.login.name,
   questions: state.game.questions,
+  email: state.login.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (token) => dispatch(getQuestionsThunk(token)),
+  sendScoreR: (player) => dispatch(sendScore(player)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

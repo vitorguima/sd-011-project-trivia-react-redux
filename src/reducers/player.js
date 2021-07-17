@@ -1,5 +1,5 @@
 import {
-  ADD_PLAYER,
+  SEND_SCORE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -11,11 +11,13 @@ const INITIAL_STATE = {
 
 const playerReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case ADD_PLAYER:
+  case SEND_SCORE:
     return {
       ...state,
-      name: action.payload,
-      gravatarEmail: action.payload2,
+      name: action.payload.player.name,
+      assertions: action.payload.player.assertions,
+      score: action.payload.player.score,
+      gravatarEmail: action.payload.player.gravatarEmail,
     };
   default:
     return {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import logo from '../trivia.png';
-import { getTokenThunk, sendEmail, addPlayer } from '../actions';
+import { getTokenThunk, sendEmail } from '../actions';
 
 class Login extends Component {
   constructor() {
@@ -36,7 +36,7 @@ class Login extends Component {
 
   render() {
     const { name, email } = this.state;
-    const { getToken, sendEmailG, addPlayerFeedback } = this.props;
+    const { getToken, sendEmailG } = this.props;
     const isEnabled = this.handleButton();
     return (
       <main>
@@ -68,7 +68,6 @@ class Login extends Component {
                 data-testid="btn-play"
                 disabled={ isEnabled }
                 onClick={ () => {
-                  addPlayerFeedback(name, email);
                   getToken();
                   sendEmailG(email, name);
                 } }
@@ -89,7 +88,6 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(getTokenThunk()),
   sendEmailG: (email, name) => dispatch(sendEmail(email, name)),
-  addPlayerFeedback: (name, email) => dispatch(addPlayer(name, email)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
