@@ -30,7 +30,7 @@ class Ranking extends Component {
           ))}
         </h3>
         <button
-          data-testid="btn-play-again"
+          data-testid="btn-go-home"
           type="button"
           onClick={ this.handleClickPlayAgain }
         >
