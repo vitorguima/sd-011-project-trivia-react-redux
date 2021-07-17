@@ -12,26 +12,31 @@ export default class Feedback extends Component {
     const localStg = JSON.parse(localStorage.getItem('state'));
     const { score, name, assertions } = localStg.player;
     const magicNumber = 3;
+    console.log(score, assertions);
     return (
-      <header>
-        <img
-          data-testid="header-profile-picture"
-          src={ `https://www.gravatar.com/avatar/${this.handleGravatar()}` }
-          alt="Gravatar"
-        />
-        <h2 data-testid="header-player-name">
-          Usuário:
-          { name }
-        </h2>
-        <p data-testid="header-score">{ score }</p>
-        <h1 data-testid="feedback-text">
-          Fdd
-        </h1>
-        <p data-testid="feedback-text">
-          {assertions < magicNumber ? 'Podia ser melhor...' : 'Mandou bem!' }
-        </p>
-      </header>
-
+      <>
+        <header>
+          <img
+            data-testid="header-profile-picture"
+            src={ `https://www.gravatar.com/avatar/${this.handleGravatar()}` }
+            alt="Gravatar"
+          />
+          <h2 data-testid="header-player-name">
+            Usuário:
+            { name }
+          </h2>
+          <p data-testid="header-score">{ score }</p>
+          <p data-testid="feedback-text">
+            {assertions < magicNumber ? 'Podia ser melhor...' : 'Mandou bem!' }
+          </p>
+        </header>
+        <section>
+          <p data-testid="feedback-total-question">
+            { assertions }
+          </p>
+          <p data-testid="feedback-total-score">{ score }</p>
+        </section>
+      </>
     );
   }
 }

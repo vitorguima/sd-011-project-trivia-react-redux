@@ -51,12 +51,19 @@ class Login extends Component {
     const localObj = {
       player: {
         name: user,
-        assertions: '',
+        assertions: 0,
         score: 0,
         gravatarEmail: email,
       },
     };
     window.localStorage.setItem('state', JSON.stringify(localObj));
+    /*     if (!localStorage[email]) {
+      localStorage.setItem(email, JSON.stringify([localObj]));
+    } else {
+      const previousComments = JSON.parse(localStorage.getItem(email));
+      console.log(previousComments);
+      localStorage.setItem(email, JSON.stringify([...previousComments, localObj]));
+    } */
   }
 
   render() {
