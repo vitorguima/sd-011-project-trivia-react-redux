@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { playerScore } from '../actions';
@@ -13,6 +13,7 @@ class gameScreen extends Component {
       question: 0,
       answered: false,
       player,
+      feedback: false,
     };
 
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
@@ -95,17 +96,18 @@ class gameScreen extends Component {
     });
     const maxquestions = 4;
     if (question === maxquestions) {
-      return (
-        // <Redirect to="/feedback" />
-        console.log('teste')
-      );
+      this.setState({ feedback: true });
     }
   }
 
   render() {
     const { results } = this.props;
-    const { question, answered } = this.state;
-
+    const { question, answered, feedback } = this.state;
+    if (feedback) {
+      return (
+        <Redirect to="/feedback" />
+      );
+    }
     return (
       <div>
         <Timer key={ question } />
