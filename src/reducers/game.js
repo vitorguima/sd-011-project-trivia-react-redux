@@ -3,12 +3,12 @@ import {
   REQUEST_QUESTIONS,
   REQUEST_QUESTIONS_SUCCESS,
   REQUEST_QUESTIONS_ERROR,
-  HANDLE_ANSWERS_BUTTONS } from '../actions/game';
+  UPDATE_SCORE } from '../actions/game';
 
 const INITIAL_STATE = {
   gravatarImage: '',
   questions: [],
-  answerButtons: false,
+  score: 0,
 };
 
 const game = (state = INITIAL_STATE, action) => {
@@ -32,10 +32,10 @@ const game = (state = INITIAL_STATE, action) => {
       ...state,
       error: action.payload.error,
     };
-  case HANDLE_ANSWERS_BUTTONS:
+  case UPDATE_SCORE:
     return {
       ...state,
-      answerButtons: action.payload,
+      score: action.payload,
     };
   default:
     return state;
