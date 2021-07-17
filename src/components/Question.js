@@ -1,8 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { nextQuestion } from '../actions';
 
 class Question extends Component {
+  constructor() {
+    super();
+    this.state = {
+      hasAnswered: false,
+    };
+    this.buttonClicked = this.buttonClicked.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+  }
+
+  buttonClicked() {
+    this.setState({
+      hasAnswered: true,
+    });
+  }
+
+  nextQuestion() {
+    const { currentQuestion, history, nextQuestionAction } = this.props;
+    const numOfQuestions = 4;
+    if (currentQuestion >= numOfQuestions) {
+      history.push('/feedback');
+    } else {
+      nextQuestionAction();
+      this.setState({
+        hasAnswered: false,
+      });
+    }
+  }
+
   shufleAnswers(right, wrongs) {
     const max = 4;
     const random = Math.floor(Math.random() * max);
@@ -13,11 +43,14 @@ class Question extends Component {
 
   multipleQuestion() {
     const { questionsArr, currentQuestion } = this.props;
+    const { hasAnswered } = this.state;
     const rightAnswer = (
       <button
         type="button"
+        disabled={ hasAnswered }
         data-testid="correct-answer"
         key="right"
+        onClick={ this.buttonClicked }
       >
         { questionsArr[currentQuestion].correct_answer }
       </button>);
@@ -25,8 +58,10 @@ class Question extends Component {
       .map((item, index) => (
         <button
           type="button"
+          disabled={ hasAnswered }
           key={ `wrong-${index}` }
           data-testid={ `wrong-answer-${index}` }
+          onClick={ this.buttonClicked }
         >
           { item }
         </button>
@@ -41,19 +76,60 @@ class Question extends Component {
 
   bolleanQuestion() {
     const { questionsArr, currentQuestion } = this.props;
+    const { hasAnswered } = this.state;
     if (questionsArr[currentQuestion].correct_answer) {
       return (
         <div className="answers">
-          <button type="button" data-testid="correct-answer">True</button>
-          <button type="button" data-testid="wrong-answer-0">False</button>
+          <button
+            type="button"
+            disabled={ hasAnswered }
+            data-testid="correct-answer"
+            onClick={ this.buttonClicked }
+          >
+            True
+          </button>
+          <button
+            type="button"
+            disabled={ hasAnswered }
+            data-testid="wrong-answer-0"
+            onClick={ this.buttonClicked }
+          >
+            False
+          </button>
         </div>
       );
     }
     return (
       <div className="answers">
-        <button type="button" data-testid="wrong-answer-0">True</button>
-        <button type="button" data-testid="correct-answer">False</button>
+        <button
+          type="button"
+          disabled={ hasAnswered }
+          data-testid="wrong-answer-0"
+          onClick={ this.buttonClicked }
+        >
+          True
+        </button>
+        <button
+          type="button"
+          disabled={ hasAnswered }
+          data-testid="correct-answer"
+          onClick={ this.buttonClicked }
+        >
+          False
+        </button>
       </div>
+    );
+  }
+
+  renderNextButton() {
+    return (
+      <button
+        type="button"
+        data-testid="btn-next"
+        onClick={ this.nextQuestion }
+      >
+        Próxima
+      </button>
     );
   }
 
@@ -67,6 +143,7 @@ class Question extends Component {
 
   render() {
     const { questionsArr, currentQuestion } = this.props;
+    const { hasAnswered } = this.state;
     return (
       <div>
         <p data-testid="question-text">
@@ -80,6 +157,7 @@ class Question extends Component {
           {' '}
         </p>
         { this.renderAwnserButtons() }
+        {hasAnswered ? this.renderNextButton() : ''}
       </div>
     );
   }
@@ -88,6 +166,10 @@ class Question extends Component {
 const mapStateToProps = (state) => ({
   questionsArr: state.questions.questionsArr,
   currentQuestion: state.questions.currentQuestion,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  nextQuestionAction: () => dispatch(nextQuestion()),
 });
 
 Question.propTypes = {
@@ -102,4 +184,4 @@ Question.propTypes = {
   currentQuestion: PropTypes.number,
 }.isRequired;
 
-export default connect(mapStateToProps)(Question);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Question));

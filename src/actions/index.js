@@ -5,6 +5,7 @@ export const SAVE_LOGIN = 'SAVE_LOGIN';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const REQUEST_TOKEN_ERROR = 'REQUEST_TOKEN_ERROR';
+export const NEXT_QUESTION = 'NEXT_QUESTION';
 
 const questionsURL = 'https://opentdb.com/api.php?amount=5&token=';
 const tokenURL = 'https://opentdb.com/api_token.php?command=request';
@@ -74,3 +75,7 @@ export const fetchQuestions = (token) => (dispatch) => {
     .then((data) => dispatch(requestQuestionsSucces(data)))
     .catch((error) => dispatch(requestQuestionsFail(error)));
 };
+
+export const nextQuestion = () => ({
+  type: NEXT_QUESTION,
+});
