@@ -11,6 +11,13 @@ class Question extends Component {
     return wrongs;
   }
 
+  disableButton() {
+    const buttons = document.getElementsByClassName('button');
+    for (let index = 0; index < buttons.length; index += 1) {
+      buttons[index].disabled = true;
+    }
+  }
+
   multipleQuestion() {
     const { questionsArr, currentQuestion } = this.props;
     const rightAnswer = (
@@ -18,6 +25,8 @@ class Question extends Component {
         type="button"
         data-testid="correct-answer"
         key="right"
+        className="button"
+        onClick={ this.disableButton }
       >
         { questionsArr[currentQuestion].correct_answer }
       </button>);
@@ -27,6 +36,8 @@ class Question extends Component {
           type="button"
           key={ `wrong-${index}` }
           data-testid={ `wrong-answer-${index}` }
+          className="button"
+          onClick={ this.disableButton }
         >
           { item }
         </button>
@@ -44,15 +55,43 @@ class Question extends Component {
     if (questionsArr[currentQuestion].correct_answer) {
       return (
         <div className="answers">
-          <button type="button" data-testid="correct-answer">True</button>
-          <button type="button" data-testid="wrong-answer-0">False</button>
+          <button
+            type="button"
+            data-testid="correct-answer"
+            className="button"
+            onClick={ this.disableButton }
+          >
+            True
+          </button>
+          <button
+            type="button"
+            data-testid="wrong-answer-0"
+            className="button"
+            onClick={ this.disableButton }
+          >
+            False
+          </button>
         </div>
       );
     }
     return (
       <div className="answers">
-        <button type="button" data-testid="wrong-answer-0">True</button>
-        <button type="button" data-testid="correct-answer">False</button>
+        <button
+          type="button"
+          data-testid="wrong-answer-0"
+          className="button"
+          onClick={ this.disableButton }
+        >
+          True
+        </button>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          className="button"
+          onClick={ this.disableButton }
+        >
+          False
+        </button>
       </div>
     );
   }
