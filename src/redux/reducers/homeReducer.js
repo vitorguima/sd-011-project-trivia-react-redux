@@ -7,7 +7,7 @@ function GetPlayer(name, email) {
   const player = {
     player: {
       name,
-      assertion: '',
+      assertions: 0,
       score: 0,
       gravatarEmail: email,
     },

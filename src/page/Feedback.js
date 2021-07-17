@@ -1,79 +1,84 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
-import { connect } from 'react-redux';
+import Header from './components/Header';
 
 class Feedback extends Component {
   constructor() {
     super();
     this.state = {
-      score: 3,
-      rightAnswers: 0,
-
+      assertions: JSON.parse(localStorage.getItem('state')).player.assertions,
     };
+    this.seeRanking = this.seeRanking.bind(this);
+    this.performanceAnswer = this.performanceAnswer.bind(this);
   }
 
-  perfomanceAnswer() {
-    const { score } = this.state;
+  seeRanking() {
+    const getLocalStorage = JSON.parse(localStorage.getItem('state'));
+    const { gravatarEmail, name, score } = getLocalStorage.player;
+    const hashGenerator = md5(gravatarEmail).toString();
+    const gravatar = `https://www.gravatar.com/avatar/${hashGenerator}`;
+    const ranking = {
+      name,
+      score,
+      picture: gravatar,
+    };
+    localStorage.setItem('ranking',
+      JSON.stringify(localStorage.getItem('ranking') === null
+        ? [ranking] : [...JSON.parse(localStorage.getItem('ranking')), ranking]));
+  }
+
+  performanceAnswer() {
+    const getLocalStorage = JSON.parse(localStorage.getItem('state'));
     const controlScore = 3;
-    if (score < controlScore) {
+    if (getLocalStorage.player.assertions >= controlScore) {
       return (
-        <p>Podia ser melhor...</p>
+        <>
+          <p data-testid="feedback-text">Mandou bem!</p>
+          <p data-testid="feedback-total-score">{getLocalStorage.player.score}</p>
+        </>
       );
     }
-    if (score >= controlScore) {
-      return (
-        <p>Mandou bem!</p>
-      );
-    }
+    return (
+      <>
+        <p data-testid="feedback-text">Podia ser melhor...</p>
+        <p data-testid="feedback-total-score">{getLocalStorage.player.score}</p>
+      </>
+    );
   }
 
   render() {
-    const { score, rightAnswers } = this.state;
-    const { email, name } = this.props;
-    const hashGenerator = md5(email).toString();
+    const { assertions } = this.state;
     return (
       <>
         <header>
-          <img
-            src={ `https://www.gravatar.com/avatar/${hashGenerator}` }
-            data-testid="header-profile-picture"
-            alt="icon"
-          />
-          <h2 data-testid="header-player-name">
-            Nome:
-            { name }
-          </h2>
-          <h3 data-testid="header-score">
-            Placar:
-            Colocar placar aqui
-          </h3>
-          <h4 data-testid="feedback-text">{this.perfomanceAnswer()}</h4>
+          <Header />
+          <div>
+            { this.performanceAnswer() }
+            <p data-testid="feedback-total-question">
+              {assertions}
+            </p>
+
+          </div>
         </header>
 
-        <span>
-          <h4 data-testid="feedback-total-score">
-            Placar Final:
-            { score }
-          </h4>
-          <h4 data-testid="feedback-total-question">
-            {`${rightAnswers > 0
-              ? `Acertou ${rightAnswers} perguntas` : 'Não acertou nenhuma pergunta'}`}
-          </h4>
-        </span>
+        <div>
+          <Link to="/">
+            <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+          </Link>
+          <Link to="/ranking">
+            <button
+              type="button"
+              onClick={ this.seeRanking }
+              data-testid="btn-ranking"
+            >
+              Ver Ranking
+            </button>
+          </Link>
+        </div>
       </>
     );
   }
 }
 
-Feedback.propTypes = ({
-  email: PropTypes.string,
-  name: PropTypes.string,
-}).isRequired;
-
-const mapStateToProps = (state) => ({
-  email: state.homeReducer.email,
-  name: state.homeReducer.name,
-});
-
-export default connect(mapStateToProps)(Feedback);
+export default Feedback;
