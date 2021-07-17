@@ -4,17 +4,37 @@ import PropTypes from 'prop-types';
 import { startCountdown, stopCountdown } from '../actions';
 
 class Question extends Component {
+  constructor() {
+    super();
+    this.state = {
+      disabled: false,
+    };
+    this.buttonClicked = this.buttonClicked.bind(this);
+  }
+
   componentDidMount() {
     const { startCountdownAction } = this.props;
     startCountdownAction();
   }
 
   componentDidUpdate() {
-    const { timer, stopCountdownAction } = this.props;
-    if (timer <= 0) {
-      stopCountdownAction();
-      // chama função clica no botão errado
+    const { timer } = this.props;
+    const { disabled } = this.state;
+    if (timer <= 0 && disabled === false) {
+      this.buttonClicked();
+    //   stopCountdownAction();
+    //   this.setState({
+    //     disabled: true,
+    //   });
     }
+  }
+
+  buttonClicked() {
+    const { stopCountdownAction } = this.props;
+    stopCountdownAction();
+    this.setState({
+      disabled: true,
+    });
   }
 
   shufleAnswers(right, wrongs) {
@@ -26,11 +46,14 @@ class Question extends Component {
 
   multipleQuestion() {
     const { questionsArr, currentQuestion } = this.props;
+    const { disabled } = this.state;
     const rightAnswer = (
       <button
         type="button"
+        disabled={ disabled }
         data-testid="correct-answer"
         key="right"
+        onClick={ this.buttonClicked }
       >
         { questionsArr[currentQuestion].correct_answer }
       </button>);
@@ -38,8 +61,10 @@ class Question extends Component {
       .map((item, index) => (
         <button
           type="button"
+          disabled={ disabled }
           key={ `wrong-${index}` }
           data-testid={ `wrong-answer-${index}` }
+          onClick={ this.buttonClicked }
         >
           { item }
         </button>
@@ -54,18 +79,47 @@ class Question extends Component {
 
   bolleanQuestion() {
     const { questionsArr, currentQuestion } = this.props;
+    const { disabled } = this.state;
     if (questionsArr[currentQuestion].correct_answer) {
       return (
         <div className="answers">
-          <button type="button" data-testid="correct-answer">True</button>
-          <button type="button" data-testid="wrong-answer-0">False</button>
+          <button
+            type="button"
+            disabled={ disabled }
+            data-testid="correct-answer"
+            onClick={ this.buttonClicked }
+          >
+            True
+          </button>
+          <button
+            type="button"
+            disabled={ disabled }
+            data-testid="wrong-answer-0"
+            onClick={ this.buttonClicked }
+          >
+            False
+          </button>
         </div>
       );
     }
     return (
       <div className="answers">
-        <button type="button" data-testid="wrong-answer-0">True</button>
-        <button type="button" data-testid="correct-answer">False</button>
+        <button
+          type="button"
+          disabled={ disabled }
+          data-testid="wrong-answer-0"
+          onClick={ this.buttonClicked }
+        >
+          True
+        </button>
+        <button
+          type="button"
+          disabled={ disabled }
+          data-testid="correct-answer"
+          onClick={ this.buttonClicked }
+        >
+          False
+        </button>
       </div>
     );
   }
