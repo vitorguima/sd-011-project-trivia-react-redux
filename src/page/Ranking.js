@@ -10,7 +10,7 @@ export default class Ranking extends Component {
         <div>
           { rankingStorage.sort((a, b) => b.score - a.score).map((item, index) => (
             <div key={ index }>
-              <img src={ item.picture } alt={item.name} />
+              <img src={ item.picture } alt={ item.name } />
               <h3 data-testid={ `player-name-${index}` }>{item.name}</h3>
               <p data-testid={ `player-score-${index}` }>{item.score}</p>
             </div>
