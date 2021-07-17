@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
 const Header = () => {
-  const { name, gravatarEmail, score } = useSelector((state) => state.userLogin);
+  const { name, gravatarEmail, score } = useSelector(({ userInfo }) => userInfo.player);
+
   return (
     <header>
       <img

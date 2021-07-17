@@ -1,12 +1,13 @@
 import { USER_LOGIN, SET_SCORE_POINTS } from '../actions';
 
 const USER_STATE = {
-  name: '',
-  assertions: 0,
-  score: 0,
-  gravatarEmail: '',
-  token: '',
-  ranking: [],
+  player: {
+    name: '',
+    assertions: 0,
+    score: 0,
+    gravatarEmail: '',
+    token: '',
+  },
 };
 
 function userLogin(state = USER_STATE, action) {
@@ -18,8 +19,10 @@ function userLogin(state = USER_STATE, action) {
     };
   case SET_SCORE_POINTS:
     return {
-      ...state,
-      score: action.payload,
+      player: {
+        ...state.player,
+        score: action.payload,
+      },
     };
   default:
     return state;
