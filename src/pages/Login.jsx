@@ -57,13 +57,7 @@ class Login extends Component {
       },
     };
     window.localStorage.setItem('state', JSON.stringify(localObj));
-    /*     if (!localStorage[email]) {
-      localStorage.setItem(email, JSON.stringify([localObj]));
-    } else {
-      const previousComments = JSON.parse(localStorage.getItem(email));
-      console.log(previousComments);
-      localStorage.setItem(email, JSON.stringify([...previousComments, localObj]));
-    } */
+    /*  sugestão fazer o spread aqui, usando o email como 'id' */
   }
 
   render() {
