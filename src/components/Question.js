@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { updateClock, startCountdown } from '../actions';
+import { startCountdown, stopCountdown } from '../actions';
 
 class Question extends Component {
   componentDidMount() {
-    const { startCountdownAction, updateClockAction } = this.props;
-    const sec = 1000;
-    const tiemout = 30000;
+    const { startCountdownAction } = this.props;
     startCountdownAction();
-    const timerId = setInterval(() => updateClockAction(), sec);
-    setTimeout(() => {
-      clearInterval(timerId);
-      // chama a função que clica no botão errado
-    }, tiemout);
+  }
+
+  componentDidUpdate() {
+    const { timer, stopCountdownAction } = this.props;
+    if (timer <= 0) {
+      stopCountdownAction();
+      // chama função clica no botão errado
+    }
   }
 
   shufleAnswers(right, wrongs) {
@@ -108,7 +109,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   startCountdownAction: () => dispatch(startCountdown()),
-  updateClockAction: () => dispatch(updateClock()),
+  stopCountdownAction: () => dispatch(stopCountdown()),
 });
 
 Question.propTypes = {

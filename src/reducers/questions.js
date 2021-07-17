@@ -2,7 +2,6 @@ import {
   REQUEST_QUESTIONS,
   REQUEST_QUESTIONS_FAIL,
   REQUEST_QUESTIONS_SUCCESS,
-  START_COUNTDOWN,
   UPDATE_CLOCK,
 } from '../actions';
 
@@ -26,7 +25,7 @@ function questions(state = INNITIAL_STATE, action) {
     };
   case REQUEST_QUESTIONS_FAIL:
     return { ...state, error: action.payload, loading: false };
-  case START_COUNTDOWN:
+  case 'SET_INITIAL_TIME':
     return { ...state, timer: 30 };
   case UPDATE_CLOCK:
     return { ...state, timer: state.timer - 1 };
