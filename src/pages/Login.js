@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import DelayLink from 'react-delay-link';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { fetchApi, sendUserData } from '../actions';
 
-// const recevedEmail = new RegExp('^[^s@]+@[^s@]+$');
+// const recevedEmail = new RegExp('^[^s@]+@[^s@]+$.\\S+');
 const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
 
 class Login extends Component {
@@ -96,7 +97,7 @@ class Login extends Component {
     return (
       <div>
         {this.form()}
-        <Link to="/game">
+        <DelayLink delay={ 2000 } to="/game">
           <button
             disabled={ isDisabled }
             data-testid="btn-play"
@@ -106,7 +107,7 @@ class Login extends Component {
           >
             Jogar
           </button>
-        </Link>
+        </DelayLink>
         <Link to="/settings">
           <button
             data-testid="btn-settings"
