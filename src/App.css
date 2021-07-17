@@ -20,6 +20,22 @@
   border: 1px solid green;
 }
 
+.spinner {
+  animation: spin 1s linear infinite;
+  border: 8px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #328cc1;
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media ( prefers-reduced-motion : no-preference ) {
 
   .App-logo {

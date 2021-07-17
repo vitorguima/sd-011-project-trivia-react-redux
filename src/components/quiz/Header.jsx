@@ -12,12 +12,12 @@ class Header extends React.Component {
     const { user } = this.props;
     const { nome, url } = user;
     return (
-      <header className="">
+      <header className="header-quiz">
         <img data-testid="header-profile-picture" src={ url } alt={ nome } />
         <h1 data-testid="header-player-name">{ nome }</h1>
         <h1>
           Pontuação:
-          <span data-testid="header-score">0</span>
+          <span data-testid="header-score"> 0 </span>
         </h1>
       </header>
     );

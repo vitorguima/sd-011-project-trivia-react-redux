@@ -56,11 +56,11 @@ class Card extends React.Component {
   render() {
     const { nome, email, isDisabled } = this.state;
     return (
-      <div className="container-form">
+      <div className="container-form-login">
         <form className="card-login">
           <h1>Login</h1>
           <input
-            className="input-field"
+            className="input-field-login"
             type="text"
             data-testid="input-player-name"
             name="nome"
@@ -69,7 +69,7 @@ class Card extends React.Component {
             onChange={ this.handleChange }
           />
           <input
-            className="input-field"
+            className="input-field-login"
             type="email"
             data-testid="input-gravatar-email"
             name="email"
@@ -88,7 +88,7 @@ class Card extends React.Component {
               Jogar
             </button>
           </Link>
-          <hr />
+          <hr className="hr-login" />
           <Link to="/settings">
             <button
               className="settings-button"

@@ -7,7 +7,7 @@ import '../style/login.css';
 class Login extends React.Component {
   render() {
     return (
-      <div>
+      <div className="login-container">
         <Header />
         <CardLogin />
         {/* <Link to="/settings">

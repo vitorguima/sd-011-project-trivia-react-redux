@@ -1,9 +1,10 @@
-body {
+.login-container {
   background-color: #0b3c5d;
   color: #d9b310;
+  min-height: 100vh;
 }
 
-.header {
+.header-login {
   display: flex;
   height: 35vmin;
   justify-content: center;
@@ -11,11 +12,11 @@ body {
   width: 100%;
 }
 
-.header img {
+.header-login img {
   width: 50%;
 }
 
-.container-form {
+.container-form-login {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -35,8 +36,8 @@ body {
   padding: 1rem;
 }
 
-.input-field {
-  border: 1px solid #328cc1;
+.input-field-login {
+  border: 2px solid #328cc1;
   border-radius: 8px;
   color: #1d2731;
   font-size: 1rem;
@@ -78,7 +79,7 @@ body {
   color: #328cc1;
 }
 
-hr {
+.hr-login {
   border: 3px #1d2731 solid;
   border-radius: 10px;
   margin: 15px 0;

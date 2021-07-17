@@ -10,13 +10,17 @@ class ButtonNext extends React.Component {
   render() {
     const { testid, nextQuestion } = this.props;
     return (
-      <button
-        data-testid={ testid }
-        type="button"
-        onClick={ nextQuestion }
-      >
-        Proximo
-      </button>);
+      <div className="container-button-next">
+        <button
+          className="button-next"
+          data-testid={ testid }
+          type="button"
+          onClick={ nextQuestion }
+        >
+          Proximo
+        </button>
+      </div>
+    );
   }
 }
 

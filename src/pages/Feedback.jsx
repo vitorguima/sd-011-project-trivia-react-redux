@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/feedback/Header';
 import Scoreboard from '../components/feedback/Scoreboard';
 
@@ -23,6 +24,12 @@ class Feedback extends React.Component {
           }
         </h3>
         <Scoreboard />
+
+        <Link to="/ranking">
+          <button type="button" data-testid="btn-ranking">
+            Ver Ranking
+          </button>
+        </Link>
       </>
     );
   }

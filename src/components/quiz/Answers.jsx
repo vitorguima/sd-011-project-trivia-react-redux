@@ -5,30 +5,31 @@ class Answers extends React.Component {
   render() {
     const { questionsList, isDisabled, handleButtons } = this.props;
     return (
-      <ul>
-        <li>
+      <ul className="list-buttons-quiz">
+        <li className="item-list-buttons-quiz">
           <button
             disabled={ isDisabled }
             data-testid="correct-answer"
-            className="correct-answer"
+            className="item-list-buttons-quiz-button correct-answer"
             type="button"
             onClick={ () => handleButtons(true) }
           >
             { questionsList.correct_answer }
           </button>
-          { questionsList.incorrect_answers.map((wrong, index) => (
+        </li>
+        { questionsList.incorrect_answers.map((wrong, index) => (
+          <li className="item-list-buttons-quiz" key={ index }>
             <button
               disabled={ isDisabled }
               data-testid={ `wrong-answer-${index}` }
-              key={ index }
               type="button"
-              className="wrong-answer"
+              className="item-list-buttons-quiz-button wrong-answer"
               onClick={ () => handleButtons(true) }
             >
               { wrong }
             </button>
-          )) }
-        </li>
+          </li>
+        )) }
       </ul>
     );
   }
