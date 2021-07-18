@@ -7,7 +7,20 @@ class AnswerButtons extends Component {
   constructor(props) {
     super(props);
 
+    this.stopTimer = this.stopTimer.bind(this);
     this.verifyIfWasAnswered = this.verifyIfWasAnswered.bind(this);
+  }
+
+  setScore() {
+    // Marca ponto ao acertar a resposta
+  }
+
+  stopTimer() {
+    // Parar o tempo após selecionar uma resposta
+  }
+
+  getTimeResponse() {
+    // Pega o tempo restante após o jogador selecionar uma resposta
   }
 
   verifyIfWasAnswered() {
