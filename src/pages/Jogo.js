@@ -10,12 +10,14 @@ class Jogo extends Component {
 
     this.state = {
       questions: [],
+      index: 0,
+      loading: true,
     };
   }
 
   componentDidMount() {
     getToken().then((questions) => {
-      this.setState({ questions });
+      this.setState({ questions, loading: false });
     });
   }
 
@@ -24,12 +26,12 @@ class Jogo extends Component {
   } */
 
   render() {
-    const { questions } = this.state;
+    const { questions, index, loading } = this.state;
     console.log(questions);
     return (
       <div className="game-container">
         <Header />
-        <Questions { ...questions } />
+        {questions.length === 0 ? loading : <Questions { ...questions[index] } /> }
       </div>
     );
   }
