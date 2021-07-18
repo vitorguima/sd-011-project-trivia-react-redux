@@ -115,7 +115,6 @@ class Question extends Component {
         </button>
       )),
     ];
-    // .sort(console.log(Math.floor(Math.random() * incorrects.length)));
   }
 
   convertDifficultyInNumber() {
@@ -137,7 +136,6 @@ class Question extends Component {
     const difficulty = this.convertDifficultyInNumber();
     const getKey = localStorage.getItem('state');
     const state = JSON.parse(getKey);
-    // console.log(state);
     const { sec } = this.state;
     const { setGlobalScore } = this.props;
     const multiply = 10;
