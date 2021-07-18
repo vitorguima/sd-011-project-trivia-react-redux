@@ -10,11 +10,7 @@ import { enablebtns, subTimer, dispatchScore, resetTimer } from '../actions';
 class GamePage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      questionIndex: 0,
-      click: false,
-      nextBtnDisable: true,
-    };
+    this.state = { questionIndex: 0, click: false, nextBtnDisable: true };
     this.btnHandle = this.btnHandle.bind(this);
     this.clickAnswer = this.clickAnswer.bind(this);
   }
@@ -32,7 +28,12 @@ class GamePage extends Component {
     }
   }
 
-  btnHandle() {
+  btnHandle(indexLimit, questionIndex) {
+    if (indexLimit === questionIndex) {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
+
     const { enableBtns, resetDispatch } = this.props;
     enableBtns();
     this.setState((previewState) => ({
@@ -45,12 +46,6 @@ class GamePage extends Component {
   }
 
   clickAnswer() {
-    const { questionIndex } = this.state;
-    const indexLimit = 5;
-    if (questionIndex === indexLimit) {
-      const { history } = this.props;
-      history.push('/feedback');
-    }
     clearInterval(this.setTimer);
     this.setState({
       click: true,
@@ -109,7 +104,7 @@ class GamePage extends Component {
     return (
       <button
         type="button"
-        onClick={ () => this.btnHandle() }
+        onClick={ () => this.btnHandle(indexLimit, questionIndex) }
         data-testid="btn-next"
         disabled={ nextBtnDisable || indexLimit < questionIndex }
       >
