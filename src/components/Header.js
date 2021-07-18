@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { userName, imageURL, userScore } = this.props;
+    const { userEmail, userName, imageURL, userScore } = this.props;
     let state = localStorage.getItem('state');
     if (!state) {
       state = {
         player: {
-          name: '',
+          name: userName,
           assertions: 0,
           score: 0,
-          gravatarEmail: '',
+          gravatarEmail: userEmail,
         },
       };
       localStorage.setItem('state', JSON.stringify(state));
@@ -31,6 +31,7 @@ const mapStateToProps = (state) => ({
   userName: state.login.user,
   imageURL: state.game.gravatarImage,
   userScore: state.game.score,
+  userEmail: state.login.email,
 });
 
 export default connect(mapStateToProps)(Header);
@@ -39,4 +40,5 @@ Header.propTypes = {
   userName: PropTypes.string.isRequired,
   imageURL: PropTypes.string.isRequired,
   userScore: PropTypes.number.isRequired,
+  userEmail: PropTypes.string.isRequired,
 };
