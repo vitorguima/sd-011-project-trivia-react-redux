@@ -10,7 +10,7 @@ import { questionIdIncrease, modifyTimer, InitiateTimer, modifyNextBtn,
 
 // tentar desevolver uma maneira de quando a pagina de game sofrer um refresh, resetar os scores da store,  numero das questionsPlayed e o triviaId
 // e com isso fazer a lógica e chamada da api com as perguntas direto no game ou na parte das Questions para parar de bugar os testes!
-
+// =]
 class Game extends Component {
   constructor(props) {
     super(props);
