@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import Setup from './pages/Setup';
 import Game from './pages/Game';
 import FeedBack from './pages/FeedBack';
-import Ranking from './components/Ranking';
+import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
