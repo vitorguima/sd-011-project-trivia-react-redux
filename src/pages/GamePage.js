@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import '../style/GamePage.style.css';
 import Timer from '../components/Timer';
@@ -28,17 +28,15 @@ class GamePage extends Component {
     this.saveLocalStorage();
     const { timer } = this.props;
     if (timer <= 0) {
-      console.log('zerou timer btn');
       clearInterval(this.setTimer);
-      console.log('zerou timer');
     }
   }
 
   btnHandle() {
     const { enableBtns, resetDispatch } = this.props;
     enableBtns();
-    this.setState((ps) => ({
-      questionIndex: ps.questionIndex + 1,
+    this.setState((previewState) => ({
+      questionIndex: previewState.questionIndex + 1,
       click: false,
       nextBtnDisable: true,
     }));
@@ -47,6 +45,12 @@ class GamePage extends Component {
   }
 
   clickAnswer() {
+    const { questionIndex } = this.state;
+    const indexLimit = 5;
+    if (questionIndex === indexLimit) {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
     clearInterval(this.setTimer);
     this.setState({
       click: true,
@@ -64,7 +68,6 @@ class GamePage extends Component {
         gravatarEmail: email,
       },
     };
-
     const infosGamePlayer = [{ name: nome, score, picture: this.URL }];
     localStorage.setItem('ranking', JSON.stringify(infosGamePlayer));
     localStorage.setItem('state', JSON.stringify(state));
@@ -109,7 +112,7 @@ class GamePage extends Component {
         onClick={ () => this.btnHandle() }
         data-testid="btn-next"
         //                true                    false
-        disabled={ nextBtnDisable || indexLimit === questionIndex }
+        disabled={ nextBtnDisable || indexLimit < questionIndex }
       >
         Próximo
       </button>
@@ -196,14 +199,13 @@ class GamePage extends Component {
 
     return (
       <div>
-        { (questionIndex === indexLimit) ? <Redirect to="/feedback" /> : null }
         {this.renderHeader(this.URL)}
         <Timer />
         {results && this.questionSection(results, questionIndex)}
         {results && this.answBtnCreator(results, questionIndex, click, disableBtnByTime)}
         <br />
         {
-          (!nextBtnDisable || indexLimit === questionIndex)
+          (!nextBtnDisable || indexLimit < questionIndex)
             ? this.nextBtn(nextBtnDisable, indexLimit, questionIndex)
             : null
         }
@@ -224,6 +226,7 @@ GamePage.propTypes = {
   upDateScore: PropTypes.func.isRequired,
   resetDispatch: PropTypes.func.isRequired,
   assertionsGame: PropTypes.number.isRequired,
+  history: PropTypes.objectOf(PropTypes.object).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -243,4 +246,4 @@ const mapStateToProps = (state) => ({
   assertionsGame: state.triviaReducer.assertions,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GamePage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GamePage));
