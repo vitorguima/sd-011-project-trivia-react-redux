@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { user } from '../actions';
+import { user, token } from '../actions';
 import tokenApi from '../services/getApi';
 import logo from '../trivia.png';
 
@@ -40,17 +40,20 @@ class Login extends React.Component {
   }
 
   async fetchApi() {
-    const token = await tokenApi();
-    localStorage.setItem('token', token);
+    const { userToken } = this.props;
+    const tokenValue = await tokenApi();
+    localStorage.setItem('token', tokenValue);
+    userToken(tokenValue);
   }
 
   async handClick() {
     const { name, email } = this.state;
     const { login, history } = this.props;
-    history.push('/game');
 
     login({ name, email });
     await this.fetchApi();
+    const time = 1000;
+    setTimeout(() => { history.push('/game'); }, time);
   }
 
   render() {
@@ -106,12 +109,14 @@ class Login extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   login: (payload) => dispatch(user(payload)),
 
+  userToken: (payload) => dispatch(token(payload)),
 });
 
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  userToken: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
 };
 

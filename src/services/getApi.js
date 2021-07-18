@@ -9,3 +9,14 @@ const tokenApi = async () => {
 };
 
 export default tokenApi;
+
+export const getQuestionApi = async (token) => {
+  const TRIVIA_URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
+  try {
+    const response = await fetch(TRIVIA_URL);
+    const questions = await response.json();
+    return questions;
+  } catch (error) {
+    console.log(error);
+  }
+};
