@@ -29,7 +29,7 @@ class TriviaQuestions extends Component {
 
   render() {
     const { questions, seconds, wasAnswered, questionIndex } = this.props;
-    const MAX_QUESTIONS_INDEX = 4
+    const MAX_QUESTIONS_INDEX = 4;
     console.log(wasAnswered);
     const { results } = questions;
     const eachResult = Object.values({ ...results });

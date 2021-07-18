@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as userActions from '../actions';
 
 export class NextQuestionBtn extends Component {
@@ -30,3 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NextQuestionBtn);
+
+NextQuestionBtn.propTypes = {
+  sumQuestionIndex: PropTypes.func,
+}.sRequired;
