@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Timer from './Timer';
 
 class Questions extends Component {
   constructor(props) {
     super(props);
-    this.state = { ...props, next: false };
+    this.state = { ...props, next: false, isValid: false };
+
     this.randAnswers = this.randAnswers.bind(this);
+    this.listenerChange = this.listenerChange.bind(this);
   }
 
   randAnswers() {
@@ -12,13 +16,17 @@ class Questions extends Component {
     const inc = [...i];
     const rand = Math.floor(Math.random() * ((inc.length - 1) + 1));
     const swap = inc[rand];
-    inc.splice(rand, 1);
+    inc.splice(rand, 0);
     inc[rand] = c;
     return [...inc, swap];
   }
 
+  listenerChange() {
+    this.setState({ isValid: true });
+  }
+
   render() {
-    const { correct_answer: c, category, question, next } = this.state;
+    const { correct_answer: c, category, question, next, isValid } = this.state;
     console.log(this.state);
     return (
       <div>
@@ -35,12 +43,14 @@ class Questions extends Component {
               key={ answer }
               type="button"
               { ...dataTestId }
+              disabled={ isValid }
               onClick={ () => this.setState({ next: true }) }
             >
               {answer}
             </button>
           );
         })}
+        <Timer funcao={ this.listenerChange } />
       </div>
     );
   }
@@ -48,6 +58,6 @@ class Questions extends Component {
 
 Questions.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+}.isRequired;
 
 export default Questions;
