@@ -6,11 +6,12 @@ import md5 from 'crypto-js/md5';
 import logo from '../trivia.png';
 import BtnSetupScreen from '../components/btnSetupScreen';
 import fetchGravatar from '../services/GravatarApi';
-import { sendGravatarSrcImg, sendQuestions } from '../redux/actions/index';
+import { sendGravatarSrcImg, sendQuestions, resetStoreScores,
+} from '../redux/actions/index';
 import InputName from '../components/InputName';
 import InputEmail from '../components/InputEmail';
 import PlayBtn from '../components/PlayBtn';
-import { getToken, getQuestions } from '../services/TriviaApi';
+import { getToken } from '../services/TriviaApi';
 
 class Login extends Component {
   constructor(props) {
@@ -25,23 +26,28 @@ class Login extends Component {
     this.playHandle = this.playHandle.bind(this);
     this.showProfileImg = this.showProfileImg.bind(this);
     this.localStorageSave = this.localStorageSave.bind(this);
-    this.getTokenAndQuestions = this.getTokenAndQuestions.bind(this);
+    this.receiveToken = this.receiveToken.bind(this);
+    this.resetStoreInfos = this.resetStoreInfos.bind(this);
   }
 
   componentDidMount() {
-    this.getTokenAndQuestions();
+    this.receiveToken();
+    this.resetStoreInfos();
     const button = document.querySelector('#play-btn');
     button.disabled = true;
   }
 
-  async getTokenAndQuestions() {
-    const { sendQuestionList } = this.props;
+  async receiveToken() {
     const response = await getToken();
-    const questions = await getQuestions(response);
-    sendQuestionList(questions);
     this.setState({
       token: response,
     });
+  }
+
+  resetStoreInfos() {
+    const { resetStorePoints } = this.props;
+    const ZERO = 0;
+    resetStorePoints(ZERO, ZERO);
   }
 
   handleOnChangeInputValidate(e) {
@@ -81,14 +87,18 @@ class Login extends Component {
   }
 
   localStorageSave() {
-    const { inputEmail, inputName, token } = this.state;
+    const { token } = this.state;
+    const { score, assertions, playerName, playerEmail, playerPhoto } = this.props;
     const player = {
-      name: inputName,
-      assertions: '',
-      score: '',
-      gravatarEmail: inputEmail,
+      player: {
+        name: playerName,
+        assertions,
+        score,
+        gravatarEmail: playerEmail,
+      },
     };
-    localStorage.player = JSON.stringify(player);
+    localStorage.img = playerPhoto;
+    localStorage.state = JSON.stringify(player);
     localStorage.token = JSON.stringify(token);
   }
 
@@ -123,21 +133,35 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  playerToken: state.player.token,
+  playerName: state.player.name,
+  playerEmail: state.player.gravatarEmail,
+  assertions: state.player.assertions,
+  score: state.player.score,
+  playerPhoto: state.player.srcGravatarImg,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   sendImgSrc: (inputName, src, inputEmail, token) => (
     dispatch(sendGravatarSrcImg(inputName, src, inputEmail, token))),
-
   sendQuestionList: (questionList) => dispatch(sendQuestions(questionList)),
+  resetStorePoints: (score, assertions) => dispatch(resetStoreScores(score, assertions)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   sendImgSrc: PropTypes.func,
-  sendQuestionList: PropTypes.func,
+  resetStorePoints: PropTypes.func,
+  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
+  playerName: PropTypes.string.isRequired,
+  playerEmail: PropTypes.string.isRequired,
+  playerPhoto: PropTypes.string.isRequired,
 };
 // -
 Login.defaultProps = {
   sendImgSrc: {},
-  sendQuestionList: {},
+  resetStorePoints: PropTypes.func,
 };

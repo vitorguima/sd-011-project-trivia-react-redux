@@ -43,5 +43,5 @@ export default connect(mapStateToProps)(Header);
 Header.propTypes = {
   profileImg: PropTypes.string.isRequired,
   profileName: PropTypes.string.isRequired,
-  profileScore: PropTypes.string.isRequired,
+  profileScore: PropTypes.number.isRequired,
 };
