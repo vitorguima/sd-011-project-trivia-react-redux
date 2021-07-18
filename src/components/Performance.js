@@ -13,6 +13,10 @@ class Performance extends Component {
     history.push('/');
   }
 
+  rankinPage(history) {
+    history.push('/ranking');
+  }
+
   render() {
     const msg1 = 'Podia ser melhor...';
     const msg2 = 'Mandou bem!';
@@ -30,6 +34,13 @@ class Performance extends Component {
         <p data-testid="feedback-total-score">
           {`Um total de  ${score} pontos`}
         </p>
+        <button
+          data-testid="btn-ranking"
+          type="button"
+          onClick={ () => this.rankinPage(history) }
+        >
+          VER RANKING
+        </button>
         <button
           data-testid="btn-play-again"
           type="button"
