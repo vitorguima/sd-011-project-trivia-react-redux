@@ -73,9 +73,8 @@ class Question extends Component {
           <AnswerButtons
             answer={ answer }
             key={ `chave ${index}` }
-            colorizeAnswers={ this.colorizeAnswers() }
             correctAnswer={ correctAnswer }
-            onClick={ this.colorizeAnswers }
+            colorizeAnswers={ this.colorizeAnswers }
           />
         ))
           : null }

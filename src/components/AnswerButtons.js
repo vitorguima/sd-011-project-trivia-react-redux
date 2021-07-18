@@ -12,11 +12,11 @@ class AnswerButtons extends Component {
 
   verifyIfWasAnswered() {
     const { answerObserver } = this.props;
-    answerObserver();
+    answerObserver(true);
   }
 
   render() {
-    const { seconds, key, answer, correctAnswer, onClick } = this.props;
+    const { seconds, key, answer, correctAnswer, colorizeAnswers } = this.props;
     return (
       <section>
         <button
@@ -27,7 +27,7 @@ class AnswerButtons extends Component {
           data-testid={ correctAnswer === answer
             ? 'correct-answer'
             : 'wrong-answer' }
-          onClick={ () => { onClick(); this.verifyIfWasAnswered(); } }
+          onClick={ () => { colorizeAnswers(); this.verifyIfWasAnswered(); } }
           className="answer"
         >
           { answer }
@@ -39,7 +39,6 @@ class AnswerButtons extends Component {
 
 const mapStateToProps = (state) => ({
   seconds: state.getSeconds.seconds,
-  questionCounter: state.question.questionCounter,
 });
 
 const mapDispatchToProps = (dispatch) => ({

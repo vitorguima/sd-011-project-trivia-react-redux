@@ -7,14 +7,13 @@ export const GET_SECONDS = 'GET_SECONDS';
 export const GET_NEXT_QUESTION = 'GET_NEXT_QUESTION';
 export const WAS_ANSWERED = 'WAS_ANSWERED';
 
-export const answerObserver = (wasAnswered) => ({
+export const answerObserver = (bool) => ({
   type: WAS_ANSWERED,
-  payload: wasAnswered,
+  payload: bool,
 });
 
-export const sumQuestionNumber = (number) => ({
+export const getNextQuestion = () => ({
   type: GET_NEXT_QUESTION,
-  payload: number,
 });
 
 export const getEmail = (email) => ({
