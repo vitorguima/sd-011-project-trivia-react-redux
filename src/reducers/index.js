@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
+import user from './user';
+import triviaReducer from './triviaReducer';
 
-const rootReducer = combineReducers({ reduce: () => ({ key: 1 }) });
+const rootReducer = combineReducers({
+  user,
+  triviaReducer,
+});
 
 export default rootReducer;
