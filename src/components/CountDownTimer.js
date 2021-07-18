@@ -8,7 +8,7 @@ class CountdownTimer extends Component {
     super();
     this.state = {
       minutes: 0,
-      seconds: 5,
+      seconds: 30,
     };
   }
 

@@ -5,10 +5,10 @@ const initialState = {
   wasAnswered: false,
 };
 
-const question = (state = initialState, { type }) => {
+const question = (state = initialState, { type, payload }) => {
   switch (type) {
   case GET_NEXT_QUESTION:
-    return { wasAnswered: false, questionIndex: state.questionIndex + 1 };
+    return { wasAnswered: false, questionIndex: state.questionIndex + payload };
   case WAS_ANSWERED:
     return { ...state, wasAnswered: true };
   default:

@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as userActions from '../actions';
 
 export class NextQuestionBtn extends Component {
   render() {
-    const { wasAnswered } = this.props;
-    // console.log(wasAnswered);
+    const { sumQuestionIndex } = this.props;
+    console.log(sumQuestionIndex);
     return (
       <div>
         <button
           type="button"
           value="Próxima"
-          hidden={ false }
+          onClick={ sumQuestionIndex }
         >
           Próxima
         </button>
@@ -19,8 +20,13 @@ export class NextQuestionBtn extends Component {
   }
 }
 
+// Verificar porque neste componente o Store não funciona
 const mapStateToProps = (state) => ({
   wasAsnwered: state.question.wasAsnwered,
 });
 
-export default connect(mapStateToProps)(NextQuestionBtn);
+const mapDispatchToProps = (dispatch) => ({
+  getNextQuestion: (value) => dispatch(userActions.getNextQuestion(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NextQuestionBtn);

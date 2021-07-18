@@ -12,8 +12,9 @@ export const answerObserver = (bool) => ({
   payload: bool,
 });
 
-export const getNextQuestion = () => ({
+export const getNextQuestion = (number) => ({
   type: GET_NEXT_QUESTION,
+  payload: number,
 });
 
 export const getEmail = (email) => ({
