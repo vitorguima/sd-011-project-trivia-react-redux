@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Game from './pages/Game';
 import Settings from './pages/Settings';
 import Feedback from './pages/Feedback';
+import Ranking from './pages/Ranking';
 // import logo from './trivia.png';
 import './App.css';
 
@@ -16,6 +17,7 @@ export default class App extends Component {
           <Route path="/play" component={ Game } />
           <Route path="/settings" component={ Settings } />
           <Route path="/feedback" component={ Feedback } />
+          <Route path="/ranking" component={ Ranking } />
         </Switch>
         {/* <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
