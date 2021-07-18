@@ -9,6 +9,7 @@ class Timer extends Component {
     this.state = {
       time: null,
     };
+
     this.initailTime = this.initailTime.bind(this);
     this.decrementTime = this.decrementTime.bind(this);
   }

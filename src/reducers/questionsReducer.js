@@ -1,9 +1,16 @@
-import { SAVE_QUESTIONS, SAVE_QUESTIONS_ERROR, SAVE_QUESTIONS_SUCCESS } from '../actions';
+import {
+  SAVE_QUESTIONS,
+  SAVE_QUESTIONS_ERROR,
+  SAVE_QUESTIONS_SUCCESS,
+  ROLE_QUESTION,
+  ANSWERED_QUESTION,
+} from '../actions';
 
 const INITIAL_STATE = {
   questions: [],
-  // currentQuestion: 0,
+  position: 0,
   loading: true,
+  answered: false,
 };
 
 export default function questionsReducer(state = INITIAL_STATE, action) {
@@ -27,6 +34,16 @@ export default function questionsReducer(state = INITIAL_STATE, action) {
       loading: false,
     };
 
+  case ROLE_QUESTION:
+    return {
+      ...state,
+      position: state.position + action.payload,
+    };
+  case ANSWERED_QUESTION:
+    return {
+      ...state,
+      answered: action.payload,
+    };
   default:
     return state;
   }
