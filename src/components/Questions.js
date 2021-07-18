@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Timer from './Timer';
 import { increasePlayerScore, modifyNextBtn,
-  allowQuestionsBtnAfterNextClick, modifyTimer,
+  allowQuestionsBtnAfterNextClick, modifyTimer, addQuestionsPlayed,
 } from '../redux/actions';
 
 const INCORRECT = '#incorrect-answear';
@@ -13,10 +13,9 @@ class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // não remover o state, pode deixar vazio se precisar.
+
     };
     this.changeBorderColor = this.changeBorderColor.bind(this);
-    // this.delayTimer = this.delayTimer.bind(this); <<<-- nao entendi a aplicação do aguardar 5 sec, porem ta bugando o restante.
     this.disableBtnsAfterTimer = this.disableBtnsAfterTimer.bind(this);
     this.generateQuestionsBtnFunc = this.generateQuestionsBtnFunc.bind(this);
     this.allowAbleBtnsAfterNextClick = this.allowAbleBtnsAfterNextClick.bind(this);
@@ -25,7 +24,6 @@ class Questions extends Component {
 
   componentDidMount() {
     const { sendAbleQuestBtnFunc } = this.props;
-    // this.delayTimer(); <<--- delay do timer desabilitado por enquanto
     sendAbleQuestBtnFunc(this.allowAbleBtnsAfterNextClick);
   }
 
@@ -37,16 +35,6 @@ class Questions extends Component {
     });
     correct.style.border = '3px solid rgb(6, 240, 15)';
   }
-
-  // delayTimer() { <<-- removi o delay de 5 sec pq buga os outros requisitos no teste, e realmente nao entendi o requisito!
-  //   const { modifyTimerRunning } = this.props;
-  //   const delay = 5000;
-  //   return (
-  //     setTimeout(() => {
-  //       modifyTimerRunning(true);
-  //     }, delay)
-  //   );
-  // }
 
   disableBtnsAfterTimer() {
     const wrong = document.querySelectorAll(INCORRECT);
@@ -90,12 +78,11 @@ class Questions extends Component {
     default:
       break;
     }
-
-    const DEZ = 10;
-    const timeOut = 100;
     if (e.target.id === 'correct-answear') {
-      addPoint((DEZ + (globalTimer * this.multiplier)), (assertions + 1));
-      setTimeout(() => this.localStorageNewSave(), timeOut);
+      const DEZ = 10;
+      const point = DEZ + (globalTimer * this.multiplier);
+      this.localStorageNewSave(point, assertions);
+      addPoint(point, (assertions + 1));
       showNextBtn(true);
       this.disableBtnsAfterTimer();
     } else if (e.target.id === 'incorrect-answear') {
@@ -104,13 +91,14 @@ class Questions extends Component {
     }
   }
 
-  localStorageNewSave() {
-    const { score, assertions, playerName, playerEmail } = this.props;
+  localStorageNewSave(point, assertions) {
+    const { playerName, playerEmail } = this.props;
+    const previousScore = JSON.parse(localStorage.state).player.score;
     const player = {
       player: {
         name: playerName,
-        assertions,
-        score,
+        assertions: assertions + 1,
+        score: previousScore + point,
         gravatarEmail: playerEmail,
       },
     };
@@ -150,7 +138,6 @@ class Questions extends Component {
   }
 
   render() {
-    /* se for reativar o delay do timer lembrar de chamar 'runningTimer' ali embaixo nas this.props da lina 144 */
     const {
       triviaQuestions, id, func, globalTimer, shouldShowNextBtn,
       showNextBtn,
@@ -165,9 +152,6 @@ class Questions extends Component {
     return (
       <div>
         <Timer />
-        {
-          /* { runningTimer ? <Timer /> : '' } <<-- essa parte fazia o delay funcionar para aparecer o timer na tela depois de 5 sec */
-        }
         <h4 data-testid="question-category">{ category }</h4>
         <h3 data-testid="question-text">{ question }</h3>
         { this.generateQuestionsBtnFunc() }
@@ -204,6 +188,7 @@ const mapDispatchToProps = (dispatch) => ({
   showNextBtn: (boolean) => dispatch(modifyNextBtn(boolean)),
   sendAbleQuestBtnFunc: (func) => dispatch(allowQuestionsBtnAfterNextClick(func)),
   modifyTimerRunning: (bool) => dispatch(modifyTimer(bool)),
+  increasePlayedQuestions: () => dispatch(addQuestionsPlayed()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
@@ -212,26 +197,23 @@ Questions.propTypes = ({
   triviaQuestions: PropTypes.arrayOf(Object),
   id: PropTypes.number,
   func: PropTypes.func,
-  // runningTimer: PropTypes.bool.isRequired,
   globalTimer: PropTypes.number.isRequired,
   addPoint: PropTypes.func,
-  // stopTimer: PropTypes.func,
   showNextBtn: PropTypes.func,
   shouldShowNextBtn: PropTypes.bool.isRequired,
   sendAbleQuestBtnFunc: PropTypes.func,
-  score: PropTypes.number.isRequired,
   assertions: PropTypes.number.isRequired,
   playerName: PropTypes.string.isRequired,
   playerEmail: PropTypes.string.isRequired,
-  // modifyTimerRunning: PropTypes.bool.isRequired,
+
 });
 
 Questions.defaultProps = {
   triviaQuestions: [],
   id: 0,
   func: {},
-  // stopTimer: PropTypes.func,
   addPoint: PropTypes.func,
   showNextBtn: PropTypes.func,
   sendAbleQuestBtnFunc: PropTypes.func,
+
 };

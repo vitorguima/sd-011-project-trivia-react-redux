@@ -10,9 +10,6 @@ import { questionIdIncrease, modifyTimer, InitiateTimer, modifyNextBtn,
 } from '../redux/actions';
 import { getQuestions } from '../services/TriviaApi';
 
-// tentar desevolver uma maneira de quando a pagina de game sofrer um refresh, resetar os scores da store,  numero das questionsPlayed e o triviaId
-// e com isso fazer a lógica e chamada da api com as perguntas direto no game ou na parte das Questions para parar de bugar os testes!
-// =]
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +27,15 @@ class Game extends Component {
     const { name, gravatarEmail } = JSON.parse(localStorage.state).player;
     const photo = localStorage.img;
     sendRecoveredPlayerInfo(name, gravatarEmail, photo);
+    const player = {
+      player: {
+        name,
+        assertions: 0,
+        score: 0,
+        gravatarEmail,
+      },
+    };
+    localStorage.state = JSON.stringify(player);
     this.getQuestionList();
   }
 
@@ -62,12 +68,13 @@ class Game extends Component {
   handleClickNextBtn() {
     const {
       increaseId, idTrivia, AddTimeToTimer, resetTimer, stopTimerfunc,
-      showNextBtn, allowQuestionsBtn, runningTimer, increasePlayedQuestions,
-      totalQuestions, resetQuestionsId,
+      showNextBtn, allowQuestionsBtn, runningTimer,
+      totalQuestions, resetQuestionsId, increasePlayedQuestions,
     } = this.props;
     showNextBtn(false);
     increaseId(idTrivia + 1);
     allowQuestionsBtn();
+    increasePlayedQuestions();
     if (runningTimer) {
       const TRINTA = 30;
       AddTimeToTimer(TRINTA);
@@ -75,7 +82,6 @@ class Game extends Component {
       resetTimer();
     }
     this.resetQuestionsBorderColor();
-    increasePlayedQuestions();
     const questionNumber = 5;
     if (totalQuestions === questionNumber) {
       resetQuestionsId();
@@ -99,8 +105,7 @@ class Game extends Component {
   render() {
     const { idTrivia } = this.props;
     const { redirectToFeedBack, componentMounted } = this.state;
-
-    if (redirectToFeedBack) return <Redirect to="/feedBack" />;
+    if (redirectToFeedBack) return <Redirect to="/feedback" />;
 
     return (
       <div>
@@ -149,12 +154,12 @@ Game.propTypes = {
   showNextBtn: PropTypes.func,
   allowQuestionsBtn: PropTypes.func,
   runningTimer: PropTypes.bool.isRequired,
-  increasePlayedQuestions: PropTypes.func,
   totalQuestions: PropTypes.number.isRequired,
   resetQuestionsId: PropTypes.func,
   sendQuestionList: PropTypes.func,
   token: PropTypes.string.isRequired,
   sendRecoveredPlayerInfo: PropTypes.func,
+  increasePlayedQuestions: PropTypes.func,
 };
 
 Game.defaultProps = {
@@ -164,8 +169,8 @@ Game.defaultProps = {
   resetTimer: PropTypes.func,
   showNextBtn: PropTypes.func,
   allowQuestionsBtn: PropTypes.func,
-  increasePlayedQuestions: PropTypes.func,
   resetQuestionsId: PropTypes.func,
   sendQuestionList: PropTypes.func,
   sendRecoveredPlayerInfo: PropTypes.func,
+  increasePlayedQuestions: PropTypes.func,
 };

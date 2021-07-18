@@ -13,7 +13,7 @@ export default function App() {
         <Route exact path="/Setup"><Setup /></Route>
         <Route exact path="/" render={ () => <Login /> } />
         <Route exact path="/game" render={ () => <Game /> } />
-        <Route exact path="/feedBack" render={ () => <FeedBack /> } />
+        <Route exact path="/feedback" render={ () => <FeedBack /> } />
       </Switch>
     </div>
   );
