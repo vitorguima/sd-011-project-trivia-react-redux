@@ -20,6 +20,7 @@ class Home extends Component {
     this.renderPlayButton = this.renderPlayButton.bind(this);
     this.renderSettingsButton = this.renderSettingsButton.bind(this);
     this.savePlayerToLocalStorage = this.savePlayerToLocalStorage.bind(this);
+    this.enableLink = this.enableLink.bind(this);
   }
 
   handleChange(target) {
@@ -45,26 +46,34 @@ class Home extends Component {
     } }));
   }
 
+  enableLink() {
+    return (
+      <Link to="/game" className="link-button" />
+    );
+  }
+
   renderPlayButton() {
     const { dispatchToken, dispatchLogin } = this.props;
     const { email, playerName } = this.state;
 
     return (
-      <Link to="/game">
-        <button
-          disabled={ this.handlePlayButton() }
-          type="button"
-          className="btn-play"
-          data-testid="btn-play"
-          onClick={ () => {
-            dispatchToken();
-            dispatchLogin(email, playerName);
-            this.savePlayerToLocalStorage();
-          } }
-        >
-          Jogar
-        </button>
-      </Link>
+      <div>
+        <Link to="/game" className="link-button">
+          <button
+            disabled={ this.handlePlayButton() }
+            type="button"
+            className="btn-play"
+            data-testid="btn-play"
+            onClick={ () => {
+              dispatchToken();
+              dispatchLogin(email, playerName);
+              this.savePlayerToLocalStorage();
+            } }
+          >
+            Jogar
+          </button>
+        </Link>
+      </div>
     );
   }
 
@@ -89,7 +98,7 @@ class Home extends Component {
           <img src={ logo } className="App-logo" alt="logo" />
         </header>
         <form className="form">
-          <label htmlFor="input-name" className="label-name">
+          <label htmlFor="input-name">
             <input
               autoComplete="off"
               className="input-name"
