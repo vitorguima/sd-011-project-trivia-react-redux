@@ -1,30 +1,58 @@
-export const CREATE_USER_EMAIL = 'CREATE_USER_EMAIL';
-export const CREATE_USER_NAME = 'CREATE_USER_NAME';
-export const CREATE_USER_HASH = 'CREATE_USER_HASH';
-// export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS';
-// export const GET_TOKEN_ERROR = 'GET_TOKEN_ERROR';
+export const TOKEN_REQUEST = 'TOKEN_REQUEST';
+export const FAILED_TOKEN_REQUEST = 'FAILED_TOKEN_REQUEST';
+export const GET_TOKEN = 'GET_TOKEN';
+export const QUESTIONS_REQUEST = 'QUESTIONS_REQUEST';
+export const FAILED_QUESTIONS_REQUEST = 'FAILED_QUESTIONS_REQUEST';
+export const GET_QUESTIONS = 'GET_QUESTIONS';
 
-export const createUserEmail = (email) => ({
-  type: CREATE_USER_EMAIL,
-  payload: email,
+export const questionsRequest = () => ({
+  type: QUESTIONS_REQUEST,
 });
 
-export const createUserName = (name) => ({
-  type: CREATE_USER_NAME,
-  payload: name,
+export const failedQuestionsRequest = (error) => ({
+  type: FAILED_QUESTIONS_REQUEST,
+  error,
 });
 
-export const createUserHash = (hash) => ({
-  type: CREATE_USER_HASH,
-  payload: hash,
+export const getQuestions = (json) => ({
+  type: GET_QUESTIONS,
+  json,
 });
 
-// export const getTokenSuccess = (payload) => ({
-//   type: GET_TOKEN_SUCCESS,
-//   payload,
-// });
+export const fetchApiQuestions = (token) => async (dispatch) => {
+  await dispatch(questionsRequest());
+  return fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+    .then((response) => response.json())
+    .then(
+      (json) => dispatch(getQuestions(json)),
+      (error) => dispatch(failedQuestionsRequest(error)),
+    );
+};
 
-// export const getTokenError = (payload) => ({
-//   type: GET_TOKEN_ERROR,
-//   payload,
-// });
+export const tokenRequest = () => ({
+  type: TOKEN_REQUEST,
+});
+
+export const failedTokenRequest = (error) => ({
+  type: FAILED_TOKEN_REQUEST,
+  error,
+});
+
+export const getToken = (token) => ({
+  type: GET_TOKEN,
+  token,
+});
+
+export const fetchApiToken = () => async (dispatch) => {
+  await dispatch(tokenRequest());
+  return fetch('https://opentdb.com/api_token.php?command=request')
+    .then((response) => response.json())
+    .then(
+      (json) => {
+        localStorage.setItem('token', json.token);
+        dispatch(getToken(json));
+        dispatch(fetchApiQuestions(json.token));
+      },
+      (error) => dispatch(failedTokenRequest(error)),
+    );
+};
