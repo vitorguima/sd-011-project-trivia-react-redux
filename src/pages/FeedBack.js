@@ -16,6 +16,7 @@ class FeedBack extends Component {
       redirectRanking: true,
     });
   }
+  // Finalizado
 
   render() {
     const { redirectRanking } = this.state;
