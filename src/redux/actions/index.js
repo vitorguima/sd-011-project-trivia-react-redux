@@ -9,8 +9,10 @@ const INCREASE_PLAYER_SCORE = 'INCREASE_PLAYER_SCORE';
 const MODIFY_NEXT_BTN = 'MODIFY_NEXT_BTN';
 const ALLOW_QUESTIONS_BTN_AFTER_NEXT_CLICK = 'ALLOW_QUESTIONS_BTN_AFTER_NEXT_CLICK';
 const ADD_QUESTIONS_PLAYED = 'ADD_QUESTIONS_PLAYED';
-const RESET_TRIVIA_QUESTIONS_ID = 'RESET_TRIVIA_QUESTIONS_ID';
+const RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS = (
+  'RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS');
 const RESET_STORE_SCORES = 'RESET_STORE_SCORES';
+const RECOVER_NAME_AND_EMAIL_FROM_REFRESH = 'RECOVER_NAME_AND_EMAIL_FROM_REFRESH';
 
 function sendGravatarSrcImg(name, src, email, token) {
   return {
@@ -94,10 +96,9 @@ function addQuestionsPlayed(questions) {
   };
 }
 
-function resetTriviaQuestionsId(resetQuestionsPlayed) {
+function resetTriviaQuestionsIdAndPlayedQuestions() {
   return {
-    type: RESET_TRIVIA_QUESTIONS_ID,
-    resetQuestionsPlayed,
+    type: RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS,
   };
 }
 
@@ -106,6 +107,15 @@ function resetStoreScores(score, assertions) {
     type: RESET_STORE_SCORES,
     score,
     assertions,
+  };
+}
+
+function recoverNameAndEmailFromRefresh(name, email, img) {
+  return {
+    type: RECOVER_NAME_AND_EMAIL_FROM_REFRESH,
+    name,
+    email,
+    img,
   };
 }
 
@@ -132,9 +142,11 @@ export {
   ALLOW_QUESTIONS_BTN_AFTER_NEXT_CLICK,
   ADD_QUESTIONS_PLAYED,
   addQuestionsPlayed,
-  resetTriviaQuestionsId,
-  RESET_TRIVIA_QUESTIONS_ID,
+  resetTriviaQuestionsIdAndPlayedQuestions,
+  RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS,
   RESET_STORE_SCORES,
   resetStoreScores,
+  RECOVER_NAME_AND_EMAIL_FROM_REFRESH,
+  recoverNameAndEmailFromRefresh,
 
 };

@@ -2,8 +2,9 @@ import {
   SEND_GRAVATAR_SRC_IMG,
   INCREASE_PLAYER_SCORE,
   ADD_QUESTIONS_PLAYED,
-  RESET_TRIVIA_QUESTIONS_ID,
+  RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS,
   RESET_STORE_SCORES,
+  RECOVER_NAME_AND_EMAIL_FROM_REFRESH,
 
 } from '../actions/index';
 
@@ -38,7 +39,7 @@ function player(state = INITIAL_STATE, action) {
       ...state,
       questionsPlayed: state.questionsPlayed + 1,
     };
-  case RESET_TRIVIA_QUESTIONS_ID:
+  case RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS:
     return {
       ...state,
       questionsPlayed: 1,
@@ -48,6 +49,13 @@ function player(state = INITIAL_STATE, action) {
       ...state,
       score: action.score,
       assertions: action.assertions,
+    };
+  case RECOVER_NAME_AND_EMAIL_FROM_REFRESH:
+    return {
+      ...state,
+      name: action.name,
+      gravatarEmail: action.email,
+      srcGravatarImg: action.img,
     };
 
   default:

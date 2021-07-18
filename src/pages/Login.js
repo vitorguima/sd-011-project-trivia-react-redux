@@ -11,7 +11,7 @@ import { sendGravatarSrcImg, sendQuestions, resetStoreScores,
 import InputName from '../components/InputName';
 import InputEmail from '../components/InputEmail';
 import PlayBtn from '../components/PlayBtn';
-import { getToken, getQuestions } from '../services/TriviaApi';
+import { getToken } from '../services/TriviaApi';
 
 class Login extends Component {
   constructor(props) {
@@ -26,22 +26,19 @@ class Login extends Component {
     this.playHandle = this.playHandle.bind(this);
     this.showProfileImg = this.showProfileImg.bind(this);
     this.localStorageSave = this.localStorageSave.bind(this);
-    this.getTokenAndQuestions = this.getTokenAndQuestions.bind(this);
+    this.receiveToken = this.receiveToken.bind(this);
     this.resetStoreInfos = this.resetStoreInfos.bind(this);
   }
 
   componentDidMount() {
-    this.getTokenAndQuestions();
+    this.receiveToken();
     this.resetStoreInfos();
     const button = document.querySelector('#play-btn');
     button.disabled = true;
   }
 
-  async getTokenAndQuestions() {
-    const { sendQuestionList } = this.props;
+  async receiveToken() {
     const response = await getToken();
-    const questions = await getQuestions(response);
-    sendQuestionList(questions);
     this.setState({
       token: response,
     });
@@ -91,6 +88,17 @@ class Login extends Component {
 
   localStorageSave() {
     const { token } = this.state;
+    const { score, assertions, playerName, playerEmail, playerPhoto } = this.props;
+    const player = {
+      player: {
+        name: playerName,
+        assertions,
+        score,
+        gravatarEmail: playerEmail,
+      },
+    };
+    localStorage.img = playerPhoto;
+    localStorage.state = JSON.stringify(player);
     localStorage.token = JSON.stringify(token);
   }
 
@@ -129,6 +137,9 @@ const mapStateToProps = (state) => ({
   playerToken: state.player.token,
   playerName: state.player.name,
   playerEmail: state.player.gravatarEmail,
+  assertions: state.player.assertions,
+  score: state.player.score,
+  playerPhoto: state.player.srcGravatarImg,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -142,12 +153,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   sendImgSrc: PropTypes.func,
-  sendQuestionList: PropTypes.func,
   resetStorePoints: PropTypes.func,
+  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
+  playerName: PropTypes.string.isRequired,
+  playerEmail: PropTypes.string.isRequired,
+  playerPhoto: PropTypes.string.isRequired,
 };
 // -
 Login.defaultProps = {
   sendImgSrc: {},
-  sendQuestionList: {},
   resetStorePoints: PropTypes.func,
 };

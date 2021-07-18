@@ -1,7 +1,7 @@
 import {
   SEND_QUESTIONS,
   QUESTION_ID_INCREASE,
-  RESET_TRIVIA_QUESTIONS_ID,
+  RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS,
 
 } from '../actions';
 
@@ -19,7 +19,7 @@ function trivia(state = INITIAL_STATE, action) {
       ...state,
       idTrivia: action.increase,
     });
-  case RESET_TRIVIA_QUESTIONS_ID:
+  case RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS:
     return ({
       ...state,
       idTrivia: 0,
