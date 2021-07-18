@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import * as userActions from '../actions';
+// import * as userActions from '../actions';
 
 export class NextQuestionBtn extends Component {
   render() {
     const { sumQuestionIndex } = this.props;
-    console.log(sumQuestionIndex);
     return (
       <div>
         <button
@@ -22,15 +21,15 @@ export class NextQuestionBtn extends Component {
 }
 
 // Verificar porque neste componente o Store não funciona
-const mapStateToProps = (state) => ({
-  wasAsnwered: state.question.wasAsnwered,
-});
+// const mapStateToProps = (state) => ({
+//   wasAsnwered: state.question.wasAsnwered,
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  getNextQuestion: (value) => dispatch(userActions.getNextQuestion(value)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   getNextQuestion: (value) => dispatch(userActions.getNextQuestion(value)),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NextQuestionBtn);
+export default connect()(NextQuestionBtn);
 
 NextQuestionBtn.propTypes = {
   sumQuestionIndex: PropTypes.func,

@@ -2,13 +2,13 @@ import { combineReducers } from 'redux';
 import email from './inputEmail';
 import fetchReducers from './fetchReducers';
 import getSeconds from './getSeconds';
-import question from './question';
+import gameScore from './gameScore';
 
 const rootReducer = combineReducers({
   fetchReducers,
   email,
   getSeconds,
-  question,
+  gameScore,
 });
 
 export default rootReducer;

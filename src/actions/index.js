@@ -6,15 +6,20 @@ export const GET_NAME = 'GET_NAME';
 export const GET_SECONDS = 'GET_SECONDS';
 export const GET_NEXT_QUESTION = 'GET_NEXT_QUESTION';
 export const WAS_ANSWERED = 'WAS_ANSWERED';
+export const SET_SCORE = 'SET_SCORE';
+
+export const setScore = (point) => ({
+  type: SET_SCORE,
+  payload: point,
+});
 
 export const answerObserver = (bool) => ({
   type: WAS_ANSWERED,
   payload: bool,
 });
 
-export const getNextQuestion = (number) => ({
+export const getNextQuestion = () => ({
   type: GET_NEXT_QUESTION,
-  payload: number,
 });
 
 export const getEmail = (email) => ({

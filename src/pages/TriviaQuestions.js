@@ -10,7 +10,7 @@ import { NextQuestionBtn } from '../components/NextQuestionBtn';
 class TriviaQuestions extends Component {
   constructor(props) {
     super(props);
-    this.sumQuestionIndex = this.sumQuestionIndex.bind(this);
+    this.toTheNextQuestion = this.toTheNextQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -19,18 +19,18 @@ class TriviaQuestions extends Component {
     setStateGame(token);
   }
 
-  sumQuestionIndex() {
+  toTheNextQuestion() {
     const { getNextQuestion, questionIndex } = this.props;
     const MAX_INDEX = 4;
     if (questionIndex < MAX_INDEX) {
-      getNextQuestion(1);
+      getNextQuestion();
     }
   }
 
   render() {
     const { questions, seconds, wasAnswered, questionIndex } = this.props;
+    console.log(questionIndex);
     const MAX_QUESTIONS_INDEX = 4;
-    console.log(wasAnswered);
     const { results } = questions;
     const eachResult = Object.values({ ...results });
     return (
@@ -40,7 +40,7 @@ class TriviaQuestions extends Component {
         <h1 data-testid="question-category">Categoria</h1>
         <h2 data-testid="question-text">Questão:</h2>
         { ((seconds === 0 || wasAnswered) && questionIndex < MAX_QUESTIONS_INDEX)
-        && <NextQuestionBtn sumQuestionIndex={ this.sumQuestionIndex } /> }
+        && <NextQuestionBtn toTheNextQuestion={ this.toTheNextQuestion } /> }
         { eachResult ? <Question eachResult={ eachResult[questionIndex] } /> : null }
       </div>);
   }
@@ -48,14 +48,14 @@ class TriviaQuestions extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   setStateGame: (payload) => dispatch(userActions.requestApiThunk(payload)),
-  getNextQuestion: (value) => dispatch(userActions.getNextQuestion(value)),
+  getNextQuestion: () => dispatch(userActions.getNextQuestion()),
 });
 
 const mapStateToProps = (state) => ({
   questions: state.fetchReducers.questions,
   seconds: state.getSeconds.seconds,
-  questionIndex: state.question.questionIndex,
-  wasAnswered: state.question.wasAnswered,
+  questionIndex: state.gameScore.question.questionIndex,
+  wasAnswered: state.gameScore.question.wasAnswered,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TriviaQuestions);
