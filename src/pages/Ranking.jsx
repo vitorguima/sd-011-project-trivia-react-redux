@@ -22,11 +22,12 @@ class Ranking extends Component {
   }
 
   render() {
-    const localStg = JSON.parse(localStorage.getItem('ranking'));
-    // const { name, score } = localStg.player;
+    const { rank } = this.props;
+    const localStg = rank.player;
+    console.log(localStg);
     return (
       <>
-        {localStg.map(({ name, score }, index) => (
+        {/* {localStg.map(({ name, score }, index) => (
           <div key={ index }>
             <h1 data-testid="ranking-title">
               Ranking
@@ -44,7 +45,7 @@ class Ranking extends Component {
               {score}
               {' '}
             </p>
-          </div>))}
+          </div>))} */}
         <Link to="/">
           <button
             type="button"
@@ -61,6 +62,7 @@ class Ranking extends Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  rank: state.ranking,
 });
 
 export default connect(mapStateToProps)(Ranking);
