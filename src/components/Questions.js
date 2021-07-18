@@ -46,4 +46,8 @@ class Questions extends Component {
   }
 }
 
+Questions.propTypes = {
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 export default Questions;
