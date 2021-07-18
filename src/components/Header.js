@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getPlayerLocalStorage } from '../services/LocalStorage';
 
 class Header extends Component {
   constructor() {
@@ -28,10 +29,12 @@ class Header extends Component {
 
   getStorages() {
     const ranking = JSON.parse(localStorage.getItem('ranking'));
+    const user = getPlayerLocalStorage();
+    const { player } = user;
     this.setState({
       name: ranking[0].name,
       image: ranking[0].picture,
-      score: ranking[0].score,
+      score: player.score,
     });
   }
 
