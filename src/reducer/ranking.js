@@ -1,15 +1,13 @@
-import { ADD_RANKING_NAME, ADD_RANKING_PICTURE, ADD_RANKING_SCORE } from '../actions';
+import { ADD_RANKING } from '../actions';
 
-const initialState = {};
+const initialState = {
+  ranking: [],
+};
 
 function ranking(state = initialState, action) {
   switch (action.type) {
-  case ADD_RANKING_NAME:
-    return { ...state, ...state, name: action.payload };
-  case ADD_RANKING_SCORE:
-    return { ...state, score: action.payload };
-  case ADD_RANKING_PICTURE:
-    return { ...state, picture: action.payload };
+  case ADD_RANKING:
+    return { ...state, ranking: [...state.ranking, action.payload] };
   default:
     return state;
   }

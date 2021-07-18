@@ -2,18 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addRanking } from '../actions';
 
 class Ranking extends Component {
-/*   constructor(props) {
-    super(props);
-    this.state = {
-      ranking: [],
-    };
-  } */
-
-  /*   componentDidMount() {
+  componentDidMount() {
     this.handleRanking();
-  } */
+  }
 
   handleGravatar() {
     const localStg = JSON.parse(localStorage.getItem('state'));
@@ -21,13 +16,22 @@ class Ranking extends Component {
     return md5(gravatarEmail).toString();
   }
 
+  handleRanking() {
+    const { addRank, rank } = this.props;
+    const storageState = JSON.parse(localStorage.getItem('state'));
+    const { name, score, gravatarEmail } = storageState.player;
+    const md5pic = `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}`;
+    const rankingStg = { name, score, picture: md5pic };
+    addRank(rankingStg);
+    localStorage.setItem('ranking', JSON.stringify([...rank, rankingStg]));
+  }
+
   render() {
     const { rank } = this.props;
-    const localStg = rank.player;
-    console.log(localStg);
+    const sortedRank = rank.sort((a, b) => b.score - a.score);
     return (
       <>
-        {/* {localStg.map(({ name, score }, index) => (
+        {sortedRank.map(({ name, score }, index) => (
           <div key={ index }>
             <h1 data-testid="ranking-title">
               Ranking
@@ -45,7 +49,7 @@ class Ranking extends Component {
               {score}
               {' '}
             </p>
-          </div>))} */}
+          </div>))}
         <Link to="/">
           <button
             type="button"
@@ -60,9 +64,20 @@ class Ranking extends Component {
   }
 }
 
+Ranking.propTypes = {
+  addRank: PropTypes.func.isRequired,
+  rank: PropTypes.shape({
+    sort: PropTypes.func,
+  }).isRequired,
+};
+
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  rank: state.ranking,
+  rank: state.ranking.ranking,
 });
 
-export default connect(mapStateToProps)(Ranking);
+const mapDispatchToProps = (dispatch) => ({
+  addRank: (payload) => dispatch(addRanking(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Ranking);

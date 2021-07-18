@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 
-export default class Feedback extends Component {
+class Feedback extends Component {
   handleGravatar() {
     const localStg = JSON.parse(localStorage.getItem('state'));
     const { gravatarEmail } = localStg.player;
@@ -56,3 +56,5 @@ export default class Feedback extends Component {
     );
   }
 }
+
+export default Feedback;
