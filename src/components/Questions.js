@@ -10,11 +10,8 @@ class Questions extends Component {
     super();
     this.state = {
       time: null,
-      // answered: false,
-      // difficulty: difficulty,
       score: 0,
       assertion: 0,
-      // position: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -124,12 +121,23 @@ class Questions extends Component {
   }
 
   roleQuestions() {
-    const { nextQuestion, inAnswerQuestion } = this.props;
-    nextQuestion(1);
-    inAnswerQuestion(false);
-    this.setState({
-      time: 30,
-    });
+    const {
+      nextQuestion,
+      inAnswerQuestion,
+      position,
+      questionsState,
+      feedback,
+    } = this.props;
+    const limit = questionsState.length - 1;
+    if (position < limit) {
+      nextQuestion(1);
+      inAnswerQuestion(false);
+      this.setState({
+        time: 30,
+      });
+    } else {
+      feedback('/feedback');
+    }
   }
 
   correctAnswer() {
@@ -157,7 +165,6 @@ class Questions extends Component {
   render() {
     const { questionsState, loading, buttonsDisabled, position, answered } = this.props;
     const { time, score } = this.state;
-
     return (
       <div>
         <p>{ time }</p>
@@ -194,9 +201,7 @@ class Questions extends Component {
               )) }
               <div className="section-button-next">
                 {
-                  answered
-                  && (position < questionsState.length)
-                  && this.nextQuestionButton()
+                  answered && this.nextQuestionButton()
                 }
               </div>
             </div>
@@ -223,6 +228,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
 
 Questions.propTypes = {
+  feedback: PropTypes.func.isRequired,
   buttonsDisabled: PropTypes.func.isRequired,
   nextQuestion: PropTypes.func.isRequired,
   inAnswerQuestion: PropTypes.func.isRequired,

@@ -11,6 +11,7 @@ class GamePlay extends Component {
     super();
 
     this.callQuestions = this.callQuestions.bind(this);
+    this.renderFeedback = this.renderFeedback.bind(this);
   }
 
   componentDidMount() {
@@ -24,11 +25,16 @@ class GamePlay extends Component {
     console.log(getQuestions(data));
   }
 
+  renderFeedback(path) {
+    const { history } = this.props;
+    return history.push(path);
+  }
+
   render() {
     return (
       <div>
         <Header />
-        <Questions />
+        <Questions feedback={ this.renderFeedback } />
       </div>
     );
   }
@@ -42,4 +48,9 @@ export default connect(null, mapDispatchToProps)(GamePlay);
 
 GamePlay.propTypes = {
   getQuestions: PropTypes.arrayOf().isRequired,
+  history: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+  ])).isRequired,
 };
