@@ -15,7 +15,7 @@ class TriviaQuestions extends Component {
   }
 
   render() {
-    const { questions, seconds, wasAnswered, questionCounter } = this.props;
+    const { questions, seconds, wasAnswered, questionIndex } = this.props;
     console.log(wasAnswered);
     const { results } = questions;
     const eachResult = Object.values({ ...results });
@@ -26,7 +26,7 @@ class TriviaQuestions extends Component {
         <h1 data-testid="question-category">Categoria</h1>
         <h2 data-testid="question-text">Questão:</h2>
         { (seconds === 0 || wasAnswered) && <NextQuestionBtn /> }
-        { eachResult ? <Question eachResult={ eachResult[questionCounter] } /> : null }
+        { eachResult ? <Question eachResult={ eachResult[questionIndex] } /> : null }
       </div>);
   }
 }
@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   questions: state.fetchReducers.questions,
   seconds: state.getSeconds.seconds,
-  questionCounter: state.question.questionCounter,
+  questionIndex: state.question.questionIndex,
   wasAnswered: state.question.wasAnswered,
 });
 

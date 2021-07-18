@@ -85,6 +85,7 @@ class Question extends Component {
 
 const mapStateToProps = (state) => ({
   questions: state.fetchReducers.questions,
+  questionIndex: state.question.questionIndex,
 });
 
 export default connect(mapStateToProps)(Question);
