@@ -111,7 +111,6 @@ class GamePage extends Component {
         type="button"
         onClick={ () => this.btnHandle() }
         data-testid="btn-next"
-        //                true                    false
         disabled={ nextBtnDisable || indexLimit < questionIndex }
       >
         Próximo
