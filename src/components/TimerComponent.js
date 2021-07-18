@@ -12,6 +12,8 @@ class TimerComponent extends Component {
     };
     this.timer = this.timer.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
+    this.buttonNextQuestion = this.buttonNextQuestion.bind(this);
+    this.newQuestion = this.newQuestion.bind(this);
   }
 
   componentDidMount() {
@@ -76,9 +78,30 @@ class TimerComponent extends Component {
     }
   }
 
+  newQuestion() {
+    const { nextQuestion } = this.props;
+    const { count } = this.state;
+    nextQuestion(count);
+  }
+
+  buttonNextQuestion() {
+    const maxQuestions = 4;
+    const { count } = this.state;
+    const { finishQuestions } = this.props;
+    if (count < maxQuestions) {
+      this.setState((prevState) => ({
+        count: prevState.count + 1,
+      }));
+    } else {
+      finishQuestions();
+    }
+    // Falta redirecionar a pagina apos 5 perguntas
+  }
+
   render() {
     const { seconds } = this.state;
     const { buttonClick } = this.props;
+    this.newQuestion();
     return (
       <div>
         <div>
@@ -90,15 +113,7 @@ class TimerComponent extends Component {
               <button
                 type="button"
                 data-testid="btn-next"
-                onClick={ async () => {
-                  await this.setState((prevState) => ({
-                    count: prevState.count + 1,
-                  }));
-                  const { count } = this.state;
-                  const { nextQuestionCount } = this.props;
-                  nextQuestionCount(count);
-                  // Falta redirecionar a pagina apos 5 perguntas
-                } }
+                onClick={ this.buttonNextQuestion }
               >
                 Próxima
               </button>)}
@@ -112,6 +127,8 @@ TimerComponent.propTypes = {
   updateButton: PropTypes.func.isRequired,
   buttonClick: PropTypes.bool.isRequired,
   rightBtnClicked: PropTypes.bool.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
+  finishQuestions: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -121,7 +138,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateButton: (state) => dispatch(timerButton(state)),
-  nextQuestionCount: (state) => dispatch(nextQuestionCount(state)),
+  nextQuestion: (state) => dispatch(nextQuestionCount(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimerComponent);

@@ -4,7 +4,7 @@ export default class feedback extends Component {
   render() {
     return (
       <div>
-        <h1>teste</h1>
+        <h1 data-testid="feedback-text">Feedback</h1>
       </div>
     );
   }

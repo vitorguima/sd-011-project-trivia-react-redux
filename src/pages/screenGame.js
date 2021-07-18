@@ -14,6 +14,7 @@ class screenGame extends Component {
       token: '',
     };
     this.fetchToken = this.fetchToken.bind(this);
+    this.finishQuestions = this.finishQuestions.bind(this);
   }
 
   componentDidMount() {
@@ -36,23 +37,27 @@ class screenGame extends Component {
     }
   }
 
+  finishQuestions() {
+    const { history } = this.props;
+    history.push('/feedback');
+  }
+
   render() {
     return (
       <div className="App">
         <PlayerComponent />
         <GameComponent />
-        <TimerComponent />
+        <TimerComponent finishQuestions={ this.finishQuestions } />
       </div>
     );
   }
 }
 
 screenGame.propTypes = {
-  searchQuestion: PropTypes.func,
-};
-
-screenGame.defaultProps = {
-  searchQuestion: undefined,
+  searchQuestion: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
