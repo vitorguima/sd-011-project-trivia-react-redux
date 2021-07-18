@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import './home.css';
+import logo from '../../trivia.png';
 import { saveToken, submitLogin } from '../../actions';
 
 class Home extends Component {
@@ -29,7 +31,8 @@ class Home extends Component {
 
   handlePlayButton() {
     const { playerName, email } = this.state;
-    if (playerName.length && email.length) {
+    const validEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+    if (playerName.length && validEmail.test(email)) {
       return false;
     }
     return true;
@@ -51,6 +54,7 @@ class Home extends Component {
         <button
           disabled={ this.handlePlayButton() }
           type="button"
+          className="btn-play"
           data-testid="btn-play"
           onClick={ () => {
             dispatchToken();
@@ -69,6 +73,7 @@ class Home extends Component {
       <button
         type="button"
         data-testid="btn-settings"
+        className="btn-settings"
       >
         <Link to="/settings">Configurações</Link>
       </button>
@@ -79,35 +84,39 @@ class Home extends Component {
     const { email, playerName } = this.state;
 
     return (
-      <div>
-        <form>
-          <label htmlFor="input-name">
-            Nome Jogador
+      <div className="home">
+        <header className="App-header">
+          <img src={ logo } className="App-logo" alt="logo" />
+        </header>
+        <form className="form">
+          <label htmlFor="input-name" className="label-name">
             <input
+              autoComplete="off"
+              className="input-name"
               name="playerName"
               value={ playerName }
               type="text"
               id="input-name"
               data-testid="input-player-name"
-              placeholder="nome"
+              placeholder="Nome"
               onChange={ ({ target }) => { this.handleChange(target); } }
             />
           </label>
           <label htmlFor="input-email">
-            Email
             <input
+              className="input-email"
               name="email"
               value={ email }
               type="email"
               id="input-email"
               data-testid="input-gravatar-email"
-              placeholder="email"
+              placeholder="Email"
               onChange={ ({ target }) => { this.handleChange(target); } }
             />
           </label>
+          {this.renderPlayButton()}
+          {this.renderSettingsButton()}
         </form>
-        {this.renderPlayButton()}
-        {this.renderSettingsButton()}
       </div>
     );
   }
