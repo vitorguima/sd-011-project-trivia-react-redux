@@ -6,12 +6,19 @@ class Feedback extends Component {
     super();
 
     this.renderLoginPage = this.renderLoginPage.bind(this);
+    this.renderRankingPage = this.renderRankingPage.bind(this);
   }
 
   renderLoginPage() {
     const { history } = this.props;
 
     history.push('/');
+  }
+
+  renderRankingPage() {
+    const { history } = this.props;
+
+    history.push('/ranking');
   }
 
   render() {
@@ -26,6 +33,13 @@ class Feedback extends Component {
           onClick={ this.renderLoginPage }
         >
           Jogar novamente
+        </button>
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ this.renderRankingPage }
+        >
+          Ver Ranking
         </button>
       </div>
     );
