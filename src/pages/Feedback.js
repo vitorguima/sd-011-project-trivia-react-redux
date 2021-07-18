@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { getPlayerLocalStorage } from '../services/LocalStorage';
 
@@ -36,6 +37,14 @@ export default class Feedback extends Component {
         >
           { getPlayerLocalStorage().player.assertions }
         </h2>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar Novamente
+          </button>
+        </Link>
       </div>
     );
   }
