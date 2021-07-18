@@ -22,7 +22,7 @@ class Questions extends Component {
     this.handleStyleAnswers = this.handleStyleAnswers.bind(this);
     this.renderCorretBtn = this.renderCorretBtn.bind(this);
     this.renderWrongBtn = this.renderWrongBtn.bind(this);
-    this.handlePlayButton = this.handlePlayButton.bind(this);
+    this.handleDisableButtons = this.handleDisableButtons.bind(this);
   }
 
   async componentDidMount() {
@@ -73,7 +73,7 @@ class Questions extends Component {
     }));
   }
 
-  handlePlayButton() {
+  handleDisableButtons() {
     const { showNextButton } = this.state;
     if (showNextButton) {
       return true;
@@ -112,7 +112,7 @@ class Questions extends Component {
         key={ index }
         type="button"
         data-testid="correct-answer"
-        disabled={ timeCount === 0 || this.handlePlayButton() }
+        disabled={ timeCount === 0 || this.handleDisableButtons() }
         name="answer"
         onClick={ () => {
           this.handleCorretAnswer();
@@ -134,14 +134,12 @@ class Questions extends Component {
           this.handleStyleAnswers();
         } }
         data-testid={ `wrong-answer-${index}` }
-        disabled={ timeCount === 0 || this.handlePlayButton() }
+        disabled={ timeCount === 0 || this.handleDisableButtons() }
         name="answer"
       >
         {answer}
       </button>);
   }
-
-  
 
   render() {
     const { questions, disapatchScore } = this.props;
