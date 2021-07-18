@@ -9,9 +9,25 @@ export default class Feedback extends Component {
     return md5(gravatarEmail).toString();
   }
 
+  handleRanking(prev) {
+    const localStg = JSON.parse(localStorage.getItem('state'));
+    const { name, score, gravatarEmail } = localStg.player;
+    const md5pic = md5(gravatarEmail).toString();
+
+    const localObj = {
+      name,
+      score,
+      picture: md5pic,
+    };
+    const prevarr = [prev];
+    const newplayer = [...prevarr, localObj];
+    window.localStorage.setItem('ranking', JSON.stringify(newplayer));
+  }
+
   render() {
     const localStg = JSON.parse(localStorage.getItem('state'));
     const { score, name, assertions } = localStg.player;
+    const prev = JSON.parse(localStorage.getItem('ranking'));
     const magicNumber = 3;
     return (
       <>
@@ -47,6 +63,7 @@ export default class Feedback extends Component {
             <button
               type="button"
               data-testid="btn-ranking"
+              onClick={ this.handleRanking(prev) }
             >
               Ver Ranking
             </button>

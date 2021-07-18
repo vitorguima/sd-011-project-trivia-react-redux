@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
+import { connect } from 'react-redux';
 
-export default class Ranking extends Component {
+class Ranking extends Component {
+/*   constructor(props) {
+    super(props);
+    this.state = {
+      ranking: [],
+    };
+  } */
+
+  /*   componentDidMount() {
+    this.handleRanking();
+  } */
+
   handleGravatar() {
     const localStg = JSON.parse(localStorage.getItem('state'));
     const { gravatarEmail } = localStg.player;
@@ -10,24 +22,29 @@ export default class Ranking extends Component {
   }
 
   render() {
-    const localStg = JSON.parse(localStorage.getItem('state'));
-    const { score, name } = localStg.player;
-    const index = 0; // esse index foi para não quebrar, precisamos montar o map ordenado
+    const localStg = JSON.parse(localStorage.getItem('ranking'));
+    // const { name, score } = localStg.player;
     return (
-      <div>
-        <h1 data-testid="ranking-title">
-          Ranking
-        </h1>
-        <img
-          data-testid="header-profile-picture"
-          src={ `https://www.gravatar.com/avatar/${this.handleGravatar()}` }
-          alt="Gravatar"
-        />
-        <h2 data-testid={ `player-name-${index}` }>
-          Usuário:
-          { name }
-        </h2>
-        <p data-testid="header-score">{ score }</p>
+      <>
+        {localStg.map(({ name, score }, index) => (
+          <div key={ index }>
+            <h1 data-testid="ranking-title">
+              Ranking
+            </h1>
+            <img
+              data-testid="header-profile-picture"
+              src={ `https://www.gravatar.com/avatar/${this.handleGravatar()}` }
+              alt="Gravatar"
+            />
+            <h2 data-testid={ `player-name-${index}` }>
+              {name}
+
+            </h2>
+            <p data-testid="header-score">
+              {score}
+              {' '}
+            </p>
+          </div>))}
         <Link to="/">
           <button
             type="button"
@@ -36,7 +53,14 @@ export default class Ranking extends Component {
             Volta para a tela inicial
           </button>
         </Link>
-      </div>
+      </>
+
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  email: state.user.email,
+});
+
+export default connect(mapStateToProps)(Ranking);
