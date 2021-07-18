@@ -1,33 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import Questions from '../components/Questions';
+import { getToken } from '../services/API';
 
 class Jogo extends Component {
-  /* constructor() {
+  constructor() {
     super();
-    this.state = {
-      game: [],
-      loading: true,
-      value: 0,
-    };
-    this.change = this.change.bind(this);
-  } */
 
-  /* componentDidMount() {
-    getToken().then((game) => {
-      console.log(game);
-      this.setState({ game, loading: false });
+    this.state = {
+      questions: [],
+      index: 0,
+      loading: true,
+    };
+  }
+
+  componentDidMount() {
+    getToken().then((questions) => {
+      this.setState({ questions, loading: false });
     });
-  } */
+  }
 
   /* change(val) {
     this.setState({ value: val });
   } */
 
   render() {
+    const { questions, index, loading } = this.state;
+    console.log(questions);
     return (
       <div className="game-container">
         <Header />
+        {questions.length === 0 ? loading : <Questions { ...questions[index] } /> }
       </div>
     );
   }
