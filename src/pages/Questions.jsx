@@ -4,6 +4,7 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import './Questions.css';
 import { Redirect } from 'react-router-dom';
+import { addRankingName, addRankingPic, addRankingScore } from '../actions';
 
 class Questions extends Component {
   constructor() {
@@ -27,14 +28,12 @@ class Questions extends Component {
   }
 
   componentDidMount() {
-    console.log('component did mount');
     const timeout = 1000;
     this.countdown = setInterval(this.handleTimer, timeout);
   }
 
   setDifficulty() {
     const difficulty = document.querySelector('.difficulty').innerText;
-    console.log(difficulty);
     let points = 0;
     const easy = 1;
     const medium = 2;
@@ -67,7 +66,12 @@ class Questions extends Component {
 
   handleGravatar() {
     const { email } = this.props;
-    return md5(email).toString();
+    const stringMail = md5(email).toString();
+    const gravatar = `https://www.gravatar.com/avatar/${stringMail}`;
+    const playerStorage = JSON.parse(localStorage.getItem('state'));
+    playerStorage.player.gravatarEmail = gravatar;
+    localStorage.setItem('state', JSON.stringify(playerStorage));
+    return gravatar;
   }
 
   handleClick({ target }) {
@@ -99,12 +103,19 @@ class Questions extends Component {
   }
 
   handleNextQuestion() {
+    const { addNameToRank, addScoreToRank, addPicToRank, rank } = this.props;
     let { questionIndex } = this.state;
     const magicNumber = 4;
     if (questionIndex === magicNumber) {
       this.setState({
         redirect: true,
       });
+      const storageState = JSON.parse(localStorage.getItem('state'));
+      const { name, score, gravatarEmail } = storageState.player;
+      addNameToRank(name);
+      addScoreToRank(score);
+      addPicToRank(gravatarEmail);
+      localStorage.setItem('ranking', JSON.stringify(rank));
     }
     if (questionIndex <= magicNumber) {
       this.setState({
@@ -128,7 +139,7 @@ class Questions extends Component {
       <header>
         <img
           data-testid="header-profile-picture"
-          src={ `https://www.gravatar.com/avatar/${this.handleGravatar()}` }
+          src={ this.handleGravatar() }
           alt="Gravatar"
         />
         <h2 data-testid="header-player-name">
@@ -153,7 +164,6 @@ class Questions extends Component {
   }
 
   render() {
-    console.log('render');
     const { questions } = this.props;
     const { isCorrect, isIncorrect,
       questionIndex, disable, timer, endTime, redirect } = this.state;
@@ -209,10 +219,17 @@ Questions.defaultProps = {
   name: '',
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  addNameToRank: (payload) => dispatch(addRankingName(payload)),
+  addScoreToRank: (payload) => dispatch(addRankingScore(payload)),
+  addPicToRank: (payload) => dispatch(addRankingPic(payload)),
+});
+
 const mapStateToProps = (state) => ({
   email: state.user.email,
   name: state.user.name,
   questions: state.questions.questions,
+  rank: state.ranking,
 });
 
-export default connect(mapStateToProps)(Questions);
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
