@@ -166,7 +166,8 @@ class GamePage extends Component {
     this.enableBtn = setTimeout(() => this.setState({ nextBtnDisable: false }), limit);
   }
 
-  urlCreator(email) {
+  urlCreator() {
+    const { email } = this.props;
     const hash = `https://www.gravatar.com/avatar/${md5(email).toString()}`;
     return hash;
   }
@@ -192,10 +193,10 @@ class GamePage extends Component {
   }
 
   render() {
-    const { email, results, disableBtnByTime } = this.props;
+    const { results, disableBtnByTime } = this.props;
     const { questionIndex, click, nextBtnDisable } = this.state;
     const indexLimit = 4;
-    this.URL = this.urlCreator(email);
+    this.URL = this.urlCreator();
 
     return (
       <div>
