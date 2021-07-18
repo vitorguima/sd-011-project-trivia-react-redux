@@ -9,6 +9,8 @@ export default class Feedback extends Component {
     this.state = {
       mensagem: '',
     };
+
+    this.makeRankingLocalStorage = this.makeRankingLocalStorage.bind(this);
   }
 
   componentDidMount() {
@@ -18,7 +20,6 @@ export default class Feedback extends Component {
   verifyAnswers() {
     const getKey = localStorage.getItem('state');
     const state = JSON.parse(getKey);
-    console.log(state.player.assertions);
     if (state.player.assertions < (1 + 2)) {
       this.setState({
         mensagem: 'Podia ser melhor...',
@@ -28,6 +29,22 @@ export default class Feedback extends Component {
         mensagem: 'Mandou bem!',
       });
     }
+  }
+
+  makeRankingLocalStorage() {
+    const getKey = localStorage.getItem('state');
+    const state = JSON.parse(getKey);
+    const ranking = {
+      name: state.player.name,
+      score: state.player.score,
+      picture: `https://www.gravatar.com/avatar/${state.player.gravatarEmail}`,
+    };
+    const newLocalStorage = JSON.parse(localStorage.getItem('ranking'));
+    localStorage
+      .setItem('ranking', JSON.stringify(localStorage.getItem('ranking') === null
+        ? [ranking]
+        : [...newLocalStorage,
+          ranking]));
   }
 
   render() {
@@ -52,6 +69,7 @@ export default class Feedback extends Component {
           <button
             type="button"
             data-testid="btn-ranking"
+            onClick={ this.makeRankingLocalStorage }
           >
             Ver Ranking
           </button>
