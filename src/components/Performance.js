@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class Performance extends Component {
   // constructor(props) {
@@ -8,11 +9,15 @@ class Performance extends Component {
   //   this.state = {  }
   // }
 
+  playAgain(history) {
+    history.push('/');
+  }
+
   render() {
     const msg1 = 'Podia ser melhor...';
     const msg2 = 'Mandou bem!';
     const expectedPerformace = 3;
-    const { assertions, score } = this.props;
+    const { assertions, score, history } = this.props;
 
     return (
       <div>
@@ -25,6 +30,13 @@ class Performance extends Component {
         <p data-testid="feedback-total-score">
           {`Um total de  ${score} pontos`}
         </p>
+        <button
+          data-testid="btn-play-again"
+          type="button"
+          onClick={ () => this.playAgain(history) }
+        >
+          JOGAR NOVAMENTE
+        </button>
       </div>
     );
   }
@@ -33,6 +45,7 @@ class Performance extends Component {
 Performance.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
+  history: PropTypes.objectOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -40,4 +53,4 @@ const mapStateToProps = (state) => ({
   score: state.triviaReducer.score,
 });
 
-export default connect(mapStateToProps)(Performance);
+export default withRouter(connect(mapStateToProps)(Performance));
