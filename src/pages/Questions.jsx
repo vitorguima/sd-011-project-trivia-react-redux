@@ -27,6 +27,7 @@ class Questions extends Component {
   }
 
   componentDidMount() {
+    console.log('component did mount');
     const timeout = 1000;
     this.countdown = setInterval(this.handleTimer, timeout);
   }
@@ -152,6 +153,7 @@ class Questions extends Component {
   }
 
   render() {
+    console.log('render');
     const { questions } = this.props;
     const { isCorrect, isIncorrect,
       questionIndex, disable, timer, endTime, redirect } = this.state;

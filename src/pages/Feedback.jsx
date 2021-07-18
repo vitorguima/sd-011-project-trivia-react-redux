@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import { addRanking } from '../actions';
 
-export default class Feedback extends Component {
+class Feedback extends Component {
   handleGravatar() {
     const localStg = JSON.parse(localStorage.getItem('state'));
     const { gravatarEmail } = localStg.player;
     return md5(gravatarEmail).toString();
+  }
+
+  handleRanking() {
+    const { addRank } = this.props;
+    const storageState = JSON.parse(localStorage.getItem('state'));
+    const { name, score, gravatarEmail } = storageState.player;
+    const md5pic = `https://www.gravatar.com/avatar/${md5(gravatarEmail).toString()}`;
+    // const array = [];
+    const obj = { name, score, picture: md5pic };
+    // array.push(obj);
+    addRank(obj);
   }
 
   render() {
@@ -47,6 +60,7 @@ export default class Feedback extends Component {
             <button
               type="button"
               data-testid="btn-ranking"
+              onClick={ this.handleRanking() }
             >
               Ver Ranking
             </button>
@@ -56,3 +70,9 @@ export default class Feedback extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  addRank: (payload) => dispatch(addRanking(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Feedback);

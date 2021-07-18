@@ -4,6 +4,7 @@ export const FETCH_STARTED = 'FETCH_STARTED';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_ERROR = 'FETCH_ERROR';
 export const GET_QUESTION = 'GET_QUESTION';
+export const ADD_RANKING = 'ADD_RANKING';
 
 export const setName = (payload) => ({
   type: GET_NAME,
@@ -28,6 +29,11 @@ export const requestApiError = (payload) => ({
 
 export const getQuestion = (payload) => ({
   type: GET_QUESTION,
+  payload,
+});
+
+export const addRanking = (payload) => ({
+  type: ADD_RANKING,
   payload,
 });
 
