@@ -6,8 +6,10 @@
 body {
   align-items: center;
   font-family: convergence , sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: 900;
   height: 100vh;
+  letter-spacing: 2px;
 }
 
 .home {

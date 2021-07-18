@@ -5,10 +5,10 @@ import Header from '../../components/Header';
 class GamePage extends Component {
   render() {
     return (
-      <div>
+      <>
         <Header />
         <Questions />
-      </div>
+      </>
     );
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import './questions.css';
 import { fetchQuestions, submitScore } from '../actions';
 
 class Questions extends Component {
@@ -109,6 +110,7 @@ class Questions extends Component {
     const { timeCount } = this.state;
     return (
       <button
+        className="answer"
         key={ index }
         type="button"
         data-testid="correct-answer"
@@ -127,6 +129,7 @@ class Questions extends Component {
     const { timeCount } = this.state;
     return (
       <button
+        className="wrong-answer"
         key={ index }
         type="button"
         onClick={ () => {
@@ -154,10 +157,10 @@ class Questions extends Component {
       const answers = [correctAnswer, ...incorrectAnswers].sort();
       const { category, question } = questions[indexQuestion];
       return (
-        <section>
-          <div data-testid="question-category">{ category }</div>
-          <div data-testid="question-text">{ question }</div>
-          {timeCount}
+        <section className="section-question">
+          <div className="category" data-testid="question-category">{ category }</div>
+          <div className="question" data-testid="question-text">{ question }</div>
+          <span>{timeCount}</span>
           {answers.map((answer, index) => {
             if (answer === correctAnswer) {
               return (
@@ -166,9 +169,11 @@ class Questions extends Component {
             return (
               this.renderWrongBtn(answer, index));
           })}
+
           {showNextButton && (
             <button
               type="button"
+              className="btn-next"
               data-testid="btn-next"
               onClick={ () => {
                 this.handleNext();
@@ -181,7 +186,7 @@ class Questions extends Component {
         </section>
       );
     }
-    return <section>carregando...</section>;
+    return <section className="loading">carregando...</section>;
   }
 }
 
