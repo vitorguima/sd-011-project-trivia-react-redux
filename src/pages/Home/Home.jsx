@@ -20,7 +20,6 @@ class Home extends Component {
     this.renderPlayButton = this.renderPlayButton.bind(this);
     this.renderSettingsButton = this.renderSettingsButton.bind(this);
     this.savePlayerToLocalStorage = this.savePlayerToLocalStorage.bind(this);
-    this.enableLink = this.enableLink.bind(this);
   }
 
   handleChange(target) {
@@ -44,12 +43,6 @@ class Home extends Component {
     localStorage.setItem('state', JSON.stringify({ player: {
       name: playerName, assertions: 0, score: 0, gravatarEmail: email,
     } }));
-  }
-
-  enableLink() {
-    return (
-      <Link to="/game" className="link-button" />
-    );
   }
 
   renderPlayButton() {
