@@ -25,12 +25,11 @@ class FeedbackHeader extends Component {
           alt="Foto do jogador"
         />
         <p data-testid="header-player-name">
-          Jogador:
           { nome }
         </p>
+        Pontos:
         <span data-testid="header-score">
-          Pontos:
-          { score }
+          { Number(score) }
         </span>
       </div>
     );

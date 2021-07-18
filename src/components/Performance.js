@@ -28,11 +28,15 @@ class Performance extends Component {
         <p data-testid="feedback-text">
           {(assertions >= expectedPerformace) ? msg2 : msg1}
         </p>
-        <p data-testid="feedback-total-question">
-          {`Você acertou ${assertions} questões!`}
+        <p>
+          Você acertou
+          <span data-testid="feedback-total-question">{assertions}</span>
+          questões!
         </p>
-        <p data-testid="feedback-total-score">
-          {`Um total de  ${score} pontos`}
+        <p>
+          Um total de
+          <span data-testid="feedback-total-score">{score}</span>
+          pontos
         </p>
         <button
           data-testid="btn-ranking"
