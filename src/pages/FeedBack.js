@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FeedbackHeader from '../components/FeedbackHeader';
+import Performance from '../components/Performance';
 // import { connect } from 'react-redux';
 
 class Feedback extends Component {
@@ -13,6 +14,7 @@ class Feedback extends Component {
       <div>
         <h1 data-testid="feedback-text">FeedBack</h1>
         <FeedbackHeader />
+        <Performance />
       </div>
     );
   }
