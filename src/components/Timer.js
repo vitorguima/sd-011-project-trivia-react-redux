@@ -4,20 +4,20 @@ class Timer extends Component {
   constructor() {
     super();
     this.state = {
-      timer: 0,
+      timer: 30,
     };
   }
 
   componentDidMount() {
     this.interval = setInterval(
-      () => this.setState((previousTime) => ({ timer: previousTime.timer + 1 })),
+      () => this.setState((previousTime) => ({ timer: previousTime.timer - 1 })),
       SECOND,
     );
   }
 
   componentDidUpdate() {
     const { timer } = this.state;
-    const maximumTime = 30;
+    const maximumTime = 0;
     if (timer === maximumTime) {
       clearInterval(this.interval);
     }
