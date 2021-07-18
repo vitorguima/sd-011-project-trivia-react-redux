@@ -67,7 +67,10 @@ class Game extends Component {
   }
 
   goNextQuestion() {
-    this.setState((prevState) => ({ index: prevState.index + 1, timer: 30 }));
+    this.setState((prevState) => ({ index: prevState.index + 1,
+      timer: 30,
+      clickedQuestions: false,
+    }));
   }
 
   startTimer() {
