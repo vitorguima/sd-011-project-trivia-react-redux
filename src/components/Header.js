@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { MD5 } from 'crypto-js';
 
-function Header(props) {
-  const { name, email, score } = props;
+function Header() {
+  const state = JSON.parse(localStorage.getItem('state'));
+  const { name, email, score } = state.player;
   const emailHash = MD5(email);
 
   return (
