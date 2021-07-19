@@ -30,6 +30,7 @@ class Login extends Component {
 
   renderInput() {
     const { loginInputsDispatch } = this.props;
+    // Victor
     return (
       <div>
         <label htmlFor="nome">
