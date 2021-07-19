@@ -50,7 +50,10 @@ class Card extends React.Component {
     const { email, nome } = this.state;
     const hash = md5(email).toString();
     const url = `https://www.gravatar.com/avatar/${hash}`;
-    getUser({ nome, email, url });
+    const player = { name: nome, assertions: 0, score: 0, gravatarEmail: email };
+    localStorage.setItem('state', JSON.stringify({ player }));
+
+    getUser({ nome, email, url, score: 0 });
   }
 
   render() {

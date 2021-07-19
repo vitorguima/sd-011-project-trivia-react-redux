@@ -5,6 +5,7 @@ export const GET_USER_INFO = 'GET_USER_INFO';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const GET_QUESTIONS_SUCCESS = 'GET_QUESTIONS_SUCCESS';
 export const GET_QUESTIONS_FAILED = 'GET_QUESTIONS_FAILED';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
 
 export const getUserInfo = (payload) => ({
   type: GET_USER_INFO,
@@ -60,3 +61,8 @@ export const getQuestionsThunk = (token) => async (dispatch) => {
     dispatch(getQuestionsFailed(error));
   }
 };
+
+export const updateScore = (payload) => ({
+  type: UPDATE_SCORE,
+  payload,
+});

@@ -8,10 +8,11 @@ class ButtonNext extends React.Component {
   }
 
   render() {
-    const { testid, nextQuestion } = this.props;
+    const { testid, nextQuestion, btnState } = this.props;
     return (
       <div className="container-button-next">
         <button
+          style={ { display: btnState ? 'block' : 'none' } }
           className="button-next"
           data-testid={ testid }
           type="button"
@@ -27,6 +28,7 @@ class ButtonNext extends React.Component {
 ButtonNext.propTypes = {
   testid: PropTypes.string.isRequired,
   nextQuestion: PropTypes.func.isRequired,
+  btnState: PropTypes.bool.isRequired,
 };
 
 export default ButtonNext;
