@@ -3,7 +3,7 @@ export const ENABLE_BTNS = 'ENABLE_BTNS';
 export const SCORE_UPDATE = 'SCORE_UPDATE';
 export const RESET_TIMER = 'RESET_TIMER';
 export const LOGIN_INPUT = 'LOGIN_INPUT';
-//Nalu
+// Nalu
 export const loginInputs = ({ target }) => {
   const { name } = target;
   const value = target.type === 'checkbox' ? target.checked : target.value;
