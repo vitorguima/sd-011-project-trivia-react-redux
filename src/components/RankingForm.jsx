@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-max-depth */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,26 +7,22 @@ export default function RankingForm(props) {
   return (
     <div className="container">
       <div className="row">
-        <div className="span12">
-          <div className="thumbnail clearfix">
-            <img
-              src={ picture }
-              alt="ALT NAME"
-              className="pull-left span2 clearfix"
-              style={ { marginRight: '10px' } }
-            />
-            <div className="caption pull-left">
-              <h4 data-testid={ `player-name-${index}` }>{name}</h4>
-              <small>
-                <b data-testid={ `player-score-${index}` }>Score </b>
-                {score}
-              </small>
-            </div>
-            <p>
-              {index + 1}
-              º
-            </p>
+        <div className="thumbnail clearfix">
+          <img
+            src={ picture }
+            alt="ALT NAME"
+            className="pull-left span2 clearfix"
+            style={ { marginRight: '10px' } }
+          />
+          <div className="caption pull-left">
+            <h4 data-testid={ `player-name-${index}` }>{name}</h4>
+            <b data-testid={ `player-score-${index}` }>Score </b>
+            {score}
           </div>
+          <p>
+            {index + 1}
+            º
+          </p>
         </div>
       </div>
     </div>

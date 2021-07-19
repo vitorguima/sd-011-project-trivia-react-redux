@@ -10,7 +10,11 @@ export default function Ranking() {
   const getStorageRankings = () => {
     let { ranking } = localStorage;
     ranking = JSON.parse(ranking).sort((a, b) => b.score - a.score);
-    return ranking.map((el, index) => <RankingForm { ...el } index={ index } />);
+    return ranking.map((el, index) => (<RankingForm
+      key={ index }
+      { ...el }
+      index={ index }
+    />));
   };
 
   return (
