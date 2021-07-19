@@ -9,13 +9,16 @@ class Header extends Component {
     const hash = md5(gravatar).toString();
     return (
       <div>
-        <img
-          data-testid="header-profile-picture"
-          src={ `https://www.gravatar.com/avatar/${hash}` }
-          alt="Imagem gravatar"
-        />
-        <span data-testid="header-player-name">{name}</span>
-        <span data-testid="header-score">{score}</span>
+        <header>
+          <img
+            data-testid="header-profile-picture"
+            src={ `https://www.gravatar.com/avatar/${hash}` }
+            alt="Imagem gravatar"
+          />
+          <span data-testid="header-player-name">{name}</span>
+          <span data-testid="header-score">{score}</span>
+        </header>
+
       </div>
     );
   }

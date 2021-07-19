@@ -2,6 +2,7 @@ export const GET_LOGIN = 'GET_LOGIN';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const RECEIVE_TOKEN = 'RECEIVE_TOKEN';
 export const GET_SCORE = 'GET_SCORE';
+export const GET_ASSERTIONS = 'GET_ASSERTIONS';
 
 export const actionLogin = (name, gravatarEmail) => ({
   type: GET_LOGIN,
@@ -22,6 +23,11 @@ export const actionScore = (score, assertions) => ({
   type: GET_SCORE,
   score,
   assertions,
+});
+
+export const getAssertions = (score) => ({
+  type: GET_ASSERTIONS,
+  score,
 });
 
 export function fetchToken() {

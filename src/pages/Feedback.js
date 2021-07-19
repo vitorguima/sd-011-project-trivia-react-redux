@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 import { connect } from 'react-redux';
 
 class Feedback extends Component {
@@ -27,6 +28,7 @@ class Feedback extends Component {
 
     return (
       <div>
+        <Header />
         <div data-testid="feedback-text">
           <div>
             Pontuação Total:
@@ -56,6 +58,7 @@ class Feedback extends Component {
           Ver Ranking
         </button>
       </div>
+
     );
   }
 }
