@@ -48,11 +48,6 @@ class Play extends Component {
     clearInterval(this.myInterval);
   }
 
-  async initialFetch() {
-    const { getQuestions, token } = this.props;
-    await getQuestions(token);
-  }
-
   setLocal() {
     const { name, email, score } = this.props;
     const { assertions } = this.state;
@@ -63,6 +58,11 @@ class Play extends Component {
       gravatarEmail: email,
     };
     localStorage.setItem('state', JSON.stringify({ player }));
+  }
+
+  async initialFetch() {
+    const { getQuestions, token } = this.props;
+    await getQuestions(token);
   }
 
   async handleCorrect(event) {
@@ -76,23 +76,25 @@ class Play extends Component {
       btn.classList.add('revealed');
     });
     const difficulty = () => {
+      const three = 3;
       switch (currQuestion.difficulty) {
       case 'easy':
         return 1;
       case 'medium':
         return 2;
       case 'hard':
-        return 3;
+        return three;
       default:
         return 0;
       }
     };
     if (className === 'correct') {
-      const points = 10 + (count * difficulty());
+      const ten = 10;
+      const points = ten + (count * difficulty());
       await addScore(points);
       this.setState((state) => ({
         assertions: state.assertions + 1,
-      }))
+      }));
     }
     this.setState(() => ({
       answered: true,
