@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
 import { Link } from 'react-router-dom';
@@ -28,8 +29,11 @@ export default class Ranking extends Component {
             Jogar Novamente
           </button>
         </Link>
-
       </div>
     );
   }
 }
+
+
+export default Ranking;
+
