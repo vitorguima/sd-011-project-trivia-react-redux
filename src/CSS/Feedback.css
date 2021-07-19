@@ -1,18 +1,18 @@
 .feedback__container {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   background-color: rgb(144, 187, 79);
   color: white;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
 
 .feedback-nav-bar {
+  align-items: center;
   background-color: slateblue;
   display: flex;
-  min-width: 100%;
   justify-content: space-between;
-  align-items: center;
+  min-width: 100%;
 }
 
 .feedback-nav-bar img {
@@ -26,21 +26,21 @@
 
 .feedback-message {
   font-size: 80px;
+  margin-bottom: 50px;
   margin-top: 100px;
-  margin-bottom: 50px;  
 }
 
 .feedback-score {
+  align-items: center;
+  border: 5px solid hotpink;
+  color: white;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 80px;
-  color: white;
-  border: 5px solid hotpink;
-  height: 300px;
-  width: 500px;
   flex-grow: 1;
+  font-size: 80px;
+  height: 300px;
+  justify-content: space-around;
+  width: 500px;
 }
 
 .feedback-links {
@@ -48,10 +48,10 @@
 }
 
 .feedback-links button {
-  margin: 30px;
   background-color: slateblue;
   color: white;
-  width: 200px;
-  height: 50px;
   font-size: 20px;
+  height: 50px;
+  margin: 30px;
+  width: 200px;
 }
