@@ -20,7 +20,7 @@ const Feedback = () => {
       <button
         type="button"
         data-testid="btn-play-again"
-        onClick={ () => { history.push('/feedback'); } }
+        onClick={ () => { history.push('/'); } }
       >
         Jogar novamente
       </button>
