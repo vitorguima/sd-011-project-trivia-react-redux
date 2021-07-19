@@ -14,6 +14,13 @@ class GameComponent extends Component {
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
   }
 
+  componentDidUpdate() {
+    const player = JSON.parse(localStorage.getItem('state'));
+    const { assertions } = this.state;
+    player.player.assertions = assertions;
+    localStorage.setItem('state', JSON.stringify(player));
+  }
+
   colorSelectCorrect({ target }) {
     const btns = document.querySelectorAll('button');
     btns.forEach((element) => {
