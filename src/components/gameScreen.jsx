@@ -110,7 +110,7 @@ class gameScreen extends Component {
     }
     return (
       <div>
-        <Timer key={ question } />
+        <Timer />
         {results.length > 0 ? (
           <div>
             <p data-testid="question-category">{results[question].category}</p>
