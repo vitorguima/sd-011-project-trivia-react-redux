@@ -18,14 +18,14 @@ class Ranking extends Component {
   }
 
   render() {
-    const ranking = JSON.parse(localStorage.getItem('ranking'));
-    function compare(a, b) {
-      const menor = -1;
-      const maior = 1;
-      if (a.score < b.score) return maior;
-      if (a.score > b.score) return menor;
-      return 0;
-    }
+    // const ranking = JSON.parse(localStorage.getItem('ranking'));
+    // function compare(a, b) {
+    //   const menor = -1;
+    //   const maior = 1;
+    //   if (a.score < b.score) return maior;
+    //   if (a.score > b.score) return menor;
+    //   return 0;
+    // }
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
