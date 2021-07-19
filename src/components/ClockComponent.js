@@ -88,7 +88,6 @@ class ClockComponent extends Component {
 }
 
 ClockComponent.propTypes = {
-  updateButton: PropTypes.func.isRequired,
   buttonClick: PropTypes.bool.isRequired,
   rightAnswerClicked: PropTypes.bool.isRequired,
   nextQuestion: PropTypes.func.isRequired,
