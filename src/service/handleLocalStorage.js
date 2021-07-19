@@ -11,8 +11,8 @@ export const resetStore = (name, email) => {
   localStorage.setItem('state', JSON.stringify(store));
 };
 
-export const getFromStore = () => {
-  const store = JSON.parse(localStorage.getItem('state'));
+export const getFromStore = (key) => {
+  const store = JSON.parse(localStorage.getItem(key));
   return store;
 };
 
@@ -27,7 +27,7 @@ export const saveScoreToStore = (value) => {
     },
   };
 
-  const receivedStore = getFromStore() || defaultStore;
+  const receivedStore = getFromStore('state') || defaultStore;
   receivedStore.player.score += value;
   localStorage.setItem('state', JSON.stringify(receivedStore));
 };
@@ -36,7 +36,7 @@ export const saveToStore = (key, value) => {
   const defaultStore = {
     player: {},
   };
-  const receivedStore = getFromStore() || defaultStore;
+  const receivedStore = getFromStore('state') || defaultStore;
   const { player } = receivedStore;
   player[key] = value;
   localStorage.setItem('state', JSON.stringify(receivedStore));
@@ -49,7 +49,14 @@ export const saveAssertionToStore = () => {
     },
   };
 
-  const receivedStore = getFromStore() || defaultStore;
+  const receivedStore = getFromStore('state') || defaultStore;
   receivedStore.player.assertions += 1;
   localStorage.setItem('state', JSON.stringify(receivedStore));
+};
+
+export const saveRankPlayer = (name, score, picture) => {
+  const defaultRanking = [];
+  const receivedRanking = getFromStore('ranking') || defaultRanking;
+  const newArray = [...receivedRanking, { name, score, picture }];
+  localStorage.setItem('ranking', JSON.stringify(newArray));
 };
