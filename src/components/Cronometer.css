@@ -1,0 +1,22 @@
+.cronometerContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.question-category {
+  color: white;
+}
+
+.timer {
+  color: white;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.timeout {
+  color: red;
+  font-size: 30px;
+  font-weight: 600;
+}

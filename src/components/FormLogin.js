@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loginAction, fetchToken, fetchGravatar, fetchGame } from '../actions';
 
+import './FormLogin.css';
+
 class FormLogin extends Component {
   constructor(props) {
     super(props);
@@ -38,40 +40,44 @@ class FormLogin extends Component {
   render() {
     const { isValid } = this.state;
     return (
-      <form className="login-form" onChange={ this.handleFormChange }>
-        <label htmlFor="player-name">
-          Nome
-          <input
-            id="player-name"
-            data-testid="input-player-name"
-            type="text"
-            name="name"
-            onChange={ this.handleChange }
-            required
-          />
-        </label>
-        <label htmlFor="player-email">
-          E-mail
-          <input
-            id="player-email"
-            data-testid="input-gravatar-email"
-            type="email"
-            name="email"
-            onChange={ this.handleChange }
-            required
-          />
-        </label>
-        <Link to="/quiz">
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ !isValid }
-            onClick={ this.handleClick }
-          >
-            Jogar
-          </button>
-        </Link>
-      </form>
+      <>
+        <span className="background" />
+        <form className="login-form" onChange={ this.handleFormChange }>
+          <label htmlFor="player-name">
+            Nome
+            <input
+              id="player-name"
+              data-testid="input-player-name"
+              type="text"
+              name="name"
+              onChange={ this.handleChange }
+              required
+            />
+          </label>
+          <label htmlFor="player-email">
+            E-mail
+            <input
+              id="player-email"
+              data-testid="input-gravatar-email"
+              type="email"
+              name="email"
+              onChange={ this.handleChange }
+              required
+            />
+          </label>
+          <Link to="/quiz">
+            <button
+              className="login-button"
+              data-testid="btn-play"
+              type="button"
+              disabled={ !isValid }
+              onClick={ this.handleClick }
+            >
+              Jogar
+            </button>
+          </Link>
+        </form>
+      </>
     );
   }
 }
