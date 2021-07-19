@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Feedback extends Component {
   constructor() {
@@ -22,10 +23,23 @@ class Feedback extends Component {
   }
 
   render() {
+    const { score, assertions } = this.props;
+
     return (
       <div>
         <div data-testid="feedback-text">
-          Tela de Feedback
+          <div>
+            Pontuação Total:
+            <span data-testid="feedback-total-score">
+              { score }
+            </span>
+          </div>
+          <div>
+            Número de acertos:
+            <span data-testid="feedback-total-question">
+              { assertions || 0 }
+            </span>
+          </div>
         </div>
         <button
           type="button"
@@ -46,7 +60,12 @@ class Feedback extends Component {
   }
 }
 
-export default Feedback;
+const mapStateToProps = (state) => ({
+  score: state.player.score,
+  assertions: state.player.assertions,
+});
+
+export default connect(mapStateToProps)(Feedback);
 
 Feedback.propTypes = {
   history: PropTypes.shape({

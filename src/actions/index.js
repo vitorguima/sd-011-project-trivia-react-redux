@@ -18,9 +18,10 @@ export const receiveToken = (payload) => ({
   payload,
 });
 
-export const actionScore = (score) => ({
+export const actionScore = (score, assertions) => ({
   type: GET_SCORE,
   score,
+  assertions,
 });
 
 export function fetchToken() {
