@@ -138,7 +138,7 @@ class Game extends Component {
               this.handleScorteAssetions(event);
             } }
           >
-            {getQuestions[num].correct_answer}
+            { getQuestions[num].correct_answer }
           </button>
         ),
       ];
