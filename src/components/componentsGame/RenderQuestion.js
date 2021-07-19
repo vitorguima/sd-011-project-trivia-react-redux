@@ -23,8 +23,6 @@ const RenderQuestion = () => {
         assertions: 0,
         score: newScore + score,
         gravatarEmail,
-        token: '',
-        ranking: [],
       },
     }));
     dispatch(sendScorePoints(newScore + score));
