@@ -12,19 +12,25 @@ class Answers extends React.Component {
       const scoreDataBase = { base: 10, hard: 3, medium: 2, easy: 1 };
       const playerStorageString = localStorage.getItem('state');
       const playerStorage = JSON.parse(playerStorageString);
-      playerStorage.assertions += 1;
+      playerStorage.player.assertions += 1;
       switch (questionsList.difficulty) {
       case 'hard':
-        playerStorage.score += scoreDataBase.base + (timer * scoreDataBase.hard);
-        updateUser({ score: playerStorage.score, assertions: playerStorage.assertions });
+        playerStorage.player.score += scoreDataBase.base + (timer * scoreDataBase.hard);
+        updateUser({
+          score: playerStorage.player.score, assertions: playerStorage.player.assertions,
+        });
         return localStorage.setItem('state', JSON.stringify(playerStorage));
       case 'medium':
-        playerStorage.score += scoreDataBase.base + (timer * scoreDataBase.medium);
-        updateUser({ score: playerStorage.score, assertions: playerStorage.assertions });
+        playerStorage.player.score += scoreDataBase.base + (timer * scoreDataBase.medium);
+        updateUser({
+          score: playerStorage.player.score, assertions: playerStorage.player.assertions,
+        });
         return localStorage.setItem('state', JSON.stringify(playerStorage));
       case 'easy':
-        playerStorage.score += scoreDataBase.base + (timer * scoreDataBase.easy);
-        updateUser({ score: playerStorage.score, assertions: playerStorage.assertions });
+        playerStorage.player.score += scoreDataBase.base + (timer * scoreDataBase.easy);
+        updateUser({
+          score: playerStorage.player.score, assertions: playerStorage.player.assertions,
+        });
         return localStorage.setItem('state', JSON.stringify(playerStorage));
       default:
         return 0;
@@ -41,7 +47,7 @@ class Answers extends React.Component {
           <button
             disabled={ isDisabled }
             data-testid="correct-answer"
-            className={ isDisabled ? 'li-quiz-button correct-answer'
+            className={ isDisabled ? 'li-quiz-button correct-answer correct'
               : 'li-quiz-button correct' }
             type="button"
             onClick={ (event) => this.verifyAnswer(event) }

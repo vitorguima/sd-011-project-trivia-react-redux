@@ -9,19 +9,32 @@ class Scorebboard extends React.Component {
     this.state = {};
   }
 
+  // componentDidMount() {
+  //   chama a função que atualiza o localStorge RANKING
+  // }
+
+  // updateRanking() {
+  //   const { name, score, picture } = user;
+  //   localStorage.setItem('ranking', )
+  // }
+
   render() {
-    const { user } = this.props;
-    const { score, assertions } = user;
+    const playerStorageString = localStorage.getItem('state');
+    const playerStorage = JSON.parse(playerStorageString);
     return (
       <div className="feedback-scoreboard">
         <h2>
           Você acertou:
-          <span data-testid="feedback-total-score">{ assertions }</span>
+          <span data-testid="feedback-total-score">{ playerStorage.player.score }</span>
           de 5 perguntas.
         </h2>
         <h2>
           Você fez:
-          <span data-testid="feedback-total-question">{ score }</span>
+          <span
+            data-testid="feedback-total-question"
+          >
+            { playerStorage.player.assertions }
+          </span>
           pontos.
         </h2>
 

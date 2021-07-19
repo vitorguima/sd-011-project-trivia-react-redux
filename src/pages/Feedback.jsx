@@ -14,14 +14,16 @@ class Feedback extends React.Component {
 
   render() {
     const minHit = 3;
-    const { user: { assertions } } = this.props;
+    // const { user: { assertions } } = this.props;
+    const playerStorageString = localStorage.getItem('state');
+    const playerStorage = JSON.parse(playerStorageString);
     return (
       <>
         <Header />
         <div className="container-feedback">
           <h1 data-testid="feedback-text" className="feedback-title">
             {
-              (assertions >= minHit)
+              (playerStorage.player.assertions >= minHit)
                 ? 'Mandou bem!'
                 : 'Podia ser melhor...'
             }
