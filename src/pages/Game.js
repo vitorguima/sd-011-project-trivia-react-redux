@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import { actionScore } from '../actions';
 import './css/Game.css';
 
 class Game extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.fetchQuestions = this.fetchQuestions.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.fetchTriviaApi = this.fetchTriviaApi.bind(this);
@@ -17,6 +17,7 @@ class Game extends Component {
     this.savePlayerLocal = this.savePlayerLocal.bind(this);
     this.goToNextQuestion = this.goToNextQuestion.bind(this);
 
+    const { score } = this.props;
     this.state = {
       questions: [],
       questionNum: 0,
@@ -26,7 +27,7 @@ class Game extends Component {
       timer: 30,
       disabled: false,
       countdown: '',
-      score: 0,
+      score,
       assertions: 0,
     };
   }
@@ -52,7 +53,6 @@ class Game extends Component {
   async fetchTriviaApi() {
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const token = await response.json();
-
     this.storeTokenOnLocalStorage(token);
   }
 
@@ -68,14 +68,16 @@ class Game extends Component {
 
   savePlayerLocal() {
     const { score, assertions } = this.state;
-    const { name, gravatarEmail } = this.props;
+    const { name, gravatarEmail, addingScore } = this.props;
     const teste = { player: { name, assertions, score, gravatarEmail } };
     localStorage.setItem('state', JSON.stringify(teste));
+    addingScore(score);
   }
 
   goToNextQuestion() {
-    const { questionNum } = this.state;
+    const { questionNum, countdown } = this.state;
     const maxQuestionNumIndex = 4;
+    clearInterval(countdown);
 
     if (questionNum < maxQuestionNumIndex) {
       this.setState({
@@ -83,16 +85,16 @@ class Game extends Component {
         showCorrectAnswer: '',
         timer: 30,
         disabled: false,
-      });
+        countdown: '',
+      }, this.renderTimeAnswer());
       this.setState((prevstate) => ({ questionNum: prevstate.questionNum + 1 }));
     } else {
       const { history } = this.props;
-
       history.push('/feedback');
     }
   }
 
-  renderShowAnswer({ target }) {
+  renderShowAnswer({ target: { id } }) {
     this.setState({
       showIncorrectAnswer: 'incorrect',
       showCorrectAnswer: 'correct',
@@ -100,7 +102,6 @@ class Game extends Component {
     });
 
     const { countdown, timer, questions, questionNum } = this.state;
-    const { id } = target;
     const { difficulty } = questions[questionNum];
     const three = 3;
     let difficultyPoints = three;
@@ -121,8 +122,6 @@ class Game extends Component {
       }), () => {
         this.savePlayerLocal();
       });
-    } else {
-      this.savePlayerLocal();
     }
 
     clearInterval(countdown);
@@ -132,14 +131,13 @@ class Game extends Component {
     const second = 1000;
     const { timer } = this.state;
 
-    if (timer > 0) this.setState({ timer: timer - 1 });
+    if (timer > 0) this.setState({ timer: timer - 1, disabled: false });
 
     const countdown = setTimeout(this.renderTimeAnswer, second);
     this.setState({ countdown });
 
     if (timer === 0) {
       this.setState({ disabled: true });
-      clearInterval(countdown);
     }
   }
 
@@ -213,21 +211,16 @@ class Game extends Component {
     return (
       <div>
         <Header />
-        {
-          loading ? <div>Carregando</div> : this.renderQuestions()
-        }
-
-        {
-          disabled ? (
-            <button
-              data-testid="btn-next"
-              type="button"
-              onClick={ this.goToNextQuestion }
-            >
-              Proxima
-            </button>
-          ) : null
-        }
+        { loading ? <div>Carregando</div> : this.renderQuestions() }
+        { disabled ? (
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ this.goToNextQuestion }
+          >
+            Proxima
+          </button>
+        ) : null }
       </div>
     );
   }
@@ -236,13 +229,19 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   name: state.player.name,
   gravatarEmail: state.player.gravatarEmail,
+  score: state.player.score,
 });
 
-export default connect(mapStateToProps)(Game);
+const mapDispatchToProps = (dispatch) => ({
+  addingScore: (score) => dispatch(actionScore(score)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
 Game.propTypes = {
   name: PropTypes.string,
   gravatarEmail: PropTypes.string,
+  score: PropTypes.number,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }),
