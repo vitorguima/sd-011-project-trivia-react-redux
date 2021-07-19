@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Logo from '../components/Logo';
+import '../styles/Feedback.css';
 
 class Feedback extends Component {
   constructor() {
@@ -32,16 +34,22 @@ class Feedback extends Component {
     const { img } = this.props;
     const three = 3;
     return (
-      <div>
+      <div className="feedback">
+        <Logo />
         <header>
           <h1 data-testid="feedback-text">Feedback</h1>
           <p data-testid="header-player-name">{name}</p>
-          <img data-testid="header-profile-picture" src={ img } alt="Player avatar" />
+          <img
+            className="avatar"
+            data-testid="header-profile-picture"
+            src={ img }
+            alt="Player avatar"
+          />
           <p data-testid="header-score">{score}</p>
           { assertions < three && <p data-testid="feedback-text">Podia ser melhor...</p> }
           { assertions >= three && <p data-testid="feedback-text">Mandou bem!</p> }
         </header>
-        <div>
+        <div className="feedback-details">
           <p data-testid="feedback-total-question">{assertions}</p>
           <p data-testid="feedback-total-score">{score}</p>
           <Link to="/">

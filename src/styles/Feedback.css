@@ -1,0 +1,25 @@
+.feedback {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.feedback header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feedback-details {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+p {
+  margin: 0;
+}

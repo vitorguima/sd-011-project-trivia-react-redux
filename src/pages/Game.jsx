@@ -5,6 +5,8 @@ import Header from '../components/Header';
 import { fetchQuestions } from '../services/api';
 import Question from '../components/Question';
 import { actionClicked, actionTimer } from '../actions';
+import Logo from '../components/Logo';
+import '../styles/Game.css';
 
 class Game extends Component {
   constructor() {
@@ -57,7 +59,8 @@ class Game extends Component {
     }
     const { questions } = this.state;
     return (
-      <div>
+      <div className="game">
+        <Logo />
         <Header />
         <Question questions={ questions[index] } />
         <button
