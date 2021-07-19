@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Layout from '../components/common/Layout';
-import { changeEmail, changeName, getToken } from '../redux/actions';
+import { changeEmail, changeName, clearPlayer, getToken } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -15,6 +15,11 @@ class Login extends Component {
     };
     this.verifyUser = this.verifyUser.bind(this);
     this.setGlobalUser = this.setGlobalUser.bind(this);
+  }
+
+  componentDidMount() {
+    const { clearPlayerState } = this.props;
+    clearPlayerState();
   }
 
   setGlobalUser() {
@@ -76,6 +81,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  clearPlayerState: () => dispatch(clearPlayer()),
   handleEmail: (payload) => dispatch(changeEmail(payload)),
   handleName: (payload) => dispatch(changeName(payload)),
   handleToken: () => dispatch(getToken()),
@@ -84,7 +90,8 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
-  handleEmail: PropTypes.func.isRequired,
-  handleName: PropTypes.func.isRequired,
-  handleToken: PropTypes.func.isRequired,
-};
+  clearPlayer: PropTypes.func,
+  handleEmail: PropTypes.func,
+  handleName: PropTypes.func,
+  handleToken: PropTypes.func,
+}.isRequired;
