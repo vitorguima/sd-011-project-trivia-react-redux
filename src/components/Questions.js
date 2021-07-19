@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/Questions.css';
-import { disableButtonTrue, roleQuestions, answeredQuestion } from '../actions';
+import { disableButtonTrue } from '../actions';
 import * as serviceLocalStorage from '../services/LocalStorage';
 
 class Questions extends Component {
@@ -11,6 +11,8 @@ class Questions extends Component {
     this.state = {
       time: null,
       score: 0,
+      position: 0,
+      answered: false,
       assertion: 0,
     };
 
@@ -32,7 +34,7 @@ class Questions extends Component {
   }
 
   componentDidUpdate() {
-    const { answered } = this.props;
+    const { answered } = this.state;
     if (!answered) {
       this.decrementTime();
     }
@@ -47,10 +49,11 @@ class Questions extends Component {
     });
   }
 
-  handleClick({ target }) {
+  async handleClick({ target }) {
     const { value } = target;
     this.setState({
       assertion: parseInt(value, 10),
+      answered: true,
     }, () => {
       this.saveScore();
       this.getScoreLocalStorage();
@@ -79,7 +82,8 @@ class Questions extends Component {
   }
 
   scoreMode() {
-    const { questionsState, position } = this.props;
+    const { questionsState } = this.props;
+    const { position } = this.state;
     const difficultyQuestion = questionsState[position].difficulty;
     const { time, assertion } = this.state;
     let score = 0;
@@ -114,26 +118,21 @@ class Questions extends Component {
     serviceLocalStorage.updateScoreLocalStorage(newState);
     this.setState({
       assertion: 0,
-    }, () => {
-      const { inAnswerQuestion } = this.props;
-      inAnswerQuestion(true);
+      answered: true,
     });
   }
 
   roleQuestions() {
     const {
-      nextQuestion,
-      inAnswerQuestion,
-      position,
-      questionsState,
       feedback,
     } = this.props;
-    const limit = questionsState.length - 1;
+    const { position } = this.state;
+    const limit = 4;
     if (position < limit) {
-      nextQuestion(1);
-      inAnswerQuestion(false);
       this.setState({
         time: 30,
+        answered: false,
+        position: position + 1,
       });
     } else {
       feedback('/feedback');
@@ -141,12 +140,12 @@ class Questions extends Component {
   }
 
   correctAnswer() {
-    const { answered } = this.props;
+    const { answered } = this.state;
     return !answered ? 'answer' : 'correct-answer';
   }
 
   wrongAnswer() {
-    const { answered } = this.props;
+    const { answered } = this.state;
     return !answered ? 'answer' : 'wrong-answer';
   }
 
@@ -163,8 +162,8 @@ class Questions extends Component {
   }
 
   render() {
-    const { questionsState, loading, buttonsDisabled, position, answered } = this.props;
-    const { time, score } = this.state;
+    const { questionsState, loading, buttonsDisabled } = this.props;
+    const { time, score, position, answered } = this.state;
     return (
       <div>
         <p>{ time }</p>
@@ -214,15 +213,11 @@ class Questions extends Component {
 const mapStateToProps = (state) => ({
   questionsState: state.questionsReducer.questions,
   loading: state.questionsReducer.loading,
-  position: state.questionsReducer.position,
-  answered: state.questionsReducer.answered,
   buttonsDisabled: state.timerReducer.buttonsDisabledFromTimer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   timeOut: (disabled) => dispatch(disableButtonTrue(disabled)),
-  inAnswerQuestion: (value) => dispatch(answeredQuestion(value)),
-  nextQuestion: (position) => dispatch(roleQuestions(position)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
@@ -230,11 +225,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Questions);
 Questions.propTypes = {
   feedback: PropTypes.func.isRequired,
   buttonsDisabled: PropTypes.func.isRequired,
-  nextQuestion: PropTypes.func.isRequired,
-  inAnswerQuestion: PropTypes.func.isRequired,
   questionsState: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
   timeOut: PropTypes.func.isRequired,
-  answered: PropTypes.bool.isRequired,
-  position: PropTypes.number.isRequired,
 };

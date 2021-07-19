@@ -24,6 +24,8 @@ export default function questionsReducer(state = INITIAL_STATE, action) {
   case SAVE_QUESTIONS_SUCCESS:
     return {
       ...state,
+      position: 0,
+      answered: false,
       questions: [...action.payload],
       loading: false,
     };

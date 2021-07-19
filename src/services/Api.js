@@ -1,4 +1,3 @@
-import md5 from 'crypto-js/md5';
 // import { saveQuestions, saveQuestionsSuccess, saveQuestionsError } from '../actions';
 
 const API_URL = 'https://opentdb.com/api_token.php?command=request';
@@ -11,10 +10,6 @@ export default async function fetchToken() {
 }
 
 export async function fetchGravatar(email, name) {
-  const generateHash = md5(email).toString();
-  console.log(generateHash);
-  const response = await fetch(`https://www.gravatar.com/avatar/${generateHash}`);
-  const data = await response.url;
   const state = {
     player: {
       name,
@@ -23,9 +18,7 @@ export async function fetchGravatar(email, name) {
       gravatarEmail: email,
     },
   };
-  const ranking = [{ name, score: 0, picture: data }];
   localStorage.setItem('state', JSON.stringify(state));
-  localStorage.setItem('ranking', JSON.stringify(ranking));
 }
 
 export async function fetchQuestions(token) {
