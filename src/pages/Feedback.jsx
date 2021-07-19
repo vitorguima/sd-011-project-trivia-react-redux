@@ -2,13 +2,33 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import md5 from 'crypto-js/md5';
 import { newGame } from '../actions';
 import HeaderGame from '../components/HeaderGame';
+import fetchAvatar from '../service/requestAvatar';
+import { saveRankPlayer } from '../service/handleLocalStorage';
 
 class Feedback extends Component {
   constructor() {
     super();
+    this.state = { };
     this.resultQuestions = this.resultQuestions.bind(this);
+    this.setAvatar = this.setAvatar.bind(this);
+  }
+
+  async componentDidMount() {
+    const { email, score, name } = this.props;
+    const hashEmail = md5(email).toString();
+    const avatarUrl = await fetchAvatar(hashEmail);
+    this.setAvatar(avatarUrl);
+    const { url } = this.state;
+    saveRankPlayer(name, score, url);
+  }
+
+  setAvatar(url) {
+    this.setState({
+      url,
+    });
   }
 
   resultQuestions() {
@@ -51,9 +71,11 @@ class Feedback extends Component {
   }
 }
 
-const mapStateToProps = ({ gameReducer }) => ({
+const mapStateToProps = ({ gameReducer, loginReducer }) => ({
   questions: gameReducer.correctAnswers,
   score: gameReducer.score,
+  email: loginReducer.email,
+  name: loginReducer.name,
 });
 
 const mapDispatchToProps = (dispatch) => ({
