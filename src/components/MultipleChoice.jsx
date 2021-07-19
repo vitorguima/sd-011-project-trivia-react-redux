@@ -5,36 +5,41 @@ import { showNextBtn } from '../actions';
 
 class MultipleChoice extends React.Component {
   render() {
-    const { question, showBtn, disabled, showAnswer, localStoragePlayerInfo, timer } = this.props;
+    const {
+      question,
+      showBtn,
+      disabled,
+      showAnswer,
+      localStoragePlayerInfo,
+      timer,
+    } = this.props;
     return (
       question.answers.map((answer, index) => {
         if (question.correct_answer === answer) {
           return (
             <button
-              className={((showAnswer) ? 'show-correct-answer' : null)}
-              disabled={disabled}
+              className={ ((showAnswer) ? 'show-correct-answer' : null) }
+              disabled={ disabled }
               data-testid="correct-answer"
-              // onClick={() => localStoragePlayerInfo(1, question.difficulty, userName, userEmail)}
-              key={index}
+              key={ index }
               type="button"
-              onClick={() =>{
-                localStoragePlayerInfo(timer, question.difficulty)
-                showBtn()}
-            }
+              onClick={ () => {
+                localStoragePlayerInfo(timer, question.difficulty);
+                showBtn();
+              } }
             >
-              {answer}
+              { answer }
             </button>
           );
         }
         return (
           <button
-            className={((showAnswer) ? 'show-incorrect-answer' : null)}
-            disabled={disabled}
-            data-testid={`wrong-answer-${index}`}
-            // onClick={() => console.log('wrong-answer')}
-            key={index}
+            className={ ((showAnswer) ? 'show-incorrect-answer' : null) }
+            disabled={ disabled }
+            data-testid={ `wrong-answer-${index}` }
+            key={ index }
             type="button"
-            onClick={() => showBtn()}
+            onClick={ () => showBtn() }
           >
             {answer}
           </button>
@@ -58,10 +63,13 @@ MultipleChoice.propTypes = {
   question: PropTypes.shape({
     answers: PropTypes.arrayOf(PropTypes.string),
     correct_answer: PropTypes.string,
+    difficulty: PropTypes.string.isRequired,
   }).isRequired,
   showBtn: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
   showAnswer: PropTypes.bool.isRequired,
+  timer: PropTypes.string.isRequired,
+  localStoragePlayerInfo: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MultipleChoice);
