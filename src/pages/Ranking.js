@@ -9,6 +9,7 @@ class Ranking extends Component {
 
     this.saveRankingOnLocalStore = this.saveRankingOnLocalStore.bind(this);
     this.getRankingOnLocalStorage = this.getRankingOnLocalStorage.bind(this);
+    this.renderLoginPage = this.renderLoginPage.bind(this);
 
     this.state = {
       rankings: [],
@@ -50,12 +51,13 @@ class Ranking extends Component {
       this.getRankingOnLocalStorage();
     } else {
       const ranking = { name, score, picture };
+
       localStorageRanking.push(ranking);
+      console.log(localStorageRanking);
+      localStorage.setItem('ranking', JSON.stringify(localStorageRanking));
+
       this.getRankingOnLocalStorage(localStorageRanking);
     }
-
-    const ranking = [{ name, score, picture }];
-    localStorage.setItem('ranking', JSON.stringify(ranking));
   }
 
   // saveLisOnState() {
@@ -73,6 +75,12 @@ class Ranking extends Component {
   //   ));
   // }
 
+  renderLoginPage() {
+    const { history } = this.props;
+
+    history.push('/');
+  }
+
   render() {
     const { rankings } = this.state;
 
@@ -85,14 +93,21 @@ class Ranking extends Component {
               <li key={ index }>
                 <img src={ picture } alt="Player Avatar" />
                 <h4 data-testid={ `player-name-${index}` }>
-                  { `Nome: ${name}` }
+                  { name }
                 </h4>
                 <span data-testid={ `player-score-${index}` }>
-                  { `Pontos: ${score}` }
+                  { score }
                 </span>
               </li>
             ))}
         </ul>
+        <button
+          type="button"
+          data-testid="btn-go-home"
+          onClick={ this.renderLoginPage }
+        >
+          Voltar ao início
+        </button>
       </div>
     );
   }
@@ -107,6 +122,10 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(Ranking);
 
 Ranking.propTypes = {
+  history: PropTypes.shape({
+    location: PropTypes.objectOf(PropTypes.string),
+    push: PropTypes.func.isRequired,
+  }),
   name: PropTypes.string,
   email: PropTypes.string,
   score: PropTypes.number,
