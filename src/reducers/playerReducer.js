@@ -1,4 +1,4 @@
-import { GET_LOGIN, GET_SCORE, GET_ASSERTIONS } from '../actions';
+import { GET_LOGIN, GET_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
