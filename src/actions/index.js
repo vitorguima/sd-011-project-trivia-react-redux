@@ -21,12 +21,12 @@ export const receiveToken = (payload) => ({
 
 export const actionScore = (score) => ({
   type: GET_SCORE,
-  score,
+  payload: score,
 });
 
-export const getAssertions = (score) => ({
+export const getAssertions = (assertions) => ({
   type: GET_ASSERTIONS,
-  score,
+  payload: assertions,
 });
 
 export function fetchToken() {
