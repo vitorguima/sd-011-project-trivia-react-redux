@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
+import PropTypes from 'prop-types';
 
 export default class feedback extends Component {
   constructor() {
     super();
     this.getUserMessage = this.getUserMessage.bind(this);
+    this.redirectHomePage = this.redirectHomePage.bind(this);
   }
 
   getUserMessage() {
@@ -14,6 +16,11 @@ export default class feedback extends Component {
     const message = assertions >= numberAssertions
       ? 'Mandou bem!' : 'Podia ser melhor...';
     return message;
+  }
+
+  redirectHomePage() {
+    const { history } = this.props;
+    history.push('/');
   }
 
   render() {
@@ -41,8 +48,21 @@ export default class feedback extends Component {
         <div>
           <p data-testid="feedback-total-score">{ Number(localStorageScore) }</p>
           <p data-testid="feedback-total-question">{ Number(assertions) }</p>
+          <button
+            type="button"
+            data-testid="btn-play-again"
+            onClick={ this.redirectHomePage }
+          >
+            Jogar novamente
+          </button>
         </div>
       </div>
     );
   }
 }
+
+feedback.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
