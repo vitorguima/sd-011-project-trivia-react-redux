@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { startCountdown, stopCountdown, updateScore, nextQuestion } from '../actions';
+import * as actions from '../actions';
 
 class Question extends Component {
   constructor() {
@@ -12,6 +12,8 @@ class Question extends Component {
     };
     this.setRandom = this.setRandom.bind(this);
     this.buttonClicked = this.buttonClicked.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
   }
 
   componentDidMount() {
@@ -69,14 +71,15 @@ class Question extends Component {
   }
 
   nextQuestion() {
-    const { currentQuestion, history, nextQuestionAction } = this.props;
+    const { currentQuestion, history, nextQuestionAction, saveRankAction } = this.props;
     const numOfQuestions = 4;
     if (currentQuestion >= numOfQuestions) {
+      saveRankAction();
       history.push('/feedback');
     } else {
       nextQuestionAction();
       this.setState({
-        hasAnswered: false,
+        anyChosed: false,
       });
     }
   }
@@ -89,7 +92,6 @@ class Question extends Component {
   multipleQuestion() {
     const { anyChosed, randomNumber } = this.state;
     const { questionsArr, currentQuestion } = this.props;
-    const { hasAnswered } = this.state;
     const rightAnswer = (
       <button
         type="button"
@@ -186,11 +188,7 @@ class Question extends Component {
 
   renderNextButton() {
     return (
-      <button
-        type="button"
-        data-testid="btn-next"
-        onClick={ this.nextQuestion }
-      >
+      <button type="button" data-testid="btn-next" onClick={ this.nextQuestion }>
         Próxima
       </button>
     );
@@ -220,7 +218,7 @@ class Question extends Component {
           {' '}
         </p>
         { this.renderAwnserButtons() }
-        {anyChosed? this.renderNextButton() : ''}
+        {anyChosed ? this.renderNextButton() : ''}
         <h3>
           { timer }
         </h3>
@@ -236,24 +234,15 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  startCountdownAction: () => dispatch(startCountdown()),
-  stopCountdownAction: () => dispatch(stopCountdown()),
-  updateScoreAction: (score) => dispatch(updateScore(score)),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  nextQuestionAction: () => dispatch(nextQuestion()),
+  startCountdownAction: () => dispatch(actions.startCountdown()),
+  stopCountdownAction: () => dispatch(actions.stopCountdown()),
+  updateScoreAction: (score) => dispatch(actions.updateScore(score)),
+  nextQuestionAction: () => dispatch(actions.nextQuestion()),
+  saveRankAction: () => dispatch(actions.saveRank()),
 });
 
 Question.propTypes = {
-  questionsArr: PropTypes.arrayOf(PropTypes.shape({
-    category: PropTypes.string,
-    correct_answer: PropTypes.string,
-    difficulty: PropTypes.string,
-    question: PropTypes.string,
-    type: PropTypes.string,
-    incorrect_answers: PropTypes.arrayOf(PropTypes.string),
-  })),
+  questionsArr: PropTypes.arrayOf(PropTypes.object),
   currentQuestion: PropTypes.number,
 }.isRequired;
 

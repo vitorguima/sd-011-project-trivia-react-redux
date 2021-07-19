@@ -1,3 +1,5 @@
+import { MD5 } from 'crypto-js';
+
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
 export const REQUEST_QUESTIONS_FAIL = 'REQUEST_QUESTIONS_FAIL';
@@ -113,4 +115,21 @@ export const updateScore = (payload) => {
     type: UPDATE_SCORE,
     payload,
   };
+};
+
+export const saveRank = () => () => {
+  const state = JSON.parse(localStorage.getItem('state'));
+  const ranking = JSON.parse(localStorage.getItem('ranking'));
+  const emailHash = MD5(state.player.gravatarEmail);
+  const current = {
+    name: state.player.name,
+    score: state.player.score,
+    picture: `https://www.gravatar.com/avatar/${emailHash}`,
+  };
+  if (!ranking) {
+    localStorage.setItem('ranking', JSON.stringify([current]));
+  } else {
+    const newRanking = [...ranking, current];
+    localStorage.setItem('ranking', JSON.stringify(newRanking));
+  }
 };
