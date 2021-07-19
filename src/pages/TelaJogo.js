@@ -11,6 +11,13 @@ class TelaJogo extends Component {
       count: 0,
     };
     this.alternativesAnswers = this.alternativesAnswers.bind(this);
+    this.nextBtn = this.nextBtn.bind(this);
+  }
+
+  nextBtn() {
+    this.setState((prevState) => ({
+      count: prevState.count + 1,
+    }));
   }
 
   alternativesAnswers(count, gameData) {
@@ -18,7 +25,7 @@ class TelaJogo extends Component {
     const array = gameData.results;
     return (
       <div>
-        {array && count < FIVE ? (
+        {array && count < FIVE ? ( // Renderiza perguntas
           <>
             <p data-testid="question-category" key={ array[count].category }>
               {array[count].category}
@@ -26,14 +33,17 @@ class TelaJogo extends Component {
             <p data-testid="question-text" key={ array[count].question }>
               {array[count].question}
             </p>
-            <button
+            {/* <button
               data-testid="correct-answer"
               type="button"
               key={ array[count].correct_answer }
             >
               {array[count].correct_answer}
-            </button>
-            <WrongAnswer array={ Object.values(array[count])[5] } />
+            </button> */}
+            <WrongAnswer
+              array={ Object.values(array[count])[5] }
+              correctAnswer={ array[count].correct_answer }
+            />
           </>
         ) : (
           <p> Fim do jogo </p>
@@ -60,11 +70,12 @@ class TelaJogo extends Component {
         { this.alternativesAnswers(count, gameData) }
         <button
           type="button"
-          onClick={ () => {
-            this.setState((prevState) => ({
-              count: prevState.count + 1,
-            }));
-          } }
+          // onClick={ () => {
+          //   this.setState((prevState) => ({
+          //     count: prevState.count + 1,
+          //   }));
+          // } }
+          onClick={ () => this.nextBtn() }
         >
           botão
         </button>
