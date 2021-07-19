@@ -37,6 +37,7 @@ class Question extends Component {
         key="right"
         onClick={ () => this.setState({ anyChosed: true }) }
         className={ anyChosed ? 'correct' : '' }
+        disabled={ anyChosed }
       >
         { questionsArr[currentQuestion].correct_answer }
       </button>);
@@ -48,6 +49,7 @@ class Question extends Component {
           data-testid={ `wrong-answer-${index}` }
           onClick={ () => this.setState({ anyChosed: true }) }
           className={ anyChosed ? 'wrong' : '' }
+          disabled={ anyChosed }
         >
           { item }
         </button>
@@ -71,15 +73,16 @@ class Question extends Component {
             data-testid="correct-answer"
             onClick={ () => this.setState({ anyChosed: true }) }
             className={ anyChosed ? 'correct' : '' }
+            disabled={ anyChosed }
           >
             True
           </button>
-
           <button
             type="button"
             data-testid="wrong-answer-0"
             onClick={ () => this.setState({ anyChosed: true }) }
             className={ anyChosed ? 'wrong' : '' }
+            disabled={ anyChosed }
           >
             False
           </button>
@@ -88,12 +91,12 @@ class Question extends Component {
     }
     return (
       <div className="answers">
-
         <button
           type="button"
           data-testid="wrong-answer-0"
           onClick={ () => this.setState({ anyChosed: true }) }
           className={ anyChosed ? 'wrong' : '' }
+          disabled={ anyChosed }
         >
           True
         </button>
@@ -102,6 +105,7 @@ class Question extends Component {
           data-testid="correct-answer"
           onClick={ () => this.setState({ anyChosed: true }) }
           className={ anyChosed ? 'correct' : '' }
+          disabled={ anyChosed }
         >
           False
         </button>
