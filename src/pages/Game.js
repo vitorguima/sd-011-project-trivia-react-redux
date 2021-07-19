@@ -137,6 +137,7 @@ class Game extends Component {
     this.setState({ countdown });
 
     if (timer === 0) {
+      clearInterval(countdown);
       this.setState({ disabled: true });
     }
   }
