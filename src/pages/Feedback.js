@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import { Link } from 'react-router-dom';
 
 class Feedback extends React.Component {
   assertionsAnswer() {
@@ -25,7 +25,6 @@ class Feedback extends React.Component {
         <p data-testid="feedback-total-question">{ assertions }</p>
         <p data-testid="feedback-total-score">{ score }</p>
         <Link data-testid="btn-play-again" to="/">Jogar novamente</Link>
-        {/* <button type="button" data-testid="btn-play-again">Jogar Novamente</button> */}
       </div>
     );
   }
