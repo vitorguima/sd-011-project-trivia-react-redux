@@ -5,7 +5,14 @@ import { showNextBtn } from '../actions';
 
 class MultipleChoice extends React.Component {
   render() {
-    const { question, showBtn, disabled, showAnswer } = this.props;
+    const {
+      question,
+      showBtn,
+      disabled,
+      showAnswer,
+      localStoragePlayerInfo,
+      timer,
+    } = this.props;
     return (
       question.answers.map((answer, index) => {
         if (question.correct_answer === answer) {
@@ -16,7 +23,10 @@ class MultipleChoice extends React.Component {
               data-testid="correct-answer"
               key={ index }
               type="button"
-              onClick={ () => showBtn() }
+              onClick={ () => {
+                localStoragePlayerInfo(timer, question.difficulty);
+                showBtn();
+              } }
             >
               { answer }
             </button>
@@ -31,30 +41,35 @@ class MultipleChoice extends React.Component {
             type="button"
             onClick={ () => showBtn() }
           >
-            { answer }
+            {answer}
           </button>
         );
       })
     );
   }
 }
+const mapStateToProps = (state) => ({
+  userName: state.loginReducer.name,
+  userEmail: state.loginReducer.email,
+  showAnswer: state.questionsReducer.showBtn,
+  timer: state.countDownReducer.timer,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   showBtn: () => dispatch(showNextBtn()),
-});
-
-const mapStateToProps = (state) => ({
-  showAnswer: state.questionsReducer.showBtn,
 });
 
 MultipleChoice.propTypes = {
   question: PropTypes.shape({
     answers: PropTypes.arrayOf(PropTypes.string),
     correct_answer: PropTypes.string,
+    difficulty: PropTypes.string.isRequired,
   }).isRequired,
   showBtn: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
   showAnswer: PropTypes.bool.isRequired,
+  timer: PropTypes.string.isRequired,
+  localStoragePlayerInfo: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MultipleChoice);
