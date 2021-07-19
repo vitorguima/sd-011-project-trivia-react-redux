@@ -11,6 +11,7 @@ export class NextQuestionBtn extends Component {
         <button
           type="button"
           value="Próxima"
+          data-testid="btn-next"
           onClick={ toTheNextQuestion }
         >
           Próxima
@@ -33,4 +34,4 @@ export default connect()(NextQuestionBtn);
 
 NextQuestionBtn.propTypes = {
   sumQuestionIndex: PropTypes.func,
-}.sRequired;
+}.isRequired;
