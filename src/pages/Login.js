@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import fetchToken from '../service/tokenApi';
 import { sendUser, sendEmail } from '../actions';
+import logo from '../trivia.png';
 
-class login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,6 +60,9 @@ class login extends Component {
     return (
       <div>
         <form>
+        <header className="App-header">
+        <img src={ logo } height="150px" alt="logo" />
+
           <label htmlFor="user">
             Usuário
             <input
@@ -77,7 +81,7 @@ class login extends Component {
               onChange={ this.handleChange }
             />
           </label>
-          <Link to="/screen-game">
+          <Link to="/trivia">
             <button
               type="button"
               data-testid="btn-play"
@@ -92,23 +96,26 @@ class login extends Component {
               Jogar
             </button>
           </Link>
+          </header>
+
         </form>
-        <Link to="/config">
+        <Link to="/settings">
           <button type="button" data-testid="btn-settings">
             Configurações
           </button>
         </Link>
+
       </div>
     );
   }
 }
 
-login.propTypes = {
+Login.propTypes = {
   updateUser: PropTypes.func,
   updateEmail: PropTypes.func,
 };
 
-login.defaultProps = {
+Login.defaultProps = {
   updateUser: undefined,
   updateEmail: undefined,
 };
@@ -118,4 +125,4 @@ const mapDispatchToProps = (dispatch) => ({
   updateEmail: (state) => dispatch(sendEmail(state)),
 });
 
-export default connect(null, mapDispatchToProps)(login);
+export default connect(null, mapDispatchToProps)(Login);

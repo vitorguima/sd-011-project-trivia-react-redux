@@ -2,56 +2,76 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { clickButton } from '../actions';
+import ClockComponent from './ClockComponent'
 
-class GameComponent extends Component {
+class QuestionsComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       assertions: 0,
       buttonClick: false,
-      rightBtnClicked: false,
+      rightAnswerClicked: false,
+      index:0,
     };
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
-  }
+    this.nextQuestion = this.nextQuestion.bind(this);
 
+  }
+ 
+  nextQuestion(){
+    const btns = document.querySelectorAll('button');
+
+    this.setState((prevState) => ({
+      index: prevState.index +1,
+      rightAnswerClicked:false,
+      buttonClick:false
+  }))
+  btns.forEach((element) => {
+    element.classList.remove('reveal-color');
+  });
+  }
+  
   colorSelectCorrect({ target }) {
     const btns = document.querySelectorAll('button');
-    btns.forEach((element) => {
-      element.classList.add('revel-color');
-    });
+    
     if (target.value === 'correct') {
       this.setState((prevState) => ({
         assertions: prevState.assertions + 1,
-        rightBtnClicked: true,
+        rightAnswerClicked: true,
+
       }
       ));
     }
     this.setState(() => ({
       buttonClick: true,
     }));
+    btns.forEach((element) => {
+      element.classList.add('reveal-color');
+    });
   }
 
+  
   render() {
     const { questions, loading, buttonDisable, updateClickButton } = this.props;
     const { results } = questions;
-    const { buttonClick, rightBtnClicked } = this.state;
-    const updateButtonState = { buttonClick, rightBtnClicked };
+    const { buttonClick, rightAnswerClicked, index } = this.state;
+    const updateButtonState = { buttonClick, rightAnswerClicked };
     updateClickButton(updateButtonState);
     return (
       <div>
+
         {loading
           ? <p>Carregando...</p>
           : (
             <div>
-              <p data-testid="question-category">{ results[0].category }</p>
+              <p data-testid="question-category">{ results[index].category }</p>
               <h4
                 id="question"
                 data-testid="question-text"
-                difficulty={ results[0].difficulty }
+                difficulty={ results[index].difficulty }
               >
-                { results[0].question }
+                { results[index].question }
               </h4>
-              {/* <p className="difficulty">{ results[0].difficulty }</p> */}
               <button
                 value="correct"
                 data-testid="correct-answer"
@@ -60,20 +80,21 @@ class GameComponent extends Component {
                 onClick={ (event) => this.colorSelectCorrect(event) }
                 disabled={ buttonDisable }
               >
-                { results[0].correct_answer }
+                { results[index].correct_answer }
               </button>
-              { results[0].incorrect_answers.map((incorrect, indexKey) => (
+              { results[index].incorrect_answers.map((incorrect, indexKey) => (
                 <button
                   data-testid={ `wrong-answer-${indexKey}` }
                   type="button"
                   key={ indexKey }
                   className="red-border"
-                  onClick={ (event) => this.colorSelectCorrect(event) }
+                  onClick={ (event) => { this.colorSelectCorrect(event); } }
                   disabled={ buttonDisable }
                 >
                   {incorrect}
                 </button>
               ))}
+              <ClockComponent nextQuestion={this.nextQuestion} />
             </div>
           )}
       </div>
@@ -81,7 +102,7 @@ class GameComponent extends Component {
   }
 }
 
-GameComponent.propTypes = {
+QuestionsComponent.propTypes = {
   questions: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
   buttonDisable: PropTypes.func.isRequired,
@@ -89,13 +110,13 @@ GameComponent.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  questions: state.triviaReducer.questions,
-  loading: state.triviaReducer.isLoading,
-  buttonDisable: state.triviaReducer.buttonDisable,
+  questions: state.trivia.questions,
+  loading: state.trivia.isLoading,
+  buttonDisable: state.trivia.buttonDisable,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateClickButton: (state) => dispatch(clickButton(state)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionsComponent);

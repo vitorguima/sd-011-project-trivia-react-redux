@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PlayerComponent from '../components/PlayerComponent';
-import GameComponent from '../components/GameComponent';
-import TimerComponent from '../components/TimerComponent';
+import QuestionsComponent from '../components/QuestionsComponent';
 import { fetchTrivia } from '../actions';
 
-class screenGame extends Component {
+class Trivia extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,18 +41,17 @@ class screenGame extends Component {
     return (
       <div>
         <PlayerComponent />
-        <GameComponent />
-        <TimerComponent />
+        <QuestionsComponent />
       </div>
     );
   }
 }
 
-screenGame.propTypes = {
+Trivia.propTypes = {
   searchQuestion: PropTypes.func,
 };
 
-screenGame.defaultProps = {
+Trivia.defaultProps = {
   searchQuestion: undefined,
 };
 
@@ -61,4 +59,4 @@ const mapDispatchToProps = (dispatch) => ({
   searchQuestion: (token) => dispatch(fetchTrivia(token)),
 });
 
-export default connect(null, mapDispatchToProps)(screenGame);
+export default connect(null, mapDispatchToProps)(Trivia);

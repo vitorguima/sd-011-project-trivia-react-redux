@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { timerButton } from '../actions';
 
-class TimerComponent extends Component {
+class ClockComponent extends Component {
   constructor() {
     super();
     this.state = {
       seconds: 30,
+      index:0
     };
     this.timer = this.timer.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
+
   }
 
   componentDidMount() {
@@ -18,23 +20,23 @@ class TimerComponent extends Component {
     setInterval(() => this.timer(), second);
   }
 
+  
+
   componentDidUpdate() {
-    const { buttonClick, rightBtnClicked } = this.props;
+    const { buttonClick, rightAnswerClicked } = this.props;
     if (buttonClick) {
       clearInterval(1);
       const stopTime = document.querySelector('.timer');
-      // const difficulty = document.querySelector('.difficulty');
       const question = document.querySelector('#question');
       const difficulty = question.getAttribute('difficulty');
-      // const rightBtn = document.querySelector('.green-border');
-      // const score = this.setScore();
-      const score = rightBtnClicked
+      const score = rightAnswerClicked
         ? this.setScore(stopTime.innerHTML, difficulty)
         : 0;
       this.updateLocalStorage(score);
     }
   }
 
+  
   setScore(timer, difficulty) {
     const ten = 10;
     const questionLevel = (dif) => {
@@ -52,7 +54,6 @@ class TimerComponent extends Component {
         break;
       }
     };
-    // const score = 10 + (timer * questionLevel(obj1));
     return ten + (timer * questionLevel(difficulty));
   }
 
@@ -60,52 +61,58 @@ class TimerComponent extends Component {
     const player = JSON.parse(localStorage.getItem('state'));
     player.player.score = score;
     localStorage.setItem('state', JSON.stringify(player));
-    console.log(player);
   }
 
   timer() {
+    const { buttonClick} = this.props
     const { seconds } = this.state;
+    const { updateButton } = this.props;
     if (seconds !== 0) {
       this.setState((prevState) => ({
         seconds: prevState.seconds - 1,
       }
       ));
     }
-    if (seconds === 0) {
-      const { updateButton } = this.props;
+    if (seconds === 0 || buttonClick) {
+    }
+    if ( buttonClick == true){
       updateButton();
+      this.setState(()=> ({
+        seconds
+      }))
+
     }
   }
 
   render() {
     const { seconds } = this.state;
-    const { buttonClick } = this.props;
+    const { buttonClick,nextQuestion } = this.props;
     return (
       <div>
         <div>
           <p className="timer">{ seconds }</p>
         </div>
         <div>
-          { buttonClick && <button type="button" data-testid="btn-next">Próxima</button> }
+          { buttonClick && <button type="button" onClick={nextQuestion} data-testid="btn-next">Próxima</button> }
         </div>
       </div>
     );
   }
 }
 
-TimerComponent.propTypes = {
+ClockComponent.propTypes = {
   updateButton: PropTypes.func.isRequired,
   buttonClick: PropTypes.bool.isRequired,
-  rightBtnClicked: PropTypes.bool.isRequired,
+  rightAnswerClicked: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  buttonClick: state.triviaReducer.buttonClick,
-  rightBtnClicked: state.triviaReducer.rightBtnClicked,
+  buttonClick: state.trivia.buttonClick,
+  rightAnswerClicked: state.trivia.rightAnswerClicked,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateButton: (state) => dispatch(timerButton(state)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimerComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(ClockComponent);

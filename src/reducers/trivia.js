@@ -12,10 +12,10 @@ const INITIAL_STATE = {
   isLoading: true,
   buttonDisable: false,
   buttonClick: false,
-  rightBtnClicked: false,
+  rightAnswerClicked: false,
 };
 
-function triviaReducer(state = INITIAL_STATE, action) {
+function trivia(state = INITIAL_STATE, action) {
   switch (action.type) {
   case REQUEST_TRIVIA:
     return {
@@ -43,11 +43,12 @@ function triviaReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       buttonClick: action.state.buttonClick,
-      rightBtnClicked: action.state.rightBtnClicked,
+      rightAnswerClicked: action.state.rightAnswerClicked,
+      buttonDisable:false
     };
   default:
     return state;
   }
 }
 
-export default triviaReducer;
+export default trivia;

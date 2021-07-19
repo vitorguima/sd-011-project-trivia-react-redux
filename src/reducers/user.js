@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   user: '',
 };
 
-const newUser = (state = INITIAL_STATE, action) => {
+const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case NEW_USER:
     return {
@@ -22,4 +22,4 @@ const newUser = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default newUser;
+export default user;
