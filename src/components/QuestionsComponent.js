@@ -56,7 +56,7 @@ class QuestionsComponent extends Component {
     updateClickButton(updateButtonState);
     const renderLink = () => {
       if (index === results.length) {
-        return (<Redirect to="/feedback" />);
+        return (<Redirect data-testid="feedback-test" to="/feedback" />);
       }
       return (
         <div>
