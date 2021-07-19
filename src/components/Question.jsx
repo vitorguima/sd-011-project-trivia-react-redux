@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '../styles/Question.css';
 import { connect } from 'react-redux';
-import { actionBtn, actionClicked, actionTimer } from '../actions';
+import { actionBtn, actionClicked, actionTimer, actionScore } from '../actions';
 
 class Question extends Component {
   constructor() {
@@ -27,7 +26,7 @@ class Question extends Component {
 
   countScore() {
     const score = 10;
-    const { questions, timer } = this.props;
+    const { questions, timer, setScore } = this.props;
     const hard = 3;
     const medium = 2;
     let state = JSON.parse(localStorage.getItem(('state')));
@@ -40,6 +39,7 @@ class Question extends Component {
       previousScore = score * (timer * hard);
     }
     state.player.score += previousScore;
+    setScore(state.player.score);
     state.player.assertions += 1;
     state = localStorage.setItem('state', JSON.stringify(state));
   }
@@ -70,7 +70,7 @@ class Question extends Component {
       }, getClicked, timer } = this.props;
     const { disableBtn } = this.state;
     return (
-      <div>
+      <div className="question">
         <p>{ timer }</p>
         <p data-testid="question-category">{category}</p>
         <p data-testid="question-text">{question}</p>
@@ -102,12 +102,14 @@ class Question extends Component {
 const MapStateToProps = (state) => ({
   getClicked: state.game.clicked,
   timer: state.game.timer,
+  score: state.game.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setHidden: (button) => dispatch(actionBtn(button)),
   setClicked: (clicked) => dispatch(actionClicked(clicked)),
   setTimer: (timer) => dispatch(actionTimer(timer)),
+  setScore: (score) => dispatch(actionScore(score)),
 });
 
 Question.propTypes = {
@@ -121,6 +123,7 @@ Question.propTypes = {
   setHidden: PropTypes.func.isRequired,
   setTimer: PropTypes.func.isRequired,
   setClicked: PropTypes.func.isRequired,
+  setScore: PropTypes.func.isRequired,
   getClicked: PropTypes.bool.isRequired,
   timer: PropTypes.number.isRequired,
 };

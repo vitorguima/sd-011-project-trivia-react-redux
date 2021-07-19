@@ -5,11 +5,17 @@ import PropTypes from 'prop-types';
 class Header extends Component {
   render() {
     const { avatar, name } = this.props;
+    const { score } = this.props;
     return (
       <div>
-        <img data-testid="header-profile-picture" src={ avatar } alt="Avatar" />
+        <img
+          className="avatar"
+          data-testid="header-profile-picture"
+          src={ avatar }
+          alt="Avatar"
+        />
         <p data-testid="header-player-name">{name}</p>
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{score}</p>
       </div>
     );
   }
@@ -18,6 +24,7 @@ class Header extends Component {
 const MapStateToProps = (state) => ({
   avatar: state.login.img,
   name: state.login.name,
+  score: state.game.score,
 });
 
 Header.propTypes = {

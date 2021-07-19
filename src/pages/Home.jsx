@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
-// import { fetchToken } from '../services/api';
 import { actionAvatar, actionName } from '../actions';
+import '../styles/Home.css';
+import Logo from '../components/Logo';
 
 class Home extends Component {
   constructor() {
@@ -47,39 +48,44 @@ class Home extends Component {
   render() {
     const { email, name } = this.state;
     return (
-      <form>
-        <label htmlFor="email">
-          Email:
-          <input
-            type="text"
-            data-testid="input-gravatar-email"
-            value={ email }
-            id="email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="name">
-          Nome:
-          <input
-            type="text"
-            data-testid="input-player-name"
-            value={ name }
-            id="name"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          onClick={ this.getToken }
-          disabled={ !email || !name }
-        >
-          Jogar
-        </button>
-        <Link to="/settings">
-          <button data-testid="btn-settings" type="button">Configurações</button>
-        </Link>
-      </form>
+      <div className="home">
+        <Logo />
+        <form>
+          <label htmlFor="email">
+            Email:
+            <input
+              type="text"
+              data-testid="input-gravatar-email"
+              value={ email }
+              id="email"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="name">
+            Nome:
+            <input
+              type="text"
+              data-testid="input-player-name"
+              value={ name }
+              id="name"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <div className="buttons">
+            <button
+              type="button"
+              data-testid="btn-play"
+              onClick={ this.getToken }
+              disabled={ !email || !name }
+            >
+              Jogar
+            </button>
+            <Link to="/settings">
+              <button data-testid="btn-settings" type="button">Configurações</button>
+            </Link>
+          </div>
+        </form>
+      </div>
     );
   }
 }
