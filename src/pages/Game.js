@@ -71,7 +71,7 @@ class Game extends Component {
     const { name, gravatarEmail, addingScore } = this.props;
     const teste = { player: { name, assertions, score, gravatarEmail } };
     localStorage.setItem('state', JSON.stringify(teste));
-    addingScore(score);
+    addingScore(score, assertions);
   }
 
   goToNextQuestion() {
@@ -233,7 +233,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addingScore: (score) => dispatch(actionScore(score)),
+  addingScore: (score, assertions) => dispatch(actionScore(score, assertions)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

@@ -31,12 +31,28 @@ class Feedback extends Component {
   }
 
   render() {
+    const { score, assertions } = this.props;
+
     return (
       <div>
         <Header />
         <h3 data-testid="feedback-text">
           { this.handleFeedback() }
         </h3>
+        <div data-testid="feedback-text">
+          <div>
+            Pontuação Total:
+            <span data-testid="feedback-total-score">
+              { score }
+            </span>
+          </div>
+          <div>
+            Número de acertos:
+            <span data-testid="feedback-total-question">
+              { assertions || 0 }
+            </span>
+          </div>
+        </div>
         <button
           type="button"
           data-testid="btn-play-again"
@@ -58,6 +74,7 @@ class Feedback extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  score: state.player.score,
   assertions: state.player.assertions,
 });
 
