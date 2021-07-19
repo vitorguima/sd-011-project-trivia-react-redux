@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { connect } from 'react-redux';
 
@@ -9,6 +10,13 @@ class Feedback extends Component {
 
     this.renderLoginPage = this.renderLoginPage.bind(this);
     this.renderRankingPage = this.renderRankingPage.bind(this);
+    this.handleFeedback = this.handleFeedback.bind(this);
+  }
+
+  handleFeedback() {
+    const { assertions } = this.props;
+    const countAssertions = 3;
+    return assertions >= countAssertions ? 'Mandou bem!' : 'Podia ser melhor...';
   }
 
   renderLoginPage() {
@@ -29,6 +37,9 @@ class Feedback extends Component {
     return (
       <div>
         <Header />
+        <h3 data-testid="feedback-text">
+          { this.handleFeedback() }
+        </h3>
         <div data-testid="feedback-text">
           <div>
             Pontuação Total:
@@ -71,6 +82,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(Feedback);
 
 Feedback.propTypes = {
+  assertions: PropTypes.number,
   history: PropTypes.shape({
     location: PropTypes.objectOf(PropTypes.string),
     push: PropTypes.func.isRequired,

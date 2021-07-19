@@ -25,11 +25,6 @@ export const actionScore = (score, assertions) => ({
   assertions,
 });
 
-export const getAssertions = (score) => ({
-  type: GET_ASSERTIONS,
-  score,
-});
-
 export function fetchToken() {
   const url = 'https://opentdb.com/api_token.php?command=request';
   return (dispatch) => {
