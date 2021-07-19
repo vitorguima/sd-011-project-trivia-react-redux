@@ -16,7 +16,7 @@ export default class Feedback extends Component {
         <>
           <p data-testid="feedback-text">Mandou bem!</p>
           <p data-testid="feedback-total-score">{ getLocalStorage.player.score }</p>
-          <p data-testid="feedback-total-question">{ getLocalStorage.player.assertions }</p>
+          <p data-testid="feedback-total-question">{getLocalStorage.player.assertions}</p>
         </>
       );
     } return (
