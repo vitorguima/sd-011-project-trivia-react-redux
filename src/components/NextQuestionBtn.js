@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import * as userActions from '../actions';
+import * as userActions from '../actions';
 
-export class NextQuestionBtn extends Component {
+class NextQuestionBtn extends Component {
+  constructor(props) {
+    super(props);
+    this.setTimerTo30 = this.setTimerTo30.bind(this);
+  }
+
+  setTimerTo30() {
+    const { newQuestionTime } = this.props;
+    console.log(newQuestionTime);
+    newQuestionTime();
+  }
+
   render() {
     const { toTheNextQuestion } = this.props;
     return (
@@ -12,7 +23,7 @@ export class NextQuestionBtn extends Component {
           type="button"
           value="Próxima"
           data-testid="btn-next"
-          onClick={ toTheNextQuestion }
+          onClick={ () => { toTheNextQuestion(); this.setTimerTo30(); } }
         >
           Próxima
         </button>
@@ -26,11 +37,11 @@ export class NextQuestionBtn extends Component {
 //   wasAsnwered: state.question.wasAsnwered,
 // });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   getNextQuestion: (value) => dispatch(userActions.getNextQuestion(value)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  newQuestionTime: () => dispatch(userActions.newQuestionTime()),
+});
 
-export default connect()(NextQuestionBtn);
+export default connect(null, mapDispatchToProps)(NextQuestionBtn);
 
 NextQuestionBtn.propTypes = {
   sumQuestionIndex: PropTypes.func,

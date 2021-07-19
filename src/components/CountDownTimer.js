@@ -9,10 +9,6 @@ class CountdownTimer extends Component {
 
     this.timer = this.timer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
-    this.state = {
-      minutes: 0,
-      seconds: 30,
-    };
   }
 
   componentDidMount() {
@@ -20,7 +16,7 @@ class CountdownTimer extends Component {
   }
 
   componentDidUpdate() {
-    this.dispatchDisable();
+    // this.dispatchDisable();
   }
 
   componentWillUnmount() {
@@ -28,16 +24,17 @@ class CountdownTimer extends Component {
   }
 
   timer() {
+    const { setSecondsToFinish } = this.props;
     const interval = 1000;
     this.myInterval = setInterval(() => {
-      const { seconds } = this.state;
-      const { wasAnswered } = this.props;
-      if (seconds > 0) {
-        this.setState((secs) => ({
-          seconds: secs.seconds - 1,
-        }));
+      const { wasAnswered, secondsToFinish } = this.props;
+      if (secondsToFinish > 0) {
+        setSecondsToFinish(1);
+        // this.setState((secs) => ({
+        //   seconds: secs.seconds - 1,
+        // }));
       }
-      if (seconds === 0) {
+      if (secondsToFinish <= 0) {
         clearInterval(this.myInterval);
         // this.setState({
         //   disabled: false,
@@ -50,39 +47,33 @@ class CountdownTimer extends Component {
   }
 
   stopTimer() {
-    console.log('chamei');
-    const { setTimeScore } = this.props;
-    const { seconds } = this.state;
+    const { setTimeScore, secondsToFinish } = this.props;
     const MAX_TIME = 30;
-    const timeAnswered = MAX_TIME - seconds;
+    const timeAnswered = MAX_TIME - secondsToFinish;
     setTimeScore(timeAnswered);
   }
 
-  dispatchDisable() {
-    const { setSeconds } = this.props;
-    const { seconds } = this.state;
-    if (seconds === 0) {
-      setSeconds(seconds);
-    }
-  }
+  // dispatchDisable() {
+  //   const { setSecondsToFinish, secondsToFinish } = this.props;
+  //   if (secondsToFinish === 0) {
+  //     setSecondsToFinish(seconds);
+  //   }
+  // }
 
   render() {
-    const { minutes, seconds } = this.state;
-    const { wasAnswered } = this.props;
     const finalSeconds = 10;
+    const { wasAnswered, secondsToFinish } = this.props;
     if (wasAnswered) {
       this.stopTimer();
     }
-    if (minutes === 0 && seconds === 0) {
+    if (secondsToFinish === 0) {
       return <h1>Tempo esgotado!</h1>;
     }
     return (
       <div>
         <h1>
-          Time Remaining:
-          {minutes}
-          :
-          {seconds < finalSeconds ? `0${seconds}` : seconds}
+          Tempo Restante: 00:
+          { secondsToFinish < finalSeconds ? `0${secondsToFinish}` : secondsToFinish}
         </h1>
       </div>
     );
@@ -90,12 +81,13 @@ class CountdownTimer extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  setSeconds: (seconds) => dispatch(userActions.getSeconds(seconds)),
+  setSecondsToFinish: (seconds) => dispatch(userActions.setSecondsToFinish(seconds)),
   setTimeScore: (seconds) => dispatch(userActions.setTimeScore(seconds)),
 });
 
 const mapStateToProps = (state) => ({
   wasAnswered: state.questionHandlers.wasAnswered,
+  secondsToFinish: state.timeHandler.secondsToFinish,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CountdownTimer);

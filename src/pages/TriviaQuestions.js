@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import * as userActions from '../actions';
 import Question from '../components/Question';
 import CountdownTimer from '../components/CountDownTimer';
-import { NextQuestionBtn } from '../components/NextQuestionBtn';
+import NextQuestionBtn from '../components/NextQuestionBtn';
 
 class TriviaQuestions extends Component {
   constructor(props) {
