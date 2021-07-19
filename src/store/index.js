@@ -15,7 +15,7 @@ store.subscribe(() => {
   const modifyState = {
     player: {
       name: reduxState.player.name,
-      assertions: 0,
+      assertions: reduxState.player.assertions,
       score: reduxState.player.score,
       gravatarEmail: reduxState.player.email,
     },

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from './Header';
@@ -6,10 +5,12 @@ import Header from './Header';
 const THREE = 3;
 class Feedback extends Component {
   render() {
-    const { assertions } = this.props;
+    const state = JSON.parse(localStorage.getItem('state'));
+    const { score, assertions } = state.player;
     return (
       <div>
         <Header />
+        <p data-testid="feedback-text">Testando</p>
         <h3 data-testid="feedback-text">
           {
             (assertions >= (THREE))
@@ -17,14 +18,14 @@ class Feedback extends Component {
               : 'Podia ser melhor...'
           }
         </h3>
+        <h2 data-testid="feedback-total-score">{ score }</h2>
+        <h2 data-testid="feedback-total-question">
+          { assertions }
+        </h2>
       </div>
     );
   }
 }
-
-Feedback.propTypes = {
-  assertions: PropTypes.number.isRequired,
-};
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
