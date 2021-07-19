@@ -27,18 +27,18 @@ class Question extends Component {
     }
   }
 
-  buttonClicked() {
-    const { stopCountdownAction } = this.props;
-    stopCountdownAction();
-    this.setState({
-      anyChosed: true 
-    });
-  }
-
   setRandom() {
     const max = 4;
     const random = Math.floor(Math.random() * max);
     this.setState({ randomNumber: random });
+  }
+
+  buttonClicked() {
+    const { stopCountdownAction } = this.props;
+    stopCountdownAction();
+    this.setState({
+      anyChosed: true,
+    });
   }
 
   shufleAnswers(right, wrongs, random) {
@@ -49,7 +49,6 @@ class Question extends Component {
   multipleQuestion() {
     const { anyChosed, randomNumber } = this.state;
     const { questionsArr, currentQuestion } = this.props;
-    const { disabled } = this.state;
     const rightAnswer = (
       <button
         type="button"
@@ -92,17 +91,15 @@ class Question extends Component {
             type="button"
             data-testid="correct-answer"
             onClick={ this.buttonClicked }
-            data-testid="correct-answer"
             className={ anyChosed ? 'correct' : '' }
             disabled={ anyChosed }
           >
             True
           </button>
           <button
-            type="button"      
+            type="button"
             data-testid="wrong-answer-0"
             onClick={ this.buttonClicked }
-            data-testid="wrong-answer-0"
             className={ anyChosed ? 'wrong' : '' }
             disabled={ anyChosed }
           >
@@ -117,7 +114,6 @@ class Question extends Component {
           type="button"
           data-testid="wrong-answer-0"
           onClick={ this.buttonClicked }
-          data-testid="wrong-answer-0"
           className={ anyChosed ? 'wrong' : '' }
           disabled={ anyChosed }
         >
@@ -127,7 +123,6 @@ class Question extends Component {
           type="button"
           data-testid="correct-answer"
           onClick={ this.buttonClicked }
-          data-testid="correct-answer"
           className={ anyChosed ? 'correct' : '' }
           disabled={ anyChosed }
         >
