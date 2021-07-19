@@ -29,7 +29,7 @@ class Ranking extends Component {
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
-        <ul>
+        {/* <ul>
           {ranking.sort(compare).map((user, index) => (
             <li key={ index }>
               <h3 data-testid={ `player-name-${index}` }>{user.name}</h3>
@@ -38,7 +38,7 @@ class Ranking extends Component {
                 <img src={ user.img } alt={ `foto do jogador ${user.name}` } />
               </div>
             </li>))}
-        </ul>
+        </ul> */}
         <Link
           to="/"
         >
