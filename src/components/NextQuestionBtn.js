@@ -7,12 +7,20 @@ class NextQuestionBtn extends Component {
   constructor(props) {
     super(props);
     this.setTimerTo30 = this.setTimerTo30.bind(this);
+    this.removeColors = this.removeColors.bind(this);
   }
 
   setTimerTo30() {
     const { newQuestionTime } = this.props;
-    console.log(newQuestionTime);
     newQuestionTime();
+  }
+
+  removeColors() {
+    const buttons = document.getElementsByName('answer');
+    const buttonsArray = Object.values(buttons);
+    buttonsArray.forEach((button) => {
+      button.className = 'answer';
+    });
   }
 
   render() {
@@ -23,7 +31,11 @@ class NextQuestionBtn extends Component {
           type="button"
           value="Próxima"
           data-testid="btn-next"
-          onClick={ () => { toTheNextQuestion(); this.setTimerTo30(); } }
+          onClick={ () => {
+            toTheNextQuestion();
+            this.setTimerTo30();
+            this.removeColors();
+          } }
         >
           Próxima
         </button>

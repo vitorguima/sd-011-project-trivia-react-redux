@@ -8,27 +8,27 @@ class CountdownTimer extends Component {
     super();
 
     this.timer = this.timer.bind(this);
-    this.stopTimer = this.stopTimer.bind(this);
   }
 
   componentDidMount() {
     this.timer();
   }
 
-  componentDidUpdate() {
-    // this.dispatchDisable();
-  }
-
   componentWillUnmount() {
     clearInterval(this.myInterval);
   }
 
+  // Problema: o timer não é renderizado novamente, portanto a função que começa o timer não é chamada quando mudamos de pergunta
+  // Soluções: podemos usar o timer dentro de uma action, e chamar a action cada vez que clicar no botão "Próxima"
+  // podemos renderizar o componente pai novamente pra forçar a renderização do componente
+
   timer() {
     const { setSecondsToFinish } = this.props;
     const interval = 1000;
+    console.log('passei');
     this.myInterval = setInterval(() => {
       const { wasAnswered, secondsToFinish } = this.props;
-      if (secondsToFinish > 0) {
+      if (secondsToFinish > 0 || !wasAnswered) {
         setSecondsToFinish(1);
         // this.setState((secs) => ({
         //   seconds: secs.seconds - 1,
@@ -46,26 +46,10 @@ class CountdownTimer extends Component {
     }, interval);
   }
 
-  stopTimer() {
-    const { setTimeScore, secondsToFinish } = this.props;
-    const MAX_TIME = 30;
-    const timeAnswered = MAX_TIME - secondsToFinish;
-    setTimeScore(timeAnswered);
-  }
-
-  // dispatchDisable() {
-  //   const { setSecondsToFinish, secondsToFinish } = this.props;
-  //   if (secondsToFinish === 0) {
-  //     setSecondsToFinish(seconds);
-  //   }
-  // }
-
   render() {
+    const { wansAnswered } = this.props;
     const finalSeconds = 10;
-    const { wasAnswered, secondsToFinish } = this.props;
-    if (wasAnswered) {
-      this.stopTimer();
-    }
+    const { secondsToFinish } = this.props;
     if (secondsToFinish === 0) {
       return <h1>Tempo esgotado!</h1>;
     }

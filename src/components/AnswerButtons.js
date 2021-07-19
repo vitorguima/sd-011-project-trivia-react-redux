@@ -6,6 +6,7 @@ import * as userActions from '../actions';
 class AnswerButtons extends Component {
   constructor(props) {
     super(props);
+
     this.setScorePoint = this.setScorePoint.bind(this);
     this.verifyIfWasAnswered = this.verifyIfWasAnswered.bind(this);
   }
@@ -22,9 +23,7 @@ class AnswerButtons extends Component {
     if (answerSelected === correctAnswer) {
       score = 1;
     }
-
     const timeScore = secondsToFinish;
-
     const answerOfUser = {
       questionNumber: question,
       time: timeScore,
@@ -50,19 +49,19 @@ class AnswerButtons extends Component {
     return (
       <section>
         <button
-          id="answer"
+          name="answer"
           type="button"
           disabled={ wasAnswered || secondsToFinish === 0 }
           key={ key }
           data-testid={ correctAnswer === answer
             ? 'correct-answer'
             : 'wrong-answer' }
-          onClick={ () => {
+          onClick={ (e) => {
             colorizeAnswers();
             this.verifyIfWasAnswered();
             this.setScorePoint(answer, correctAnswer);
+            colorizeAnswers(e);
           } }
-          onChange={ secondsToFinish === 0 ? colorizeAnswers() : null }
           className="answer"
         >
           { answer }
