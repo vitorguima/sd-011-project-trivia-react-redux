@@ -20,17 +20,13 @@ class TriviaQuestions extends Component {
   }
 
   toTheNextQuestion() {
-    const { getNextQuestion, questionIndex } = this.props;
-    const MAX_INDEX = 4;
-    console.log(questionIndex)
-    if (questionIndex < MAX_INDEX) {
-      getNextQuestion();
-    }
+    const { getNextQuestion } = this.props;
+    getNextQuestion();
   }
 
   render() {
     const { questions, seconds, wasAnswered, questionIndex } = this.props;
-    const MAX_QUESTIONS_INDEX = 4;
+    const MAX_QUESTIONS_INDEX = 5;
     const { results } = questions;
     const eachResult = Object.values({ ...results });
     return (
