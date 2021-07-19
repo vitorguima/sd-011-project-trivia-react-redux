@@ -2,12 +2,25 @@ import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
 
 export default class feedback extends Component {
+  constructor() {
+    super();
+    this.getUserMessage = this.getUserMessage.bind(this);
+  }
+
+  getUserMessage() {
+    const assertions = JSON.parse(localStorage.getItem('state'));
+    const { player: { score } } = assertions;
+    const numberAssertions = 3;
+    const message = score >= numberAssertions ? 'Mandou bem!' : 'Podia ser melhor...';
+    return message;
+  }
+
   render() {
     const player2 = JSON.parse(localStorage.getItem('state'));
     const pictureHash = md5(player2.player.email).toString();
     const localStorageScore = player2.player.score;
     const linkImage = `https://www.gravatar.com/avatar/${pictureHash}`;
-    console.log(localStorageScore);
+    const userMessage = this.getUserMessage();
     return (
       <header>
         <h1 data-testid="feedback-text">Feedback</h1>
@@ -18,6 +31,7 @@ export default class feedback extends Component {
           alt="User Gravatar"
         />
         <p data-testid="header-score">{ Number(localStorageScore) }</p>
+        <p data-testid="feedback-text">{ userMessage }</p>
       </header>
     );
   }
