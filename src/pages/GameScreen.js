@@ -29,15 +29,16 @@ class GameScreen extends Component {
   }
 
   answerTimer() {
-    const time = 30000;
-    const interval = 1000;
+    // para fazer essa função consultamos https://www.tabnine.com/code/javascript/functions/react-native/setInterval
+    const { timer } = this.state;
+    const time1000 = 1000;
+    const time30000 = 30000;
     setInterval(() => {
-      const { timer } = this.state;
       if (timer > 0) this.setState({ timer: timer - 1 });
-    }, interval);
+    }, time1000);
     setTimeout(() => {
       this.validateAnswer();
-    }, time);
+    }, time30000);
   }
 
   validateAnswer() {
