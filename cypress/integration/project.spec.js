@@ -249,6 +249,7 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+      console.log(then);
       expect(then.player.score).to.be.lt(now.player.score);
     });
   });
@@ -391,7 +392,7 @@ describe('12 - [TELA DE FEEDBACK] Desenvolva o header de _feedback_ que deve con
   });
 });
 
-describe('13 - [TELA DE FEEDBACK] Crie a mensagem de _feedback_ para ser exibida a pessoa usuária', () => {
+describe.only('13 - [TELA DE FEEDBACK] Crie a mensagem de _feedback_ para ser exibida a pessoa usuária', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();

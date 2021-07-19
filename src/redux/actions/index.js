@@ -19,6 +19,11 @@ export const changeScore = (payload) => ({
   payload,
 });
 
+export const changeAssertions = (payload) => ({
+  type: 'CHANGE_ASSERTIONS',
+  payload,
+});
+
 export const changeQuestions = (payload) => ({
   type: 'CHANGE_QUESTIONS',
   payload,
