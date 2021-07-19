@@ -17,7 +17,7 @@ function questions(state = INITIAL_STATE, action) {
   case 'GET_TOKEN':
     return { ...state, isFetching: false, token: action.state.token };
   case 'ADD_POINT':
-    return { ...state, score: state.score + 1 };
+    return { ...state, score: state.score + action.state };
   default:
     return state;
   }

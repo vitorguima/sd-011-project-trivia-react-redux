@@ -31,15 +31,30 @@ class Play extends Component {
 
   handleCorrect(event) {
     event.preventDefault();
-    const { addScore } = this.props;
+    const { addScore, questions } = this.props;
+    const { qIndex } = this.state;
+    const currQuestion = questions[qIndex];
     const { className } = event.target;
     const btns = document.querySelectorAll('button.correct, button.wrong');
     btns.forEach((btn) => {
       btn.classList.add('revealed');
       btn.disabled = true;
     });
+    const difficulty = () => {
+      switch (currQuestion.difficulty) {
+      case 'easy':
+        return 1;
+      case 'medium':
+        return 2;
+      case 'hard':
+        return 3;
+      default:
+        return 0;
+      }
+    };
     if (className === 'correct') {
-      addScore();
+      const points = 10 + (10 * difficulty());
+      addScore(points);
     }
     this.setState(() => ({
       answered: true,
@@ -143,7 +158,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (state) => dispatch(fetchQuestions(state)),
-  addScore: () => dispatch(addPoint()) });
+  addScore: (state) => dispatch(addPoint(state)) });
 
 Play.propTypes = {
   getQuestions: PropTypes.func.isRequired,
