@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import Config from './pages/Config';
 import Login from './pages/Login';
 import Game from './pages/Game';
+import Ranking from './pages/Ranking';
 import Feedback from './pages/Feedback';
 import store from './redux/store';
 
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/game" component={ Game } />
             <Route path="/Config" component={ Config } />
             <Route path="/feedback" component={ Feedback } />
+            <Route path="/ranking" component={ Ranking } />
           </Switch>
         </Provider>
       </BrowserRouter>

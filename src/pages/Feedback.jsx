@@ -26,6 +26,7 @@ class Feedback extends Component {
           </p>
           <p data-testid="feedback-total-question">{assertions}</p>
           <Link to="/" data-testid="btn-play-again">Jogar Novamente</Link>
+          <Link to="/ranking" data-testid="btn-ranking">Ver Ranking</Link>
         </main>
       </Layout>
     );
