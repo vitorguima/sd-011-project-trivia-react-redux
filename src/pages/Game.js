@@ -57,7 +57,7 @@ class Game extends Component {
       const easy = 1;
       const medium = 2;
       const hard = 3;
-      switch (questions.results[number]) {
+      switch (questions.results[number].difficulty) {
       case 'easy':
         sum = seconds * easy;
         break;
@@ -163,7 +163,18 @@ class Game extends Component {
     const { loading, hash, name } = this.props;
     const { disabled, seconds, number, score } = this.state;
     const maxQuestions = 5;
+    const obj = {
+      name,
+      score,
+      hash,
+    };
     if (number === maxQuestions) {
+      const ranking = JSON.parse(localStorage.getItem('ranking'));
+      if (!ranking) {
+        localStorage.setItem('ranking', JSON.stringify([obj]));
+      } else {
+        localStorage.setItem('ranking', JSON.stringify([...ranking, obj]));
+      }
       return <Redirect to="/feedback" />;
     }
     return (
