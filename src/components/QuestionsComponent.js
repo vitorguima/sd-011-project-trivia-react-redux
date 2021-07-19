@@ -19,7 +19,6 @@ class QuestionsComponent extends Component {
 
   nextQuestion() {
     const btns = document.querySelectorAll('button');
-
     this.setState((prevState) => ({
       index: prevState.index + 1,
       rightAnswerClicked: false,
@@ -69,6 +68,7 @@ class QuestionsComponent extends Component {
                 difficulty={ results[index].difficulty }
               >
                 { results[index].question }
+                {console.log(this.props)}
               </h4>
               <button
                 value="correct"
