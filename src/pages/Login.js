@@ -1,95 +1,126 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import fetchToken from '../service/tokenApi';
+import { sendUser, sendEmail } from '../actions';
 import logo from '../trivia.png';
 
-class Login extends React.Component {
-  constructor() {
-    super();
+class Login extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       email: '',
-      name: '',
+      user: '',
+      disableBtn: true,
     };
-    this.handleFormChange = this.handleFormChange.bind(this);
-    this.checkForm = this.checkForm.bind(this);
-    this.buttonIsDisable = this.buttonIsDisable.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.localStoragehandle = this.localStoragehandle.bind(this);
   }
 
-  componentDidMount() {
-    this.buttonIsDisable();
+  handleChange({ target }) {
+    const { name, value } = target;
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        this.handleLogin();
+      },
+    );
   }
 
-  checkForm() {
-    const { email, name } = this.state;
-    return (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && name.length > 0);
+  localStoragehandle() {
+    const { email, user } = this.state;
+    const player = {
+      player: {
+        name: user,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
-  buttonIsDisable() {
-    const button = document.getElementById('btn-play');
-    const formValid = this.checkForm();
-
-    if (formValid) button.disabled = false;
-    else button.disabled = true;
-  }
-
-  handlebutton() {
-    fetch('https://opentdb.com/api_token.php?command=request')
-      .then((response) => response.json())
-      .then((resolve) => localStorage.setItem('token', resolve.token));
-  }
-
-  async handleFormChange({ target: { id, value } }) {
-    await this.setState((oldState) => ({
-      ...oldState,
-      [id]: value,
-    }));
-    this.buttonIsDisable();
+  handleLogin() {
+    const { email, user } = this.state;
+    if (email !== '' && user !== '') {
+      this.setState({
+        disableBtn: false,
+      });
+    } else {
+      this.setState({
+        disableBtn: true,
+      });
+    }
   }
 
   render() {
-    const { name, email } = this.state;
-
+    const { disableBtn, user, email } = this.state;
+    const { updateUser, updateEmail } = this.props;
     return (
-      <header className="App-header">
-        <img src={ logo } height="150px" alt="logo" />
+      <div>
         <form>
-          <label htmlFor="name">
-            Nome:
-            <input
-              data-testid="input-player-name"
-              id="name"
-              onChange={ this.handleFormChange }
-              type="text"
-              value={ name }
-            />
-          </label>
-          <label htmlFor="email">
-            Email:
-            <input
-              data-testid="input-gravatar-email"
-              id="email"
-              onChange={ this.handleFormChange }
-              type="email"
-              value={ email }
-            />
-          </label>
-          <Link to="/trivia">
-            <button
-              type="button"
-              id="btn-play"
-              data-testid="btn-play"
-              onClick={ this.handlebutton }
-            >
-              Jogar
-            </button>
-            <Link to="/settings">
-              <button type="button" data-testid="btn-settings">Configurações</button>
+          <header className="App-header">
+            <img src={ logo } height="150px" alt="logo" />
+            <label htmlFor="user">
+              Usuário
+              <input
+                data-testid="input-player-name"
+                id="user"
+                name="user"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <label htmlFor="email">
+              E-mail
+              <input
+                data-testid="input-gravatar-email"
+                id="email"
+                name="email"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <Link to="/trivia">
+              <button
+                type="button"
+                data-testid="btn-play"
+                disabled={ disableBtn }
+                onClick={ () => {
+                  fetchToken();
+                  this.localStoragehandle();
+                  updateUser(user);
+                  updateEmail(email);
+                } }
+              >
+                Jogar
+              </button>
             </Link>
-          </Link>
+          </header>
         </form>
-      </header>
+        <Link to="/settings">
+          <button type="button" data-testid="btn-settings">Configurações</button>
+        </Link>
+      </div>
     );
   }
 }
 
-export default connect()(Login);
+Login.propTypes = {
+  updateUser: PropTypes.func,
+  updateEmail: PropTypes.func,
+};
+
+Login.defaultProps = {
+  updateUser: undefined,
+  updateEmail: undefined,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  updateUser: (state) => dispatch(sendUser(state)),
+  updateEmail: (state) => dispatch(sendEmail(state)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
