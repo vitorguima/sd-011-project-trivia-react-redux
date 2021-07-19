@@ -24,10 +24,18 @@ class TelaIncial extends Component {
 
   getTokenAndState() {
     const { getToken, exportState } = this.props;
+    const { name, email } = this.state;
     exportState(this.state);
     getToken()
       .then(({ state: { token } }) => (
         localStorage.setItem('token', JSON.stringify(token))));
+    const player = {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   activeButton() {
