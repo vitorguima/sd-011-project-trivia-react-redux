@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from './Header';
 
@@ -18,10 +19,20 @@ class Feedback extends Component {
               : 'Podia ser melhor...'
           }
         </h3>
-        <h2 data-testid="feedback-total-score">{ score }</h2>
+        <h4 data-testid="feedback-total-score">{ score }</h4>
         <h2 data-testid="feedback-total-question">
           { assertions }
         </h2>
+        <div>
+          <Link to="/">
+            <button data-testid="btn-play-again" type="button">Jogar novamente</button>
+          </Link>
+          <Link to="/ranking">
+            <button type="button" data-testid="btn-ranking">
+              Ver Ranking
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }
