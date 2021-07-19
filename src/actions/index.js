@@ -58,9 +58,8 @@ export const fetchApiTrivia = (token) => async (dispatch) => {
     );
 };
 
-export const answerButtonClicked = () => ({
+export const answerButtonClickedAction = () => ({
   type: ANSWER_BUTTON_CLICKED,
-  payload: true,
 });
 
 export const answerReset = () => ({

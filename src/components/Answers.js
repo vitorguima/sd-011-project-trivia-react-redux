@@ -1,48 +1,86 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { answerButtonClicked } from '../actions';
+import { answerButtonClickedAction } from '../actions';
 
 class Answers extends Component {
-  buttonClicked({ targer: name }) {
+  constructor(props) {
+    super(props);
+
+    this.buttonProps = this.buttonProps.bind(this);
+    this.userScore = this.userScore.bind(this);
+    this.buttonClicked = this.buttonClicked.bind(this);
+  }
+
+  buttonClicked(name, buttonClickedProp) {
     if (name === 'correctAnswer') {
       const notRedux = JSON.parse(localStorage.getItem('state'));
       notRedux.user.assertions += 1;
       localStorage.setItem('state', JSON.stringify(notRedux));
     }
-    answerButtonClicked();
+    buttonClickedProp();
+  }
+
+  userScore({ difficulty }, timer) {
+    const notRedux = JSON.parse(localStorage.getItem('state'));
+    const MEDIUM_DIFFICULTY = 2;
+    const HARD_DIFFICULTY = 3;
+    const BASE = 10;
+    switch (difficulty) {
+    case 'medium':
+      notRedux.user.score += BASE + (timer * MEDIUM_DIFFICULTY);
+      localStorage.setItem('state', JSON.stringify(notRedux));
+      break;
+    case 'hard':
+      notRedux.user.score += BASE + (timer * HARD_DIFFICULTY);
+      localStorage.setItem('state', JSON.stringify(notRedux));
+      break;
+    default:
+      notRedux.user.score += BASE + timer;
+      localStorage.setItem('state', JSON.stringify(notRedux));
+      break;
+    }
+  }
+
+  buttonProps(event) {
+    const { name } = event.target;
+    const { buttonClickedProp, results, timer } = this.props;
+    this.buttonClicked(name, buttonClickedProp);
+    this.userScore(results, timer);
   }
 
   render() {
-    const { correctAnswer, incorrectAnswers, answerClicked } = this.props;
+    const { results, answerClicked } = this.props;
     return (
       <ul>
         <li>
           <button
-            disabled={ !answerClicked }
+            disabled={ answerClicked }
             type="button"
             data-testid="correct-answer"
-            onClick={ this.buttonClicked }
+            onClick={ this.buttonProps }
             style={
-              answerClicked ? { border: '3px solid rgb(6, 240, 15)' } : null
+              answerClicked ? { border: '3px solid rgb(6, 240, 15)', padding: '10px' }
+                : { padding: '10px' }
             }
             name="correctAnswer"
           >
-            {correctAnswer}
+            {results.correct_answer}
           </button>
         </li>
-        {incorrectAnswers.map((answer, index) => (
+        {results.incorrect_answers.map((answer, index) => (
           <li key={ index }>
             <button
-              disabled={ !answerClicked }
+              disabled={ answerClicked }
               type="button"
               key={ index }
               data-testid={ `wrong-answer-${index}` }
-              onClick={ this.answerButtonClicked }
+              onClick={ this.buttonProps }
               style={
-                answerClicked ? { border: '3px solid rgb(255, 0, 0)' } : null
+                answerClicked ? { border: '3px solid rgb(255, 0, 0)', padding: '10px' }
+                  : { padding: '10px' }
               }
-              name="IncorrectAnswer"
+              name="incorrectAnswer"
             >
               {answer}
             </button>
@@ -55,16 +93,18 @@ class Answers extends Component {
 
 const mapStateToProps = (state) => ({
   answerClicked: state.gameReducer.answerClicked,
+  timer: state.gameReducer.timer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  answerButtonClicked: () => dispatch(answerButtonClicked()),
+  buttonClickedProp: () => dispatch(answerButtonClickedAction()),
 });
 
 Answers.propTypes = {
   correctAnswer: PropTypes.string,
   incorrectAnswers: PropTypes.array,
   answerClicked: PropTypes.bool,
+  buttonClicked: PropTypes.func,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Answers);

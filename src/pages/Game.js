@@ -5,11 +5,11 @@ import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import * as Timer from '../components/Timer';
 import Answers from '../components/Answers';
-import { fetchApiTrivia } from '../actions';
+import { fetchApiTrivia, answerReset } from '../actions';
 
 class Game extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       position: 0,
     };
@@ -24,7 +24,9 @@ class Game extends Component {
   }
 
   nextQuestionButtonClicked() {
+    const { answerButtonReset } = this.props;
     this.setState((prevState) => ({ position: prevState.position + 1 }));
+    answerButtonReset();
   }
 
   renderNextButton() {
@@ -50,16 +52,14 @@ class Game extends Component {
         <p data-testid="question-text">
           {results[position].question}
         </p>
-        <Timer />
-        <Answers
-          correctAnswer={ results.correct_answer }
-          incorrectAnswers={ results.incorrect_answers }
-        />
-        {this.renderNextButton() && (
+        {/* <Timer /> */}
+        <Answers results={ results[position] } />
+        { this.renderNextButton() && (
           <button
             type="button"
             data-testid="btn-next"
             onClick={ this.nextQuestionButtonClicked }
+            style={ { padding: '10px' } }
           >
             Próxima pergunta
           </button>
@@ -76,6 +76,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchTrivia: (token) => dispatch(fetchApiTrivia(token)),
+  answerButtonReset: () => dispatch(answerReset()),
 });
 
 Game.propTypes = {
