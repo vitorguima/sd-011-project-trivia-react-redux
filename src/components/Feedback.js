@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 
 export default class Feedback extends Component {
@@ -49,6 +50,9 @@ export default class Feedback extends Component {
             </span>
           </div>
           { this.verifyAssetions() }
+          <Link to="/">
+            <button type="button" data-testid="btn-play-again">Jogar Novamente</button>
+          </Link>
         </header>
       </div>
     );
