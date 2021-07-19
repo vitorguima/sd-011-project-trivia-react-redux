@@ -88,7 +88,9 @@ class ClockComponent extends Component {
             <button type="button" onClick={ nextQuestion } data-testid="btn-next">
               Próxima
             </button>
+
           )}
+
         </div>
       </div>
     );

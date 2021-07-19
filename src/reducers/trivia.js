@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   buttonDisable: false,
   buttonClick: false,
   rightAnswerClicked: false,
+  index: 0,
 };
 
 function trivia(state = INITIAL_STATE, action) {
@@ -45,6 +46,7 @@ function trivia(state = INITIAL_STATE, action) {
       buttonClick: action.state.buttonClick,
       rightAnswerClicked: action.state.rightAnswerClicked,
       buttonDisable: false,
+      index: 1,
     };
   default:
     return state;
