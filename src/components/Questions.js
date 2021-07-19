@@ -194,8 +194,14 @@ class Questions extends Component {
   }
 
   render() {
-    const { questions, disapatchScore } = this.props;
-    const { indexQuestion, showNextButton, timeCount, assertions } = this.state;
+    const { questions, dispatchScore } = this.props;
+    const {
+      indexQuestion,
+      showNextButton,
+      timeCount,
+      totalScore,
+      assertions,
+    } = this.state;
     const maxIndexQuestion = 4;
     if (indexQuestion > maxIndexQuestion) {
       return <Redirect to="/feedback" />;
@@ -227,7 +233,7 @@ class Questions extends Component {
               onClick={ () => {
                 this.handleNext();
                 this.handleNextStyle();
-                disapatchScore(assertions);
+                dispatchScore(totalScore, assertions);
               } }
             >
               Próxima
@@ -247,7 +253,7 @@ Questions.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (token) => dispatch(fetchQuestions(token)),
-  disapatchScore: (score) => dispatch(submitScore(score)),
+  dispatchScore: (score, assertions) => dispatch(submitScore(score, assertions)),
 });
 
 const mapStateToProps = (state) => ({

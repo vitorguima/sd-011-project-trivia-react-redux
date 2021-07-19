@@ -6,9 +6,10 @@ export const SUBMIT_TOKEN = 'SUBMIT_TOKEN';
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
 export const SUBMIT_SCORE = 'SUBMIT_SCORE';
 
-export const submitScore = (score) => ({
+export const submitScore = (score, assertions) => ({
   type: SUBMIT_SCORE,
   totalScore: score,
+  totalAssertions: assertions,
 });
 
 export const submitLogin = (email, playerName) => ({
