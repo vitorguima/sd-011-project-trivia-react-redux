@@ -61,7 +61,7 @@ class TimerComponent extends Component {
 
   updateLocalStorage(score) {
     const player = JSON.parse(localStorage.getItem('state'));
-    player.player.score = score;
+    player.player.score += score;
     localStorage.setItem('state', JSON.stringify(player));
   }
 
