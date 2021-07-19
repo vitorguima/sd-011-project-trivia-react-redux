@@ -22,6 +22,7 @@ class TriviaQuestions extends Component {
   toTheNextQuestion() {
     const { getNextQuestion, questionIndex } = this.props;
     const MAX_INDEX = 4;
+    console.log(questionIndex)
     if (questionIndex < MAX_INDEX) {
       getNextQuestion();
     }

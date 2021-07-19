@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 
 export class NextQuestionBtn extends Component {
   render() {
-    const { sumQuestionIndex } = this.props;
+    const { toTheNextQuestion } = this.props;
     return (
       <div>
         <button
           type="button"
           value="Próxima"
-          onClick={ sumQuestionIndex }
+          onClick={ toTheNextQuestion }
         >
           Próxima
         </button>
