@@ -6,8 +6,9 @@
 }
 
 .loginForm-div input {
-  font-size: 18px;
+  font-size: 19px;
   width: 450px;
   text-align: center;
   font-family: 'Happy Monkey', cursive;
+  font-weight: 600;
 }
