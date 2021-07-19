@@ -19,6 +19,7 @@ class Questions extends Component {
       clicked: false,
       isDisabled: false,
       regularBorder: 'regular-border',
+      score: 0,
     };
   }
 
@@ -75,17 +76,17 @@ class Questions extends Component {
   }
 
   sumScore() {
-    const { timer, questions, index } = this.state;
+    const { timer, questions, index, score } = this.state;
     const { assertions, name, gravatarEmail, updateNewScore } = this.props;
     let newScore = 0;
     const three = 3;
     const ten = 10;
     if (questions[index].difficulty === 'easy') {
-      newScore = (timer * 1) + ten;
+      newScore = score + (timer * 1) + ten;
     } else if (questions[index].difficulty === 'medium') {
-      newScore = (timer * 2) + ten;
+      newScore = score + (timer * 2) + ten;
     } else if (questions[index].difficulty === 'hard') {
-      newScore = (timer * three) + ten;
+      newScore = score + (timer * three) + ten;
     }
     const finalAssertions = assertions + 1;
     const player = { player: {
@@ -94,8 +95,10 @@ class Questions extends Component {
       score: newScore,
       assertions: finalAssertions,
     } };
+    this.setState({
+      score: newScore,
+    });
     updateNewScore(newScore, finalAssertions);
-    console.log(player);
     return localStorage.setItem('state', JSON.stringify(player));
   }
 
