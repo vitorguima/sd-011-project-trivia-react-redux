@@ -20,8 +20,8 @@ class Header extends Component {
     return (
       <header>
         <img src={ imageURL } alt="user" data-testid="header-profile-picture" />
-        <p data-testid="header-player-name">{ `Jogador: ${userName}` }</p>
-        <p data-testid="header-score">{ `Pontuação: ${userScore}` }</p>
+        <p data-testid="header-player-name">{ userName }</p>
+        <p data-testid="header-score">{ userScore }</p>
       </header>
     );
   }

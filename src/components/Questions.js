@@ -20,7 +20,6 @@ class Questions extends Component {
     this.handleCounter = this.handleCounter.bind(this);
     this.scoreCalculator = this.scoreCalculator.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
-    //  this.buttonRedirect = this.buttonRedirect.bind(this);
     this.renderNextButton = this.renderNextButton.bind(this);
     this.updateRanking = this.updateRanking.bind(this);
   }
