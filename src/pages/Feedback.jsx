@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Layout from '../components/common/Layout';
 import GameHeader from '../components/GameHeader';
@@ -19,11 +20,12 @@ class Feedback extends Component {
       <Layout>
         <main>
           <GameHeader />
-          <div data-testid="feedback-text">{this.renderMsg()}</div>
-          <div data-testid="feedback-total-score">
+          <p data-testid="feedback-text">{this.renderMsg()}</p>
+          <p data-testid="feedback-total-score">
             {score}
-          </div>
-          <div data-testid="feedback-total-question">{assertions}</div>
+          </p>
+          <p data-testid="feedback-total-question">{assertions}</p>
+          <Link to="/" data-testid="btn-play-again">Jogar Novamente</Link>
         </main>
       </Layout>
     );
