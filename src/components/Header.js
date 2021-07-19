@@ -20,7 +20,7 @@ class Header extends Component {
         <span
           data-testid="header-score"
         >
-          { `score: ${profileScore}`}
+          { profileScore }
         </span>
 
       </header>

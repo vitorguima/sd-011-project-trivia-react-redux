@@ -12,7 +12,7 @@ class Header extends Component {
         <h3
           data-testid="feedback-text"
         >
-          { profileScore < expectedScore ? 'Podia ser melhor...' : 'Mandou bem!' }
+          { profileAssertion < expectedScore ? 'Podia ser melhor...' : 'Mandou bem!' }
         </h3>
         <h2
           data-testid="feedback-total-score"
