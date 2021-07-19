@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link, Redirect } from 'react-router-dom';
+import MSGFeedBack from '../components/MSGFeedBack';
+import Header from '../components/Header';
 
 class FeedBack extends Component {
   constructor(props) {
@@ -23,9 +25,8 @@ class FeedBack extends Component {
     if (redirectRanking) return <Redirect to="/ranking" />;
     return (
       <div>
-        <h1 data-testid="feedback-text">
-          OI , Agora é com Você Diogão, boa sorte =]
-        </h1>
+        <Header />
+        <MSGFeedBack />
         <Link to="/">
           <button type="button">
             <FaArrowLeft
