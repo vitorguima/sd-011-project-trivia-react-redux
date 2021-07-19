@@ -1,12 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 
-class Settings extends React.Component {
+class Settings extends Component {
   render() {
     return (
-      <h1 data-testid="settings-title">Tela de Configurações</h1>
+      <div data-testid="settings-title" />
     );
   }
 }
 
-export default connect()(Settings);
+export default Settings;
