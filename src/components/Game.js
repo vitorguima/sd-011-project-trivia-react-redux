@@ -134,7 +134,7 @@ class Game extends React.Component {
             <button
               type="button"
               data-testid="btn-next"
-              
+
             >
               Próxima
             </button>

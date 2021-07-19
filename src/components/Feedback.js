@@ -1,33 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Header from './Header';
 import PropTypes from 'prop-types';
+import Header from './Header';
 import * as actions from '../actions';
 
 const THREE = 3;
 class Feedback extends Component {
-  constructor() {
-    super()
-  }
   componentDidMount() {
     const allPlayers = window.localStorage.getItem('allPlayers');
     const currentPlayer = JSON.parse(window.localStorage.getItem('state'));
     if (allPlayers === null) {
       const arrayAllPlayers = [];
       arrayAllPlayers.push(currentPlayer.player);
-      window.localStorage.setItem('allPlayers', JSON.stringify(arrayAllPlayers))
-    }
-    else {
-      const arrayAllPlayers = JSON.parse(allPlayers)
+      window.localStorage.setItem('allPlayers', JSON.stringify(arrayAllPlayers));
+    } else {
+      const arrayAllPlayers = JSON.parse(allPlayers);
       arrayAllPlayers.push(currentPlayer.player);
-      window.localStorage.setItem('allPlayers', JSON.stringify(arrayAllPlayers))
+      window.localStorage.setItem('allPlayers', JSON.stringify(arrayAllPlayers));
     }
   }
 
   render() {
     const state = JSON.parse(localStorage.getItem('state'));
     const { score, assertions } = state.player;
+    const { resetGame } = this.props;
     return (
       <div>
         <Header />
@@ -44,10 +41,10 @@ class Feedback extends Component {
           { assertions }
         </h2>
         <div>
-          <Link onClick={this.props.resetGame} to="/">
+          <Link onClick={ resetGame } to="/">
             <button data-testid="btn-play-again" type="button">Jogar novamente</button>
           </Link>
-          <Link onClick={this.props.resetGame} to="/ranking">
+          <Link onClick={ resetGame } to="/ranking">
             <button type="button" data-testid="btn-ranking">
               Ver Ranking
             </button>
