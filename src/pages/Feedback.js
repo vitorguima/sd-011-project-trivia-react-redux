@@ -1,15 +1,20 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
 import Header from '../components/Header';
 
 const Feedback = () => {
   const history = useHistory();
-  const { score } = useSelector(({ userInfo }) => userInfo.player);
+  const { assertions } = useSelector(({ userInfo }) => userInfo.player);
+  const actualAssertion = 3;
+  function ReturnMessage() {
+    if (assertions < actualAssertion) return 'Podia ser melhor...';
+    if (assertions >= actualAssertion) return 'Mandou bem!';
+  }
   return (
     <>
       <Header />
-      <div data-testid="feedback-text">{ score }</div>
+      <div data-testid="feedback-text">{ ReturnMessage() }</div>
       <button
         type="button"
         data-testid="btn-play-again"

@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { sendAssertions } from '../../actions';
 
 const ButtonsQuestions = ({ descQuestion, btnEnable, funcAnswersYes, setCorrectAsw }) => {
   const { incorrect_answers: incorrectAnswers,
     correct_answer: correctAsw } = descQuestion;
+  const { assertions } = useSelector(({ userInfo }) => userInfo.player);
+  const dispatch = useDispatch();
   const [state, setState] = useState({ correctAnswer: '', wrongAnswer: '' });
   const setClassName = (bool) => {
     setState({ correctAnswer: 'correct-answer', wrongAnswer: 'wrong-answer' });
     funcAnswersYes(true);
     setCorrectAsw(bool);
+    if (bool) {
+      dispatch(sendAssertions(assertions + 1));
+    }
   };
   return (
     <>
