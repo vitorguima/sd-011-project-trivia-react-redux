@@ -8,43 +8,51 @@ import QuestionDesc from './QuestionDec';
 
 const RenderQuestion = () => {
   const dispatch = useDispatch();
+  const initialTime = 30;
   const { questions } = useSelector(({ questionsArray }) => questionsArray);
-  const { name, gravatarEmail } = useSelector(({ userInfo }) => userInfo.player);
+  const { name, gravatarEmail, score } = useSelector(({ userInfo }) => userInfo.player);
   const [enable, setEnable] = useState(false);
   const [answersYes, setAnswersYes] = useState(false);
   const [correctanswers, setCorrectanswers] = useState(false);
-
-  const globalScore = (score) => {
+  const [second, setSecond] = useState(initialTime);
+  const [index, setIndex] = useState(0);
+  const globalScore = (newScore) => {
     localStorage.setItem('state', JSON.stringify({
       player: {
         name,
         assertions: 0,
-        score,
+        score: newScore + score,
         gravatarEmail,
         token: '',
         ranking: [],
       },
     }));
-    dispatch(sendScorePoints(score));
+    dispatch(sendScorePoints(newScore + score));
   };
-
   const renderResult = () => (
     <div className="question">
       <ComponentTime
         stateButtonsEnable={ setEnable }
         correctAsw={ correctanswers }
-        idQuestion={ questions[0] }
+        idQuestion={ questions[index] }
         cancelSomeScore={ setCorrectanswers }
         sendScore={ globalScore }
+        second={ second }
+        funcSecond={ setSecond }
       />
-      <QuestionDesc descQuestion={ questions[0] } />
+      <QuestionDesc descQuestion={ questions[index] } />
       <ButtonsQuestions
-        descQuestion={ questions[0] }
+        descQuestion={ questions[index] }
         btnEnable={ enable }
         funcAnswersYes={ setAnswersYes }
         setCorrectAsw={ setCorrectanswers }
       />
-      <ButtonNext stateAnswers={ answersYes } />
+      <ButtonNext
+        stateAnswers={ answersYes }
+        nextFunc={ setIndex }
+        indexNext={ index }
+        setSecond={ setSecond }
+      />
     </div>);
   return (questions[0] === undefined ? <div>Loading...</div> : renderResult());
 };
