@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { cleanState } from '../actions/gameActions';
+import { setPlayerRanking } from '../components/GameFunctions';
+
 import { Header } from '../components';
 
 export default function Feedback() {
   const correctAnswers = useSelector((state) => state.player.state);
+
+  useEffect(() => {
+    setPlayerRanking(correctAnswers);
+  });
+
   const { assertions, score } = correctAnswers;
   const parameterNumber = 3;
   const history = useHistory();

@@ -13,11 +13,13 @@ export default function NextQuestionButton() {
   const { allQuestions, index, timer, selectedChoice } = gameState;
 
   const changeIndex = () => {
+    const magicThousand = 1000;
     if (index < allQuestions.length - 1) {
       return dispatch(nextIndex());
     }
-
-    history.push('/feedback');
+    setTimeout(() => {
+      history.push('/feedback');
+    }, magicThousand);
   };
 
   const resetConfig = () => {

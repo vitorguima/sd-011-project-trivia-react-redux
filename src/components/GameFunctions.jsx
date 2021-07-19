@@ -1,24 +1,23 @@
+import { MD5 } from 'crypto-js';
 import { sendScore } from '../actions';
 import store from '../store';
 
 const magicTen = 10;
 
-export const paintButtons = (array) => {
-  const allButtons = document.querySelectorAll('button');
-  const btnPrimary = 'btn-primary';
-  const rightChoice = array.find((el) => typeof el === 'object');
-  const correctIndex = array.indexOf(rightChoice);
-  return allButtons.forEach((el) => {
-    const id = el.id.replace('question-', '');
-    if (parseInt(id, 10) !== correctIndex) {
-      el.classList.add('wrongAnswer');
-      el.classList.remove(btnPrimary);
-    }
-    if (parseInt(id, 10) === correctIndex) {
-      el.classList.add('rightAnswer');
-      el.classList.remove(btnPrimary);
-    }
-  });
+export const setPlayerRanking = (state) => {
+  const { name, score, gravatarEmail } = state;
+  const hashEmail = MD5(gravatarEmail).toString();
+
+  const picture = `https://www.gravatar.com/avatar/${hashEmail}`;
+  const obj = { name, score, picture };
+  if (localStorage.ranking) {
+    const { ranking } = localStorage;
+    const rankingParsed = JSON.parse(ranking);
+    const newState = [...rankingParsed, obj];
+    localStorage.ranking = JSON.stringify(newState);
+  } else {
+    localStorage.ranking = JSON.stringify([obj]);
+  }
 };
 
 export const nextQuestion = (setAnswer, index, questions, setIndex) => {

@@ -1,18 +1,16 @@
 /* eslint-disable import/prefer-default-export */
-import { MD5 } from 'crypto-js';
+
 import { dataFailure, sendToken } from '../actions/tokenAction';
 import { sendInfo } from '../actions';
 
 export const fetchUser = (user) => async (dispatch) => {
   const { name, email } = user;
-  const hashEmail = MD5(email).toString();
   const player = {
     name,
     gravatarEmail: email,
     assertions: 0,
     score: 0,
   };
-  localStorage.hashEmail = hashEmail;
   localStorage.state = JSON.stringify({ player });
   try {
     dispatch(sendInfo({ ...player }));
