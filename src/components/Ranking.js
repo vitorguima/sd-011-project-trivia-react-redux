@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default class Ranking extends Component {
   render() {
+    const getLocalStorage = JSON.parse(localStorage.getItem('ranking'));
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
