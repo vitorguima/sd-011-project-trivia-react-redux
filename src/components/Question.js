@@ -62,18 +62,49 @@ class Question extends Component {
 
   bolleanQuestion() {
     const { questionsArr, currentQuestion } = this.props;
+    const { anyChosed } = this.state;
     if (questionsArr[currentQuestion].correct_answer) {
       return (
         <div className="answers">
-          <button type="button" data-testid="correct-answer">True</button>
-          <button type="button" data-testid="wrong-answer-0">False</button>
+          <button
+            type="button"
+            data-testid="correct-answer"
+            onClick={ () => this.setState({ anyChosed: true }) }
+            className={ anyChosed ? 'correct' : '' }
+          >
+            True
+          </button>
+
+          <button
+            type="button"
+            data-testid="wrong-answer-0"
+            onClick={ () => this.setState({ anyChosed: true }) }
+            className={ anyChosed ? 'wrong' : '' }
+          >
+            False
+          </button>
         </div>
       );
     }
     return (
       <div className="answers">
-        <button type="button" data-testid="wrong-answer-0">True</button>
-        <button type="button" data-testid="correct-answer">False</button>
+
+        <button
+          type="button"
+          data-testid="wrong-answer-0"
+          onClick={ () => this.setState({ anyChosed: true }) }
+          className={ anyChosed ? 'wrong' : '' }
+        >
+          True
+        </button>
+        <button
+          type="button"
+          data-testid="correct-answer"
+          onClick={ () => this.setState({ anyChosed: true }) }
+          className={ anyChosed ? 'correct' : '' }
+        >
+          False
+        </button>
       </div>
     );
   }
