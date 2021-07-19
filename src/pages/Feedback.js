@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class Feedback extends Component {
   render() {
@@ -25,6 +26,9 @@ class Feedback extends Component {
         </h5>
         <h4 data-testid="feedback-total-score">{ score }</h4>
         <h4 data-testid="feedback-total-question">{ localStorageAssertions }</h4>
+        <Link to="/">
+          <button data-testid="btn-play-again" type="button">Jogar novamente</button>
+        </Link>
       </main>
     );
   }
