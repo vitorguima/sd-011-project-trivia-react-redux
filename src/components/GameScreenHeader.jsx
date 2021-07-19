@@ -9,8 +9,7 @@ export default function GameScreenHeader() {
   const { player } = JSON.parse(state);
   const { score, name } = player;
 
-  useEffect(() => {
-  }, [currentQuestion]);
+  useEffect(() => {}, [currentQuestion]);
 
   return (
     <header className="header-container">
