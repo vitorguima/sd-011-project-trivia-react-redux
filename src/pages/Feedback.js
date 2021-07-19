@@ -7,6 +7,9 @@ class Feedback extends Component {
   render() {
     const { name, gravatarEmail, score } = this.props;
     const hash = md5(gravatarEmail).toString();
+    const quantAcertos = 3;
+    const localStorageAssertions = JSON.parse(localStorage.getItem('state'))
+      .player.assertions;
     return (
       <main>
         <header>
@@ -14,7 +17,12 @@ class Feedback extends Component {
           <p data-testid="header-player-name">{ name }</p>
           <p data-testid="header-score">{ score }</p>
         </header>
-        <div data-testid="feedback-text">oi oi oi oi oi oi oi oi oi</div>
+        <h5
+          data-testid="feedback-text"
+        >
+          { localStorageAssertions < quantAcertos
+            ? 'Podia ser melhor...' : 'Mandou bem!' }
+        </h5>
       </main>
     );
   }
