@@ -7,25 +7,23 @@ class Question extends Component {
   constructor() {
     super();
     this.state = {
-      disabled: false,
+      anyChosed: false,
     };
+    this.setRandom = this.setRandom.bind(this);
     this.buttonClicked = this.buttonClicked.bind(this);
   }
 
   componentDidMount() {
     const { startCountdownAction } = this.props;
+    this.setRandom();
     startCountdownAction();
   }
 
   componentDidUpdate() {
     const { timer } = this.props;
-    const { disabled } = this.state;
-    if (timer <= 0 && disabled === false) {
+    const { anyChosed } = this.state;
+    if (timer <= 0 && anyChosed === false) {
       this.buttonClicked();
-    //   stopCountdownAction();
-    //   this.setState({
-    //     disabled: true,
-    //   });
     }
   }
 
@@ -33,27 +31,33 @@ class Question extends Component {
     const { stopCountdownAction } = this.props;
     stopCountdownAction();
     this.setState({
-      disabled: true,
+      anyChosed: true 
     });
   }
 
-  shufleAnswers(right, wrongs) {
+  setRandom() {
     const max = 4;
     const random = Math.floor(Math.random() * max);
+    this.setState({ randomNumber: random });
+  }
+
+  shufleAnswers(right, wrongs, random) {
     wrongs.splice(random, 0, right);
     return wrongs;
   }
 
   multipleQuestion() {
+    const { anyChosed, randomNumber } = this.state;
     const { questionsArr, currentQuestion } = this.props;
     const { disabled } = this.state;
     const rightAnswer = (
       <button
         type="button"
-        disabled={ disabled }
         data-testid="correct-answer"
         key="right"
         onClick={ this.buttonClicked }
+        className={ anyChosed ? 'correct' : '' }
+        disabled={ anyChosed }
       >
         { questionsArr[currentQuestion].correct_answer }
       </button>);
@@ -61,15 +65,16 @@ class Question extends Component {
       .map((item, index) => (
         <button
           type="button"
-          disabled={ disabled }
           key={ `wrong-${index}` }
           data-testid={ `wrong-answer-${index}` }
           onClick={ this.buttonClicked }
+          className={ anyChosed ? 'wrong' : '' }
+          disabled={ anyChosed }
         >
           { item }
         </button>
       ));
-    const shufledAnswer = this.shufleAnswers(rightAnswer, wrongAnswer);
+    const shufledAnswer = this.shufleAnswers(rightAnswer, wrongAnswer, randomNumber);
     return (
       <div className="answers">
         { shufledAnswer }
@@ -79,23 +84,27 @@ class Question extends Component {
 
   bolleanQuestion() {
     const { questionsArr, currentQuestion } = this.props;
-    const { disabled } = this.state;
+    const { anyChosed } = this.state;
     if (questionsArr[currentQuestion].correct_answer) {
       return (
         <div className="answers">
           <button
             type="button"
-            disabled={ disabled }
             data-testid="correct-answer"
             onClick={ this.buttonClicked }
+            data-testid="correct-answer"
+            className={ anyChosed ? 'correct' : '' }
+            disabled={ anyChosed }
           >
             True
           </button>
           <button
-            type="button"
-            disabled={ disabled }
+            type="button"      
             data-testid="wrong-answer-0"
             onClick={ this.buttonClicked }
+            data-testid="wrong-answer-0"
+            className={ anyChosed ? 'wrong' : '' }
+            disabled={ anyChosed }
           >
             False
           </button>
@@ -106,17 +115,21 @@ class Question extends Component {
       <div className="answers">
         <button
           type="button"
-          disabled={ disabled }
           data-testid="wrong-answer-0"
           onClick={ this.buttonClicked }
+          data-testid="wrong-answer-0"
+          className={ anyChosed ? 'wrong' : '' }
+          disabled={ anyChosed }
         >
           True
         </button>
         <button
           type="button"
-          disabled={ disabled }
           data-testid="correct-answer"
           onClick={ this.buttonClicked }
+          data-testid="correct-answer"
+          className={ anyChosed ? 'correct' : '' }
+          disabled={ anyChosed }
         >
           False
         </button>
