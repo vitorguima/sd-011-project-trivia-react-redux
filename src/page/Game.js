@@ -197,6 +197,8 @@ class Game extends Component {
           </div>
           <div>
             {this.handleQuestion()}
+          </div>
+          <div className="answers">
             {this.handleResponse()}
           </div>
           <Button
