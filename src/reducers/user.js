@@ -22,7 +22,11 @@ const user = (state = USER_INITIAL_STATE, action) => {
     return {
       ...state,
       token: action.payload,
+
     };
+
+    }  
+
   default:
     return state;
   }
