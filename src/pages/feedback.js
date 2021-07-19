@@ -7,6 +7,7 @@ export default class feedback extends Component {
     const pictureHash = md5(player2.player.email).toString();
     const localStorageScore = player2.player.score;
     const linkImage = `https://www.gravatar.com/avatar/${pictureHash}`;
+    console.log(localStorageScore);
     return (
       <header>
         <h1 data-testid="feedback-text">Feedback</h1>
@@ -16,7 +17,7 @@ export default class feedback extends Component {
           src={ linkImage }
           alt="User Gravatar"
         />
-        <p data-testid="header-score">{ `Placar: ${localStorageScore}` }</p>
+        <p data-testid="header-score">{ Number(localStorageScore) }</p>
       </header>
     );
   }
