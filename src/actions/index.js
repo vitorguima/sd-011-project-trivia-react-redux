@@ -8,7 +8,7 @@ const getToken = (state) => ({ type: 'GET_TOKEN', state });
 
 export const user = (state) => ({ type: 'USER', state });
 
-export const addPoint = () => ({ type: 'ADD_POINT' });
+export const addPoint = (state) => ({ type: 'ADD_POINT', state });
 
 export function fetchToken() {
   return (dispatch) => {

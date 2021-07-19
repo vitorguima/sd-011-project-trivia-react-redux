@@ -13,6 +13,7 @@ class Play extends Component {
     this.state = {
       count: timerStart,
       qIndex: 0,
+      assertions: 0,
       answered: false,
     };
 
@@ -21,6 +22,7 @@ class Play extends Component {
     this.handleCorrect = this.handleCorrect.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.renderNxtBtn = this.renderNxtBtn.bind(this);
+    this.setLocal = this.setLocal.bind(this);
   }
 
   componentDidMount() {
@@ -46,26 +48,58 @@ class Play extends Component {
     clearInterval(this.myInterval);
   }
 
+  setLocal() {
+    const { name, email, score } = this.props;
+    const { assertions } = this.state;
+    const player = {
+      name,
+      assertions,
+      score,
+      gravatarEmail: email,
+    };
+    localStorage.setItem('state', JSON.stringify({ player }));
+  }
+
   async initialFetch() {
     const { getQuestions, token } = this.props;
     await getQuestions(token);
   }
 
-  handleCorrect(event) {
+  async handleCorrect(event) {
     event.preventDefault();
-    const { addScore } = this.props;
-    // console.log(this.state.count);
+    const { addScore, questions } = this.props;
+    const { qIndex, count } = this.state;
+    const currQuestion = questions[qIndex];
     const { className } = event.target;
     const btns = document.querySelectorAll('button.correct, button.wrong');
     btns.forEach((btn) => {
       btn.classList.add('revealed');
     });
+    const difficulty = () => {
+      const three = 3;
+      switch (currQuestion.difficulty) {
+      case 'easy':
+        return 1;
+      case 'medium':
+        return 2;
+      case 'hard':
+        return three;
+      default:
+        return 0;
+      }
+    };
     if (className === 'correct') {
-      addScore();
+      const ten = 10;
+      const points = ten + (count * difficulty());
+      await addScore(points);
+      this.setState((state) => ({
+        assertions: state.assertions + 1,
+      }));
     }
     this.setState(() => ({
       answered: true,
     }));
+    this.setLocal();
   }
 
   nextQuestion() {
@@ -166,11 +200,12 @@ const mapStateToProps = (state) => ({
   questions: state.questions.questions,
   score: state.questions.score,
   name: state.userReducer.name,
+  email: state.userReducer.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (state) => dispatch(fetchQuestions(state)),
-  addScore: () => dispatch(addPoint()) });
+  addScore: (state) => dispatch(addPoint(state)) });
 
 Play.propTypes = {
   getQuestions: PropTypes.func.isRequired,
@@ -179,6 +214,7 @@ Play.propTypes = {
   score: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
