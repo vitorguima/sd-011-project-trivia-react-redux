@@ -10,12 +10,12 @@ import Configurações from './pages/Configurações';
 export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
         <p>
           SUA VEZ
         </p>
-      </header>
+      </header> */}
       {/* <BrowserRouter> */}
       <Switch>
         <Route exact path="/" component={ Login } />

@@ -3,12 +3,14 @@ import {
   REQUEST_API_SUCESS,
   REQUEST_API_ERROR,
   SEND_USER_DATA,
+  MOSTRA_BTN,
 } from '../actions/user';
 
 const INITIAL_STATE = {
   token: '',
   userData: {},
   isFetching: false,
+  hidden: true,
 };
 
 function user(state = INITIAL_STATE, action = {}) {
@@ -32,6 +34,8 @@ function user(state = INITIAL_STATE, action = {}) {
   case SEND_USER_DATA:
     return { ...state, userData: { ...action.payload } };
 
+  case MOSTRA_BTN:
+    return { ...state, hidden: action.payload };
   default:
     return state;
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import WrongAnswer from '../components/WrongAnswer';
+// import {} from
 
 class TelaJogo extends Component {
   constructor() {
@@ -9,6 +10,7 @@ class TelaJogo extends Component {
     this.state = {
       score: 0,
       count: 0,
+      // hidden,
     };
     this.alternativesAnswers = this.alternativesAnswers.bind(this);
     this.nextBtn = this.nextBtn.bind(this);
@@ -54,7 +56,7 @@ class TelaJogo extends Component {
 
   render() {
     const { score, count } = this.state;
-    const { getdata: { emailHash, name, email }, gameData } = this.props;
+    const { getdata: { emailHash, name, email }, gameData, estadoDoBtn } = this.props;
     const player = { name, assertions: 0, score, gravatarEmail: email };
     localStorage.setItem('player', JSON.stringify(player));
     return (
@@ -70,6 +72,7 @@ class TelaJogo extends Component {
         { this.alternativesAnswers(count, gameData) }
         <button
           type="button"
+          hidden={ estadoDoBtn }
           // onClick={ () => {
           //   this.setState((prevState) => ({
           //     count: prevState.count + 1,
@@ -77,8 +80,9 @@ class TelaJogo extends Component {
           // } }
           onClick={ () => this.nextBtn() }
         >
-          botão
+          próximo
         </button>
+        {/* {console.log();} */}
       </div>
     );
   }
@@ -88,6 +92,7 @@ const mapStateToProps = (state) => ({
   getdata: state.user.userData, // Pega Nome de usuario
   getTokenStatus: state.user.token,
   gameData: state.requestGameAPI.gameData, // Pega as perguntas
+  estadoDoBtn: state.user.hidden,
 });
 
 TelaJogo.propTypes = ({

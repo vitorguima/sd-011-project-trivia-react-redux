@@ -96,6 +96,7 @@ class Login extends Component {
         {this.form()}
         <Link to="/game">
           <button
+            // hidden={ isDisabled }
             disabled={ isDisabled }
             data-testid="btn-play"
             type="button"

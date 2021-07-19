@@ -5,6 +5,8 @@ export const REQUEST_API_SUCESS = 'REQUEST_API_SUCESS';
 export const REQUEST_API_ERROR = 'REQUEST_API_ERROR';
 export const SEND_USER_DATA = 'SEND_USER_DATA';
 
+export const MOSTRA_BTN = 'MOSTRA_BTN';
+
 const requestApi = (payload) => ({
   type: REQUEST_API,
   payload,
@@ -22,6 +24,11 @@ const requestApiError = (payload) => ({
 
 export const sendUserData = (payload) => ({ // Envia dados do usuário para o Redux
   type: SEND_USER_DATA,
+  payload,
+});
+
+export const hiddenBtn = (payload) => ({
+  type: MOSTRA_BTN,
   payload,
 });
 
