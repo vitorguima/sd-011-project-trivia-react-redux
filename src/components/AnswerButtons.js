@@ -33,7 +33,13 @@ class AnswerButtons extends Component {
   }
 
   render() {
-    const { seconds, key, answer, correctAnswer, colorizeAnswers, wasAnswered } = this.props;
+    const { seconds,
+      key,
+      answer,
+      correctAnswer,
+      colorizeAnswers,
+      wasAnswered,
+    } = this.props;
     console.log(wasAnswered);
     return (
       <section>
@@ -50,6 +56,7 @@ class AnswerButtons extends Component {
             this.verifyIfWasAnswered();
             this.setScore(answer, correctAnswer);
           } }
+          onChange={ seconds === 0 && colorizeAnswers() }
           className="answer"
         >
           { answer }
