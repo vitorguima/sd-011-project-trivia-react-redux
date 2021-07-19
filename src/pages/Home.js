@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Forms from '../components/Forms';
+import logo from '../trivia.png';
 import '../CSS/Home.css';
 
 class Home extends Component {
   render() {
     return (
       <div className="home__container">
-        <h1>Home</h1>
+        <img src={ logo } alt="trivia logo" />
         <Forms />
-        <Link to="/settings" data-testid="btn-settings">settings</Link>
       </div>
     );
   }
