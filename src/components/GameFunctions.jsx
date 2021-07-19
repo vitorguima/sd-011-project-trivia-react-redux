@@ -1,12 +1,14 @@
+import { MD5 } from 'crypto-js';
 import { sendScore } from '../actions';
 import store from '../store';
 
 const magicTen = 10;
 
 export const setPlayerRanking = (state) => {
-  const { hashEmail } = localStorage;
+  const { name, score, gravatarEmail } = state;
+  const hashEmail = MD5(gravatarEmail).toString();
+
   const picture = `https://www.gravatar.com/avatar/${hashEmail}`;
-  const { name, score } = state;
   const obj = { name, score, picture };
   if (localStorage.ranking) {
     const { ranking } = localStorage;
