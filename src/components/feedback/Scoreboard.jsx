@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Scorebboard extends React.Component {
   constructor(props) {
@@ -8,16 +10,18 @@ class Scorebboard extends React.Component {
   }
 
   render() {
+    const { user } = this.props;
+    const { score, assertions } = user;
     return (
       <div className="feedback-scoreboard">
         <h2>
           Você acertou:
-          <span data-testid="feedback-total-score"> 0 </span>
+          <span data-testid="feedback-total-score">{ assertions }</span>
           de 5 perguntas.
         </h2>
         <h2>
           Você fez:
-          <span data-testid="feedback-total-question"> 0 </span>
+          <span data-testid="feedback-total-question">{ score }</span>
           pontos.
         </h2>
 
@@ -37,4 +41,15 @@ class Scorebboard extends React.Component {
   }
 }
 
-export default Scorebboard;
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
+
+Scorebboard.propTypes = {
+  user: PropTypes.shape({
+    score: PropTypes.number,
+    assertions: PropTypes.number,
+  }).isRequired,
+};
+
+export default connect(mapStateToProps)(Scorebboard);

@@ -15,15 +15,19 @@ class Questions extends React.Component {
       indexQuestion: 0,
       endGame: false,
       buttonDisabled: false,
+      timerCountDown: 30,
     };
     this.fetchTrivia = this.fetchTrivia.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.startTime = this.startTime.bind(this);
     this.handleButtons = this.handleButtons.bind(this);
+    this.updateCountdown = this.updateCountdown.bind(this);
   }
 
   componentDidMount() {
     this.fetchTrivia();
+    const timerDecrease = 1000;
+    setInterval(this.updateCountdown, timerDecrease);
   }
 
   nextQuestion() {
@@ -33,16 +37,17 @@ class Questions extends React.Component {
         return {
           indexQuestion: currentState.indexQuestion + 1,
           hasAnswered: false,
+          timerCountDown: 30,
         };
       }
       return {
         indexQuestion: currentState.indexQuestion + 1,
         endGame: true,
         hasAnswered: false,
+        timerCountDown: 30,
       };
     });
     this.handleButtons(false);
-    this.startTime();
   }
 
   async fetchTrivia() {
@@ -65,10 +70,17 @@ class Questions extends React.Component {
     setTimeout(() => this.handleButtons(true), timer);
   }
 
+  updateCountdown() {
+    const { timerCountDown } = this.state;
+    this.setState({
+      timerCountDown: timerCountDown - 1,
+    });
+  }
+
   render() {
     const { loading } = this.props;
     const { questionsList,
-      indexQuestion, endGame, buttonDisabled } = this.state;
+      indexQuestion, endGame, buttonDisabled, timerCountDown } = this.state;
     if (!loading && questionsList.length !== 0) {
       return (
         <div className="card-question-quiz">
@@ -80,6 +92,7 @@ class Questions extends React.Component {
           </div>
           <Answers
             handleButtons={ this.handleButtons }
+            timer={ timerCountDown }
             questionsList={ questionsList[indexQuestion] }
             isDisabled={ buttonDisabled }
           />

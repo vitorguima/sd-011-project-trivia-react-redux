@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Header from '../components/feedback/Header';
 import Scoreboard from '../components/feedback/Scoreboard';
 import '../style/feedback.css';
@@ -12,8 +14,7 @@ class Feedback extends React.Component {
 
   render() {
     const minHit = 3;
-    const assertions = 2; //  this.props;
-
+    const { user: { assertions } } = this.props;
     return (
       <>
         <Header />
@@ -38,8 +39,15 @@ class Feedback extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   assertions: state.player.assertions,
-// });
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
 
-export default Feedback;
+Feedback.propTypes = {
+  user: PropTypes.shape({
+    score: PropTypes.number,
+    assertions: PropTypes.number,
+  }).isRequired,
+};
+
+export default connect(mapStateToProps)(Feedback);
