@@ -5,6 +5,7 @@ import Header from './pages/header';
 import Player from './components/player';
 import Configuration from './pages/configuration';
 import feedback from './pages/feedback';
+import Ranking from './components/Ranking';
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <Route exact path="/" component={ Login } />
       <Route exact path="/header" component={ Header } />
       <Route exact path="/feedback" component={ feedback } />
+      <Route exact path="/ranking" component={ Ranking } />
     </Switch>
   );
 }
