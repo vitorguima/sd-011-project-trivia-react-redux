@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-max-depth */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function RankingForm(props) {
   console.log(props);
@@ -32,3 +33,11 @@ export default function RankingForm(props) {
     </div>
   );
 }
+
+RankingForm.propTypes = {
+  picture: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+
+};
