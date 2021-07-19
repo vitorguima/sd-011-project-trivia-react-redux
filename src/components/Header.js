@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import { getPlayerLocalStorage } from '../services/LocalStorage';
 
 class Header extends Component {
@@ -27,13 +28,14 @@ class Header extends Component {
     }
   }
 
-  getStorages() {
-    const ranking = JSON.parse(localStorage.getItem('ranking'));
-    const user = getPlayerLocalStorage();
+  async getStorages() {
+    const user = await getPlayerLocalStorage();
     const { player } = user;
+    const generateHash = md5(player.gravatarEmail).toString();
+    const response = await fetch(`https://www.gravatar.com/avatar/${generateHash}`);
     this.setState({
-      name: ranking[0].name,
-      image: ranking[0].picture,
+      name: player.name,
+      image: response.url,
       score: player.score,
     });
   }

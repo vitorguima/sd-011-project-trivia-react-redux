@@ -125,10 +125,9 @@ class Questions extends Component {
       nextQuestion,
       inAnswerQuestion,
       position,
-      questionsState,
       feedback,
     } = this.props;
-    const limit = questionsState.length - 1;
+    const limit = 4;
     if (position < limit) {
       nextQuestion(1);
       inAnswerQuestion(false);
