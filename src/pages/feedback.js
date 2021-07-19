@@ -8,6 +8,7 @@ export default class feedback extends Component {
     this.getUserMessage = this.getUserMessage.bind(this);
     this.redirectHomePage = this.redirectHomePage.bind(this);
     this.redirectRankingPage = this.redirectRankingPage.bind(this);
+    this.updateRanking = this.updateRanking.bind(this);
   }
 
   getUserMessage() {
@@ -29,12 +30,23 @@ export default class feedback extends Component {
     history.push('/ranking');
   }
 
+  updateRanking(picture) {
+    const prevRanking = JSON.parse(localStorage.getItem('ranking'));
+    const newPlayer = JSON.parse(localStorage.getItem('state'));
+    const { player: { name, score } } = newPlayer;
+    const updatedRanking = prevRanking
+      ? [...prevRanking, { name, score, picture }]
+      : [{ name, score, picture }];
+    localStorage.setItem('ranking', JSON.stringify(updatedRanking));
+  }
+
   render() {
     const player2 = JSON.parse(localStorage.getItem('state'));
     const { player: { assertions, email, score } } = player2;
     const pictureHash = md5(email).toString();
     const localStorageScore = score;
     const linkImage = `https://www.gravatar.com/avatar/${pictureHash}`;
+    this.updateRanking(linkImage);
     // const number = assertions > 0
     //   ? `Acertou ${assertions} perguntas` : 'Não acertou nenhuma pergunta';
     const userMessage = this.getUserMessage();
@@ -79,3 +91,4 @@ feedback.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
+// (a, b) => a - b
