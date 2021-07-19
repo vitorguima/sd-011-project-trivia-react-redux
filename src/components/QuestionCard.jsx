@@ -5,7 +5,7 @@ import Loading from './Loading';
 import BooleanAnswers from './BooleanAnswers';
 import MultipleAnswers from './MultipleAnswers';
 import Timer from './Timer';
-import { nextQuestion, resetTimer } from '../actions';
+import { nextQuestion, resetTimer, updateScore } from '../actions';
 
 const baseScore = 10;
 
@@ -25,7 +25,7 @@ class QuestionCard extends React.Component {
   }
 
   setScore() {
-    const { question, timer } = this.props;
+    const { question, timer, dispatchUpdateScore } = this.props;
 
     const difficultyScore = {
       easy: 1,
@@ -39,6 +39,8 @@ class QuestionCard extends React.Component {
     stateObj.player.assertions += 1;
 
     localStorage.setItem('state', JSON.stringify(stateObj));
+
+    dispatchUpdateScore(stateObj.player.score);
   }
 
   toggleDisableButtons() {
@@ -165,6 +167,7 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch) => ({
   dispatchNextQuestion: () => dispatch(nextQuestion()),
   dispatchResetTimer: () => dispatch(resetTimer()),
+  dispatchUpdateScore: (score) => dispatch(updateScore(score)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionCard);
