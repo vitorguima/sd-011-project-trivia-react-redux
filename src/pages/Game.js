@@ -13,7 +13,7 @@ class Game extends Component {
       index: 0,
       sucess: false,
       loss: false,
-      counter: 5,
+      counter: 30,
       disabled: false,
     };
     this.handleSucess = this.handleSucess.bind(this);
@@ -30,21 +30,21 @@ class Game extends Component {
   }
 
   componentWillUnmount() {
-    const { counter } = this.state;
-    if (counter === 0) {
-      clearInterval(this.count);
-      this.timer();
-    }
     clearInterval(this.count);
   }
 
   timer() {
-    const { counter } = this.state;
+    const sec = 1000;
     this.count = setInterval(() => {
+      const { counter } = this.state;
+      if (counter > 0) {
       this.setState({ counter: counter - 1});
-      console.log(counter);
-      return this.count;
-    }, 1000);
+      }
+      if (counter === 0) {
+        clearInterval(this.count);
+        this.setState({ disabled: true });
+      }
+    }, sec);
   }
   
   async fetchQuest() {
