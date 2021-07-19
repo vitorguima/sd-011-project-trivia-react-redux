@@ -34,7 +34,7 @@ class FeedBack extends Component {
       picture,
     }];
     if (!localStorage.ranking || localStorage.ranking.length === 0) {
-      localStorage.ranking = JSON.stringify(userRanking);
+      localStorage.ranking = JSON.stringify([userRanking]);
     } else {
       const localStorageRanking = JSON.parse(localStorage.ranking);
       localStorageRanking.push(userRanking);
