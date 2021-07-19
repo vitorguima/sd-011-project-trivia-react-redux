@@ -24,7 +24,11 @@ class Header extends React.Component {
           alt="avatar's search"
         />
         <p data-testid="header-player-name">
+
           {userName}
+
+          { UserName }
+
         </p>
         <span data-testid="header-score">0</span>
         { score }
