@@ -8,6 +8,7 @@ export default class Ranking extends Component {
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
         <div>
+          Lista de Ranking
           { getLocalStorage.sort((a, b) => (b.score - a.score))
             .map((value, index) => (
               <div key={ index }>
@@ -17,7 +18,6 @@ export default class Ranking extends Component {
               </div>
             ))}
         </div>
-        Lista de Ranking
         <Link to="/">
           <button type="button" data-testid="btn-go-home">Início</button>
         </Link>
