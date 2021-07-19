@@ -10,18 +10,21 @@ class Feedback extends Component {
   }
 
   feedbackAssertions() {
-    const { scoreUser } = this.props;
+    const storage = JSON.parse(localStorage.getItem('state'));
+    const { assertions } = storage.player;
     const startingScore = 3;
-    if (scoreUser < startingScore && scoreUser >= 0) {
+    if (assertions < startingScore && assertions >= 0) {
       return 'Podia ser melhor...';
     }
-    if (scoreUser > startingScore || scoreUser === startingScore) {
+    if (assertions > startingScore || assertions === startingScore) {
       return 'Mandou bem!';
     }
   }
 
   render() {
     const { userName, scoreUser, gravatarImage } = this.props;
+    const storage = JSON.parse(localStorage.getItem('state'));
+    const { assertions } = storage.player;
     return (
       <div>
         <header>
@@ -34,9 +37,9 @@ class Feedback extends Component {
           <h3 data-testid="header-score">{ scoreUser }</h3>
         </header>
         <div>
-          {/* <h2 data-testid="feedback-text"></h2>
-          <h3 data-testid="feedback-total-score"></h3>
-          <h3 data-testid="feedback-total-question"></h3> */}
+          <h2 data-testid="feedback-text">{ this.feedbackAssertions() }</h2>
+          <h3 data-testid="feedback-total-score">{ scoreUser }</h3>
+          <h3 data-testid="feedback-total-question">{ assertions }</h3>
         </div>
         <Link to="/">
           <button
