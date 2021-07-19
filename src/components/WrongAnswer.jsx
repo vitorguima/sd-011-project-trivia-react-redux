@@ -9,7 +9,7 @@ class WrongAnswer extends React.Component {
     // *Criar um estado que vai receber o valor do timer
     this.state = {
       timerReceived: 30,
-      timer: 1, // uso temporário
+      timer: 1, // //uso temporário
     };
     const { array } = this.props;
     this.correctAnswer = React.createRef();
@@ -18,7 +18,7 @@ class WrongAnswer extends React.Component {
     });
 
     this.changeBkgColor = this.changeBkgColor.bind(this);
-    this.sentTimerValue = this.sentTimerValue.bind(this);
+    this.sentTimerValueToScoreFile = this.sentTimerValueToScoreFile.bind(this); // *bind padrãolinhar 
   }
 
   componentDidUpdate({ array }) {
@@ -40,20 +40,20 @@ class WrongAnswer extends React.Component {
   }
 
   // !Atualiza o valor do estado timerReceived
-  sentTimerValue() {
+  sentTimerValueToScoreFile() {
     const { timer } = this.state;
     this.setState({ timerReceived: timer }, () => {
       const { timerReceived } = this.state;
       return timerReceived;
     });
   }
-  // //Não sei se funciona ;-;
 
+  // TODO: forma de mudar a pergunta quando o tempo passar - Não sei se o modelo atual funcionaria 😔😔✋
   forceAClick() {
     const btnNext = document.getElementById('btn-next');
     const { timer } = this.state;
     if (timer === 0) {
-      return btnNext.click(); // força um click
+      return btnNext.click(); // *força um click
     }
   }
 
@@ -70,7 +70,7 @@ class WrongAnswer extends React.Component {
           className="correctAnswer"
           ref={ this.correctAnswer }
           onClick={ () => this.changeBkgColor() } // Cria Borda da Correta
-          onMouseDown={ () => this.sentTimerValue() } // Atualiza o valor do estado timerReceived
+          onMouseDown={ () => this.sentTimerValueToScoreFile() } // *Atualiza o valor do estado timerReceived
         >
           { correctAnswer }
         </button>

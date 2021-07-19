@@ -7,13 +7,13 @@ class Score extends Component {
     this.state = {
       score: 0,
     };
-    this.handleConvert = this.handleConvert.bind(this);
+    this.handleConvertDifficulty = this.handleConvertDifficulty.bind(this);
     this.handleScore = this.handleScore.bind(this);
   }
 
-  // ?Talvez o ideal seja colocar handleConvert e handleScore no pai
+  // ?Talvez o ideal seja colocar handleConvertDifficulty e handleScore no parent, depende de como o Timer foi feito
   // !Converte string com a dificuldade em numero
-  handleConvert(difficulty) {
+  handleConvertDifficulty(difficulty) {
     const numbers = { one: 1, two: 2, three: 3 }; // Uma forma para salvar os números dentro de uma constante
     const { one, two, three } = numbers;
     if (difficulty === 'easy') return one;
@@ -28,7 +28,7 @@ class Score extends Component {
     const { timer } = this.props;
     this.setState({
       score: score + number
-      + (timer * this.handleConvert(difficulty)),
+      + (timer * this.handleConvertDifficulty(difficulty)),
     });
   }
 
@@ -38,7 +38,6 @@ class Score extends Component {
     return (
       <div>
         <p>
-          { /* Só pra teste se é passada a dificuldade convertida */ }
           Score:
           {score}
         </p>
