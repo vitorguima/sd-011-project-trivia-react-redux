@@ -7,6 +7,12 @@ export const TIMEOVER = 'GET_SECONDS';
 export const GET_NEXT_QUESTION = 'GET_NEXT_QUESTION';
 export const WAS_ANSWERED = 'WAS_ANSWERED';
 export const SET_SCORE = 'SET_SCORE';
+export const TIME_ANSWERED = 'TIME_ANSWERED';
+
+export const setTimeScore = (payload) => ({
+  type: TIME_ANSWERED,
+  payload,
+});
 
 export const setScore = (payload) => ({
   type: SET_SCORE,

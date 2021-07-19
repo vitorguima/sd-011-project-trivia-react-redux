@@ -5,7 +5,7 @@ const initialState = {
     questionNumber: 0,
     score: 0,
     timeScore: 0,
-    difficulty: 0,
+    difficulty: '',
   },
 };
 
@@ -13,13 +13,13 @@ const gameScore = (state = initialState, { type, payload }) => {
   switch (type) {
   case SET_SCORE:
     return {
-      ...state.userResults,
-      userResults: {
-        questionNumber: payload.questionNumber,
+      ...state,
+      [payload.questionNumber]: {
         score: payload.score,
         timeScore: payload.time,
-        difficultyScore: payload.difficulty,
-      } };
+        difficulty: payload.difficulty,
+      },
+    };
   default:
     return state;
   }

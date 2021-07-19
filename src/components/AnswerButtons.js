@@ -8,31 +8,32 @@ class AnswerButtons extends Component {
     super(props);
 
     this.setScorePoint = this.setScorePoint.bind(this);
-    this.stopTimer = this.stopTimer.bind(this);
     this.verifyIfWasAnswered = this.verifyIfWasAnswered.bind(this);
   }
 
   setScorePoint(answerSelected, correctAnswer) {
     // Marca ponto ao acertar a resposta, precisa pegar o tempo, e a dificuldade da pergunta
-    const { setScore } = this.props;
-    const answerOfUser = {
-      questionNumber: 1,
-      time: 'tempo do usuário',
-      score: 'score',
-      difficulty: 'dificuldade',
-    };
+    const { setScore, results, questionIndex, secondsToFinish } = this.props;
+    const { difficulty } = results[questionIndex];
+    const question = questionIndex + 1;
+    let score = 0;
     if (answerSelected === correctAnswer) {
-      // logica
+      score = 1;
     }
+
+    const time = secondsToFinish;
+
+    const answerOfUser = {
+      questionNumber: question,
+      time,
+      score,
+      difficulty,
+    };
     setScore(answerOfUser);
   }
 
   getTimeResponse() {
     // Pega o tempo restante após o jogador selecionar uma resposta
-  }
-
-  stopTimer() {
-    // Parar o tempo após selecionar uma resposta
   }
 
   verifyIfWasAnswered() {
@@ -41,7 +42,7 @@ class AnswerButtons extends Component {
   }
 
   render() {
-    const { seconds,
+    const { secondsToFinish,
       key,
       answer,
       correctAnswer,
@@ -53,7 +54,7 @@ class AnswerButtons extends Component {
         <button
           id="answer"
           type="button"
-          disabled={ wasAnswered || seconds === 0 }
+          disabled={ wasAnswered || secondsToFinish === 0 }
           key={ key }
           data-testid={ correctAnswer === answer
             ? 'correct-answer'
@@ -63,7 +64,7 @@ class AnswerButtons extends Component {
             this.verifyIfWasAnswered();
             this.setScorePoint(answer, correctAnswer);
           } }
-          onChange={ seconds === 0 ? colorizeAnswers() : null }
+          onChange={ secondsToFinish === 0 ? colorizeAnswers() : null }
           className="answer"
         >
           { answer }
@@ -74,13 +75,16 @@ class AnswerButtons extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  seconds: state.timeOver.seconds,
+  secondsToFinish: state.timeHandler.secondsToFinish,
   wasAnswered: state.questionHandlers.wasAnswered,
+  questionIndex: state.questionHandlers.questionIndex,
+  results: state.fetchReducers.questions.results,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   answerObserver: () => dispatch(userActions.answerObserver()),
   setScore: (score) => dispatch(userActions.setScore(score)),
+  setTimeScore: (seconds) => dispatch(userActions.setTimeScore(seconds)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnswerButtons);

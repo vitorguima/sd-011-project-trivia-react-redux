@@ -6,6 +6,9 @@ import * as userActions from '../actions';
 class CountdownTimer extends Component {
   constructor() {
     super();
+
+    this.timer = this.timer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
     this.state = {
       minutes: 0,
       seconds: 30,
@@ -13,9 +16,22 @@ class CountdownTimer extends Component {
   }
 
   componentDidMount() {
+    this.timer();
+  }
+
+  componentDidUpdate() {
+    this.dispatchDisable();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.myInterval);
+  }
+
+  timer() {
     const interval = 1000;
     this.myInterval = setInterval(() => {
       const { seconds } = this.state;
+      const { wasAnswered } = this.props;
       if (seconds > 0) {
         this.setState((secs) => ({
           seconds: secs.seconds - 1,
@@ -27,15 +43,19 @@ class CountdownTimer extends Component {
         //   disabled: false,
         // });
       }
+      if (wasAnswered) {
+        clearInterval(this.myInterval);
+      }
     }, interval);
   }
 
-  componentDidUpdate() {
-    this.dispatchDisable();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.myInterval);
+  stopTimer() {
+    console.log('chamei');
+    const { setTimeScore } = this.props;
+    const { seconds } = this.state;
+    const MAX_TIME = 30;
+    const timeAnswered = MAX_TIME - seconds;
+    setTimeScore(timeAnswered);
   }
 
   dispatchDisable() {
@@ -48,7 +68,11 @@ class CountdownTimer extends Component {
 
   render() {
     const { minutes, seconds } = this.state;
+    const { wasAnswered } = this.props;
     const finalSeconds = 10;
+    if (wasAnswered) {
+      this.stopTimer();
+    }
     if (minutes === 0 && seconds === 0) {
       return <h1>Tempo esgotado!</h1>;
     }
@@ -67,9 +91,14 @@ class CountdownTimer extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   setSeconds: (seconds) => dispatch(userActions.getSeconds(seconds)),
+  setTimeScore: (seconds) => dispatch(userActions.setTimeScore(seconds)),
 });
 
-export default connect(null, mapDispatchToProps)(CountdownTimer);
+const mapStateToProps = (state) => ({
+  wasAnswered: state.questionHandlers.wasAnswered,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CountdownTimer);
 
 CountdownTimer.propTypes = {
   setSeconds: PropTypes.func,

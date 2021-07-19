@@ -25,7 +25,7 @@ class TriviaQuestions extends Component {
   }
 
   render() {
-    const { questions, seconds, wasAnswered, questionIndex } = this.props;
+    const { questions, secondsToFinish, wasAnswered, questionIndex } = this.props;
     const MAX_QUESTIONS_INDEX = 5;
     const { results } = questions;
     const eachResult = Object.values({ ...results });
@@ -35,7 +35,7 @@ class TriviaQuestions extends Component {
         <CountdownTimer />
         <h1 data-testid="question-category">Categoria</h1>
         <h2 data-testid="question-text">Questão:</h2>
-        { ((seconds === 0 || wasAnswered) && questionIndex < MAX_QUESTIONS_INDEX)
+        { ((secondsToFinish === 0 || wasAnswered) && questionIndex < MAX_QUESTIONS_INDEX)
         && <NextQuestionBtn toTheNextQuestion={ this.toTheNextQuestion } /> }
         { eachResult ? <Question eachResult={ eachResult[questionIndex] } /> : null }
       </div>);
@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   questions: state.fetchReducers.questions,
-  seconds: state.timeOver.seconds,
+  secondsToFinish: state.timeHandler.secondsToFinish,
   questionIndex: state.questionHandlers.questionIndex,
   wasAnswered: state.questionHandlers.wasAnswered,
 });
