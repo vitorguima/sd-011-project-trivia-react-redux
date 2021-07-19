@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const fiftyPercent = 0.5;
 const caseTrue = 1;
@@ -7,16 +8,14 @@ const caseFalse = -1;
 const correctAnswer = 'correct-answer';
 
 class MultipleAnswers extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
-    this.state = {
-      answers: this.getAnswers(props.question),
-    };
     this.addScore = this.addScore.bind(this);
   }
 
-  getAnswers(question) {
+  getAnswers() {
+    const { question } = this.props;
     const answers = [question.correct_answer, ...question.incorrect_answers];
 
     /*
@@ -24,18 +23,6 @@ class MultipleAnswers extends React.Component {
       source: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
     */
     return answers.sort(() => (Math.random() > fiftyPercent ? caseTrue : caseFalse));
-  }
-
-  changeColor({ target }) {
-    const getButtons = target.parentElement.children;
-
-    for (let index = 0; index < getButtons.length; index += 1) {
-      if (getButtons[index].dataset.testid === correctAnswer) {
-        getButtons[index].classList.add('correct');
-      } else {
-        getButtons[index].classList.add('incorrect');
-      }
-    }
   }
 
   addScore({ target }) {
@@ -46,19 +33,19 @@ class MultipleAnswers extends React.Component {
   }
 
   render() {
-    const { question, disabled } = this.props;
-    const { answers } = this.state;
+    const { question, changeColor, toggleNextButtonVisibility, disabled } = this.props;
 
     return (
       <>
         {
-          answers.map((answer, index) => (
+          this.getAnswers().map((answer, index) => (
             <button
               key={ index }
               type="button"
               onClick={ (event) => {
-                this.changeColor(event);
+                changeColor(event);
                 this.addScore(event);
+                toggleNextButtonVisibility();
               } }
               disabled={ disabled }
               data-testid={
@@ -76,7 +63,11 @@ class MultipleAnswers extends React.Component {
   }
 }
 
-export default MultipleAnswers;
+const mapStateToProps = ({ gameReducer: { question } }) => ({
+  question,
+});
+
+export default connect(mapStateToProps)(MultipleAnswers);
 
 MultipleAnswers.propTypes = {
   question: PropTypes.shape({
