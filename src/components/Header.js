@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-class header extends Component {
+class Header extends Component {
   render() {
     const getStorage = () => JSON.parse(localStorage.state);
     const { player: { gravatarEmail, name } } = getStorage();
+    const { pontuacao } = this.props;
+    console.log(pontuacao);
     return (
       <div>
         <header>
@@ -21,7 +24,7 @@ class header extends Component {
           <span
             data-testid="header-score"
           >
-            0
+            { pontuacao }
           </span>
         </header>
       </div>
@@ -29,4 +32,8 @@ class header extends Component {
   }
 }
 
-export default header;
+Header.propTypes = {
+  pontuacao: PropTypes.number.isRequired,
+};
+
+export default Header;

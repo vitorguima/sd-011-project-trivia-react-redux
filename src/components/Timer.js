@@ -20,10 +20,14 @@ class Timer extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { funcao } = this.props;
+    const { funcao, funcaoStop, stop } = this.props;
     if (prevState.seconds === 1) {
       funcao();
       this.update();
+    }
+    if (!prevProps.stop && stop) {
+      this.update();
+      funcaoStop(prevState.seconds);
     }
   }
 
@@ -43,6 +47,8 @@ class Timer extends Component {
 
 Timer.propTypes = {
   funcao: PropTypes.func.isRequired,
+  funcaoStop: PropTypes.func.isRequired,
+  stop: PropTypes.bool.isRequired,
 };
 
 export default Timer;

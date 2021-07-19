@@ -12,7 +12,10 @@ class Jogo extends Component {
       questions: [],
       index: 0,
       loading: true,
+      value: 0,
     };
+
+    this.change = this.change.bind(this);
   }
 
   componentDidMount() {
@@ -21,17 +24,18 @@ class Jogo extends Component {
     });
   }
 
-  /* change(val) {
+  change(val) {
     this.setState({ value: val });
-  } */
+  }
 
   render() {
-    const { questions, index, loading } = this.state;
-    console.log(questions);
+    const { questions, index, loading, value } = this.state;
+    // console.log(questions);
     return (
       <div className="game-container">
-        <Header />
-        {questions.length === 0 ? loading : <Questions { ...questions[index] } /> }
+        <Header pontuacao={ value } />
+        {questions.length === 0 ? loading
+          : <Questions { ...questions[index] } funcao={ this.change } /> }
       </div>
     );
   }

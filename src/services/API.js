@@ -11,7 +11,7 @@ export const getToken = () => fetch(URL)
   .then((res) => res.json())
   .then(({ results }) => results);
 
-// export const getStorage = () => JSON.parse(localStorage.state);
+export const getStorage = () => JSON.parse(localStorage.state);
 // export const getRanking = () => JSON.parse(localStorage.ranking);
 
-export default getToken;
+// export default getToken;
