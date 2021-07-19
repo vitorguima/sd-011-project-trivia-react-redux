@@ -1,10 +1,11 @@
+/* eslint-disable max-lines-per-function */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Layout from '../components/common/Layout';
+import QuestionDescription from '../components/Game/QuestionDescription';
 import { getQuestions, changeScore, changeAssertions } from '../redux/actions';
-import cy from 'cypress'
 
 import createStopwatch from '../utils/stopwatch';
 import shuffle from '../utils/shuffle';
@@ -25,12 +26,13 @@ class Game extends Component {
       stopwatch: null,
       currentQuestionIndex: 0,
       assertions: 0,
+      shouldRedirect: false,
     };
     this.initializeState = this.initializeState.bind(this);
     this.handlePickOption = this.handlePickOption.bind(this);
     this.handleStopwatchEnd = this.handleStopwatchEnd.bind(this);
     this.handleStopwatchTick = this.handleStopwatchTick.bind(this);
-    this.handleNextQuestion = this.handleNextQuestion.bind(this);
+    this.handleForwardsButton = this.handleForwardsButton.bind(this);
     this.handleStopwatchReset = this.handleStopwatchReset.bind(this);
     this.mapStateToStorage = this.mapStateToStorage.bind(this);
     this.getScore = this.getScore.bind(this);
@@ -38,12 +40,9 @@ class Game extends Component {
 
   async componentDidMount() {
     const { token, handleQuestions } = this.props;
+    this.mapStateToStorage();
     await handleQuestions(token);
     this.initializeState();
-  }
-
-  componentDidUpdate() {
-    cy.log(localStorage.getItem('state')); 
   }
 
   componentWillUnmount() {
@@ -98,8 +97,14 @@ class Game extends Component {
     });
   }
 
-  handleNextQuestion() {
+  handleForwardsButton() {
     const { stopwatch, currentQuestionIndex, questions } = this.state;
+
+    if (currentQuestionIndex === questions.length - 1) {
+      this.setState({ shouldRedirect: true });
+      return;
+    }
+
     if (currentQuestionIndex > questions.length - 2) return;
     this.setState(({ currentQuestionIndex: index }) => ({
       currentQuestionIndex: index + 1,
@@ -127,8 +132,6 @@ class Game extends Component {
         shuffle([...alt.incorrect_answers, alt.correct_answer]))),
       remainingTime: TIME_TO_CHOOSE,
       stopwatch: createStopwatch(TIME_TO_CHOOSE, callbacks).start(),
-    }, () => {
-      this.mapStateToStorage();
     });
   }
 
@@ -182,44 +185,42 @@ class Game extends Component {
   }
 
   render() {
-    const { questions,
-      loading,
-      alternatives, remainingTime, hasPicked, currentQuestionIndex } = this.state;
+    const { questions, loading, alternatives, remainingTime,
+      hasPicked, currentQuestionIndex: index, shouldRedirect } = this.state;
+    if (shouldRedirect) return <Redirect to="/feedback" />;
+    const isFinished = index === questions.length - 1;
     return (
       <Layout title="Game">
         <main>
           <GameHeader />
           { loading ? <span>Carregando...</span>
-            : <div>
-              <p>
-                <span data-testid="question-category">
-                  {questions[currentQuestionIndex].category}
-                </span>
-              </p>
-              <p>
-                <span data-testid="question-text">
-                  {questions[currentQuestionIndex].question}
-                </span>
-              </p>
+            : (
               <div>
-                { alternatives[currentQuestionIndex]
-                  .map((answer, index) => this.renderButtons(answer, index)) }
-              </div>
-              <p>
-                Tempo restante:&nbsp;
-                { remainingTime }
-              </p>
-              {hasPicked && <button
-                type="button"
-                data-testid="btn-next"
-                onClick={ this.handleNextQuestion }
-              >
-                {currentQuestionIndex === questions.length - 1 ? <Link to="/feedback">
-                  Resultados
-                </Link>
-                  : <>Próxima pergunta</> }
-              </button>}
-            </div>}
+                <QuestionDescription index={ index } questions={ questions } />
+                <div>
+                  { alternatives[index]
+                    .map((answer, btnIndex) => this.renderButtons(answer, btnIndex)) }
+                </div>
+                <p>
+                  Tempo restante:&nbsp;
+                  { remainingTime }
+                </p>
+                {hasPicked
+                  ? (
+                    <button
+                      title={ `${isFinished
+                        ? 'Ver resultados'
+                        : 'Ir para próxima pergunta'}` }
+                      type="button"
+                      data-testid="btn-next"
+                      onClick={ this.handleForwardsButton }
+                    >
+                      { isFinished
+                        ? 'Resultado'
+                        : 'Próxima'}
+                    </button>)
+                  : null}
+              </div>)}
         </main>
       </Layout>
     );
