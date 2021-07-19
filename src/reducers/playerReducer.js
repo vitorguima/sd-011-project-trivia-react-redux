@@ -19,6 +19,7 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: action.score,
+      assertions: action.assertions,
     };
   case GET_ASSERTIONS:
     return {
