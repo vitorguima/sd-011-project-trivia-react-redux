@@ -25,8 +25,7 @@ class Questions extends Component {
     this.setRanking = this.setRanking.bind(this);
     this.changeQuestion = this.changeQuestion.bind(this);
     this.buttons = this.buttons.bind(this);
-    this.rankingUser = this.rankingUser.bind(this)
-
+    this.rankingUser = this.rankingUser.bind(this);
   }
 
   async componentDidMount() {
@@ -35,34 +34,6 @@ class Questions extends Component {
 
   componentDidUpdate() {
     this.handleEnableButton();
-  }
-
-  rankingUser(){
-    const getStateByLocalStorage = JSON.parse(localStorage.getItem('state'));
-    let ranking = localStorage.getItem('ranking');
-    const { player: { name, score, gravatarEmail} } = getStateByLocalStorage;
-    if (!ranking) {
-      ranking = [
-        {
-          name,
-          score,
-          gravatarEmail,
-        },
-      ];
-      localStorage.setItem('ranking', JSON.stringify(ranking));
-    } else {
-      const currentPlayer = {
-        name,
-        score,
-        gravatarEmail,
-      };
-      const newRanking = JSON.parse(ranking);
-      newRanking.push (currentPlayer);
-      newRanking.sort((a, b) => b.score - a.score);
-      localStorage.setItem('ranking', JSON.stringify(newRanking));
-    }
-   
-  this.setState({ goToFeedback: true })
   }
 
   async getUnities() {
@@ -90,7 +61,35 @@ class Questions extends Component {
         + (sec * dificultNum[difficulty]);
       dispatchUserScore(score + state.player.score);
     }
-    localStorage.setItem('state', JSON.stringify(state) );
+    localStorage.setItem('state', JSON.stringify(state));
+  }
+
+  rankingUser() {
+    const getStateByLocalStorage = JSON.parse(localStorage.getItem('state'));
+    let ranking = localStorage.getItem('ranking');
+    const { player: { name, score, gravatarEmail } } = getStateByLocalStorage;
+    if (!ranking) {
+      ranking = [
+        {
+          name,
+          score,
+          gravatarEmail,
+        },
+      ];
+      localStorage.setItem('ranking', JSON.stringify(ranking));
+    } else {
+      const currentPlayer = {
+        name,
+        score,
+        gravatarEmail,
+      };
+      const newRanking = JSON.parse(ranking);
+      newRanking.push(currentPlayer);
+      newRanking.sort((a, b) => b.score - a.score);
+      localStorage.setItem('ranking', JSON.stringify(newRanking));
+    }
+
+    this.setState({ goToFeedback: true });
   }
 
   addWrongBorder(difficulty) {
@@ -169,14 +168,13 @@ class Questions extends Component {
       return (
         <button
           type="button"
-          onClick={this.rankingUser }
+          onClick={ this.rankingUser }
           data-testid="btn-next"
         >
           Próxima
         </button>);
     }
   }
-
 
   render() {
     const { questions, selectAnswer,

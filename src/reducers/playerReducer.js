@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   name: '',
   gravatarEmail: '',
   score: 0,
+  hits: 0,
 };
 
 function playerReducer(state = INITIAL_STATE, action) {
@@ -16,6 +17,7 @@ function playerReducer(state = INITIAL_STATE, action) {
     };
   case USER_SCORE:
     return {
+      ...state,
       score: action.score,
     };
   default:
