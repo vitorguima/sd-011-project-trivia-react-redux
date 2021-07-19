@@ -21,6 +21,7 @@ const player = (state = INITIAL_STATE, action) => {
       score: action.score,
       assertions: action.assertions,
     };
+
   default:
     return state;
   }
