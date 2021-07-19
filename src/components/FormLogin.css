@@ -1,0 +1,97 @@
+.login-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  justify-content: center;
+  width: 50vw;
+}
+
+.background {
+  animation-direction: alternate;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: animLogo;
+  background-image: url('../trivia.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 500px;
+  opacity: 10%;
+  position: absolute;
+  top: 5%;
+  width: 700px;
+  z-index: -10;
+}
+
+@keyframes animLogo {
+
+  0% {
+    opacity: 30%;
+    transform: rotateY(0deg);
+  }
+
+  75% {
+    opacity: 80%;
+    transform: rotateY(360deg);
+  }
+
+  100% {
+    opacity: 80%;
+    transform: rotateY(360deg);
+    transition: 10s;
+  }
+}
+
+.login-form label {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.login-form input {
+  border: none;
+  border-radius: 5px;
+  color: rgb(0, 195, 150);
+  font-size: 20px;
+  font-weight: 600;
+  height: 40px;
+  outline: none;
+  padding: 0 10px;
+  text-align: center;
+  width: 400px;
+}
+
+.login-form input:focus {
+  box-shadow: 0 0 20px white;
+}
+
+.login-button {
+  background-color: white;
+  border: 4px solid rgb(0, 195, 150);
+  border-radius: 10px;
+  color: rgb(0, 195, 150);
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 600;
+  height: 40px;
+  transition: 0.2s;
+  width: 300px;
+}
+
+.login-button:disabled {
+  border: 4px solid red;
+  color: red;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: scale(0.8);
+  transition: 1s;
+}
+
+/* .login-button:not(disabled):hover {
+  background-color: rgb(0, 195, 150);
+  color: white;
+} */
