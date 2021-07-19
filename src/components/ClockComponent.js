@@ -67,12 +67,6 @@ class ClockComponent extends Component {
         seconds: prevState.seconds - 1,
       }));
     }
-    if (buttonClick) {
-      updateButton();
-      this.setState(() => ({
-        seconds,
-      }));
-    }
   }
 
   render() {
