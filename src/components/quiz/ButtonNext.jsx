@@ -28,6 +28,7 @@ class ButtonNext extends React.Component {
 ButtonNext.propTypes = {
   testid: PropTypes.string.isRequired,
   nextQuestion: PropTypes.func.isRequired,
+  btnState: PropTypes.bool.isRequired,
 };
 
 export default ButtonNext;
