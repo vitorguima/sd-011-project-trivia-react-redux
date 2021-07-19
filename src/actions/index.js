@@ -42,7 +42,7 @@ const requestTriviaError = (state) => ({
   state,
 });
 
-const countScore = (state) => ({
+export const countScore = (state) => ({
   type: SCORE_COUNTER,
   state,
 });
