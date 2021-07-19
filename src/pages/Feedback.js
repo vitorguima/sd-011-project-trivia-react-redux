@@ -4,18 +4,40 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Feedback extends Component {
+  constructor() {
+    super();
+    this.feedbackAssertions.bind(this);
+  }
+
+  feedbackAssertions() {
+    const { scoreUser } = this.props;
+    const startingScore = 3;
+    if (scoreUser < startingScore && scoreUser >= 0) {
+      return 'Podia ser melhor...';
+    }
+    if (scoreUser > startingScore || scoreUser === startingScore) {
+      return 'Mandou bem!';
+    }
+  }
+
   render() {
     const { userName, scoreUser, gravatarImage } = this.props;
     return (
-      <header>
-        <img
-          src={ gravatarImage }
-          alt="player_image"
-          data-testid="header-profile-picture"
-        />
-        <div data-testid="feedback-text">Feedback</div>
-        <div data-testid="header-player-name">{ userName }</div>
-        <div data-testid="header-score">{ scoreUser }</div>
+      <div>
+        <header>
+          <img
+            src={ gravatarImage }
+            alt="player_image"
+            data-testid="header-profile-picture"
+          />
+          <h2 data-testid="header-player-name">{ userName }</h2>
+          <h3 data-testid="header-score">{ scoreUser }</h3>
+        </header>
+        <div>
+          <h2 data-testid="feedback-text"></h2>
+          <h3 data-testid="feedback-total-score"></h3>
+          <h3 data-testid="feedback-total-question"></h3>
+        </div>
         <Link to="/">
           <button
             type="button"
@@ -32,7 +54,7 @@ class Feedback extends Component {
             Ver Ranking
           </button>
         </Link>
-      </header>
+      </div>
     );
   }
 }
