@@ -9,29 +9,29 @@ class Feedback extends Component {
     super(props);
     this.state = {
       totalScore: props.totalScore,
+      totalAssertions: props.totalAssertions,
     };
     this.renderFeedback = this.renderFeedback.bind(this);
   }
 
   renderFeedback() {
     const worstScore = 3;
-    const TEN = 10;
-    // 10 + (timer * dificuldade)
-    const { totalScore } = this.state;
-    const sumPoints = totalScore * TEN;
-    if (totalScore < worstScore) {
+    const { totalScore, totalAssertions } = this.state;
+    if (totalAssertions < worstScore) {
       return (
         <div>
           <p data-testid="feedback-text">Podia ser melhor...</p>
           <p
             data-testid="feedback-total-question"
           >
-            {`Você acertou ${totalScore} questões!`}
+            {totalAssertions}
+
           </p>
           <p
             data-testid="feedback-total-score"
           >
-            {`Um total de ${sumPoints} pontos!`}
+            {totalScore}
+
           </p>
         </div>
       );
@@ -42,12 +42,14 @@ class Feedback extends Component {
         <p
           data-testid="feedback-total-question"
         >
-          {`Você acertou ${totalScore} questões!`}
+          {totalAssertions}
+
         </p>
         <p
           data-testid="feedback-total-score"
         >
-          {`Um total de ${sumPoints} pontos!`}
+          {totalScore}
+
         </p>
       </div>
 
@@ -80,6 +82,7 @@ Feedback.propTypes = {
 
 const mapStateToProps = (state) => ({
   totalScore: state.ScoreReducer.totalScore,
+  totalAssertions: state.ScoreReducer.totalAssertions,
 });
 
 export default connect(mapStateToProps)(Feedback);
