@@ -1,11 +1,14 @@
 export const SUB_TIMER = 'SUB_TIMER';
 export const ENABLE_BTNS = 'ENABLE_BTNS';
+export const SCORE_UPDATE = 'SCORE_UPDATE';
+export const RESET_TIMER = 'RESET_TIMER';
+export const LOGIN_INPUT = 'LOGIN_INPUT';
 
 export const loginInputs = ({ target }) => {
   const { name } = target;
   const value = target.type === 'checkbox' ? target.checked : target.value;
   return {
-    type: 'LOGIN_INPUT',
+    type: LOGIN_INPUT,
     name,
     value,
   };
@@ -41,4 +44,13 @@ export const subTimer = () => ({
 
 export const enablebtns = () => ({
   type: ENABLE_BTNS,
+});
+
+export const dispatchScore = (score) => ({
+  type: SCORE_UPDATE,
+  payload: score,
+});
+
+export const resetTimer = () => ({
+  type: RESET_TIMER,
 });

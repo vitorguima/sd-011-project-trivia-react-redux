@@ -1,25 +1,18 @@
-import { ENABLE_BTNS, SUB_TIMER } from '../actions';
+import { ENABLE_BTNS, SUB_TIMER, SCORE_UPDATE, RESET_TIMER } from '../actions';
 
 const INITIAL_STATE = {
-  login: {
-    nome: '',
-    email: '',
-  },
   token: '',
   error: '',
   questions: {},
   gravatarAvatar: '',
   timer: 30,
   isDisable: false,
+  score: 0,
+  assertions: 0,
 };
 
 export default function triviaReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'LOGIN_INPUT':
-    return {
-      ...state,
-      login: { ...state.login, [action.name]: action.value },
-    };
   case 'REQUEST_SUCESS':
     return {
       ...state,
@@ -45,6 +38,17 @@ export default function triviaReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       isDisable: false,
+    };
+  case SCORE_UPDATE:
+    return {
+      ...state,
+      score: (state.score + action.payload),
+      assertions: state.assertions + 1,
+    };
+  case RESET_TIMER:
+    return {
+      ...state,
+      timer: 30,
     };
   default:
     return state;

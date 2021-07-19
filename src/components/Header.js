@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import logo from './trivia.png';
+import logo from '../trivia.png';
+import '../style/App.css';
 
 export default class Header extends Component {
   render() {

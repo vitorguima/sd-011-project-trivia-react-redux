@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
 import { loginInputs, fetchTriviaApi, fetchTriviaQuestions } from '../actions';
-import Header from '../Header';
 
 class Login extends Component {
   componentDidMount() {
@@ -12,10 +12,15 @@ class Login extends Component {
   }
 
   setPlayerLocalStorage(name, email, token) {
+    const { score } = this.props;
+    // let result = score;
+    // if (score === 0) {
+    //   result = '';
+    // }
     const playerObj = { player: {
       name,
       assertions: '',
-      score: '',
+      score,
       gravatarEmail: email,
     },
     };
@@ -95,12 +100,14 @@ Login.propTypes = {
   loginInputsDispatch: PropTypes.func.isRequired,
   nome: PropTypes.string.isRequired,
   token: PropTypes.string,
+  score: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  nome: state.triviaReducer.login.nome,
-  email: state.triviaReducer.login.email,
+  nome: state.loginReducer.login.nome,
+  email: state.loginReducer.login.email,
   token: state.triviaReducer.token.token,
+  score: state.triviaReducer.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
