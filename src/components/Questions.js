@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/Questions.css';
-import { disableButtonTrue, roleQuestions, answeredQuestion } from '../actions';
+import { disableButtonTrue } from '../actions';
 import * as serviceLocalStorage from '../services/LocalStorage';
 
 class Questions extends Component {
