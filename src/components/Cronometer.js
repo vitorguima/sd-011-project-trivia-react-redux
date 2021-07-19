@@ -36,11 +36,11 @@ class Cronometer extends Component {
   }
 
   render() {
-    const { timer, stopTimer } = this.props;
+    const { timer } = this.props;
     const NINE = 9;
     return (
       <div className="cronometerContainer">
-        { stopTimer === false
+        { timer > 0
           ? (
             <p className="timer">
               { timer > NINE ? `00:${timer}` : `00:0${timer}`}
