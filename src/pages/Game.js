@@ -4,6 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { getQuestions, getToken } from '../actions';
 import HeaderGame from '../components/HeaderGame';
+import Timer from '../components/Timer';
 
 class Game extends Component {
   constructor() {
@@ -12,18 +13,40 @@ class Game extends Component {
       index: 0,
       sucess: false,
       loss: false,
+      counter: 5,
+      disabled: false,
     };
     this.handleSucess = this.handleSucess.bind(this);
     this.handleLoss = this.handleLoss.bind(this);
     this.fetchQuest = this.fetchQuest.bind(this);
+    this.timer = this.timer.bind(this);
   }
-
+  
   componentDidMount() {
     const { fetchToken } = this.props;
     fetchToken();
     this.fetchQuest();
+    this.timer();
   }
 
+  componentWillUnmount() {
+    const { counter } = this.state;
+    if (counter === 0) {
+      clearInterval(this.count);
+      this.timer();
+    }
+    clearInterval(this.count);
+  }
+
+  timer() {
+    const { counter } = this.state;
+    this.count = setInterval(() => {
+      this.setState({ counter: counter - 1});
+      console.log(counter);
+      return this.count;
+    }, 1000);
+  }
+  
   async fetchQuest() {
     const { fetchQuestions } = this.props;
     const URL = 'https://opentdb.com/api_token.php?command=request';
@@ -51,13 +74,17 @@ class Game extends Component {
     const {
       category,
       question, correct_answer:
-      correntAnswer,
+      currentAnswer,
       incorrect_answers:
       incorrectAnswer,
     } = questions[index];
+    const { counter, disabled } = this.state;
     return (
       <section>
         <HeaderGame />
+        <div>
+          { counter }
+        </div>
         <div className="container">
           <p data-testid="question-category">
             { category }
@@ -70,8 +97,9 @@ class Game extends Component {
             onClick={ this.handleSucess }
             type="button"
             data-testid="correct-answer"
+            disabled={ disabled }
           >
-            { correntAnswer }
+            { currentAnswer }
           </button>
           {incorrectAnswer.map((answer, idx) => (
             <button
@@ -80,6 +108,7 @@ class Game extends Component {
               data-testid={ `wrong-answer-${idx}` }
               type="button"
               key={ idx }
+              disabled={ disabled }
             >
               { answer }
             </button>
