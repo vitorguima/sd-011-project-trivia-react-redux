@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link, Redirect } from 'react-router-dom';
