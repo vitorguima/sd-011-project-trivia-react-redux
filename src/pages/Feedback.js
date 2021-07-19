@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 class Feedback extends Component {
   constructor() {
     super();
-    this.feedbackAssertions.bind(this);
+    this.feedbackAssertions = this.feedbackAssertions.bind(this);
   }
 
   feedbackAssertions() {
