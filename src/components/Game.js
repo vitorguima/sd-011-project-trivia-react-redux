@@ -102,7 +102,7 @@ class Game extends Component {
             <span
               data-testid="header-score"
             >
-              { !getLocalStorage ? 'Carregando' : getLocalStorage.score }
+              { !getLocalStorage ? <h1>Carregando</h1> : getLocalStorage.score }
             </span>
           </div>
         </header>
