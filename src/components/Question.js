@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { decode } from 'he';
 import '../style/question.css';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -84,7 +85,7 @@ class Question extends React.Component {
     this.setState((old) => ({
       assertions: old.assertions + 1,
       totalScore: old.totalScore + (score),
-    }), sendScoreDispatch(totalScore));
+    }), sendScoreDispatch(totalScore + score));
   }
 
   scoreDifficulty(difficulty) {
@@ -120,6 +121,14 @@ class Question extends React.Component {
     }
   }
 
+  renderButton() {
+    return (
+      <button type="button" onClick={ this.handleClickNext } data-testid="btn-next">
+        Próximo
+      </button>
+    );
+  }
+
   render() {
     const { showCorrect, question: {
       category,
@@ -137,7 +146,7 @@ class Question extends React.Component {
           { timer }
         </h3>
         <p data-testid="question-category">{ category }</p>
-        <p data-testid="question-text">{ question }</p>
+        <p data-testid="question-text">{ decode(question) }</p>
         <button
           type="button"
           onClick={ this.clearTimer }
@@ -145,7 +154,7 @@ class Question extends React.Component {
           className={ showCorrect && 'correct' }
           disabled={ showCorrect }
         >
-          { correctAnswer }
+          { decode(correctAnswer) }
         </button>
         { incorrectAnswers.map((inc, index) => (
           <button
@@ -156,11 +165,11 @@ class Question extends React.Component {
             className={ showCorrect && 'incorrect' }
             disabled={ showCorrect }
           >
-            { inc }
+            { decode(inc) }
           </button>
         )) }
         { showCorrect
-          && <button type="button" onClick={ this.handleClickNext }>Próximo</button> }
+          && this.renderButton() }
         { redirectToFeedBack
           && <Redirect to="/feedback" /> }
       </div>
