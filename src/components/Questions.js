@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import './questions.css';
 import { fetchQuestions, submitScore } from '../actions';
-import { handleStyleAnswers, setRankToStorage } from '../helpers/styleAnswers';
+import { handleStyleAnswers, setRankToStorage } from '../helpers/functions';
 
 class Questions extends Component {
   constructor(props) {
