@@ -5,10 +5,17 @@ import { showNextBtn } from '../actions';
 
 class BooleanQuestion extends React.Component {
   render() {
-    const { question, showBtn, disabled } = this.props;
+    const { question, showBtn, disabled, showAnswer } = this.props;
+    const correctAnswer = (showAnswer) ? 'show-correct-answer' : null;
+    const incorrectAnswer = (showAnswer) ? 'show-incorrect-answer' : null;
     return (
       <>
         <button
+          className={
+            (question.correct_answer === 'True')
+              ? correctAnswer
+              : incorrectAnswer
+          }
           disabled={ disabled }
           type="button"
           data-testid={
@@ -21,10 +28,15 @@ class BooleanQuestion extends React.Component {
           True
         </button>
         <button
+          className={
+            (question.correct_answer === 'False')
+              ? correctAnswer
+              : incorrectAnswer
+          }
           disabled={ disabled }
           type="button"
           data-testid={
-            (question.incorrect_answers.includes('True'))
+            (question.correct_answer === 'False')
               ? 'correct-answer'
               : 'wrong-answer'
           }
@@ -41,6 +53,10 @@ const mapDispatchToProps = (dispatch) => ({
   showBtn: () => dispatch(showNextBtn()),
 });
 
+const mapStateToProps = (state) => ({
+  showAnswer: state.questionsReducer.showBtn,
+});
+
 BooleanQuestion.propTypes = {
   question: PropTypes.shape({
     correct_answer: PropTypes.string,
@@ -48,6 +64,7 @@ BooleanQuestion.propTypes = {
   }).isRequired,
   showBtn: PropTypes.func.isRequired,
   disabled: (PropTypes.bool).isRequired,
+  showAnswer: PropTypes.bool.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(BooleanQuestion);
+export default connect(mapStateToProps, mapDispatchToProps)(BooleanQuestion);
