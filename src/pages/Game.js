@@ -8,7 +8,6 @@ import './css/Game.css';
 class Game extends Component {
   constructor(props) {
     super(props);
-
     this.fetchQuestions = this.fetchQuestions.bind(this);
     this.renderQuestions = this.renderQuestions.bind(this);
     this.fetchTriviaApi = this.fetchTriviaApi.bind(this);
@@ -76,8 +75,9 @@ class Game extends Component {
   }
 
   goToNextQuestion() {
-    const { questionNum } = this.state;
+    const { questionNum, countdown } = this.state;
     const maxQuestionNumIndex = 4;
+    clearInterval(countdown);
 
     if (questionNum < maxQuestionNumIndex) {
       this.setState({
@@ -85,7 +85,8 @@ class Game extends Component {
         showCorrectAnswer: '',
         timer: 30,
         disabled: false,
-      });
+        countdown: '',
+      }, this.renderTimeAnswer());
       this.setState((prevstate) => ({ questionNum: prevstate.questionNum + 1 }));
     } else {
       const { history } = this.props;
@@ -130,14 +131,13 @@ class Game extends Component {
     const second = 1000;
     const { timer } = this.state;
 
-    if (timer > 0) this.setState({ timer: timer - 1 });
+    if (timer > 0) this.setState({ timer: timer - 1, disabled: false });
 
     const countdown = setTimeout(this.renderTimeAnswer, second);
     this.setState({ countdown });
 
     if (timer === 0) {
       this.setState({ disabled: true });
-      clearInterval(countdown);
     }
   }
 
