@@ -7,6 +7,7 @@ export default class feedback extends Component {
     super();
     this.getUserMessage = this.getUserMessage.bind(this);
     this.redirectHomePage = this.redirectHomePage.bind(this);
+    this.redirectRankingPage = this.redirectRankingPage.bind(this);
   }
 
   getUserMessage() {
@@ -21,6 +22,11 @@ export default class feedback extends Component {
   redirectHomePage() {
     const { history } = this.props;
     history.push('/');
+  }
+
+  redirectRankingPage() {
+    const { history } = this.props;
+    history.push('/ranking');
   }
 
   render() {
@@ -54,6 +60,13 @@ export default class feedback extends Component {
             onClick={ this.redirectHomePage }
           >
             Jogar novamente
+          </button>
+          <button
+            type="button"
+            data-testid="btn-ranking"
+            onClick={ this.redirectRankingPage }
+          >
+            Ver Ranking
           </button>
         </div>
       </div>
