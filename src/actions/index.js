@@ -6,6 +6,7 @@ export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
 export const ADD_SCORE = 'ADD_SCORE';
 export const NEXT_QUESTION = 'NEXT_QUESTION';
+export const NEW_GAME = 'NEW_GAME';
 
 export const loginAction = (payload) => ({
   type: LOGIN,
@@ -44,6 +45,10 @@ export const addScore = (payload) => ({
 
 export const nextQuestion = () => ({
   type: NEXT_QUESTION,
+});
+
+export const newGame = () => ({
+  type: NEW_GAME,
 });
 
 export const fetchToken = () => (dispatch) => {

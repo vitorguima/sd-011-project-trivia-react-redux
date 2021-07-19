@@ -3,6 +3,7 @@ import {
   REQUEST_QUESTIONS_SUCCESS,
   ADD_SCORE,
   NEXT_QUESTION,
+  NEW_GAME,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -44,6 +45,15 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
       currentQuestion: state.currentQuestion + 1,
     };
   }
+  case NEW_GAME:
+    return {
+      ...state,
+      questions: [],
+      isLoading: false,
+      score: 0,
+      correctAnswers: 0,
+      currentQuestion: 0,
+    };
   default:
     return {
       ...state,
