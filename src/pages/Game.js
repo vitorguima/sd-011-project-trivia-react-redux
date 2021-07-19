@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import GameTimer from '../components/GameTimer';
 import Answers from '../components/Answers';
-import { fetchApiTrivia, answerReset } from '../actions';
+import { fetchApiToken, answerReset } from '../actions';
 
 class Game extends Component {
   constructor(props) {
@@ -19,8 +19,7 @@ class Game extends Component {
 
   componentDidMount() {
     const { fetchTrivia } = this.props;
-    const token = localStorage.getItem('token');
-    if (token) fetchTrivia(token);
+    fetchTrivia();
   }
 
   nextQuestionButtonClicked() {
@@ -39,14 +38,16 @@ class Game extends Component {
 
   render() {
     const { results } = this.props;
+    if (!results) {
+      return (<h2>Carregando...</h2>);
+    }
     const { position } = this.state;
     const maxQuestion = 5;
-    if (!results) return <h2>Carregando...</h2>;
     if (position === maxQuestion) {
       return <Redirect to="/feedback" />;
     }
     return (
-      <>
+      <div>
         <Header />
         <p data-testid="question-category">{results[position].category}</p>
         <p data-testid="question-text">
@@ -64,7 +65,7 @@ class Game extends Component {
             Próxima pergunta
           </button>
         )}
-      </>
+      </div>
     );
   }
 }
@@ -75,7 +76,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchTrivia: (token) => dispatch(fetchApiTrivia(token)),
+  fetchTrivia: () => dispatch(fetchApiToken()),
   answerButtonReset: () => dispatch(answerReset()),
 });
 

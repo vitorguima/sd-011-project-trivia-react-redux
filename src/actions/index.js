@@ -7,33 +7,6 @@ export const GET_TRIVIA = 'GET_TRIVIA';
 export const ANSWER_BUTTON_CLICKED = 'ANSWER_BUTTON_CLICKED';
 export const ANSWER_RESET = 'ANSWER_RESET';
 
-export const tokenRequest = () => ({
-  type: TOKEN_REQUEST,
-});
-
-export const failedTokenRequest = (error) => ({
-  type: FAILED_TOKEN_REQUEST,
-  error,
-});
-
-export const getToken = (token) => ({
-  type: GET_TOKEN,
-  token,
-});
-
-export const fetchApiToken = () => async (dispatch) => {
-  await dispatch(tokenRequest());
-  return fetch('https://opentdb.com/api_token.php?command=request')
-    .then((response) => response.json())
-    .then(
-      (json) => {
-        localStorage.setItem('token', json.token);
-        dispatch(getToken(json));
-      },
-      (error) => dispatch(failedTokenRequest(error)),
-    );
-};
-
 export const triviaRequest = () => ({
   type: TRIVIA_REQUEST,
 });
@@ -55,6 +28,34 @@ export const fetchApiTrivia = (token) => async (dispatch) => {
     .then(
       (json) => dispatch(getTrivia(json)),
       (error) => dispatch(failedTriviaRequest(error)),
+    );
+};
+
+export const tokenRequest = () => ({
+  type: TOKEN_REQUEST,
+});
+
+export const failedTokenRequest = (error) => ({
+  type: FAILED_TOKEN_REQUEST,
+  error,
+});
+
+export const getToken = (token) => ({
+  type: GET_TOKEN,
+  token,
+});
+
+export const fetchApiToken = () => async (dispatch) => {
+  await dispatch(tokenRequest());
+  return fetch('https://opentdb.com/api_token.php?command=request')
+    .then((response) => response.json())
+    .then(
+      (json) => {
+        localStorage.setItem('token', json.token);
+        dispatch(fetchApiTrivia(json.token));
+        dispatch(getToken(json));
+      },
+      (error) => dispatch(failedTokenRequest(error)),
     );
 };
 
