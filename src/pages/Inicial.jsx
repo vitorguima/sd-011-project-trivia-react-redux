@@ -35,7 +35,7 @@ class TelaIncial extends Component {
       score: 0,
       gravatarEmail: email,
     };
-    localStorage.setItem('state', JSON.stringify(player));
+    localStorage.setItem('state', JSON.stringify({ player }));
   }
 
   activeButton() {
