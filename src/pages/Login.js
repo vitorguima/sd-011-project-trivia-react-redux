@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
-import { fetchApiToken } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -35,16 +32,15 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { getToken } = this.props;
     const { email, name } = this.state;
-    getToken();
     localStorage.setItem(
       'state',
       JSON.stringify({
-        user: {
+        player: {
           name,
           assertions: 0,
           score: 0,
+          gravatarEmail: email,
           gravatarHash: md5(email).toString(),
         },
       }),
@@ -91,14 +87,4 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  getToken: () => dispatch(fetchApiToken()),
-});
-
-Login.propTypes = {
-  addUserName: PropTypes.func,
-  addUserEmail: PropTypes.func,
-  addUserHash: PropTypes.func,
-}.isRequired;
-
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;

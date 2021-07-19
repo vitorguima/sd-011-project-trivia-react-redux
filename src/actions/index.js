@@ -1,31 +1,33 @@
 export const TOKEN_REQUEST = 'TOKEN_REQUEST';
 export const FAILED_TOKEN_REQUEST = 'FAILED_TOKEN_REQUEST';
 export const GET_TOKEN = 'GET_TOKEN';
-export const QUESTIONS_REQUEST = 'QUESTIONS_REQUEST';
-export const FAILED_QUESTIONS_REQUEST = 'FAILED_QUESTIONS_REQUEST';
-export const GET_QUESTIONS = 'GET_QUESTIONS';
+export const TRIVIA_REQUEST = 'TRIVIA_REQUEST';
+export const FAILED_TRIVIA_REQUEST = 'FAILED_TRIVIA_REQUEST';
+export const GET_TRIVIA = 'GET_TRIVIA';
+export const ANSWER_BUTTON_CLICKED = 'ANSWER_BUTTON_CLICKED';
+export const ANSWER_RESET = 'ANSWER_RESET';
 
-export const questionsRequest = () => ({
-  type: QUESTIONS_REQUEST,
+export const triviaRequest = () => ({
+  type: TRIVIA_REQUEST,
 });
 
-export const failedQuestionsRequest = (error) => ({
-  type: FAILED_QUESTIONS_REQUEST,
+export const failedTriviaRequest = (error) => ({
+  type: FAILED_TRIVIA_REQUEST,
   error,
 });
 
-export const getQuestions = (json) => ({
-  type: GET_QUESTIONS,
+export const getTrivia = (json) => ({
+  type: GET_TRIVIA,
   json,
 });
 
-export const fetchApiQuestions = (token) => async (dispatch) => {
-  await dispatch(questionsRequest());
+export const fetchApiTrivia = (token) => async (dispatch) => {
+  await dispatch(triviaRequest());
   return fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
     .then((response) => response.json())
     .then(
-      (json) => dispatch(getQuestions(json)),
-      (error) => dispatch(failedQuestionsRequest(error)),
+      (json) => dispatch(getTrivia(json)),
+      (error) => dispatch(failedTriviaRequest(error)),
     );
 };
 
@@ -50,9 +52,18 @@ export const fetchApiToken = () => async (dispatch) => {
     .then(
       (json) => {
         localStorage.setItem('token', json.token);
+        dispatch(fetchApiTrivia(json.token));
         dispatch(getToken(json));
-        dispatch(fetchApiQuestions(json.token));
       },
       (error) => dispatch(failedTokenRequest(error)),
     );
 };
+
+export const answerButtonClickedAction = () => ({
+  type: ANSWER_BUTTON_CLICKED,
+});
+
+export const answerReset = () => ({
+  type: ANSWER_RESET,
+  payload: false,
+});
