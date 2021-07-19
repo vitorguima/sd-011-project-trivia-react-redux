@@ -38,9 +38,9 @@ class Home extends Component {
   }
 
   handleClick() {
-    const { fetchTokenAction, setUser } = this.props;
+    const { fetchTokenAction, setUser, urlApiQuestions } = this.props;
     const { name, email } = this.state;
-    fetchTokenAction();
+    fetchTokenAction(urlApiQuestions);
     setUser(email, name);
   }
 
@@ -90,14 +90,15 @@ class Home extends Component {
 Home.propTypes = {
   fetchTokenAction: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
+  urlApiQuestions: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  state,
+  urlApiQuestions: state.settings,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchTokenAction: () => dispatch(fetchToken()),
+  fetchTokenAction: (url) => dispatch(fetchToken(url)),
   setUser: (email, name) => dispatch(getHashGravatar(email, name)),
 });
 

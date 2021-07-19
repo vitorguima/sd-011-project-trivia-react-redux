@@ -142,9 +142,8 @@ class Game extends Component {
   render() {
     const { questionsState } = this.props;
     const { questionNumber, timer, score, answered, isLoading } = this.state;
-
-    const maxQuestion = 4;
-    if (Object.keys(questionsState).length > 0 && questionNumber <= maxQuestion) {
+    if (Object.keys(questionsState).length > 0
+      && questionNumber <= questionsState.results.length - 1) {
       const correctAnswer = questionsState.results[questionNumber].correct_answer;
       const incorrectAnswers = questionsState.results[questionNumber].incorrect_answers;
       const { difficulty } = questionsState.results[questionNumber];
