@@ -12,16 +12,38 @@ class Game extends Component {
       index: 0,
       sucess: false,
       loss: false,
+      counter: 30,
+      disabled: false,
     };
     this.handleSucess = this.handleSucess.bind(this);
     this.handleLoss = this.handleLoss.bind(this);
     this.fetchQuest = this.fetchQuest.bind(this);
+    this.timer = this.timer.bind(this);
   }
 
   componentDidMount() {
     const { fetchToken } = this.props;
     fetchToken();
     this.fetchQuest();
+    this.timer();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.count);
+  }
+
+  timer() {
+    const sec = 1000;
+    this.count = setInterval(() => {
+      const { counter } = this.state;
+      if (counter > 0) {
+        this.setState({ counter: counter - 1 });
+      }
+      if (counter === 0) {
+        clearInterval(this.count);
+        this.setState({ disabled: true });
+      }
+    }, sec);
   }
 
   async fetchQuest() {
@@ -51,13 +73,15 @@ class Game extends Component {
     const {
       category,
       question, correct_answer:
-      correntAnswer,
+      currentAnswer,
       incorrect_answers:
       incorrectAnswer,
     } = questions[index];
+    const { counter, disabled } = this.state;
     return (
       <section>
         <HeaderGame />
+        { counter }
         <div className="container">
           <p data-testid="question-category">
             { category }
@@ -70,8 +94,9 @@ class Game extends Component {
             onClick={ this.handleSucess }
             type="button"
             data-testid="correct-answer"
+            disabled={ disabled }
           >
-            { correntAnswer }
+            { currentAnswer }
           </button>
           {incorrectAnswer.map((answer, idx) => (
             <button
@@ -80,6 +105,7 @@ class Game extends Component {
               data-testid={ `wrong-answer-${idx}` }
               type="button"
               key={ idx }
+              disabled={ disabled }
             >
               { answer }
             </button>
