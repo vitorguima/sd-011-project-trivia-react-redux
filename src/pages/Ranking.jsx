@@ -29,16 +29,16 @@ class Ranking extends Component {
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
-        {/* <ul>
-          {ranking.sort(compare).map((user, index) => (
+        <ul>
+          {/* {ranking.sort(compare).map((user, index) => (
             <li key={ index }>
               <h3 data-testid={ `player-name-${index}` }>{user.name}</h3>
               <h5 data-testid={ `player-score-${index}` }>{`score: ${user.score}`}</h5>
               <div>
                 <img src={ user.img } alt={ `foto do jogador ${user.name}` } />
               </div>
-            </li>))}
-        </ul> */}
+            </li>))} */}
+        </ul>
         <Link
           to="/"
         >
