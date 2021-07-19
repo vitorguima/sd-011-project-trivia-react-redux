@@ -1,25 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { startCountdown, stopCountdown } from '../actions';
 
 class Question extends Component {
   constructor() {
     super();
-
     this.state = {
       anyChosed: false,
     };
     this.setRandom = this.setRandom.bind(this);
+    this.buttonClicked = this.buttonClicked.bind(this);
   }
 
   componentDidMount() {
+    const { startCountdownAction } = this.props;
     this.setRandom();
+    startCountdownAction();
+  }
+
+  componentDidUpdate() {
+    const { timer } = this.props;
+    const { anyChosed } = this.state;
+    if (timer <= 0 && anyChosed === false) {
+      this.buttonClicked();
+    }
   }
 
   setRandom() {
     const max = 4;
     const random = Math.floor(Math.random() * max);
     this.setState({ randomNumber: random });
+  }
+
+  buttonClicked() {
+    const { stopCountdownAction } = this.props;
+    stopCountdownAction();
+    this.setState({
+      anyChosed: true,
+    });
   }
 
   shufleAnswers(right, wrongs, random) {
@@ -35,7 +54,7 @@ class Question extends Component {
         type="button"
         data-testid="correct-answer"
         key="right"
-        onClick={ () => this.setState({ anyChosed: true }) }
+        onClick={ this.buttonClicked }
         className={ anyChosed ? 'correct' : '' }
         disabled={ anyChosed }
       >
@@ -47,7 +66,7 @@ class Question extends Component {
           type="button"
           key={ `wrong-${index}` }
           data-testid={ `wrong-answer-${index}` }
-          onClick={ () => this.setState({ anyChosed: true }) }
+          onClick={ this.buttonClicked }
           className={ anyChosed ? 'wrong' : '' }
           disabled={ anyChosed }
         >
@@ -71,7 +90,7 @@ class Question extends Component {
           <button
             type="button"
             data-testid="correct-answer"
-            onClick={ () => this.setState({ anyChosed: true }) }
+            onClick={ this.buttonClicked }
             className={ anyChosed ? 'correct' : '' }
             disabled={ anyChosed }
           >
@@ -80,7 +99,7 @@ class Question extends Component {
           <button
             type="button"
             data-testid="wrong-answer-0"
-            onClick={ () => this.setState({ anyChosed: true }) }
+            onClick={ this.buttonClicked }
             className={ anyChosed ? 'wrong' : '' }
             disabled={ anyChosed }
           >
@@ -94,7 +113,7 @@ class Question extends Component {
         <button
           type="button"
           data-testid="wrong-answer-0"
-          onClick={ () => this.setState({ anyChosed: true }) }
+          onClick={ this.buttonClicked }
           className={ anyChosed ? 'wrong' : '' }
           disabled={ anyChosed }
         >
@@ -103,7 +122,7 @@ class Question extends Component {
         <button
           type="button"
           data-testid="correct-answer"
-          onClick={ () => this.setState({ anyChosed: true }) }
+          onClick={ this.buttonClicked }
           className={ anyChosed ? 'correct' : '' }
           disabled={ anyChosed }
         >
@@ -122,7 +141,7 @@ class Question extends Component {
   }
 
   render() {
-    const { questionsArr, currentQuestion } = this.props;
+    const { questionsArr, currentQuestion, timer } = this.props;
     return (
       <div>
         <p data-testid="question-text">
@@ -136,6 +155,9 @@ class Question extends Component {
           {' '}
         </p>
         { this.renderAwnserButtons() }
+        <h3>
+          { timer }
+        </h3>
       </div>
     );
   }
@@ -144,6 +166,12 @@ class Question extends Component {
 const mapStateToProps = (state) => ({
   questionsArr: state.questions.questionsArr,
   currentQuestion: state.questions.currentQuestion,
+  timer: state.questions.timer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  startCountdownAction: () => dispatch(startCountdown()),
+  stopCountdownAction: () => dispatch(stopCountdown()),
 });
 
 Question.propTypes = {
@@ -158,4 +186,4 @@ Question.propTypes = {
   currentQuestion: PropTypes.number,
 }.isRequired;
 
-export default connect(mapStateToProps)(Question);
+export default connect(mapStateToProps, mapDispatchToProps)(Question);

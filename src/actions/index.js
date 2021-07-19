@@ -5,6 +5,9 @@ export const SAVE_LOGIN = 'SAVE_LOGIN';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const REQUEST_TOKEN_ERROR = 'REQUEST_TOKEN_ERROR';
+export const SET_INNITIAL_TIME = 'SET_INITIAL_TIME';
+export const UPDATE_CLOCK = 'UPDATE_CLOCK';
+export const STOP_COUNTDOWN = 'STOP_COUNTDOWN';
 
 const questionsURL = 'https://opentdb.com/api.php?amount=5&token=';
 const tokenURL = 'https://opentdb.com/api_token.php?command=request';
@@ -73,4 +76,24 @@ export const fetchQuestions = (token) => (dispatch) => {
     .then((result) => result.json())
     .then((data) => dispatch(requestQuestionsSucces(data)))
     .catch((error) => dispatch(requestQuestionsFail(error)));
+};
+
+const setInnitialTime = () => ({
+  type: SET_INNITIAL_TIME,
+});
+
+const updateClock = () => ({
+  type: UPDATE_CLOCK,
+});
+
+let timer = null;
+export const startCountdown = () => (dispatch) => { //  codigo adaptado de https://medium.com/@machadogj/timers-in-react-with-redux-apps-9a5a722162e8
+  const sec = 1000;
+  dispatch(setInnitialTime());
+  timer = setInterval(() => dispatch(updateClock()), sec);
+};
+
+export const stopCountdown = () => {
+  clearInterval(timer);
+  return { type: STOP_COUNTDOWN };
 };
