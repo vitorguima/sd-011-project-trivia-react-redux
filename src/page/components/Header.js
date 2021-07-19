@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 
+import '../Game.css';
+
 class Header extends Component {
   render() {
     const getLocalStorage = JSON.parse(localStorage.getItem('state'));
@@ -10,15 +12,22 @@ class Header extends Component {
     const { players, email } = this.props;
     const hashGenerator = md5(email).toString();
     return (
-      <div>
-        <h3 data-testid="header-player-name">{players}</h3>
-        <img
-          src={ `https://www.gravatar.com/avatar/${hashGenerator}` }
-          alt="Gravatar"
-          data-testid="header-profile-picture"
-        />
-        <div data-testid="header-score">{ point }</div>
-      </div>
+      <>
+        <div className="name-icon">
+          <div>
+            <h3 data-testid="header-player-name">
+              {`Bem-vindo, ${players}!`}
+            </h3>
+            <img
+              className="gravatar"
+              src={ `https://www.gravatar.com/avatar/${hashGenerator}` }
+              alt="Gravatar"
+              data-testid="header-profile-picture"
+            />
+          </div>
+        </div>
+        <div data-testid="header-score">{ `Record: ${point}` }</div>
+      </>
     );
   }
 }

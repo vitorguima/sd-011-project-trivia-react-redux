@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { fetchToken, getMailName } from '../redux/actions';
 import logo from '../trivia.png';
 
+import './Home.css';
+
 class Home extends Component {
   constructor() {
     super();
@@ -31,36 +33,41 @@ class Home extends Component {
     fetchCurrent();
   }
 
+  /* Indiferente */
+  /* Linha 44 <p className="default-paragraph">
+            SUA VEZ
+          </p> */
+
+  /* Tirei Id name e email para colocar placehold pois o render atingiria acima de 50 linhas */
+
   render() {
     const { name, email } = this.state;
     return (
       <div>
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
-          <p>
-            SUA VEZ
-          </p>
-          <label htmlFor="name">
+          <label htmlFor="name" className="label-home">
             <input
               type="text"
-              id="name"
               data-testid="input-player-name"
               name="name"
+              placeholder="Nome"
               onChange={ (value) => this.handleData(value) }
             />
           </label>
-          <label htmlFor="email">
+          <label htmlFor="email" className="label-home">
             <input
               type="email"
-              id="email"
               data-testid="input-gravatar-email"
               name="email"
+              placeholder="E-mail"
               onChange={ (value) => this.handleData(value) }
             />
           </label>
           <Link to="/jogar">
             <button
               type="button"
+              className="buttons"
               data-testid="btn-play"
               onClick={ this.clickSubmit }
               disabled={ !(name && email) }
@@ -70,6 +77,7 @@ class Home extends Component {
           </Link>
           <Link to="/configuração">
             <button
+              className="buttons"
               type="button"
               data-testid="btn-settings"
             >
@@ -82,9 +90,10 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  token: state.homeReducer.token,
-});
+// Redundante
+// const mapStateToProps = (state) => ({
+//   token: state.homeReducer.token,
+// });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchCurrent: () => dispatch(fetchToken()),
@@ -96,4 +105,4 @@ Home.propTypes = ({
   sendEmailName: PropTypes.func,
 }).isRequired;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(null, mapDispatchToProps)(Home);

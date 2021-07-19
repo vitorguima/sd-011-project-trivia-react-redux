@@ -7,6 +7,8 @@ import Header from './components/Header';
 import { fetchQuestion } from '../redux/actions';
 import Time from './components/Time';
 
+import './Game.css';
+
 let renderButton = false;
 
 class Game extends Component {
@@ -82,6 +84,7 @@ class Game extends Component {
         <div>
           <h2
             data-testid="question-category"
+            className="question"
           >
             {' '}
             { questions[numberNext].question }
@@ -179,11 +182,11 @@ class Game extends Component {
     const { renderTime, numberTime, score, numberNext } = this.state;
     return (
       <div>
-        <header>
+        <header className="default-game">
           <Header />
           <p>
             <span data-testid="header-score">
-              { score }
+              {`Pontuação: ${score}`}
             </span>
           </p>
           <div>
@@ -203,7 +206,6 @@ class Game extends Component {
             confirmResponse={ this.confirmResponse }
             nextQuestion={ this.nextQuestion }
           />
-          <div />
         </header>
       </div>
     );
