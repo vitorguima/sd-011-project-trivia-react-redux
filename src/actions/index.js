@@ -6,6 +6,7 @@ export const REQUEST_TRIVIA_ERROR = 'REQUEST_TRIVIA_ERROR';
 export const TIMER_BUTTON = 'TIMER_BUTTON';
 export const REQUEST_CLICK_BUTTON = 'REQUEST_CLICK_BUTTON';
 export const NEXT_COUNT = 'NEXT_COUNT';
+export const ADD_QUESTION = 'ADD_QUESTION';
 
 export const nextQuestionCount = (state) => ({
   type: NEXT_COUNT,
@@ -29,6 +30,11 @@ export const timerButton = (state) => ({
 
 export const clickButton = (state) => ({
   type: REQUEST_CLICK_BUTTON,
+  state,
+});
+
+export const addQuestion = (state) => ({
+  type: ADD_QUESTION,
   state,
 });
 

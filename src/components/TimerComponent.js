@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { timerButton, nextQuestionCount } from '../actions';
+import { timerButton, nextQuestionCount, addQuestion } from '../actions';
 
 class TimerComponent extends Component {
   constructor() {
@@ -22,9 +22,10 @@ class TimerComponent extends Component {
   }
 
   componentDidUpdate() {
-    const { buttonClick, rightBtnClicked } = this.props;
+    const { buttonClick, rightBtnClicked, updateNumQuestion } = this.props;
     const { count } = this.state;
-    localStorage.setItem('numberQuestion', JSON.stringify(count));
+    updateNumQuestion(count);
+    // localStorage.setItem('numberQuestion', JSON.stringify(count));
     if (buttonClick) {
       clearInterval(this.interval);
       const stopTime = document.querySelector('.timer');
@@ -95,7 +96,6 @@ class TimerComponent extends Component {
     } else {
       finishQuestions();
     }
-    // Falta redirecionar a pagina apos 5 perguntas
   }
 
   render() {
@@ -129,6 +129,7 @@ TimerComponent.propTypes = {
   rightBtnClicked: PropTypes.bool.isRequired,
   nextQuestion: PropTypes.func.isRequired,
   finishQuestions: PropTypes.func.isRequired,
+  updateNumQuestion: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -139,6 +140,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateButton: (state) => dispatch(timerButton(state)),
   nextQuestion: (state) => dispatch(nextQuestionCount(state)),
+  updateNumQuestion: (state) => dispatch(addQuestion(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimerComponent);
