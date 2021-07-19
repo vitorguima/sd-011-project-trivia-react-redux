@@ -11,7 +11,8 @@ export default class feedback extends Component {
     const localStorageAssertions = JSON.parse(localStorage.getItem('state'));
     const { player: { assertions } } = localStorageAssertions;
     const numberAssertions = 3;
-    const message = assertions >= numberAssertions ? 'Mandou bem!' : 'Podia ser melhor...';
+    const message = assertions >= numberAssertions
+      ? 'Mandou bem!' : 'Podia ser melhor...';
     return message;
   }
 
