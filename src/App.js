@@ -7,7 +7,7 @@ import Configuracoes from './pages/Configuracoes';
 import './style/App.css';
 import NotFound from './pages/NotFound';
 import Ranking from './pages/Ranking';
-
+// Cris
 export default function App() {
   return (
     <div className="App">
