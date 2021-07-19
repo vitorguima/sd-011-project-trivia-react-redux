@@ -17,4 +17,4 @@ export default function App() {
   );
 }
 
-// segunda tentativa requisitos 5,6,7 e 8.
+// terceira tentativa requisitos 5,6,7 e 8...
