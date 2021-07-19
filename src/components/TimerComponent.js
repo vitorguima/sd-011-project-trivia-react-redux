@@ -22,15 +22,15 @@ class TimerComponent extends Component {
     this.interval = setInterval(() => this.timer(), second);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { buttonClick, updateNumQuestion } = this.props;
     const { count } = this.state;
     updateNumQuestion(count);
     // localStorage.setItem('numberQuestion', JSON.stringify(count));
     if (buttonClick) {
       clearInterval(this.interval);
-      this.newScore();
     }
+    if (prevProps === this.props) this.newScore();
   }
 
   setScore(timer, difficulty) {
