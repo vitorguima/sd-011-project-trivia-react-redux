@@ -7,8 +7,6 @@ class Question extends Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
-    // this.countDown = this.countDown.bind(this);
-    // this.refreshTimer = this.refreshTimer.bind(this);
     this.countScore = this.countScore.bind(this);
   }
 
@@ -16,10 +14,6 @@ class Question extends Component {
     const { countDown } = this.props;
     countDown();
   }
-
-  // componentWillUnmount() {
-  //   clearTimeout();
-  // }
 
   handleClick() {
     const { setHidden, setClicked, myInterval } = this.props;
@@ -47,26 +41,6 @@ class Question extends Component {
     state.player.assertions += 1;
     state = localStorage.setItem('state', JSON.stringify(state));
   }
-
-  // refreshTimer() {
-  //   const { setHidden, timer, setTimer } = this.props;
-  //   console.log('ola');
-  //   if (timer > 0) {
-  //     const newTimer = timer - 1;
-  //     setTimer(newTimer);
-  //   } else {
-  //     clearInterval(this.myInterval);
-  //     setHidden(false);
-  //     this.setState({
-  //       disableBtn: true,
-  //     });
-  //   }
-  // }
-
-  // countDown() {
-  //   const second = 1000;
-  //   this.myInterval = setInterval(this.refreshTimer, second);
-  // }
 
   render() {
     const {

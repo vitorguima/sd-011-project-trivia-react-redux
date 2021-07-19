@@ -45,9 +45,6 @@ class Game extends Component {
       clearInterval(this.myInterval);
       setHidden(false);
       setDisabled(true);
-      // this.setState({
-      //   disableBtn: true,
-      // });
     }
   }
 
