@@ -1,7 +1,7 @@
 .headerContainer {
   align-items: center;
-  background-color: #036B52;
-  box-shadow: 0px -30px 20px 40px #0FA36B;
+  background-color: #036b52;
+  box-shadow: 0 -30px 20px 40px #0fa36b;
   display: flex;
   height: 20vh;
   justify-content: space-between;
@@ -18,12 +18,12 @@
 .headerContainer .playerName {
   color: white;
   font-size: 36px;
-  font-weight:lighter;
-} 
+  font-weight: 300;
+}
 
 .headerContainer img {
   border-radius: 100%;
   border-style: ridge;
-  width: 100px;
   margin-right: 10%;
+  width: 100px;
 }
