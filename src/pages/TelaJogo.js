@@ -40,7 +40,9 @@ class TelaJogo extends Component {
             >
               {array[count].correct_answer}
             </button> */}
+            {/* {console.log(array[count])} */}
             <WrongAnswer
+              difficulty={ array[count].difficulty }
               array={ Object.values(array[count])[5] }
               correctAnswer={ array[count].correct_answer }
             />
@@ -69,6 +71,7 @@ class TelaJogo extends Component {
         </header>
         { this.alternativesAnswers(count, gameData) }
         <button
+          id="btn-next"
           type="button"
           // onClick={ () => {
           //   this.setState((prevState) => ({

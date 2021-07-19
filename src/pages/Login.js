@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { fetchApi, sendUserData } from '../actions/user';
 
-const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
+const receivedEmail = new RegExp('\\S+@\\S+\\.\\S+');
 
 class Login extends Component {
   constructor() {
@@ -38,7 +38,7 @@ class Login extends Component {
   handleChangeButton() {
     const { email, name } = this.state;
 
-    if (recevedEmail.test(email) && name.length !== 0) {
+    if (receivedEmail.test(email) && name.length !== 0) {
       this.setState({
         isDisabled: false,
       });

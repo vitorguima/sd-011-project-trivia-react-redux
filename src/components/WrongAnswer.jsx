@@ -1,11 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Score from './Score';
 
 class WrongAnswer extends React.Component {
   constructor(props) {
     super(props);
-
+    // *Criar um estado que vai receber o valor do timer
+    this.state = {
+      timerReceived: 30,
+      timer: 1, // uso temporário
+    };
     const { array } = this.props;
     this.correctAnswer = React.createRef();
     array.forEach((item, index) => {
@@ -13,6 +18,7 @@ class WrongAnswer extends React.Component {
     });
 
     this.changeBkgColor = this.changeBkgColor.bind(this);
+    this.sentTimerValue = this.sentTimerValue.bind(this);
   }
 
   componentDidUpdate({ array }) {
@@ -24,7 +30,7 @@ class WrongAnswer extends React.Component {
     }
   }
 
-  changeBkgColor() { // Executado nos OnClicks das opçoes de respostas
+  changeBkgColor() { // Executado nos OnClicks das opções de respostas
     const { array } = this.props;
     this.correctAnswer.current.style.border = '3px solid rgb(6, 240, 15)'; // Cria Borda Correta nas corretas
 
@@ -33,16 +39,38 @@ class WrongAnswer extends React.Component {
     });
   }
 
+  // !Atualiza o valor do estado timerReceived
+  sentTimerValue() {
+    const { timer } = this.state;
+    this.setState({ timerReceived: timer }, () => {
+      const { timerReceived } = this.state;
+      return timerReceived;
+    });
+  }
+  // //Não sei se funciona ;-;
+
+  forceAClick() {
+    const btnNext = document.getElementById('btn-next');
+    const { timer } = this.state;
+    if (timer === 0) {
+      return btnNext.click(); // força um click
+    }
+  }
+
   render() {
-    const { array, correctAnswer } = this.props;
+    const { array, correctAnswer, difficulty } = this.props;
+    const { timerReceived } = this.state;
     return (
       <div>
+        { /* Mandando o estado e a props via pros para o score */ }
+        <Score difficulty={ difficulty } timer={ timerReceived } />
         <button
           data-testid="correct-answer"
           type="button"
           className="correctAnswer"
           ref={ this.correctAnswer }
           onClick={ () => this.changeBkgColor() } // Cria Borda da Correta
+          onMouseDown={ () => this.sentTimerValue() } // Atualiza o valor do estado timerReceived
         >
           { correctAnswer }
         </button>
@@ -76,5 +104,5 @@ WrongAnswer.defaultProps = {
 
 WrongAnswer.propTypes = ({
   gameData: PropTypes.objectOf(PropTypes.object),
-  // recivedGameData: PropTypes.func,
+  // receivedGameData: PropTypes.func,
 }).isRequired;
