@@ -6,7 +6,12 @@ import { getStorage } from '../services/API';
 class Questions extends Component {
   constructor(props) {
     super(props);
-    this.state = { ...props, next: false, isValid: false, value: false };
+    this.state = {
+      ...props,
+      next: false,
+      isValid: false,
+      value: false,
+      isToggleOn: false };
 
     this.randAnswers = this.randAnswers.bind(this);
     this.listenerChange = this.listenerChange.bind(this);
@@ -25,7 +30,7 @@ class Questions extends Component {
   }
 
   listenerChange() {
-    this.setState({ isValid: true });
+    this.setState({ isValid: true, isToggleOn: true });
   }
 
   teste(state) {
@@ -66,12 +71,16 @@ class Questions extends Component {
   }
 
   somaPontuacao(answer, difficulty) {
+    this.setState((prevState) => ({
+      isToggleOn: !prevState.isToggleOn,
+    }));
+
     this.setState({ value: true, next: true, difficulty, answer });
   }
 
   render() {
     const { correct_answer: c, category, question, next,
-      isValid, value, difficulty } = this.state;
+      isValid, value, difficulty, isToggleOn } = this.state;
     console.log(this.state);
     return (
       <div>
@@ -96,6 +105,13 @@ class Questions extends Component {
           );
         })}
         <Timer funcao={ this.listenerChange } funcaoStop={ this.teste } stop={ value } />
+        { isToggleOn ? (
+          <button
+            type="button"
+            data-testid="btn-next"
+          >
+            Próxima
+          </button>) : null }
       </div>
     );
   }
