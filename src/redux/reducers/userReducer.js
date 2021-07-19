@@ -3,6 +3,7 @@ const INITIAL_STATE = {
   name: '',
   token: '',
   score: 0,
+  assertions: 0,
 };
 
 const userReducer = (state = INITIAL_STATE, { payload, type }) => {
@@ -27,6 +28,11 @@ const userReducer = (state = INITIAL_STATE, { payload, type }) => {
     return {
       ...state,
       score: state.score + payload,
+    };
+  case 'CHANGE_ASSERTIONS':
+    return {
+      ...state,
+      assertions: payload,
     };
   default:
     return state;

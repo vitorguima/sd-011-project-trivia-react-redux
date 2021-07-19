@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Layout from '../components/common/Layout';
-import { getQuestions } from '../redux/actions';
+import { getQuestions, changeScore, changeAssertions } from '../redux/actions';
+import cy from 'cypress'
 
 import createStopwatch from '../utils/stopwatch';
+import shuffle from '../utils/shuffle';
 
 import './Game.css';
+import GameHeader from '../components/GameHeader';
 
 class Game extends Component {
   constructor(props) {
@@ -21,6 +24,7 @@ class Game extends Component {
       remainingTime: null,
       stopwatch: null,
       currentQuestionIndex: 0,
+      assertions: 0,
     };
     this.initializeState = this.initializeState.bind(this);
     this.handlePickOption = this.handlePickOption.bind(this);
@@ -28,6 +32,8 @@ class Game extends Component {
     this.handleStopwatchTick = this.handleStopwatchTick.bind(this);
     this.handleNextQuestion = this.handleNextQuestion.bind(this);
     this.handleStopwatchReset = this.handleStopwatchReset.bind(this);
+    this.mapStateToStorage = this.mapStateToStorage.bind(this);
+    this.getScore = this.getScore.bind(this);
   }
 
   async componentDidMount() {
@@ -36,9 +42,42 @@ class Game extends Component {
     this.initializeState();
   }
 
+  componentDidUpdate() {
+    cy.log(localStorage.getItem('state')); 
+  }
+
   componentWillUnmount() {
-    const { stopwatch } = this.state;
+    const { stopwatch, assertions } = this.state;
+    const { handleAssertions } = this.props;
     stopwatch.stop();
+    handleAssertions(assertions);
+  }
+
+  getScore() {
+    const { questions, currentQuestionIndex, remainingTime } = this.state;
+    const difficultyMultipliers = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
+    const { difficulty } = questions[currentQuestionIndex];
+    const constScore = 10;
+    const actualScore = constScore + (remainingTime * difficultyMultipliers[difficulty]);
+    return actualScore;
+  }
+
+  mapStateToStorage() {
+    const { assertions } = this.state;
+    const { score, name, email } = this.props;
+    const localStorageState = {
+      player: {
+        name,
+        assertions,
+        score,
+        gravatarEmail: email,
+      },
+    };
+    localStorage.setItem('state', JSON.stringify(localStorageState));
   }
 
   handleStopwatchEnd() {
@@ -66,6 +105,7 @@ class Game extends Component {
       currentQuestionIndex: index + 1,
       hasPicked: false,
     }));
+
     stopwatch.reset().start();
   }
 
@@ -84,62 +124,33 @@ class Game extends Component {
       questions: quest,
       loading: false,
       alternatives: quest.map((alt) => (
-        this.shuffle([...alt.incorrect_answers, alt.correct_answer]))),
+        shuffle([...alt.incorrect_answers, alt.correct_answer]))),
       remainingTime: TIME_TO_CHOOSE,
       stopwatch: createStopwatch(TIME_TO_CHOOSE, callbacks).start(),
+    }, () => {
+      this.mapStateToStorage();
     });
   }
-
-  // shuffle(originalArray) {
-  //   const array = [...originalArray];
-  //   let backPileFrontier = array.length - 1;
-
-  //   while (backPileFrontier) {
-  //     const randomIndex = Math.floor(Math.random() * backPileFrontier);
-  //     const swap = array[backPileFrontier];
-  //     array[backPileFrontier] = array[randomIndex];
-  //     array[randomIndex] = swap;
-
-  //     backPileFrontier -= 1;
-  //   }
-
-  //   return array;
-  // } fisher-yates (inacio)
 
   handlePickOption({ target }) {
     const { stopwatch } = this.state;
+    const { handleScoreToState } = this.props;
     stopwatch.stop();
 
     if (target.dataset.testid === 'correct-answer') {
-      console.log('acertou');
+      const increaseScore = this.getScore();
+      handleScoreToState(increaseScore);
+      this.setState(({ assertions }) => ({
+        assertions: assertions + 1,
+        hasPicked: true,
+      }), () => {
+        this.mapStateToStorage();
+      });
     } else {
-      console.log('errou');
+      this.setState({
+        hasPicked: true,
+      });
     }
-
-    this.setState({
-      hasPicked: true,
-    });
-  }
-
-  shuffle(original) {
-    let newArray = [];
-    const stopAt = -1;
-    if (original.length > 2) {
-      const arrayLength = 3;
-      for (let index = arrayLength, clone = [...original];
-        index > stopAt;
-        index -= 1) {
-        const random = Math.round(Math.random() * index);
-        newArray = [...newArray, clone[random]];
-        clone = clone.filter((option) => option !== clone[random]);
-      }
-      return newArray;
-    }
-    const clone = [...original];
-    const random = Math.round(Math.random());
-    newArray[0] = clone[random];
-    newArray[1] = clone[1 - random];
-    return newArray;
   }
 
   renderButtons(answer, index) {
@@ -171,45 +182,44 @@ class Game extends Component {
   }
 
   render() {
-    const { email, name, score } = this.props;
-    const { questions, loading, alternatives, remainingTime, hasPicked, currentQuestionIndex } = this.state;
+    const { questions,
+      loading,
+      alternatives, remainingTime, hasPicked, currentQuestionIndex } = this.state;
     return (
       <Layout title="Game">
         <main>
-          <header>
-            <img
-              src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
-              alt="avatar"
-              data-testid="header-profile-picture"
-            />
-            <h1 data-testid="header-player-name">{name}</h1>
-            <p>
-              Pontuação atual:&nbsp;
-              <span data-testid="header-score">
-                { score }
-              </span>
-            </p>
-          </header>
-          <div>
-            <p>
-              { loading ? <span>Carregando...</span>
-                : <span data-testid="question-category">{questions[currentQuestionIndex].category}</span> }
-            </p>
-            <p>
-              { loading ? <span>Carregando...</span>
-                : <span data-testid="question-text">{questions[currentQuestionIndex].question}</span> }
-            </p>
-            <div>
-              { loading ? <span>Carregando...</span>
-                : alternatives[currentQuestionIndex]
+          <GameHeader />
+          { loading ? <span>Carregando...</span>
+            : <div>
+              <p>
+                <span data-testid="question-category">
+                  {questions[currentQuestionIndex].category}
+                </span>
+              </p>
+              <p>
+                <span data-testid="question-text">
+                  {questions[currentQuestionIndex].question}
+                </span>
+              </p>
+              <div>
+                { alternatives[currentQuestionIndex]
                   .map((answer, index) => this.renderButtons(answer, index)) }
-            </div>
-          </div>
-          <p>
-            Tempo restante:&nbsp;
-            { remainingTime }
-          </p>
-          {hasPicked && <button type="button" data-testid="btn-next" onClick={ this.handleNextQuestion }>Próxima pergunta</button>}
+              </div>
+              <p>
+                Tempo restante:&nbsp;
+                { remainingTime }
+              </p>
+              {hasPicked && <button
+                type="button"
+                data-testid="btn-next"
+                onClick={ this.handleNextQuestion }
+              >
+                {currentQuestionIndex === questions.length - 1 ? <Link to="/feedback">
+                  Resultados
+                </Link>
+                  : <>Próxima pergunta</> }
+              </button>}
+            </div>}
         </main>
       </Layout>
     );
@@ -226,6 +236,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleQuestions: (userToken) => dispatch(getQuestions(userToken)),
+  handleScoreToState: (score) => dispatch(changeScore(score)),
+  handleAssertions: (assertion) => dispatch(changeAssertions(assertion)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
