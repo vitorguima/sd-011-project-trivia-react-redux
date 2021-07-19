@@ -18,18 +18,18 @@ class Ranking extends Component {
   }
 
   render() {
-    const ranking = JSON.parse(localStorage.getItem('ranking'));
-    function compare(a, b) {
-      const menor = -1;
-      const maior = 1;
-      if (a.score < b.score) return maior;
-      if (a.score > b.score) return menor;
-      return 0;
-    }
+    // const ranking = JSON.parse(localStorage.getItem('ranking'));
+    // function compare(a, b) {
+    //   const menor = -1;
+    //   const maior = 1;
+    //   if (a.score < b.score) return maior;
+    //   if (a.score > b.score) return menor;
+    //   return 0;
+    // }
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
-        <ul>
+        {/* <ul>
           {ranking.sort(compare).map((user, index) => (
             <li key={ index }>
               <h3 data-testid={ `player-name-${index}` }>{user.name}</h3>
@@ -38,7 +38,7 @@ class Ranking extends Component {
                 <img src={ user.img } alt={ `foto do jogador ${user.name}` } />
               </div>
             </li>))}
-        </ul>
+        </ul> */}
         <Link
           to="/"
         >
