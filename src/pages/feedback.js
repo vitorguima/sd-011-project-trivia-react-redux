@@ -8,10 +8,10 @@ export default class feedback extends Component {
   }
 
   getUserMessage() {
-    const assertions = JSON.parse(localStorage.getItem('state'));
-    const { player: { score } } = assertions;
+    const localStorageAssertions = JSON.parse(localStorage.getItem('state'));
+    const { player: { assertions } } = localStorageAssertions;
     const numberAssertions = 3;
-    const message = score >= numberAssertions ? 'Mandou bem!' : 'Podia ser melhor...';
+    const message = assertions >= numberAssertions ? 'Mandou bem!' : 'Podia ser melhor...';
     return message;
   }
 
@@ -31,7 +31,7 @@ export default class feedback extends Component {
           alt="User Gravatar"
         />
         <p data-testid="header-score">{ Number(localStorageScore) }</p>
-        <p data-testid="feedback-text">{ userMessage }</p>
+        <h1 data-testid="feedback-text">{ userMessage }</h1>
       </header>
     );
   }
