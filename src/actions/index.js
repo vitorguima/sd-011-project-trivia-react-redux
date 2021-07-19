@@ -8,9 +8,9 @@ export const GET_NEXT_QUESTION = 'GET_NEXT_QUESTION';
 export const WAS_ANSWERED = 'WAS_ANSWERED';
 export const SET_SCORE = 'SET_SCORE';
 
-export const setScore = (point) => ({
+export const setScore = (payload) => ({
   type: SET_SCORE,
-  payload: point,
+  payload,
 });
 
 export const answerObserver = (bool) => ({

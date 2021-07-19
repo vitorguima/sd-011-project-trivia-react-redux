@@ -50,8 +50,8 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   questions: state.fetchReducers.questions,
   seconds: state.timeOver.seconds,
-  questionIndex: state.gameScore.question.questionIndex,
-  wasAnswered: state.gameScore.wasAnswered,
+  questionIndex: state.questionHandlers.questionIndex,
+  wasAnswered: state.questionHandlers.wasAnswered,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TriviaQuestions);

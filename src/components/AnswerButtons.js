@@ -7,16 +7,24 @@ class AnswerButtons extends Component {
   constructor(props) {
     super(props);
 
+    this.setScorePoint = this.setScorePoint.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
     this.verifyIfWasAnswered = this.verifyIfWasAnswered.bind(this);
   }
 
-  setScore(answerSelected, correctAnswer) {
-    // Marca ponto ao acertar a resposta
+  setScorePoint(answerSelected, correctAnswer) {
+    // Marca ponto ao acertar a resposta, precisa pegar o tempo, e a dificuldade da pergunta
     const { setScore } = this.props;
+    const answerOfUser = {
+      questionNumber: 1,
+      time: 'tempo do usuário',
+      score: 'score',
+      difficulty: 'dificuldade',
+    };
     if (answerSelected === correctAnswer) {
-      setScore(1);
+      // logica
     }
+    setScore(answerOfUser);
   }
 
   getTimeResponse() {
@@ -53,7 +61,7 @@ class AnswerButtons extends Component {
           onClick={ () => {
             colorizeAnswers();
             this.verifyIfWasAnswered();
-            this.setScore(answer, correctAnswer);
+            this.setScorePoint(answer, correctAnswer);
           } }
           onChange={ seconds === 0 ? colorizeAnswers() : null }
           className="answer"
@@ -67,12 +75,12 @@ class AnswerButtons extends Component {
 
 const mapStateToProps = (state) => ({
   seconds: state.timeOver.seconds,
-  wasAnswered: state.gameScore.wasAnswered,
+  wasAnswered: state.questionHandlers.wasAnswered,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   answerObserver: () => dispatch(userActions.answerObserver()),
-  setScore: (point) => dispatch(userActions.setScore(point)),
+  setScore: (score) => dispatch(userActions.setScore(score)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnswerButtons);
