@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -50,6 +51,9 @@ class Ranking extends Component {
               <p data-testid={ `player-name-${index}` }>{player.name}</p>
               <p data-testid={ `player-score-${index}` }>{player.score}</p>
             </div>)) }
+        <Link to="/">
+          <button type="button" data-testid="btn-go-home">Home</button>
+        </Link>
       </div>
     );
   }
