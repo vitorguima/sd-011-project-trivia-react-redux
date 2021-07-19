@@ -5,18 +5,17 @@ import { showNextBtn } from '../actions';
 
 class BooleanQuestion extends React.Component {
   render() {
-  const { question, showBtn, disabled, showAnswer } = this.props;
-  /* if(showAnswer) {
-    let trueClassName =
-    (question.correct_answer === "True") ? "show-correct-answer" : "show-incorrect-answer"
-    let falseClassName =
-    (question.correct_answer === "False") ?  "show-correct-answer" : "show-incorrect-answer"
-  } */
-
+    const { question, showBtn, disabled, showAnswer } = this.props;
+    const correctAnswer = (showAnswer) ? 'show-correct-answer' : null;
+    const incorrectAnswer = (showAnswer) ? 'show-incorrect-answer' : null;
     return (
       <>
         <button
-          className={ (showAnswer && question.correct_answer === 'True') ? 'show-correct-answer' : null }
+          className={
+            (question.correct_answer === 'True')
+              ? correctAnswer
+              : incorrectAnswer
+          }
           disabled={ disabled }
           type="button"
           data-testid={
@@ -29,7 +28,11 @@ class BooleanQuestion extends React.Component {
           True
         </button>
         <button
-          className={ (showAnswer && question.correct_answer === 'False') ? 'show-incorrect-answer' : null }
+          className={
+            (question.correct_answer === 'False')
+              ? correctAnswer
+              : incorrectAnswer
+          }
           disabled={ disabled }
           type="button"
           data-testid={
