@@ -28,7 +28,6 @@ export default class Ranking extends Component {
             Jogar Novamente
           </button>
         </Link>
-
       </div>
     );
   }
