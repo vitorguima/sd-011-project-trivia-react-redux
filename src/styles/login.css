@@ -1,3 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap');
+
+* {
+  font-family: 'Happy Monkey', cursive;
+}
+
+.login-container {
+  background: rgb(47,24,107);
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-btn {
+  background-color: #BF344D;
+  color: white;
+  border-color: #BF344D;
+  width: 150px;
+  margin-right: 15px;
+  font-weight: 550;
+  font-family: 'Happy Monkey', cursive;
+}
+
+.login-btn:disabled:hover {
+  color: #6D36F7;
+}
+
+.login-btn:hover {
+  color: white;
+  transform: scale(1.01);
+}
+
+.login-btn:disabled {
+  color: #6D36F7;
+  transform: scale(1.0);
+}
+
 .App {
   text-align: center;
 }
@@ -24,12 +62,14 @@
 
 .App-header {
   align-items: center;
-  background-color: #282c34;
+  background: rgb(109,54,247);
+background: linear-gradient(0deg, rgba(109,54,247,1) 7%, rgba(47,24,107,1) 92%);
   color: white;
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
+  height: 20vh;
 }
 
 .App-link {

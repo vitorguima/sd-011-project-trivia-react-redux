@@ -8,6 +8,8 @@ import {
   saveTokenToStore,
   resetStore,
 } from '../service/handleLocalStorage';
+import LoginForm from '../components/LoginForm';
+import '../styles/login.css';
 
 class Login extends Component {
   constructor() {
@@ -68,31 +70,15 @@ class Login extends Component {
   render() {
     const { disabled, ready } = this.state;
     return (
-      <div>
+      <div className="login-container">
         <form>
-          <label htmlFor="input-name">
-            <input
-              type="text"
-              id="input-name"
-              name="name"
-              onChange={ (e) => this.handleChange(e) }
-              data-testid="input-player-name"
-            />
-          </label>
-          <label htmlFor="input-email">
-            <input
-              type="text"
-              id="input-email"
-              onChange={ (e) => this.handleChange(e) }
-              name="email"
-              data-testid="input-gravatar-email"
-            />
-          </label>
+          <LoginForm handleChange={ this.handleChange } />
           <button
             type="button"
             onClick={ this.handleLogin }
             data-testid="btn-play"
             disabled={ disabled }
+            className="login-btn button"
           >
             Jogar
           </button>
@@ -100,6 +86,7 @@ class Login extends Component {
             type="button"
             data-testid="btn-settings"
             onClick={ () => this.redirectSettings() }
+            className="login-btn button"
           >
             Configurações
           </button>
