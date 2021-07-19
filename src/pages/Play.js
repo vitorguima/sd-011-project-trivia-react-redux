@@ -4,11 +4,14 @@ import PropTypes from 'prop-types';
 import { fetchQuestions, addPoint } from '../actions';
 import './Play.css';
 
+const timerStart = 30;
+
 class Play extends Component {
   constructor() {
     super();
 
     this.state = {
+      count: timerStart,
       qIndex: 0,
       answered: false,
     };
@@ -22,6 +25,25 @@ class Play extends Component {
 
   componentDidMount() {
     this.initialFetch();
+    const oneSecond = 1000;
+    this.myInterval = setInterval(() => {
+      const { count, answered } = this.state;
+      if (count > 0 && !answered) {
+        this.setState((state) => ({
+          ...state,
+          count: count - 1,
+        }));
+      } else if (!answered) {
+        console.log('click');
+
+        const wrongBtn = document.querySelector('.wrong');
+        wrongBtn.click();
+      }
+    }, oneSecond);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.myInterval);
   }
 
   async initialFetch() {
@@ -32,13 +54,12 @@ class Play extends Component {
   handleCorrect(event) {
     event.preventDefault();
     const { addScore, questions } = this.props;
-    const { qIndex } = this.state;
+    const { qIndex, count } = this.state;
     const currQuestion = questions[qIndex];
     const { className } = event.target;
     const btns = document.querySelectorAll('button.correct, button.wrong');
     btns.forEach((btn) => {
       btn.classList.add('revealed');
-      btn.disabled = true;
     });
     const difficulty = () => {
       switch (currQuestion.difficulty) {
@@ -53,7 +74,7 @@ class Play extends Component {
       }
     };
     if (className === 'correct') {
-      const points = 10 + (10 * difficulty());
+      const points = 10 + (count * difficulty());
       addScore(points);
     }
     this.setState(() => ({
@@ -66,6 +87,7 @@ class Play extends Component {
     const { qIndex } = this.state;
     if (qIndex < questions.length - 1) {
       this.setState((state) => ({
+        count: timerStart,
         qIndex: state.qIndex + 1,
         answered: false,
       }));
@@ -80,6 +102,7 @@ class Play extends Component {
         type="submit"
         onClick={ this.nextQuestion }
         data-testid="btn-next"
+        className="my-next-btn"
       >
         Next
       </button>
@@ -88,7 +111,7 @@ class Play extends Component {
 
   renderQuestion() {
     const { questions } = this.props;
-    const { qIndex } = this.state;
+    const { qIndex, answered } = this.state;
     const currQuestion = questions[qIndex];
     const correctA = currQuestion.correct_answer;
     const posAnswers = [correctA, ...currQuestion.incorrect_answers];
@@ -108,6 +131,7 @@ class Play extends Component {
                 type="submit"
                 data-testid="correct-answer"
                 className="correct"
+                disabled={ answered }
                 onClick={ this.handleCorrect }
               >
                 { answer }
@@ -121,6 +145,7 @@ class Play extends Component {
               type="submit"
               data-testid={ `wrong-answer-${index}` }
               className="wrong"
+              disabled={ answered }
               onClick={ this.handleCorrect }
             >
               { answer }
@@ -133,7 +158,7 @@ class Play extends Component {
 
   render() {
     const { questions, score, name } = this.props;
-    const { answered } = this.state;
+    const { answered, count } = this.state;
     const carr = <span>Carregando</span>;
     return (
       <div>
@@ -142,6 +167,7 @@ class Play extends Component {
           <span data-testid="header-player-name">{ name }</span>
           <span data-testid="header-score">{ score }</span>
         </header>
+        <div>{count}</div>
         { questions.length ? this.renderQuestion() : carr }
         { (answered) ? this.renderNxtBtn() : '' }
       </div>
