@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
+import './header.css';
 
 class Header extends Component {
   render() {
     const { playerName, email, totalScore } = this.props;
 
     return (
-      <div>
-        <div>
+      <header>
+        <div className="player">
           <img src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` } alt={ playerName } data-testid="header-profile-picture" />
-          <label htmlFor="user-name">
+          <label className="user-name" htmlFor="user-name">
             Jogador:
             <span id="user-name" data-testid="header-player-name">{ playerName }</span>
           </label>
@@ -22,7 +23,7 @@ class Header extends Component {
             {totalScore}
           </span>
         </div>
-      </div>
+      </header>
     );
   }
 }

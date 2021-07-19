@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
+import './questions.css';
 import { fetchQuestions, submitScore } from '../actions';
 
 class Questions extends Component {
@@ -22,6 +23,7 @@ class Questions extends Component {
     this.handleStyleAnswers = this.handleStyleAnswers.bind(this);
     this.renderCorretBtn = this.renderCorretBtn.bind(this);
     this.renderWrongBtn = this.renderWrongBtn.bind(this);
+    this.handleDisableButtons = this.handleDisableButtons.bind(this);
   }
 
   async componentDidMount() {
@@ -72,6 +74,14 @@ class Questions extends Component {
     }));
   }
 
+  handleDisableButtons() {
+    const { showNextButton } = this.state;
+    if (showNextButton) {
+      return true;
+    }
+    return false;
+  }
+
   handleErrorAnswer() {
     this.setState(() => ({
       showNextButton: true,
@@ -100,10 +110,11 @@ class Questions extends Component {
     const { timeCount } = this.state;
     return (
       <button
+        className="answer"
         key={ index }
         type="button"
         data-testid="correct-answer"
-        disabled={ timeCount === 0 }
+        disabled={ timeCount === 0 || this.handleDisableButtons() }
         name="answer"
         onClick={ () => {
           this.handleCorretAnswer();
@@ -118,6 +129,7 @@ class Questions extends Component {
     const { timeCount } = this.state;
     return (
       <button
+        className="wrong-answer"
         key={ index }
         type="button"
         onClick={ () => {
@@ -125,7 +137,7 @@ class Questions extends Component {
           this.handleStyleAnswers();
         } }
         data-testid={ `wrong-answer-${index}` }
-        disabled={ timeCount === 0 }
+        disabled={ timeCount === 0 || this.handleDisableButtons() }
         name="answer"
       >
         {answer}
@@ -145,10 +157,10 @@ class Questions extends Component {
       const answers = [correctAnswer, ...incorrectAnswers].sort();
       const { category, question } = questions[indexQuestion];
       return (
-        <section>
-          <div data-testid="question-category">{ category }</div>
-          <div data-testid="question-text">{ question }</div>
-          {timeCount}
+        <section className="section-question">
+          <div className="category" data-testid="question-category">{ category }</div>
+          <div className="question" data-testid="question-text">{ question }</div>
+          <span>{timeCount}</span>
           {answers.map((answer, index) => {
             if (answer === correctAnswer) {
               return (
@@ -157,9 +169,11 @@ class Questions extends Component {
             return (
               this.renderWrongBtn(answer, index));
           })}
+
           {showNextButton && (
             <button
               type="button"
+              className="btn-next"
               data-testid="btn-next"
               onClick={ () => {
                 this.handleNext();
@@ -172,7 +186,7 @@ class Questions extends Component {
         </section>
       );
     }
-    return <section>carregando...</section>;
+    return <section className="loading">carregando...</section>;
   }
 }
 
