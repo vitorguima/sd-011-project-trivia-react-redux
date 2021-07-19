@@ -10,23 +10,13 @@ const RenderQuestion = () => {
   const dispatch = useDispatch();
   const initialTime = 30;
   const { questions } = useSelector(({ questionsArray }) => questionsArray);
-  const { name, gravatarEmail, score } = useSelector(({ userInfo }) => userInfo.player);
+  const { score } = useSelector(({ userInfo }) => userInfo.player);
   const [enable, setEnable] = useState(false);
   const [answersYes, setAnswersYes] = useState(false);
   const [correctanswers, setCorrectanswers] = useState(false);
   const [second, setSecond] = useState(initialTime);
   const [index, setIndex] = useState(0);
   const globalScore = (newScore) => {
-    localStorage.setItem('state', JSON.stringify({
-      player: {
-        name,
-        assertions: 0,
-        score: newScore + score,
-        gravatarEmail,
-        token: '',
-        ranking: [],
-      },
-    }));
     dispatch(sendScorePoints(newScore + score));
   };
   const renderResult = () => (

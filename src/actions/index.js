@@ -19,21 +19,32 @@ export const sendScorePointsLocalStorage = (payload) => ({
 });
 
 export const sendScorePoints = (payload) => (dispatch) => {
-  const { player } = JSON.parse(localStorage.getItem('player'));
-  localStorage.setItem('player', JSON.stringify({
+  const { player } = JSON.parse(localStorage.getItem('state'));
+  localStorage.setItem('state', JSON.stringify({
     player: {
       ...player,
       score: payload,
     },
   }));
-
   dispatch(sendScorePointsLocalStorage(payload));
 };
 
-export const sendAssertions = (payload) => ({
+export const sendAssertionsRedux = (payload) => ({
   type: SEND_ASSERTION,
   payload,
 });
+
+export const sendAssertions = (payload) => (dispatch) => {
+  const { player } = JSON.parse(localStorage.getItem('state'));
+  console.log({ ...player, assertions: payload });
+  localStorage.setItem('state', JSON.stringify({
+    player: {
+      ...player,
+      assertions: payload,
+    },
+  }));
+  dispatch(sendAssertionsRedux(payload));
+};
 
 export const rquestQuestions = (token) => async (dispatch) => {
   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
