@@ -14,6 +14,7 @@ class TimerComponent extends Component {
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
     this.buttonNextQuestion = this.buttonNextQuestion.bind(this);
     this.newQuestion = this.newQuestion.bind(this);
+    this.newScore = this.newScore.bind(this);
   }
 
   componentDidMount() {
@@ -22,19 +23,13 @@ class TimerComponent extends Component {
   }
 
   componentDidUpdate() {
-    const { buttonClick, rightBtnClicked, updateNumQuestion } = this.props;
+    const { buttonClick, updateNumQuestion } = this.props;
     const { count } = this.state;
     updateNumQuestion(count);
     // localStorage.setItem('numberQuestion', JSON.stringify(count));
     if (buttonClick) {
       clearInterval(this.interval);
-      const stopTime = document.querySelector('.timer');
-      const question = document.querySelector('#question');
-      const difficulty = question.getAttribute('difficulty');
-      const score = rightBtnClicked
-        ? this.setScore(stopTime.innerHTML, difficulty)
-        : 0;
-      this.updateLocalStorage(score);
+      this.newScore();
     }
   }
 
@@ -83,6 +78,17 @@ class TimerComponent extends Component {
     const { nextQuestion } = this.props;
     const { count } = this.state;
     nextQuestion(count);
+  }
+
+  newScore() {
+    const { rightBtnClicked } = this.props;
+    const stopTime = document.querySelector('.timer');
+    const question = document.querySelector('#question');
+    const difficulty = question.getAttribute('difficulty');
+    const score = rightBtnClicked
+      ? this.setScore(stopTime.innerHTML, difficulty)
+      : 0;
+    this.updateLocalStorage(score);
   }
 
   buttonNextQuestion() {
