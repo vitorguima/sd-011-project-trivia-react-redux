@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Ranking extends Component {
   render() {
@@ -16,6 +17,9 @@ export default class Ranking extends Component {
             ))}
         </div>
         Lista de Ranking
+        <Link to="/">
+          <button type="button" data-testid="btn-go-home">Início</button>
+        </Link>
       </div>
     );
   }
