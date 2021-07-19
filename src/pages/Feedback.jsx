@@ -14,11 +14,16 @@ class Feedback extends Component {
   }
 
   render() {
+    const { score, assertions } = this.props;
     return (
       <Layout>
         <main>
           <GameHeader />
           <div data-testid="feedback-text">{this.renderMsg()}</div>
+          <div data-testid="feedback-total-score">
+            {score}
+          </div>
+          <div data-testid="feedback-total-question">{assertions}</div>
         </main>
       </Layout>
     );
