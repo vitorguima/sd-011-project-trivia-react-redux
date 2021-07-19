@@ -6,26 +6,26 @@ import { actionBtn, actionClicked, actionTimer, actionScore } from '../actions';
 class Question extends Component {
   constructor() {
     super();
-    this.state = {
-      disableBtn: false,
-    };
     this.handleClick = this.handleClick.bind(this);
-    this.countDown = this.countDown.bind(this);
+    // this.countDown = this.countDown.bind(this);
+    // this.refreshTimer = this.refreshTimer.bind(this);
     this.countScore = this.countScore.bind(this);
   }
 
   componentDidMount() {
-    this.countDown();
+    const { countDown } = this.props;
+    countDown();
   }
 
-  componentWillUnmount() {
-    clearInterval();
-  }
+  // componentWillUnmount() {
+  //   clearTimeout();
+  // }
 
   handleClick() {
-    const { setHidden, setClicked } = this.props;
+    const { setHidden, setClicked, myInterval } = this.props;
     setClicked(true);
     setHidden(false);
+    clearInterval(myInterval);
   }
 
   countScore() {
@@ -48,21 +48,25 @@ class Question extends Component {
     state = localStorage.setItem('state', JSON.stringify(state));
   }
 
-  countDown() {
-    const second = 1000;
-    const { setHidden, timer, setTimer } = this.props;
-    if (timer > 0) {
-      const newTimer = timer - 1;
-      setTimer(newTimer);
-      setInterval(this.countDown, second);
-    }
-    if (timer === 0) {
-      this.setState({
-        disableBtn: true,
-      });
-      setHidden(false);
-    }
-  }
+  // refreshTimer() {
+  //   const { setHidden, timer, setTimer } = this.props;
+  //   console.log('ola');
+  //   if (timer > 0) {
+  //     const newTimer = timer - 1;
+  //     setTimer(newTimer);
+  //   } else {
+  //     clearInterval(this.myInterval);
+  //     setHidden(false);
+  //     this.setState({
+  //       disableBtn: true,
+  //     });
+  //   }
+  // }
+
+  // countDown() {
+  //   const second = 1000;
+  //   this.myInterval = setInterval(this.refreshTimer, second);
+  // }
 
   render() {
     const {
@@ -71,8 +75,7 @@ class Question extends Component {
         question,
         correct_answer: correctAnswer,
         incorrect_answers: incorrectAnswers,
-      }, getClicked, timer } = this.props;
-    const { disableBtn } = this.state;
+      }, disabled, getClicked, timer } = this.props;
     return (
       <div className="question">
         <p>{ timer }</p>
@@ -83,7 +86,7 @@ class Question extends Component {
           type="button"
           data-testid="correct-answer"
           onClick={ () => { this.handleClick(); this.countScore(); } }
-          disabled={ disableBtn }
+          disabled={ disabled }
         >
           {correctAnswer}
         </button>
@@ -94,7 +97,7 @@ class Question extends Component {
             type="button"
             data-testid={ `wrong-answer-${index}` }
             onClick={ this.handleClick }
-            disabled={ disableBtn }
+            disabled={ disabled }
           >
             {answer}
           </button>)) }
@@ -107,6 +110,7 @@ const MapStateToProps = (state) => ({
   getClicked: state.game.clicked,
   timer: state.game.timer,
   score: state.game.score,
+  disabled: state.game.disabled,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -125,11 +129,13 @@ Question.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   setHidden: PropTypes.func.isRequired,
-  setTimer: PropTypes.func.isRequired,
   setClicked: PropTypes.func.isRequired,
   setScore: PropTypes.func.isRequired,
   getClicked: PropTypes.bool.isRequired,
   timer: PropTypes.number.isRequired,
+  myInterval: PropTypes.func.isRequired,
+  countDown: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default connect(MapStateToProps, mapDispatchToProps)(Question);
