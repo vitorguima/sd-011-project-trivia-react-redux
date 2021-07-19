@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
-import { fetchToken, actionLogin } from '../actions';
+import { fetchToken, actionLogin, actionScore } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -19,7 +19,14 @@ class Login extends Component {
       name: '',
       email: '',
       disabled: true,
+      score: 0,
     };
+  }
+
+  componentDidMount() {
+    const { addingScore } = this.props;
+    const { score } = this.state;
+    addingScore(score);
   }
 
   checkLogin() {
@@ -114,6 +121,7 @@ class Login extends Component {
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(fetchToken()),
   getLogin: (name, gravatarEmail) => dispatch(actionLogin(name, gravatarEmail)),
+  addingScore: (score) => dispatch(actionScore(score)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
