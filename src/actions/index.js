@@ -1,3 +1,5 @@
+import { MD5 } from 'crypto-js';
+
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
 export const REQUEST_QUESTIONS_FAIL = 'REQUEST_QUESTIONS_FAIL';
@@ -5,6 +7,7 @@ export const SAVE_LOGIN = 'SAVE_LOGIN';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const REQUEST_TOKEN_ERROR = 'REQUEST_TOKEN_ERROR';
+export const NEXT_QUESTION = 'NEXT_QUESTION';
 export const SET_INNITIAL_TIME = 'SET_INITIAL_TIME';
 export const UPDATE_CLOCK = 'UPDATE_CLOCK';
 export const STOP_COUNTDOWN = 'STOP_COUNTDOWN';
@@ -79,6 +82,9 @@ export const fetchQuestions = (token) => (dispatch) => {
     .catch((error) => dispatch(requestQuestionsFail(error)));
 };
 
+export const nextQuestion = () => ({
+  type: NEXT_QUESTION,
+});
 const setInnitialTime = () => ({
   type: SET_INNITIAL_TIME,
 });
@@ -109,4 +115,21 @@ export const updateScore = (payload) => {
     type: UPDATE_SCORE,
     payload,
   };
+};
+
+export const saveRank = () => () => {
+  const state = JSON.parse(localStorage.getItem('state'));
+  const ranking = JSON.parse(localStorage.getItem('ranking'));
+  const emailHash = MD5(state.player.gravatarEmail);
+  const current = {
+    name: state.player.name,
+    score: state.player.score,
+    picture: `https://www.gravatar.com/avatar/${emailHash}`,
+  };
+  if (!ranking) {
+    localStorage.setItem('ranking', JSON.stringify([current]));
+  } else {
+    const newRanking = [...ranking, current];
+    localStorage.setItem('ranking', JSON.stringify(newRanking));
+  }
 };
