@@ -18,6 +18,10 @@ class Question extends Component {
     this.countDown();
   }
 
+  componentWillUnmount() {
+    clearInterval();
+  }
+
   handleClick() {
     const { setHidden, setClicked } = this.props;
     setClicked(true);
@@ -32,11 +36,11 @@ class Question extends Component {
     let state = JSON.parse(localStorage.getItem(('state')));
     let previousScore = 0;
     if (questions.difficulty === 'easy') {
-      previousScore = score * (timer);
+      previousScore = score + timer;
     } if (questions.difficulty === 'medium') {
-      previousScore = score * (timer * medium);
+      previousScore = score + timer * medium;
     } else {
-      previousScore = score * (timer * hard);
+      previousScore = score + timer * hard;
     }
     state.player.score += previousScore;
     setScore(state.player.score);
@@ -50,7 +54,7 @@ class Question extends Component {
     if (timer > 0) {
       const newTimer = timer - 1;
       setTimer(newTimer);
-      setTimeout(this.countDown, second);
+      setInterval(this.countDown, second);
     }
     if (timer === 0) {
       this.setState({
