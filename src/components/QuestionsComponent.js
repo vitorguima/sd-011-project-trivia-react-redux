@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { clickButton } from '../actions';
-import ClockComponent from './ClockComponent'
+import ClockComponent from './ClockComponent';
 
 class QuestionsComponent extends Component {
   constructor(props) {
@@ -11,29 +11,28 @@ class QuestionsComponent extends Component {
       assertions: 0,
       buttonClick: false,
       rightAnswerClicked: false,
-      index:0,
+      index: 0,
     };
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
-
   }
- 
-  nextQuestion(){
+
+  nextQuestion() {
     const btns = document.querySelectorAll('button');
 
     this.setState((prevState) => ({
-      index: prevState.index +1,
-      rightAnswerClicked:false,
-      buttonClick:false
-  }))
-  btns.forEach((element) => {
-    element.classList.remove('reveal-color');
-  });
+      index: prevState.index + 1,
+      rightAnswerClicked: false,
+      buttonClick: false,
+    }));
+    btns.forEach((element) => {
+      element.classList.remove('reveal-color');
+    });
   }
-  
+
   colorSelectCorrect({ target }) {
     const btns = document.querySelectorAll('button');
-    
+
     if (target.value === 'correct') {
       this.setState((prevState) => ({
         assertions: prevState.assertions + 1,
@@ -50,7 +49,6 @@ class QuestionsComponent extends Component {
     });
   }
 
-  
   render() {
     const { questions, loading, buttonDisable, updateClickButton } = this.props;
     const { results } = questions;
@@ -94,7 +92,7 @@ class QuestionsComponent extends Component {
                   {incorrect}
                 </button>
               ))}
-              <ClockComponent nextQuestion={this.nextQuestion} />
+              <ClockComponent nextQuestion={ this.nextQuestion } />
             </div>
           )}
       </div>

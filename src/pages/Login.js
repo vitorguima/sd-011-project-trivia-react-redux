@@ -21,11 +21,14 @@ class Login extends Component {
 
   handleChange({ target }) {
     const { name, value } = target;
-    this.setState({
-      [name]: value,
-    }, () => {
-      this.handleLogin();
-    });
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        this.handleLogin();
+      },
+    );
   }
 
   localStoragehandle() {
@@ -60,51 +63,46 @@ class Login extends Component {
     return (
       <div>
         <form>
-        <header className="App-header">
-        <img src={ logo } height="150px" alt="logo" />
-
-          <label htmlFor="user">
-            Usuário
-            <input
-              data-testid="input-player-name"
-              id="user"
-              name="user"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="email">
-            E-mail
-            <input
-              data-testid="input-gravatar-email"
-              id="email"
-              name="email"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <Link to="/trivia">
-            <button
-              type="button"
-              data-testid="btn-play"
-              disabled={ disableBtn }
-              onClick={ () => {
-                fetchToken();
-                this.localStoragehandle();
-                updateUser(user);
-                updateEmail(email);
-              } }
-            >
-              Jogar
-            </button>
-          </Link>
+          <header className="App-header">
+            <img src={ logo } height="150px" alt="logo" />
+            <label htmlFor="user">
+              Usuário
+              <input
+                data-testid="input-player-name"
+                id="user"
+                name="user"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <label htmlFor="email">
+              E-mail
+              <input
+                data-testid="input-gravatar-email"
+                id="email"
+                name="email"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <Link to="/trivia">
+              <button
+                type="button"
+                data-testid="btn-play"
+                disabled={ disableBtn }
+                onClick={ () => {
+                  fetchToken();
+                  this.localStoragehandle();
+                  updateUser(user);
+                  updateEmail(email);
+                } }
+              >
+                Jogar
+              </button>
+            </Link>
           </header>
-
         </form>
         <Link to="/settings">
-          <button type="button" data-testid="btn-settings">
-            Configurações
-          </button>
+          <button type="button" data-testid="btn-settings">Configurações</button>
         </Link>
-
       </div>
     );
   }

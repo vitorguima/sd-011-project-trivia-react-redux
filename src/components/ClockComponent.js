@@ -8,19 +8,15 @@ class ClockComponent extends Component {
     super();
     this.state = {
       seconds: 30,
-      index:0
     };
     this.timer = this.timer.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
-
   }
 
   componentDidMount() {
     const second = 1000;
     setInterval(() => this.timer(), second);
   }
-
-  
 
   componentDidUpdate() {
     const { buttonClick, rightAnswerClicked } = this.props;
@@ -36,7 +32,6 @@ class ClockComponent extends Component {
     }
   }
 
-  
   setScore(timer, difficulty) {
     const ten = 10;
     const questionLevel = (dif) => {
@@ -54,7 +49,7 @@ class ClockComponent extends Component {
         break;
       }
     };
-    return ten + (timer * questionLevel(difficulty));
+    return ten + timer * questionLevel(difficulty);
   }
 
   updateLocalStorage(score) {
@@ -64,36 +59,36 @@ class ClockComponent extends Component {
   }
 
   timer() {
-    const { buttonClick} = this.props
+    const { buttonClick } = this.props;
     const { seconds } = this.state;
     const { updateButton } = this.props;
     if (seconds !== 0) {
       this.setState((prevState) => ({
         seconds: prevState.seconds - 1,
-      }
-      ));
+      }));
     }
-    if (seconds === 0 || buttonClick) {
-    }
-    if ( buttonClick == true){
+    if (buttonClick) {
       updateButton();
-      this.setState(()=> ({
-        seconds
-      }))
-
+      this.setState(() => ({
+        seconds,
+      }));
     }
   }
 
   render() {
     const { seconds } = this.state;
-    const { buttonClick,nextQuestion } = this.props;
+    const { buttonClick, nextQuestion } = this.props;
     return (
       <div>
         <div>
-          <p className="timer">{ seconds }</p>
+          <p className="timer">{seconds}</p>
         </div>
         <div>
-          { buttonClick && <button type="button" onClick={nextQuestion} data-testid="btn-next">Próxima</button> }
+          {buttonClick && (
+            <button type="button" onClick={ nextQuestion } data-testid="btn-next">
+              Próxima
+            </button>
+          )}
         </div>
       </div>
     );
@@ -104,6 +99,7 @@ ClockComponent.propTypes = {
   updateButton: PropTypes.func.isRequired,
   buttonClick: PropTypes.bool.isRequired,
   rightAnswerClicked: PropTypes.bool.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
