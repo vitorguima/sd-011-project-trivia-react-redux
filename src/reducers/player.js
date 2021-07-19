@@ -9,7 +9,6 @@ const INITIAL_STATE = {
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
-  window.localStorage.setItem('state', state.player);
   switch (action.type) {
   case actions.REQUEST_TOKEN_SUCCESS:
     return { ...state, token: action.payload };
@@ -20,6 +19,8 @@ export default function reducer(state = INITIAL_STATE, action) {
       score: state.score + action.payload,
       assertions: state.assertions + 1,
     };
+  case actions.RESET_GAME:
+    return INITIAL_STATE;
   default:
     return state;
   }

@@ -2,6 +2,7 @@ export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const STORE_LOGIN_EMAIL = 'STORE_LOGIN_EMAIL';
 export const QUESTION_REQUEST = 'QUESTION_REQUEST';
 export const NEW_CORRECT_ANSWER = 'NEW_CORRECT_ANSWER';
+export const RESET_GAME = 'RESET_GAME';
 
 function handleStoreLoginEmail(name, email) {
   return { type: STORE_LOGIN_EMAIL, payload: { name, email } };
@@ -29,6 +30,10 @@ function questionsGame(token) {
         (error) => console.log(error),
       );
   };
+}
+
+export function resetGame() {
+  return { type: RESET_GAME };
 }
 
 export function startGame(name, email) {
