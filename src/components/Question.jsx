@@ -66,7 +66,8 @@ class Question extends React.Component {
   }
 
   render() {
-    const { questions, showBtn, currentQuestion, nextQuestion } = this.props;
+    const { questions, showBtn, currentQuestion, nextQuestion, push } = this.props;
+    const maxQuestions = 4;
     return (
       <section>
         {(questions[currentQuestion])
@@ -95,6 +96,9 @@ class Question extends React.Component {
                 type="button"
                 className={ (showBtn) ? 'show-btn' : 'hide-btn' }
                 onClick={ () => {
+                  if (currentQuestion === maxQuestions) {
+                    push('/feedback');
+                  }
                   this.startCounter();
                   nextQuestion();
                 } }
@@ -134,6 +138,7 @@ Question.propTypes = {
   showNextButton: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
   userEmail: PropTypes.string.isRequired,
+  push: PropTypes.func.isRequired,
 };
 
 Question.defaultProps = {

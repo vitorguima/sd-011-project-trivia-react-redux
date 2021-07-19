@@ -13,7 +13,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const { userName, gravatarImage } = this.props;
+    const { userName, gravatarImage, history: { push } } = this.props;
 
     return (
       <>
@@ -28,7 +28,7 @@ class Game extends React.Component {
         </header>
         <Countdown />
         <main>
-          <Question />
+          <Question push={ push } />
         </main>
       </>
     );
@@ -48,6 +48,9 @@ Game.propTypes = {
   userName: PropTypes.string.isRequired,
   gravatarImage: PropTypes.string.isRequired,
   questionsToStore: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
