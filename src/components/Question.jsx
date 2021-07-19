@@ -32,11 +32,11 @@ class Question extends Component {
     let state = JSON.parse(localStorage.getItem(('state')));
     let previousScore = 0;
     if (questions.difficulty === 'easy') {
-      previousScore = score * (timer);
+      previousScore = score + timer;
     } if (questions.difficulty === 'medium') {
-      previousScore = score * (timer * medium);
+      previousScore = score + timer * medium;
     } else {
-      previousScore = score * (timer * hard);
+      previousScore = score + timer * hard;
     }
     state.player.score += previousScore;
     setScore(state.player.score);

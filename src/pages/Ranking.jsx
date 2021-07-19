@@ -34,8 +34,7 @@ class Ranking extends Component {
   }
 
   getRankings() {
-    let players = [];
-    players = JSON.parse(localStorage.getItem('ranking'));
+    const players = JSON.parse(localStorage.getItem('ranking'));
     this.setState({ players });
   }
 
