@@ -56,7 +56,7 @@ Timer.propTypes = {
   funcao: PropTypes.func.isRequired,
   funcaoStop: PropTypes.func.isRequired,
   stop: PropTypes.bool.isRequired,
-  restart: PropTypes.number.isRequired,
+  restart: PropTypes.bool.isRequired,
 };
 
 export default Timer;
