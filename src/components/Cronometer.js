@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { reduceSecond } from '../actions';
 import './Cronometer.css';
 
 class Cronometer extends Component {
@@ -7,7 +10,6 @@ class Cronometer extends Component {
     const ONE_SECOND = 1000;
     this.state = {
       timer: 30,
-      stopTimer: false,
       startTimer: setInterval(() => this.reduceSecond(), ONE_SECOND),
     };
 
@@ -15,23 +17,26 @@ class Cronometer extends Component {
   }
 
   componentDidUpdate() {
-    const { startTimer, stopTimer } = this.state;
+    const { startTimer } = this.state;
+    const { stopTimer } = this.props;
     if (stopTimer) clearInterval(startTimer);
   }
 
   reduceSecond() {
     const { timer } = this.state;
+    const { actionReduceSecond } = this.props;
+
     if (timer > 0) {
       this.setState((prevState) => ({
         timer: prevState.timer - 1,
       }));
-    } else {
-      this.setState({ stopTimer: true });
     }
+
+    return actionReduceSecond(timer);
   }
 
   render() {
-    const { timer, stopTimer } = this.state;
+    const { timer, stopTimer } = this.props;
     const NINE = 9;
     return (
       <div className="cronometerContainer">
@@ -51,4 +56,19 @@ class Cronometer extends Component {
   }
 }
 
-export default Cronometer;
+const mapStateToProps = (state) => ({
+  timer: state.timerReducer.timer,
+  stopTimer: state.timerReducer.stopTimer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  actionReduceSecond: (timer) => dispatch(reduceSecond(timer)),
+});
+
+Cronometer.propTypes = {
+  stopTimer: PropTypes.bool.isRequired,
+  actionReduceSecond: PropTypes.func.isRequired,
+  timer: PropTypes.number.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cronometer);
