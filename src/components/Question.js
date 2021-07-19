@@ -3,30 +3,41 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class Question extends Component {
-  shufleAnswers(right, wrongs) {
+  constructor() {
+    super();
+
+    this.state = {
+      anyChosed: false,
+    };
+    this.setRandom = this.setRandom.bind(this);
+  }
+
+  componentDidMount() {
+    this.setRandom();
+  }
+
+  setRandom() {
     const max = 4;
     const random = Math.floor(Math.random() * max);
+    this.setState({ randomNumber: random });
+  }
+
+  shufleAnswers(right, wrongs, random) {
     wrongs.splice(random, 0, right);
-    console.log(wrongs);
     return wrongs;
   }
 
-  disableButton() {
-    const buttons = document.getElementsByClassName('button');
-    for (let index = 0; index < buttons.length; index += 1) {
-      buttons[index].disabled = true;
-    }
-  }
-
   multipleQuestion() {
+    const { anyChosed, randomNumber } = this.state;
     const { questionsArr, currentQuestion } = this.props;
     const rightAnswer = (
       <button
         type="button"
         data-testid="correct-answer"
         key="right"
-        className="button"
-        onClick={ this.disableButton }
+        onClick={ () => this.setState({ anyChosed: true }) }
+        className={ anyChosed ? 'correct' : '' }
+        disabled={ anyChosed }
       >
         { questionsArr[currentQuestion].correct_answer }
       </button>);
@@ -36,13 +47,14 @@ class Question extends Component {
           type="button"
           key={ `wrong-${index}` }
           data-testid={ `wrong-answer-${index}` }
-          className="button"
-          onClick={ this.disableButton }
+          onClick={ () => this.setState({ anyChosed: true }) }
+          className={ anyChosed ? 'wrong' : '' }
+          disabled={ anyChosed }
         >
           { item }
         </button>
       ));
-    const shufledAnswer = this.shufleAnswers(rightAnswer, wrongAnswer);
+    const shufledAnswer = this.shufleAnswers(rightAnswer, wrongAnswer, randomNumber);
     return (
       <div className="answers">
         { shufledAnswer }
@@ -52,22 +64,25 @@ class Question extends Component {
 
   bolleanQuestion() {
     const { questionsArr, currentQuestion } = this.props;
+    const { anyChosed } = this.state;
     if (questionsArr[currentQuestion].correct_answer) {
       return (
         <div className="answers">
           <button
             type="button"
             data-testid="correct-answer"
-            className="button"
-            onClick={ this.disableButton }
+            onClick={ () => this.setState({ anyChosed: true }) }
+            className={ anyChosed ? 'correct' : '' }
+            disabled={ anyChosed }
           >
             True
           </button>
           <button
             type="button"
             data-testid="wrong-answer-0"
-            className="button"
-            onClick={ this.disableButton }
+            onClick={ () => this.setState({ anyChosed: true }) }
+            className={ anyChosed ? 'wrong' : '' }
+            disabled={ anyChosed }
           >
             False
           </button>
@@ -79,16 +94,18 @@ class Question extends Component {
         <button
           type="button"
           data-testid="wrong-answer-0"
-          className="button"
-          onClick={ this.disableButton }
+          onClick={ () => this.setState({ anyChosed: true }) }
+          className={ anyChosed ? 'wrong' : '' }
+          disabled={ anyChosed }
         >
           True
         </button>
         <button
           type="button"
           data-testid="correct-answer"
-          className="button"
-          onClick={ this.disableButton }
+          onClick={ () => this.setState({ anyChosed: true }) }
+          className={ anyChosed ? 'correct' : '' }
+          disabled={ anyChosed }
         >
           False
         </button>
