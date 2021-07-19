@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
-import { actionAvatar, actionName } from '../actions';
+import { actionAvatar, actionName, actionScore } from '../actions';
 import '../styles/Home.css';
 import Logo from '../components/Logo';
 
@@ -28,13 +28,14 @@ class Home extends Component {
         gravatarEmail: '',
       },
     };
-    const { setAvatar, setName } = this.props;
+    const { setAvatar, setName, setScore } = this.props;
     const { email, name } = this.state;
     state.player.name = name;
     state.player.gravatarEmail = email;
     const hash = md5(email).toString();
     setAvatar(`https://www.gravatar.com/avatar/${hash}`);
     setName(name);
+    setScore(0);
     localStorage.setItem('state', JSON.stringify(state));
     push('/game');
   }
@@ -93,6 +94,7 @@ class Home extends Component {
 const MapDispatchToProps = (dispatch) => ({
   setAvatar: (avatar) => dispatch(actionAvatar(avatar)),
   setName: (name) => dispatch(actionName(name)),
+  setScore: (score) => dispatch(actionScore(score)),
 });
 
 Home.propTypes = {
@@ -101,6 +103,7 @@ Home.propTypes = {
   }).isRequired,
   setAvatar: PropTypes.func.isRequired,
   setName: PropTypes.func.isRequired,
+  setScore: PropTypes.func.isRequired,
 };
 
 export default connect(null, MapDispatchToProps)(Home);

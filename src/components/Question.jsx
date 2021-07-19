@@ -18,6 +18,10 @@ class Question extends Component {
     this.countDown();
   }
 
+  componentWillUnmount() {
+    clearInterval();
+  }
+
   handleClick() {
     const { setHidden, setClicked } = this.props;
     setClicked(true);
@@ -50,7 +54,7 @@ class Question extends Component {
     if (timer > 0) {
       const newTimer = timer - 1;
       setTimer(newTimer);
-      setTimeout(this.countDown, second);
+      setInterval(this.countDown, second);
     }
     if (timer === 0) {
       this.setState({
