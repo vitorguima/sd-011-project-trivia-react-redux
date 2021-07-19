@@ -4,25 +4,19 @@ import './Cronometer.css';
 class Cronometer extends Component {
   constructor() {
     super();
-
+    const ONE_SECOND = 1000;
     this.state = {
       timer: 30,
       stopTimer: false,
+      startTimer: setInterval(() => this.reduceSecond(), ONE_SECOND),
     };
 
-    this.startTimer = this.startTimer.bind(this);
     this.reduceSecond = this.reduceSecond.bind(this);
   }
 
-  componentDidMount() {
-    this.startTimer();
-  }
-
-  startTimer() {
-    const ONE_SECOND = 1000;
-    setTimeout(() => {
-      setInterval(() => this.reduceSecond(), ONE_SECOND);
-    }, ONE_SECOND);
+  componentDidUpdate() {
+    const { startTimer, stopTimer } = this.state;
+    if (stopTimer) clearInterval(startTimer);
   }
 
   reduceSecond() {
@@ -38,19 +32,20 @@ class Cronometer extends Component {
 
   render() {
     const { timer, stopTimer } = this.state;
+    const NINE = 9;
     return (
       <div className="cronometerContainer">
         { stopTimer === false
-          ? <p className="timer">
-            {' '}
-            {`00:${timer}`}
-            {' '}
-            { /* eslint-disable-next-line react/jsx-closing-tag-location */ }
-          </p>
-          : <p className="timeout">
-            Tempo Expirado
-            { /* eslint-disable-next-line react/jsx-closing-tag-location */ }
-          </p>}
+          ? (
+            <p className="timer">
+              { timer > NINE ? `00:${timer}` : `00:0${timer}`}
+            </p>
+          )
+          : (
+            <p className="timeout">
+              Tempo Expirado
+            </p>
+          ) }
       </div>
     );
   }
