@@ -27,8 +27,6 @@ class Header extends React.Component {
 
           {userName}
 
-          { UserName }
-
         </p>
         <span data-testid="header-score">0</span>
         { score }

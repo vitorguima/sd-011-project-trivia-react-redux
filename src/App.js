@@ -16,5 +16,3 @@ export default function App() {
     </div>
   );
 }
-
-// terceira tentativa requisitos 5,6,7 e 8...
