@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import './questions.css';
 import { fetchQuestions, submitScore } from '../actions';
-import handleStyleAnswers from '../helpers/styleAnswers';
+import { handleStyleAnswers, setRankToStorage } from '../helpers/styleAnswers';
 
 class Questions extends Component {
   constructor(props) {
@@ -182,12 +182,13 @@ class Questions extends Component {
   }
 
   render() {
-    const { questions, dispatchScore } = this.props;
+    const { questions, dispatchScore, email, playerName } = this.props;
     const {
       indexQuestion, showNextButton, timeCount, totalScore, assertions,
     } = this.state;
     const maxIndexQuestion = 4;
     if (indexQuestion > maxIndexQuestion) {
+      setRankToStorage(playerName, email, totalScore);
       return <Redirect to="/feedback" />;
     }
     if (questions.length && indexQuestion <= maxIndexQuestion) {
@@ -239,6 +240,8 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   token: state.homeReducer.token,
   questions: state.homeReducer.questions,
+  email: state.login.email,
+  playerName: state.login.playerName,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
