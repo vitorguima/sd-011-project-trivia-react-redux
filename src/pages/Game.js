@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
-import * as Timer from '../components/Timer';
+import GameTimer from '../components/GameTimer';
 import Answers from '../components/Answers';
 import { fetchApiTrivia, answerReset } from '../actions';
 
@@ -52,7 +52,7 @@ class Game extends Component {
         <p data-testid="question-text">
           {results[position].question}
         </p>
-        {/* <Timer /> */}
+        <GameTimer />
         <Answers results={ results[position] } />
         { this.renderNextButton() && (
           <button

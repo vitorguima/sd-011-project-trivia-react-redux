@@ -41,10 +41,11 @@ class Login extends Component {
     localStorage.setItem(
       'state',
       JSON.stringify({
-        user: {
+        player: {
           name,
           assertions: 0,
           score: 0,
+          gravatarEmail: email,
           gravatarHash: md5(email).toString(),
         },
       }),
@@ -96,9 +97,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.propTypes = {
-  addUserName: PropTypes.func,
-  addUserEmail: PropTypes.func,
-  addUserHash: PropTypes.func,
+  getToken: PropTypes.func,
 }.isRequired;
 
 export default connect(null, mapDispatchToProps)(Login);

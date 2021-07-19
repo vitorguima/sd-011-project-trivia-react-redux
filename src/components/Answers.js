@@ -8,37 +8,39 @@ class Answers extends Component {
     super(props);
 
     this.buttonProps = this.buttonProps.bind(this);
-    this.userScore = this.userScore.bind(this);
+    this.playerScore = this.playerScore.bind(this);
     this.buttonClicked = this.buttonClicked.bind(this);
   }
 
   buttonClicked(name, buttonClickedProp) {
     if (name === 'correctAnswer') {
       const notRedux = JSON.parse(localStorage.getItem('state'));
-      notRedux.user.assertions += 1;
+      notRedux.player.assertions += 1;
       localStorage.setItem('state', JSON.stringify(notRedux));
     }
     buttonClickedProp();
   }
 
-  userScore({ difficulty }, timer) {
-    const notRedux = JSON.parse(localStorage.getItem('state'));
-    const MEDIUM_DIFFICULTY = 2;
-    const HARD_DIFFICULTY = 3;
-    const BASE = 10;
-    switch (difficulty) {
-    case 'medium':
-      notRedux.user.score += BASE + (timer * MEDIUM_DIFFICULTY);
-      localStorage.setItem('state', JSON.stringify(notRedux));
-      break;
-    case 'hard':
-      notRedux.user.score += BASE + (timer * HARD_DIFFICULTY);
-      localStorage.setItem('state', JSON.stringify(notRedux));
-      break;
-    default:
-      notRedux.user.score += BASE + timer;
-      localStorage.setItem('state', JSON.stringify(notRedux));
-      break;
+  playerScore(name, { difficulty }, timer) {
+    if (name === 'correctAnswer') {
+      const notRedux = JSON.parse(localStorage.getItem('state'));
+      const MEDIUM_DIFFICULTY = 2;
+      const HARD_DIFFICULTY = 3;
+      const BASE = 10;
+      switch (difficulty) {
+      case 'medium':
+        notRedux.player.score += BASE + (timer * MEDIUM_DIFFICULTY);
+        localStorage.setItem('state', JSON.stringify(notRedux));
+        break;
+      case 'hard':
+        notRedux.player.score += BASE + (timer * HARD_DIFFICULTY);
+        localStorage.setItem('state', JSON.stringify(notRedux));
+        break;
+      default:
+        notRedux.player.score += BASE + timer;
+        localStorage.setItem('state', JSON.stringify(notRedux));
+        break;
+      }
     }
   }
 
@@ -46,7 +48,7 @@ class Answers extends Component {
     const { name } = event.target;
     const { buttonClickedProp, results, timer } = this.props;
     this.buttonClicked(name, buttonClickedProp);
-    this.userScore(results, timer);
+    this.playerScore(name, results, timer);
   }
 
   render() {

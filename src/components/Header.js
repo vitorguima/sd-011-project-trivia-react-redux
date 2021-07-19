@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Header extends Component {
   render() {
     const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { gravatarHash, name, score } = notRedux.user;
+    const { gravatarHash, name, score } = notRedux.player;
     return (
       <header>
         <img
