@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchQuestionsAPI, updateScore } from '../actions/game';
@@ -20,7 +20,8 @@ class Questions extends Component {
     this.handleCounter = this.handleCounter.bind(this);
     this.scoreCalculator = this.scoreCalculator.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
-    this.buttonRedirect = this.buttonRedirect.bind(this);
+    this.renderNextButton = this.renderNextButton.bind(this);
+    this.updateRanking = this.updateRanking.bind(this);
   }
 
   componentDidMount() {
@@ -98,16 +99,31 @@ class Questions extends Component {
     this.counter();
   }
 
-  buttonRedirect() {
-    const { questionData } = this.props;
-    const { questionNumber } = this.state;
-    if (!questionData.length) {
-      return (<h2>Loading questions...</h2>);
+  updateRanking() {
+    const retrievePlayerInfo = JSON.parse(localStorage.getItem('state'));
+    const { player: { name, score } } = retrievePlayerInfo;
+    const { imageURL } = this.props;
+    let ranking = localStorage.getItem('ranking');
+    if (!ranking) {
+      ranking = [
+        {
+          name,
+          score,
+          picture: imageURL,
+        },
+      ];
+      localStorage.setItem('ranking', JSON.stringify(ranking));
+    } else {
+      const currPlayer = {
+        name,
+        score,
+        picture: imageURL,
+      };
+      const newRank = JSON.parse(ranking);
+      newRank.push(currPlayer);
+      newRank.sort((a, b) => b.score - a.score);
+      localStorage.setItem('ranking', JSON.stringify(newRank));
     }
-    if (questionNumber < questionData.length) {
-      return this.renderQuestions();
-    }
-    return (<Redirect to="/feedback" />);
   }
 
   renderQuestions() {
@@ -147,26 +163,48 @@ class Questions extends Component {
             </button>
           ))}
         </div>
-        <button
-          type="button"
-          data-testid="btn-next"
-          onClick={ () => this.nextQuestion() }
-          hidden={ !(currentCounter === 0 || isAnswered) }
-        >
-          Próxima
-        </button>
       </div>
     );
   }
 
+  renderNextButton() {
+    const { currentCounter, isAnswered, questionNumber } = this.state;
+    const { questionData } = this.props;
+    if ((currentCounter === 0 || isAnswered)
+      && questionData.length - 1 === questionNumber) {
+      return (
+        <Link to="/feedback">
+          <button
+            type="button"
+            data-testid="btn-next"
+            onClick={ () => this.updateRanking() }
+          >
+            Próxima
+          </button>
+        </Link>
+      );
+    }
+    return (
+      <button
+        type="button"
+        data-testid="btn-next"
+        onClick={ () => this.nextQuestion() }
+      >
+        Próxima
+      </button>
+    );
+  }
+
   render() {
-    const { currentCounter } = this.state;
+    const { currentCounter, isAnswered } = this.state;
+    const { questionData } = this.props;
     return (
       <div className="main-container">
-        { this.buttonRedirect() }
+        { questionData.length > 0 ? this.renderQuestions() : <p>Carregando...</p>}
         <p>
           { currentCounter }
         </p>
+        { (currentCounter === 0 || isAnswered) ? this.renderNextButton() : null }
       </div>
     );
   }
@@ -175,6 +213,7 @@ class Questions extends Component {
 const mapStateToProps = (state) => ({
   userName: state.login.user,
   userEmail: state.login.email,
+  imageURL: state.game.gravatarImage,
   tokenData: state.login.token,
   questionData: state.game.questions,
   currentScore: state.game.score,
@@ -193,4 +232,5 @@ Questions.propTypes = {
   fetchQuestion: PropTypes.func.isRequired,
   score: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
+  imageURL: PropTypes.string.isRequired,
 };

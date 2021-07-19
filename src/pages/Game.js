@@ -21,7 +21,6 @@ class Game extends Component {
     return (
       <div>
         <Header />
-
         { tokenData ? <Questions /> : <h1>LOADING</h1> }
       </div>
     );

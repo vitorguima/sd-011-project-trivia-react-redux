@@ -3,7 +3,8 @@ import LoginForm from '../components/LoginForm';
 
 export default class Login extends Component {
   componentDidMount() {
-    localStorage.clear('state');
+    localStorage.removeItem('state');
+    localStorage.removeItem('token');
   }
 
   render() {
