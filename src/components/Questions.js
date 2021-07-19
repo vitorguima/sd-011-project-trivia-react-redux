@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router';
 import Timer from './Timer';
 import { getStorage } from '../services/API';
 
@@ -7,20 +8,22 @@ class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...props,
+      array: props,
       next: false,
+      index: 0,
       isValid: false,
       value: false,
+      restart: true,
       isToggleOn: false };
 
     this.randAnswers = this.randAnswers.bind(this);
     this.listenerChange = this.listenerChange.bind(this);
     this.somaPontuacao = this.somaPontuacao.bind(this);
     this.teste = this.teste.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
   }
 
-  randAnswers() {
-    const { correct_answer: c, incorrect_answers: i } = this.state;
+  randAnswers(c, i) {
     const inc = [...i];
     const rand = Math.floor(Math.random() * ((inc.length - 1) + 1));
     const swap = inc[rand];
@@ -41,6 +44,16 @@ class Questions extends Component {
     this.score(result, timer, difficulty, answer);
   }
 
+  nextQuestion() {
+    const { index } = this.state;
+    const prev = index;
+    this.setState({ index: prev + 1,
+      next: false,
+      isValid: false,
+      isToggleOn: false,
+      restart: true });
+  }
+
   score(result, timer, difficulty, answer) {
     const a = 10;
     const b = 3;
@@ -50,14 +63,14 @@ class Questions extends Component {
     if (answer['data-testid'] === 'correct-answer') {
       if (difficulty === 'easy') {
         result = a + (timer * 1) + prev;
-      }
-      if (difficulty === 'medium') {
+      } else if (difficulty === 'medium') {
         result = a + (timer * 2) + prev;
-      }
-      if (difficulty === 'hard') {
+      } else if (difficulty === 'hard') {
         result = a + (timer * b) + prev;
       }
       assert += 1;
+    } else {
+      result = prev;
     }
     const { funcao } = this.props;
     funcao(result);
@@ -75,21 +88,25 @@ class Questions extends Component {
       isToggleOn: !prevState.isToggleOn,
     }));
 
-    this.setState({ value: true, next: true, difficulty, answer });
+    this.setState({ value: true, next: true, difficulty, answer, restart: false });
   }
 
   render() {
-    const { correct_answer: c, category, question, next,
-      isValid, value, difficulty, isToggleOn } = this.state;
-    console.log(this.state);
+    const { array, index, next, restart,
+      isValid, value, isToggleOn } = this.state;
+    const limit = 5;
+    if (index === limit) return <Redirect to="/feedback" />;
     return (
       <div>
-        <h3 data-testid="question-category">{category}</h3>
-        <h3 data-testid="question-text">{question}</h3>
-        {this.randAnswers().map((answer, idx) => {
-          const checkColor = answer === c ? '3px solid rgb(6, 240, 15)'
+        <h3 data-testid="question-category">{array[index].category}</h3>
+        <h3 data-testid="question-text">{array[index].question}</h3>
+        {this.randAnswers(array[index].correct_answer,
+          array[index].incorrect_answers).map((answer, idx) => {
+          const checkColor = answer === array[index].correct_answer
+            ? '3px solid rgb(6, 240, 15)'
             : '3px solid rgb(255, 0, 0)';
-          const test = answer === c ? 'correct-answer' : `wrong-answer-${idx}`;
+          const test = answer === array[index].correct_answer
+            ? 'correct-answer' : `wrong-answer-${idx}`;
           const dataTestId = { 'data-testid': test };
           return (
             <button
@@ -98,17 +115,23 @@ class Questions extends Component {
               type="button"
               { ...dataTestId }
               disabled={ isValid }
-              onClick={ () => this.somaPontuacao(dataTestId, difficulty) }
+              onClick={ () => this.somaPontuacao(dataTestId, array[index].difficulty) }
             >
               {answer}
             </button>
           );
         })}
-        <Timer funcao={ this.listenerChange } funcaoStop={ this.teste } stop={ value } />
+        <Timer
+          funcao={ this.listenerChange }
+          funcaoStop={ this.teste }
+          stop={ value }
+          restart={ restart }
+        />
         { isToggleOn ? (
           <button
             type="button"
             data-testid="btn-next"
+            onClick={ this.nextQuestion }
           >
             Próxima
           </button>) : null }

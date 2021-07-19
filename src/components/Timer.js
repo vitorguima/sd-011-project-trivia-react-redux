@@ -13,10 +13,14 @@ class Timer extends Component {
   componentDidMount() {
     const SECOND = 1000;
     this.interval = setInterval(() => {
-      this.setState((state) => ({
-        seconds: state.seconds - 1,
-      }));
-    }, SECOND);
+      const { restart } = this.props;
+      if (restart) {
+        this.setState((state) => ({
+          seconds: state.seconds - 1,
+        }));
+      }
+    },
+    SECOND);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -32,7 +36,10 @@ class Timer extends Component {
   }
 
   update() {
-    clearInterval(this.interval);
+    const SECOND = 30;
+    this.setState({
+      seconds: SECOND,
+    });
   }
 
   render() {
@@ -49,6 +56,7 @@ Timer.propTypes = {
   funcao: PropTypes.func.isRequired,
   funcaoStop: PropTypes.func.isRequired,
   stop: PropTypes.bool.isRequired,
+  restart: PropTypes.number.isRequired,
 };
 
 export default Timer;

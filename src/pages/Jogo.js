@@ -10,7 +10,6 @@ class Jogo extends Component {
 
     this.state = {
       questions: [],
-      index: 0,
       loading: true,
       value: 0,
     };
@@ -29,13 +28,13 @@ class Jogo extends Component {
   }
 
   render() {
-    const { questions, index, loading, value } = this.state;
+    const { questions, loading, value } = this.state;
     // console.log(questions);
     return (
       <div className="game-container">
         <Header pontuacao={ value } />
         {questions.length === 0 ? loading
-          : <Questions { ...questions[index] } funcao={ this.change } /> }
+          : <Questions { ...questions } funcao={ this.change } /> }
       </div>
     );
   }
