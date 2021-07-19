@@ -80,3 +80,9 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(FeedBack);
+
+FeedBack.propTypes = {
+  picture: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+};

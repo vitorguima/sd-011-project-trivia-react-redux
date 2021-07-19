@@ -11,8 +11,14 @@ class Ranking extends Component {
   renderRanking() {
     const ranking = JSON.parse(localStorage.ranking);
     const rankingSorted = ranking.sort((a, b) => b.score - a.score);
+    console.log(rankingSorted);
     return (
-      
+      rankingSorted.map((user, index) => (
+        <li key={ index }>
+          <img src={ user.picture } alt={ user.name } />
+          <p data-testid={ `player-name-${index}` }>{ user.name }</p>
+          <p data-testid={ `player-score-${index}` }>{ user.score }</p>
+        </li>))
     );
   }
 
@@ -20,6 +26,9 @@ class Ranking extends Component {
     return (
       <div>
         <h2 data-testid="ranking-title">Ranking</h2>
+        <ol>
+          { this.renderRanking() }
+        </ol>
         <Link to="/game">
           <button type="button">
             <FaArrowLeft
