@@ -46,7 +46,7 @@ function trivia(state = INITIAL_STATE, action) {
       buttonClick: action.state.buttonClick,
       rightAnswerClicked: action.state.rightAnswerClicked,
       buttonDisable: false,
-      index: 1,
+      index: action.state.index + 1,
     };
   default:
     return state;

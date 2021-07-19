@@ -88,7 +88,6 @@ class ClockComponent extends Component {
             <button type="button" onClick={ nextQuestion } data-testid="btn-next">
               Próxima
             </button>
-
           )}
 
         </div>
@@ -107,6 +106,9 @@ ClockComponent.propTypes = {
 const mapStateToProps = (state) => ({
   buttonClick: state.trivia.buttonClick,
   rightAnswerClicked: state.trivia.rightAnswerClicked,
+  questions: state.trivia.questions,
+  buttonDisable: state.trivia.buttonDisable,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
