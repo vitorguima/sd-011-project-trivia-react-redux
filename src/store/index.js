@@ -10,6 +10,11 @@ const INITIAL_STATE = {
     error: '',
     score: 0,
   },
+  userReducer: {
+    name: '',
+    email: '',
+    img: '',
+  },
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
