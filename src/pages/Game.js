@@ -4,7 +4,6 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { getQuestions, getToken } from '../actions';
 import HeaderGame from '../components/HeaderGame';
-import Timer from '../components/Timer';
 
 class Game extends Component {
   constructor() {
@@ -21,7 +20,7 @@ class Game extends Component {
     this.fetchQuest = this.fetchQuest.bind(this);
     this.timer = this.timer.bind(this);
   }
-  
+
   componentDidMount() {
     const { fetchToken } = this.props;
     fetchToken();
@@ -38,7 +37,7 @@ class Game extends Component {
     this.count = setInterval(() => {
       const { counter } = this.state;
       if (counter > 0) {
-      this.setState({ counter: counter - 1});
+        this.setState({ counter: counter - 1 });
       }
       if (counter === 0) {
         clearInterval(this.count);
@@ -46,7 +45,7 @@ class Game extends Component {
       }
     }, sec);
   }
-  
+
   async fetchQuest() {
     const { fetchQuestions } = this.props;
     const URL = 'https://opentdb.com/api_token.php?command=request';
@@ -82,9 +81,7 @@ class Game extends Component {
     return (
       <section>
         <HeaderGame />
-        <div>
-          { counter }
-        </div>
+        { counter }
         <div className="container">
           <p data-testid="question-category">
             { category }
