@@ -14,6 +14,7 @@ class Login extends Component {
       email: '',
       buttonDisabled: true,
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.submit = this.submit.bind(this);
   }
