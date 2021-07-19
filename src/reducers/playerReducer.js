@@ -11,11 +11,18 @@ function playerReducer(state = INITIAL_STATE, { type, payload }) {
       assertions: payload.assertions,
       score: payload.score,
     };
-  case SEND_SCORE:
+  case SEND_SCORE: {
+    const player = {
+      ...state,
+      assertions: state.assertions + 1,
+      score: state.score + payload.score,
+    };
+    localStorage.setItem('state', JSON.stringify({ player }));
     return {
       ...state,
+      assertions: state.assertions + 1,
       score: payload.score,
-    };
+    }; }
   default:
     return state;
   }

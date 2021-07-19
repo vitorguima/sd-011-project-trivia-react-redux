@@ -57,7 +57,7 @@ class Game extends React.Component {
       gravatarEmail,
     };
     loginDispatch(name, gravatarEmail, assertions, score);
-    localStorage.setItem('player', JSON.stringify(player));
+    localStorage.setItem('state', JSON.stringify({ player }));
   }
 
   render() {

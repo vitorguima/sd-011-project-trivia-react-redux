@@ -38,7 +38,9 @@ class Question extends React.Component {
     const { timer: initialTimer } = this.props;
     const second = 1000;
     if (timer === initialTimer && noTimer) {
-      timeout = setTimeout(() => this.clearTimer(), timer * second);
+      timeout = setTimeout((event = { target: {} }) => (
+        this.clearTimer(event)
+      ), timer * second);
       timeout2 = setInterval(this.setTimer, second);
     }
   }
@@ -54,7 +56,6 @@ class Question extends React.Component {
     const { timer } = this.props;
     this.setState({
       timer,
-      noTimer: false,
     });
   }
 
@@ -78,13 +79,12 @@ class Question extends React.Component {
   calcScore(difficulty) {
     const ten = 10;
     const { sendScoreDispatch } = this.props;
-    const { timer } = this.state;
+    const { timer, totalScore } = this.state;
     const score = ten + (timer * difficulty);
     this.setState((old) => ({
       assertions: old.assertions + 1,
       totalScore: old.totalScore + (score),
-    }));
-    sendScoreDispatch(score);
+    }), sendScoreDispatch(totalScore));
   }
 
   scoreDifficulty(difficulty) {
@@ -113,10 +113,10 @@ class Question extends React.Component {
       });
       nextQuestion();
     } else {
+      finalQuestion(assertions, totalScore);
       this.setState({
         redirectToFeedBack: true,
       });
-      finalQuestion(assertions, totalScore);
     }
   }
 
