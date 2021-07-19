@@ -14,7 +14,6 @@ const receiveQuestions = (questions) => ({ type: QUESTIONS, questions });
 const countdownTimer = () => ({ type: COUNTDOWN });
 export const stopCountdownTimer = () => ({ type: STOP_COUNTDOWN });
 
-
 export const fetchGravatar = (email) => (dispatch) => {
   const hashEmail = md5(email).toString();
   return fetch(`https://www.gravatar.com/avatar/${hashEmail}`)
