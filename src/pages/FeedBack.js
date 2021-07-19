@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link, Redirect } from 'react-router-dom';
 import MSGFeedBack from '../components/MSGFeedBack';
@@ -11,6 +12,11 @@ class FeedBack extends Component {
       redirectRanking: false,
     };
     this.clickHandler = this.clickHandler.bind(this);
+    this.rankingStorage = this.rankingStorage.bind(this);
+  }
+
+  componentDidMount() {
+    this.rankingStorage();
   }
 
   clickHandler() {
@@ -18,6 +24,23 @@ class FeedBack extends Component {
       redirectRanking: true,
     });
   }
+
+  rankingStorage() {
+    const { name, score, picture } = this.props;
+    const userRanking = [{
+      name,
+      score,
+      picture,
+    }];
+    if (!localStorage.ranking || localStorage.ranking.length === 0) {
+      localStorage.ranking = JSON.stringify(userRanking);
+    } else {
+      const localStorageRanking = JSON.parse(localStorage.ranking);
+      localStorageRanking.push(userRanking);
+      localStorage.ranking = JSON.stringify(localStorageRanking);
+    }
+  }
+
   // Finalizado
 
   render() {
@@ -50,4 +73,10 @@ class FeedBack extends Component {
   }
 }
 
-export default FeedBack;
+const mapStateToProps = (state) => ({
+  picture: state.player.srcGravatarImg,
+  name: state.player.name,
+  score: state.player.score,
+});
+
+export default connect(mapStateToProps)(FeedBack);

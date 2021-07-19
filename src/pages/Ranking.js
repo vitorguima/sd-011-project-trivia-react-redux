@@ -3,6 +3,19 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 class Ranking extends Component {
+  constructor(props) {
+    super(props);
+    this.renderRanking = this.renderRanking.bind(this);
+  }
+
+  renderRanking() {
+    const ranking = JSON.parse(localStorage.ranking);
+    const rankingSorted = ranking.sort((a, b) => b.score - a.score);
+    return (
+      
+    );
+  }
+
   render() {
     return (
       <div>
