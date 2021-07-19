@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { actionScore } from '../actions';
 
 class Feedback extends Component {
   constructor() {
@@ -7,18 +9,26 @@ class Feedback extends Component {
 
     this.renderLoginPage = this.renderLoginPage.bind(this);
     this.renderRankingPage = this.renderRankingPage.bind(this);
+
+    this.state = {
+      score: 0,
+    };
   }
 
   renderLoginPage() {
-    const { history } = this.props;
+    const { history, addingScore } = this.props;
+    const { score } = this.state;
 
     history.push('/');
+    addingScore(score);
   }
 
   renderRankingPage() {
-    const { history } = this.props;
+    const { history, addingScore } = this.props;
+    const { score } = this.state;
 
     history.push('/ranking');
+    addingScore(score);
   }
 
   render() {
@@ -46,7 +56,11 @@ class Feedback extends Component {
   }
 }
 
-export default Feedback;
+const mapDispatchToProps = (dispatch) => ({
+  addingScore: (score) => dispatch(actionScore(score)),
+});
+
+export default connect(null, mapDispatchToProps)(Feedback);
 
 Feedback.propTypes = {
   history: PropTypes.shape({
