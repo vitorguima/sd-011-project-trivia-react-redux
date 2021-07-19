@@ -1,9 +1,86 @@
-.header {
+.login-container {
+  background-color: #0b3c5d;
+  color: #d9b310;
+  min-height: 100vh;
+}
+
+.header-login {
   display: flex;
-  max-height: 20vh;
+  height: 35vmin;
+  justify-content: center;
+  padding: 15px 0;
   width: 100%;
 }
 
-.header img {
-  width: 30%;
+.header-login img {
+  width: 50%;
+}
+
+.container-form-login {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 30vh;
+  min-width: 30vw;
+  padding: 25px 0;
+}
+
+.card-login {
+  background-color: white;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  min-height: 50vh;
+  min-width: 30vw;
+  padding: 1rem;
+}
+
+.input-field-login {
+  border: 2px solid #328cc1;
+  border-radius: 8px;
+  color: #1d2731;
+  font-size: 1rem;
+  margin: 10px 0;
+  outline: none;
+  padding: 15px 10px;
+}
+
+.button-login {
+  background-color: #0b3c5d;
+  border: none;
+  color: #d9b310;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 15px 10px;
+  width: 100%;
+}
+
+.button-login:hover {
+  color: #328cc1;
+}
+
+.button-login:disabled {
+  background-color: #d9d9d9;
+  color: #1d2731;
+  cursor: auto;
+}
+
+.settings-button {
+  background-color: #0b3c5d;
+  color: #d9b310;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 15px 10px;
+  width: 100%;
+}
+
+.settings-button:hover {
+  color: #328cc1;
+}
+
+.hr-login {
+  border: 3px #1d2731 solid;
+  border-radius: 10px;
+  margin: 15px 0;
 }

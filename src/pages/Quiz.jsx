@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/quiz/Header';
 import Questions from '../components/quiz/Questions';
+import '../style/quiz.css';
 
 class Quiz extends React.Component {
   constructor(props) {
@@ -12,7 +13,9 @@ class Quiz extends React.Component {
     return (
       <div>
         <Header />
-        <Questions />
+        <div className="container-quiz">
+          <Questions />
+        </div>
       </div>
     );
   }

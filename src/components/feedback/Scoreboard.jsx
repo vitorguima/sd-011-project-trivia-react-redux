@@ -9,23 +9,29 @@ class Scorebboard extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Congratulations!</h1>
-        <h2>You have completed the quiz.</h2>
+      <div className="feedback-scoreboard">
         <h2>
-          You got:
+          Você acertou:
           <span data-testid="feedback-total-score"> 0 </span>
-          of 5 questions right.
+          de 5 perguntas.
         </h2>
         <h2>
-          You got:
+          Você fez:
           <span data-testid="feedback-total-question"> 0 </span>
-          points.
+          pontos.
         </h2>
 
-        <Link to="/">
-          <button type="button" data-testid="btn-play-again">Jogar Novamente</button>
-        </Link>
+        <div className="feedback-scoreboard-button">
+          <Link to="/">
+            <button
+              className="feedback-buttons"
+              type="button"
+              data-testid="btn-play-again"
+            >
+              Jogar Novamente
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }

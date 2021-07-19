@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import '../../style/quiz.css';
 import PropTypes from 'prop-types';
 import { getQuestionsThunk } from '../../actions';
 import ButtonNext from './ButtonNext';
 import Answers from './Answers';
+import Loading from '../general/Loading';
 
 class Questions extends React.Component {
   constructor(props) {
@@ -32,11 +32,13 @@ class Questions extends React.Component {
       if (currentState.indexQuestion < finalArray) {
         return {
           indexQuestion: currentState.indexQuestion + 1,
+          hasAnswered: false,
         };
       }
       return {
         indexQuestion: currentState.indexQuestion + 1,
         endGame: true,
+        hasAnswered: false,
       };
     });
     this.handleButtons(false);
@@ -65,11 +67,12 @@ class Questions extends React.Component {
 
   render() {
     const { loading } = this.props;
-    const { questionsList, indexQuestion, endGame, buttonDisabled } = this.state;
+    const { questionsList,
+      indexQuestion, endGame, buttonDisabled } = this.state;
     if (!loading && questionsList.length !== 0) {
       return (
-        <div>
-          <div>
+        <div className="card-question-quiz">
+          <div className="info-question-quiz">
             <p data-testid="question-text">{ questionsList[indexQuestion].question }</p>
             <p data-testid="question-category">
               { questionsList[indexQuestion].category }
@@ -88,7 +91,7 @@ class Questions extends React.Component {
         </div>
       );
     }
-    return (<p>LOADING...</p>);
+    return (<Loading />);
   }
 }
 
