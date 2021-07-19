@@ -13,7 +13,7 @@ export default function NextQuestionButton() {
   const { allQuestions, index, timer, selectedChoice } = gameState;
 
   const changeIndex = () => {
-    const magicThousand = 1000;
+    const magicThousand = 300;
     if (index < allQuestions.length - 1) {
       return dispatch(nextIndex());
     }
