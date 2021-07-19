@@ -30,7 +30,7 @@ const receiveQuestions = (data) => ({
 export const requestApiQuestions = (token) => (dispatch) => {
   dispatch(requestQuestions());
   return (
-    fetch(`https://opentdb.com/api.php?amount=5&token=${token}&type=boolean`)
+    fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
       .then((response) => response.json())
       .then((data) => {
         dispatch(receiveQuestions({
