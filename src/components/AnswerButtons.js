@@ -29,7 +29,7 @@ class AnswerButtons extends Component {
 
   verifyIfWasAnswered() {
     const { answerObserver } = this.props;
-    answerObserver(true);
+    answerObserver();
   }
 
   render() {
@@ -40,7 +40,6 @@ class AnswerButtons extends Component {
       colorizeAnswers,
       wasAnswered,
     } = this.props;
-    console.log(wasAnswered);
     return (
       <section>
         <button
@@ -56,7 +55,7 @@ class AnswerButtons extends Component {
             this.verifyIfWasAnswered();
             this.setScore(answer, correctAnswer);
           } }
-          onChange={ seconds === 0 && colorizeAnswers() }
+          onChange={ seconds === 0 ? colorizeAnswers() : null }
           className="answer"
         >
           { answer }
@@ -67,7 +66,7 @@ class AnswerButtons extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  seconds: state.getSeconds.seconds,
+  seconds: state.timeOver.seconds,
   wasAnswered: state.gameScore.wasAnswered,
 });
 

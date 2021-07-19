@@ -3,7 +3,7 @@ export const REQUEST_API_SUCESS = 'REQUEST_API_SUCESS';
 export const REQUEST_API_ERROR = 'REQUEST_API_ERROR';
 export const GET_EMAIL = 'GET_EMAIL';
 export const GET_NAME = 'GET_NAME';
-export const GET_SECONDS = 'GET_SECONDS';
+export const TIMEOVER = 'GET_SECONDS';
 export const GET_NEXT_QUESTION = 'GET_NEXT_QUESTION';
 export const WAS_ANSWERED = 'WAS_ANSWERED';
 export const SET_SCORE = 'SET_SCORE';
@@ -55,6 +55,6 @@ export const requestApiThunk = (token) => (dispatch) => {
 };
 
 export const getSeconds = (seconds) => ({
-  type: GET_SECONDS,
+  type: TIMEOVER,
   seconds,
 });

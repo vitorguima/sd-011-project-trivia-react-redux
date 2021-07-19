@@ -29,7 +29,6 @@ class TriviaQuestions extends Component {
 
   render() {
     const { questions, seconds, wasAnswered, questionIndex } = this.props;
-    console.log(questionIndex);
     const MAX_QUESTIONS_INDEX = 4;
     const { results } = questions;
     const eachResult = Object.values({ ...results });
@@ -53,9 +52,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   questions: state.fetchReducers.questions,
-  seconds: state.getSeconds.seconds,
+  seconds: state.timeOver.seconds,
   questionIndex: state.gameScore.question.questionIndex,
-  wasAnswered: state.gameScore.question.wasAnswered,
+  wasAnswered: state.gameScore.wasAnswered,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TriviaQuestions);
