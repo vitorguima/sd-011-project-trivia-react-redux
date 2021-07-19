@@ -53,6 +53,15 @@ export default class Feedback extends Component {
           <Link to="/">
             <button type="button" data-testid="btn-play-again">Jogar Novamente</button>
           </Link>
+          <Link to="/ranking">
+            <button
+              type="button"
+              data-testid="btn-ranking"
+              // onClick={ this.seeRanking }
+            >
+              Ver Ranking
+            </button>
+          </Link>
         </header>
       </div>
     );
