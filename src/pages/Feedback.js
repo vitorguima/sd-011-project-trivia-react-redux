@@ -23,6 +23,8 @@ class Feedback extends Component {
           { localStorageAssertions < quantAcertos
             ? 'Podia ser melhor...' : 'Mandou bem!' }
         </h5>
+        <h4 data-testid="feedback-total-score">{ score }</h4>
+        <h4 data-testid="feedback-total-question">{ localStorageAssertions }</h4>
       </main>
     );
   }
