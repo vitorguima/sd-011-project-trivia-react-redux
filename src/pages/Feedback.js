@@ -6,6 +6,7 @@ import Header from '../components/Header';
 const Feedback = () => {
   const history = useHistory();
   const { score } = useSelector(({ userInfo }) => userInfo.player);
+
   return (
     <>
       <Header />
@@ -13,10 +14,16 @@ const Feedback = () => {
       <button
         type="button"
         data-testid="btn-play-again"
-        onClick={ () => { history.push('/'); } }
+        onClick={ () => { history.push('/feedback'); } }
       >
         Jogar novamente
-
+      </button>
+      <button
+        type="button"
+        data-testid="btn-ranking"
+        onClick={ () => { history.push('/ranking'); } }
+      >
+        Ver Ranking
       </button>
     </>
   );
