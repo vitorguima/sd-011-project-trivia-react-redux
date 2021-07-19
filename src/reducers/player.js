@@ -31,6 +31,7 @@ export default function playerReducer(state = INITIAL_STATE, action) {
       loading: false,
       error: action.questions.response_code === ERROR_CODE,
     };
+  // CRIAR UM CASO COM SCORE A SER SOMADO;
   default:
     return state;
   }
