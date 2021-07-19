@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { reduceSecond } from '../actions';
 import './Cronometer.css';
 
@@ -63,5 +64,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actionReduceSecond: (timer) => dispatch(reduceSecond(timer)),
 });
+
+Cronometer.propTypes = {
+  stopTimer: PropTypes.bool.isRequired,
+  actionReduceSecond: PropTypes.func.isRequired,
+  timer: PropTypes.number.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cronometer);

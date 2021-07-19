@@ -18,28 +18,29 @@ class Game extends Component {
   }
 
   updateScore() {
-    const CORRECT_SCORE = 10;
-    const EASY_DIFFICULT = 1;
-    const MEDIUM_DIFFICULT = 2;
-    const HARD_DIFFICULT = 3;
-    const { questions, timer } = this.props;
-    const { questionIndex } = this.state;
-    const { difficulty } = questions[questionIndex];
+    console.log('olá');
+    // const CORRECT_SCORE = 10;
+    // const EASY_DIFFICULT = 1;
+    // const MEDIUM_DIFFICULT = 2;
+    // const HARD_DIFFICULT = 3;
+    // const { questions, timer } = this.props;
+    // const { questionIndex } = this.state;
+    // const { difficulty } = questions[questionIndex];
 
-    let points = 0;
-    switch (difficulty) {
-    case 'easy':
-      points = CORRECT_SCORE + (EASY_DIFFICULT * timer);
-      break;
-    case 'medium':
-      points = CORRECT_SCORE + (MEDIUM_DIFFICULT * timer);
-      break;
-    case 'hard':
-      points = CORRECT_SCORE + (HARD_DIFFICULT * timer);
-      break;
-    default:
-      points = 0;
-    }
+    // let points = 0;
+    // switch (difficulty) {
+    // case 'easy':
+    //   points = CORRECT_SCORE + (EASY_DIFFICULT * timer);
+    //   break;
+    // case 'medium':
+    //   points = CORRECT_SCORE + (MEDIUM_DIFFICULT * timer);
+    //   break;
+    // case 'hard':
+    //   points = CORRECT_SCORE + (HARD_DIFFICULT * timer);
+    //   break;
+    // default:
+    //   points = 0;
+    // }
   }
 
   checkCorrectAnswer({ target }) {
@@ -83,10 +84,12 @@ class Game extends Component {
         <div className="alternativesContainer">
           { isLoading ? LOADING : alternativesToSort.map((alternative) => {
             const index = alternatives.indexOf(alternative);
+            const { stopTimer } = this.props;
             return (
               <button
                 key={ index }
                 type="button"
+                disabled={ stopTimer }
                 onClick={ this.checkCorrectAnswer }
                 data-testid={ alternative === correctAnswer
                   ? 'correct-answer'
@@ -120,6 +123,7 @@ const mapStateToProps = (state) => ({
   error: state.playerReducer.error,
   isLoading: state.playerReducer.loading,
   timeRemaining: state.timerReducer.timer,
+  stopTimer: state.timerReducer.stopTimer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -130,6 +134,7 @@ Game.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.any).isRequired,
   error: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  stopTimer: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
