@@ -16,7 +16,10 @@ const SendButtonLogin = (props) => {
   };
   const sendLogin = () => {
     dispatch(requestToken(userName, email));
-    history.push('/game');
+    const limitedTime = 1000;
+    setTimeout(() => {
+      history.push('/game');
+    }, limitedTime);
   };
   return (
     <button
