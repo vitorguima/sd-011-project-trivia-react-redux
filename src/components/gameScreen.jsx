@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { playerScore } from '../actions';
+import Timer from './Timer';
 
 class gameScreen extends Component {
   constructor() {
@@ -12,6 +13,7 @@ class gameScreen extends Component {
       question: 0,
       answered: false,
       player,
+      feedback: false,
     };
 
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
@@ -31,7 +33,6 @@ class gameScreen extends Component {
     const { results, dispatchUserScore } = this.props;
     let difValue = 0;
     const hard = 3;
-    const medium = 2;
     const cronoValue = document
       .querySelector('.cronometer')
       .innerHTML.split(':')[1];
@@ -39,7 +40,7 @@ class gameScreen extends Component {
       difValue = hard;
     }
     if (results[question].difficulty === 'medium') {
-      difValue = medium;
+      difValue = 2;
     }
     if (results[question].difficulty === 'easy') {
       difValue = 1;
@@ -55,6 +56,12 @@ class gameScreen extends Component {
         },
       }),
     );
+    this.setState({ player: {
+      name: player.name,
+      assertions: player.assertions + 1,
+      score: player.score + (fixedPoints + cronoValue * difValue),
+      gravatarEmail: player.email,
+    } });
     dispatchUserScore(
       JSON.parse(localStorage.getItem('state')).player.score,
       JSON.parse(localStorage.getItem('state')).player.assertions,
@@ -84,19 +91,26 @@ class gameScreen extends Component {
     btns.forEach((element) => {
       element.classList.remove('revel-color');
     });
+    this.setState({
+      answered: true,
+    });
+    const maxquestions = 4;
+    if (question === maxquestions) {
+      this.setState({ feedback: true });
+    }
   }
 
   render() {
     const { results } = this.props;
-    const { question, answered } = this.state;
-    const maxquestions = 4;
-    if (question === maxquestions) {
+    const { question, answered, feedback } = this.state;
+    if (feedback) {
       return (
         <Redirect to="/feedback" />
       );
     }
     return (
       <div>
+        <Timer key={ question } />
         {results.length > 0 ? (
           <div>
             <p data-testid="question-category">{results[question].category}</p>
@@ -122,8 +136,7 @@ class gameScreen extends Component {
             ))}
           </div>
         ) : (
-          <p>Baixando Questões</p>
-        )}
+          <p>Baixando Questões</p>)}
         {answered ? (
           <button
             type="button"

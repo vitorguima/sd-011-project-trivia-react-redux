@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from '../pages/header';
 import GameScreen from './gameScreen';
-import Timer from './Timer';
 
 export default class Player extends React.Component {
   constructor() {
@@ -31,7 +30,6 @@ export default class Player extends React.Component {
     return (
       <div>
         <Header />
-        <Timer />
         <GameScreen results={ results } />
       </div>
     );
