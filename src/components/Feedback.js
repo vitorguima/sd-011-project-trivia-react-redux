@@ -6,7 +6,7 @@ export default class Feedback extends Component {
   constructor() {
     super();
     this.verifyAssetions = this.verifyAssetions.bind(this);
-    // this.seeRanking = this.seeRanking.bind(this);
+    this.seeRanking = this.seeRanking.bind(this);
   }
 
   verifyAssetions() {
@@ -27,6 +27,20 @@ export default class Feedback extends Component {
         <p data-testid="feedback-total-question">{ getLocalStorage.player.assertions }</p>
       </>
     );
+  }
+
+  seeRanking() {
+    const getLocalStorage = JSON.parse(localStorage.getItem('state'));
+    const { name, score, gravatarEmail } = getLocalStorage.player;
+    const hashEmail = md5(gravatarEmail).toString();
+    const listRanking = {
+      name,
+      score,
+      picture: `https://www.gravatar.com/avatar/${hashEmail}`,
+    };
+    localStorage.setItem('ranking',
+      JSON.stringify(localStorage.getItem('ranking') === null
+        ? [listRanking] : [...JSON.parse(localStorage.getItem('ranking')), listRanking]));
   }
 
   render() {
@@ -57,7 +71,7 @@ export default class Feedback extends Component {
             <button
               type="button"
               data-testid="btn-ranking"
-              // onClick={ this.seeRanking }
+              onClick={ this.seeRanking }
             >
               Ver Ranking
             </button>
