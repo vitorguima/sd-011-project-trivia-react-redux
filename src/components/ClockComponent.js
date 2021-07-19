@@ -59,9 +59,7 @@ class ClockComponent extends Component {
   }
 
   timer() {
-    const { buttonClick } = this.props;
     const { seconds } = this.state;
-    const { updateButton } = this.props;
     if (seconds !== 0) {
       this.setState((prevState) => ({
         seconds: prevState.seconds - 1,
