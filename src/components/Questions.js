@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import './questions.css';
 import { fetchQuestions, submitScore } from '../actions';
+import handleStyleAnswers from '../helpers/styleAnswers';
 
 class Questions extends Component {
   constructor(props) {
@@ -21,13 +22,12 @@ class Questions extends Component {
     this.handleLocalStorage = this.handleLocalStorage.bind(this);
     this.handleErrorAnswer = this.handleErrorAnswer.bind(this);
     this.timerCounter = this.timerCounter.bind(this);
-    this.handleStyleAnswers = this.handleStyleAnswers.bind(this);
     this.renderCorretBtn = this.renderCorretBtn.bind(this);
     this.renderWrongBtn = this.renderWrongBtn.bind(this);
     this.handleDisableButtons = this.handleDisableButtons.bind(this);
-    this.hardScore = this.hardScore.bind(this);
-    this.mediumScore = this.mediumScore.bind(this);
     this.easyScore = this.easyScore.bind(this);
+    this.mediumScore = this.mediumScore.bind(this);
+    this.hardScore = this.hardScore.bind(this);
   }
 
   async componentDidMount() {
@@ -93,17 +93,6 @@ class Questions extends Component {
     }));
   }
 
-  handleStyleAnswers() {
-    const styleAnswers = document.getElementsByName('answer');
-    styleAnswers.forEach((answerBtn) => {
-      if (answerBtn.getAttribute('data-testid') === 'correct-answer') {
-        answerBtn.style = 'border: 3px solid rgb(6, 240, 15)';
-      } else {
-        answerBtn.style = 'border: 3px solid rgb(255, 0, 0)';
-      }
-    });
-  }
-
   handleLocalStorage() {
     const { assertions, totalScore } = this.state;
     const retrievelocalStorage = JSON.parse(localStorage.getItem('state'));
@@ -148,7 +137,6 @@ class Questions extends Component {
     const { questions } = this.props;
     const { indexQuestion, timeCount } = this.state;
     const currentQuestionDifficulty = questions[indexQuestion].difficulty;
-
     this.hardScore(currentQuestionDifficulty, timeCount);
     this.mediumScore(currentQuestionDifficulty, timeCount);
     this.easyScore(currentQuestionDifficulty, timeCount);
@@ -166,7 +154,7 @@ class Questions extends Component {
         name="answer"
         onClick={ () => {
           this.handleCorretAnswer();
-          this.handleStyleAnswers();
+          handleStyleAnswers();
           this.calcFinalScore();
         } }
       >
@@ -183,7 +171,7 @@ class Questions extends Component {
         type="button"
         onClick={ () => {
           this.handleErrorAnswer();
-          this.handleStyleAnswers();
+          handleStyleAnswers();
         } }
         data-testid={ `wrong-answer-${index}` }
         disabled={ timeCount === 0 || this.handleDisableButtons() }
@@ -196,11 +184,7 @@ class Questions extends Component {
   render() {
     const { questions, dispatchScore } = this.props;
     const {
-      indexQuestion,
-      showNextButton,
-      timeCount,
-      totalScore,
-      assertions,
+      indexQuestion, showNextButton, timeCount, totalScore, assertions,
     } = this.state;
     const maxIndexQuestion = 4;
     if (indexQuestion > maxIndexQuestion) {
@@ -218,11 +202,8 @@ class Questions extends Component {
           <span>{timeCount}</span>
           {answers.map((answer, index) => {
             if (answer === correctAnswer) {
-              return (
-                this.renderCorretBtn(answer, index));
-            }
-            return (
-              this.renderWrongBtn(answer, index));
+              return (this.renderCorretBtn(answer, index));
+            } return (this.renderWrongBtn(answer, index));
           })}
 
           {showNextButton || timeCount === 0 ? (
@@ -231,8 +212,7 @@ class Questions extends Component {
               className="btn-next"
               data-testid="btn-next"
               onClick={ () => {
-                this.handleNext();
-                this.handleNextStyle();
+                this.handleNext(); this.handleNextStyle();
                 dispatchScore(totalScore, assertions);
               } }
             >
