@@ -1,6 +1,7 @@
 import { SAVE_LOGIN,
   REQUEST_TOKEN_SUCCESS,
-  REQUEST_TOKEN_ERROR } from '../actions';
+  REQUEST_TOKEN_ERROR,
+  UPDATE_SCORE } from '../actions';
 
 const INNITIAL_STATE = {
   name: '',
@@ -28,6 +29,8 @@ function user(state = INNITIAL_STATE, action) {
       ...state,
       error: action.payload,
     };
+  case UPDATE_SCORE:
+    return { ...state, score: state.score + action.payload };
   default:
     return state;
   }

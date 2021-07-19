@@ -8,6 +8,7 @@ export const REQUEST_TOKEN_ERROR = 'REQUEST_TOKEN_ERROR';
 export const SET_INNITIAL_TIME = 'SET_INITIAL_TIME';
 export const UPDATE_CLOCK = 'UPDATE_CLOCK';
 export const STOP_COUNTDOWN = 'STOP_COUNTDOWN';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
 
 const questionsURL = 'https://opentdb.com/api.php?amount=5&token=';
 const tokenURL = 'https://opentdb.com/api_token.php?command=request';
@@ -96,4 +97,16 @@ export const startCountdown = () => (dispatch) => { //  codigo adaptado de https
 export const stopCountdown = () => {
   clearInterval(timer);
   return { type: STOP_COUNTDOWN };
+};
+
+export const updateScore = (payload) => {
+  const state = JSON.parse(localStorage.getItem('state'));
+  console.log(state);
+  state.player.score += payload;
+  state.player.assertions += 1;
+  localStorage.setItem('state', JSON.stringify(state));
+  return {
+    type: UPDATE_SCORE,
+    payload,
+  };
 };

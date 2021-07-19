@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { startCountdown, stopCountdown } from '../actions';
+import { startCountdown, stopCountdown, updateScore } from '../actions';
 
 class Question extends Component {
   constructor() {
@@ -23,7 +23,7 @@ class Question extends Component {
     const { timer } = this.props;
     const { anyChosed } = this.state;
     if (timer <= 0 && anyChosed === false) {
-      this.buttonClicked();
+      this.timesUp();
     }
   }
 
@@ -33,12 +33,38 @@ class Question extends Component {
     this.setState({ randomNumber: random });
   }
 
-  buttonClicked() {
+  checkAnswer(answer) {
+    const { timer, questionsArr, currentQuestion, updateScoreAction } = this.props;
+    if (answer === 'incorret') {
+      return;
+    }
+    const obj = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
+    const base = 10;
+    const dificulty = questionsArr[currentQuestion].difficulty;
+    const score = (base + (timer * obj[dificulty]));
+    updateScoreAction(score);
+  }
+
+  timesUp() {
     const { stopCountdownAction } = this.props;
     stopCountdownAction();
     this.setState({
       anyChosed: true,
     });
+    this.checkAnswer('incorrect');
+  }
+
+  buttonClicked({ target }) {
+    const { stopCountdownAction } = this.props;
+    stopCountdownAction();
+    this.setState({
+      anyChosed: true,
+    });
+    this.checkAnswer(target.dataset.answer);
   }
 
   shufleAnswers(right, wrongs, random) {
@@ -53,6 +79,7 @@ class Question extends Component {
       <button
         type="button"
         data-testid="correct-answer"
+        data-answer="correct"
         key="right"
         onClick={ this.buttonClicked }
         className={ anyChosed ? 'correct' : '' }
@@ -66,6 +93,7 @@ class Question extends Component {
           type="button"
           key={ `wrong-${index}` }
           data-testid={ `wrong-answer-${index}` }
+          data-answer="incorret"
           onClick={ this.buttonClicked }
           className={ anyChosed ? 'wrong' : '' }
           disabled={ anyChosed }
@@ -85,34 +113,14 @@ class Question extends Component {
     const { questionsArr, currentQuestion } = this.props;
     const { anyChosed } = this.state;
     if (questionsArr[currentQuestion].correct_answer) {
-      return (
-        <div className="answers">
-          <button
-            type="button"
-            data-testid="correct-answer"
-            onClick={ this.buttonClicked }
-            className={ anyChosed ? 'correct' : '' }
-            disabled={ anyChosed }
-          >
-            True
-          </button>
-          <button
-            type="button"
-            data-testid="wrong-answer-0"
-            onClick={ this.buttonClicked }
-            className={ anyChosed ? 'wrong' : '' }
-            disabled={ anyChosed }
-          >
-            False
-          </button>
-        </div>
-      );
+      return this.renderTrueFalse();
     }
     return (
       <div className="answers">
         <button
           type="button"
           data-testid="wrong-answer-0"
+          data-answer="incorret"
           onClick={ this.buttonClicked }
           className={ anyChosed ? 'wrong' : '' }
           disabled={ anyChosed }
@@ -122,8 +130,37 @@ class Question extends Component {
         <button
           type="button"
           data-testid="correct-answer"
+          data-answer="correct"
           onClick={ this.buttonClicked }
           className={ anyChosed ? 'correct' : '' }
+          disabled={ anyChosed }
+        >
+          False
+        </button>
+      </div>
+    );
+  }
+
+  renderTrueFalse() {
+    const { anyChosed } = this.state;
+    return (
+      <div className="answers">
+        <button
+          type="button"
+          data-testid="correct-answer"
+          data-answer="correct"
+          onClick={ this.buttonClicked }
+          className={ anyChosed ? 'correct' : '' }
+          disabled={ anyChosed }
+        >
+          True
+        </button>
+        <button
+          type="button"
+          data-testid="wrong-answer-0"
+          data-answer="incorret"
+          onClick={ this.buttonClicked }
+          className={ anyChosed ? 'wrong' : '' }
           disabled={ anyChosed }
         >
           False
@@ -172,6 +209,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   startCountdownAction: () => dispatch(startCountdown()),
   stopCountdownAction: () => dispatch(stopCountdown()),
+  updateScoreAction: (score) => dispatch(updateScore(score)),
 });
 
 Question.propTypes = {
