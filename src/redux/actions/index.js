@@ -29,6 +29,10 @@ export const changeQuestions = (payload) => ({
   payload,
 });
 
+export const clearPlayer = () => ({
+  type: 'CLEAR_PLAYER',
+});
+
 export const getToken = () => (dispatch) => fetch('https://opentdb.com/api_token.php?command=request')
   .then((result) => result.json())
   .then((data) => dispatch(changeToken(data.token)));

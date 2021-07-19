@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import getGravatarUrl from '../utils/getGravatarUrl';
 
 class GameHeader extends Component {
   render() {
@@ -9,7 +9,7 @@ class GameHeader extends Component {
     return (
       <header>
         <img
-          src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
+          src={ getGravatarUrl(email) }
           alt="avatar"
           data-testid="header-profile-picture"
         />

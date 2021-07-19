@@ -547,7 +547,7 @@ describe('15 - [TELA DE FEEDBACK] Crie a opção para a pessoa jogadora poder jo
   });
 });
 
-describe.only('16 - [TELA DE FEEDBACK] Crie a opção para a pessoa jogadora poder visualizar a tela de _ranking_', () => {
+describe('16 - [TELA DE FEEDBACK] Crie a opção para a pessoa jogadora poder visualizar a tela de _ranking_', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -574,7 +574,7 @@ describe.only('16 - [TELA DE FEEDBACK] Crie a opção para a pessoa jogadora pod
 
 // ranking
 
-describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
+describe.only('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -667,6 +667,7 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
 
     const ranking = [name1, name3, name2];
+    console.log(name1, name2, name3);
 
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).should(($el) => {
       expect($el).to.have.lengthOf(3);

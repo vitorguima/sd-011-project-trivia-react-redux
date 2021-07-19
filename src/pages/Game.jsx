@@ -6,10 +6,8 @@ import { Redirect } from 'react-router-dom';
 import Layout from '../components/common/Layout';
 import QuestionDescription from '../components/Game/QuestionDescription';
 import { getQuestions, changeScore, changeAssertions } from '../redux/actions';
-
 import createStopwatch from '../utils/stopwatch';
 import shuffle from '../utils/shuffle';
-
 import './Game.css';
 import GameHeader from '../components/GameHeader';
 
@@ -48,7 +46,7 @@ class Game extends Component {
   componentWillUnmount() {
     const { stopwatch, assertions } = this.state;
     const { handleAssertions } = this.props;
-    stopwatch.stop();
+    if (stopwatch) stopwatch.stop();
     handleAssertions(assertions);
   }
 
@@ -187,6 +185,8 @@ class Game extends Component {
   render() {
     const { questions, loading, alternatives, remainingTime,
       hasPicked, currentQuestionIndex: index, shouldRedirect } = this.state;
+    const { name, email } = this.props;
+    if (!name || !email) return <Redirect to="/" />;
     if (shouldRedirect) return <Redirect to="/feedback" />;
     const isFinished = index === questions.length - 1;
     return (

@@ -34,6 +34,10 @@ const userReducer = (state = INITIAL_STATE, { payload, type }) => {
       ...state,
       assertions: payload,
     };
+  case 'CLEAR_PLAYER':
+    return {
+      ...INITIAL_STATE,
+    };
   default:
     return state;
   }
