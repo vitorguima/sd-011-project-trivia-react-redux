@@ -1,39 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const SECOND = 1000;
+import { connect } from 'react-redux';
 
 class Countdown extends React.Component {
-  constructor(props) {
-    super(props);
-    this.complete = false;
-    this.state = { timer: 30 };
-  }
-
-  componentDidMount() {
-    this.interval = setInterval(
-      () => this.setState((prevState) => ({ timer: prevState.timer - 1 })),
-      SECOND,
-    );
-  }
-
-  componentDidUpdate() {
-    const { timer } = this.state;
-    const { onComplete } = this.props;
-
-    if (timer === 0 && this.complete === false) {
-      clearInterval(this.interval);
-      this.complete = true;
-      onComplete();
-    }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
   render() {
-    const { timer } = this.state;
+    const { timer } = this.props;
     return (
       <div>
         <h3>
@@ -44,7 +15,12 @@ class Countdown extends React.Component {
   }
 }
 
-Countdown.propTypes = {
-  onComplete: PropTypes.func.isRequired };
+const mapStateToProps = (state) => ({
+  timer: state.countDownReducer.timer,
+});
 
-export default Countdown;
+Countdown.propTypes = {
+  timer: PropTypes.number.isRequired,
+};
+
+export default connect(mapStateToProps)(Countdown);
