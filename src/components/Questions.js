@@ -10,9 +10,10 @@ class Questions extends Component {
     super(props);
     this.state = {
       indexQuestion: 0,
-      totalScore: 0,
+      assertions: 0,
       showNextButton: false,
       timeCount: 30,
+      totalScore: 0,
     };
     this.handleNext = this.handleNext.bind(this);
     this.handleNextStyle = this.handleNextStyle.bind(this);
@@ -24,6 +25,9 @@ class Questions extends Component {
     this.renderCorretBtn = this.renderCorretBtn.bind(this);
     this.renderWrongBtn = this.renderWrongBtn.bind(this);
     this.handleDisableButtons = this.handleDisableButtons.bind(this);
+    this.hardScore = this.hardScore.bind(this);
+    this.mediumScore = this.mediumScore.bind(this);
+    this.easyScore = this.easyScore.bind(this);
   }
 
   async componentDidMount() {
@@ -58,7 +62,8 @@ class Questions extends Component {
       this.setState({
         indexQuestion: indexQuestion + 1,
         showNextButton: false,
-      }, () => this.handleLocalStorage());
+        timeCount: 30,
+      });
     }
   }
 
@@ -69,9 +74,9 @@ class Questions extends Component {
 
   handleCorretAnswer() {
     this.setState((state) => ({
-      totalScore: state.totalScore + 1,
+      assertions: state.assertions + 1,
       showNextButton: true,
-    }));
+    }), () => this.handleLocalStorage());
   }
 
   handleDisableButtons() {
@@ -100,10 +105,53 @@ class Questions extends Component {
   }
 
   handleLocalStorage() {
-    const { totalScore } = this.state;
+    const { assertions, totalScore } = this.state;
     const retrievelocalStorage = JSON.parse(localStorage.getItem('state'));
+    retrievelocalStorage.player.assertions = assertions;
     retrievelocalStorage.player.score = totalScore;
     localStorage.setItem('state', JSON.stringify(retrievelocalStorage));
+  }
+
+  hardScore(difficulty, timeCount) {
+    const hard = 3;
+    if (difficulty === 'hard') {
+      const defaultScore = 10;
+      const sumScore = defaultScore + (timeCount * hard);
+      this.setState((state) => ({
+        totalScore: state.totalScore + sumScore,
+      }));
+    }
+  }
+
+  mediumScore(difficulty, timeCount) {
+    const medium = 2;
+    if (difficulty === 'medium') {
+      const defaultScore = 10;
+      const sumScore = defaultScore + (timeCount * medium);
+      this.setState((state) => ({
+        totalScore: state.totalScore + sumScore,
+      }));
+    }
+  }
+
+  easyScore(difficulty, timeCount) {
+    if (difficulty === 'easy') {
+      const defaultScore = 10;
+      const sumScore = defaultScore + (timeCount);
+      this.setState((state) => ({
+        totalScore: state.totalScore + sumScore,
+      }));
+    }
+  }
+
+  calcFinalScore() {
+    const { questions } = this.props;
+    const { indexQuestion, timeCount } = this.state;
+    const currentQuestionDifficulty = questions[indexQuestion].difficulty;
+
+    this.hardScore(currentQuestionDifficulty, timeCount);
+    this.mediumScore(currentQuestionDifficulty, timeCount);
+    this.easyScore(currentQuestionDifficulty, timeCount);
   }
 
   renderCorretBtn(answer, index) {
@@ -119,6 +167,7 @@ class Questions extends Component {
         onClick={ () => {
           this.handleCorretAnswer();
           this.handleStyleAnswers();
+          this.calcFinalScore();
         } }
       >
         {answer}
@@ -146,7 +195,7 @@ class Questions extends Component {
 
   render() {
     const { questions, disapatchScore } = this.props;
-    const { indexQuestion, showNextButton, timeCount, totalScore } = this.state;
+    const { indexQuestion, showNextButton, timeCount, assertions } = this.state;
     const maxIndexQuestion = 4;
     if (indexQuestion > maxIndexQuestion) {
       return <Redirect to="/feedback" />;
@@ -170,7 +219,7 @@ class Questions extends Component {
               this.renderWrongBtn(answer, index));
           })}
 
-          {showNextButton && (
+          {showNextButton || timeCount === 0 ? (
             <button
               type="button"
               className="btn-next"
@@ -178,11 +227,11 @@ class Questions extends Component {
               onClick={ () => {
                 this.handleNext();
                 this.handleNextStyle();
-                disapatchScore(totalScore);
+                disapatchScore(assertions);
               } }
             >
               Próxima
-            </button>)}
+            </button>) : null }
         </section>
       );
     }
