@@ -94,4 +94,5 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   getToken: PropTypes.func,
+  addPlayerFeedback: PropTypes.func,
 }.isRequired;

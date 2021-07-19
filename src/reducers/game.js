@@ -10,7 +10,6 @@ import {
 const INITIAL_STATE = {
   token: '',
   loading: true,
-  score: 0,
   questions: [],
 };
 
