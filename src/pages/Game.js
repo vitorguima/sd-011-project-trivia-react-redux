@@ -3,36 +3,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
-import { fetchApiToken } from '../actions';
+import * as Timer from '../components/Timer';
+import Answers from '../components/Answers';
+import { fetchApiTrivia } from '../actions';
 
 class Game extends Component {
   constructor() {
     super();
     this.state = {
       position: 0,
-      timer: 30,
-      answerClicked: false,
     };
     this.nextQuestionButtonClicked = this.nextQuestionButtonClicked.bind(this);
-    this.answerButtonClicked = this.answerButtonClicked.bind(this);
     this.renderNextButton = this.renderNextButton.bind(this);
   }
 
   componentDidMount() {
-    const { fetchToken } = this.props;
+    const { fetchTrivia } = this.props;
     const token = localStorage.getItem('token');
-    if (token) fetchToken(token);
-  }
-
-  answerButtonClicked({ target: { name } }) {
-    this.setState({
-      answerClicked: true,
-    });
-    if (name === 'correctAnswer') {
-      const notRedux = JSON.parse(localStorage.getItem('state'));
-      notRedux.user.assertions += 1;
-      localStorage.setItem('state', JSON.stringify(notRedux));
-    }
+    if (token) fetchTrivia(token);
   }
 
   nextQuestionButtonClicked() {
@@ -40,39 +28,16 @@ class Game extends Component {
   }
 
   renderNextButton() {
-    const { answerClicked, timer } = this.state;
-    if (answerClicked || timer === 0) {
+    const { answerClicked } = this.props;
+    if (answerClicked) {
       return true;
     }
     return false;
   }
 
-  renderTimer(timer, results, answerClicked, position) {
-    return (
-      <div>
-        <span>{timer}</span>
-        <li>
-          <button
-            disabled={ timer === 0 }
-            type="button"
-            data-testid="correct-answer"
-            onClick={ this.answerButtonClicked }
-            style={
-              answerClicked ? { border: '3px solid rgb(6, 240, 15)' } : null
-            }
-            name="correctAnswer"
-          >
-            {results[position].correct_answer}
-          </button>
-        </li>
-      </div>
-    );
-  }
-
   render() {
-    const { questions } = this.props;
-    const { results } = questions;
-    const { answerClicked, position, timer } = this.state;
+    const { results } = this.props;
+    const { position } = this.state;
     const maxQuestion = 5;
     if (!results) return <h2>Carregando...</h2>;
     if (position === maxQuestion) {
@@ -85,26 +50,11 @@ class Game extends Component {
         <p data-testid="question-text">
           {results[position].question}
         </p>
-        <ul>
-          {this.renderTimer(timer, results, answerClicked, position)}
-          {results[position].incorrect_answers.map((answer, index) => (
-            <li key={ index }>
-              <button
-                disabled={ timer === 0 }
-                type="button"
-                key={ index }
-                data-testid={ `wrong-answer-${index}` }
-                onClick={ this.answerButtonClicked }
-                style={
-                  answerClicked ? { border: '3px solid rgb(255, 0, 0)' } : null
-                }
-                name="IncorrectAnswer"
-              >
-                {answer}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <Timer />
+        <Answers
+          correctAnswer={ results.correct_answer }
+          incorrectAnswers={ results.incorrect_answers }
+        />
         {this.renderNextButton() && (
           <button
             type="button"
@@ -120,15 +70,18 @@ class Game extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  questions: state.questionsReducer.questions,
+  results: state.triviaReducer.trivia.results,
+  answerClicked: state.gameReducer.answerClicked,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchToken: (token) => dispatch(fetchApiToken(token)),
+  fetchTrivia: (token) => dispatch(fetchApiTrivia(token)),
 });
 
 Game.propTypes = {
-  questionAnswered: PropTypes.bool,
+  results: PropTypes.object,
+  answerClicked: PropTypes.bool,
+  fetchTrivia: PropTypes.func,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
