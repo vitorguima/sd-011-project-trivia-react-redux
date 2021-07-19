@@ -83,10 +83,14 @@ class Questions extends React.Component {
             questionsList={ questionsList[indexQuestion] }
             isDisabled={ buttonDisabled }
           />
-          { !endGame ? <ButtonNext testid="btn-next" nextQuestion={ this.nextQuestion } />
+          { !endGame ? <ButtonNext
+            btnState={ buttonDisabled }
+            testid="btn-next"
+            nextQuestion={ this.nextQuestion }
+          />
             : (
               <Link to="/feedback">
-                <ButtonNext testid="btn-next" />
+                <ButtonNext btnState={ buttonDisabled } testid="btn-next" />
               </Link>)}
         </div>
       );
