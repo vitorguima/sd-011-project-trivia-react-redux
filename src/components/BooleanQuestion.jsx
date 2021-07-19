@@ -5,7 +5,7 @@ import { showNextBtn } from '../actions';
 
 class BooleanQuestion extends React.Component {
   render() {
-    const { question, showBtn, disabled, showAnswer } = this.props;
+    const { question, showBtn, disabled, showAnswer, timer, localStoragePlayerInfo } = this.props;
     const correctAnswer = (showAnswer) ? 'show-correct-answer' : null;
     const incorrectAnswer = (showAnswer) ? 'show-incorrect-answer' : null;
     return (
@@ -23,7 +23,13 @@ class BooleanQuestion extends React.Component {
               ? 'correct-answer'
               : 'wrong-answer'
           }
-          onClick={ () => showBtn() }
+          onClick={ () =>{
+            if (question.correct_answer === 'True') {
+              localStoragePlayerInfo(timer, question.difficulty)
+              showBtn() 
+            }
+            showBtn()
+          }}
         >
           True
         </button>
@@ -40,7 +46,13 @@ class BooleanQuestion extends React.Component {
               ? 'correct-answer'
               : 'wrong-answer'
           }
-          onClick={ () => showBtn() }
+          onClick={ () =>{
+            if (question.correct_answer === 'False') {
+              localStoragePlayerInfo(timer, question.difficulty)
+              showBtn() 
+            }
+            showBtn()
+          }}
         >
           False
         </button>
@@ -55,6 +67,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   showAnswer: state.questionsReducer.showBtn,
+  timer: state.countDownReducer.timer,
 });
 
 BooleanQuestion.propTypes = {

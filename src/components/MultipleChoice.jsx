@@ -5,46 +5,53 @@ import { showNextBtn } from '../actions';
 
 class MultipleChoice extends React.Component {
   render() {
-    const { question, showBtn, disabled, showAnswer } = this.props;
+    const { question, showBtn, disabled, showAnswer, localStoragePlayerInfo, timer } = this.props;
     return (
       question.answers.map((answer, index) => {
         if (question.correct_answer === answer) {
           return (
             <button
-              className={ ((showAnswer) ? 'show-correct-answer' : null) }
-              disabled={ disabled }
+              className={((showAnswer) ? 'show-correct-answer' : null)}
+              disabled={disabled}
               data-testid="correct-answer"
-              key={ index }
+              // onClick={() => localStoragePlayerInfo(1, question.difficulty, userName, userEmail)}
+              key={index}
               type="button"
-              onClick={ () => showBtn() }
+              onClick={() =>{
+                localStoragePlayerInfo(timer, question.difficulty)
+                showBtn()}
+            }
             >
-              { answer }
+              {answer}
             </button>
           );
         }
         return (
           <button
-            className={ ((showAnswer) ? 'show-incorrect-answer' : null) }
-            disabled={ disabled }
-            data-testid={ `wrong-answer-${index}` }
-            key={ index }
+            className={((showAnswer) ? 'show-incorrect-answer' : null)}
+            disabled={disabled}
+            data-testid={`wrong-answer-${index}`}
+            // onClick={() => console.log('wrong-answer')}
+            key={index}
             type="button"
-            onClick={ () => showBtn() }
+            onClick={() => showBtn()}
           >
-            { answer }
+            {answer}
           </button>
         );
       })
     );
   }
 }
+const mapStateToProps = (state) => ({
+  userName: state.loginReducer.name,
+  userEmail: state.loginReducer.email,
+  showAnswer: state.questionsReducer.showBtn,
+  timer: state.countDownReducer.timer,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   showBtn: () => dispatch(showNextBtn()),
-});
-
-const mapStateToProps = (state) => ({
-  showAnswer: state.questionsReducer.showBtn,
 });
 
 MultipleChoice.propTypes = {

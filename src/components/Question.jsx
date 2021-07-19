@@ -8,9 +8,43 @@ import MultipleChoice from './MultipleChoice';
 import Loading from './Loading';
 
 const INTERVAL = 1000;
-
 class Question extends React.Component {
+
+  localStoragePlayerInfo(timer, difficulty) {
+    const state = JSON.parse(localStorage.getItem('state'));
+
+    const startScore = 10;
+    // let score = 0;
+    // let assertions = 0;
+    // let finalScore = 0;
+    const difficultyLevel = { hard: 3, medium: 2, easy: 1 };
+    if (difficulty === 'hard') {
+      state.player.score += startScore + (difficultyLevel.hard * timer);
+      state.player.assertions += 1;
+    }
+    if (difficulty === 'medium') {
+      state.player.score += startScore + (difficultyLevel.medium * timer);
+      state.player.assertions += 1;
+    }
+    if (difficulty === 'easy') {
+      state.player.score += startScore + (difficultyLevel.easy * timer);
+      state.player.assertions += 1;
+    };
+
+    localStorage.setItem('state', JSON.stringify(state));
+  }
+
   componentDidMount() {
+    const { userName, userEmail } = this.props;
+    const state = {
+      player: {
+        name: userName,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: userEmail,
+      }
+    }
+    localStorage.setItem('state', JSON.stringify(state));
     this.startCounter();
   }
 
@@ -33,7 +67,7 @@ class Question extends React.Component {
 
   stopCountDown() {
     clearInterval(this.interval);
-  }
+  };
 
   render() {
     const { questions, showBtn, currentQuestion, nextQuestion } = this.props;
@@ -42,46 +76,50 @@ class Question extends React.Component {
         {(questions[currentQuestion])
           ? (
             <>
-              <QuestionHeader question={ questions[currentQuestion] } />
+              <QuestionHeader question={questions[currentQuestion]} />
               <div className="answer-options">
-                { (questions[currentQuestion].type === 'boolean')
+                {(questions[currentQuestion].type === 'boolean')
                   ? (
                     <BooleanQuestion
-                      disabled={ showBtn }
-                      question={ questions[currentQuestion] }
+                      disabled={showBtn}
+                      question={questions[currentQuestion]}
+                      localStoragePlayerInfo={this.localStoragePlayerInfo}
                     />
                   )
                   : (
                     <MultipleChoice
-                      disabled={ showBtn }
-                      question={ questions[currentQuestion] }
+                      disabled={showBtn}
+                      question={questions[currentQuestion]}
+                      localStoragePlayerInfo={this.localStoragePlayerInfo}
                     />
                   )}
               </div>
               <button
                 data-testid="btn-next"
                 type="button"
-                className={ (showBtn) ? 'show-btn' : 'hide-btn' }
-                onClick={ () => {
+                className={(showBtn) ? 'show-btn' : 'hide-btn'}
+                onClick={() => {
                   this.startCounter();
                   nextQuestion();
-                } }
+                }}
               >
                 Próxima pergunta
               </button>
             </>
           )
-          : <Loading /> }
+          : <Loading />}
       </section>
     );
   }
-}
+};
 
 const mapStateToProps = (state) => ({
   questions: state.questionsReducer.results,
   showBtn: state.questionsReducer.showBtn,
   currentQuestion: state.questionsReducer.currentQuestion,
   timer: state.countDownReducer.timer,
+  userName: state.loginReducer.name,
+  userEmail: state.loginReducer.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
