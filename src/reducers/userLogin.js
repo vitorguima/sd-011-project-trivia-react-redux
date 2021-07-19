@@ -1,4 +1,4 @@
-import { USER_LOGIN, SET_SCORE_POINTS } from '../actions';
+import { USER_LOGIN, SET_SCORE_POINTS, SEND_ASSERTION } from '../actions';
 
 const USER_STATE = {
   player: {
@@ -22,6 +22,13 @@ function userLogin(state = USER_STATE, action) {
       player: {
         ...state.player,
         score: action.payload,
+      },
+    };
+  case SEND_ASSERTION:
+    return {
+      player: {
+        ...state.player,
+        assertions: action.payload,
       },
     };
   default:

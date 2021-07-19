@@ -1,6 +1,7 @@
 export const USER_LOGIN = 'USER_LOGIN';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const SET_SCORE_POINTS = 'SET_SCORE_POINTS';
+export const SEND_ASSERTION = 'SEND_ASSERTION';
 
 export const userLogin = (payload) => ({
   type: USER_LOGIN,
@@ -14,6 +15,11 @@ export const sendQuestionsArray = (payload) => ({
 
 export const sendScorePoints = (payload) => ({
   type: SET_SCORE_POINTS,
+  payload,
+});
+
+export const sendAssertions = (payload) => ({
+  type: SEND_ASSERTION,
   payload,
 });
 
