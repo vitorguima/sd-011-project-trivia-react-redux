@@ -13,10 +13,22 @@ export const sendQuestionsArray = (payload) => ({
   payload,
 });
 
-export const sendScorePoints = (payload) => ({
+export const sendScorePointsLocalStorage = (payload) => ({
   type: SET_SCORE_POINTS,
   payload,
 });
+
+export const sendScorePoints = (payload) => (dispatch) => {
+  const { player } = JSON.parse(localStorage.getItem('player'));
+  localStorage.setItem('player', JSON.stringify({
+    player: {
+      ...player,
+      score: payload,
+    },
+  }));
+
+  dispatch(sendScorePointsLocalStorage(payload));
+};
 
 export const sendAssertions = (payload) => ({
   type: SEND_ASSERTION,
