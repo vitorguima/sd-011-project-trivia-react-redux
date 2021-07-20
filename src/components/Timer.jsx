@@ -32,6 +32,12 @@ class Timer extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    const { timerReference } = this.state;
+
+    if (timerReference) this.clearTimer();
+  }
+
   timerControl() {
     const {
       dispatchtUpdateTimer, dispatchResetTimer,
@@ -40,8 +46,6 @@ class Timer extends React.Component {
     const reference = setInterval(() => {
       dispatchtUpdateTimer();
     }, interval);
-
-    console.log(reference);
 
     dispatchResetTimer();
 

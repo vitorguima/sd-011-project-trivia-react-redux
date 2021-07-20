@@ -77,11 +77,11 @@ class QuestionCard extends React.Component {
     } else {
       dispatchNextQuestion();
 
-      this.toggleDisableButtons();
       this.resetColor();
       this.toggleNextButtonVisibility();
     }
 
+    this.toggleDisableButtons();
     dispatchResetTimer();
   }
 

@@ -9,6 +9,7 @@ import {
 const INITIAL_STATE = {
   questions: [],
   question: {},
+  answers: [],
   isLoading: true,
   error: null,
   score: 0,
@@ -18,6 +19,19 @@ const INITIAL_STATE = {
 const getNextQuestion = (
   { questions, question },
 ) => questions[questions.indexOf(question) + 1];
+
+const fiftyPercent = 0.5;
+const caseTrue = 1;
+const caseFalse = -1;
+const getAnswers = (question) => {
+  const answers = [question.correct_answer, ...question.incorrect_answers];
+
+  /*
+    shuffle array js
+    source: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  */
+  return answers.sort(() => (Math.random() > fiftyPercent ? caseTrue : caseFalse));
+};
 
 const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
@@ -30,6 +44,7 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       questions: payload,
       question: payload[0],
+      answers: getAnswers(payload[0]),
       isLoading: false,
     };
   case GET_QUESTIONS_ERROR:
@@ -42,6 +57,7 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       question: getNextQuestion(state),
+      answers: getAnswers(getNextQuestion(state)),
     };
   case UPDATE_SCORE:
     return {
