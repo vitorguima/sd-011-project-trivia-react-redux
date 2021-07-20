@@ -10,10 +10,10 @@ export async function fetchToken() {
   }
 }
 
-export async function fetchQuestions() {
+export async function fetchQuestions(difficulty) {
   try {
     const token = await fetchToken();
-    const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+    const response = await fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&token=${token}`);
     const data = await response.json();
     localStorage.setItem('token', token);
     return data;

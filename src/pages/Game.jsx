@@ -27,8 +27,9 @@ class Game extends Component {
   }
 
   async getQuestions() {
-    const token = localStorage.getItem('token');
-    const data = await fetchQuestions(token);
+    const { difficulty } = this.props;
+    console.log(difficulty);
+    const data = await fetchQuestions(difficulty);
     this.setState({
       questions: data.results,
       loading: false,
@@ -37,7 +38,6 @@ class Game extends Component {
 
   refreshTimer() {
     const { setHidden, timer, setTimer, setDisabled } = this.props;
-    console.log('ola');
     if (timer > 0) {
       const newTimer = timer - 1;
       setTimer(newTimer);
@@ -107,6 +107,7 @@ class Game extends Component {
 const mapStatetoProps = (state) => ({
   hiddenBtn: state.game.hidden,
   timer: state.game.timer,
+  difficulty: state.game.difficulty,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -126,6 +127,7 @@ Game.propTypes = {
   setHidden: PropTypes.func.isRequired,
   setDisabled: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
+  difficulty: PropTypes.string.isRequired,
 };
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Game);
