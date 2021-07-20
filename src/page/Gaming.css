@@ -13,7 +13,7 @@
 }
 
 .correct {
-  border: 3px solid black;
+  border: 3px solid rgb(6, 240, 15);
   border-radius: 20px;
   color: black;
   background-color: rgb(35, 218, 41);
@@ -29,7 +29,7 @@
 }
 
 .incorrect {
-  border: 3px solid black;
+  border: 3px solid red;
   border-radius: 20px;
   color: black;
   background-color: red;

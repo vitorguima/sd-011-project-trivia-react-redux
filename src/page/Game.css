@@ -15,7 +15,7 @@
 
 .default-game {
   background-image: url("http://gifmania.com.br/wp-content/uploads/2020/08/interrogacoes.gif");
-  height: 660px;
+  width: auto;
 }
 
 /* .name-icon {
@@ -54,3 +54,19 @@
   border: solid white;
   box-shadow: 10px 10px 30px;
 }
+
+.time-css-control {
+  display: grid;
+  border: solid;
+  justify-content: center;
+}
+
+.time-top-page {
+  align-content: flex-start;
+  margin: -100px 630px 40px;
+  border-radius: 50px;
+  font-size: 70px;
+  box-shadow: 10px 10px 30px blanchedalmond;
+  background-color: orange;
+}
+

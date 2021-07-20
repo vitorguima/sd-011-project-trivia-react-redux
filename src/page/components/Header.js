@@ -26,7 +26,7 @@ class Header extends Component {
             />
           </div>
         </div>
-        <div data-testid="header-score">{ `Record: ${point}` }</div>
+        <div data-testid="header-score">{ `Potuação máxima: ${point}` }</div>
       </>
     );
   }

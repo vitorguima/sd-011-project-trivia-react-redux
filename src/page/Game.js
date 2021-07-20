@@ -76,6 +76,7 @@ class Game extends Component {
     }));
   }
 
+  // CRiar novo componente
   handleQuestion() {
     const { questions } = this.props;
     const { numberNext } = this.state;
@@ -181,19 +182,21 @@ class Game extends Component {
   render() {
     const { renderTime, numberTime, score, numberNext } = this.state;
     return (
-      <div>
-        <header className="default-game">
+      <div className="default-game">
+        <header data-testid="header-score">
           <Header />
           <p>
-            <span data-testid="header-score">
+            <span>
               {`Pontuação: ${score}`}
             </span>
           </p>
-          <div>
-            {renderTime ? <Time
-              funcSetTime={ this.funcSetTime }
-              timeQuestion={ this.timeQuestion }
-            /> : <div>{ numberTime }</div> }
+          <div className="time-div">
+            <div className="time-css-control time-top-page">
+              {renderTime ? <Time
+                funcSetTime={ this.funcSetTime }
+                timeQuestion={ this.timeQuestion }
+              /> : <div>{ numberTime }</div> }
+            </div>
           </div>
           <div>
             {this.handleQuestion()}
