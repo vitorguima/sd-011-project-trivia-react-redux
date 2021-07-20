@@ -8,7 +8,7 @@ class Feedback extends Component {
   constructor() {
     super();
     this.handleAssertions = this.handleAssertions.bind(this);
-    this.handleQuestion = this.handleQuestion.bind(this);
+    // this.handleQuestion = this.handleQuestion.bind(this);
   }
 
   handleAssertions() {
@@ -23,29 +23,29 @@ class Feedback extends Component {
     }
   }
 
-  handleQuestion() {
-    const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { assertions } = notRedux.player;
-    const number = 4;
-    if (assertions === 0) {
-      return 'Não acertou nenhuma pergunta';
-    } if (assertions > 0 || assertions <= 2) {
-      return `Acertou ${assertions} perguntas`;
-    } if (assertions > 2 || assertions <= number) {
-      return `Acertou ${assertions} perguntas`;
-    }
-  }
+  // handleQuestion() {
+  //   const notRedux = JSON.parse(localStorage.getItem('state'));
+  //   const { assertions } = notRedux.player;
+  //   const number = 4;
+  //   if (assertions === 0) {
+  //     return 'Não acertou nenhuma pergunta';
+  //   } if (assertions > 0 || assertions <= 2) {
+  //     return `Acertou ${assertions} perguntas`;
+  //   } if (assertions > 2 || assertions <= number) {
+  //     return `Acertou ${assertions} perguntas`;
+  //   }
+  // }
 
   render() {
     const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { score } = notRedux.player;
+    const { score, assertions } = notRedux.player;
     return (
       <div>
         <Header />
         <div>
           <h2 data-testid="feedback-text">{ this.handleAssertions() }</h2>
           <h3 data-testid="feedback-total-score">{ score }</h3>
-          <h3 data-testid="feedback-total-question">{ this.handleQuestion() }</h3>
+          <h3 data-testid="feedback-total-question">{ assertions }</h3>
         </div>
         <div>
           <Link to="/">

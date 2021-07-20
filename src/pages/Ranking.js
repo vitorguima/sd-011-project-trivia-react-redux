@@ -10,21 +10,20 @@ class Ranking extends Component {
 
   handleClick() {
     const { history } = this.props;
-    history.push('/');
+    return history.push('/');
   }
 
   render() {
-    const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { gravatarEmail } = notRedux.player;
-    localStorage.setItem('state', JSON.stringify(notRedux));
-    const ranking = JSON.parse(localStorage.getItem('ranking'))
-      .sort((a, b) => b.score - a.score);
+    // const notRedux = JSON.parse(localStorage.getItem('state'));
+    // const { gravatarEmail } = notRedux.player;
+    // localStorage.setItem('state', JSON.stringify(notRedux));
+    // const ranking = JSON.parse(localStorage.getItem('ranking'))
+    //   .sort((a, b) => b.score - a.score);
     return (
       <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
-        <header>
-          <div>
-            {ranking.map((user, index) => (
+        <div>
+          <h1 data-testid="ranking-title">Ranking</h1>
+          {/* {ranking.map((user, index) => (
               <div key={ user[index] }>
                 <img
                   src={ `https://www.gravatar.com/avatar/${gravatarEmail}` }
@@ -33,15 +32,14 @@ class Ranking extends Component {
                 />
                 <h3 data-testid={ `player-name-${index}` }>{ user.name }</h3>
                 <h4 data-testid={ `player-score-${index}` }>{ user.score }</h4>
-              </div>))}
-          </div>
-        </header>
+              </div>))} */}
+        </div>
         <nav>
           <Link to="/">
             <button
               data-testid="btn-go-home"
               type="button"
-              onClick={ this.handleClick }
+              onClick={ this.handleClick() }
             >
               Ir ao Início
             </button>
