@@ -5,6 +5,7 @@ import {
   TIMER_BUTTON,
   REQUEST_CLICK_BUTTON,
   NEXT_COUNT,
+  ADD_QUESTION,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
   buttonClick: false,
   rightBtnClicked: false,
   count: 0,
+  questionCounter: 0,
 };
 
 function triviaReducer(state = INITIAL_STATE, action) {
@@ -51,6 +53,11 @@ function triviaReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       count: action.state,
+    };
+  case ADD_QUESTION:
+    return {
+      ...state,
+      questionCounter: action.state,
     };
   default:
     return state;

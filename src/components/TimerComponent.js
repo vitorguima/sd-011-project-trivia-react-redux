@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { timerButton, nextQuestionCount } from '../actions';
+import { timerButton, nextQuestionCount, addQuestion } from '../actions';
 
 class TimerComponent extends Component {
   constructor() {
@@ -14,6 +14,7 @@ class TimerComponent extends Component {
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
     this.buttonNextQuestion = this.buttonNextQuestion.bind(this);
     this.newQuestion = this.newQuestion.bind(this);
+    this.newScore = this.newScore.bind(this);
   }
 
   componentDidMount() {
@@ -21,20 +22,15 @@ class TimerComponent extends Component {
     this.interval = setInterval(() => this.timer(), second);
   }
 
-  componentDidUpdate() {
-    const { buttonClick, rightBtnClicked } = this.props;
+  componentDidUpdate(prevProps) {
+    const { buttonClick, updateNumQuestion } = this.props;
     const { count } = this.state;
-    localStorage.setItem('numberQuestion', JSON.stringify(count));
+    updateNumQuestion(count);
+    // localStorage.setItem('numberQuestion', JSON.stringify(count));
     if (buttonClick) {
       clearInterval(this.interval);
-      const stopTime = document.querySelector('.timer');
-      const question = document.querySelector('#question');
-      const difficulty = question.getAttribute('difficulty');
-      const score = rightBtnClicked
-        ? this.setScore(stopTime.innerHTML, difficulty)
-        : 0;
-      this.updateLocalStorage(score);
     }
+    if (prevProps === this.props) this.newScore();
   }
 
   setScore(timer, difficulty) {
@@ -60,7 +56,7 @@ class TimerComponent extends Component {
 
   updateLocalStorage(score) {
     const player = JSON.parse(localStorage.getItem('state'));
-    player.player.score = score;
+    player.player.score += score;
     localStorage.setItem('state', JSON.stringify(player));
   }
 
@@ -84,6 +80,17 @@ class TimerComponent extends Component {
     nextQuestion(count);
   }
 
+  newScore() {
+    const { rightBtnClicked } = this.props;
+    const stopTime = document.querySelector('.timer');
+    const question = document.querySelector('#question');
+    const difficulty = question.getAttribute('difficulty');
+    const score = rightBtnClicked
+      ? this.setScore(stopTime.innerHTML, difficulty)
+      : 0;
+    this.updateLocalStorage(score);
+  }
+
   buttonNextQuestion() {
     const maxQuestions = 4;
     const { count } = this.state;
@@ -95,7 +102,6 @@ class TimerComponent extends Component {
     } else {
       finishQuestions();
     }
-    // Falta redirecionar a pagina apos 5 perguntas
   }
 
   render() {
@@ -129,6 +135,7 @@ TimerComponent.propTypes = {
   rightBtnClicked: PropTypes.bool.isRequired,
   nextQuestion: PropTypes.func.isRequired,
   finishQuestions: PropTypes.func.isRequired,
+  updateNumQuestion: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -139,6 +146,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateButton: (state) => dispatch(timerButton(state)),
   nextQuestion: (state) => dispatch(nextQuestionCount(state)),
+  updateNumQuestion: (state) => dispatch(addQuestion(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimerComponent);
