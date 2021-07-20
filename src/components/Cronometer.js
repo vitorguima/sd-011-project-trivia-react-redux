@@ -72,8 +72,8 @@ class Cronometer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  timer: state.timerReducer.timer,
-  stopTimer: state.timerReducer.stopTimer,
+  timer: state.cronometer.timer,
+  stopTimer: state.cronometer.stopTimer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
