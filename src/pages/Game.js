@@ -26,10 +26,17 @@ class Game extends Component {
     fetchToken();
     this.fetchQuest();
     this.timer();
+    this.getStorage();
   }
 
   componentWillUnmount() {
     clearInterval(this.count);
+  }
+
+  getStorage() {
+    const storage = JSON.parse(localStorage.getItem('player'));
+    // console.log(storage);
+    return storage;
   }
 
   timer() {
@@ -50,13 +57,34 @@ class Game extends Component {
     const { fetchQuestions } = this.props;
     const URL = 'https://opentdb.com/api_token.php?command=request';
     const { data } = await axios.get(URL);
-    console.log(data.token);
+    // console.log(data.token);
     fetchQuestions(data.token);
   }
 
-  handleSucess() {
+  handleSucess(difficulty) {
     this.setState({ sucess: true });
     this.setState({ loss: true });
+    let ponto = 0;
+    const easy = 1;
+    const medium = 2;
+    const hard = 3;
+    const initial = 10;
+    const { name, userToken } = this.props;
+    const { counter } = this.state;
+    if (difficulty === 'easy') {
+      ponto = initial + (counter * easy);
+    } else if (difficulty === 'medium') {
+      ponto = initial + (counter * medium);
+    } else {
+      ponto = initial + (counter * hard);
+    }
+    const player = {
+      name,
+      assertions: this.getStorage().assertions + 1,
+      score: this.getStorage().score + ponto,
+      gravatarEmail: userToken,
+    };
+    localStorage.setItem('player', JSON.stringify(player));
   }
 
   handleLoss() {
@@ -67,15 +95,14 @@ class Game extends Component {
   render() {
     const { questions } = this.props;
     const { index, sucess, loss } = this.state;
-    if (!questions.length) {
-      return <div>Loading...</div>;
-    }
+    if (!questions.length) return <div>Loading...</div>;
     const {
       category,
       question, correct_answer:
       currentAnswer,
       incorrect_answers:
       incorrectAnswer,
+      difficulty,
     } = questions[index];
     const { counter, disabled } = this.state;
     return (
@@ -91,7 +118,7 @@ class Game extends Component {
           </p>
           <button
             className={ `${sucess ? 'sucess' : ''}` }
-            onClick={ this.handleSucess }
+            onClick={ () => this.handleSucess(difficulty) }
             type="button"
             data-testid="correct-answer"
             disabled={ disabled }
@@ -121,6 +148,7 @@ const mapStateToProps = (state) => ({
   email: state.login.email,
   questions: state.login.questions,
   loading: state.login.loading,
+  userToken: state.login.userToken,
 });
 
 const mapDispatchToProps = (dispatch) => ({
