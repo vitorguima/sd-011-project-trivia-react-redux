@@ -6,7 +6,10 @@ export const fetchToken = () => {
     .catch((error) => error);
 };
 
-export const fetchQuestions = (token, questionCategory, questionDifficulty, questionType) => {
+export const fetchQuestions = (token,
+  questionCategory,
+  questionDifficulty,
+  questionType) => {
   const URL = `https://opentdb.com/api.php?amount=5&token=${token}&category=${questionCategory}&difficulty=${questionDifficulty}&type=${questionType}`;
   console.log(URL);
   return fetch(URL)

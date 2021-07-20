@@ -25,12 +25,18 @@ export const requestQuestionsError = (payload) => ({
   payload,
 });
 
-export const fetchQuestionsAPI = (token, questionCategory, questionDifficulty, questionType) => async (dispatch) => {
+export const fetchQuestionsAPI = (token,
+  questionCategory,
+  questionDifficulty,
+  questionType) => async (dispatch) => {
   dispatch(requestQuestions());
   console.log(token);
 
   try {
-    const response = await fetchQuestions(token, questionCategory, questionDifficulty, questionType);
+    const response = await fetchQuestions(token,
+      questionCategory,
+      questionDifficulty,
+      questionType);
     dispatch(requestQuestionsSuccess(response));
   } catch (error) {
     dispatch(requestQuestionsError(error));
