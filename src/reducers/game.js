@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   clicked: false,
   score: 0,
   timer: 30,
-  category: 9,
+  category: '',
 };
 
 const game = (state = INITIAL_STATE, action) => {
