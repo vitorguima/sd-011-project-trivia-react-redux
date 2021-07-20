@@ -1,0 +1,47 @@
+h1 {
+  font-size: 40px;
+}
+
+.settings__container {
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  margin: 100px auto;
+  padding: 40px 25px;
+  width: max-content;
+  text-align: center;
+}
+
+.settings__form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+}
+
+button {
+  margin-top: 3px;
+  align-self: stretch;
+  font-size: 1rem;
+  padding: 6px 12px;
+}
+
+.link {
+  display: block;
+  text-decoration: none;
+  color: black;
+  width: 100%;
+  height: 100%;
+}
+
+.settings__form label input, select {
+  font-size: 0.8rem;
+  display: block;
+  padding: 6px 0px;
+}
