@@ -2,6 +2,7 @@ import {
   REQUEST_API,
   REQUEST_API_SUCESS,
   REQUEST_API_ERROR,
+  GET_USER_SCORE,
   SEND_USER_DATA,
 } from '../actions/user';
 
@@ -31,7 +32,11 @@ function user(state = INITIAL_STATE, action = {}) {
     };
   case SEND_USER_DATA:
     return { ...state, userData: { ...action.payload } };
-
+  case GET_USER_SCORE: // *Dá ao score o score do jogador
+    return {
+      ...state,
+      score: action.payload,
+    };
   default:
     return state;
   }

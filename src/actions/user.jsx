@@ -4,6 +4,7 @@ export const REQUEST_API = 'REQUEST_API';
 export const REQUEST_API_SUCESS = 'REQUEST_API_SUCESS';
 export const REQUEST_API_ERROR = 'REQUEST_API_ERROR';
 export const SEND_USER_DATA = 'SEND_USER_DATA';
+export const GET_USER_SCORE = 'GET_USER_SCORE';
 
 const requestApi = (payload) => ({
   type: REQUEST_API,
@@ -22,6 +23,11 @@ const requestApiError = (payload) => ({
 
 export const sendUserData = (payload) => ({ // Envia dados do usuário para o Redux
   type: SEND_USER_DATA,
+  payload,
+});
+
+export const getUserScore = (payload) => ({ // *Envia score do usuário para o Redux
+  type: GET_USER_SCORE,
   payload,
 });
 

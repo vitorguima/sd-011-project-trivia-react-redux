@@ -1,27 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Score from './Score';
 
-import QuestionTitle from './QuestionTitle';
+import CategoryAndQuestion from './CategoryAndQuestion';
 
 import './Questions.css';
 
-class Questions extends Component {
+class QuestionsWithAnswers extends Component {
+  // constructor() {
+  //   super();
+  //   // this.state = {
+  //   //   click: false,
+  //   // };
+  //   // this.handleScoreUpdate = this.handleScoreUpdate.bind(this);
+  // }
+
+  // handleScoreUpdate() {
+  //   this.setState({ click: true });
+  // }
+
   render() {
     const {
-      isRedBordered,
-      isGreenBordered,
-      incorrectAnswer,
-      correctAnswer,
-      isHidden,
-      gameResults,
-      counter,
-      nextBtn,
-      handleAnswer,
-      isDisabled,
-    } = this.props;
+      isRedBordered, isGreenBordered, incorrectAnswer,
+      correctAnswer, isHidden, gameResults,
+      counter, nextBtn, handleAnswer,
+      isDisabled, count } = this.props;
+    // const { click } = this.state;
     return (
       <div>
-        <QuestionTitle gameResults={ gameResults } counter={ counter } />
+        <CategoryAndQuestion
+          gameResults={ gameResults }
+          counter={ counter }
+        />
+        <Score Result={ gameResults } score={ counter } count={ count } click={ isHidden } />
         <button
           data-testid="correct-answer"
           name="correct"
@@ -29,6 +40,8 @@ class Questions extends Component {
           className={ isGreenBordered }
           onClick={ handleAnswer }
           disabled={ isDisabled }
+          // onMouseDown={ () => this.handleScoreUpdate() }
+          // onMouseUp={ () => this.setState({ click: false }) }
         >
           { correctAnswer }
         </button>
@@ -58,7 +71,7 @@ class Questions extends Component {
   }
 }
 
-Questions.propTypes = ({
+QuestionsWithAnswers.propTypes = ({
   incorrectAnswer: PropTypes.arrayOf().isRequired,
   correctAnswer: PropTypes.string.isRequired,
   nextBtn: PropTypes.func.isRequired,
@@ -69,6 +82,7 @@ Questions.propTypes = ({
   isHidden: PropTypes.bool.isRequired,
   counter: PropTypes.number.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+  count: PropTypes.number.isRequired,
 });
 
-export default Questions;
+export default QuestionsWithAnswers;

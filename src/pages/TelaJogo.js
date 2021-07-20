@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Questions from '../components/Questions';
+import QuestionsWithAnswers from '../components/QuestionsWithAnswers';
 
 class TelaJogo extends Component {
   constructor() {
@@ -85,19 +85,19 @@ class TelaJogo extends Component {
       counter,
       isDisabled,
     } = this.state;
-    const { getdata: { emailHash, name, email }, gameData } = this.props;
-
-    const player = { name, assertions: 0, score, gravatarEmail: email };
+    const { getdata: { emailHash, name, email }, gameData, scoreUser } = this.props;
+    const urlUser = `https://www.gravatar.com/avatar/${emailHash}`;
+    const player = { name, assertions: 0, score: scoreUser, gravatarEmail: email };
     localStorage.setItem('player', JSON.stringify(player));
-
+    const ranking = { name, score: scoreUser, picture: urlUser };
+    localStorage.setItem('ranking', JSON.stringify(ranking));
     const limitOfQuestions = 5;
     const gameResults = gameData.results;
-
     return (
       <div>
         <header>
           <h1>Tela do jogo</h1>
-          <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${emailHash}` } alt="" />
+          <img data-testid="header-profile-picture" src={ urlUser } alt="" />
           <span data-testid="header-player-name">{name}</span>
           <span data-testid="header-score">
             { score }
@@ -105,7 +105,7 @@ class TelaJogo extends Component {
         </header>
 
         {gameResults && count < limitOfQuestions ? ( // Renderiza perguntas
-          <Questions
+          <QuestionsWithAnswers
             gameResults={ gameResults[count] }
             incorrectAnswer={ Object.values(gameResults[count])[5] }
             correctAnswer={ gameResults[count].correct_answer }
@@ -113,6 +113,7 @@ class TelaJogo extends Component {
             isRedBordered={ isRedBordered }
             isHidden={ isHidden }
             counter={ counter }
+            count={ count }
             nextBtn={ () => this.nextBtn() }
             handleAnswer={ (event) => this.handleAnswer(event) }
             isDisabled={ isDisabled }
@@ -129,6 +130,7 @@ class TelaJogo extends Component {
 const mapStateToProps = (state) => ({
   getdata: state.user.userData, // Pega Nome de usuario
   getTokenStatus: state.user.token,
+  scoreUser: state.user.score, // Recebe o score do jogador
   gameData: state.requestGameAPI.gameData, // Pega as perguntas
 });
 
