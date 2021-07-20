@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import BooleanAnswers from './BooleanAnswers';
 import MultipleAnswers from './MultipleAnswers';
@@ -152,6 +153,16 @@ class QuestionCard extends React.Component {
 
     if (isLoading) return <Loading />;
     if (error) return <p>{error.message}</p>;
+    if (!question) {
+      return (
+        <>
+          <p>Não foram encontradas questões suficientes com estas configurações</p>
+          <Link to="/">
+            Voltar
+          </Link>
+        </>
+      );
+    }
 
     return (
       <section>

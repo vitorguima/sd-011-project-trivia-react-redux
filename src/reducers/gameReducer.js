@@ -33,7 +33,9 @@ const fiftyPercent = 0.5;
 const caseTrue = 1;
 const caseFalse = -1;
 const getAnswers = (question) => {
-  const answers = [question.correct_answer, ...question.incorrect_answers];
+  const answers = question
+    ? [question.correct_answer, ...question.incorrect_answers]
+    : [];
 
   /*
     shuffle array js
