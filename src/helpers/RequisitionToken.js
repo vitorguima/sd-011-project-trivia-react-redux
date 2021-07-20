@@ -9,7 +9,6 @@ export default function requisitionToken() {
       const data = await response.json();
       dispatch(requestSuccessToken(data));
       dispatch(requisitionQuests(data.token));
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
