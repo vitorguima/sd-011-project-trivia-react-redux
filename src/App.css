@@ -283,7 +283,7 @@ button {
 }
 
 .acertos {
-  color: black;
+  color: #000000;
   font-weight: 300;
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
 }
