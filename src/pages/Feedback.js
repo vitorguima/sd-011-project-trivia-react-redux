@@ -5,14 +5,15 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   renderFeedbackMessage() {
-    const { score } = this.props;
-    console.log(score);
     const number = 3;
-    if (score < number) {
+    const { assertions } = JSON.parse(localStorage.getItem('state')).player;
+    console.log(assertions);
+    if (assertions < number) {
       return (
         <h3 data-testid="feedback-text">Podia ser melhor...</h3>
       );
-    } return <h3 data-testid="feedback-text">Mandou bem!</h3>;
+    }
+    if (assertions >= number) return <h3 data-testid="feedback-text">Mandou bem!</h3>;
   }
 
   render() {
