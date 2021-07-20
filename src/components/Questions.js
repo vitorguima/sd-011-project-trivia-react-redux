@@ -77,7 +77,7 @@ class Questions extends Component {
 
     default:
       break;
-    }// !
+    }
     if (e.target.id === 'correct-answear') {
       const DEZ = 10;
       const point = DEZ + (globalTimer * this.multiplier);
