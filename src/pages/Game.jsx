@@ -27,8 +27,8 @@ class Game extends Component {
   }
 
   async getQuestions() {
-    const token = localStorage.getItem('token');
-    const data = await fetchQuestions(token);
+    const { category } = this.props;
+    const data = await fetchQuestions(category);
     this.setState({
       questions: data.results,
       loading: false,
@@ -37,7 +37,6 @@ class Game extends Component {
 
   refreshTimer() {
     const { setHidden, timer, setTimer, setDisabled } = this.props;
-    console.log('ola');
     if (timer > 0) {
       const newTimer = timer - 1;
       setTimer(newTimer);
@@ -107,6 +106,7 @@ class Game extends Component {
 const mapStatetoProps = (state) => ({
   hiddenBtn: state.game.hidden,
   timer: state.game.timer,
+  category: state.game.category,
 });
 
 const mapDispatchToProps = (dispatch) => ({
