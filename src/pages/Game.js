@@ -17,7 +17,8 @@ class Game extends Component {
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, questionsArr } = this.props;
+    if (!questionsArr.length) return (<div>Loading</div>);
     if (loading) return <h3>Loading</h3>;
     return (
       <>
@@ -30,6 +31,7 @@ class Game extends Component {
 
 const mapStateToProps = (state) => ({
   loading: state.questions.loading,
+  questionsArr: state.questions.questionsArr,
 });
 
 const mapDispatchToProps = (dispatch) => ({
