@@ -1,38 +1,65 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Score from './Score';
+import { connect } from 'react-redux';
+import { getUserScore } from '../actions/user';
 
 import CategoryAndQuestion from './CategoryAndQuestion';
 
 import './Questions.css';
 
 class QuestionsWithAnswers extends Component {
-  // constructor() {
-  //   super();
-  //   // this.state = {
-  //   //   click: false,
-  //   // };
-  //   // this.handleScoreUpdate = this.handleScoreUpdate.bind(this);
-  // }
+  constructor() {
+    super();
+    this.state = {
+      totalScore: 0,
+    };
+    this.handleConvertDifficulty = this.handleConvertDifficulty.bind(this);
+    this.handleScore = this.handleScore.bind(this);
+    this.handleScoreCanBeUpdated = this.handleScoreCanBeUpdated.bind(this);
+  }
 
-  // handleScoreUpdate() {
-  //   this.setState({ click: true });
-  // }
+  // *Converte string com a dificuldade em numero
+  handleConvertDifficulty(difficulty) {
+    const numbers = { one: 1, two: 2, three: 3 }; // Uma forma para salvar os números dentro de uma constante
+    const { one, two, three } = numbers;
+    if (difficulty === 'easy') return one;
+    if (difficulty === 'medium') return two;
+    if (difficulty === 'hard') return three;
+  }
+
+  // !Calcula a quantidade total de pontos
+  handleScore(difficulty) {
+    const number = 10; // Não é recomendado que use o numero direto, mas sim dentro de uma constante
+    const difficultyPoints = this.handleConvertDifficulty(difficulty);
+    const { counter } = this.props;
+    this.setState((old) => ({
+      totalScore: old.totalScore + number
+      + (counter * difficultyPoints),
+    }));
+  }
+
+  handleScoreCanBeUpdated() {
+    const { count, gameResults } = this.props;
+    const magicNumber = 4;
+    if (count > magicNumber) {
+      console.log(count);
+      return this.handleScore(gameResults.difficulty);
+    }
+  }
 
   render() {
     const {
       isRedBordered, isGreenBordered, incorrectAnswer,
       correctAnswer, isHidden, gameResults,
       counter, nextBtn, handleAnswer,
-      isDisabled, count } = this.props;
-    // const { click } = this.state;
+      isDisabled, submitScore } = this.props;
+    const { totalScore } = this.state;
     return (
       <div>
         <CategoryAndQuestion
           gameResults={ gameResults }
           counter={ counter }
         />
-        <Score Result={ gameResults } score={ counter } count={ count } click={ isHidden } />
         <button
           data-testid="correct-answer"
           name="correct"
@@ -40,8 +67,8 @@ class QuestionsWithAnswers extends Component {
           className={ isGreenBordered }
           onClick={ handleAnswer }
           disabled={ isDisabled }
-          // onMouseDown={ () => this.handleScoreUpdate() }
-          // onMouseUp={ () => this.setState({ click: false }) }
+          onMouseDown={ () => this.handleScoreCanBeUpdated() }
+          onMouseUp={ () => submitScore(totalScore) }
         >
           { correctAnswer }
         </button>
@@ -71,10 +98,15 @@ class QuestionsWithAnswers extends Component {
   }
 }
 
+const mapDispachToProps = (dispatch) => ({
+  submitScore: (state) => dispatch(getUserScore(state)),
+});
+
 QuestionsWithAnswers.propTypes = ({
   incorrectAnswer: PropTypes.arrayOf().isRequired,
   correctAnswer: PropTypes.string.isRequired,
   nextBtn: PropTypes.func.isRequired,
+  submitScore: PropTypes.func.isRequired,
   handleAnswer: PropTypes.func.isRequired,
   gameResults: PropTypes.objectOf().isRequired,
   isRedBordered: PropTypes.string.isRequired,
@@ -85,4 +117,4 @@ QuestionsWithAnswers.propTypes = ({
   count: PropTypes.number.isRequired,
 });
 
-export default QuestionsWithAnswers;
+export default connect(null, mapDispachToProps)(QuestionsWithAnswers);
