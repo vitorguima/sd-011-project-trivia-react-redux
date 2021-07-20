@@ -9,31 +9,36 @@ header {
 }
 
 .settings-form {
+  align-items: center;
   background-color: #303030;
   border-radius: 4px;
-  display: flex;
   color: white;
-  padding-bottom: 20px;
+  display: flex;
   flex-direction: column;
-  width: 400px;
   margin: 30px auto;
-  align-items: center;
+  padding-bottom: 20px;
+  width: 400px;
 }
 
 select {
-  margin: 10px;
-  width: 280px;
   font-size: 1.2em;
+  margin: 10px;
   padding: 5px;
+  width: 280px;
 }
 
 button {
   border-radius: 4px;
-  margin: 8px;
   font-size: 16px;
+  margin: 8px;
   padding: 8px 20px;
 }
 
-button:hover {
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 10px 50px 0 white;
+.settings-buttons:hover {
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24) , 0 10px 50px 0 white;
 }
+
+.home-button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24) , 0 10px 50px 0 white;
+}
+

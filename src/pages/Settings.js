@@ -112,6 +112,7 @@ class Settings extends Component {
             </button>
             <Link to="/">
               <button
+                className="home-button"
                 type="button"
               >
                 Home
