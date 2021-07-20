@@ -18,6 +18,11 @@
   align-self: center;
 }
 
+.questions__container h1,
+.questions__container h2 {
+  text-align: center;
+}
+
 .questions__container button {
   padding: 10px;
   border: 1px solid;
@@ -47,7 +52,7 @@
   box-shadow: 2px 2px 2px rgba(0, 0, 0, .25);
   transition: 150ms;
   font-size: 1.3rem;
-  animation: makeItBig 1s forwards;
+  animation: makeItBig .5s forwards;
 }
 
 @keyframes makeItBig {
