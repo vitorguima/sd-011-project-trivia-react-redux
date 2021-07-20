@@ -6,6 +6,7 @@ export const GRAVATAR = 'GRAVATAR';
 export const QUESTIONS = 'QUESTIONS';
 export const COUNTDOWN = 'COUNTDOWN';
 export const STOP_COUNTDOWN = 'STOP_COUNTDOWN';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
 
 export const loginAction = (name, email) => ({ type: LOGIN, email, name });
 const receiveToken = (token) => ({ type: TOKEN, token });
@@ -29,9 +30,10 @@ export const fetchGame = (token) => (dispatch) => (fetch(`https://opentdb.com/ap
   .then((questions) => dispatch(receiveQuestions(questions)));
 
 export const reduceSecond = (timer) => (dispatch) => {
-  console.log(timer);
   if (timer > 0) {
     return dispatch(countdownTimer());
   }
   return dispatch(stopCountdownTimer());
 };
+
+export const updateScore = (points) => ({ type: UPDATE_SCORE, points });

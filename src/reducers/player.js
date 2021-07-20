@@ -1,4 +1,4 @@
-import { GRAVATAR, QUESTIONS } from '../actions';
+import { GRAVATAR, QUESTIONS, UPDATE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   assertions: 0,
@@ -18,6 +18,7 @@ const INITIAL_STATE = {
 
 export default function playerReducer(state = INITIAL_STATE, action) {
   const ERROR_CODE = 3;
+  const storageState = JSON.parse(localStorage.getItem('state'));
   switch (action.type) {
   case GRAVATAR:
     return {
@@ -31,7 +32,13 @@ export default function playerReducer(state = INITIAL_STATE, action) {
       loading: false,
       error: action.questions.response_code === ERROR_CODE,
     };
-  // CRIAR UM CASO COM SCORE A SER SOMADO;
+  case UPDATE_SCORE:
+    storageState.player.score += action.points;
+    localStorage.setItem('state', JSON.stringify(storageState));
+    return {
+      ...state,
+      score: state.score + action.points,
+    };
   default:
     return state;
   }
