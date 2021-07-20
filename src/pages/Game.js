@@ -147,14 +147,18 @@ class Game extends Component {
 
     return (
       <>
-        <span>{ `Tempo: ${timer}` }</span>
+        <div className="timer-container">
+          <span>{ `Tempo: ${timer}` }</span>
+        </div>
         <h1 data-testid="question-text">
           { questions[questionNum].question }
         </h1>
         <h2 data-testid="question-category">
           { questions[questionNum].category }
         </h2>
-        {this.renderAnswers(questions[questionNum])}
+        <div className="btn-answer-container">
+          {this.renderAnswers(questions[questionNum])}
+        </div>
       </>
     );
   }
@@ -169,7 +173,7 @@ class Game extends Component {
           type="button"
           key={ index }
           id="wrong"
-          className={ showIncorrectAnswer }
+          className={ showIncorrectAnswer && 'btn-answer' }
           onClick={ this.renderShowAnswer }
           disabled={ disabled }
         >
@@ -182,7 +186,7 @@ class Game extends Component {
           data-testid="wrong-answer-0"
           id="wrong"
           type="button"
-          className={ showIncorrectAnswer }
+          className={ showIncorrectAnswer && 'btn-answer' }
           onClick={ this.renderShowAnswer }
           disabled={ disabled }
         >
@@ -210,9 +214,11 @@ class Game extends Component {
   render() {
     const { loading, disabled } = this.state;
     return (
-      <div>
+      <div className="game-container">
         <Header />
-        { loading ? <div>Carregando</div> : this.renderQuestions() }
+        <div className="quenstions-container">
+          { loading ? <div>Carregando</div> : this.renderQuestions() }
+        </div>
         { disabled ? (
           <button
             data-testid="btn-next"

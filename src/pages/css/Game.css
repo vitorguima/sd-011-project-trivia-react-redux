@@ -5,3 +5,19 @@
 .correct {
   border: 3px solid rgb(6, 240, 15);
 }
+
+.game-container {
+  display: flex;
+  border: 1px solid red;
+  min-width: 500px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.btn-answer-container{
+
+}
+
+.btn-answer {
+
+}

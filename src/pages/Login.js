@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
+import './css/Login.css';
 import { fetchToken, actionLogin, actionScore } from '../actions';
 
 class Login extends Component {
@@ -75,10 +75,11 @@ class Login extends Component {
       <div className="App">
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
-          <form>
+          <form clasName="login-form">
             <label htmlFor="name">
-              Nome:
               <input
+                className="login-input"
+                placeholder="Nome"
                 onChange={ this.handleChange }
                 data-testid="input-player-name"
                 type="text"
@@ -86,8 +87,9 @@ class Login extends Component {
               />
             </label>
             <label htmlFor="email">
-              Email:
               <input
+                className="login-input"
+                placeholder="Email"
                 onChange={ this.handleChange }
                 data-testid="input-gravatar-email"
                 type="email"
@@ -95,22 +97,22 @@ class Login extends Component {
               />
             </label>
           </form>
-          <Link to="/game">
-            <button
-              disabled={ disabled }
-              type="button"
-              data-testid="btn-play"
-              onClick={ this.handleBtn }
-            >
-              Jogar
-            </button>
-          </Link>
           <button
+            className="btn-login btn-play"
+            disabled={ disabled }
+            type="button"
+            data-testid="btn-play"
+            onClick={ this.handleBtn }
+          >
+            Jogar
+          </button>
+          <button
+            className="btn-login btn-config"
             type="button"
             data-testid="btn-settings"
             onClick={ this.sendToConfigurations }
           >
-            Ver configurações
+            Configurações
           </button>
         </header>
       </div>
