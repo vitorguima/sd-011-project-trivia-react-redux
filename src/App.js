@@ -4,9 +4,9 @@ import logo from './trivia.png';
 import './App.css';
 import Login from './pages/Login';
 import Game from './pages/Game';
-import Feedback from './pages/Feedback';
 import Settings from './pages/Settings';
 import Ranking from './pages/Ranking';
+import Feedback from './pages/Feedback';
 
 export default function App() {
   return (

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
@@ -23,7 +22,6 @@ class Feedback extends Component {
   render() {
     const notRedux = JSON.parse(localStorage.getItem('state'));
     const { score, assertions } = notRedux.player;
-    localStorage.setItem('state', JSON.stringify(notRedux));
     return (
       <div>
         <Header />
@@ -55,12 +53,4 @@ class Feedback extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  results: state.triviaReducer.trivia.results,
-});
-
-Feedback.propTypes = {
-  results: PropTypes.array,
-}.isRequired;
-
-export default connect(mapStateToProps, null)(Feedback);
+export default Feedback;
