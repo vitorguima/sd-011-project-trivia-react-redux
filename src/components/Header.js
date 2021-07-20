@@ -11,10 +11,19 @@ export default class Header extends Component {
       name: '',
     };
     this.fetchAvatar = this.fetchAvatar.bind(this);
+    this.getScoreFromLocalStorage = this.getScoreFromLocalStorage.bind(this);
   }
 
   componentDidMount() {
     this.fetchAvatar();
+  }
+
+  // Se usar essa função, o requisito 2 não passa e não descobri o motivo;
+  getScoreFromLocalStorage() {
+    const playerString = localStorage.getItem('state');
+    const obj = JSON.parse(playerString);
+    const { score } = obj.player;
+    return score;
   }
 
   async fetchAvatar() {

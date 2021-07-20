@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
@@ -28,13 +29,13 @@ class TriviaQuestions extends Component {
   }
 
   savePlayerScoreInLocalStorage(playerName, gravatarEmail) {
-    const player = {
+    const player = { player: {
       name: playerName,
       assertions: 0,
       score: 0,
       gravatarEmail,
-    };
-    localStorage.setItem('player', JSON.stringify(player));
+    } };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   render() {
@@ -51,6 +52,7 @@ class TriviaQuestions extends Component {
         { ((secondsToFinish === 0 || wasAnswered) && questionIndex < MAX_QUESTIONS_INDEX)
         && <NextQuestionBtn toTheNextQuestion={ this.toTheNextQuestion } /> }
         { eachResult ? <Question eachResult={ eachResult[questionIndex] } /> : null }
+        { questionIndex === MAX_QUESTIONS_INDEX ? <Redirect to="/feedback" /> : null}
       </div>);
   }
 }

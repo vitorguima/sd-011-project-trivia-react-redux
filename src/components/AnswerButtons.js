@@ -18,15 +18,15 @@ class AnswerButtons extends Component {
     if (score > 0) {
       assert = 1;
     }
-    const objString = localStorage.getItem('player');
-    const player = JSON.parse(objString);
-    const playerScore = {
+    const objString = localStorage.getItem('state');
+    const { player } = JSON.parse(objString);
+    const playerScore = { player: {
       name: player.name,
       assertions: player.assertions + assert,
       score: player.score + score,
       gravatarEmail: player.gravatarEmail,
-    };
-    localStorage.setItem('player', JSON.stringify(playerScore));
+    } };
+    localStorage.setItem('state', JSON.stringify(playerScore));
   }
 
   setScorePoint(answerSelected, correctAnswer) {

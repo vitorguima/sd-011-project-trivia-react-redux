@@ -44,11 +44,6 @@ class NextQuestionBtn extends Component {
   }
 }
 
-// Verificar porque neste componente o Store não funciona
-// const mapStateToProps = (state) => ({
-//   wasAsnwered: state.question.wasAsnwered,
-// });
-
 const mapDispatchToProps = (dispatch) => ({
   newQuestionTime: () => dispatch(userActions.newQuestionTime()),
 });
