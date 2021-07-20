@@ -42,7 +42,7 @@ class Feedback extends React.Component {
         <PlayerComponent assertions={ assertions } />
         <section>
           <p data-testid="feedback-text">{message}</p>
-          <p data-testid="feedback-total-score">{assertions}</p>
+          <p data-testid="feedback-total-score">{score}</p>
           <p data-testid="feedback-total-question">{assertions}</p>
           <Link to="/">
             <button type="button" data-testid="btn-play-again">Jogar novamente</button>
