@@ -41,20 +41,20 @@ class Feedback extends Component {
           <h3 data-testid="feedback-total-score">{ scoreUser }</h3>
           <h3 data-testid="feedback-total-question">{ assertions }</h3>
         </div>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
-          >
-            Jogar Novamente
-          </button>
-        </Link>
         <Link to="/Ranking">
           <button
             type="button"
             data-testid="btn-ranking"
           >
             Ver Ranking
+          </button>
+        </Link>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Jogar Novamente
           </button>
         </Link>
       </div>
