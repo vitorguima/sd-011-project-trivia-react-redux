@@ -4,17 +4,16 @@ import Header from '../components/Header';
 import Questions from '../components/Questions';
 import { getToken } from '../services/API';
 
-class Jogo extends Component {
-  constructor() {
-    super();
-
+class Game extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       questions: [],
       loading: true,
       value: 0,
     };
 
-    this.change = this.change.bind(this);
+    this.setScoreValue = this.setScoreValue.bind(this);
   }
 
   componentDidMount() {
@@ -23,18 +22,17 @@ class Jogo extends Component {
     });
   }
 
-  change(val) {
+  setScoreValue(val) {
     this.setState({ value: val });
   }
 
   render() {
     const { questions, loading, value } = this.state;
-    // console.log(questions);
     return (
       <div className="game-container">
-        <Header pontuacao={ value } />
+        <Header score={ value } />
         {questions.length === 0 ? loading
-          : <Questions { ...questions } funcao={ this.change } /> }
+          : <Questions { ...questions } scoreValue={ this.setScoreValue } /> }
       </div>
     );
   }
@@ -44,12 +42,4 @@ const mapStateToProps = (state) => ({
   questions: state.questionReducer.questions,
 });
 
-export default connect(mapStateToProps, null)(Jogo);
-
-/* return(
-  <div className="game-container">
-    <Header pontuacao={ value } />
-    {!loading && <Questions { ...game } funcao={ this.change } />}
-  </div>
-);
-} */
+export default connect(mapStateToProps, null)(Game);
