@@ -36,7 +36,7 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { assertions, message } = this.state;
+    const { assertions, message, score } = this.state;
     return (
       <div>
         <PlayerComponent assertions={ assertions } />
