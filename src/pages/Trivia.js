@@ -39,7 +39,6 @@ class Trivia extends Component {
     const { token } = this.state;
     console.log(token);
     return (
-
       <div>
         <PlayerComponent />
         <QuestionsComponent />

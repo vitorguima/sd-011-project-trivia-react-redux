@@ -4,7 +4,7 @@ import {
   REQUEST_TRIVIA_ERROR,
   TIMER_BUTTON,
   REQUEST_CLICK_BUTTON,
-  SCORE_COUNTER,
+  SEND_SCORE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   buttonDisable: false,
   buttonClick: false,
   rightAnswerClicked: false,
+  index: 0,
   assertions: 0,
 };
 
@@ -47,8 +48,9 @@ function trivia(state = INITIAL_STATE, action) {
       buttonClick: action.state.buttonClick,
       rightAnswerClicked: action.state.rightAnswerClicked,
       buttonDisable: false,
+      index: 1,
     };
-  case SCORE_COUNTER:
+  case SEND_SCORE:
     return {
       ...state,
       assertions: 0,
