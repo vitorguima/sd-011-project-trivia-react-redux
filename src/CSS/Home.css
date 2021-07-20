@@ -35,13 +35,13 @@
   padding: 6px 12px;
 }
 
-img {
+.logo {
   transition: 0.5s;
   width: 20vw;
   margin-bottom: 15px;
 }
 
-img:hover {
+.logo:hover {
   transition: 0.5s;
   transform: scale(1.2) 
 }
