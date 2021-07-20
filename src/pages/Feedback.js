@@ -65,5 +65,3 @@ Feedback.propTypes = {
 };
 
 export default connect()(Feedback);
-
-ee
