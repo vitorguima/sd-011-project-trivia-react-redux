@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { resetPlayerInfo } from '../actions/game';
+import './Feedback.css';
 
 class Feedback extends Component {
   constructor() {
@@ -23,34 +24,48 @@ class Feedback extends Component {
   }
 
   render() {
-    const { totalScore, resetPlayer } = this.props;
+    const { resetPlayer, totalScore } = this.props;
     const { localStorage } = this.state;
 
     return (
       <div>
         <Header />
-        <div>
-          <p data-testid="feedback-total-score">{ totalScore }</p>
-          <p data-testid="feedback-total-question">{ localStorage.player.assertions }</p>
+        <div className="feedback-container">
+          <div>
+            <p
+              data-testid="feedback-total-question"
+            >
+              { `You scored ${localStorage.player.assertions} out of 5 questions` }
+            </p>
+            <p
+              data-testid="feedback-total-score"
+            >
+              { `Your final score is ${totalScore}` }
+            </p>
+          </div>
+          <h3 data-testid="feedback-text">{ this.correctQuestions() }</h3>
+          <div>
+            <Link to="/ranking">
+              <button
+                type="button"
+                data-testid="btn-ranking"
+                className="play-again-button"
+              >
+                Ranking
+              </button>
+            </Link>
+            <Link to="/">
+              <button
+                type="button"
+                data-testid="btn-play-again"
+                onClick={ resetPlayer }
+                className="ranking-button"
+              >
+                Play again!
+              </button>
+            </Link>
+          </div>
         </div>
-        <h3 data-testid="feedback-text">{ this.correctQuestions() }</h3>
-        <Link to="/ranking">
-          <button
-            type="button"
-            data-testid="btn-ranking"
-          >
-            Players Ranking
-          </button>
-        </Link>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
-            onClick={ resetPlayer }
-          >
-            Play again!
-          </button>
-        </Link>
       </div>
     );
   }

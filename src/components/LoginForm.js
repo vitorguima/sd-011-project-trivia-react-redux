@@ -65,7 +65,7 @@ class LoginForm extends Component {
           type="text"
           id="email"
           data-testid="input-gravatar-email"
-          placeholder="Gravatar email"
+          placeholder="Email"
           onChange={ this.handleInputChange }
           className="form-input"
         />
@@ -82,7 +82,9 @@ class LoginForm extends Component {
           data-testid="btn-play"
           disabled={ !enablePlayButton }
           onClick={ this.handlePlayButtonClick }
-          className={ (enablePlayButton) ? 'form-play-button-enabled' : 'form-play-button' }
+          className={ (enablePlayButton)
+            ? 'form-play-button-enabled'
+            : 'form-play-button' }
         >
           Play
         </button>

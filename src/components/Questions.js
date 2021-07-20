@@ -115,7 +115,7 @@ class Questions extends Component {
 
     return (
       <>
-        <p data-testid="question-category">{ category }</p>
+        <h2 data-testid="question-category">{ category }</h2>
         <p data-testid="question-text">{ question }</p>
         <div className="buttons-container">
           { answers.sort().map((answer, index) => (
@@ -193,7 +193,9 @@ class Questions extends Component {
     const { questionData } = this.props;
     return (
       <div className="main-container">
-        { questionData.length > 0 ? this.renderQuestions() : <p>Loading...</p>}
+        { questionData.length > 0
+          ? this.renderQuestions()
+          : <p className="loading">Loading...</p>}
         <span className="counter">
           <p>Time Left:</p>
           <p>
@@ -209,7 +211,7 @@ class Questions extends Component {
 const mapStateToProps = (state) => ({
   userName: state.login.user,
   userEmail: state.login.email,
-  imageURL: state.game.gravatarImage,
+  imageURL: state.login.gravatarImage,
   fetchedToken: state.login.token,
   questionData: state.game.questions,
   currentScore: state.game.score,

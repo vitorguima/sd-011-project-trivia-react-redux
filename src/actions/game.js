@@ -25,8 +25,6 @@ export const fetchQuestionsAPI = (token,
   questionDifficulty,
   questionType) => async (dispatch) => {
   dispatch(requestQuestions());
-  console.log(token);
-
   try {
     const response = await fetchQuestions(token,
       questionCategory,

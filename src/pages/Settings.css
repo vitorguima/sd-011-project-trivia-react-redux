@@ -1,0 +1,37 @@
+header {
+  align-items: center;
+  background-color: #303030;
+  color: white;
+  display: flex;
+  font-size: 2em;
+  height: 70px;
+  justify-content: center;
+}
+
+.settings-form {
+  background-color: #303030;
+  border-radius: 4px;
+  display: flex;
+  color: white;
+  padding-bottom: 20px;
+  flex-direction: column;
+  width: 400px;
+  margin: 30px auto;
+  align-items: center;
+}
+
+select {
+  margin: 10px;
+  width: 280px;
+}
+
+button {
+  border-radius: 4px;
+  margin: 5px;
+  font-size: 16px;
+  padding: 8px 20px;
+}
+
+button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 10px 50px 0 white;
+}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { questionSettings } from '../actions/settings';
+import './Settings.css';
 
 class Settings extends Component {
   constructor() {
@@ -37,7 +38,6 @@ class Settings extends Component {
     const { categories } = this.state;
     return (
       <label htmlFor="selectedCategory">
-        Select Category:
         <select
           id="selectedCategory"
           name="selectedCategory"
@@ -60,7 +60,6 @@ class Settings extends Component {
   renderDifficulty() {
     return (
       <label htmlFor="difficulty">
-        Select Difficulty:
         <select
           id="difficulty"
           name="difficulty"
@@ -78,7 +77,6 @@ class Settings extends Component {
   renderType() {
     return (
       <label htmlFor="type">
-        Select Type:
         <select
           id="type"
           name="type"
@@ -97,27 +95,30 @@ class Settings extends Component {
     const { selectedCategory, type, difficulty } = this.state;
     return (
       <>
-        <h1 data-testid="settings-title">
+        <header data-testid="settings-title">
           Settings
-        </h1>
-        <form>
+        </header>
+        <form className="settings-form">
+          <h2>Customize your game</h2>
           { this.renderCategories() }
           { this.renderDifficulty() }
           { this.renderType() }
+          <span className="settings-buttons">
+            <button
+              type="button"
+              onClick={ () => saveSettings({ selectedCategory, type, difficulty }) }
+            >
+              Save Settings
+            </button>
+            <Link to="/">
+              <button
+                type="button"
+              >
+                Home
+              </button>
+            </Link>
+          </span>
         </form>
-        <button
-          type="button"
-          onClick={ () => saveSettings({ selectedCategory, type, difficulty }) }
-        >
-          Save Settings
-        </button>
-        <Link to="/">
-          <button
-            type="button"
-          >
-            Home
-          </button>
-        </Link>
       </>
     );
   }

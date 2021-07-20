@@ -11,7 +11,8 @@ class Game extends Component {
     const { userEmail, fetchToken, sendGravatarImage } = this.props;
     fetchToken();
     const hashEmail = md5(userEmail).toString();
-    sendGravatarImage(`https://www.gravatar.com/avatar/${hashEmail}`);
+    const url = `https://www.gravatar.com/avatar/${hashEmail}`;
+    sendGravatarImage(url);
   }
 
   render() {
@@ -20,7 +21,7 @@ class Game extends Component {
     return (
       <div>
         <Header />
-        { fetchedToken ? <Questions /> : <h1>Loading...</h1> }
+        { fetchedToken ? <Questions /> : <h1 className="loading">Loading...</h1> }
       </div>
     );
   }
