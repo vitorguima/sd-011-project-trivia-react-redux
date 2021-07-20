@@ -42,7 +42,7 @@ class Home extends Component {
           <label htmlFor="name">
             <input
               type="text"
-              id="name"
+              placeholder="Nome"
               data-testid="input-player-name"
               name="name"
               onChange={ (value) => this.handleData(value) }
@@ -51,7 +51,7 @@ class Home extends Component {
           <label htmlFor="email">
             <input
               type="email"
-              id="email"
+              placeholder="E-mail"
               data-testid="input-gravatar-email"
               name="email"
               onChange={ (value) => this.handleData(value) }

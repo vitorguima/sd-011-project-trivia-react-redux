@@ -7,6 +7,8 @@ import Header from './components/Header';
 import { fetchQuestion } from '../redux/actions';
 import Time from './components/Time';
 
+import '../CSS/Game.css';
+
 let renderButton = false;
 
 class Game extends Component {
@@ -178,7 +180,7 @@ class Game extends Component {
   render() {
     const { renderTime, numberTime, score, numberNext } = this.state;
     return (
-      <div>
+      <div className="game-page">
         <header>
           <Header />
           <p>
