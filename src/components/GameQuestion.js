@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { stopCountdownTimer, updateScore } from '../actions';
+import { Redirect } from 'react-router';
+import { resetCountdownTimer, stopCountdownTimer, updateScore } from '../actions';
 
 class GameQuestion extends Component {
   constructor(props) {
@@ -48,22 +49,28 @@ class GameQuestion extends Component {
     target.classList.add('clicked');
 
     const father = target.parentElement;
+    const nextQuestion = document.querySelector('.nextQuestion');
     const childs = [...father.children];
     childs.forEach((child) => {
       const { testid } = child.dataset;
       child.classList.add(testid);
       child.disabled = true;
     });
+    nextQuestion.classList.add('visible');
   }
 
   render() {
-    const { question, isLoading, stopTimer } = this.props;
+    // verificar problema de renderizar toda hora
+    const { questionIndexAndRoute, question, isLoading, stopTimer } = this.props;
+    const INDEX_TO_REDIRECT = 5;
     const LOADING = 'Carregando as perguntas';
+    if (questionIndexAndRoute === INDEX_TO_REDIRECT) {
+      return <Redirect to="feedback" />;
+    }
     const alternatives = [...question.incorrect_answers, question.correct_answer];
     // http://www.buginit.com/javascript/javascript-sort-without-mutating-array/
     const alternativesToSort = alternatives.concat().sort();
     const correctAnswer = question.correct_answer;
-
     return (
       <div>
         <p
@@ -105,9 +112,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actionStopCountdown: () => dispatch(stopCountdownTimer()),
   updateScoreAction: (points) => dispatch(updateScore(points)),
+  actionResetTimer: () => dispatch(resetCountdownTimer()),
 });
 
 GameQuestion.propTypes = {
+  questionIndexAndRoute: PropTypes.number.isRequired,
   question: PropTypes.arrayOf(PropTypes.any).isRequired,
   isLoading: PropTypes.bool.isRequired,
   stopTimer: PropTypes.func.isRequired,
