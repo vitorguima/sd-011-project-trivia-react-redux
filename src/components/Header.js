@@ -15,15 +15,13 @@ class Header extends React.Component {
             src={ `https://www.gravatar.com/avatar/${email}` }
             alt="imagem gravatar"
             data-testid="header-profile-picture"
-            className="img-gravatar"
           />
         </div>
         <div className="name">
-          <h5 data-testid="header-player-name">{ `Player: ${name}` }</h5>
+          <h4 data-testid="header-player-name">{ name }</h4>
         </div>
-        <div className="score-element">
-          <h4 className="score">Score:</h4>
-          <span data-testid="header-score" className="punctuation">{ score }</span>
+        <div className="score">
+          <h4 data-testid="header-score">{ score }</h4>
         </div>
       </div>
     );
