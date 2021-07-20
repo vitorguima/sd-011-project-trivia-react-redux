@@ -24,7 +24,7 @@
 
 .App-header {
   align-items: center;
-  background-color: #282c34;
+  background-color: #5D6C89;
   color: white;
   display: flex;
   flex-direction: column;
@@ -54,4 +54,9 @@
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+.urTurn {
+  font-family: 'Press Start 2P';
 }

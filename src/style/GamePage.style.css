@@ -1,7 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&family=Odibee+Sans&display=swap');
+
 .rightAnswer {
   border: 3px solid rgb(6, 240, 15);
+  border-radius: 5px;
+  font-family: 'Noto Sans JP';
 }
 
 .wrongAnswer {
   border: 3px solid red;
+  border-radius: 5px;
+  font-family: 'Noto Sans JP';
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+
+.question {
+  font-family: 'Odibee Sans';
+  font-size: larger;
+}
+
+.answerbtn, .header {
+  font-family: 'Noto Sans JP';
 }

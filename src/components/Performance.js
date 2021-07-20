@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import '../style/Feedback.css';
 
 class Performance extends Component {
   // constructor(props) {
@@ -24,14 +25,14 @@ class Performance extends Component {
     const { assertions, score, history } = this.props;
 
     return (
-      <div>
+      <div className="bodyfb">
         <p data-testid="feedback-text">
           {(assertions >= expectedPerformace) ? msg2 : msg1}
         </p>
         <p>
           Você acertou
           <span data-testid="feedback-total-question">{assertions}</span>
-          questões!
+           questões!
         </p>
         <p>
           Um total de
@@ -42,6 +43,7 @@ class Performance extends Component {
           data-testid="btn-ranking"
           type="button"
           onClick={ () => this.rankinPage(history) }
+          className="rkbtn"
         >
           VER RANKING
         </button>
@@ -49,6 +51,7 @@ class Performance extends Component {
           data-testid="btn-play-again"
           type="button"
           onClick={ () => this.playAgain(history) }
+          className="pabtn"
         >
           JOGAR NOVAMENTE
         </button>

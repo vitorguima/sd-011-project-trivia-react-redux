@@ -70,7 +70,7 @@ class GamePage extends Component {
 
   questionSection(results, questionIndex) {
     return (
-      <section>
+      <section className="question">
         <p data-testid="question-category">{results[questionIndex].category}</p>
         Question:
         <p data-testid="question-text">{results[questionIndex].question}</p>
@@ -107,6 +107,7 @@ class GamePage extends Component {
         onClick={ () => this.btnHandle(indexLimit, questionIndex) }
         data-testid="btn-next"
         disabled={ nextBtnDisable || indexLimit < questionIndex }
+        className="answerbtn"
       >
         Próximo
       </button>
@@ -120,7 +121,7 @@ class GamePage extends Component {
     const btnCorrectAnsw = (
       <button
         key="correct-answer"
-        className={ click ? 'rightAnswer' : null }
+        className={ click ? 'rightAnswer' : 'answerbtn' }
         onClick={ () => {
           this.clickAnswer();
           upDateScore(this.scoreUpdate(difficulty));
@@ -136,7 +137,7 @@ class GamePage extends Component {
       <button
         key={ index }
         onClick={ this.clickAnswer }
-        className={ click ? 'wrongAnswer' : null }
+        className={ click ? 'wrongAnswer' : 'answerbtn' }
         type="button"
         data-testid={ `wrong-answer-${index}` }
         disabled={ disableBtnByTime || click }
@@ -169,7 +170,7 @@ class GamePage extends Component {
   renderHeader(urlSrc) {
     const { nome, score } = this.props;
     return (
-      <header>
+      <header className="header">
         <img
           src={ urlSrc }
           alt="avatar"

@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+
+.user {
+  font-family: 'Odibee Sans';
+  font-size: xx-large;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&family=Odibee+Sans&display=swap');
+.playbtn {
+  font-family: 'Noto Sans JP';
+  background-color: #36D6E7;
+}
+
+.configbtn {
+  font-family: 'Noto Sans JP';
+  background-color: #FEB06A;
+}
+
+.campo {
+  width: 300px;
+  height: 20px;
+  background-color: #FBF6F3;
+  border-radius:  5px;
+}
+
+.playbtn, .configbtn {
+  border-radius: 20px;
+  border: 3px solid #5D6C89;
+}

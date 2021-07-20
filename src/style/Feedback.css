@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap');
+
+.fdbck {
+  font-family: 'Odibee Sans';
+  font-size: 50px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&family=Odibee+Sans&display=swap');
+
+.bodyfb, .rkbtn, .pabtn {
+  font-family: 'Noto Sans JP';
+}
+
+.rkbtn {
+  background-color: #FEB06A;
+}
+
+.pabtn {
+  background-color: #36D6E7;
+}
+
+.pabtn, .rkbtn {
+  border-radius: 20px;
+  border: 3px solid #5D6C89;
+}
+
+.img {
+  border-radius: 50px;
+  width: 100px;
+}

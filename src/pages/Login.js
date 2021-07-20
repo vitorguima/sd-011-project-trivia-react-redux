@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { loginInputs, fetchTriviaApi, fetchTriviaQuestions } from '../actions';
+import '../style/Login.css';
 
 class Login extends Component {
   componentDidMount() {
@@ -31,7 +32,7 @@ class Login extends Component {
   renderInput() {
     const { loginInputsDispatch } = this.props;
     return (
-      <div>
+      <div className="user">
         <label htmlFor="nome">
           Usuário:
           <input
@@ -39,6 +40,7 @@ class Login extends Component {
             name="nome"
             data-testid="input-player-name"
             onChange={ loginInputsDispatch }
+            className="campo"
           />
         </label>
         <br />
@@ -49,6 +51,7 @@ class Login extends Component {
             name="email"
             data-testid="input-gravatar-email"
             onChange={ loginInputsDispatch }
+            className="campo"
           />
         </label>
       </div>);
@@ -65,6 +68,7 @@ class Login extends Component {
           <button
             type="button"
             data-testid="btn-play"
+            className="playbtn"
             disabled={ !nome || !email }
             onClick={ () => {
               fetchQstionsDispatch(token);
@@ -80,6 +84,7 @@ class Login extends Component {
           <button
             type="button"
             data-testid="btn-settings"
+            className="configbtn"
           >
             Configurações
           </button>
