@@ -18,7 +18,7 @@ class GamePage extends Component {
     if (isLoading) {
       return (
         <div>
-          <h1>Carregando</h1>
+          <h1>Carregando...</h1>
           <Header />
         </div>
       );

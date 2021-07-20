@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import logo from '../trivia.png';
 
 class Login extends Component {
   constructor() {
@@ -70,6 +71,7 @@ class Login extends Component {
     const { status } = this.state;
     return (
       <div>
+        <img src={ logo } className="App-logo" alt="logo" />
         <input
           type="name"
           data-testid="input-player-name"
@@ -86,6 +88,7 @@ class Login extends Component {
           <button
             type="button"
             data-testid="btn-play"
+            className="btn-play"
             disabled={ status }
             onClick={ () => this.handleClick() }
           >
@@ -96,6 +99,7 @@ class Login extends Component {
           <button
             type="button"
             data-testid="btn-settings"
+            className="btn-settings"
           >
             Settings
           </button>
