@@ -23,6 +23,7 @@ function questions(state = INNITIAL_STATE, action) {
       ...state,
       questionsArr: [...action.payload.results],
       loading: false,
+      currentQuestion: 0,
     };
   case REQUEST_QUESTIONS_FAIL:
     return { ...state, error: action.payload, loading: false };

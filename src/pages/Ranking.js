@@ -8,6 +8,7 @@ export default class Ranking extends Component {
 
     return (
       <div>
+        <h1 data-testid="ranking-title">Ranking</h1>
         <ul>
           {sortedRanking.map((userRank, index) => (
             <li key={ index }>
