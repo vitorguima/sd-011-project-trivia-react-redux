@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import { resetTimer, updateTimer } from '../actions';
 
 const interval = 1000;
+const maxTime = 30;
 
 class Timer extends React.Component {
   constructor() {
     super();
+
     this.state = {
-      setIntervalRef: null,
+      timerReference: null,
     };
   }
 
@@ -17,40 +19,51 @@ class Timer extends React.Component {
     this.timerControl();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const { setIntervalRef } = nextState;
-    const { timer } = nextProps;
+  componentDidUpdate() {
+    const { timer, timerStopped } = this.props;
+    const { timerReference } = this.state;
 
-    if (timer === 0 && setIntervalRef) {
-      this.clearTimer(setIntervalRef);
-      return false;
+    if ((timer === 0 || timerStopped) && timerReference) {
+      this.clearTimer();
     }
 
-    return true;
+    if (timer === maxTime && !timerStopped && !timerReference) {
+      this.timerControl();
+    }
+  }
+
+  componentWillUnmount() {
+    const { timerReference } = this.state;
+
+    if (timerReference) this.clearTimer();
   }
 
   timerControl() {
-    const { dispatchtUpdateTimer, dispatchResetTimer } = this.props;
+    const {
+      dispatchtUpdateTimer, dispatchResetTimer,
+    } = this.props;
 
-    const ref = setInterval(() => {
+    const reference = setInterval(() => {
       dispatchtUpdateTimer();
     }, interval);
 
-    this.setState({
-      setIntervalRef: ref,
-    });
     dispatchResetTimer();
+
+    this.setState({
+      timerReference: reference,
+    });
   }
 
-  clearTimer(setIntervalRef) {
+  clearTimer() {
     const { toggleDisableButtons } = this.props;
+    const { timerReference } = this.state;
 
-    clearInterval(setIntervalRef);
+    clearInterval(timerReference);
 
     toggleDisableButtons();
 
     this.setState({
-      setIntervalRef: null,
+      timerReference: null,
     });
   }
 
@@ -63,8 +76,10 @@ class Timer extends React.Component {
   }
 }
 
-const mapStateToProps = ({ gameReducer: { timer } }) => ({
+const mapStateToProps = ({ timerReducer: { timer, timerReference, timerStopped } }) => ({
   timer,
+  timerReference,
+  timerStopped,
 });
 
 const mapDispatchToProps = (dispatch) => ({

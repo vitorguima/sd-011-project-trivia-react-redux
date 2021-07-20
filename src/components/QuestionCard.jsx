@@ -5,7 +5,9 @@ import Loading from './Loading';
 import BooleanAnswers from './BooleanAnswers';
 import MultipleAnswers from './MultipleAnswers';
 import Timer from './Timer';
-import { nextQuestion, resetTimer, updateScore } from '../actions';
+import {
+  nextQuestion, resetQuestions, resetTimer, stopTimer, updateScore,
+} from '../actions';
 
 const baseScore = 10;
 
@@ -19,9 +21,14 @@ class QuestionCard extends React.Component {
     };
 
     this.toggleDisableButtons = this.toggleDisableButtons.bind(this);
-    this.setScore = this.setScore.bind(this);
     this.handleNextQuestion = this.handleNextQuestion.bind(this);
-    this.toggleNextButtonVisibility = this.toggleNextButtonVisibility.bind(this);
+    this.handleQuestionAnswered = this.handleQuestionAnswered.bind(this);
+  }
+
+  componentWillUnmount() {
+    const { dispatchResetQuestions } = this.props;
+
+    dispatchResetQuestions();
   }
 
   setScore() {
@@ -77,11 +84,13 @@ class QuestionCard extends React.Component {
       history.push('/feedback');
     } else {
       dispatchNextQuestion();
-      dispatchResetTimer();
 
       this.resetColor();
       this.toggleNextButtonVisibility();
     }
+
+    this.toggleDisableButtons();
+    dispatchResetTimer();
   }
 
   changeColor({ target }) {
@@ -102,6 +111,16 @@ class QuestionCard extends React.Component {
     }));
   }
 
+  handleQuestionAnswered(event) {
+    const { dispatchStopTimer } = this.props;
+
+    this.changeColor(event);
+    this.toggleNextButtonVisibility();
+    if (event.target.dataset.testid === 'correct-answer') this.setScore();
+
+    dispatchStopTimer();
+  }
+
   renderAnswers() {
     const { question } = this.props;
     const { disableButtons } = this.state;
@@ -112,17 +131,13 @@ class QuestionCard extends React.Component {
           question.type === 'boolean'
             ? (
               <BooleanAnswers
-                changeColor={ this.changeColor }
-                toggleNextButtonVisibility={ this.toggleNextButtonVisibility }
-                setScore={ this.setScore }
+                handleQuestionAnswered={ this.handleQuestionAnswered }
                 disabled={ disableButtons }
               />
             )
             : (
               <MultipleAnswers
-                changeColor={ this.changeColor }
-                toggleNextButtonVisibility={ this.toggleNextButtonVisibility }
-                setScore={ this.setScore }
+                handleQuestionAnswered={ this.handleQuestionAnswered }
                 disabled={ disableButtons }
               />
             )
@@ -168,22 +183,26 @@ class QuestionCard extends React.Component {
 }
 
 const mapStateToProps = (
-  { gameReducer: { questions, question, timer, isLoading, error },
+  {
+    gameReducer: { questions, question, isLoading, error },
     playerReducer: { gravatar },
+    timerReducer: { timer },
   },
 ) => ({
   questions,
   question,
-  timer,
   isLoading,
   error,
   gravatar,
+  timer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchNextQuestion: () => dispatch(nextQuestion()),
   dispatchResetTimer: () => dispatch(resetTimer()),
   dispatchUpdateScore: (score) => dispatch(updateScore(score)),
+  dispatchStopTimer: () => dispatch(stopTimer()),
+  dispatchResetQuestions: () => dispatch(resetQuestions()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionCard);

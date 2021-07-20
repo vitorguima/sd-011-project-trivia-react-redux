@@ -2,18 +2,15 @@ import {
   GET_QUESTIONS,
   GET_QUESTIONS_SUCCESS,
   GET_QUESTIONS_ERROR,
-  UPDATE_TIMER,
-  RESET_TIMER,
   NEXT_QUESTION,
   UPDATE_SCORE,
+  RESET_QUESTIONS,
 } from '../actions';
-
-const maxTime = 30;
 
 const INITIAL_STATE = {
   questions: [],
   question: {},
-  timer: maxTime,
+  answers: [],
   isLoading: true,
   error: null,
   score: 0,
@@ -23,6 +20,19 @@ const INITIAL_STATE = {
 const getNextQuestion = (
   { questions, question },
 ) => questions[questions.indexOf(question) + 1];
+
+const fiftyPercent = 0.5;
+const caseTrue = 1;
+const caseFalse = -1;
+const getAnswers = (question) => {
+  const answers = [question.correct_answer, ...question.incorrect_answers];
+
+  /*
+    shuffle array js
+    source: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  */
+  return answers.sort(() => (Math.random() > fiftyPercent ? caseTrue : caseFalse));
+};
 
 const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
@@ -35,6 +45,7 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       questions: payload,
       question: payload[0],
+      answers: getAnswers(payload[0]),
       isLoading: false,
     };
   case GET_QUESTIONS_ERROR:
@@ -43,26 +54,26 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
       error: payload,
       isLoading: false,
     };
-  case UPDATE_TIMER:
-    return {
-      ...state,
-      timer: state.timer - 1,
-    };
-  case RESET_TIMER:
-    return {
-      ...state,
-      timer: maxTime,
-    };
   case NEXT_QUESTION:
     return {
       ...state,
       question: getNextQuestion(state),
+      answers: getAnswers(getNextQuestion(state)),
     };
   case UPDATE_SCORE:
     return {
       ...state,
       score: payload,
       assertions: state.assertions + 1,
+    };
+  case RESET_QUESTIONS:
+    return {
+      ...state,
+      questions: [],
+      question: {},
+      answers: [],
+      isLoading: true,
+      error: null,
     };
   default:
     return state;
