@@ -1,24 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Ranking extends Component {
-  constructor() {
-    super();
-    this.state = {
-    };
-    // this.handleClick = this.handleClick.bind(this);
-  }
-
-  // handleClick() {
-  //   const { history } = this.props;
-  //   return history.push('/');
-  // }
-
   render() {
     // const notRedux = JSON.parse(localStorage.getItem('state'));
     // const { gravatarEmail } = notRedux.player;
-    // localStorage.setItem('state', JSON.stringify(notRedux));
     // const ranking = JSON.parse(localStorage.getItem('ranking'))
     //   .sort((a, b) => b.score - a.score);
     return (
@@ -32,8 +18,8 @@ class Ranking extends Component {
                   alt="Imagem do seu avatar"
                   data-testid="header-profile-picture"
                 />
-                <h3 data-testid={ `player-name-${index}` }>{ user.name }</h3>
-                <h4 data-testid={ `player-score-${index}` }>{ user.score }</h4>
+                <h3 data-testid={ `player-name-${index}` }>{user.name}</h3>
+                <h4 data-testid={ `player-score-${index}` }>{user.score}</h4>
               </div>))} */}
         </div>
         <nav>
@@ -41,7 +27,6 @@ class Ranking extends Component {
             <button
               data-testid="btn-go-home"
               type="button"
-              // onClick={ this.handleClick() }
             >
               Ir ao Início
             </button>
@@ -51,9 +36,5 @@ class Ranking extends Component {
     );
   }
 }
-
-Ranking.propTypes = {
-  history: PropTypes.string.isRequired,
-};
 
 export default Ranking;
