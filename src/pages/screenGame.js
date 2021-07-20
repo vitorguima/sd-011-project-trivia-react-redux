@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import PlayerComponent from '../components/PlayerComponent';
 import GameComponent from '../components/GameComponent';
 import { fetchTrivia } from '../actions';
+import './screenGame.css';
 
 class screenGame extends Component {
   constructor(props) {

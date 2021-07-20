@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import fetchToken from '../service/tokenApi';
 import { sendUser, sendEmail } from '../actions';
+import './login.css';
 // import logo from './trivia.png';
 
 class login extends Component {
@@ -54,48 +55,50 @@ class login extends Component {
     const { disableBtn, user, email } = this.state;
     const { updateUser, updateEmail } = this.props;
     return (
-      <div>
-        <form>
-          <label htmlFor="user">
-            Usuário
-            <input
-              data-testid="input-player-name"
-              id="user"
-              name="user"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="email">
-            E-mail
-            <input
-              data-testid="input-gravatar-email"
-              id="email"
-              name="email"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <Link to="/screen-game">
-            <button
-              type="button"
-              data-testid="btn-play"
-              disabled={ disableBtn }
-              onClick={ () => {
-                fetchToken();
-                this.localStoragehandle();
-                updateUser(user);
-                updateEmail(email);
-              } }
-            >
-              Jogar
-            </button>
-          </Link>
-        </form>
+      <form className="container">
+        <img src="./trivia.png" alt="logo" className="logo" />
+        <label htmlFor="user">
+          <p className="label">Usuário</p>
+          <input
+            className="input"
+            data-testid="input-player-name"
+            id="user"
+            name="user"
+            onChange={ this.handleChange }
+          />
+        </label>
+        <label htmlFor="email">
+          <p className="label">E-mail</p>
+          <input
+            className="input"
+            data-testid="input-gravatar-email"
+            id="email"
+            name="email"
+            onChange={ this.handleChange }
+          />
+        </label>
+        <Link to="/screen-game">
+          <button
+            className="button"
+            type="button"
+            data-testid="btn-play"
+            disabled={ disableBtn }
+            onClick={ () => {
+              fetchToken();
+              this.localStoragehandle();
+              updateUser(user);
+              updateEmail(email);
+            } }
+          >
+            Jogar
+          </button>
+        </Link>
         <Link to="/config">
-          <button type="button" data-testid="btn-settings">
+          <button className="button" type="button" data-testid="btn-settings">
             Configurações
           </button>
         </Link>
-      </div>
+      </form>
     );
   }
 }

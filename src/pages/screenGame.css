@@ -1,0 +1,47 @@
+.player-name {
+  font-size: 50px;
+}
+
+.container-player-game {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 50px;
+  align-items: center;
+  background: rgb(4,82,110);
+  background: linear-gradient(90deg, rgba(4,82,110,1) 0%, rgba(32,76,186,1) 52%, rgb(15, 69, 168) 100%);
+  height: 10vh;
+}
+
+.container-player-game div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-player-game div img {
+  width: 70px;
+  height: 70px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.placar {
+  color: white;
+}
+
+.container-questions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  gap: 10px;
+}
