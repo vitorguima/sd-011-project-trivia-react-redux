@@ -29,7 +29,6 @@ class Ranking extends Component {
         <div data-testid="ranking-title">Ranking</div>
         {
           fromRanking
-            .sort()
             .map((elements, i) => (
               <section key={ i }>
                 <div>{elements.name}</div>
@@ -50,7 +49,7 @@ class Ranking extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  fromRanking: state.ranking,
+  fromRanking: state.rankingReducer,
 });
 
 Ranking.propTypes = {
