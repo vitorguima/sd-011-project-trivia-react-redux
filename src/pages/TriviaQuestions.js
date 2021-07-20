@@ -45,6 +45,7 @@ class TriviaQuestions extends Component {
 const mapDispatchToProps = (dispatch) => ({
   setStateGame: (payload) => dispatch(userActions.requestApiThunk(payload)),
   getNextQuestion: () => dispatch(userActions.getNextQuestion()),
+  setSecondsToFinish: (seconds) => dispatch(userActions.setSecondsToFinish(seconds)),
 });
 
 const mapStateToProps = (state) => ({

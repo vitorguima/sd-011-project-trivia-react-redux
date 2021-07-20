@@ -14,31 +14,31 @@ class CountdownTimer extends Component {
     this.timer();
   }
 
+  componentDidUpdate() {
+    const { secondsToFinish, wasAnswered, questionIndex } = this.props;
+    const INITIAL_GAME_QUESTION = 30;
+    const MAX_QUESTIONS_INDEX = 5;
+    if (secondsToFinish === INITIAL_GAME_QUESTION
+      && !wasAnswered
+      && questionIndex < MAX_QUESTIONS_INDEX) {
+      this.timer();
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.myInterval);
   }
 
-  // Problema: o timer não é renderizado novamente, portanto a função que começa o timer não é chamada quando mudamos de pergunta
-  // Soluções: podemos usar o timer dentro de uma action, e chamar a action cada vez que clicar no botão "Próxima"
-  // podemos renderizar o componente pai novamente pra forçar a renderização do componente
-
   timer() {
     const { setSecondsToFinish } = this.props;
     const interval = 1000;
-    console.log('passei');
     this.myInterval = setInterval(() => {
       const { wasAnswered, secondsToFinish } = this.props;
       if (secondsToFinish > 0 || !wasAnswered) {
-        setSecondsToFinish(1);
-        // this.setState((secs) => ({
-        //   seconds: secs.seconds - 1,
-        // }));
+        setSecondsToFinish();
       }
       if (secondsToFinish <= 0) {
         clearInterval(this.myInterval);
-        // this.setState({
-        //   disabled: false,
-        // });
       }
       if (wasAnswered) {
         clearInterval(this.myInterval);
@@ -47,7 +47,6 @@ class CountdownTimer extends Component {
   }
 
   render() {
-    const { wansAnswered } = this.props;
     const finalSeconds = 10;
     const { secondsToFinish } = this.props;
     if (secondsToFinish === 0) {
@@ -72,6 +71,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
   wasAnswered: state.questionHandlers.wasAnswered,
   secondsToFinish: state.timeHandler.secondsToFinish,
+  questionIndex: state.questionHandlers.questionIndex,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CountdownTimer);
