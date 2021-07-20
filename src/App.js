@@ -1,5 +1,4 @@
 import React from 'react';
-// import { BrowserRouter } from 'react-router-dom';
 import { Switch, Route } from 'react-router';
 import logo from './trivia.png';
 import './App.css';
@@ -16,13 +15,11 @@ export default function App() {
           SUA VEZ
         </p>
       </header>
-      {/* <BrowserRouter> */}
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route path="/settings" component={ Configurações } />
         <Route path="/game" component={ TelaJogo } />
       </Switch>
-      {/* </BrowserRouter> */}
     </div>
   );
 }
