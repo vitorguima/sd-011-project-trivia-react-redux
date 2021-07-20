@@ -1,0 +1,25 @@
+.header-container {
+  align-items: center;
+  background-color: rgb(230, 221, 208);
+  border: solid gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.image-avatar {
+  padding: 20px;
+}
+
+.header-player-name-container {
+  font-size: 20px;
+}
+
+.header-score-container {
+  align-items: baseline;
+  display: flex;
+}
+
+.header-score-container p {
+  margin-left: 10px;
+}

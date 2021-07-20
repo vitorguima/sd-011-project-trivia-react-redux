@@ -1,0 +1,37 @@
+.feedback-container {
+  margin-top: 80px;
+  text-align: center;
+}
+
+.score-container {
+  margin-left: 10px;
+}
+
+.btn-feedback-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: auto;
+}
+
+.btn-play-again-container {
+  background-color: coral;
+  border: none;
+  border-radius: 8px;
+  color: cornsilk;
+  font-weight: 600;
+  height: 2.5em;
+  margin-top: 10px;
+  width: 160px;
+}
+
+.btn-ranking-container {
+  background-color: cadetblue;
+  border: none;
+  border-radius: 8px;
+  color: aliceblue;
+  font-weight: 600;
+  height: 2.5em;
+  width: 140px;
+}

@@ -87,20 +87,22 @@ class Ranking extends Component {
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
-        <ul>
-          {rankings.sort((a, b) => b.score - a.score)
-            .map(({ name, score, picture }, index) => (
-              <li key={ index }>
-                <img src={ picture } alt="Player Avatar" />
-                <h4 data-testid={ `player-name-${index}` }>
-                  { name }
-                </h4>
-                <span data-testid={ `player-score-${index}` }>
-                  { score }
-                </span>
-              </li>
-            ))}
-        </ul>
+        <div className="raking-container">
+          <ul>
+            {rankings.sort((a, b) => b.score - a.score)
+              .map(({ name, score, picture }, index) => (
+                <li key={ index }>
+                  <img src={ picture } alt="Player Avatar" />
+                  <h4 data-testid={ `player-name-${index}` }>
+                    {name}
+                  </h4>
+                  <span data-testid={ `player-score-${index}` }>
+                    {score}
+                  </span>
+                </li>
+              ))}
+          </ul>
+        </div>
         <button
           type="button"
           data-testid="btn-go-home"
