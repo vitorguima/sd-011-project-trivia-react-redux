@@ -18,7 +18,7 @@ class GamePage extends Component {
     if (isLoading) {
       return (
         <div>
-          <h1>Carregando</h1>
+          <h1>Carregando...</h1>
           <Header />
         </div>
       );
@@ -31,19 +31,15 @@ class GamePage extends Component {
     );
   }
 }
-
 const mapStateToProps = (state) => ({
   questions: state.questionsReducer.questions,
   isLoading: state.questionsReducer.isLoading,
 });
-
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (token) => dispatch(getQuestionsThunk(token)),
 });
-
 GamePage.propTypes = {
   getQuestions: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(GamePage);
