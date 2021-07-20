@@ -14,6 +14,7 @@
   font-family: "Poppins";
   font-weight: 900;
   color: #2C1238;
+  user-select: none;
 }
 
 .red-border {
