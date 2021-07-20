@@ -15,6 +15,7 @@ class Play extends Component {
       qIndex: 0,
       assertions: 0,
       answered: false,
+      answers: [],
     };
 
     this.initialFetch = this.initialFetch.bind(this);
@@ -23,6 +24,7 @@ class Play extends Component {
     this.nextQuestion = this.nextQuestion.bind(this);
     this.renderNxtBtn = this.renderNxtBtn.bind(this);
     this.setLocal = this.setLocal.bind(this);
+    this.shuffleArray = this.shuffleArray.bind(this);
   }
 
   componentDidMount() {
@@ -60,9 +62,27 @@ class Play extends Component {
     localStorage.setItem('state', JSON.stringify({ player }));
   }
 
+  shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  }
+
   async initialFetch() {
     const { getQuestions, token } = this.props;
     await getQuestions(token);
+    const { questions } = this.props;
+    const answers = questions.reduce((allAnswers, question) => {
+      const currAnswers = [question.correct_answer, ...question.incorrect_answers];
+      this.shuffleArray(currAnswers);
+      return [...allAnswers, currAnswers];
+    }, []);
+    await this.setState(() => ({
+      answers,
+    }));
   }
 
   async handleCorrect(event) {
@@ -131,49 +151,48 @@ class Play extends Component {
 
   renderQuestion() {
     const { questions } = this.props;
-    const { qIndex, answered } = this.state;
+    const { qIndex, answered, answers } = this.state;
     const currQuestion = questions[qIndex];
     const correctA = currQuestion.correct_answer;
-    const posAnswers = [correctA, ...currQuestion.incorrect_answers];
     const initialIndex = -1;
     let index = initialIndex;
-    const ran = 0.5;
-    posAnswers.sort(() => Math.random() - ran);
-    return (
-      <div>
-        <span data-testid="question-category">{ currQuestion.category }</span>
-        <p data-testid="question-text">{ currQuestion.question }</p>
-        {posAnswers.map((answer) => {
-          if (answer === correctA) {
+    if (answers.length !== 0) {
+      return (
+        <div>
+          <span data-testid="question-category">{ currQuestion.category }</span>
+          <p data-testid="question-text">{ currQuestion.question }</p>
+          {answers[qIndex].map((answer) => {
+            if (answer === correctA) {
+              return (
+                <button
+                  key={ answer }
+                  type="submit"
+                  data-testid="correct-answer"
+                  className="correct"
+                  disabled={ answered }
+                  onClick={ this.handleCorrect }
+                >
+                  { answer }
+                </button>
+              );
+            }
+            index += 1;
             return (
               <button
                 key={ answer }
                 type="submit"
-                data-testid="correct-answer"
-                className="correct"
+                data-testid={ `wrong-answer-${index}` }
+                className="wrong"
                 disabled={ answered }
                 onClick={ this.handleCorrect }
               >
                 { answer }
               </button>
             );
-          }
-          index += 1;
-          return (
-            <button
-              key={ answer }
-              type="submit"
-              data-testid={ `wrong-answer-${index}` }
-              className="wrong"
-              disabled={ answered }
-              onClick={ this.handleCorrect }
-            >
-              { answer }
-            </button>
-          );
-        })}
-      </div>
-    );
+          })}
+        </div>
+      );
+    }
   }
 
   render() {
