@@ -1,9 +1,12 @@
 import {
   SET_BTN_HIDDEN,
   SET_CLICKED,
-  SET_TIMER, SET_SCORE,
+  SET_TIMER,
+  SET_SCORE,
   SET_DISABLED,
-  SET_DIFFICULTY } from '../actions';
+  SET_DIFFICULTY,
+  SET_CATEGORY,
+} from '../actions';
 
 const INITIAL_STATE = {
   hidden: true,
@@ -12,6 +15,7 @@ const INITIAL_STATE = {
   score: 0,
   timer: 30,
   difficulty: '',
+  category: '',
 };
 
 const game = (state = INITIAL_STATE, action) => {
@@ -28,6 +32,8 @@ const game = (state = INITIAL_STATE, action) => {
     return { ...state, disabled: action.payload };
   case SET_DIFFICULTY:
     return { ...state, difficulty: action.payload };
+  case SET_CATEGORY:
+    return { ...state, category: action.payload };
   default:
     return state;
   }

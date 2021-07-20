@@ -6,6 +6,7 @@ export const SET_TIMER = 'SET_TIMER';
 export const SET_SCORE = 'SET_SCORE';
 export const SET_DISABLED = 'SET_DISABLED';
 export const SET_DIFFICULTY = 'SET_DIFFICULTY';
+export const SET_CATEGORY = 'SET_CATEGORY';
 
 export const actionAvatar = (avatarUrl) => ({
   type: SET_AVATAR,
@@ -45,4 +46,8 @@ export const actionDisabled = (score) => ({
 export const actionDifficulty = (difficulty) => ({
   type: SET_DIFFICULTY,
   payload: difficulty,
+
+export const actionCategory = (category) => ({
+  type: SET_CATEGORY,
+  payload: category,
 });

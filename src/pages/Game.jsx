@@ -27,9 +27,8 @@ class Game extends Component {
   }
 
   async getQuestions() {
-    const { difficulty } = this.props;
-    console.log(difficulty);
-    const data = await fetchQuestions(difficulty);
+    const { difficulty, category } = this.props;
+    const data = await fetchQuestions(difficulty, category);
     this.setState({
       questions: data.results,
       loading: false,
@@ -108,6 +107,7 @@ const mapStatetoProps = (state) => ({
   hiddenBtn: state.game.hidden,
   timer: state.game.timer,
   difficulty: state.game.difficulty,
+  category: state.game.category,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -128,6 +128,7 @@ Game.propTypes = {
   setDisabled: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
   difficulty: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
 };
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Game);

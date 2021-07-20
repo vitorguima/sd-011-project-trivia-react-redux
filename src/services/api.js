@@ -1,4 +1,5 @@
 const TOKEN = 'https://opentdb.com/api_token.php?command=request';
+const CATEGORIES = 'https://opentdb.com/api_category.php';
 
 export async function fetchToken() {
   try {
@@ -10,13 +11,23 @@ export async function fetchToken() {
   }
 }
 
-export async function fetchQuestions(difficulty) {
+export async function fetchQuestions(difficulty, category) {
   try {
     const token = await fetchToken();
-    const response = await fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&token=${token}`);
+    const response = await fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&category=${category}&token=${token}`);
     const data = await response.json();
     localStorage.setItem('token', token);
     return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function fetchCategory() {
+  try {
+    const response = await fetch(CATEGORIES);
+    const data = await response.json();
+    return data.trivia_categories;
   } catch (error) {
     return error;
   }
