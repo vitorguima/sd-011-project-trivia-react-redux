@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 
 export default class FeedBack extends Component {
@@ -18,7 +19,6 @@ export default class FeedBack extends Component {
 
   getStorageAssertions() {
     const storage = JSON.parse(localStorage.getItem('state'));
-    console.log(storage);
     this.setState({
       assertions: storage.player.assertions,
     });
@@ -50,6 +50,16 @@ export default class FeedBack extends Component {
         <p data-testid="feedback-text">{this.message()}</p>
         <h4 data-testid="feedback-total-score">{ score }</h4>
         <h4 data-testid="feedback-total-question">{ assertions }</h4>
+        <Link to="/">
+          <button type="button" data-testid="btn-play-again">
+            Jogar novamente
+          </button>
+        </Link>
+        <Link to="/ranking">
+          <button type="button" data-testid="btn-ranking">
+            Ver Ranking
+          </button>
+        </Link>
       </div>
     );
   }

@@ -17,7 +17,7 @@ export const getCategoriesAction = (data) => ({ type: GET_CATEGORIES, data });
 export const setSettingsAction = (data) => ({ type: SET_SETTINGS, data });
 
 // COMBINA AS DUAS ACTIONS E CRIA O AMBIENTE THUNK PARA OCORRER O FETCH
-export const fetchGameAction = () => async (dispatch) => {
+export const fetchGameAction = (url) => async (dispatch) => {
   dispatch(requestAPI());
   try {
     // Esta parte obtem o token e armazena no localStorage
@@ -26,7 +26,7 @@ export const fetchGameAction = () => async (dispatch) => {
     localStorage.setItem('token', JSON.stringify(tokenJson));
     // Esta parte, utiliza o token obtido na primeira chamada para fazer uma nova chamada e obter as questões
     const { token } = tokenJson;
-    const gameResponse = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+    const gameResponse = await fetch(`${url}&token=${token}`);
     const gameJson = await gameResponse.json();
     dispatch(getGameAction(gameJson));
   } catch (error) {

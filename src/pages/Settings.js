@@ -15,17 +15,29 @@ class Settings extends React.Component {
       category: '',
       level: '',
       nQuestions: '',
+      type: '',
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     this.requestCategories();
+    this.currentSettings();
   }
 
   requestCategories() {
     const { getCategories } = this.props;
     getCategories();
+  }
+
+  currentSettings() {
+    const { settings: { category, level, nQuestions, type } } = this.props;
+    this.setState({
+      category,
+      level,
+      nQuestions,
+      type,
+    });
   }
 
   handleChange({ target }) {
@@ -35,7 +47,7 @@ class Settings extends React.Component {
 
   categoriesForm() {
     const { categories } = this.props;
-    const { category, level, nQuestions } = this.state;
+    const { category, level, nQuestions, type } = this.state;
     return (
       <form>
         <label htmlFor="questions">
@@ -71,6 +83,13 @@ class Settings extends React.Component {
             <option value="hard">Difícil</option>
           </select>
         </label>
+        <label htmlFor="type">
+          <select value={ type } name="type" onChange={ (e) => this.handleChange(e) }>
+            <option value="">Escolha um tipo</option>
+            <option value="boolean">Verdadeiro ou Falso</option>
+            <option value="multiple">Múltipla escolha</option>
+          </select>
+        </label>
       </form>
     );
   }
@@ -90,6 +109,7 @@ class Settings extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  settings: state.gameReducer.settings,
   categories: state.gameReducer.categories.trivia_categories,
   isLoading: state.gameReducer.isLoading,
 });
