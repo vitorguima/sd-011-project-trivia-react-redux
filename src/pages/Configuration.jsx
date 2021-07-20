@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchCategories } from '../services/api';
 import Loading from '../components/Loading';
-import { updateCategory } from '../actions';
+import { updateCategory, updateDifficulty } from '../actions';
 
 class Configuration extends React.Component {
   constructor() {
@@ -31,7 +31,11 @@ class Configuration extends React.Component {
 
   render() {
     const { isLoading, categories } = this.state;
-    const { category, dispatchUpdateCategory } = this.props;
+    const {
+      category, dispatchUpdateCategory, difficulty, dispatchUpdateDifficulty,
+    } = this.props;
+
+    const difficulties = ['easy', 'medium', 'hard'];
 
     if (isLoading) return <Loading />;
 
@@ -55,6 +59,19 @@ class Configuration extends React.Component {
             ))
           }
         </select>
+        <select
+          name="difficulty"
+          id="difficulty"
+          value={ difficulty }
+          onChange={ ({ target: { value } }) => dispatchUpdateDifficulty(value) }
+        >
+          <option>All</option>
+          {
+            difficulties.map((diff) => (
+              <option key={ diff }>{diff}</option>
+            ))
+          }
+        </select>
         <Link to="/">
           Voltar
         </Link>
@@ -63,12 +80,14 @@ class Configuration extends React.Component {
   }
 }
 
-const mapStateToProps = ({ configurationReducer: { category } }) => ({
+const mapStateToProps = ({ configurationReducer: { category, difficulty } }) => ({
   category,
+  difficulty,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchUpdateCategory: (categoryId) => dispatch(updateCategory(categoryId)),
+  dispatchUpdateDifficulty: (difficulty) => dispatch(updateDifficulty(difficulty)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Configuration);
