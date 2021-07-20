@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 
 export default class Feedbacks extends Component {
@@ -10,6 +11,21 @@ export default class Feedbacks extends Component {
       name: JSON.parse(localStorage.state).player.name,
       assertions: JSON.parse(localStorage.state).player.assertions,
     };
+  }
+
+  setLocalStorage() {
+    const infoPlayer = JSON.parse(localStorage.getItem('state')).player;
+    const { name, score } = infoPlayer;
+    console.log(name);
+    const hash = md5(localStorage.token).toString();
+    const userImage = `https://www.gravatar.com/avatar/${hash}`;
+    if (localStorage.ranking) {
+      localStorage.setItem('ranking',
+        JSON.stringify([...JSON.parse(localStorage.ranking),
+          { name, score, userImage }]));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([{ name, score, userImage }]));
+    }
   }
 
   mensage() {
@@ -43,7 +59,11 @@ export default class Feedbacks extends Component {
           </button>
         </Link>
         <Link to="/ranking">
-          <button type="button" data-testid="btn-ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+            onClick={ this.setLocalStorage }
+          >
             Ver Ranking
           </button>
         </Link>
