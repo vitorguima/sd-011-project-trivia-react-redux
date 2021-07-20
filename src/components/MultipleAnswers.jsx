@@ -8,12 +8,6 @@ const caseFalse = -1;
 const correctAnswer = 'correct-answer';
 
 class MultipleAnswers extends React.Component {
-  constructor() {
-    super();
-
-    this.addScore = this.addScore.bind(this);
-  }
-
   getAnswers() {
     const { question } = this.props;
     const answers = [question.correct_answer, ...question.incorrect_answers];
@@ -25,15 +19,8 @@ class MultipleAnswers extends React.Component {
     return answers.sort(() => (Math.random() > fiftyPercent ? caseTrue : caseFalse));
   }
 
-  addScore({ target }) {
-    const { setScore } = this.props;
-    if (target.dataset.testid === correctAnswer) {
-      setScore();
-    }
-  }
-
   render() {
-    const { question, changeColor, toggleNextButtonVisibility, disabled } = this.props;
+    const { question, disabled, handleQuestionAnswered } = this.props;
 
     return (
       <>
@@ -42,11 +29,7 @@ class MultipleAnswers extends React.Component {
             <button
               key={ index }
               type="button"
-              onClick={ (event) => {
-                changeColor(event);
-                this.addScore(event);
-                toggleNextButtonVisibility();
-              } }
+              onClick={ handleQuestionAnswered }
               disabled={ disabled }
               data-testid={
                 question.incorrect_answers.includes(answer)
@@ -75,4 +58,5 @@ MultipleAnswers.propTypes = {
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
   }),
   disabled: PropTypes.bool,
+  handleQuestionAnswered: PropTypes.func,
 }.isRequired;
