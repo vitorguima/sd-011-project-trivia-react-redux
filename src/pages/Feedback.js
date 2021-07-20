@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { resetPlayerInfo } from '../actions/game';
 
 class Feedback extends Component {
   constructor() {
@@ -16,13 +17,13 @@ class Feedback extends Component {
     const { localStorage } = this.state;
     const minCorrects = 3;
     if (localStorage.player.assertions < minCorrects) {
-      return 'Podia ser melhor...';
+      return 'Could be better...';
     }
-    return 'Mandou bem!';
+    return 'Well done!';
   }
 
   render() {
-    const { totalScore } = this.props;
+    const { totalScore, resetPlayer } = this.props;
     const { localStorage } = this.state;
 
     return (
@@ -38,15 +39,16 @@ class Feedback extends Component {
             type="button"
             data-testid="btn-ranking"
           >
-            Ir para o ranking
+            Players Ranking
           </button>
         </Link>
         <Link to="/">
           <button
             type="button"
             data-testid="btn-play-again"
+            onClick={ resetPlayer }
           >
-            Jogar novamente
+            Play again!
           </button>
         </Link>
       </div>
@@ -58,8 +60,13 @@ const mapStateToProps = (state) => ({
   totalScore: state.game.score,
 });
 
-export default connect(mapStateToProps)(Feedback);
+const mapDispatchToProps = (dispatch) => ({
+  resetPlayer: () => dispatch(resetPlayerInfo()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
 
 Feedback.propTypes = {
   totalScore: PropTypes.number.isRequired,
+  resetPlayer: PropTypes.func.isRequired,
 };

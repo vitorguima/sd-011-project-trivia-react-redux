@@ -10,7 +10,7 @@ class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toggleButton: false,
+      toggleAnwersButtons: false,
       currentCounter: 30,
       isAnswered: false,
       currentScore: 0,
@@ -26,12 +26,12 @@ class Questions extends Component {
 
   componentDidMount() {
     const {
-      tokenData,
+      fetchedToken,
       questionCategory,
       questionDifficulty,
       questionType,
       fetchQuestion } = this.props;
-    fetchQuestion(tokenData, questionCategory, questionDifficulty, questionType);
+    fetchQuestion(fetchedToken, questionCategory, questionDifficulty, questionType);
     this.counter();
   }
 
@@ -55,7 +55,7 @@ class Questions extends Component {
   handleAnswer(isCorrect) {
     const { currentCounter } = this.state;
     this.setState({
-      toggleButton: true,
+      toggleAnwersButtons: true,
       isAnswered: true,
     });
     if (isCorrect) {
@@ -95,7 +95,7 @@ class Questions extends Component {
     const id = questionNumber + 1;
     this.setState({
       questionNumber: id,
-      toggleButton: false,
+      toggleAnwersButtons: false,
       currentCounter: 30,
       isAnswered: false,
     });
@@ -114,7 +114,7 @@ class Questions extends Component {
     const answers = [...incorrectAnswers, correctAnswer];
 
     return (
-      <div className="questions-container">
+      <>
         <p data-testid="question-category">{ category }</p>
         <p data-testid="question-text">{ question }</p>
         <div className="buttons-container">
@@ -124,18 +124,18 @@ class Questions extends Component {
               : this.renderIncorrectAnswersButton(answer, index)
           ))}
         </div>
-      </div>
+      </>
     );
   }
 
   renderCorrectAnswerButton(answer) {
-    const { toggleButton, currentCounter, isAnswered } = this.state;
+    const { toggleAnwersButtons, currentCounter, isAnswered } = this.state;
     return (
       <button
         type="button"
         data-testid="correct-answer"
         onClick={ () => this.handleAnswer(true) }
-        className={ toggleButton ? 'correct-btn' : null }
+        className={ toggleAnwersButtons ? 'correct-btn' : null }
         disabled={ currentCounter === 0 || isAnswered }
       >
         { answer }
@@ -144,14 +144,14 @@ class Questions extends Component {
   }
 
   renderIncorrectAnswersButton(answer, index) {
-    const { toggleButton, currentCounter, isAnswered } = this.state;
+    const { toggleAnwersButtons, currentCounter, isAnswered } = this.state;
     return (
       <button
         key={ index }
         type="button"
         data-testid={ `wrong-answer-${index}` }
         onClick={ () => this.handleAnswer(false) }
-        className={ toggleButton ? 'incorrect-btn' : null }
+        className={ toggleAnwersButtons ? 'incorrect-btn' : null }
         disabled={ currentCounter === 0 || isAnswered }
       >
         { answer }
@@ -168,9 +168,10 @@ class Questions extends Component {
           <button
             type="button"
             data-testid="btn-next"
+            className="next-button"
             onClick={ () => updateRanking(imageURL) }
           >
-            Próxima
+            Finish Game
           </button>
         </Link>
       );
@@ -179,9 +180,10 @@ class Questions extends Component {
       <button
         type="button"
         data-testid="btn-next"
+        className="next-button"
         onClick={ () => this.nextQuestion() }
       >
-        Próxima
+        Next Question
       </button>
     );
   }
@@ -191,10 +193,13 @@ class Questions extends Component {
     const { questionData } = this.props;
     return (
       <div className="main-container">
-        { questionData.length > 0 ? this.renderQuestions() : <p>Carregando...</p>}
-        <p>
-          { currentCounter }
-        </p>
+        { questionData.length > 0 ? this.renderQuestions() : <p>Loading...</p>}
+        <span className="counter">
+          <p>Time Left:</p>
+          <p>
+            { currentCounter }
+          </p>
+        </span>
         { (currentCounter === 0 || isAnswered) ? this.renderNextButton() : null }
       </div>
     );
@@ -205,7 +210,7 @@ const mapStateToProps = (state) => ({
   userName: state.login.user,
   userEmail: state.login.email,
   imageURL: state.game.gravatarImage,
-  tokenData: state.login.token,
+  fetchedToken: state.login.token,
   questionData: state.game.questions,
   currentScore: state.game.score,
   questionCategory: state.settings.category,
@@ -227,7 +232,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
 
 Questions.propTypes = {
-  tokenData: PropTypes.string.isRequired,
+  fetchedToken: PropTypes.string.isRequired,
   questionData: PropTypes.arrayOf.isRequired,
   fetchQuestion: PropTypes.func.isRequired,
   score: PropTypes.func.isRequired,

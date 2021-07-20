@@ -3,11 +3,13 @@ import {
   REQUEST_TOKEN,
   REQUEST_TOKEN_SUCCESS,
   REQUEST_TOKEN_ERROR,
+  GRAVATAR_IMAGE,
 } from '../actions/login';
 
 const INITIAL_STATE = {
   user: '',
   email: '',
+  gravatarImage: '',
   token: '',
   error: '',
 };
@@ -33,6 +35,11 @@ const login = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       error: action.payload.error,
+    };
+  case GRAVATAR_IMAGE:
+    return {
+      ...state,
+      gravatarImage: action.payload,
     };
   default:
     return state;

@@ -4,6 +4,7 @@ export const LOGIN = 'LOGIN';
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
 export const REQUEST_TOKEN_ERROR = 'REQUEST_TOKEN_ERROR';
+export const GRAVATAR_IMAGE = 'GRAVATAR_IMAGE';
 
 export const login = (infos) => ({
   type: LOGIN,
@@ -33,3 +34,8 @@ export const fetchTokenAPI = () => async (dispatch) => {
     dispatch(requestTokenError(error));
   }
 };
+
+export const gravatarImage = (payload) => ({
+  type: GRAVATAR_IMAGE,
+  payload,
+});

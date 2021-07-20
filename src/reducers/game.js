@@ -1,23 +1,17 @@
 import {
-  GRAVATAR_IMAGE,
   REQUEST_QUESTIONS,
   REQUEST_QUESTIONS_SUCCESS,
   REQUEST_QUESTIONS_ERROR,
-  UPDATE_SCORE } from '../actions/game';
+  UPDATE_SCORE,
+  RESET_PLAYER_INFO } from '../actions/game';
 
 const INITIAL_STATE = {
-  gravatarImage: '',
   questions: [],
   score: 0,
 };
 
 const game = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case GRAVATAR_IMAGE:
-    return {
-      ...state,
-      gravatarImage: action.payload,
-    };
   case REQUEST_QUESTIONS:
     return {
       ...state,
@@ -36,6 +30,12 @@ const game = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: action.payload,
+    };
+  case RESET_PLAYER_INFO:
+    return {
+      ...state,
+      questions: [],
+      score: 0,
     };
   default:
     return state;

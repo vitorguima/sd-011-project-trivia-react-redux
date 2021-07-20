@@ -3,38 +3,42 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login, fetchTokenAPI } from '../actions/login';
+import './LoginForm.css';
 
 class LoginForm extends Component {
   constructor() {
     super();
     this.state = {
-      enableButton: false,
+      enablePlayButton: false,
       user: '',
       email: '',
     };
     this.inputValidation = this.inputValidation.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handlePlayButtonClick = this.handlePlayButtonClick.bind(this);
   }
 
   inputValidation() {
     const { user, email } = this.state;
-    if (user.length !== 0 && email.length !== 0) {
-      this.setState({ enableButton: true });
+    const format = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (user.length !== 0 && email.match(format)) {
+      this.setState({ enablePlayButton: true });
+    } else {
+      this.setState({ enablePlayButton: false });
     }
   }
 
-  handleChange({ target }) {
+  handleInputChange({ target }) {
     const { name, value } = target;
     this.setState({
       [name]: value,
     }, () => this.inputValidation());
   }
 
-  handleButtonClick() {
+  handlePlayButtonClick() {
     const { user, email } = this.state;
-    const { userInfos } = this.props;
-    userInfos({ user, email });
+    const { sendUserInfos } = this.props;
+    sendUserInfos({ user, email });
   }
 
   renderUserInput() {
@@ -45,8 +49,9 @@ class LoginForm extends Component {
           type="text"
           id="user"
           data-testid="input-player-name"
-          placeholder="Digite o nome do usuário"
-          onChange={ this.handleChange }
+          placeholder="User"
+          onChange={ this.handleInputChange }
+          className="form-input"
         />
       </label>
     );
@@ -60,24 +65,26 @@ class LoginForm extends Component {
           type="text"
           id="email"
           data-testid="input-gravatar-email"
-          placeholder="Digite seu email"
-          onChange={ this.handleChange }
+          placeholder="Gravatar email"
+          onChange={ this.handleInputChange }
+          className="form-input"
         />
       </label>
     );
   }
 
   renderPlayButton() {
-    const { enableButton } = this.state;
+    const { enablePlayButton } = this.state;
     return (
       <Link to="/play">
         <button
           type="button"
           data-testid="btn-play"
-          disabled={ !enableButton }
-          onClick={ this.handleButtonClick }
+          disabled={ !enablePlayButton }
+          onClick={ this.handlePlayButtonClick }
+          className={ (enablePlayButton) ? 'form-play-button-enabled' : 'form-play-button' }
         >
-          Jogar
+          Play
         </button>
       </Link>
     );
@@ -89,8 +96,9 @@ class LoginForm extends Component {
         <button
           type="button"
           data-testid="btn-settings"
+          className="form-setting-button"
         >
-          Configurações
+          Settings
         </button>
       </Link>
     );
@@ -98,27 +106,26 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <form>
+      <form className="login-form">
+        <h2>User login</h2>
         { this.renderUserInput() }
         { this.renderEmailInput() }
-        { this.renderPlayButton() }
-        { this.renderSettingsButton() }
+        <span className="login-form-buttons">
+          { this.renderPlayButton() }
+          { this.renderSettingsButton() }
+        </span>
       </form>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  tokenData: state.login.token,
-});
-
 const mapDispatchToProps = (dispatch) => ({
-  userInfos: (infos) => dispatch(login(infos)),
+  sendUserInfos: (infos) => dispatch(login(infos)),
   fetchToken: () => dispatch(fetchTokenAPI()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(null, mapDispatchToProps)(LoginForm);
 
 LoginForm.propTypes = {
-  userInfos: PropTypes.objectOf().isRequired,
+  sendUserInfos: PropTypes.func.isRequired,
 };

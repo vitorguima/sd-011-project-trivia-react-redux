@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import './Header.css';
 
 class Header extends Component {
   render() {
-    const { userEmail, userName, imageURL, userScore } = this.props;
+    const { userEmail, userName, gravatarImage, userScore } = this.props;
     let state = localStorage.getItem('state');
     if (!state) {
       state = {
@@ -18,10 +19,21 @@ class Header extends Component {
       localStorage.setItem('state', JSON.stringify(state));
     }
     return (
-      <header>
-        <img src={ imageURL } alt="user" data-testid="header-profile-picture" />
-        <p data-testid="header-player-name">{ userName }</p>
-        <p data-testid="header-score">{ userScore }</p>
+      <header className="header-container">
+        <img
+          src={ gravatarImage }
+          alt="gravatar"
+          data-testid="header-profile-picture"
+          className="gravatar"
+        />
+        <span className="user-name-container">
+          <p>User:</p>
+          <p data-testid="header-player-name">{ userName }</p>
+        </span>
+        <span className="user-score-container">
+          <p>Score:  </p>
+          <p data-testid="header-score">{ userScore }</p>
+        </span>
       </header>
     );
   }
@@ -29,16 +41,16 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
   userName: state.login.user,
-  imageURL: state.game.gravatarImage,
-  userScore: state.game.score,
   userEmail: state.login.email,
+  gravatarImage: state.login.gravatarImage,
+  userScore: state.game.score,
 });
 
 export default connect(mapStateToProps)(Header);
 
 Header.propTypes = {
   userName: PropTypes.string.isRequired,
-  imageURL: PropTypes.string.isRequired,
-  userScore: PropTypes.number.isRequired,
   userEmail: PropTypes.string.isRequired,
+  userScore: PropTypes.number.isRequired,
+  gravatarImage: PropTypes.string.isRequired,
 };

@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoginForm from '../components/LoginForm';
 import { updateScore } from '../actions/game';
+import logo from '../trivia.png';
 
 class Login extends Component {
   componentDidMount() {
-    const { score } = this.props;
     localStorage.removeItem('state');
     localStorage.removeItem('token');
-    score(0);
   }
 
   render() {
     return (
-      <LoginForm />
+      <>
+        <img src={ logo } className="App-logo" alt="logo" />
+        <LoginForm />
+      </>
     );
   }
 }
@@ -24,7 +25,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(null, mapDispatchToProps)(Login);
-
-Login.propTypes = {
-  score: PropTypes.func.isRequired,
-};
