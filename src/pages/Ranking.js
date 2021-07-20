@@ -6,7 +6,6 @@ class Ranking extends Component {
   constructor() {
     super();
     this.state = {
-      index: 0,
     };
     this.handleClick = this.handleClick.bind(this);
   }
