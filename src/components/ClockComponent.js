@@ -60,10 +60,18 @@ class ClockComponent extends Component {
   }
 
   timer() {
+    const { buttonClick } = this.props;
     const { seconds } = this.state;
+    const { updateButton } = this.props;
     if (seconds !== 0) {
       this.setState((prevState) => ({
         seconds: prevState.seconds - 1,
+      }));
+    }
+    if (buttonClick) {
+      updateButton();
+      this.setState(() => ({
+        seconds: 30,
       }));
     }
   }
@@ -91,6 +99,7 @@ class ClockComponent extends Component {
               Próxima
             </button>
           )}
+
         </div>
       </div>
     );
@@ -98,6 +107,7 @@ class ClockComponent extends Component {
 }
 
 ClockComponent.propTypes = {
+  updateButton: PropTypes.func.isRequired,
   buttonClick: PropTypes.bool.isRequired,
   rightAnswerClicked: PropTypes.bool.isRequired,
   nextQuestion: PropTypes.func.isRequired,
@@ -106,6 +116,9 @@ ClockComponent.propTypes = {
 const mapStateToProps = (state) => ({
   buttonClick: state.trivia.buttonClick,
   rightAnswerClicked: state.trivia.rightAnswerClicked,
+  questions: state.trivia.questions,
+  buttonDisable: state.trivia.buttonDisable,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({

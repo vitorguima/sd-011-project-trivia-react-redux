@@ -35,7 +35,8 @@ class Feedback extends React.Component {
     }
   }
 
-  render() {
+
+   render() {
     const { assertions, message } = this.state;
     return (
       <div>
