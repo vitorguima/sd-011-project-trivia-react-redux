@@ -19,9 +19,6 @@ export default class App extends Component {
           <Route path="/feedback" component={ Feedback } />
           <Route path="/ranking" component={ Ranking } />
         </Switch>
-        {/* <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
-        </header> */}
       </div>
     );
   }

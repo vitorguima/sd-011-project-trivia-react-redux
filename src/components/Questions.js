@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchQuestionsAPI, updateScore } from '../actions/game';
+import updateRanking from '../helpers/updateRanking';
 import './Questions.css';
 
 class Questions extends Component {
@@ -21,7 +22,6 @@ class Questions extends Component {
     this.scoreCalculator = this.scoreCalculator.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.renderNextButton = this.renderNextButton.bind(this);
-    this.updateRanking = this.updateRanking.bind(this);
   }
 
   componentDidMount() {
@@ -72,7 +72,6 @@ class Questions extends Component {
     };
     const { currentScore, questionNumber } = this.state;
     const { difficulty } = questionData[questionNumber];
-
     const scorePoints = 10;
     const questionScore = (
       currentScore
@@ -103,85 +102,73 @@ class Questions extends Component {
     this.counter();
   }
 
-  updateRanking() {
-    const retrievePlayerInfo = JSON.parse(localStorage.getItem('state'));
-    const { player: { name, score } } = retrievePlayerInfo;
-    const { imageURL } = this.props;
-    let ranking = localStorage.getItem('ranking');
-    if (!ranking) {
-      ranking = [
-        {
-          name,
-          score,
-          picture: imageURL,
-        },
-      ];
-      localStorage.setItem('ranking', JSON.stringify(ranking));
-    } else {
-      const currPlayer = {
-        name,
-        score,
-        picture: imageURL,
-      };
-      const newRank = JSON.parse(ranking);
-      newRank.push(currPlayer);
-      newRank.sort((a, b) => b.score - a.score);
-      localStorage.setItem('ranking', JSON.stringify(newRank));
-    }
-  }
-
   renderQuestions() {
     const { questionData } = this.props;
-    const { toggleButton, currentCounter, isAnswered, questionNumber } = this.state;
+    const { questionNumber } = this.state;
     const {
       category,
       question,
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers,
     } = questionData[questionNumber];
+    const answers = [...incorrectAnswers, correctAnswer];
 
     return (
       <div className="questions-container">
         <p data-testid="question-category">{ category }</p>
         <p data-testid="question-text">{ question }</p>
         <div className="buttons-container">
-          <button
-            type="button"
-            data-testid="correct-answer"
-            onClick={ () => this.handleAnswer(true) }
-            className={ toggleButton ? 'correct-btn' : null }
-            disabled={ currentCounter === 0 || isAnswered }
-          >
-            { correctAnswer }
-          </button>
-          { incorrectAnswers.map((answer, index) => (
-            <button
-              key={ index }
-              type="button"
-              data-testid={ `wrong-answer-${index}` }
-              onClick={ () => this.handleAnswer(false) }
-              className={ toggleButton ? 'incorrect-btn' : null }
-              disabled={ currentCounter === 0 || isAnswered }
-            >
-              { answer }
-            </button>
+          { answers.sort().map((answer, index) => (
+            (answer === correctAnswer)
+              ? this.renderCorrectAnswerButton(answer)
+              : this.renderIncorrectAnswersButton(answer, index)
           ))}
         </div>
       </div>
     );
   }
 
+  renderCorrectAnswerButton(answer) {
+    const { toggleButton, currentCounter, isAnswered } = this.state;
+    return (
+      <button
+        type="button"
+        data-testid="correct-answer"
+        onClick={ () => this.handleAnswer(true) }
+        className={ toggleButton ? 'correct-btn' : null }
+        disabled={ currentCounter === 0 || isAnswered }
+      >
+        { answer }
+      </button>
+    );
+  }
+
+  renderIncorrectAnswersButton(answer, index) {
+    const { toggleButton, currentCounter, isAnswered } = this.state;
+    return (
+      <button
+        key={ index }
+        type="button"
+        data-testid={ `wrong-answer-${index}` }
+        onClick={ () => this.handleAnswer(false) }
+        className={ toggleButton ? 'incorrect-btn' : null }
+        disabled={ currentCounter === 0 || isAnswered }
+      >
+        { answer }
+      </button>
+    );
+  }
+
   renderNextButton() {
-    const { currentCounter, isAnswered, questionNumber } = this.state;
-    const { questionData } = this.props;
-    if ((currentCounter === 0 || isAnswered)
-      && questionData.length - 1 === questionNumber) {
+    const { questionNumber } = this.state;
+    const { questionData, imageURL } = this.props;
+    if (questionData.length - 1 === questionNumber) {
       return (
         <Link to="/feedback">
           <button
             type="button"
             data-testid="btn-next"
-            onClick={ () => this.updateRanking() }
+            onClick={ () => updateRanking(imageURL) }
           >
             Próxima
           </button>
@@ -227,7 +214,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchQuestion: (token, questionCategory, questionDifficulty, questionType) => dispatch(fetchQuestionsAPI(token, questionCategory, questionDifficulty, questionType)),
+  fetchQuestion: (token,
+    questionCategory,
+    questionDifficulty,
+    questionType) => dispatch(fetchQuestionsAPI(token,
+    questionCategory,
+    questionDifficulty,
+    questionType)),
   score: (questionScore) => dispatch(updateScore(questionScore)),
 });
 

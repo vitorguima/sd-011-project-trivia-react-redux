@@ -37,48 +37,72 @@ class LoginForm extends Component {
     userInfos({ user, email });
   }
 
-  render() {
+  renderUserInput() {
+    return (
+      <label htmlFor="user">
+        <input
+          name="user"
+          type="text"
+          id="user"
+          data-testid="input-player-name"
+          placeholder="Digite o nome do usuário"
+          onChange={ this.handleChange }
+        />
+      </label>
+    );
+  }
+
+  renderEmailInput() {
+    return (
+      <label htmlFor="email">
+        <input
+          name="email"
+          type="text"
+          id="email"
+          data-testid="input-gravatar-email"
+          placeholder="Digite seu email"
+          onChange={ this.handleChange }
+        />
+      </label>
+    );
+  }
+
+  renderPlayButton() {
     const { enableButton } = this.state;
     return (
+      <Link to="/play">
+        <button
+          type="button"
+          data-testid="btn-play"
+          disabled={ !enableButton }
+          onClick={ this.handleButtonClick }
+        >
+          Jogar
+        </button>
+      </Link>
+    );
+  }
+
+  renderSettingsButton() {
+    return (
+      <Link to="/settings">
+        <button
+          type="button"
+          data-testid="btn-settings"
+        >
+          Configurações
+        </button>
+      </Link>
+    );
+  }
+
+  render() {
+    return (
       <form>
-        <label htmlFor="user">
-          <input
-            name="user"
-            type="text"
-            id="user"
-            data-testid="input-player-name"
-            placeholder="Digite o nome do usuário"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="email">
-          <input
-            name="email"
-            type="text"
-            id="email"
-            data-testid="input-gravatar-email"
-            placeholder="Digite seu email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <Link to="/play">
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ !enableButton }
-            onClick={ this.handleButtonClick }
-          >
-            Jogar
-          </button>
-        </Link>
-        <Link to="/settings">
-          <button
-            type="button"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </button>
-        </Link>
+        { this.renderUserInput() }
+        { this.renderEmailInput() }
+        { this.renderPlayButton() }
+        { this.renderSettingsButton() }
       </form>
     );
   }
