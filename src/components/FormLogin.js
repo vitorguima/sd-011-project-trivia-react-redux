@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loginAction, fetchToken, fetchGravatar, fetchGame } from '../actions';
+import updateRanking from '../services/updateRankingLS';
 
 import './FormLogin.css';
 
@@ -35,6 +36,7 @@ class FormLogin extends Component {
     login(name, email);
     gravatar(email);
     game(gameToken);
+    updateRanking(name);
   }
 
   render() {

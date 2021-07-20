@@ -1,1 +1,0 @@
-// Requisição de API

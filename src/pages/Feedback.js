@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import ButtonToRoutes from '../components/ButtonToRoutes';
 
 class Feedback extends Component {
   render() {
@@ -31,6 +32,16 @@ class Feedback extends Component {
         <p data-testid="feedback-total-question">
           { Number(0) }
         </p>
+        <ButtonToRoutes
+          path="/ranking"
+          textValue="Ver Ranking"
+          testid="btn-ranking"
+        />
+        <ButtonToRoutes
+          path="/"
+          textValue="Jogar novamente"
+          testid="btn-play-again"
+        />
       </div>
     );
   }

@@ -10,6 +10,7 @@ export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const RESET_COUNTDOWN = 'RESET_COUNTDOWN';
 
 export const loginAction = (name, email) => ({ type: LOGIN, email, name });
+
 const receiveToken = (token) => ({ type: TOKEN, token });
 const receiveGravatar = (gravatar) => ({ type: GRAVATAR, gravatar });
 const receiveQuestions = (questions) => ({ type: QUESTIONS, questions });
