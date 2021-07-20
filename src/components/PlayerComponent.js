@@ -2,17 +2,6 @@ import React, { Component } from 'react';
 import md5 from 'crypto-js/md5';
 
 class PlayerComponent extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   const { nameUser, emailUser } = this.props;
-  //   this.state = {
-  //     player: {
-  //       name: nameUser,
-  //       gravatarEmail: emailUser,
-  //     },
-  //   };
-  // }
-
   render() {
     const player2 = JSON.parse(localStorage.getItem('state'));
     const pictureHash = md5(player2.player.email).toString();
