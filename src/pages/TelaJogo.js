@@ -1,62 +1,98 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import WrongAnswer from '../components/WrongAnswer';
+import Questions from '../components/Questions';
 
 class TelaJogo extends Component {
   constructor() {
     super();
     this.state = {
+      isGreenBordered: 'withoutBorder',
+      isRedBordered: 'withoutBorder',
+      isHidden: true,
+      isDisabled: false,
+      counter: 30,
       score: 0,
       count: 0,
+      intervalId: 0,
     };
-    this.alternativesAnswers = this.alternativesAnswers.bind(this);
     this.nextBtn = this.nextBtn.bind(this);
+    this.handleAnswer = this.handleAnswer.bind(this);
+    this.handleTimer = this.handleTimer.bind(this);
+  }
+
+  componentDidMount() {
+    this.handleTimer();
+  }
+
+  componentWillUnmount() {
+    const { intervalId } = this.state;
+    clearInterval(intervalId);
   }
 
   nextBtn() {
     this.setState((prevState) => ({
       count: prevState.count + 1,
+      isGreenBordered: 'withoutBorder',
+      isRedBordered: 'withoutBorder',
+      isHidden: true,
+      isDisabled: false,
+      counter: 30,
     }));
+    this.handleTimer();
   }
 
-  alternativesAnswers(count, gameData) {
-    const FIVE = 5;
-    const array = gameData.results;
-    return (
-      <div>
-        {array && count < FIVE ? ( // Renderiza perguntas
-          <>
-            <p data-testid="question-category" key={ array[count].category }>
-              {array[count].category}
-            </p>
-            <p data-testid="question-text" key={ array[count].question }>
-              {array[count].question}
-            </p>
-            {/* <button
-              data-testid="correct-answer"
-              type="button"
-              key={ array[count].correct_answer }
-            >
-              {array[count].correct_answer}
-            </button> */}
-            <WrongAnswer
-              array={ Object.values(array[count])[5] }
-              correctAnswer={ array[count].correct_answer }
-            />
-          </>
-        ) : (
-          <p> Fim do jogo </p>
-        )}
-      </div>
-    );
+  handleAnswer(/* { target: { name } } */) {
+    const { intervalId } = this.state;
+    clearInterval(intervalId);
+    this.setState({
+      isGreenBordered: 'withGreenBorder',
+      isRedBordered: 'withRedBorder',
+      isHidden: false,
+    });
+  }
+
+  handleTimer() {
+    const second = 1000;
+
+    const intervalId = setInterval(() => {
+      this.setState((prevState) => ({
+        counter: prevState.counter - 1,
+      }));
+
+      const { counter } = this.state;
+      if (counter <= 0) {
+        clearInterval(intervalId);
+        this.setState({
+          isGreenBordered: 'withGreenBorder',
+          isRedBordered: 'withRedBorder',
+          isHidden: false,
+          isDisabled: true,
+        });
+      }
+    }, second);
+
+    this.setState({ intervalId });
   }
 
   render() {
-    const { score, count } = this.state;
+    const {
+      score,
+      count,
+      isGreenBordered,
+      isRedBordered,
+      isHidden,
+      counter,
+      isDisabled,
+    } = this.state;
     const { getdata: { emailHash, name, email }, gameData } = this.props;
+
     const player = { name, assertions: 0, score, gravatarEmail: email };
     localStorage.setItem('player', JSON.stringify(player));
+
+    const limitOfQuestions = 5;
+    const gameResults = gameData.results;
+
     return (
       <div>
         <header>
@@ -67,18 +103,24 @@ class TelaJogo extends Component {
             { score }
           </span>
         </header>
-        { this.alternativesAnswers(count, gameData) }
-        <button
-          type="button"
-          // onClick={ () => {
-          //   this.setState((prevState) => ({
-          //     count: prevState.count + 1,
-          //   }));
-          // } }
-          onClick={ () => this.nextBtn() }
-        >
-          botão
-        </button>
+
+        {gameResults && count < limitOfQuestions ? ( // Renderiza perguntas
+          <Questions
+            gameResults={ gameResults[count] }
+            incorrectAnswer={ Object.values(gameResults[count])[5] }
+            correctAnswer={ gameResults[count].correct_answer }
+            isGreenBordered={ isGreenBordered }
+            isRedBordered={ isRedBordered }
+            isHidden={ isHidden }
+            counter={ counter }
+            nextBtn={ () => this.nextBtn() }
+            handleAnswer={ (event) => this.handleAnswer(event) }
+            isDisabled={ isDisabled }
+          />
+        ) : (
+          <p> Fim do jogo </p>
+        )}
+
       </div>
     );
   }
