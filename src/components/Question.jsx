@@ -98,9 +98,10 @@ class Question extends React.Component {
                 onClick={ () => {
                   if (currentQuestion === maxQuestions) {
                     push('/feedback');
+                  } else {
+                    this.startCounter();
+                    nextQuestion();
                   }
-                  this.startCounter();
-                  nextQuestion();
                 } }
               >
                 Próxima pergunta
