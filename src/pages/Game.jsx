@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Countdown from '../components/Countdown';
 import Question from '../components/Question';
 import { requestApiQuestions } from '../actions';
@@ -29,6 +30,7 @@ class Game extends React.Component {
         <Countdown />
         <main>
           <Question push={ push } />
+          <Link type="button" data-testid="btn-ranking" to="/ranking">Ver Ranking</Link>
         </main>
       </>
     );
