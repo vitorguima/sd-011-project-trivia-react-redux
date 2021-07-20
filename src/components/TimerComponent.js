@@ -49,7 +49,6 @@ class TimerComponent extends Component {
         break;
       }
     };
-    // const score = 10 + (timer * questionLevel(obj1));
     return ten + (timer * questionLevel(difficulty));
   }
 
