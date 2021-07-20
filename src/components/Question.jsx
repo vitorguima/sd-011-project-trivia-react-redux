@@ -50,30 +50,27 @@ class Question extends Component {
         correct_answer: correctAnswer,
         incorrect_answers: incorrectAnswers,
       }, disabled, getClicked, timer } = this.props;
+    let alternatives = [`${correctAnswer}-C`, ...incorrectAnswers];
+    alternatives = alternatives.sort();
     return (
       <div className="question">
         <p>{ timer }</p>
         <p data-testid="question-category">{category}</p>
         <p data-testid="question-text">{question}</p>
-        <button
-          className={ getClicked && 'correct-answer' }
-          type="button"
-          data-testid="correct-answer"
-          onClick={ () => { this.handleClick(); this.countScore(); } }
-          disabled={ disabled }
-        >
-          {correctAnswer}
-        </button>
-        { incorrectAnswers.map((answer, index) => (
+        { alternatives.map((answer, index) => (
           <button
-            className={ getClicked && 'wrong-answer' }
+            className={ answer.includes('-C')
+              ? getClicked && 'correct-answer' : getClicked && 'wrong-answer' }
             key={ index }
             type="button"
-            data-testid={ `wrong-answer-${index}` }
-            onClick={ this.handleClick }
+            data-testid={ answer.includes('-C')
+              ? 'correct-answer' : `wrong-answer-${index}` }
+            onClick={ answer.includes('-C')
+              ? () => { this.handleClick(); this.countScore(); }
+              : () => this.handleClick() }
             disabled={ disabled }
           >
-            {answer}
+            {answer.includes('-C') ? answer.slice(0, answer.indexOf('-')) : answer}
           </button>)) }
       </div>
     );
@@ -107,7 +104,7 @@ Question.propTypes = {
   setScore: PropTypes.func.isRequired,
   getClicked: PropTypes.bool.isRequired,
   timer: PropTypes.number.isRequired,
-  myInterval: PropTypes.func.isRequired,
+  myInterval: PropTypes.number.isRequired,
   countDown: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
