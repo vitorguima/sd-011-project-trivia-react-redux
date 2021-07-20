@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -71,8 +70,33 @@ class Login extends Component {
     history.push('/configurations');
   }
 
-  render() {
+  renderButtonsPlayAndConfig() {
     const { disabled } = this.state;
+
+    return (
+      <div className="buttons-container">
+        <button
+          className="btn btn-play"
+          disabled={ disabled }
+          type="button"
+          data-testid="btn-play"
+          onClick={ this.handleBtn }
+        >
+          Jogar
+        </button>
+        <button
+          className="btn btn-config"
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.sendToConfigurations }
+        >
+          <FontAwesomeIcon className="Gear-icon" icon={ faCog } />
+        </button>
+      </div>
+    );
+  }
+
+  render() {
     return (
       <div className="App">
         <div className="App-box-top" />
@@ -107,25 +131,7 @@ class Login extends Component {
             />
           </label>
         </form>
-        <div className="buttons-container">
-          <button
-            className="btn btn-play"
-            disabled={ disabled }
-            type="button"
-            data-testid="btn-play"
-            onClick={ this.handleBtn }
-          >
-            Jogar
-          </button>
-          <button
-            className="btn btn-config"
-            type="button"
-            data-testid="btn-settings"
-            onClick={ this.sendToConfigurations }
-          >
-            <FontAwesomeIcon className="Gear-icon" icon={ faCog } />
-          </button>
-        </div>
+        { this.renderButtonsPlayAndConfig() }
       </div>
     );
   }
