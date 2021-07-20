@@ -32,7 +32,7 @@ class TriviaQuestions extends Component {
     return (
       <div>
         <Header />
-        <CountdownTimer />
+        { questionIndex < MAX_QUESTIONS_INDEX && <CountdownTimer />}
         <h1 data-testid="question-category">Categoria</h1>
         <h2 data-testid="question-text">Questão:</h2>
         { ((secondsToFinish === 0 || wasAnswered) && questionIndex < MAX_QUESTIONS_INDEX)

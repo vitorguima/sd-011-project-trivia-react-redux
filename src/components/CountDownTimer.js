@@ -34,10 +34,10 @@ class CountdownTimer extends Component {
     const interval = 1000;
     this.myInterval = setInterval(() => {
       const { wasAnswered, secondsToFinish } = this.props;
-      if (secondsToFinish > 0 || !wasAnswered) {
+      if (secondsToFinish > 1 || !wasAnswered) {
         setSecondsToFinish();
       }
-      if (secondsToFinish <= 0) {
+      if (secondsToFinish <= 1) {
         clearInterval(this.myInterval);
       }
       if (wasAnswered) {
