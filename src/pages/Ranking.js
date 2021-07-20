@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 class Ranking extends Component {
   constructor() {
     super();
+    this.state = {
+      index: 0,
+    };
     this.handleClick = this.handleClick.bind(this);
   }
 
