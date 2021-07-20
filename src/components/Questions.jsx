@@ -1,27 +1,57 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getUserScore } from '../actions/user';
 
 import QuestionTitle from './QuestionTitle';
 
 import './Questions.css';
 
 class Questions extends Component {
-  render() {
+  constructor() {
+    super();
+    this.state = {
+      score: 0,
+    };
+    this.handleAlternativeButtons = this.handleAlternativeButtons.bind(this);
+    this.handleConvertDifficulty = this.handleConvertDifficulty.bind(this);
+    this.handleScore = this.handleScore.bind(this);
+  }
+
+  // !Converte string com a dificuldade em numero
+  handleConvertDifficulty(difficulty) {
+    const numbers = { one: 1, two: 2, three: 3 }; // Uma forma para salvar os números dentro de uma constante
+    const { one, two, three } = numbers;
+    if (difficulty === 'easy') return one;
+    if (difficulty === 'medium') return two;
+    if (difficulty === 'hard') return three;
+  }
+
+  // !Calcula a quantidade total de pontos
+  handleScore(difficulty) {
+    const number = 10; // Não é recomendado que use o numero direto, mas sim dentro de uma constante
+    const { score } = this.state;
+    const { counter } = this.props;
+    this.setState({
+      score: score + number
+      + (counter * this.handleConvertDifficulty(difficulty)),
+    });
+  }
+
+  handleAlternativeButtons() {
     const {
       isRedBordered,
       isGreenBordered,
       incorrectAnswer,
       correctAnswer,
       isHidden,
-      gameResults,
-      counter,
       nextBtn,
       handleAnswer,
       isDisabled,
+      difficulty,
     } = this.props;
     return (
       <div>
-        <QuestionTitle gameResults={ gameResults } counter={ counter } />
         <button
           data-testid="correct-answer"
           name="correct"
@@ -50,13 +80,36 @@ class Questions extends Component {
           type="button"
           hidden={ isHidden }
           onClick={ nextBtn }
+          onMouseDown={ () => this.handleScore(difficulty) }
         >
           Próxima
         </button>
       </div>
     );
   }
+
+  render() {
+    const {
+      difficulty,
+      gameResults,
+      counter,
+    } = this.props;
+    return (
+      <div>
+        <QuestionTitle
+          gameResults={ gameResults }
+          counter={ counter }
+          difficulty={ difficulty }
+        />
+        {this.handleAlternativeButtons()}
+      </div>
+    );
+  }
 }
+
+const mapDispachToProps = (dispatch) => ({
+  getScore: (state) => dispatch(getUserScore(state)),
+});
 
 Questions.propTypes = ({
   incorrectAnswer: PropTypes.arrayOf().isRequired,
@@ -69,6 +122,7 @@ Questions.propTypes = ({
   isHidden: PropTypes.bool.isRequired,
   counter: PropTypes.number.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+  difficulty: PropTypes.string.isRequired,
 });
 
-export default Questions;
+export default connect(null, mapDispachToProps)(Questions);

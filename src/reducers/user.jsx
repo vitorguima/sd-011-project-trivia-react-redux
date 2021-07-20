@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   token: '',
   userData: {},
   isFetching: false,
+  score: 0,
 };
 
 function user(state = INITIAL_STATE, action = {}) {

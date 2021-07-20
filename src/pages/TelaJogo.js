@@ -85,27 +85,28 @@ class TelaJogo extends Component {
       counter,
       isDisabled,
     } = this.state;
-    const { getdata: { emailHash, name, email }, gameData } = this.props;
-
-    const player = { name, assertions: 0, score, gravatarEmail: email };
-    localStorage.setItem('player', JSON.stringify(player));
-
-    const limitOfQuestions = 5;
+    const { getdata: { emailHash, name, email }, gameData, scoreUser } = this.props;
     const gameResults = gameData.results;
-
+    // const { difficulty } = gameResults[count];
+    const urlUser = `https://www.gravatar.com/avatar/${emailHash}`;
+    const player = { name, assertions: 0, score: scoreUser, gravatarEmail: email };
+    localStorage.setItem('player', JSON.stringify(player));
+    const ranking = { name, score: scoreUser, picture: urlUser };
+    localStorage.setItem('ranking', JSON.stringify(ranking));
+    const limitOfQuestions = 5;
     return (
       <div>
         <header>
           <h1>Tela do jogo</h1>
-          <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${emailHash}` } alt="" />
+          <img data-testid="header-profile-picture" src={ urlUser } alt="" />
           <span data-testid="header-player-name">{name}</span>
           <span data-testid="header-score">
             { score }
           </span>
         </header>
-
         {gameResults && count < limitOfQuestions ? ( // Renderiza perguntas
           <Questions
+            difficulty={ gameResults[count].difficulty }
             gameResults={ gameResults[count] }
             incorrectAnswer={ Object.values(gameResults[count])[5] }
             correctAnswer={ gameResults[count].correct_answer }
@@ -128,9 +129,12 @@ class TelaJogo extends Component {
 
 const mapStateToProps = (state) => ({
   getdata: state.user.userData, // Pega Nome de usuario
+  scoreUser: state.user.score, // *Recebe o score do jogador
   getTokenStatus: state.user.token,
   gameData: state.requestGameAPI.gameData, // Pega as perguntas
 });
+
+export default connect(mapStateToProps)(TelaJogo);
 
 TelaJogo.propTypes = ({
   getdata: PropTypes.shape({
@@ -139,5 +143,3 @@ TelaJogo.propTypes = ({
   }),
   recivedGameData: PropTypes.func,
 }).isRequired;
-
-export default connect(mapStateToProps)(TelaJogo);
