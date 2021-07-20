@@ -18,7 +18,7 @@ class Feedback extends React.Component {
     this.handleScore();
   }
 
-  handleScore() {
+ handleScore() {
     const { location: { state: { assertions } } } = this.props;
     const THREE_POINTS = 3;
 
@@ -35,7 +35,7 @@ class Feedback extends React.Component {
     }
   }
 
-  render() {
+ render() {
     const { assertions, message } = this.state;
     return (
       <div>
