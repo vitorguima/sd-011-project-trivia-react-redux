@@ -18,31 +18,26 @@ class Ranking extends Component {
   }
 
   render() {
-    // const ranking = JSON.parse(localStorage.getItem('ranking'));
-    // function compare(a, b) {
-    //   const menor = -1;
-    //   const maior = 1;
-    //   if (a.score < b.score) return maior;
-    //   if (a.score > b.score) return menor;
-    //   return 0;
-    // }
+    const getRanking = JSON.parse(localStorage.getItem('ranking'));
+    const ranking = getRanking.sort((a, b) => b.score - a.score);
     return (
       <div>
         <h1 data-testid="ranking-title">Ranking</h1>
-        <ul>
-          {/* {ranking.sort(compare).map((user, index) => (
+        <ol>
+          { ranking.map((user, index) => (
             <li key={ index }>
-              <h3 data-testid={ `player-name-${index}` }>{user.name}</h3>
-              <h5 data-testid={ `player-score-${index}` }>{`score: ${user.score}`}</h5>
               <div>
                 <img src={ user.img } alt={ `foto do jogador ${user.name}` } />
               </div>
-            </li>))} */}
-        </ul>
+              <h5 data-testid={ `player-score-${index}` }>{`score: ${user.score}`}</h5>
+              <h3 data-testid={ `player-name-${index}` }>{user.name}</h3>
+            </li>))}
+        </ol>
         <Link
           to="/"
+          data-testid="btn-go-home"
         >
-          <button type="button" data-testid="btn-go-home">
+          <button type="button">
             Tela Inicial
           </button>
         </Link>
