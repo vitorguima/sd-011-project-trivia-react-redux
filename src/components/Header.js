@@ -15,28 +15,27 @@ class Header extends React.Component {
             src={ `https://www.gravatar.com/avatar/${email}` }
             alt="imagem gravatar"
             data-testid="header-profile-picture"
+            className="img-gravatar"
           />
         </div>
         <div className="name">
-          <h4 data-testid="header-player-name">{ name }</h4>
+          <h5 data-testid="header-player-name">{ `Player: ${name}` }</h5>
         </div>
-        <div className="score">
-          <h4 data-testid="header-score">{ score }</h4>
+        <div className="score-element">
+          <h4 className="score">Score:</h4>
+          <span data-testid="header-score" className="punctuation">{ score }</span>
         </div>
       </div>
     );
   }
 }
-
 Header.propTypes = {
   email: PropTypes.string,
   name: PropTypes.string,
 }.isRequired;
-
 const mapStateToProps = (state) => ({
   name: state.user.name,
   email: state.user.email,
   score: state.user.score,
 });
-
 export default connect(mapStateToProps)(Header);
