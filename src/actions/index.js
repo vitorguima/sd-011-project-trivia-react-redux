@@ -5,6 +5,7 @@ export const SET_CLICKED = 'SET_CLICKED';
 export const SET_TIMER = 'SET_TIMER';
 export const SET_SCORE = 'SET_SCORE';
 export const SET_DISABLED = 'SET_DISABLED';
+export const SET_CATEGORY = 'SET_CATEGORY';
 
 export const actionAvatar = (avatarUrl) => ({
   type: SET_AVATAR,
@@ -39,4 +40,9 @@ export const actionScore = (score) => ({
 export const actionDisabled = (score) => ({
   type: SET_DISABLED,
   payload: score,
+});
+
+export const actionCategory = (category) => ({
+  type: SET_CATEGORY,
+  payload: category,
 });
