@@ -9,14 +9,23 @@ class Scorebboard extends React.Component {
     this.state = {};
   }
 
-  // componentDidMount() {
-  //   chama a função que atualiza o localStorge RANKING
-  // }
+  componentDidMount() {
+    this.updateRanking();
+  }
 
-  // updateRanking() {
-  //   const { name, score, picture } = user;
-  //   localStorage.setItem('ranking', )
-  // }
+  updateRanking() {
+    const { user: { nome, score, url } } = this.props;
+    const getRanking = localStorage.getItem('ranking');
+    if (!getRanking) {
+      localStorage.setItem('ranking',
+        JSON.stringify([{ name: nome, score, picture: url }]));
+    } else {
+      const prevRankingString = localStorage.getItem('ranking');
+      const prevRanking = JSON.parse(prevRankingString);
+      prevRanking.push({ name: nome, score, picture: url });
+      localStorage.setItem('ranking', JSON.stringify(prevRanking));
+    }
+  }
 
   render() {
     const playerStorageString = localStorage.getItem('state');
@@ -25,15 +34,17 @@ class Scorebboard extends React.Component {
       <div className="feedback-scoreboard">
         <h2>
           Você acertou:
-          <span data-testid="feedback-total-score">{ playerStorage.player.score }</span>
+          <span data-testid="feedback-total-question">
+            { playerStorage.player.assertions }
+          </span>
           de 5 perguntas.
         </h2>
         <h2>
           Você fez:
           <span
-            data-testid="feedback-total-question"
+            data-testid="feedback-total-score"
           >
-            { playerStorage.player.assertions }
+            { playerStorage.player.score }
           </span>
           pontos.
         </h2>
@@ -62,6 +73,8 @@ Scorebboard.propTypes = {
   user: PropTypes.shape({
     score: PropTypes.number,
     assertions: PropTypes.number,
+    nome: PropTypes.string,
+    url: PropTypes.string,
   }).isRequired,
 };
 
