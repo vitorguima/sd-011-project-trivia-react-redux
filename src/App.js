@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import login from './pages/login';
 import config from './pages/config';
 import screenGame from './pages/screenGame';
+import feedback from './pages/feedback';
+import ranking from './pages/ranking';
 import './App.css';
 
 export default function App() {
@@ -11,6 +13,8 @@ export default function App() {
       <Route exact path="/" component={ login } />
       <Route path="/config" component={ config } />
       <Route path="/screen-game" component={ screenGame } />
+      <Route path="/feedback" component={ feedback } />
+      <Route path="/ranking" component={ ranking } />
     </Switch>
   );
 }

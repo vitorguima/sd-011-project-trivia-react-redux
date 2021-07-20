@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PlayerComponent from '../components/PlayerComponent';
 import GameComponent from '../components/GameComponent';
+import TimerComponent from '../components/TimerComponent';
 import { fetchTrivia } from '../actions';
 import './screenGame.css';
 
@@ -14,6 +15,7 @@ class screenGame extends Component {
       token: '',
     };
     this.fetchToken = this.fetchToken.bind(this);
+    this.finishQuestions = this.finishQuestions.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +38,11 @@ class screenGame extends Component {
     }
   }
 
+  finishQuestions() {
+    const { history } = this.props;
+    history.push('/feedback');
+  }
+
   render() {
     const { token } = this.state;
     console.log(token);
@@ -43,17 +50,17 @@ class screenGame extends Component {
       <div>
         <PlayerComponent />
         <GameComponent />
+        <TimerComponent finishQuestions={ this.finishQuestions } />
       </div>
     );
   }
 }
 
 screenGame.propTypes = {
-  searchQuestion: PropTypes.func,
-};
-
-screenGame.defaultProps = {
-  searchQuestion: undefined,
+  searchQuestion: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

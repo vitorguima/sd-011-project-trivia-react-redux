@@ -3,6 +3,15 @@ export const NEW_EMAIL = 'NEW_EMAIL';
 export const REQUEST_TRIVIA = 'REQUEST_TRIVIA';
 export const REQUEST_TRIVIA_SUCCESS = 'REQUEST_TRIVIA_SUCCESS';
 export const REQUEST_TRIVIA_ERROR = 'REQUEST_TRIVIA_ERROR';
+export const TIMER_BUTTON = 'TIMER_BUTTON';
+export const REQUEST_CLICK_BUTTON = 'REQUEST_CLICK_BUTTON';
+export const NEXT_COUNT = 'NEXT_COUNT';
+export const ADD_QUESTION = 'ADD_QUESTION';
+
+export const nextQuestionCount = (state) => ({
+  type: NEXT_COUNT,
+  state,
+});
 
 export const sendUser = (state) => ({
   type: NEW_USER,
@@ -11,6 +20,21 @@ export const sendUser = (state) => ({
 
 export const sendEmail = (state) => ({
   type: NEW_EMAIL,
+  state,
+});
+
+export const timerButton = (state) => ({
+  type: TIMER_BUTTON,
+  state,
+});
+
+export const clickButton = (state) => ({
+  type: REQUEST_CLICK_BUTTON,
+  state,
+});
+
+export const addQuestion = (state) => ({
+  type: ADD_QUESTION,
   state,
 });
 

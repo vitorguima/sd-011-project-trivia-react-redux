@@ -32,8 +32,12 @@ class login extends Component {
   localStoragehandle() {
     const { email, user } = this.state;
     const player = {
-      name: user,
-      gravatarEmail: email,
+      player: {
+        name: user,
+        assertions: 0,
+        score: 0,
+        gravatarEmail: email,
+      },
     };
     localStorage.setItem('state', JSON.stringify(player));
   }
