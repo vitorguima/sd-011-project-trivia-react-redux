@@ -1,29 +1,43 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import header from './header.css';
+import border from '../images/header_base.png';
 
 class Header extends Component {
   render() {
     const { profileImg, profileName, profileScore } = this.props;
     return (
-      <header>
-        <img
-          src={ profileImg }
-          data-testid="header-profile-picture"
-          alt="User profile"
-        />
-        <span
-          data-testid="header-player-name"
-        >
-          { profileName }
-        </span>
-        <span
-          data-testid="header-score"
-        >
-          { profileScore }
-        </span>
+      <>
+        <header>
+          <img
+            src={ profileImg }
+            data-testid="header-profile-picture"
+            alt="User profile"
+          />
+          <span
+            data-testid="header-player-name"
+            className="header-player-name"
+          >
+            { profileName }
+          </span>
+          <div className="div-header-score">
+            <h3 className="name-score">
+              SCORE
+            </h3>
+            <h2
+              data-testid="header-score"
+              className="header-score"
+            >
+              { profileScore }
+            </h2>
+          </div>
 
-      </header>
+        </header>
+        <div className="border-header">
+          <img src={ border } alt="" className="img-border" />
+        </div>
+      </>
     );
   }
 }
