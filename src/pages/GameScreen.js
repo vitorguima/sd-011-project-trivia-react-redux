@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { questionsApi, createScore } from '../actions';
 import { getQuestionApi } from '../services/getApi';
-import Header from '../components/Header';
+import Feedback from './Feedback';
 
 class GameScreen extends Component {
   constructor(props) {
@@ -187,7 +188,14 @@ class GameScreen extends Component {
 
     return (
       <>
-        <Header />
+        <Feedback />
+        <Link to="/feedback">
+          <button
+            type="button"
+          >
+            Feedback
+          </button>
+        </Link>
         { questionIndex < indexCheck ? this.createQuestion() : '' }
         {nextBtn ? this.addNextBtn() : '' }
       </>
