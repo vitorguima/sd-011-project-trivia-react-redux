@@ -58,9 +58,22 @@ class QuestionCard extends React.Component {
 
   handleNextQuestion() {
     const { dispatchNextQuestion, dispatchResetTimer,
-      questions, question, history } = this.props;
+      questions, question, history, gravatar } = this.props;
 
     if (questions.indexOf(question) === questions.length - 1) {
+      const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+      const { player } = JSON.parse(localStorage.getItem('state'));
+
+      ranking.push({
+        name: player.name,
+        score: player.score,
+        picture: gravatar,
+      });
+
+      ranking.sort((first, second) => second.score - first.score);
+
+      localStorage.setItem('ranking', JSON.stringify(ranking));
+
       history.push('/feedback');
     } else {
       dispatchNextQuestion();
@@ -155,13 +168,16 @@ class QuestionCard extends React.Component {
 }
 
 const mapStateToProps = (
-  { gameReducer: { questions, question, timer, isLoading, error } },
+  { gameReducer: { questions, question, timer, isLoading, error },
+    playerReducer: { gravatar },
+  },
 ) => ({
   questions,
   question,
   timer,
   isLoading,
   error,
+  gravatar,
 });
 
 const mapDispatchToProps = (dispatch) => ({
