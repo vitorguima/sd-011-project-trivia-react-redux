@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 class Ranking extends Component {
   render() {
-    const { index } = this.state;
-    const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { gravatarHash, name, score } = notRedux.player;
+    // const { index } = this.state;
+    // const notRedux = JSON.parse(localStorage.getItem('state'));
+    // const { gravatarHash, name, score } = notRedux.player;
     // const ranking = JSON.parse(localStorage.getItem('ranking'))
     //   .sort((a, b) => b.score - a.score);
     return (
