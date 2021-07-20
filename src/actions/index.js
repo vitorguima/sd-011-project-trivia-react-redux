@@ -10,6 +10,7 @@ export const STOP_TIMER = 'STOP_TIMER';
 export const RESET_QUESTIONS = 'RESET_QUESTIONS';
 export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 export const UPDATE_DIFFICULTY = 'UPDATE_DIFFICULTY';
+export const UPDATE_TYPE = 'UPDATE_TYPE';
 
 export const savePlayer = (payload) => ({
   type: SAVE_PLAYER,
@@ -65,11 +66,16 @@ export const updateDifficulty = (payload) => ({
   payload: payload === 'All' ? '' : payload,
 });
 
-export const fetchQuestions = (token, category, difficulty) => (dispatch) => {
+export const updateType = (payload) => ({
+  type: UPDATE_TYPE,
+  payload: payload === 'All' ? '' : payload,
+});
+
+export const fetchQuestions = ({ token, category, difficulty, type }) => (dispatch) => {
   dispatch(getQuestions());
-  const baseUrl = 'https://opentdb.com/api.php';
+  const baseEndpoint = `https://opentdb.com/api.php?amount=5&token=${token}`;
   return fetch(
-    `${baseUrl}?amount=5&token=${token}&category=${category}&difficulty=${difficulty}`,
+    `${baseEndpoint}&category=${category}&difficulty=${difficulty}&type=${type}`,
   )
     .then((response) => response.json())
     .then(

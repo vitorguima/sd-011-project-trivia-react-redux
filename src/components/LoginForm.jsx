@@ -39,10 +39,17 @@ class LoginForm extends React.Component {
   }
 
   setQuestions() {
-    const { dispatchQuestions, category, difficulty } = this.props;
+    const { dispatchQuestions, category, difficulty, type } = this.props;
     const token = localStorage.getItem('token');
 
-    dispatchQuestions(token, category, difficulty);
+    const payload = {
+      token,
+      category,
+      difficulty,
+      type,
+    };
+
+    dispatchQuestions(payload);
   }
 
   handleSubmit() {
@@ -110,16 +117,15 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = ({ configurationReducer: { category, difficulty } }) => ({
+const mapStateToProps = ({ configurationReducer: { category, difficulty, type } }) => ({
   category,
   difficulty,
+  type,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchPlayer: (player) => dispatch(savePlayer(player)),
-  dispatchQuestions: (token, category, difficulty) => (
-    dispatch(fetchQuestions(token, category, difficulty))
-  ),
+  dispatchQuestions: (payload) => dispatch(fetchQuestions(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
