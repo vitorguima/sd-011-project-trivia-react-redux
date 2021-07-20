@@ -52,12 +52,12 @@ class Answers extends Component {
   }
 
   render() {
-    const { results, answerClicked } = this.props;
+    const { results, answerClicked, timer } = this.props;
     return (
       <ul>
         <li>
           <button
-            disabled={ answerClicked }
+            disabled={ answerClicked || timer === 0 }
             type="button"
             data-testid="correct-answer"
             onClick={ this.buttonProps }
@@ -73,7 +73,7 @@ class Answers extends Component {
         {results.incorrect_answers.map((answer, index) => (
           <li key={ index }>
             <button
-              disabled={ answerClicked }
+              disabled={ answerClicked || timer === 0 }
               type="button"
               key={ index }
               data-testid={ `wrong-answer-${index}` }
@@ -95,7 +95,6 @@ class Answers extends Component {
 
 const mapStateToProps = (state) => ({
   answerClicked: state.gameReducer.answerClicked,
-  timer: state.gameReducer.timer,
 });
 
 const mapDispatchToProps = (dispatch) => ({

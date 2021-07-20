@@ -6,6 +6,10 @@ export const FAILED_TRIVIA_REQUEST = 'FAILED_TRIVIA_REQUEST';
 export const GET_TRIVIA = 'GET_TRIVIA';
 export const ANSWER_BUTTON_CLICKED = 'ANSWER_BUTTON_CLICKED';
 export const ANSWER_RESET = 'ANSWER_RESET';
+export const START_TIMER = 'START_TIMER';
+export const UPDATE_TIMER = 'UPDATE_TIMER';
+export const TIMER_RUNOUT = 'TIMER_RUNOUT';
+export const RESET_TIMER = 'RESET_TIMER';
 
 export const triviaRequest = () => ({
   type: TRIVIA_REQUEST,
@@ -66,4 +70,21 @@ export const answerButtonClickedAction = () => ({
 export const answerReset = () => ({
   type: ANSWER_RESET,
   payload: false,
+});
+
+export const startTimer = () => ({
+  type: START_TIMER,
+});
+
+export const timerRunout = () => ({
+  type: TIMER_RUNOUT,
+});
+
+export const updateTimer = (value) => ({
+  type: UPDATE_TIMER,
+  value,
+});
+
+export const resetTimer = () => ({
+  type: RESET_TIMER,
 });

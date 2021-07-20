@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
-import GameTimer from '../components/GameTimer';
 import Answers from '../components/Answers';
-import { fetchApiToken, answerReset } from '../actions';
+import { fetchApiToken, answerReset, resetTimer } from '../actions';
 
 class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
       position: 0,
+      timer: 30,
     };
     this.nextQuestionButtonClicked = this.nextQuestionButtonClicked.bind(this);
+    this.renderTimer = this.renderTimer.bind(this);
     this.renderNextButton = this.renderNextButton.bind(this);
   }
 
@@ -23,14 +24,29 @@ class Game extends Component {
   }
 
   nextQuestionButtonClicked() {
-    const { answerButtonReset } = this.props;
-    this.setState((prevState) => ({ position: prevState.position + 1 }));
+    const { answerButtonReset, resetTimerProp } = this.props;
+    this.setState((prevState) => ({ position: prevState.position + 1, timer: 30 }));
     answerButtonReset();
+    resetTimerProp();
+  }
+
+  renderTimer() {
+    const { answerClicked } = this.props;
+    const { timer } = this.state;
+    const time = 1000;
+    const timeout = setTimeout(
+      () => this.setState((prevState) => ({ timer: prevState.timer - 1 })),
+      time,
+    );
+    if (timer === 0 || answerClicked) {
+      clearTimeout(timeout);
+    }
   }
 
   renderNextButton() {
     const { answerClicked } = this.props;
-    if (answerClicked) {
+    const { timer } = this.state;
+    if (answerClicked || timer === 0) {
       return true;
     }
     return false;
@@ -38,10 +54,10 @@ class Game extends Component {
 
   render() {
     const { results } = this.props;
+    const { timer, position } = this.state;
     if (!results) {
       return (<h2>Carregando...</h2>);
     }
-    const { position } = this.state;
     const maxQuestion = 5;
     if (position === maxQuestion) {
       return <Redirect to="/feedback" />;
@@ -50,11 +66,14 @@ class Game extends Component {
       <div>
         <Header />
         <p data-testid="question-category">{results[position].category}</p>
-        <p data-testid="question-text">
+        <p
+          data-testid="question-text"
+          onLoad={ this.renderTimer() }
+        >
           {results[position].question}
         </p>
-        <GameTimer />
-        <Answers results={ results[position] } />
+        <h3>{ timer }</h3>
+        <Answers results={ results[position] } timer={ timer }/>
         { this.renderNextButton() && (
           <button
             type="button"
@@ -78,6 +97,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchTrivia: () => dispatch(fetchApiToken()),
   answerButtonReset: () => dispatch(answerReset()),
+  resetTimerProp: () => dispatch(resetTimer()),
 });
 
 Game.propTypes = {
