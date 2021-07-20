@@ -71,7 +71,12 @@ class Question extends Component {
   }
 
   nextQuestion() {
-    const { currentQuestion, history, nextQuestionAction, saveRankAction } = this.props;
+    const {
+      currentQuestion,
+      history,
+      nextQuestionAction,
+      saveRankAction,
+      startCountdownAction } = this.props;
     const numOfQuestions = 4;
     if (currentQuestion >= numOfQuestions) {
       saveRankAction();
@@ -81,6 +86,7 @@ class Question extends Component {
       this.setState({
         anyChosed: false,
       });
+      startCountdownAction();
     }
   }
 
@@ -129,9 +135,7 @@ class Question extends Component {
   bolleanQuestion() {
     const { questionsArr, currentQuestion } = this.props;
     const { anyChosed } = this.state;
-    if (questionsArr[currentQuestion].correct_answer) {
-      return this.renderTrueFalse();
-    }
+    if (questionsArr[currentQuestion].correct_answer) return this.renderTrueFalse();
     return (
       <div className="answers">
         <button
@@ -196,9 +200,7 @@ class Question extends Component {
 
   renderAwnserButtons() {
     const { questionsArr, currentQuestion } = this.props;
-    if (questionsArr[currentQuestion].type === 'boolean') {
-      return this.bolleanQuestion();
-    }
+    if (questionsArr[currentQuestion].type === 'boolean') return this.bolleanQuestion();
     return this.multipleQuestion();
   }
 
@@ -208,14 +210,10 @@ class Question extends Component {
     return (
       <div>
         <p data-testid="question-text">
-          {' '}
           { questionsArr[currentQuestion].question }
-          {' '}
         </p>
         <p data-testid="question-category">
-          {' '}
           { questionsArr[currentQuestion].category }
-          {' '}
         </p>
         { this.renderAwnserButtons() }
         {anyChosed ? this.renderNextButton() : ''}
