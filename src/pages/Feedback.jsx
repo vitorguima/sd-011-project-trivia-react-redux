@@ -36,8 +36,8 @@ class Feedback extends React.Component {
           <button
             type="button"
             data-testid="btn-play-again"
-        >
-              Jogar novamente
+          >
+            Jogar novamente
           </button>
         </Link>
       </>
