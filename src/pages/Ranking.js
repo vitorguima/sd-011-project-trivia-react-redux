@@ -19,7 +19,7 @@ class Ranking extends Component {
   render() {
     const { index } = this.state;
     const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { gravatarHash, name, score } = notRedux.user;
+    const { gravatarHash, name, score } = notRedux.player;
     localStorage.setItem('state', JSON.stringify(notRedux));
     // const ranking = JSON.parse(localStorage.getItem('ranking'))
     //   .sort((a, b) => b.score - a.score);

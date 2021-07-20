@@ -73,7 +73,7 @@ class Game extends Component {
           {results[position].question}
         </p>
         <h3>{ timer }</h3>
-        <Answers results={ results[position] } timer={ timer }/>
+        <Answers results={ results[position] } timer={ timer } />
         { this.renderNextButton() && (
           <button
             type="button"
