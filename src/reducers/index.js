@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import playerReducer from './playerReducer';
-import boardRanking from './rankingReducer';
+import rankingReducer from './rankingReducer';
 
 const rootReducer = combineReducers({
   playerReducer,
-  boardRanking,
+  rankingReducer,
 });
 
 export default rootReducer;

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { Redirect } from 'react-router';
@@ -11,7 +10,8 @@ class Feedback extends React.Component {
   constructor() {
     super();
     this.state = {
-      redirectToRaning: false,
+      redirectToRanking: false,
+      redirectToLogin: false,
     };
 
     this.toRankingReducer = this.toRankingReducer.bind(this);
@@ -22,13 +22,15 @@ class Feedback extends React.Component {
     return `https://www.gravatar.com/avatar/${hash}`;
   }
 
-  toRankingReducer() {
+  toRankingReducer(event) {
+    event.preventDefault();
     const { player: { name, score, gravatarEmail }, toRanking } = this.props;
     const picture = this.getEmailWithHash(gravatarEmail);
     const data = { name, score, picture };
+    console.log(data);
     toRanking(data);
     this.setState({
-      redirectToRaning: true,
+      redirectToRanking: true,
     });
   }
 
@@ -43,10 +45,19 @@ class Feedback extends React.Component {
     }
   }
 
+  playAgain(event) {
+    event.preventDefault();
+    this.setState({
+      redirectToLogin: true,
+    });
+  }
+
   render() {
     const { player: { score, assertions } } = this.props;
-    const { redirectToRaning } = this.state;
-    if (redirectToRaning) return <Redirect to="/ranking" />;
+    console.log(score);
+    const { redirectToRanking, redirectToLogin } = this.state;
+    if (redirectToRanking) return <Redirect to="/ranking" />;
+    if (redirectToLogin) return <Redirect to="/" />;
     return (
       <div>
         <Header />
@@ -55,12 +66,12 @@ class Feedback extends React.Component {
         <p data-testid="feedback-total-score">{ score }</p>
         <button
           type="submit"
-          data-testid="btn-play-again"
+          data-testid="btn-ranking"
           onClick={ this.toRankingReducer }
         >
-          Jogar novamente
+          Ver Ranking
         </button>
-        <Link data-testid="btn-ranking" to="/ranking">Ver ranking</Link>
+        <button type="submit" data-testid="btn-play-again">Jogar novamente</button>
       </div>
     );
   }
@@ -81,11 +92,7 @@ Feedback.propTypes = {
     score: PropTypes.number,
     assertions: PropTypes.number,
   }).isRequired,
-  toRanking: PropTypes.shape({
-    name: PropTypes.string,
-    score: PropTypes.number,
-    picture: PropTypes.string,
-  }).isRequired,
+  toRanking: PropTypes.func.isRequired,
 };
 
-export default connect(mapDispatchToProps, mapStateToProps)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

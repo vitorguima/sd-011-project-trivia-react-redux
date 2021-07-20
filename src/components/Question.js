@@ -121,7 +121,15 @@ class Question extends React.Component {
     }
   }
 
-  renderButton() {
+  renderButton(index) {
+    const three = 3;
+    if (index > three) {
+      return (
+        <button type="button" onClick={ this.handleClickNext } data-testid="btn-next">
+          Finalizar
+        </button>
+      );
+    }
     return (
       <button type="button" onClick={ this.handleClickNext } data-testid="btn-next">
         Próximo
@@ -130,7 +138,7 @@ class Question extends React.Component {
   }
 
   render() {
-    const { showCorrect, question: {
+    const { showCorrect, index, question: {
       category,
       question,
       correct_answer: correctAnswer,
@@ -156,12 +164,12 @@ class Question extends React.Component {
         >
           { decode(correctAnswer) }
         </button>
-        { incorrectAnswers.map((inc, index) => (
+        { incorrectAnswers.map((inc, i) => (
           <button
             type="button"
             onClick={ this.clearTimer }
-            data-testid={ `wrong-answer-${index}` }
-            key={ index }
+            data-testid={ `wrong-answer-${i}` }
+            key={ i }
             className={ showCorrect && 'incorrect' }
             disabled={ showCorrect }
           >
@@ -169,7 +177,7 @@ class Question extends React.Component {
           </button>
         )) }
         { showCorrect
-          && this.renderButton() }
+          && this.renderButton(index) }
         { redirectToFeedBack
           && <Redirect to="/feedback" /> }
       </div>

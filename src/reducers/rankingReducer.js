@@ -1,8 +1,8 @@
 import { SEND_RANKING } from '../actions';
 
-INITIAL_STATE = [];
+const INITIAL_STATE = [];
 
-function boardRanking(state = INITIAL_STATE, { type, payload }) {
+const rankingReducer = (state = INITIAL_STATE, { type, payload }) => {
   localStorage.setItem('ranking', JSON.stringify({ ...state, ...payload }));
 
   switch (type) {
@@ -18,6 +18,6 @@ function boardRanking(state = INITIAL_STATE, { type, payload }) {
   default:
     return state;
   }
-}
+};
 
-export default boardRanking;
+export default rankingReducer;
