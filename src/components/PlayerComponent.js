@@ -16,7 +16,7 @@ class PlayerComponent extends Component {
           src={ linkImage }
           alt="User Gravatar"
         />
-        <p data-testid="header-score">{`Placar: ${assertions}`}</p>
+        <p data-testid="header-score">{assertions}</p>
       </header>
     );
   }

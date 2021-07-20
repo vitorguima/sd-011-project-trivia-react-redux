@@ -8,7 +8,7 @@ class Ranking extends React.Component {
       <section>
         <h2 data-testid="ranking-title">Tela de Ranking</h2>
         <Link to="/">
-          <button type="button" data-test-id="btn-go-home">Início</button>
+          <button type="button" data-test-id="btn-go-home">Jogar novamente</button>
         </Link>
       </section>
     );
