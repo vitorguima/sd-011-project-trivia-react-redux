@@ -45,7 +45,13 @@ class Feedback extends Component {
         <div>
           <h2 data-testid="feedback-text">{ this.handleAssertions() }</h2>
           <h3 data-testid="feedback-total-score">{ score }</h3>
-          <h3 data-testid="feedback-total-question">{ assertions }</h3>
+          <h3>
+            Você acertou
+            <span data-testid="feedback-total-question">
+              {assertions}
+            </span>
+            questions
+          </h3>
         </div>
         <div>
           <Link to="/">

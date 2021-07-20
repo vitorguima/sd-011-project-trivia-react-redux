@@ -7,13 +7,13 @@ class Ranking extends Component {
     super();
     this.state = {
     };
-    this.handleClick = this.handleClick.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
-    const { history } = this.props;
-    return history.push('/');
-  }
+  // handleClick() {
+  //   const { history } = this.props;
+  //   return history.push('/');
+  // }
 
   render() {
     // const notRedux = JSON.parse(localStorage.getItem('state'));
@@ -41,7 +41,7 @@ class Ranking extends Component {
             <button
               data-testid="btn-go-home"
               type="button"
-              onClick={ this.handleClick() }
+              // onClick={ this.handleClick() }
             >
               Ir ao Início
             </button>
