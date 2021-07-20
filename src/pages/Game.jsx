@@ -126,6 +126,7 @@ Game.propTypes = {
   setHidden: PropTypes.func.isRequired,
   setDisabled: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
+  category: PropTypes.string.isRequired,
 };
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Game);
