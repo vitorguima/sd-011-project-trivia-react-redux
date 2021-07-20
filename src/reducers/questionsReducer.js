@@ -3,6 +3,7 @@ import {
   RECEIVE_QUESTIONS,
   SHOW_NEXT_BTN,
   CHANGE_TO_NEXT_QUESTION,
+  RESTART_GAME,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -37,6 +38,10 @@ const questionsReducer = (state = INITIAL_STATE, action) => {
       ...state,
       currentQuestion: state.currentQuestion + 1,
       showBtn: false,
+    };
+  case RESTART_GAME:
+    return {
+      ...INITIAL_STATE,
     };
   default:
     return state;

@@ -7,6 +7,7 @@ export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
 export const SHOW_NEXT_BTN = 'SHOW_NEXT_BTN';
 export const CHANGE_TO_NEXT_QUESTION = 'CHANGE_TO_NEXT_QUESTION';
 export const START_COUNTDOWN = 'START_COUNTDOWN';
+export const RESTART_GAME = 'RESTART_GAME';
 
 export const getUserData = (name, email, token) => {
   const hash = md5(email).toString();
@@ -57,4 +58,8 @@ export const changeToNextQuestion = () => ({
 
 export const startCountdown = () => ({
   type: START_COUNTDOWN,
+});
+
+export const restartGame = () => ({
+  type: RESTART_GAME,
 });
