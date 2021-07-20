@@ -22,7 +22,7 @@ class Ranking extends Component {
     return (
       <div>
         <div>
-          <h1 data-testid="ranking-title">Ranking</h1>
+          <h1 data-testid="ranking-title">Lista de Ranking</h1>
           {/* {ranking.map((user, index) => (
               <div key={ user[index] }>
                 <img
