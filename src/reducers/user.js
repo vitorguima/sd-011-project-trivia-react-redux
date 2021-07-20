@@ -1,7 +1,8 @@
 import { SAVE_LOGIN,
   REQUEST_TOKEN_SUCCESS,
   REQUEST_TOKEN_ERROR,
-  UPDATE_SCORE } from '../actions';
+  UPDATE_SCORE,
+} from '../actions';
 
 const INNITIAL_STATE = {
   name: '',
