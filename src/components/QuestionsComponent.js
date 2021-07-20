@@ -142,12 +142,11 @@ class QuestionsComponent extends Component {
         </div>
       );
     };
-   return (
-      <div>{loading ? <p>Carregando...</p> : (this.renderLink())}</div>
+    return (
+      <div>{loading ? <p>Carregando...</p> : (renderLink())}</div>
     );
   }
 }
-
 
 QuestionsComponent.propTypes = {
   questions: PropTypes.arrayOf().isRequired,
