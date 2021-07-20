@@ -22,7 +22,6 @@ class Login extends React.Component {
   handleChange(event) {
     const { target: { value, name } } = event;
     this.setState({ [name]: value }, () => {
-      console.log(value);
       if (this.verifyInput()) {
         this.setState({ btnDisable: false });
       } else {
