@@ -5,6 +5,7 @@ import './App.css';
 import Login from './pages/Login';
 import TelaJogo from './pages/TelaJogo';
 import Configurações from './pages/Configurações';
+import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route exact path="/" component={ Login } />
         <Route path="/settings" component={ Configurações } />
         <Route path="/game" component={ TelaJogo } />
+        <Route path="/ranking" component={ Ranking } />
       </Switch>
     </div>
   );
