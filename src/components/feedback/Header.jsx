@@ -17,6 +17,7 @@ class Header extends React.Component {
         <h1 data-testid="header-player-name">{ nome }</h1>
         <h1>
           Pontuação:
+          { ' ' }
           <span data-testid="header-score">{ score }</span>
         </h1>
       </header>

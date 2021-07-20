@@ -14,7 +14,7 @@ class Scorebboard extends React.Component {
   // }
 
   // updateRanking() {
-  //   const { name, score, picture } = user;
+  //   const { name, score, urlAvatar } = user;
   //   localStorage.setItem('ranking', )
   // }
 
@@ -25,16 +25,20 @@ class Scorebboard extends React.Component {
       <div className="feedback-scoreboard">
         <h2>
           Você acertou:
+          {' '}
           <span data-testid="feedback-total-score">{ playerStorage.player.score }</span>
+          {' '}
           de 5 perguntas.
         </h2>
         <h2>
           Você fez:
+          {' '}
           <span
             data-testid="feedback-total-question"
           >
             { playerStorage.player.assertions }
           </span>
+          {' '}
           pontos.
         </h2>
 
