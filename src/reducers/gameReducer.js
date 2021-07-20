@@ -17,6 +17,14 @@ const INITIAL_STATE = {
   assertions: 0,
 };
 
+const questionsReset = {
+  questions: [],
+  question: {},
+  answers: [],
+  isLoading: true,
+  error: null,
+};
+
 const getNextQuestion = (
   { questions, question },
 ) => questions[questions.indexOf(question) + 1];
@@ -69,11 +77,7 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
   case RESET_QUESTIONS:
     return {
       ...state,
-      questions: [],
-      question: {},
-      answers: [],
-      isLoading: true,
-      error: null,
+      ...questionsReset,
     };
   default:
     return state;
