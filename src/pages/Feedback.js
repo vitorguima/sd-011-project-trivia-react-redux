@@ -17,11 +17,19 @@ class Feedback extends Component {
   }
 
   render() {
+    const { score } = this.props;
+    const { assertions } = JSON.parse(localStorage.getItem('state')).player;
     return (
       <div>
         <Header />
         <section>
           { this.renderFeedbackMessage() }
+          <div>
+            <p>Score: </p>
+            <p data-testid="feedback-total-score">{ score }</p>
+            <p>Acertos: </p>
+            <p data-testid="feedback-total-question">{ assertions }</p>
+          </div>
         </section>
       </div>
     );
