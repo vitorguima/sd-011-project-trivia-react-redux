@@ -5,7 +5,7 @@ import Home from './pages/Home/Home';
 import GamePage from './pages/GamePage/GamePage';
 import Settings from './pages/Settings/Settings';
 import Feedback from './pages/feedback/Feedback';
-import Ranking from './pages/Ranking';
+import Ranking from './pages/ranking/Ranking';
 
 export default function App() {
   return (

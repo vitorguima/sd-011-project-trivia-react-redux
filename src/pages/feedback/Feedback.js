@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../../components/Header';
+import './feedback.css';
 
 class Feedback extends Component {
   constructor(props) {
@@ -61,16 +62,18 @@ class Feedback extends Component {
       <>
         <Header />
         { this.renderFeedback() }
-        <Link to="ranking">
-          <button type="button" data-testid="btn-ranking">
-            VER RANKING
-          </button>
-        </Link>
-        <Link to="/">
-          <button type="button" data-testid="btn-play-again">
-            Jogar Novamente
-          </button>
-        </Link>
+        <div className="feedback-button">
+          <Link to="ranking">
+            <button className="btn-ranking" type="button" data-testid="btn-ranking">
+              VER RANKING
+            </button>
+          </Link>
+          <Link to="/">
+            <button className="btn-play-again" type="button" data-testid="btn-play-again">
+              Jogar Novamente
+            </button>
+          </Link>
+        </div>
       </>
     );
   }
