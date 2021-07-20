@@ -5,7 +5,9 @@ import Loading from './Loading';
 import BooleanAnswers from './BooleanAnswers';
 import MultipleAnswers from './MultipleAnswers';
 import Timer from './Timer';
-import { nextQuestion, resetTimer, stopTimer, updateScore } from '../actions';
+import {
+  nextQuestion, resetQuestions, resetTimer, stopTimer, updateScore,
+} from '../actions';
 
 const baseScore = 10;
 
@@ -21,6 +23,12 @@ class QuestionCard extends React.Component {
     this.toggleDisableButtons = this.toggleDisableButtons.bind(this);
     this.handleNextQuestion = this.handleNextQuestion.bind(this);
     this.handleQuestionAnswered = this.handleQuestionAnswered.bind(this);
+  }
+
+  componentWillUnmount() {
+    const { dispatchResetQuestions } = this.props;
+
+    dispatchResetQuestions();
   }
 
   setScore() {
@@ -194,6 +202,7 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchResetTimer: () => dispatch(resetTimer()),
   dispatchUpdateScore: (score) => dispatch(updateScore(score)),
   dispatchStopTimer: () => dispatch(stopTimer()),
+  dispatchResetQuestions: () => dispatch(resetQuestions()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionCard);

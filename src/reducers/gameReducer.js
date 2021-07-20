@@ -4,6 +4,7 @@ import {
   GET_QUESTIONS_ERROR,
   NEXT_QUESTION,
   UPDATE_SCORE,
+  RESET_QUESTIONS,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -64,6 +65,15 @@ const gameReducer = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       score: payload,
       assertions: state.assertions + 1,
+    };
+  case RESET_QUESTIONS:
+    return {
+      ...state,
+      questions: [],
+      question: {},
+      answers: [],
+      isLoading: true,
+      error: null,
     };
   default:
     return state;
