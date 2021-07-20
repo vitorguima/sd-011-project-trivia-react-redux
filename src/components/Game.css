@@ -111,3 +111,10 @@
   cursor: not-allowed;
 }
 
+.nextQuestion {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}

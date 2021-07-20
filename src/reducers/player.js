@@ -38,6 +38,7 @@ export default function playerReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       score: state.score + action.points,
+      assertions: state.assertions + 1,
     };
   default:
     return state;

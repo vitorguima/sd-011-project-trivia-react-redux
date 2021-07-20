@@ -1,4 +1,4 @@
-import { COUNTDOWN, STOP_COUNTDOWN } from '../actions';
+import { COUNTDOWN, RESET_COUNTDOWN, STOP_COUNTDOWN } from '../actions';
 
 const INITIAL_STATE = {
   timer: 30,
@@ -16,6 +16,12 @@ export default function timerReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       stopTimer: true,
+    };
+  case RESET_COUNTDOWN:
+    return {
+      ...state,
+      timer: 30,
+      stopTimer: false,
     };
   default:
     return state;

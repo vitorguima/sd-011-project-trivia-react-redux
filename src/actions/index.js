@@ -7,13 +7,16 @@ export const QUESTIONS = 'QUESTIONS';
 export const COUNTDOWN = 'COUNTDOWN';
 export const STOP_COUNTDOWN = 'STOP_COUNTDOWN';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const RESET_COUNTDOWN = 'RESET_COUNTDOWN';
 
 export const loginAction = (name, email) => ({ type: LOGIN, email, name });
 const receiveToken = (token) => ({ type: TOKEN, token });
 const receiveGravatar = (gravatar) => ({ type: GRAVATAR, gravatar });
 const receiveQuestions = (questions) => ({ type: QUESTIONS, questions });
 const countdownTimer = () => ({ type: COUNTDOWN });
+export const updateScore = (points) => ({ type: UPDATE_SCORE, points });
 export const stopCountdownTimer = () => ({ type: STOP_COUNTDOWN });
+export const resetCountdownTimer = () => ({ type: RESET_COUNTDOWN });
 
 export const fetchGravatar = (email) => (dispatch) => {
   const hashEmail = md5(email).toString();
@@ -35,5 +38,3 @@ export const reduceSecond = (timer) => (dispatch) => {
   }
   return dispatch(stopCountdownTimer());
 };
-
-export const updateScore = (points) => ({ type: UPDATE_SCORE, points });
