@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Questions from '../components/Questions';
+import Feedback from '../components/Feedback';
 
 class TelaJogo extends Component {
   constructor() {
@@ -103,7 +104,6 @@ class TelaJogo extends Component {
             { score }
           </span>
         </header>
-
         {gameResults && count < limitOfQuestions ? ( // Renderiza perguntas
           <Questions
             gameResults={ gameResults[count] }
@@ -118,7 +118,7 @@ class TelaJogo extends Component {
             isDisabled={ isDisabled }
           />
         ) : (
-          <p> Fim do jogo </p>
+          <Feedback score={ score } />
         )}
 
       </div>
