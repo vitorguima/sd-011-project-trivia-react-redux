@@ -173,23 +173,38 @@ class Question extends Component {
     }
     return (
       <div>
-        Pergunta
-        <h2 data-testid="question-category">{ question[questionIndex].category }</h2>
-        <h3 data-testid="question-text">{ question[questionIndex].question }</h3>
-        { this.answers() }
-        <br />
+        <div className="question-element">
+          Pergunta
+          <hr />
+          <h2
+            data-testid="question-category"
+            className="question-category"
+          >
+            { question[questionIndex].category }
+          </h2>
+          <h3
+            data-testid="question-text"
+            className="question-text"
+          >
+            { question[questionIndex].question }
+          </h3>
+          <hr />
+          { this.answers() }
+          <br />
+          <p className="timer">{ `00:${sec}` }</p>
+        </div>
         {activeButtonNext
           ? (
             <button
               data-testid="btn-next"
               type="button"
               disabled={ status }
+              className="next"
               onClick={ () => this.handleClickNext() }
             >
               Próxima
             </button>)
           : ''}
-        <p>{ `00:${sec}` }</p>
       </div>
     );
   }
