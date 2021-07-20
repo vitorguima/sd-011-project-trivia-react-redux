@@ -37,7 +37,6 @@ class Game extends Component {
 
   refreshTimer() {
     const { setHidden, timer, setTimer, setDisabled } = this.props;
-    console.log('ola');
     if (timer > 0) {
       const newTimer = timer - 1;
       setTimer(newTimer);
