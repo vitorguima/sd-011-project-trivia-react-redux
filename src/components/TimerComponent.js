@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { timerButton, nextQuestionCount, addQuestion } from '../actions';
+import { timerButton, nextQuestionCount, addQuestion, clickButton } from '../actions';
 
 class TimerComponent extends Component {
   constructor() {
@@ -22,15 +22,14 @@ class TimerComponent extends Component {
     this.interval = setInterval(() => this.timer(), second);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const { buttonClick, updateNumQuestion } = this.props;
     const { count } = this.state;
     updateNumQuestion(count);
-    // localStorage.setItem('numberQuestion', JSON.stringify(count));
     if (buttonClick) {
       clearInterval(this.interval);
+      this.newScore();
     }
-    if (prevProps === this.props) this.newScore();
   }
 
   setScore(timer, difficulty) {
@@ -94,7 +93,11 @@ class TimerComponent extends Component {
   buttonNextQuestion() {
     const maxQuestions = 4;
     const { count } = this.state;
-    const { finishQuestions } = this.props;
+    const { finishQuestions, updateClickButton } = this.props;
+    const resetButton = {
+      buttonClick: false,
+      rightBtnClicked: false,
+    };
     if (count < maxQuestions) {
       this.setState((prevState) => ({
         count: prevState.count + 1,
@@ -102,6 +105,7 @@ class TimerComponent extends Component {
     } else {
       finishQuestions();
     }
+    updateClickButton(resetButton);
   }
 
   render() {
@@ -136,6 +140,7 @@ TimerComponent.propTypes = {
   nextQuestion: PropTypes.func.isRequired,
   finishQuestions: PropTypes.func.isRequired,
   updateNumQuestion: PropTypes.func.isRequired,
+  updateClickButton: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -147,6 +152,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateButton: (state) => dispatch(timerButton(state)),
   nextQuestion: (state) => dispatch(nextQuestionCount(state)),
   updateNumQuestion: (state) => dispatch(addQuestion(state)),
+  updateClickButton: (state) => dispatch(clickButton(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimerComponent);
