@@ -1,4 +1,39 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+
+.input {
+  font-family: 'Roboto';
+  position:relative;
+  margin: 10px 0;
+  width: 450px;
+  height: 40px;
+  padding-left: 20px;
+  border: 2px solid #2C1238;
+  border-radius: 0 25px 25px 0;
+  z-index: -1;
+  font-size: 18px;
+  outline: none;
+}
+
+.input:hover {
+  background-color: rgba(44, 18, 56, 0.05);
+}
+
+.icon-credentials {
+  background-color: #2C1238;
+  display: inline-block;
+  padding: 10px 15px 11px 25px;
+  color: white;
+  text-align: center;
+  border-radius: 25px 0 0 25px;
+  font-size: 22px;
+}
+
 .buttons-container {
+  margin: 0 auto;
   margin-top: 50px;
   display: flex;
   width: 450px;
@@ -7,7 +42,7 @@
 
 .btn {
   background-color: rgba(255, 188, 88, 0.8);
-  color: rgba(44, 18, 56, 0.8);
+  color: rgba(44, 18, 56, 0.85);
   border: none;
   height: 70px;
   border-radius: 10px;
@@ -35,4 +70,48 @@
 .btn-config {
   font-size: 35px;
   width: 75px;
+}
+
+.btn-config:hover .Gear-icon {
+  animation: spin 0.4s linear;
+}
+
+.Gear-icon {
+  animation: spinReverse 0.4s linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  15% {
+    transform: rotate(-10deg);
+  }
+  80% {
+    transform: rotate(65deg);
+  }
+  95% {
+    transform: rotate(55deg);
+  }
+  100% {
+    transform: rotate(60deg);
+  }
+}
+
+@keyframes spinReverse {
+  0% {
+    transform: rotate(60deg);
+  }
+  15% {
+    transform: rotate(55deg);
+  }
+  50% {
+    transform: rotate(65deg);
+  }
+  75% {
+    transform: rotate(-10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }

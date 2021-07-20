@@ -8,10 +8,9 @@
 }
 
 .App-logo {
-  height: 40vmin;
   pointer-events: none;
   font-size: 250px;
-  margin-top: -820px;
+  margin-top: -200px;
   font-family: "Poppins";
   font-weight: 900;
   color: #2C1238;
@@ -36,9 +35,8 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  font-size: calc(10px + 2vmin);
+  font-size: 18px;
   justify-content: center;
-  min-height: 100vh;
 }
 
 .App-link {
