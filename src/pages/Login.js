@@ -95,9 +95,9 @@ class Login extends Component {
         assertions,
         score,
         gravatarEmail: playerEmail,
+        photo: playerPhoto,
       },
     };
-    localStorage.img = playerPhoto;
     localStorage.state = JSON.stringify(player);
     localStorage.token = JSON.stringify(token);
   }

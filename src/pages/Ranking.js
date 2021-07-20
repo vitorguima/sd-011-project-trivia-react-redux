@@ -11,7 +11,6 @@ class Ranking extends Component {
   renderRanking() {
     const ranking = JSON.parse(localStorage.ranking);
     const rankingSorted = ranking.sort((a, b) => b.score - a.score);
-    console.log(rankingSorted);
     return (
       rankingSorted.map((user, index) => (
         <li key={ index }>
@@ -29,9 +28,10 @@ class Ranking extends Component {
         <ol>
           { this.renderRanking() }
         </ol>
-        <Link to="/game">
+        <Link to="/">
           <button type="button">
             <FaArrowLeft
+              data-testid="btn-go-home"
               type="logo"
               name="adjust"
               color="blue"
