@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import HeaderGame from '../components/HeaderGame';
 import Question from '../components/Question';
+import '../styles/game.css';
 
 class Game extends Component {
   constructor() {
@@ -58,7 +59,7 @@ class Game extends Component {
     const { disabled, count } = this.state;
     if (questionArray.length === 0) return <h1>loading...</h1>;
     return (
-      <div>
+      <div className="game-container">
         <HeaderGame />
         <Question
           count={ count }
@@ -68,7 +69,7 @@ class Game extends Component {
           question={ questionArray[currentQuestion] }
           disabled={ disabled }
         />
-        { count }
+        <div className="game-counter">{ count }</div>
       </div>
     );
   }

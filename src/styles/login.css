@@ -63,7 +63,7 @@
 .App-header {
   align-items: center;
   background: rgb(109,54,247);
-background: linear-gradient(0deg, rgba(109,54,247,1) 7%, rgba(47,24,107,1) 92%);
+  background: linear-gradient(0deg, rgba(109,54,247,1) 7%, rgba(47,24,107,1) 92%);
   color: white;
   display: flex;
   flex-direction: column;

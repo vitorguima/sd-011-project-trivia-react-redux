@@ -91,6 +91,7 @@ class Question extends Component {
         type="button"
         onClick={ this.handleNextQuestion }
         data-testid="btn-next"
+        className="next-btn button"
       >
         PRÓXIMA
       </button>
@@ -106,15 +107,18 @@ class Question extends Component {
       incorrect_answers: incorrectAnswers,
     }, disabled } = this.props;
     return (
-      <div>
-        { redirectToFeedback && <Redirect to="/feedback" /> }
-        <p data-testid="question-category">{category}</p>
-        <p data-testid="question-text">{question}</p>
-        <div>
+      <div className="question-container">
+        <div className="question-header">
+          { redirectToFeedback && <Redirect to="/feedback" /> }
+          <p id="question-text" data-testid="question-text">{question}</p>
+          <p id="category" data-testid="question-category">{`Category: ${category}`}</p>
+        </div>
+        <div className="question-btn-container">
           <button
             type="button"
             data-testid="correct-answer"
-            className={ isAnswered ? 'correct-color' : null }
+            className={ isAnswered ? 'button question-btn correct-color'
+              : 'button question-btn' }
             onClick={ () => {
               this.calculateScore();
               this.handleClick();
@@ -128,13 +132,16 @@ class Question extends Component {
               type="button"
               key={ index }
               data-testid="wrong-answer"
-              className={ isAnswered ? 'wrong-color' : null }
+              className={ isAnswered ? 'button question-btn wrong-color'
+                : 'button question-btn' }
               onClick={ this.handleClick }
               disabled={ disabled }
             >
               {answer}
             </button>
           ))}
+        </div>
+        <div className="next-btn-container">
           { disabled || !nextIsDisabled ? this.returnNextButton() : null }
         </div>
       </div>

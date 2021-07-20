@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import fetchAvatar from '../service/requestAvatar';
+import '../styles/headerGame.css';
 
 class Header extends Component {
   constructor() {
@@ -28,10 +29,14 @@ class Header extends Component {
     const { name, score } = this.props;
     const { url } = this.state;
     return (
-      <header>
-        <img src={ url } alt="avatar" data-testid="header-profile-picture" />
-        <h4 data-testid="header-player-name">{ name }</h4>
-        <h4 data-testid="header-score">{ score }</h4>
+      <header className="headerGame">
+        <div className="headerGame-img">
+          <img src={ url } alt="avatar" data-testid="header-profile-picture" />
+        </div>
+        <div className="headerGame-info">
+          <h3 data-testid="header-player-name">{ name }</h3>
+          <h4 data-testid="header-score">{ `Score: ${score}`}</h4>
+        </div>
       </header>
     );
   }
