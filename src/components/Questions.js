@@ -94,12 +94,14 @@ class Questions extends Component {
   localStorageNewSave(point, assertions) {
     const { playerName, playerEmail } = this.props;
     const previousScore = JSON.parse(localStorage.state).player.score;
+    const picture = JSON.parse(localStorage.state).player.photo;
     const player = {
       player: {
         name: playerName,
         assertions: assertions + 1,
         score: previousScore + point,
         gravatarEmail: playerEmail,
+        photo: picture,
       },
     };
     localStorage.state = JSON.stringify(player);
