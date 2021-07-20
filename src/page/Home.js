@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { fetchToken, getMailName } from '../redux/actions';
 import logo from '../trivia.png';
 
+import '../CSS/Home.css';
+
 class Home extends Component {
   constructor() {
     super();
@@ -34,12 +36,9 @@ class Home extends Component {
   render() {
     const { name, email } = this.state;
     return (
-      <div>
+      <div className="background-home">
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
-          <p>
-            SUA VEZ
-          </p>
           <label htmlFor="name">
             <input
               type="text"
@@ -62,6 +61,7 @@ class Home extends Component {
             <button
               type="button"
               data-testid="btn-play"
+              className="buttons"
               onClick={ this.clickSubmit }
               disabled={ !(name && email) }
             >
@@ -72,6 +72,7 @@ class Home extends Component {
             <button
               type="button"
               data-testid="btn-settings"
+              className="buttons"
             >
               Configuração
             </button>
