@@ -15,6 +15,7 @@ class Feedback extends React.Component {
     };
 
     this.toRankingReducer = this.toRankingReducer.bind(this);
+    this.playAgain = this.playAgain.bind(this);
   }
 
   getEmailWithHash(email) {
@@ -71,7 +72,13 @@ class Feedback extends React.Component {
         >
           Ver Ranking
         </button>
-        <button type="submit" data-testid="btn-play-again">Jogar novamente</button>
+        <button
+          type="submit"
+          data-testid="btn-play-again"
+          onClick={ this.playAgain }
+        >
+          Jogar novamente
+        </button>
       </div>
     );
   }
