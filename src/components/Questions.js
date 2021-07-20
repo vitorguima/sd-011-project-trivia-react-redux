@@ -18,30 +18,30 @@ class Questions extends Component {
 
     this.randAnswers = this.randAnswers.bind(this);
     this.listenerChange = this.listenerChange.bind(this);
-    this.somaPontuacao = this.somaPontuacao.bind(this);
-    this.teste = this.teste.bind(this);
+    this.sumScore = this.sumScore.bind(this);
+    this.changeState = this.changeState.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
   }
 
-  randAnswers(c, i) {
-    const inc = [...i];
-    const rand = Math.floor(Math.random() * ((inc.length - 1) + 1));
-    const swap = inc[rand];
-    inc.splice(rand, 0);
-    inc[rand] = c;
-    return [...inc, swap];
+  randAnswers(correct, incorrect) {
+    const incorrectAnsers = [...incorrect];
+    const random = Math.floor(Math.random() * ((incorrectAnsers.length - 1) + 1));
+    const swap = incorrectAnsers[random];
+    incorrectAnsers.splice(random, 0);
+    incorrectAnsers[random] = correct;
+    return [...incorrectAnsers, swap];
   }
 
   listenerChange() {
     this.setState({ isValid: true, isToggleOn: true });
   }
 
-  teste(state) {
+  changeState(state) {
     this.setState({ value: false });
     const { difficulty, answer } = this.state;
     const timer = state;
     const result = 0;
-    this.score(result, timer, difficulty, answer);
+    this.calcScore(result, timer, difficulty, answer);
   }
 
   nextQuestion() {
@@ -54,26 +54,26 @@ class Questions extends Component {
       restart: true });
   }
 
-  score(result, timer, difficulty, answer) {
-    const a = 10;
-    const b = 3;
+  calcScore(result, timer, difficulty, answer) {
+    const exactAnswer = 10;
+    const magicNumber3 = 3;
     const { player: { gravatarEmail, name,
       score: prev, assertions } } = getStorage();
     let assert = assertions;
     if (answer['data-testid'] === 'correct-answer') {
       if (difficulty === 'easy') {
-        result = a + (timer * 1) + prev;
+        result = exactAnswer + (timer * 1) + prev;
       } else if (difficulty === 'medium') {
-        result = a + (timer * 2) + prev;
+        result = exactAnswer + (timer * 2) + prev;
       } else if (difficulty === 'hard') {
-        result = a + (timer * b) + prev;
+        result = exactAnswer + (timer * magicNumber3) + prev;
       }
       assert += 1;
     } else {
       result = prev;
     }
-    const { funcao } = this.props;
-    funcao(result);
+    const { scoreValue } = this.props;
+    scoreValue(result);
     localStorage.setItem('state', JSON.stringify({
       player: {
         name,
@@ -83,7 +83,7 @@ class Questions extends Component {
     }));
   }
 
-  somaPontuacao(answer, difficulty) {
+  sumScore(answer, difficulty) {
     this.setState((prevState) => ({
       isToggleOn: !prevState.isToggleOn,
     }));
@@ -115,15 +115,15 @@ class Questions extends Component {
               type="button"
               { ...dataTestId }
               disabled={ isValid }
-              onClick={ () => this.somaPontuacao(dataTestId, array[index].difficulty) }
+              onClick={ () => this.sumScore(dataTestId, array[index].difficulty) }
             >
               {answer}
             </button>
           );
         })}
         <Timer
-          funcao={ this.listenerChange }
-          funcaoStop={ this.teste }
+          scoreValue={ this.listenerChange }
+          stopTimer={ this.changeState }
           stop={ value }
           restart={ restart }
         />
@@ -133,7 +133,7 @@ class Questions extends Component {
             data-testid="btn-next"
             onClick={ this.nextQuestion }
           >
-            Próxima
+            Next
           </button>) : null }
       </div>
     );

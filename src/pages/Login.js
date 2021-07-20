@@ -15,8 +15,8 @@ class Login extends Component {
       buttonDisabled: true,
     };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.submit = this.submit.bind(this);
+    this.handleChangeLogin = this.handleChangeLogin.bind(this);
+    this.submitLogin = this.submitLogin.bind(this);
   }
 
   validateLogin() {
@@ -35,7 +35,7 @@ class Login extends Component {
     }
   }
 
-  handleChange({ target }) {
+  handleChangeLogin({ target }) {
     const { name, value } = target;
     this.setState({
       [name]: value,
@@ -48,7 +48,7 @@ class Login extends Component {
     actionBtn();
   }
 
-  submit() {
+  submitLogin() {
     const { name, email } = this.state;
     const hash = md5(email).toString();
     localStorage.state = JSON.stringify({
@@ -74,7 +74,7 @@ class Login extends Component {
               name="name"
               type="text"
               // value={ nome }
-              onChange={ this.handleChange }
+              onChange={ this.handleChangeLogin }
             />
           </label>
           <label htmlFor="inputEmail">
@@ -84,7 +84,7 @@ class Login extends Component {
               name="email"
               type="email"
               // value={ email }
-              onChange={ this.handleChange }
+              onChange={ this.handleChangeLogin }
             />
           </label>
           <Link to="jogo">
@@ -92,7 +92,7 @@ class Login extends Component {
               data-testid="btn-play"
               type="button"
               disabled={ buttonDisabled }
-              onClick={ () => { this.handleClick(); this.submit(); } }
+              onClick={ () => { this.handleClick(); this.submitLogin(); } }
             >
               Jogar
             </button>

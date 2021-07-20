@@ -5,8 +5,7 @@ class Header extends Component {
   render() {
     const getStorage = () => JSON.parse(localStorage.state);
     const { player: { gravatarEmail, name } } = getStorage();
-    const { pontuacao } = this.props;
-    console.log(pontuacao);
+    const { score } = this.props;
     return (
       <div>
         <header>
@@ -24,7 +23,7 @@ class Header extends Component {
           <span
             data-testid="header-score"
           >
-            { pontuacao }
+            { score }
           </span>
         </header>
       </div>
@@ -33,7 +32,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  pontuacao: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 export default Header;

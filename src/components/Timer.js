@@ -7,7 +7,7 @@ class Timer extends Component {
     this.state = {
       seconds: 30,
     };
-    this.update = this.update.bind(this);
+    this.updateTimer = this.updateTimer.bind(this);
   }
 
   componentDidMount() {
@@ -24,18 +24,18 @@ class Timer extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { funcao, funcaoStop, stop } = this.props;
+    const { scoreValue, stopTimer, stop } = this.props;
     if (prevState.seconds === 1) {
-      funcao();
-      this.update();
+      scoreValue();
+      this.updateTimer();
     }
     if (!prevProps.stop && stop) {
-      this.update();
-      funcaoStop(prevState.seconds);
+      this.updateTimer();
+      stopTimer(prevState.seconds);
     }
   }
 
-  update() {
+  updateTimer() {
     const SECOND = 30;
     this.setState({
       seconds: SECOND,
@@ -53,8 +53,8 @@ class Timer extends Component {
 }
 
 Timer.propTypes = {
-  funcao: PropTypes.func.isRequired,
-  funcaoStop: PropTypes.func.isRequired,
+  scoreValue: PropTypes.func.isRequired,
+  stopTimer: PropTypes.func.isRequired,
   stop: PropTypes.bool.isRequired,
   restart: PropTypes.bool.isRequired,
 };
