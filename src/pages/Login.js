@@ -2,13 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import { user, token } from '../actions';
 import tokenApi from '../services/getApi';
-
-import { user, apiQuestion, token } from '../actions';
-import { tokenApi } from '../services/getApi';
-
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -48,12 +43,7 @@ class Login extends React.Component {
     const { userToken } = this.props;
     const tokenValue = await tokenApi();
     localStorage.setItem('token', tokenValue);
-
     userToken(tokenValue);
-
-    console.log(tokenValue)
-    userToken(tokenValue)
-
   }
 
   async handClick() {
@@ -104,8 +94,11 @@ class Login extends React.Component {
             </button>
           </form>
 
-          <Link to="/settings">
-          <button type="button" data-testid="btn-settings">  Configurações</button>  
+          <Link
+            to="/settings"
+            data-testid="btn-settings"
+          >
+            Configurações
           </Link>
         </header>
       </div>
@@ -115,10 +108,6 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   login: (payload) => dispatch(user(payload)),
-
-
-
-  gameQuestion: (payload) => dispatch(apiQuestion(payload)),
 
   userToken: (payload) => dispatch(token(payload)),
 });
