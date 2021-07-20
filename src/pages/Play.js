@@ -92,7 +92,7 @@ class Play extends Component {
       const ten = 10;
       const points = ten + (count * difficulty());
       await addScore(points);
-      this.setState((state) => ({
+      await this.setState((state) => ({
         assertions: state.assertions + 1,
       }));
     }

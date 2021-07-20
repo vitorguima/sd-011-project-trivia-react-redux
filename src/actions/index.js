@@ -10,6 +10,8 @@ export const user = (state) => ({ type: 'USER', state });
 
 export const addPoint = (state) => ({ type: 'ADD_POINT', state });
 
+export const emptyScore = () => ({ type: 'EMPTY_SCORE' });
+
 export function fetchToken() {
   return (dispatch) => {
     dispatch(reqToken());

@@ -18,6 +18,8 @@ function questions(state = INITIAL_STATE, action) {
     return { ...state, isFetching: false, token: action.state.token };
   case 'ADD_POINT':
     return { ...state, score: state.score + action.state };
+  case 'EMPTY_SCORE':
+    return { ...state, score: 0 };
   default:
     return state;
   }

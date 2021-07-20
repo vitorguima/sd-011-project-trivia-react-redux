@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
-import { fetchToken, user } from '../actions';
+import { fetchToken, user, emptyScore } from '../actions';
 import logo from '../trivia.png';
 
 class TelaIncial extends Component {
@@ -23,7 +23,7 @@ class TelaIncial extends Component {
   }
 
   getTokenAndState() {
-    const { getToken, exportState } = this.props;
+    const { getToken, exportState, resetScore } = this.props;
     const { name, email } = this.state;
     exportState(this.state);
     getToken()
@@ -36,6 +36,7 @@ class TelaIncial extends Component {
       gravatarEmail: email,
     };
     localStorage.setItem('state', JSON.stringify({ player }));
+    resetScore();
   }
 
   activeButton() {
@@ -110,10 +111,12 @@ class TelaIncial extends Component {
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(fetchToken()),
   exportState: (state) => dispatch(user(state)),
+  resetScore: () => dispatch(emptyScore()),
 });
 export default connect(null, mapDispatchToProps)(TelaIncial);
 
 TelaIncial.propTypes = {
   getToken: PropTypes.func.isRequired,
   exportState: PropTypes.func.isRequired,
+  resetScore: PropTypes.func.isRequired,
 };
