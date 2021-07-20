@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import login from './login';
-import playerReducer from './player';
-import timerReducer from './cronometer';
+import game from './game';
+import cronometer from './cronometer';
+import player from './player';
 
-const reducer = combineReducers({ login, playerReducer, timerReducer });
+const reducer = combineReducers({ cronometer, game, player });
 
 export default reducer;

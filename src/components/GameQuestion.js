@@ -108,11 +108,11 @@ class GameQuestion extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isLoading: state.playerReducer.loading,
-  timer: state.timerReducer.timer,
-  stopTimer: state.timerReducer.stopTimer,
-  name: state.login.name,
-  picture: state.playerReducer.picture,
+  isLoading: state.game.loading,
+  timer: state.cronometer.timer,
+  stopTimer: state.cronometer.stopTimer,
+  name: state.player.name,
+  picture: state.player.picture,
 });
 
 const mapDispatchToProps = (dispatch) => ({
