@@ -39,10 +39,10 @@ class LoginForm extends React.Component {
   }
 
   setQuestions() {
-    const { dispatchQuestions } = this.props;
+    const { dispatchQuestions, category } = this.props;
     const token = localStorage.getItem('token');
 
-    dispatchQuestions(token);
+    dispatchQuestions(token, category);
   }
 
   handleSubmit() {
@@ -110,12 +110,16 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatchPlayer: (player) => dispatch(savePlayer(player)),
-  dispatchQuestions: (token) => dispatch(fetchQuestions(token)),
+const mapStateToProps = ({ configurationReducer: { category } }) => ({
+  category,
 });
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+const mapDispatchToProps = (dispatch) => ({
+  dispatchPlayer: (player) => dispatch(savePlayer(player)),
+  dispatchQuestions: (token, category) => dispatch(fetchQuestions(token, category)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
 
 LoginForm.propTypes = {
   dispatchPlayer: PropTypes.func,
