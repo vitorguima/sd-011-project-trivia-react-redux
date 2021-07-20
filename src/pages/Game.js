@@ -14,7 +14,10 @@ class Game extends Component {
       loss: false,
       counter: 30,
       disabled: false,
+      assertions: 0,
+      score: 0,
     };
+
     this.handleSucess = this.handleSucess.bind(this);
     this.handleLoss = this.handleLoss.bind(this);
     this.fetchQuest = this.fetchQuest.bind(this);
@@ -33,9 +36,30 @@ class Game extends Component {
     clearInterval(this.count);
   }
 
+  setStorage() {
+    const { assertions, score } = this.state;
+    const { name, userToken } = this.props;
+
+    const game = {
+      player: {
+        name,
+        assertions,
+        score,
+        gravatarEmail: userToken,
+      },
+    };
+
+    const storage = JSON.parse(localStorage.getItem('state'));
+    if (!storage) {
+      localStorage.setItem('state', JSON.stringify([game]));
+    } else {
+      const result = [...storage, game];
+      localStorage.setItem('state', JSON.stringify(result));
+    }
+  }
+
   getStorage() {
     const storage = JSON.parse(localStorage.getItem('player'));
-    // console.log(storage);
     return storage;
   }
 
@@ -69,8 +93,8 @@ class Game extends Component {
     const medium = 2;
     const hard = 3;
     const initial = 10;
-    const { name, userToken } = this.props;
     const { counter } = this.state;
+
     if (difficulty === 'easy') {
       ponto = initial + (counter * easy);
     } else if (difficulty === 'medium') {
@@ -78,13 +102,10 @@ class Game extends Component {
     } else {
       ponto = initial + (counter * hard);
     }
-    const player = {
-      name,
-      assertions: this.getStorage().assertions + 1,
-      score: this.getStorage().score + ponto,
-      gravatarEmail: userToken,
-    };
-    localStorage.setItem('player', JSON.stringify(player));
+
+    this.setState((state) => ({ score: state.score + ponto }));
+    this.getStorage();
+    this.setStorage();
   }
 
   handleLoss() {
