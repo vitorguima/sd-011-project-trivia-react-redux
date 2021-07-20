@@ -28,14 +28,14 @@ class Ranking extends Component {
               >
                 { player.score }
               </p>
-              <ButtonToRoutes
-                path="/"
-                textValue="Jogar novamente"
-                testid="btn-go-home"
-              />
             </div>
           ))
         }
+        <ButtonToRoutes
+          path="/"
+          textValue="Jogar novamente"
+          testid="btn-go-home"
+        />
       </div>
     );
   }
