@@ -15,7 +15,7 @@ class Ranking extends Component {
 
   render() {
     const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { gravatarHash } = notRedux.user;
+    const { gravatarEmail } = notRedux.player;
     localStorage.setItem('state', JSON.stringify(notRedux));
     const ranking = JSON.parse(localStorage.getItem('ranking'))
       .sort((a, b) => b.score - a.score);
@@ -27,7 +27,7 @@ class Ranking extends Component {
             {ranking.map((user, index) => (
               <div key={ user[index] }>
                 <img
-                  src={ `https://www.gravatar.com/avatar/${gravatarHash}` }
+                  src={ `https://www.gravatar.com/avatar/${gravatarEmail}` }
                   alt="Imagem do seu avatar"
                   data-testid="header-profile-picture"
                 />

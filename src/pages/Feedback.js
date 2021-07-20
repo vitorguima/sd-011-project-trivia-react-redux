@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 class Feedback extends Component {
   constructor() {
@@ -12,7 +13,7 @@ class Feedback extends Component {
 
   handleAssertions() {
     const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { assertions } = notRedux.user;
+    const { assertions } = notRedux.player;
     const initialCount = 3;
     if (assertions < initialCount && assertions >= 0) {
       return 'Podia ser melhor...';
@@ -24,7 +25,7 @@ class Feedback extends Component {
 
   handleQuestion() {
     const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { assertions } = notRedux.user;
+    const { assertions } = notRedux.player;
     const number = 4;
     if (assertions === 0) {
       return 'Não acertou nenhuma pergunta';
@@ -37,23 +38,14 @@ class Feedback extends Component {
 
   render() {
     const notRedux = JSON.parse(localStorage.getItem('state'));
-    const { gravatarHash, name, score } = notRedux.user;
-    localStorage.setItem('state', JSON.stringify(notRedux));
+    const { score } = notRedux.player;
     return (
       <div>
-        <header>
-          <img
-            src={ `https://www.gravatar.com/avatar/${gravatarHash}` }
-            alt="Imagem do seu avatar"
-            data-testid="header-profile-picture"
-          />
-          <h3 data-testid="header-player-name">{ name }</h3>
-          <h4 data-testid="header-score">{ score }</h4>
-        </header>
+        <Header />
         <div>
           <h2 data-testid="feedback-text">{ this.handleAssertions() }</h2>
           <h3 data-testid="feedback-total-score">{ score }</h3>
-          <h3 data-testid="feedback-total-question">{ this.handleQuestion }</h3>
+          <h3 data-testid="feedback-total-question">{ this.handleQuestion() }</h3>
         </div>
         <div>
           <Link to="/">
@@ -80,13 +72,10 @@ class Feedback extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  questions: state.questionsReducer.questions,
+const mapStateToProps = () => ({
 });
 
-Feedback.propTypes = {
-  questions: PropTypes.bool,
-}.isRequired;
+// Feedback.propTypes = {
+// }.isRequired;
 
 export default connect(mapStateToProps, null)(Feedback);
-
