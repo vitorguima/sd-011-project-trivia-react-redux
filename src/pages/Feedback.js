@@ -10,6 +10,10 @@ class Feedback extends Component {
     this.handleAssertions = this.handleAssertions.bind(this);
   }
 
+  componentDidMount() {
+    this.sendRankingToLocalStorage();
+  }
+
   handleAssertions() {
     const notRedux = JSON.parse(localStorage.getItem('state'));
     const { assertions } = notRedux.player;
@@ -19,6 +23,27 @@ class Feedback extends Component {
     }
     if (assertions > initialCount || assertions === initialCount) {
       return 'Mandou bem!';
+    }
+  }
+
+  sendRankingToLocalStorage() {
+    const notRedux = JSON.parse(localStorage.getItem('state'));
+    console.log(notRedux);
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    if (!ranking) {
+      const rankingStorage = [{
+        name: notRedux.player.name,
+        score: notRedux.player.score,
+        picture: notRedux.player.gravatarEmail,
+      }];
+      localStorage.setItem('ranking', JSON.stringify(rankingStorage));
+    } else {
+      ranking.push({
+        name: notRedux.player.name,
+        score: notRedux.player.score,
+        picture: notRedux.player.gravatarEmail,
+      });
+      localStorage.setItem('ranking', JSON.stringify(ranking));
     }
   }
 
