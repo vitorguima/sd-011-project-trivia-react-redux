@@ -1,8 +1,8 @@
 export const REQUEST_API = 'REQUEST_API';
 export const REQUEST_API_SUCESS = 'REQUEST_API_SUCESS';
 export const REQUEST_API_ERROR = 'REQUEST_API_ERROR';
-export const GET_EMAIL = 'GET_EMAIL';
-export const GET_NAME = 'GET_NAME';
+export const SET_EMAIL = 'SET_EMAIL';
+export const SET_NAME = 'SET_NAME';
 export const SET_SECONDS_TO_FINISH = 'SET_SECONDS_TO_FINISH';
 export const GET_NEXT_QUESTION = 'GET_NEXT_QUESTION';
 export const WAS_ANSWERED = 'WAS_ANSWERED';
@@ -29,13 +29,13 @@ export const getNextQuestion = () => ({
   type: GET_NEXT_QUESTION,
 });
 
-export const getEmail = (email) => ({
-  type: 'GET_EMAIL',
+export const setEmail = (email) => ({
+  type: SET_EMAIL,
   email,
 });
 
-export const getName = (name) => ({
-  type: 'GET_NAME',
+export const setName = (name) => ({
+  type: SET_NAME,
   name,
 });
 

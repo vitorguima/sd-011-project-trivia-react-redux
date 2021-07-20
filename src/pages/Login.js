@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getEmail, getName } from '../actions';
+import { setEmail, setName } from '../actions';
 
 class Login extends Component {
   constructor() {
@@ -44,7 +44,6 @@ class Login extends Component {
   }
 
   saveTokenInLocalStorage(key, item) {
-    localStorage.clear();
     localStorage.setItem(key, item);
   }
 
@@ -72,7 +71,7 @@ class Login extends Component {
 
   render() {
     const { email, name, disabled } = this.state;
-    const { emailInput } = this.props;
+    const { setCredentials } = this.props;
     return (
       <div>
         <label
@@ -103,7 +102,7 @@ class Login extends Component {
             data-testid="btn-play"
             type="button"
             disabled={ disabled }
-            onClick={ () => emailInput(email, name) }
+            onClick={ () => setCredentials(email, name) }
           >
             Jogar
           </button>
@@ -115,11 +114,11 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  emailInput: (email, name) => dispatch(getEmail(email), dispatch(getName(name))),
+  setCredentials: (email, name) => dispatch(setEmail(email), dispatch(setName(name))),
 });
 
 Login.propTypes = {
-  emailInput: PropTypes.func,
+  setCredentials: PropTypes.func,
 }.isRequired;
 
 export default connect(null, mapDispatchToProps)(Login);

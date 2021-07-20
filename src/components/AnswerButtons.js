@@ -6,36 +6,62 @@ import * as userActions from '../actions';
 class AnswerButtons extends Component {
   constructor(props) {
     super(props);
-
+    this.setNewScoreInLocalStorage = this.setNewScoreInLocalStorage.bind(this);
+    this.convertDifficultyToPoint = this.convertDifficultyToPoint.bind(this);
     this.setScorePoint = this.setScorePoint.bind(this);
     this.verifyIfWasAnswered = this.verifyIfWasAnswered.bind(this);
   }
 
-  setScorePoint(answerSelected, correctAnswer) {
-    // Marca ponto ao acertar a resposta, precisa pegar o tempo, e a dificuldade da pergunta
-    const { setScore,
-      results,
-      questionIndex,
-      secondsToFinish } = this.props;
-    const { difficulty } = results[questionIndex];
-    const question = questionIndex + 1;
-    let score = 0;
-    if (answerSelected === correctAnswer) {
-      score = 1;
+  setNewScoreInLocalStorage(score) {
+    console.log(`setNewScoreInLocalStorage ${score}`);
+    let assert = 0;
+    if (score > 0) {
+      assert = 1;
     }
-    const timeScore = secondsToFinish;
-    const answerOfUser = {
-      questionNumber: question,
-      time: timeScore,
-      score,
-      difficulty,
+    const objString = localStorage.getItem('player');
+    const player = JSON.parse(objString);
+    const playerScore = {
+      name: player.name,
+      assertions: player.assertions + assert,
+      score: player.score + score,
+      gravatarEmail: player.gravatarEmail,
     };
-    setScore(answerOfUser);
+    localStorage.setItem('player', JSON.stringify(playerScore));
+  }
+
+  setScorePoint(answerSelected, correctAnswer) {
+    const { difficulty } = this.props;
+    let points = 0;
+    if ((answerSelected === correctAnswer) && answerSelected) {
+      const score = 10;
+      const difficultyPoint = this.convertDifficultyToPoint(difficulty);
+      const { secondsToFinish } = this.props;
+      points = score + (secondsToFinish * difficultyPoint);
+    }
+    console.log(`setScorePoint ${points}`);
+    this.setNewScoreInLocalStorage(points);
+    return points;
   }
 
   verifyIfWasAnswered() {
     const { answerObserver } = this.props;
     answerObserver();
+  }
+
+  convertDifficultyToPoint(difficult) {
+    const easyDif = 1;
+    const mediumDif = 2;
+    const hardDif = 3;
+    switch (difficult) {
+    case 'easy':
+      return easyDif;
+    case 'medium':
+      return mediumDif;
+    case 'hard':
+      return hardDif;
+    default:
+      return 0;
+    }
   }
 
   render() {
@@ -56,11 +82,11 @@ class AnswerButtons extends Component {
           data-testid={ correctAnswer === answer
             ? 'correct-answer'
             : 'wrong-answer' }
-          onClick={ (e) => {
+          onClick={ () => {
             colorizeAnswers();
             this.verifyIfWasAnswered();
             this.setScorePoint(answer, correctAnswer);
-            colorizeAnswers(e);
+            colorizeAnswers();
           } }
           className="answer"
         >
@@ -77,6 +103,7 @@ const mapStateToProps = (state) => ({
   wasAnswered: state.questionHandlers.wasAnswered,
   questionIndex: state.questionHandlers.questionIndex,
   results: state.fetchReducers.questions.results,
+  gameScore: state.gameScore,
 });
 
 const mapDispatchToProps = (dispatch) => ({

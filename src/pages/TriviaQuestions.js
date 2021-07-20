@@ -15,13 +15,26 @@ class TriviaQuestions extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem('token');
+    const { name } = this.props;
+    const { email } = this.props;
     const { setStateGame } = this.props;
     setStateGame(token);
+    this.savePlayerScoreInLocalStorage(name, email);
   }
 
   toTheNextQuestion() {
     const { getNextQuestion } = this.props;
     getNextQuestion();
+  }
+
+  savePlayerScoreInLocalStorage(playerName, gravatarEmail) {
+    const player = {
+      name: playerName,
+      assertions: 0,
+      score: 0,
+      gravatarEmail,
+    };
+    localStorage.setItem('player', JSON.stringify(player));
   }
 
   render() {
@@ -53,6 +66,8 @@ const mapStateToProps = (state) => ({
   secondsToFinish: state.timeHandler.secondsToFinish,
   questionIndex: state.questionHandlers.questionIndex,
   wasAnswered: state.questionHandlers.wasAnswered,
+  name: state.email.name,
+  email: state.email.email,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TriviaQuestions);

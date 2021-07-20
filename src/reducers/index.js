@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import email from './inputEmail';
+import email from './credentials';
 import fetchReducers from './fetchReducers';
 import timeHandler from './timeHandler';
 import gameScore from './gameScore';

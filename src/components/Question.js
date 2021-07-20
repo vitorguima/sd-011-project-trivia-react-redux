@@ -71,6 +71,7 @@ class Question extends Component {
           : null }
         { eachResult ? randomAnswers.map((answer, index) => (
           <AnswerButtons
+            difficulty={ eachResult.difficulty }
             answer={ answer }
             key={ `chave ${index}` }
             correctAnswer={ correctAnswer }
