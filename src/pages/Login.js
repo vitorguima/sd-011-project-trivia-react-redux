@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { loginInputs, fetchTriviaApi, fetchTriviaQuestions } from '../actions';
+import '../style/Login.css';
 
 class Login extends Component {
   componentDidMount() {
@@ -35,6 +36,8 @@ class Login extends Component {
         <label htmlFor="nome">
           Usuário:
           <input
+            placeholder="Digite seu nome"
+            className="input-login-form"
             type="text"
             name="nome"
             data-testid="input-player-name"
@@ -45,24 +48,26 @@ class Login extends Component {
         <label htmlFor="email">
           Email:
           <input
+            placeholder="Digite seu email"
+            className="input-login-form"
             type="text"
             name="email"
             data-testid="input-gravatar-email"
             onChange={ loginInputsDispatch }
           />
         </label>
+        <br />
+
       </div>);
   }
 
-  render() {
+  renderBtns() {
     const { nome, email, fetchQstionsDispatch, token } = this.props;
     return (
-      <div>
-        <Header />
-        {this.renderInput()}
-        <br />
+      <>
         <Link to="/game">
           <button
+            className="btn-success btn-lg btn-input"
             type="button"
             data-testid="btn-play"
             disabled={ !nome || !email }
@@ -74,16 +79,27 @@ class Login extends Component {
             Jogar
           </button>
         </Link>
-        <Link
-          to="/settings"
-        >
+        <br />
+        <Link to="/settings">
           <button
             type="button"
             data-testid="btn-settings"
+            className="btn-lg btn-secondary btn-input"
           >
             Configurações
           </button>
         </Link>
+      </>
+    );
+  }
+
+  render() {
+    return (
+      <div className="login-menu">
+        <Header />
+        {this.renderInput()}
+        {this.renderBtns()}
+
       </div>
     );
   }

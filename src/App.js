@@ -10,7 +10,7 @@ import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
-    <div className="App">
+    <div className="App ">
       <Switch>
         <Route path="/game" render={ () => <GamePage /> } />
         <Route path="/feedback" render={ () => <Feedback /> } />
