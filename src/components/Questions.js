@@ -25,9 +25,13 @@ class Questions extends Component {
   }
 
   componentDidMount() {
-    const { tokenData, fetchQuestion } = this.props;
-    fetchQuestion(tokenData);
-
+    const {
+      tokenData,
+      questionCategory,
+      questionDifficulty,
+      questionType,
+      fetchQuestion } = this.props;
+    fetchQuestion(tokenData, questionCategory, questionDifficulty, questionType);
     this.counter();
   }
 
@@ -217,10 +221,13 @@ const mapStateToProps = (state) => ({
   tokenData: state.login.token,
   questionData: state.game.questions,
   currentScore: state.game.score,
+  questionCategory: state.settings.category,
+  questionDifficulty: state.settings.difficulty,
+  questionType: state.settings.type,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchQuestion: (token) => dispatch(fetchQuestionsAPI(token)),
+  fetchQuestion: (token, questionCategory, questionDifficulty, questionType) => dispatch(fetchQuestionsAPI(token, questionCategory, questionDifficulty, questionType)),
   score: (questionScore) => dispatch(updateScore(questionScore)),
 });
 
@@ -233,4 +240,7 @@ Questions.propTypes = {
   score: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
   imageURL: PropTypes.string.isRequired,
+  questionCategory: PropTypes.string.isRequired,
+  questionDifficulty: PropTypes.string.isRequired,
+  questionType: PropTypes.string.isRequired,
 };
