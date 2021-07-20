@@ -3,17 +3,17 @@
 }
 
 .App-box-top {
+  background-color: #ffbc58;
   height: 300px;
-  background-color: #FFBC58;
 }
 
 .App-logo {
-  pointer-events: none;
+  color: #2c1238;
+  font-family: Poppins , Arial , sans-serif;
   font-size: 250px;
-  margin-top: -200px;
-  font-family: "Poppins";
   font-weight: 900;
-  color: #2C1238;
+  margin-top: -200px;
+  pointer-events: none;
   user-select: none;
 }
 
