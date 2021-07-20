@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cronometer from './Cronometer';
 import GameQuestion from './GameQuestion';
+import { resetCountdownTimer } from '../actions';
 
 class Game extends Component {
   constructor(props) {
@@ -11,6 +12,30 @@ class Game extends Component {
     this.state = {
       questionIndex: 0,
     };
+
+    this.handleNextQuestion = this.handleNextQuestion.bind(this);
+  }
+
+  handleNextQuestion() {
+    const MAX_QUESTION = 4;
+    const { actionResetTimer } = this.props;
+    actionResetTimer();
+
+    this.setState((prevState) => (prevState === MAX_QUESTION
+      ? { questionIndex: prevState.questionIndex + 1 }
+      : { questionIndex: prevState.questionIndex + 1 }));
+
+    const nextQuestion = document.querySelector('.nextQuestion');
+    nextQuestion.classList.remove('visible');
+
+    const father = document.querySelector('.alternativesContainer');
+    const childs = [...father.children];
+    childs.forEach((child) => {
+      const { testid } = child.dataset;
+      child.classList.toggle('clicked');
+      child.classList.toggle(testid);
+      child.disabled = false;
+    });
   }
 
   render() {
@@ -20,9 +45,24 @@ class Game extends Component {
     return (
       <div className="gameContainer">
         <h1 className="questionTitle">Pergunta:</h1>
-        <Cronometer />
+        <Cronometer questionIndex={ questionIndex } />
         <span className="loadingBar" />
-        { error ? errorTrue : <GameQuestion question={ questions[questionIndex] } /> }
+        { error
+          ? errorTrue
+          : (
+            <GameQuestion
+              questionIndexAndRoute={ questionIndex }
+              question={ questions[questionIndex] }
+            />
+          )}
+        <button
+          type="button"
+          className="nextQuestion"
+          data-testid="btn-next"
+          onClick={ this.handleNextQuestion }
+        >
+          Próxima Pergunta
+        </button>
       </div>
     );
   }
@@ -33,9 +73,14 @@ const mapStateToProps = (state) => ({
   error: state.playerReducer.error,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  actionResetTimer: () => dispatch(resetCountdownTimer()),
+});
+
 Game.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.any).isRequired,
   error: PropTypes.bool.isRequired,
+  actionResetTimer: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

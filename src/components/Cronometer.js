@@ -10,16 +10,21 @@ class Cronometer extends Component {
     const ONE_SECOND = 1000;
     this.state = {
       timer: 30,
+      currentQuestionIndex: 0,
       startTimer: setInterval(() => this.reduceSecond(), ONE_SECOND),
     };
 
     this.reduceSecond = this.reduceSecond.bind(this);
+    this.resetTimerCountdown = this.resetTimerCountdown.bind(this);
   }
 
   componentDidUpdate() {
-    const { startTimer } = this.state;
-    const { stopTimer } = this.props;
+    const { startTimer, currentQuestionIndex } = this.state;
+    const { stopTimer, questionIndex } = this.props;
     if (stopTimer) clearInterval(startTimer);
+    if (currentQuestionIndex !== questionIndex) {
+      this.resetTimerCountdown();
+    }
   }
 
   reduceSecond() {
@@ -33,6 +38,16 @@ class Cronometer extends Component {
     }
 
     return actionReduceSecond(timer);
+  }
+
+  resetTimerCountdown() {
+    const { questionIndex } = this.props;
+    const ONE_SECOND = 1000;
+    this.setState({
+      timer: 30,
+      currentQuestionIndex: questionIndex,
+      startTimer: setInterval(() => this.reduceSecond(), ONE_SECOND),
+    });
   }
 
   render() {
@@ -69,6 +84,7 @@ Cronometer.propTypes = {
   stopTimer: PropTypes.bool.isRequired,
   actionReduceSecond: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
+  questionIndex: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cronometer);
