@@ -7,7 +7,7 @@ class Home extends Component {
   render() {
     return (
       <div className="home__container">
-        <img src={ logo } alt="trivia logo" />
+        <img className="logo" src={ logo } alt="trivia logo" />
         <Forms />
       </div>
     );
