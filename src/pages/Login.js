@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import logo from '../trivia.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog } from '@fortawesome/free-solid-svg-icons'
+import './css/Login.css';
 import { fetchToken, actionLogin, actionScore } from '../actions';
 
 class Login extends Component {
@@ -73,8 +74,10 @@ class Login extends Component {
     const { disabled } = this.state;
     return (
       <div className="App">
+        <div className="App-box-top" />
         <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
+          <div className="App-logo">TRIVIA</div>
+          {/* <img src={ logo } className="App-logo" alt="logo" /> */}
           <form>
             <label htmlFor="name">
               Nome:
@@ -95,8 +98,9 @@ class Login extends Component {
               />
             </label>
           </form>
-          <Link to="/game">
+          <div className="buttons-container">
             <button
+              className="btn btn-play"
               disabled={ disabled }
               type="button"
               data-testid="btn-play"
@@ -104,14 +108,15 @@ class Login extends Component {
             >
               Jogar
             </button>
-          </Link>
-          <button
-            type="button"
-            data-testid="btn-settings"
-            onClick={ this.sendToConfigurations }
-          >
-            Ver configurações
-          </button>
+            <button
+              className="btn btn-config"
+              type="button"
+              data-testid="btn-settings"
+              onClick={ this.sendToConfigurations }
+            >
+              <FontAwesomeIcon icon={faCog} />
+            </button>
+          </div>
         </header>
       </div>
     );

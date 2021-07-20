@@ -1,0 +1,38 @@
+.buttons-container {
+  margin-top: 50px;
+  display: flex;
+  width: 450px;
+  justify-content: space-evenly;
+}
+
+.btn {
+  background-color: rgba(255, 188, 88, 0.8);
+  color: rgba(44, 18, 56, 0.8);
+  border: none;
+  height: 70px;
+  border-radius: 10px;
+}
+
+.btn:hover {
+  background-color: rgba(255, 188, 88, 0.85);
+  color: rgb(44, 18, 56);
+}
+
+.btn:disabled {
+  background-color: rgba(255, 188, 88, 0.5);
+  color: rgba(44, 18, 56, 0.4);
+}
+
+.btn-play {
+  font-family: 'Poppins';
+  width: 250px;
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.20em;
+}
+
+.btn-config {
+  font-size: 35px;
+  width: 75px;
+}
