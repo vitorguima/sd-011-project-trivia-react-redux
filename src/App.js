@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import logo from './trivia.png';
 import Login from './pages/Login';
-import './App.css';
 import Game from './pages/Game';
 import Configuracao from './pages/Configuracao';
 import Feedback from './pages/Feedback';

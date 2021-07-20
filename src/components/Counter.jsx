@@ -10,10 +10,6 @@ export default class Counter extends Component {
     this.counterFunc = this.counterFunc.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.counter();
-  // }
-
   counterFunc() {
     const { count } = this.state;
     if (count > 0) {
