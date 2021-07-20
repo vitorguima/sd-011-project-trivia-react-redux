@@ -71,7 +71,7 @@ class Login extends Component {
     const { disabled, ready } = this.state;
     return (
       <div className="login-container">
-        <form>
+        <form className="login-form">
           <LoginForm handleChange={ this.handleChange } />
           <button
             type="button"

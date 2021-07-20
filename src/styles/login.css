@@ -12,6 +12,10 @@
   justify-content: center;
 }
 
+.login-form {
+  margin-top: -200px;
+}
+
 .login-btn {
   background-color: #BF344D;
   color: white;

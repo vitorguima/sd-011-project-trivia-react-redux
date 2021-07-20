@@ -7,6 +7,7 @@ import { newGame } from '../actions';
 import HeaderGame from '../components/HeaderGame';
 import fetchAvatar from '../service/requestAvatar';
 import { saveRankPlayer } from '../service/handleLocalStorage';
+import '../styles/feedback.css';
 
 class Feedback extends Component {
   constructor() {
@@ -38,34 +39,49 @@ class Feedback extends Component {
     const { questions } = this.props;
     if (questions >= numberHits) {
       return (
-        <h1 data-testid="feedback-text">
+        <p data-testid="feedback-text">
           {moreThree}
-        </h1>);
+        </p>);
     }
     return (
-      <h1 data-testid="feedback-text">
+      <p data-testid="feedback-text">
         {lessThree}
-      </h1>);
+      </p>);
   }
 
   render() {
     const { score, questions, prepareNewGame } = this.props;
     return (
-      <div>
+      <div className="feedback-container">
         <HeaderGame />
-        <div>
-          {this.resultQuestions()}
+        <div className="feedback-wrapper">
+          <div className="feedback-message">
+            {this.resultQuestions()}
+          </div>
+          <div className="feedback-score">
+            <p data-testid="feedback-total-score">{ `Score: ${score}` }</p>
+            <p
+              data-testid="feedback-total-question"
+            >
+              { `Questões acertadas: ${questions}` }
+            </p>
+          </div>
         </div>
-        <p data-testid="feedback-total-score">{ score }</p>
-        <p data-testid="feedback-total-question">{ questions }</p>
         <Link
           data-testid="btn-play-again"
+          className="button question-btn feedback-btn"
           to="/"
           onClick={ () => prepareNewGame() }
         >
           Jogar novamente
         </Link>
-        <Link data-testid="btn-ranking" to="/ranking">Ver Ranking</Link>
+        <Link
+          data-testid="btn-ranking"
+          to="/ranking"
+          className="button question-btn feedback-btn"
+        >
+          Ver Ranking
+        </Link>
       </div>
     );
   }

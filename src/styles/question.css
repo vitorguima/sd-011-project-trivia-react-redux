@@ -4,6 +4,7 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   background-color: #fafafa;
   padding: 50px;
+  border-radius: 5px;
 }
 
 #question-text {
@@ -30,21 +31,23 @@
   transform: scale(1.01);
 }
 
-.question-btn:active:hover {
+.question-btn:visited {
   color: white;
   transform: scale(1.01);
 }
 
 .question-btn:disabled {
-  background-color: #6D36F7;
+  background-color: #BF344DAA;
   transform: scale(1.0);
 }
 
 .wrong-color {
+  background-color: #BF344DAA;
   border: 3px solid red;
 }
 
 .correct-color {
+  background-color: #BF344DAA;
   border: 3px solid rgb(6, 240, 15);
 }
 
