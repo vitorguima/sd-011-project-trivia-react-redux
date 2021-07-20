@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { user, apiQuestion, token } from '../actions';
-import { tokenApi } from '../services/getApi';
+import { user, token } from '../actions';
+import tokenApi from '../services/getApi';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -22,7 +22,6 @@ class Login extends React.Component {
   handleChange(event) {
     const { target: { value, name } } = event;
     this.setState({ [name]: value }, () => {
-      console.log(value);
       if (this.verifyInput()) {
         this.setState({ btnDisable: false });
       } else {
@@ -43,18 +42,17 @@ class Login extends React.Component {
     const { userToken } = this.props;
     const tokenValue = await tokenApi();
     localStorage.setItem('token', tokenValue);
-    console.log(tokenValue)
-    userToken(tokenValue)
-
+    userToken(tokenValue);
   }
 
   async handClick() {
     const { name, email } = this.state;
     const { login, history } = this.props;
-    history.push('/game');
 
     login({ name, email });
     await this.fetchApi();
+    const time = 1000;
+    setTimeout(() => { history.push('/game'); }, time);
   }
 
   render() {
@@ -95,8 +93,11 @@ class Login extends React.Component {
             </button>
           </form>
 
-          <Link to="/settings">
-          <button type="button" data-testid="btn-settings">  Configurações</button>  
+          <Link
+            to="/settings"
+            data-testid="btn-settings"
+          >
+            Configurações
           </Link>
         </header>
       </div>
@@ -106,7 +107,7 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   login: (payload) => dispatch(user(payload)),
-  gameQuestion: (payload) => dispatch(apiQuestion(payload)),
+
   userToken: (payload) => dispatch(token(payload)),
 });
 
@@ -114,6 +115,7 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  userToken: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
 };
 

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import user from './user';
-import apiQuestion from './apiQuestion';
+import questionsApi from './questionsApi';
 
-const rootReducer = combineReducers({ user, apiQuestion });
+const rootReducer = combineReducers({ user, questionsApi });
 
 export default rootReducer;
