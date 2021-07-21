@@ -1,52 +1,127 @@
-.login-form {
-  margin-top: 500px;
-  background-color: red;
+.form {
   display: flex;
+  flex-direction: column;
+  justify-items: center;
 }
 
-.login-input {
-  height: 2.5em;
-  width: 280px;
-  border-radius: 15px;
-  border: none;
-  margin: 50px 20px 20px 20px;
-  padding-left: 15px;
-  font-size: 16px;
+.input {
+  border: 2px solid #2c1238;
+  border-radius: 0 25px 25px 0;
+  font-family: Roboto , Arial , sans-serif;
+  font-size: 18px;
+  height: 40px;
+  margin: 10px 0;
+  outline: none;
+  padding-left: 20px;
+  position: relative;
+  width: 450px;
+  z-index: -1;
 }
 
-.btn-login {
-  margin: 40px;
-  height: 2.7em;
+.input:hover {
+  background-color: rgba(44, 18, 56, 0.05);
+}
+
+.icon-credentials {
+  background-color: #2c1238;
+  border-radius: 25px 0 0 25px;
+  color: white;
+  display: inline-block;
   font-size: 22px;
-  font-weight: bold;
+  padding: 10px 15px 11px 25px;
+  text-align: center;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 auto;
+  margin-top: 50px;
+  width: 450px;
+}
+
+.btn {
+  background-color: rgba(255, 188, 88, 0.8);
   border: none;
-  border-radius: 15px;
+  border-radius: 10px;
+  color: rgba(44, 18, 56, 0.85);
+  height: 70px;
+}
+
+.btn:hover {
+  background-color: rgba(255, 188, 88, 0.85);
+  color: rgb(44, 18, 56);
+}
+
+.btn:disabled {
+  background-color: rgba(255, 188, 88, 0.5);
+  color: rgba(44, 18, 56, 0.4);
 }
 
 .btn-play {
-  color: rgba(255, 255, 255, 0.80);
-  background-color: rgba(231, 111, 81, 0.90);
-  width: 180px;
-}
-
-.btn-play:hover {
-  color: #fff;
-  background-color: #e76f51;
-}
-
-.btn-play:disabled {
-  color: rgba(255, 255, 255, 0.40);
-  background-color: rgba(231, 111, 81, 0.40);
+  font-family: Poppins , Arial , Helvetica , sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  width: 250px;
 }
 
 .btn-config {
-  width: 270px;
-  margin-top: -20px;
-  color:rgba( 0, 0, 0, 0.80);
-  background-color: rgba(255, 255, 255, 0.80);
+  font-size: 35px;
+  width: 75px;
 }
 
-.btn-config:hover {
-  color: #000;
-  background-color: #fff;
+.Gear-icon {
+  animation: spinReverse 0.4s linear;
+}
+
+.btn-config:hover .Gear-icon {
+  animation: spin 0.4s linear;
+}
+
+@keyframes spin {
+
+  0% {
+    transform: rotate(0deg);
+  }
+
+  15% {
+    transform: rotate(-10deg);
+  }
+
+  80% {
+    transform: rotate(65deg);
+  }
+
+  95% {
+    transform: rotate(55deg);
+  }
+
+  100% {
+    transform: rotate(60deg);
+  }
+}
+
+@keyframes spinReverse {
+
+  0% {
+    transform: rotate(60deg);
+  }
+
+  15% {
+    transform: rotate(55deg);
+  }
+
+  50% {
+    transform: rotate(65deg);
+  }
+
+  75% {
+    transform: rotate(-10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
