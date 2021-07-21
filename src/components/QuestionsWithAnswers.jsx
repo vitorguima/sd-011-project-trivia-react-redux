@@ -41,7 +41,7 @@ class QuestionsWithAnswers extends Component {
   handleScoreCanBeUpdated() {
     const { count, gameResults } = this.props;
     const magicNumber = 4;
-    if (count > magicNumber) {
+    if (count <= magicNumber) {
       console.log(count);
       return this.handleScore(gameResults.difficulty);
     }
@@ -56,10 +56,7 @@ class QuestionsWithAnswers extends Component {
     const { totalScore } = this.state;
     return (
       <div>
-        <CategoryAndQuestion
-          gameResults={ gameResults }
-          counter={ counter }
-        />
+        <CategoryAndQuestion gameResults={ gameResults } counter={ counter } />
         <button
           data-testid="correct-answer"
           name="correct"
@@ -67,8 +64,10 @@ class QuestionsWithAnswers extends Component {
           className={ isGreenBordered }
           onClick={ handleAnswer }
           disabled={ isDisabled }
-          onMouseDown={ () => this.handleScoreCanBeUpdated() }
-          onMouseUp={ () => submitScore(totalScore) }
+          onMouseDown={ () => {
+            this.handleScoreCanBeUpdated();
+            submitScore(totalScore);
+          } }
         >
           { correctAnswer }
         </button>
