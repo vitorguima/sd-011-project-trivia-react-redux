@@ -44,11 +44,13 @@ class TelaJogo extends Component {
 
   handleAnswer(/* { target: { name } } */) {
     const { intervalId } = this.state;
+    const { scoreUser } = this.props;
     clearInterval(intervalId);
     this.setState({
       isGreenBordered: 'withGreenBorder',
       isRedBordered: 'withRedBorder',
       isHidden: false,
+      score: scoreUser,
     });
   }
 
@@ -88,13 +90,13 @@ class TelaJogo extends Component {
     const { getdata: { emailHash, name, email }, gameData, scoreUser } = this.props;
     const urlUser = `https://www.gravatar.com/avatar/${emailHash}`;
     const player = { name, assertions: 0, score: scoreUser, gravatarEmail: email };
-    localStorage.setItem('player', JSON.stringify(player));
-    const ranking = { name, score: scoreUser, picture: urlUser };
-    localStorage.setItem('ranking', JSON.stringify(ranking));
+    // const ranking = { name, score: scoreUser, picture: urlUser };
+    // localStorage.setItem('ranking', JSON.stringify(ranking));
     const limitOfQuestions = 5;
     const gameResults = gameData.results;
     return (
       <div>
+        {localStorage.setItem('player', JSON.stringify(player))}
         <header>
           <h1>Tela do jogo</h1>
           <img data-testid="header-profile-picture" src={ urlUser } alt="" />
