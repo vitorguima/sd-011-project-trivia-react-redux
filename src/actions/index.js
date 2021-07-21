@@ -6,6 +6,8 @@ export const REQUEST_TRIVIA_ERROR = 'REQUEST_TRIVIA_ERROR';
 export const TIMER_BUTTON = 'TIMER_BUTTON';
 export const REQUEST_CLICK_BUTTON = 'REQUEST_CLICK_BUTTON';
 export const TIME = 'TIME';
+export const SEND_SCORE = 'SEND_SCORE';
+
 export const sendUser = (state) => ({
   type: NEW_USER,
   state,
@@ -44,6 +46,11 @@ const requestTriviaError = (state) => ({
 export const requestTime = (state) => ({
   type: TIME,
   state,
+  });
+
+export const sendScore = (score) => ({
+  type: SEND_SCORE,
+  payload: { score },
 });
 
 export const fetchTrivia = (token) => (dispatch) => {

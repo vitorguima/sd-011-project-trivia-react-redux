@@ -49,7 +49,8 @@ class ClockComponent extends Component {
         break;
       }
     };
-    return ten + timer * questionLevel(difficulty);
+    const score = ten + (timer * questionLevel(difficulty));
+    return score;
   }
 
   updateLocalStorage(score) {
@@ -70,6 +71,15 @@ class ClockComponent extends Component {
       this.setState({
         seconds: 30,
       });
+    }
+  }
+
+  handleDisable() {
+    const { seconds } = this.mapStateToProps.ClockComponent.seconds;
+    if (seconds !== 0) {
+      this.setState.disableButton = false;
+    } else {
+      this.setState.disableButton = true;
     }
   }
 
