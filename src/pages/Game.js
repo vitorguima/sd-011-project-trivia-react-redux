@@ -9,6 +9,7 @@ import { questionIdIncrease, modifyTimer, InitiateTimer, modifyNextBtn,
   sendQuestions, recoverNameAndEmailFromRefresh,
 } from '../redux/actions';
 import { getQuestions } from '../services/TriviaApi';
+import './game.css';
 
 class Game extends Component {
   constructor(props) {
@@ -24,8 +25,8 @@ class Game extends Component {
 
   componentDidMount() {
     const { sendRecoveredPlayerInfo } = this.props;
-    const { name, gravatarEmail } = JSON.parse(localStorage.state).player;
-    const photo = localStorage.img;
+    const { name, gravatarEmail, photo: img } = JSON.parse(localStorage.state).player;
+    const photo = img;
     sendRecoveredPlayerInfo(name, gravatarEmail, photo);
     const player = {
       player: {
@@ -33,6 +34,7 @@ class Game extends Component {
         assertions: 0,
         score: 0,
         gravatarEmail,
+        photo: img,
       },
     };
     localStorage.state = JSON.stringify(player);

@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../pages/login.css';
 
 class InputEmail extends Component {
   render() {
     const { func } = this.props;
     return (
-      <label htmlFor="inputEmail">
-        Email
+      <label htmlFor="inputEmail" className="inputEmail">
         <input
           type="email"
           id="inputEmail"
           data-testid="input-gravatar-email"
           onChange={ func }
+          placeholder="Email"
+          className="inputNeon-blue"
         />
       </label>
     );

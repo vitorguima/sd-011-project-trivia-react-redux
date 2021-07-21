@@ -12,6 +12,7 @@ import InputName from '../components/InputName';
 import InputEmail from '../components/InputEmail';
 import PlayBtn from '../components/PlayBtn';
 import { getToken } from '../services/TriviaApi';
+import './login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -95,9 +96,9 @@ class Login extends Component {
         assertions,
         score,
         gravatarEmail: playerEmail,
+        photo: playerPhoto,
       },
     };
-    localStorage.img = playerPhoto;
     localStorage.state = JSON.stringify(player);
     localStorage.token = JSON.stringify(token);
   }
@@ -119,7 +120,7 @@ class Login extends Component {
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
           <section className="login-container">
-            <form className="login-form">
+            <form className="login-form neon-border-purple">
               <InputName func={ this.handleOnChangeInputValidate } />
               <InputEmail func={ this.handleOnChangeInputValidate } />
               <PlayBtn func={ this.playHandle } />
