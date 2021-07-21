@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import login from './login';
+import tokenReducer from './tokenReducer';
+import triviaReducer from './triviaReducer';
+import gameReducer from './gameReducer';
 
-const rootReducer = combineReducers({ login });
+const rootReducer = (combineReducers({ tokenReducer, triviaReducer, gameReducer }));
 
 export default rootReducer;
