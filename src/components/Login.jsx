@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import getTokenApi from '../services/getTokenApi';
 import { getUserData } from '../actions';
+import '../Login.css';
 
 class Login extends React.Component {
   constructor() {
@@ -19,21 +20,23 @@ class Login extends React.Component {
 
   handleChange({ target }) {
     const { name, value } = target;
-    this.setState({
-      [name]: value,
-    },
-    () => {
-      const { userName, email } = this.state;
-      if (userName && email) {
-        this.setState({
-          disabled: false,
-        });
-      } else {
-        this.setState({
-          disabled: true,
-        });
-      }
-    });
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        const { userName, email } = this.state;
+        if (userName && email) {
+          this.setState({
+            disabled: false,
+          });
+        } else {
+          this.setState({
+            disabled: true,
+          });
+        }
+      },
+    );
   }
 
   // Lógica do click
@@ -51,46 +54,66 @@ class Login extends React.Component {
 
   render() {
     const { userName, email, disabled } = this.state;
+
     return (
-      <form>
-        <label htmlFor="name">
-          Nome:
-          <input
-            type="text"
-            id="name"
-            name="userName"
-            value={ userName }
-            data-testid="input-player-name"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="email">
-          Email:
-          <input
-            type="text"
-            id="email"
-            name="email"
-            value={ email }
-            data-testid="input-gravatar-email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ disabled }
-          onClick={ () => this.handleClick() }
-        >
-          Jogar
-        </button>
-        <Link data-testid="btn-settings" to="/settings">Configurações</Link>
-      </form>
+      <div className="login-root">
+        <img
+          src="assets/logo.png"
+          className="login-logo"
+          alt="logo trivia star"
+        />
+        <form className="login-form">
+          <label className="login-label" htmlFor="name">
+            NAME:
+            <input
+              className="login-input"
+              type="text"
+              id="name"
+              name="userName"
+              value={userName}
+              data-testid="input-player-name"
+              onChange={this.handleChange}
+            />
+          </label>
+          <label className="login-label" htmlFor="email">
+            EMAIL:
+            <input
+              className="login-input"
+              type="text"
+              id="email"
+              name="email"
+              value={email}
+              data-testid="input-gravatar-email"
+              onChange={this.handleChange}
+            />
+          </label>
+          <button
+            className="login-button"
+            type="button"
+            data-testid="btn-play"
+            disabled={disabled}
+            onClick={() => this.handleClick()}
+          >
+            PLAY
+          </button>
+        </form>
+        <footer className="login-footer">
+          <Link
+            className="login-footer-link"
+            data-testid="btn-settings"
+            to="/settings"
+          >
+            SETTINGS
+          </Link>
+        </footer>
+      </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  sendUserData: (name, email, token) => dispatch(getUserData(name, email, token)),
+  sendUserData: (name, email, token) =>
+    dispatch(getUserData(name, email, token)),
 });
 
 Login.propTypes = {
