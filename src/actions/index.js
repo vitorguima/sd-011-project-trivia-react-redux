@@ -46,7 +46,7 @@ const requestTriviaError = (state) => ({
 export const requestTime = (state) => ({
   type: TIME,
   state,
-  });
+});
 
 export const sendScore = (score) => ({
   type: SEND_SCORE,

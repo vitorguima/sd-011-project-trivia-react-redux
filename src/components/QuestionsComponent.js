@@ -19,7 +19,6 @@ class QuestionsComponent extends Component {
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.timer = this.timer.bind(this);
-    this.disableQuestions = this.disableQuestions.bind(this);
   }
 
   componentDidMount() {
@@ -45,14 +44,6 @@ class QuestionsComponent extends Component {
         btnDisable: false,
       });
     }
-  }
-
-  disableQuestions() {
-    const { seconds } = this.state;
-    if (seconds === 0) {
-      return false;
-    }
-    return true;
   }
 
   nextQuestion() {
@@ -86,8 +77,7 @@ class QuestionsComponent extends Component {
   }
 
   render() {
-<<<<<<< HEAD
-    const { questions: { results }, loading, updateClickButton } = this.props;
+    const { questions: { results }, updateClickButton, loading } = this.props;
     const { buttonClick, rightAnswerClicked, index, btnDisable, assertions } = this.state;
     updateClickButton({ buttonClick, rightAnswerClicked });
     const renderLink = () => {
@@ -97,58 +87,44 @@ class QuestionsComponent extends Component {
             data-testid="feedback-test"
             to={ { pathname: '/feedback', state: { assertions } } }
           />);
-=======
-    const { questions:{ results }, loading, updateClickButton, timer } = this.props;
-    const { buttonClick, rightAnswerClicked, index, seconds, btnDisable, assertions } = this.state;
-    const updateButtonState = { buttonClick, rightAnswerClicked };
-    updateClickButton(updateButtonState);
-    timer(seconds);
-    const renderLink = () => {
-      if (index === results.length) {
-        return (<Redirect
-          data-testid="feedback-test"
-          to={ { pathname: '/feedback', state: { assertions } } }
-        />);
->>>>>>> b259f56f86b9627ad49ac499dbbaecb3fd68523e
       }
-    return (
-      <div>
-        <p data-testid="question-category">{ results[index].category }</p>
-        <h4
-          id="question"
-          data-testid="question-text"
-          difficulty={ results[index].difficulty }
-        >
-          { results[index].question }
-        </h4>
-        <button
-          value="correct"
-          data-testid="correct-answer"
-          type="button"
-          className="green-border"
-          onClick={ (event) => this.colorSelectCorrect(event) }
-          disabled={ btnDisable }
-        >
-          { results[index].correct_answer }
-        </button>
-        { results[index].incorrect_answers.map((incorrect, indexKey) => (
+      return (
+        <div>
+          <p data-testid="question-category">{ results[index].category }</p>
+          <h4
+            id="question"
+            data-testid="question-text"
+            difficulty={ results[index].difficulty }
+          >
+            { results[index].question }
+          </h4>
           <button
-            data-testid={ `wrong-answer-${indexKey}` }
+            value="correct"
+            data-testid="correct-answer"
             type="button"
-            key={ indexKey }
-            className="red-border"
-            onClick={ (event) => { this.colorSelectCorrect(event); } }
+            className="green-border"
+            onClick={ (event) => this.colorSelectCorrect(event) }
             disabled={ btnDisable }
           >
-            {incorrect}
+            { results[index].correct_answer }
           </button>
-           ))}
+          { results[index].incorrect_answers.map((incorrect, indexKey) => (
+            <button
+              data-testid={ `wrong-answer-${indexKey}` }
+              type="button"
+              key={ indexKey }
+              className="red-border"
+              onClick={ (event) => { this.colorSelectCorrect(event); } }
+              disabled={ btnDisable }
+            >
+              {incorrect}
+            </button>
+          ))}
           <ClockComponent nextQuestion={ this.nextQuestion } />
         </div>
       );
     };
-  render() {
-    return (<div>{loading ? <p>Carregando...</p> : (this.renderLink())}</div>);
+    return (<div>{loading ? <p>Carregando...</p> : renderLink()}</div>);
   }
 }
 
