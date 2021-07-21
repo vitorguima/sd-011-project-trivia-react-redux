@@ -7,7 +7,7 @@ class Countdown extends React.Component {
     const { timer } = this.props;
     return (
       <div>
-        <h3>
+        <h3 className={timer <= 5 ? "timer timer-danger" : "timer"}>
           {timer}
         </h3>
       </div>

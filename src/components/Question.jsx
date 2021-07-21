@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { changeToNextQuestion, startCountdown, showNextBtn } from '../actions';
+import {
+  changeToNextQuestion,
+  resetCountdown,
+  tickCountdown,
+  showNextBtn,
+} from '../actions';
 import QuestionHeader from './QuestionHeader';
 import BooleanQuestion from './BooleanQuestion';
 import MultipleChoice from './MultipleChoice';
@@ -32,21 +37,25 @@ class Question extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.stopCountDown();
+  }
+
   localStoragePlayerInfo(timer, difficulty) {
     const state = JSON.parse(localStorage.getItem('state'));
 
     const startScore = 10;
     const difficultyLevel = { hard: 3, medium: 2, easy: 1 };
     if (difficulty === 'hard') {
-      state.player.score += startScore + (difficultyLevel.hard * timer);
+      state.player.score += startScore + difficultyLevel.hard * timer;
       state.player.assertions += 1;
     }
     if (difficulty === 'medium') {
-      state.player.score += startScore + (difficultyLevel.medium * timer);
+      state.player.score += startScore + difficultyLevel.medium * timer;
       state.player.assertions += 1;
     }
     if (difficulty === 'easy') {
-      state.player.score += startScore + (difficultyLevel.easy * timer);
+      state.player.score += startScore + difficultyLevel.easy * timer;
       state.player.assertions += 1;
     }
 
@@ -54,11 +63,10 @@ class Question extends React.Component {
   }
 
   startCounter() {
-    const { startCounter } = this.props;
-    this.interval = setInterval(
-      () => startCounter(),
-      INTERVAL,
-    );
+    const { resetCounter, tickCounter } = this.props;
+
+    resetCounter();
+    this.interval = setInterval(() => tickCounter(), INTERVAL);
   }
 
   stopCountDown() {
@@ -66,49 +74,48 @@ class Question extends React.Component {
   }
 
   render() {
-    const { questions, showBtn, currentQuestion, nextQuestion, push } = this.props;
+    const { questions, showBtn, currentQuestion, nextQuestion, push } =
+      this.props;
     const maxQuestions = 4;
     return (
       <section>
-        {(questions[currentQuestion])
-          ? (
-            <>
-              <QuestionHeader question={ questions[currentQuestion] } />
-              <div className="answer-options">
-                {(questions[currentQuestion].type === 'boolean')
-                  ? (
-                    <BooleanQuestion
-                      disabled={ showBtn }
-                      question={ questions[currentQuestion] }
-                      localStoragePlayerInfo={ this.localStoragePlayerInfo }
-                    />
-                  )
-                  : (
-                    <MultipleChoice
-                      disabled={ showBtn }
-                      question={ questions[currentQuestion] }
-                      localStoragePlayerInfo={ this.localStoragePlayerInfo }
-                    />
-                  )}
-              </div>
-              <button
-                data-testid="btn-next"
-                type="button"
-                className={ (showBtn) ? 'show-btn' : 'hide-btn' }
-                onClick={ () => {
-                  if (currentQuestion === maxQuestions) {
-                    push('/feedback');
-                  } else {
-                    this.startCounter();
-                    nextQuestion();
-                  }
-                } }
-              >
-                Próxima pergunta
-              </button>
-            </>
-          )
-          : <Loading />}
+        {questions[currentQuestion] ? (
+          <>
+            <QuestionHeader question={questions[currentQuestion]} />
+            <div className="answer-options">
+              {questions[currentQuestion].type === 'boolean' ? (
+                <BooleanQuestion
+                  disabled={showBtn}
+                  question={questions[currentQuestion]}
+                  localStoragePlayerInfo={this.localStoragePlayerInfo}
+                />
+              ) : (
+                <MultipleChoice
+                  disabled={showBtn}
+                  question={questions[currentQuestion]}
+                  localStoragePlayerInfo={this.localStoragePlayerInfo}
+                />
+              )}
+            </div>
+            <button
+              data-testid="btn-next"
+              type="button"
+              className={showBtn ? 'show-btn' : 'hide-btn'}
+              onClick={() => {
+                if (currentQuestion === maxQuestions) {
+                  push('/feedback');
+                } else {
+                  this.startCounter();
+                  nextQuestion();
+                }
+              }}
+            >
+              NEXT QUESTION
+            </button>
+          </>
+        ) : (
+          <Loading />
+        )}
       </section>
     );
   }
@@ -125,7 +132,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   nextQuestion: () => dispatch(changeToNextQuestion()),
-  startCounter: () => dispatch(startCountdown()),
+  resetCounter: () => dispatch(resetCountdown()),
+  tickCounter: () => dispatch(tickCountdown()),
   showNextButton: () => dispatch(showNextBtn()),
 });
 
@@ -135,7 +143,8 @@ Question.propTypes = {
   currentQuestion: PropTypes.number.isRequired,
   nextQuestion: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
-  startCounter: PropTypes.func.isRequired,
+  resetCounter: PropTypes.func.isRequired,
+  tickCounter: PropTypes.func.isRequired,
   showNextButton: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
   userEmail: PropTypes.string.isRequired,

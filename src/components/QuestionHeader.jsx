@@ -15,11 +15,9 @@ class QuestionHeader extends React.Component {
     return (
       <header>
         <div data-testid="question-category">
-          { question.category }
+          {decodeHtml(question.category)}
         </div>
-        <div data-testid="question-text">
-          { decodeHtml(question.question) }
-        </div>
+        <div data-testid="question-text">{decodeHtml(question.question)}</div>
       </header>
     );
   }

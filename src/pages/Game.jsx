@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Countdown from '../components/Countdown';
 import Question from '../components/Question';
 import { requestApiQuestions } from '../actions';
+import Avatar from '../components/Avatar';
 
 class Game extends React.Component {
   componentDidMount() {
@@ -13,22 +14,21 @@ class Game extends React.Component {
   }
 
   render() {
-    const { userName, gravatarImage, history: { push } } = this.props;
+    const {
+      userName,
+      history: { push },
+    } = this.props;
 
     return (
       <>
         <header>
-          <img
-            data-testid="header-profile-picture"
-            src={ gravatarImage }
-            alt={ `Foto de ${userName}` }
-          />
-          <p data-testid="header-player-name">{ `Nome do usuário: ${userName}` }</p>
+          <Avatar />
+          <p data-testid="header-player-name">{`User: ${userName}`}</p>
           <p data-testid="header-score">0</p>
         </header>
         <Countdown />
         <main>
-          <Question push={ push } />
+          <Question push={push} />
         </main>
       </>
     );
@@ -41,12 +41,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   userName: state.loginReducer.name,
-  gravatarImage: state.loginReducer.gravatarImage,
 });
 
 Game.propTypes = {
   userName: PropTypes.string.isRequired,
-  gravatarImage: PropTypes.string.isRequired,
   questionsToStore: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
