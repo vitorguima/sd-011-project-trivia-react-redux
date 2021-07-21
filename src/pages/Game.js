@@ -13,8 +13,8 @@ class Game extends Component {
       timer: 30,
     };
     this.renderTimer = this.renderTimer.bind(this);
+    this.nextQuestionBtn = this.nextQuestionBtn.bind(this);
     this.renderNextButton = this.renderNextButton.bind(this);
-    this.nextQuestionButtonClicked = this.nextQuestionButtonClicked.bind(this);
   }
 
   componentDidMount() {
@@ -22,7 +22,7 @@ class Game extends Component {
     fetchTrivia();
   }
 
-  nextQuestionButtonClicked() {
+  nextQuestionBtn() {
     const { answerButtonReset, resetTimerProp } = this.props;
 
     this.setState((prevState) => ({
@@ -77,7 +77,7 @@ class Game extends Component {
           <button
             type="button"
             data-testid="btn-next"
-            onClick={ this.nextQuestionButtonClicked }
+            onClick={ this.nextQuestionBtn }
             style={ { padding: '10px' } }
           >
             Próxima pergunta

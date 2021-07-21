@@ -62,6 +62,7 @@ class Results extends Component {
             data-testid="correct-answer"
             onClick={ this.btnProps }
             style={
+              // style inside a ternary
               answerClicked ? { border: '3px solid rgb(6, 240, 15)', padding: '10px' }
                 : { padding: '10px' }
             }
@@ -79,6 +80,7 @@ class Results extends Component {
               data-testid={ `wrong-answer-${index}` }
               onClick={ this.btnProps }
               style={
+                // style inside a ternary
                 answerClicked ? { border: '3px solid rgb(255, 0, 0)', padding: '10px' }
                   : { padding: '10px' }
               }
