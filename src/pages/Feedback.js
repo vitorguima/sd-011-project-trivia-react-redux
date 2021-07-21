@@ -17,8 +17,8 @@ class Feedback extends React.Component {
             {assertions >= THREE ? 'Mandou bem!' : 'Podia ser melhor...'}
           </h2>
           <span data-testid="feedback-total-question">{assertions}</span>
-          <span data-testid="feedback-total-score">{score}</span> */
-          <Link to="/" data-testid="btn-play-again">Jogar novamente</Link> 
+          <span data-testid="feedback-total-score">{score}</span>
+          <Link to="/" data-testid="btn-play-again">Jogar novamente</Link>
         </main>
       </>
     );
