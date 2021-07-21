@@ -16,6 +16,7 @@ export default function App() {
           SUA VEZ
         </p>
       </header>
+      {/* <BrowserRouter> */}
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route path="/settings" component={ Configurações } />

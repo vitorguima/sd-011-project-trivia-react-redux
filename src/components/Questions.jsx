@@ -16,9 +16,9 @@ class Questions extends Component {
       gameResults,
       counter,
       nextBtn,
-      handleAnswer,
-      isDisabled,
+      handleAnswer, isDisabled,
     } = this.props;
+    // console.log(gameResults);
     return (
       <div>
         <QuestionTitle gameResults={ gameResults } counter={ counter } />
@@ -27,7 +27,7 @@ class Questions extends Component {
           name="correct"
           type="button"
           className={ isGreenBordered }
-          onClick={ handleAnswer }
+          onClick={ () => handleAnswer(gameResults.difficulty, counter) }
           disabled={ isDisabled }
         >
           { correctAnswer }
