@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setEmail, setName } from '../actions';
+import Logo from '../trivia.png';
+import '../styles/Login.css';
 
 class Login extends Component {
   constructor() {
@@ -28,6 +30,7 @@ class Login extends Component {
         <button
           data-testid="btn-settings"
           type="button"
+          className="settings-button"
         >
           <span role="img" aria-label="Gear">⚙️</span>
           Configurações
@@ -73,41 +76,48 @@ class Login extends Component {
     const { email, name, disabled } = this.state;
     const { setCredentials } = this.props;
     return (
-      <div>
-        <label
-          htmlFor="email"
-        >
-          <input
-            name="email"
-            type="email"
-            value={ email }
-            onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
-            data-testid="input-gravatar-email"
-          />
-        </label>
-        <label
-          htmlFor="name"
-        >
-          <input
-            name="name"
-            type="text"
-            value={ name }
-            onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
-            data-testid="input-player-name"
-          />
-        </label>
-
-        <Link to="./triviaquestions">
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ disabled }
-            onClick={ () => setCredentials(email, name) }
+      <div className="main-page">
+        <img className="trivia-logo" alt="trivia-logo" src={ Logo } />
+        <div className="form">
+          <label
+            htmlFor="email"
           >
-            Jogar
-          </button>
-        </Link>
-        { this.settingsButton() }
+            Email do Gravatar:
+            <input
+              name="email"
+              type="email"
+              value={ email }
+              onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
+              data-testid="input-gravatar-email"
+            />
+          </label>
+          <label
+            htmlFor="name"
+          >
+            Nome do Jogador:
+            <input
+              name="name"
+              type="text"
+              value={ name }
+              onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
+              data-testid="input-player-name"
+            />
+          </label>
+        </div>
+        <div className="buttons">
+          <Link to="./triviaquestions">
+            <button
+              data-testid="btn-play"
+              type="button"
+              className="play-button"
+              disabled={ disabled }
+              onClick={ () => setCredentials(email, name) }
+            >
+              Jogar
+            </button>
+          </Link>
+          { this.settingsButton() }
+        </div>
       </div>
     );
   }
