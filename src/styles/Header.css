@@ -1,0 +1,15 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  margin: 0 10px 20px;
+}
+
+.avatar {
+  width: 50px;
+}
+
+.header-container p {
+  margin: 0;
+}

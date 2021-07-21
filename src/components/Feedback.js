@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import Header from './Header';
 import { resetState } from '../actions';
+import '../styles/Feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -33,33 +34,33 @@ class Feedback extends Component {
     const { assertions, score } = state.player;
     const goodScore = assertions >= tres;
     return (
-      <div>
+      <div className="feedback-screen">
         <Header />
-        <p data-testid="feedback-text">
+        <p data-testid="feedback-text" className="score-message">
           {goodScore ? 'Mandou bem!' : 'Podia ser melhor...'}
         </p>
-        <p data-testid="feedback-total-question">
-          {assertions}
-        </p>
-        <p data-testid="feedback-total-score">
-          {score}
-        </p>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
-          >
+        <div className="score">
+          <div className="score-info">
+            <span data-testid="feedback-total-question">
+              {assertions}
+            </span>
+            <span> acertos de 5</span>
+          </div>
+          <div className="score-info">
+            <span>Placar: </span>
+            <span data-testid="feedback-total-score">
+              {score}
+            </span>
+          </div>
+        </div>
+        <div className="buttons">
+          <Link to="/" className="feedback-btns play-again" data-testid="btn-play-again">
             Jogar novamente
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button
-            type="button"
-            data-testid="btn-ranking"
-          >
+          </Link>
+          <Link to="/ranking" className="feedback-btns ranking" data-testid="btn-ranking">
             Ver Ranking
-          </button>
-        </Link>
+          </Link>
+        </div>
       </div>
     );
   }

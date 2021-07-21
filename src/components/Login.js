@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import '../styles/Login.css';
+import logo from '../trivia.png';
 
 import { getLogin } from '../actions';
 
@@ -60,36 +62,45 @@ class Login extends Component {
   render() {
     const { name, email, play } = this.state;
     return (
-      <div>
+      <div className="login-container">
         { play ? <Redirect to="/game" /> : null }
-        <h1>Login</h1>
-        <form>
-          <input
-            onChange={ this.handleChange }
-            type="text"
-            data-testid="input-player-name"
-            name="name"
-            value={ name }
-            placeholder="Digite seu nome"
-          />
-          <input
-            onChange={ this.handleChange }
-            type="email"
-            data-testid="input-gravatar-email"
-            name="email"
-            value={ email }
-            placeholder="Digite seu email"
-          />
-          <button
-            type="button"
-            data-testid="btn-play"
-            onClick={ () => this.handlePlayButton() }
-            disabled={ !this.checkForm() }
-          >
-            Jogar
-          </button>
-        </form>
-        <Link data-testid="btn-settings" to="/config">Configurações</Link>
+        <div className="img-form-wrapper">
+          <img src={ logo } className="App-logo" alt="logo" />
+          <form className="login-form">
+            <input
+              onChange={ this.handleChange }
+              type="text"
+              data-testid="input-player-name"
+              name="name"
+              value={ name }
+              placeholder="Digite seu nome"
+            />
+            <input
+              onChange={ this.handleChange }
+              type="email"
+              data-testid="input-gravatar-email"
+              name="email"
+              value={ email }
+              placeholder="Digite seu email"
+            />
+            <button
+              type="button"
+              data-testid="btn-play"
+              className="btn play"
+              onClick={ () => this.handlePlayButton() }
+              disabled={ !this.checkForm() }
+            >
+              Jogar
+            </button>
+            <Link
+              className="btn config"
+              data-testid="btn-settings"
+              to="/config"
+            >
+              Configurações
+            </Link>
+          </form>
+        </div>
       </div>
     );
   }

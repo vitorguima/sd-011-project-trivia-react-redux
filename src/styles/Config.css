@@ -1,0 +1,25 @@
+.config-page {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-flow: column;
+  height: 80vh;
+}
+
+.config-page h2 {
+  font-size: 36px;
+  margin: 0;
+  padding: 0;
+}
+
+.home-btn {
+  font-size: 22px;
+  background-color: rgb(63, 163, 101);
+  text-decoration: none;
+  width: fit-content;
+  padding: 8px 16px;
+  margin: 50px auto 0;
+  border: 1px solid #333;
+  color: #f2f2f2;
+}

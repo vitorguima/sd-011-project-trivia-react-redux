@@ -4,9 +4,6 @@ import Header from './components/Header';
 import './styles/App.css';
 import GameScreen from './components/GameScreen';
 
-// import logo from './trivia.png';
-// <img src={ logo } className="App-logo" alt="logo" />
-
 import Login from './components/Login';
 import Config from './components/Config';
 import Feedback from './components/Feedback';

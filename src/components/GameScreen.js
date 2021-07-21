@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import he from 'he';
 
 import '../styles/GameScreen.css';
 import Header from './Header';
@@ -15,7 +16,6 @@ class GameScreen extends React.Component {
     this.state = {
       triviaApi: '',
       questionNumber: 0,
-      styles: ['', ''],
       disabledButton: false,
       redirect: false,
       timer: 30,
@@ -67,9 +67,7 @@ class GameScreen extends React.Component {
     }
     const score = rightAnswer + (timer * point);
     updateScore(score);
-    let data = localStorage.getItem('state');
-    console.log(data);
-    const state = JSON.parse(data);
+    const state = JSON.parse(localStorage.getItem('state'));
     const newState = {
       player: {
         ...state.player,
@@ -77,20 +75,16 @@ class GameScreen extends React.Component {
         assertions: state.player.assertions + 1,
       },
     };
-    data = JSON.stringify(newState);
-    localStorage.setItem('state', data);
+    localStorage.setItem('state', JSON.stringify(newState));
   }
 
   handleAnswer(correct) {
     const { triviaApi: { results }, questionNumber, timer } = this.state;
-    const styles = ['wrong-answer', 'correct-answer'];
     this.setState({
-      styles,
       disabledButton: true,
     });
     clearTimeout(this.time);
     if (correct) {
-      console.log('Click antes de calcular');
       this.calculateScore(results[questionNumber].difficulty, timer);
     }
   }
@@ -111,7 +105,6 @@ class GameScreen extends React.Component {
     } else {
       this.setState((prevState) => ({
         questionNumber: prevState.questionNumber + 1,
-        styles: ['', ''],
         disabledButton: false,
         timer: 30,
       }));
@@ -121,35 +114,46 @@ class GameScreen extends React.Component {
   renderQuestions() {
     const { triviaApi: { results },
       questionNumber,
-      styles,
       redirect,
       disabledButton } = this.state;
     return (
       <>
         {redirect ? <Redirect to="/feedback" /> : null}
-        <h4 data-testid="question-category">{results[questionNumber].category}</h4>
-        <p data-testid="question-text">{results[questionNumber].question}</p>
-        { results[questionNumber].incorrect_answers.map((answer, index) => (
+        <h4
+          className="category"
+          data-testid="question-category"
+        >
+          {he.decode(results[questionNumber].category)}
+        </h4>
+        <p
+          className="question"
+          data-testid="question-text"
+        >
+          {he.decode(results[questionNumber].question)}
+        </p>
+        <div className="answers-container">
+          { results[questionNumber].incorrect_answers.map((answer, index) => (
+            <button
+              type="button"
+              data-testid={ `wrong-answer-${index}` }
+              key={ index }
+              className="wrong alternative"
+              onClick={ () => this.handleAnswer(false) }
+              disabled={ disabledButton }
+            >
+              {he.decode(answer)}
+            </button>
+          ))}
           <button
             type="button"
-            data-testid={ `wrong-answer-${index}` }
-            key={ index }
-            className={ styles[0] }
-            onClick={ () => this.handleAnswer(false) }
+            data-testid="correct-answer"
+            className="correct alternative"
+            onClick={ () => this.handleAnswer(true) }
             disabled={ disabledButton }
           >
-            {answer}
+            {he.decode(results[questionNumber].correct_answer)}
           </button>
-        ))}
-        <button
-          type="button"
-          data-testid="correct-answer"
-          className={ styles[1] }
-          onClick={ () => this.handleAnswer(true) }
-          disabled={ disabledButton }
-        >
-          {results[questionNumber].correct_answer}
-        </button>
+        </div>
       </>
     );
   }
@@ -158,16 +162,17 @@ class GameScreen extends React.Component {
     const { triviaApi: { results }, timer, disabledButton } = this.state;
     this.checkTimer();
     return (
-      <>
+      <div className="gamescreen">
         <Header />
-        <span>{`Timer: ${timer}`}</span>
         {results ? (
           <div>
+            <span className="timer">{`Tempo: ${timer}`}</span>
             {this.renderQuestions()}
             {disabledButton ? (
               <div>
                 <button
                   data-testid="btn-next"
+                  className="next-btn"
                   type="button"
                   onClick={ this.handleNextButton }
                 >
@@ -178,11 +183,11 @@ class GameScreen extends React.Component {
           </div>
         ) : (
           <div>
-            <h4 data-testid="question-category">carregando..</h4>
-            <p data-testid="question-text">...</p>
+            <h4 className="loading" data-testid="question-category">Carregando...</h4>
+            <p className="loading" data-testid="question-text">...</p>
           </div>
         )}
-      </>
+      </div>
     );
   }
 }
