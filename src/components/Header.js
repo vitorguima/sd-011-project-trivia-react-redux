@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import header from './header.css';
 import border from '../images/header_base.png';
 
 class Header extends Component {
@@ -21,7 +20,7 @@ class Header extends Component {
           >
             { profileName }
           </span>
-          <div className="div-header-score">
+          <div className="div-score">
             <h3 className="name-score">
               SCORE
             </h3>
