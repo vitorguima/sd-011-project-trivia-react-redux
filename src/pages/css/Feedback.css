@@ -1,6 +1,14 @@
 .feedback-container {
-  margin-top: 80px;
+  margin-top: 40px;
   text-align: center;
+}
+
+.feedback-container h3 {
+  font-size: 28px;
+}
+
+.feedback-text-container {
+  font-size: 20px;
 }
 
 .score-container {

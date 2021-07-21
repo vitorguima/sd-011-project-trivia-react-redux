@@ -39,21 +39,21 @@ class Feedback extends Component {
         <Header />
         <div className="feedback-container">
           <h3 data-testid="feedback-text">{this.handleFeedback()}</h3>
-          <div data-testid="feedback-text">
+          <div className="feedback-text-container" data-testid="feedback-text">
             <div>
               Pontuação Total:
-              <span
+              <p
                 className="score-container"
                 data-testid="feedback-total-score"
               >
                 {score}
-              </span>
+              </p>
             </div>
             <div>
               Número de acertos:
-              <span className="score-container" data-testid="feedback-total-question">
+              <p className="score-container" data-testid="feedback-total-question">
                 {assertions || 0}
-              </span>
+              </p>
             </div>
           </div>
           <div className="btn-feedback-container">

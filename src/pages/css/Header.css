@@ -1,7 +1,8 @@
 .header-container {
   align-items: center;
-  background-color: rgb(230, 221, 208);
-  border: solid gray;
+  background-color: #ffbc58;
+  border: 1px solid gray;
+  color: rgb(44, 18, 56);
   display: flex;
   flex-direction: column;
   justify-content: space-between;

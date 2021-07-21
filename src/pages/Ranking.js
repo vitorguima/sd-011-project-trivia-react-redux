@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
+import './css/Ranking.css';
 
 class Ranking extends Component {
   constructor() {
@@ -86,9 +87,11 @@ class Ranking extends Component {
 
     return (
       <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
+        <header className="header-ranking">
+          <h1 data-testid="ranking-title">Ranking</h1>
+        </header>
         <div className="raking-container">
-          <ul>
+          <ul className="ranking-list-container">
             {rankings.sort((a, b) => b.score - a.score)
               .map(({ name, score, picture }, index) => (
                 <li key={ index }>
@@ -103,13 +106,15 @@ class Ranking extends Component {
               ))}
           </ul>
         </div>
-        <button
-          type="button"
-          data-testid="btn-go-home"
-          onClick={ this.renderLoginPage }
-        >
-          Voltar ao início
-        </button>
+        <div className="btn-ranking">
+          <button
+            type="button"
+            data-testid="btn-go-home"
+            onClick={ this.renderLoginPage }
+          >
+            Voltar ao início
+          </button>
+        </div>
       </div>
     );
   }
