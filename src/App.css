@@ -218,15 +218,15 @@ header img {
   width: 100vh
 };
 
-.header-score {
-  font-size: 1200px;
+.ingame-score {
+  font-size: 50px;
   font-weight: bold;
-  color: white;
+  color: rgb(230, 32, 32);
   margin: 0;
 };
 
 .name-score {
-  color:  white;
+  color:  rgb(236, 222, 222);
   margin: 100px;
 }
 
@@ -235,4 +235,39 @@ body {
   background: linear-gradient(30deg, #873034 0%,#0A0026 50%, #30617E 100%);
   background-repeat: no-repeat;
   height: 100vh;
+}
+
+.questions-text {
+  font-weight: 900;
+  font-size: 35px;
+  color: aliceblue;
+}
+
+.questions-cat {
+  font-weight: 900;
+  font-size: 20px;
+  color: aliceblue;
+}
+
+.timer-text {
+  font-weight: 900;
+  font-size: 25px;
+  color: rgb(185, 198, 209);
+}
+
+.score-div-container {
+  color: #f50404;
+  border: solid 5px rgb(161, 12, 117);
+}
+
+.text-score {
+  color:  rgb(194, 235, 15);
+  margin: 100px;
+  border: solid 5px red;
+}
+
+.ingame-score-number {
+  font-size: 40px;
+  color: rgb(110, 228, 169);
+  border: solid 5px rgb(4, 136, 44);
 }

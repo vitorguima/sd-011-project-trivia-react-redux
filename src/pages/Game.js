@@ -2,19 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import Header from '../components/Header';
 import Questions from '../components/Questions';
 import { questionIdIncrease, modifyTimer, InitiateTimer, modifyNextBtn,
   addQuestionsPlayed, resetTriviaQuestionsIdAndPlayedQuestions,
   sendQuestions, recoverNameAndEmailFromRefresh,
 } from '../redux/actions';
 import { getQuestions } from '../services/TriviaApi';
-<<<<<<< HEAD
-import './game.css';
-import '../components/header.css';
-=======
 import '../App.css';
->>>>>>> b8795c57dcad88ff8ef3829858b3f5f9d144fa32
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor(props) {

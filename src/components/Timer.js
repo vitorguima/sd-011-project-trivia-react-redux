@@ -54,9 +54,9 @@ class Timer extends Component {
     }
     return (
       <div>
-        <h5>
+        <h5 className="timer-text">
           Tempo para resposta:
-          <span id="timer-text">{globalTime}</span>
+          <span className="timer-value" id="timer-text">{globalTime}</span>
         </h5>
       </div>
     );

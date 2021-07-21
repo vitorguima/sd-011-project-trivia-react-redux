@@ -154,8 +154,11 @@ class Questions extends Component {
     return (
       <div>
         <Timer />
-        <h4 data-testid="question-category">{ category }</h4>
-        <h3 data-testid="question-text">{ question }</h3>
+        <h4 data-testid="question-category" className="questions-cat">
+          <span style={ { marginRight: '20px' } } className="cat-text">Category:</span>
+          { category }
+        </h4>
+        <h3 data-testid="question-text" className="questions-text">{ question }</h3>
         { this.generateQuestionsBtnFunc() }
         {
           shouldShowNextBtn ? (
