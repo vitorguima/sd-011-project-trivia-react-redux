@@ -10,15 +10,6 @@ class Login extends React.Component {
       <div className="login-container">
         <Header />
         <CardLogin />
-        {/* <Link to="/settings">
-          <button
-            className="settings-button"
-            type="button"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </button>
-        </Link> */}
       </div>
     );
   }

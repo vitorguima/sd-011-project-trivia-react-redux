@@ -20,6 +20,13 @@
   border: 1px solid green;
 }
 
+.center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 25px 0;
+}
+
 .spinner {
   animation: spin 1s linear infinite;
   border: 8px solid rgba(0, 0, 0, 0.1);
