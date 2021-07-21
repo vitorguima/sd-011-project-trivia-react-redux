@@ -59,7 +59,7 @@ class QuestionsComponent extends Component {
     const btns = document.querySelectorAll('button');
     this.setState((prevState) => ({
       index: prevState.index + 1,
-      buttonClick: true,
+      buttonClick: false,
       seconds: 30,
     }));
     btns.forEach((element) => {
@@ -86,15 +86,16 @@ class QuestionsComponent extends Component {
   }
 
   render() {
-    const { questions, loading, updateClickButton, timer } = this.props;
-    const { results } = questions;
-    const { buttonClick, rightAnswerClicked, index, seconds, btnDisable } = this.state;
-    const updateButtonState = { buttonClick, rightAnswerClicked };
-    updateClickButton(updateButtonState);
-    timer(seconds);
+    const { questions: { results }, loading, updateClickButton } = this.props;
+    const { buttonClick, rightAnswerClicked, index, btnDisable, assertions } = this.state;
+    updateClickButton({ buttonClick, rightAnswerClicked });
     const renderLink = () => {
       if (index === results.length) {
-        return (<Redirect data-testid="feedback-test" to="/feedback" />);
+        return (
+          <Redirect
+            data-testid="feedback-test"
+            to={ { pathname: '/feedback', state: { assertions } } }
+          />);
       }
       return (
         <div>
@@ -140,7 +141,6 @@ QuestionsComponent.propTypes = {
   questions: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
   updateClickButton: PropTypes.func.isRequired,
-  timer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
