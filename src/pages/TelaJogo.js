@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Questions from '../components/Questions';
+import Feedback from '../components/Feedback';
+
+const EASY = 1;
+const MEDIUM = 2;
+const HARD = 3;
+const TEN = 10;
 
 class TelaJogo extends Component {
   constructor() {
@@ -12,6 +18,7 @@ class TelaJogo extends Component {
       isHidden: true,
       isDisabled: false,
       counter: 30,
+      assertions: 0,
       score: 0,
       count: 0,
       intervalId: 0,
@@ -20,6 +27,7 @@ class TelaJogo extends Component {
     this.handleAnswer = this.handleAnswer.bind(this);
     this.handleTimer = this.handleTimer.bind(this);
     this.playAgain = this.playAgain.bind(this);
+    this.setScore = this.setScore.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +37,28 @@ class TelaJogo extends Component {
   componentWillUnmount() {
     const { intervalId } = this.state;
     clearInterval(intervalId);
+  }
+
+  setScore(difficulty, counter) {
+    let multiplier = 0;
+    switch (difficulty) {
+    case 'easy':
+      multiplier = EASY;
+      break;
+    case 'medium':
+      multiplier = MEDIUM;
+      break;
+    case 'hard':
+      multiplier = HARD;
+      break;
+    default:
+      return multiplier;
+    }
+    // console.log(multiplier);
+    this.setState((prevState) => ({
+      score: prevState.score + (TEN + (counter * multiplier)),
+      assertions: prevState.assertions + 1,
+    }));
   }
 
   nextBtn() {
@@ -43,8 +73,9 @@ class TelaJogo extends Component {
     this.handleTimer();
   }
 
-  handleAnswer(/* { target: { name } } */) {
-    const { intervalId } = this.state;
+  handleAnswer(difficulty) {
+    const { intervalId, counter } = this.state;
+    this.setScore(difficulty, counter);
     clearInterval(intervalId);
     this.setState({
       isGreenBordered: 'withGreenBorder',
@@ -94,18 +125,19 @@ class TelaJogo extends Component {
 
   render() {
     const {
-      score,
+      score, assertions,
       count,
       isGreenBordered,
       isRedBordered,
       isHidden,
-      counter,
-      isDisabled,
+      counter, isDisabled,
     } = this.state;
     const { getdata: { emailHash, name, email }, gameData } = this.props;
 
-    const player = { name, assertions: 0, score, gravatarEmail: email };
+    const player = { name, assertions, score, gravatarEmail: email };
+    const state = { player };
     localStorage.setItem('player', JSON.stringify(player));
+    localStorage.setItem('state', JSON.stringify(state));
 
     const limitOfQuestions = 5;
     const gameResults = gameData.results;
@@ -120,7 +152,6 @@ class TelaJogo extends Component {
             { score }
           </span>
         </header>
-
         {gameResults && count < limitOfQuestions ? ( // Renderiza perguntas
           <Questions
             gameResults={ gameResults[count] }
@@ -132,10 +163,11 @@ class TelaJogo extends Component {
             counter={ counter }
             nextBtn={ () => this.nextBtn() }
             handleAnswer={ (event) => this.handleAnswer(event) }
+            // handleAnswer={ () => this.handleAnswer() }
             isDisabled={ isDisabled }
           />
         ) : (
-          this.playAgain()
+          <Feedback score={ score } />
         )}
 
       </div>
