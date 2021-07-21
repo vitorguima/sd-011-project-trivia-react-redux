@@ -4,10 +4,18 @@ import { connect } from 'react-redux';
 import { updateScore } from '../../actions';
 
 class Answers extends React.Component {
+  verifyIfIsCorrect(target) {
+    const { questionsList } = this.props;
+    if (questionsList.correct_answer === target.innerHTML) {
+      return true;
+    }
+    return false;
+  }
+
   verifyAnswer({ target }) {
     const { handleButtons, questionsList, timer, updateUser } = this.props;
     handleButtons(true);
-    const isCorrect = target.classList.contains('correct');
+    const isCorrect = this.verifyIfIsCorrect(target);
     if (isCorrect) {
       const scoreDataBase = { base: 10, hard: 3, medium: 2, easy: 1 };
       const playerStorageString = localStorage.getItem('state');
@@ -39,35 +47,45 @@ class Answers extends React.Component {
     return 0;
   }
 
-  render() {
-    const { questionsList, isDisabled } = this.props;
-    return (
-      <ul className="list-buttons-quiz">
-        <li className="item-list-buttons-quiz">
-          <button
-            disabled={ isDisabled }
-            data-testid="correct-answer"
-            className={ isDisabled ? 'li-quiz-button correct-answer correct'
-              : 'li-quiz-button correct' }
-            type="button"
-            onClick={ (event) => this.verifyAnswer(event) }
-          >
-            { questionsList.correct_answer }
-          </button>
-        </li>
-        { questionsList.incorrect_answers.map((wrong, index) => (
+  createOptionsAnswers() {
+    const { questionsList, isDisabled, shuffledAnswers } = this.props;
+    return shuffledAnswers.map((answer, index) => {
+      if (questionsList.correct_answer === answer) {
+        return (
           <li className="item-list-buttons-quiz" key={ index }>
             <button
               disabled={ isDisabled }
-              data-testid={ `wrong-answer-${index}` }
-              className={ isDisabled ? 'li-quiz-button wrong-answer' : 'li-quiz-button' }
+              data-testid="correct-answer"
+              className={ isDisabled ? 'li-quiz-button correct-answer correct'
+                : 'li-quiz-button correct' }
               type="button"
               onClick={ (event) => this.verifyAnswer(event) }
             >
-              { wrong }
+              { answer }
             </button>
           </li>
-        )) }
+        );
+      }
+      return (
+        <li className="item-list-buttons-quiz" key={ index }>
+          <button
+            disabled={ isDisabled }
+            data-testid={ `wrong-answer-${index}` }
+            className={ isDisabled ? 'li-quiz-button wrong-answer' : 'li-quiz-button' }
+            type="button"
+            onClick={ (event) => this.verifyAnswer(event) }
+          >
+            { answer }
+          </button>
+        </li>
+      );
+    });
+  }
+
+  render() {
+    return (
+      <ul className="list-buttons-quiz">
+        { this.createOptionsAnswers() }
       </ul>
     );
   }
@@ -83,6 +101,7 @@ Answers.propTypes = {
   handleButtons: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
   updateUser: PropTypes.func.isRequired,
+  shuffledAnswers: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Answers);
