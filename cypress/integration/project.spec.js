@@ -249,7 +249,6 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      console.log(then);
       expect(then.player.score).to.be.lt(now.player.score);
     });
   });
