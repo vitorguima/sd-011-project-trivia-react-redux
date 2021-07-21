@@ -32,6 +32,11 @@ class GameComponent extends Component {
         rightBtnClicked: true,
       }
       ));
+    } else {
+      this.setState(() => ({
+        rightBtnClicked: false,
+      }
+      ));
     }
     this.setState(() => ({
       buttonClick: true,

@@ -22,14 +22,19 @@ class TimerComponent extends Component {
     this.interval = setInterval(() => this.timer(), second);
   }
 
-  componentDidUpdate() {
-    const { buttonClick, updateNumQuestion } = this.props;
+  componentDidUpdate(_, prevProps) {
+    const { buttonClick, rightBtnClicked } = this.props;
     const { count } = this.state;
-    updateNumQuestion(count);
     if (buttonClick) {
       clearInterval(this.interval);
+    }
+    if (rightBtnClicked && prevProps.count !== count) {
       this.newScore();
     }
+  }
+
+  componentWillUnmount() {
+    this.newScore();
   }
 
   setScore(timer, difficulty) {
@@ -92,11 +97,9 @@ class TimerComponent extends Component {
   buttonNextQuestion() {
     const maxQuestions = 4;
     const { count } = this.state;
-    const { finishQuestions, updateClickButton } = this.props;
-    const resetButton = {
-      buttonClick: false,
-      rightBtnClicked: false,
-    };
+    const { finishQuestions, updateClickButton, updateNumQuestion } = this.props;
+    updateClickButton({ buttonClick: false });
+    updateNumQuestion(count + 1);
     if (count < maxQuestions) {
       this.setState((prevState) => ({
         count: prevState.count + 1,
@@ -104,7 +107,6 @@ class TimerComponent extends Component {
     } else {
       finishQuestions();
     }
-    updateClickButton(resetButton);
   }
 
   render() {
@@ -140,6 +142,7 @@ TimerComponent.propTypes = {
   finishQuestions: PropTypes.func.isRequired,
   updateNumQuestion: PropTypes.func.isRequired,
   updateClickButton: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
