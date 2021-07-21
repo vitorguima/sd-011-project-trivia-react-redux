@@ -15,13 +15,23 @@ class Login extends Component {
       disabled: true,
     };
 
+    this.saveTokenInLocalStorage = this.saveTokenInLocalStorage.bind(this);
+    this.savePlayerScoreInLocalStorage = this.savePlayerScoreInLocalStorage.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.settingsButton = this.settingsButton.bind(this);
-    this.saveTokenInLocalStorage = this.saveTokenInLocalStorage.bind(this);
   }
 
   componentDidMount() {
-    this.getToken();
+    this.saveTokenInLocalStorage();
+    this.savePlayerScoreInLocalStorage();
+  }
+
+  componentDidUpdate() {
+    const actualToken = localStorage.getItem('token');
+    if (!actualToken) {
+      this.saveTokenInLocalStorage();
+    }
+    this.savePlayerScoreInLocalStorage();
   }
 
   settingsButton() {
@@ -39,15 +49,22 @@ class Login extends Component {
     );
   }
 
-  getToken() {
+  saveTokenInLocalStorage() {
     const API_URL = 'https://opentdb.com/api_token.php?command=request';
     fetch(API_URL)
       .then((res) => res.json())
-      .then((data) => this.saveTokenInLocalStorage('token', data.token));
+      .then((data) => localStorage.setItem('token', data.token));
   }
 
-  saveTokenInLocalStorage(key, item) {
-    localStorage.setItem(key, item);
+  savePlayerScoreInLocalStorage() {
+    const { name, email } = this.state;
+    const player = { player: {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    } };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   handleInput({ target }) {

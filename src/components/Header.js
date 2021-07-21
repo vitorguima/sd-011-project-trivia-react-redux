@@ -5,39 +5,35 @@ import store from '../store';
 export default class Header extends Component {
   constructor() {
     super();
-    this.state = {
-      score: 0,
-      email: '',
-      name: '',
-    };
     this.fetchAvatar = this.fetchAvatar.bind(this);
-    this.getScoreFromLocalStorage = this.getScoreFromLocalStorage.bind(this);
+    this.getItemsFromLocalStorage = this.getItemsFromLocalStorage.bind(this);
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.fetchAvatar();
   }
 
   // Se usar essa função, o requisito 2 não passa e não descobri o motivo;
-  getScoreFromLocalStorage() {
+  getItemsFromLocalStorage() {
     const playerString = localStorage.getItem('state');
     const obj = JSON.parse(playerString);
-    const { score } = obj.player;
-    return score;
+    const { name, email, score } = obj.player;
+    const avatar = this.fetchAvatar(email, name);
+    return {
+      score,
+      name,
+      email: avatar,
+    };
   }
 
-  async fetchAvatar() {
-    const { email: { email, name } } = store.getState();
+  async fetchAvatar(email) {
     const avatar = md5(email).toString();
     const avatarFetch = await fetch(`https://www.gravatar.com/avatar/${avatar}`);
-    await this.setState({
-      email: avatarFetch.url,
-      name,
-    });
+    return avatarFetch;
   }
 
   render() {
-    const { score, email, name } = this.state;
+    const { score, name, email } = this.getItemsFromLocalStorage();
     return (
       <header>
         <img
