@@ -6,7 +6,6 @@ import Header from '../components/Header';
 
 class Feedback extends React.Component {
   render() {
-    // incluir na linha a baixo a props score
     const { assertions, score } = this.props;
     const THREE = 3;
     return (
@@ -17,10 +16,8 @@ class Feedback extends React.Component {
           <h2 data-testid="feedback-text">
             {assertions >= THREE ? 'Mandou bem!' : 'Podia ser melhor...'}
           </h2>
-          {/* // requisito 14 nas linhas 23 e 24 */ }
-          <span data-testid="feedback-total-question">{ assertions }</span>
-          <span data-testid="feedback-total-score">{ score }</span>
-          {/* requisito 15 linha 27 */}
+          <span data-testid="feedback-total-question">{assertions}</span>
+          <span data-testid="feedback-total-score">{score}</span>
           <Link to="/" data-testid="btn-play-again">Jogar novamente</Link>
         </main>
       </>
