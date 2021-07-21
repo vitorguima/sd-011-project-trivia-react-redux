@@ -1,0 +1,23 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-go-home {
+  background-color: #86d660;
+  font-size: 15px;
+}
+
+
+.div-button {
+  display: flex;
+  justify-content: center;
+}
+
+.ranking-title {
+  display: flex;
+  font-family: Verdana , Geneva , Tahoma , sans-serif;
+  font-size: 40px;
+  justify-content: center;
+  margin-bottom: 100px;
+}
