@@ -61,7 +61,8 @@ class Answers extends React.Component {
               type="button"
               onClick={ (event) => this.verifyAnswer(event) }
             >
-              { answer }
+              { answer.replace(/&amp;/g, ' ').replace(/&quot;/g, ' ')
+                .replace(/&#039;/g, ' ') }
             </button>
           </li>
         );
