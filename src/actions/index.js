@@ -1,49 +1,90 @@
-import axios from 'axios';
+export const TOKEN_REQUEST = 'TOKEN_REQUEST';
+export const FAILED_TOKEN_REQUEST = 'FAILED_TOKEN_REQUEST';
+export const GET_TOKEN = 'GET_TOKEN';
+export const TRIVIA_REQUEST = 'TRIVIA_REQUEST';
+export const FAILED_TRIVIA_REQUEST = 'FAILED_TRIVIA_REQUEST';
+export const GET_TRIVIA = 'GET_TRIVIA';
+export const ANSWER_BUTTON_CLICKED = 'ANSWER_BUTTON_CLICKED';
+export const ANSWER_RESET = 'ANSWER_RESET';
+export const START_TIMER = 'START_TIMER';
+export const UPDATE_TIMER = 'UPDATE_TIMER';
+export const TIMER_RUNOUT = 'TIMER_RUNOUT';
+export const RESET_TIMER = 'RESET_TIMER';
 
-export const SUBMIT_FORM = 'SUBMIT_FORM';
-export const SHOW_LOADING = 'SHOW_LOADING';
-export const HIDE_LOADING = 'HIDE_LOADING';
-export const FETCH_TOKEN = 'FETCH_TOKEN';
-export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
-const URL = 'https://opentdb.com/api_token.php?command=request';
-
-export const submitForm = (payload) => ({
-  type: SUBMIT_FORM,
-  payload,
+export const triviaRequest = () => ({
+  type: TRIVIA_REQUEST,
 });
 
-export const fetchToken = (payload) => ({
-  type: FETCH_TOKEN,
-  payload,
+export const failedTriviaRequest = (error) => ({
+  type: FAILED_TRIVIA_REQUEST,
+  error,
 });
 
-export const fetchQuestions = (payload) => ({
-  type: FETCH_QUESTIONS,
-  payload,
+export const getTrivia = (json) => ({
+  type: GET_TRIVIA,
+  json,
 });
 
-export const showLoading = () => ({
-  type: SHOW_LOADING,
+export const fetchApiTrivia = (token) => async (dispatch) => {
+  await dispatch(triviaRequest());
+  return fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+    .then((response) => response.json())
+    .then(
+      (json) => dispatch(getTrivia(json)),
+      (error) => dispatch(failedTriviaRequest(error)),
+    );
+};
+
+export const tokenRequest = () => ({
+  type: TOKEN_REQUEST,
 });
 
-export const hideLoading = () => ({
-  type: HIDE_LOADING,
+export const failedTokenRequest = (error) => ({
+  type: FAILED_TOKEN_REQUEST,
+  error,
 });
 
-export const getToken = () => (dispatch) => axios.get(URL)
-  .then((response) => {
-    const { token } = response.data;
-    localStorage.setItem('token', JSON.stringify(token));
-    dispatch(fetchToken(token));
-    dispatch(hideLoading());
-  })
-  .catch((err) => console.log(err.message));
+export const getToken = (token) => ({
+  type: GET_TOKEN,
+  token,
+});
 
-export const getQuestions = (token) => (dispatch) => axios.get(`https://opentdb.com/api.php?amount=5&token=${token}`)
-  .then((response) => {
-    dispatch(showLoading());
-    const { data } = response;
-    dispatch(fetchQuestions(data.results));
-    dispatch(hideLoading());
-  })
-  .catch((err) => console.log(err.message), dispatch(hideLoading()));
+export const fetchApiToken = () => async (dispatch) => {
+  await dispatch(tokenRequest());
+  return fetch('https://opentdb.com/api_token.php?command=request')
+    .then((response) => response.json())
+    .then(
+      (json) => {
+        localStorage.setItem('token', json.token);
+        dispatch(fetchApiTrivia(json.token));
+        dispatch(getToken(json));
+      },
+      (error) => dispatch(failedTokenRequest(error)),
+    );
+};
+
+export const answerBtnAction = () => ({
+  type: ANSWER_BUTTON_CLICKED,
+});
+
+export const answerReset = () => ({
+  type: ANSWER_RESET,
+  payload: false,
+});
+
+export const startTimer = () => ({
+  type: START_TIMER,
+});
+
+export const timerRunout = () => ({
+  type: TIMER_RUNOUT,
+});
+
+export const updateTimer = (value) => ({
+  type: UPDATE_TIMER,
+  value,
+});
+
+export const resetTimer = () => ({
+  type: RESET_TIMER,
+});
