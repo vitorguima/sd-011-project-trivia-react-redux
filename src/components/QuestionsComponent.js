@@ -86,6 +86,7 @@ class QuestionsComponent extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     const { questions: { results }, loading, updateClickButton } = this.props;
     const { buttonClick, rightAnswerClicked, index, btnDisable, assertions } = this.state;
     updateClickButton({ buttonClick, rightAnswerClicked });
@@ -96,44 +97,58 @@ class QuestionsComponent extends Component {
             data-testid="feedback-test"
             to={ { pathname: '/feedback', state: { assertions } } }
           />);
+=======
+    const { questions:{ results }, loading, updateClickButton, timer } = this.props;
+    const { buttonClick, rightAnswerClicked, index, seconds, btnDisable, assertions } = this.state;
+    const updateButtonState = { buttonClick, rightAnswerClicked };
+    updateClickButton(updateButtonState);
+    timer(seconds);
+    const renderLink = () => {
+      if (index === results.length) {
+        return (<Redirect
+          data-testid="feedback-test"
+          to={ { pathname: '/feedback', state: { assertions } } }
+        />);
+>>>>>>> b259f56f86b9627ad49ac499dbbaecb3fd68523e
       }
-      return (
-        <div>
-          <p data-testid="question-category">{ results[index].category }</p>
-          <h4
-            id="question"
-            data-testid="question-text"
-            difficulty={ results[index].difficulty }
-          >
-            { results[index].question }
-          </h4>
+    return (
+      <div>
+        <p data-testid="question-category">{ results[index].category }</p>
+        <h4
+          id="question"
+          data-testid="question-text"
+          difficulty={ results[index].difficulty }
+        >
+          { results[index].question }
+        </h4>
+        <button
+          value="correct"
+          data-testid="correct-answer"
+          type="button"
+          className="green-border"
+          onClick={ (event) => this.colorSelectCorrect(event) }
+          disabled={ btnDisable }
+        >
+          { results[index].correct_answer }
+        </button>
+        { results[index].incorrect_answers.map((incorrect, indexKey) => (
           <button
-            value="correct"
-            data-testid="correct-answer"
+            data-testid={ `wrong-answer-${indexKey}` }
             type="button"
-            className="green-border"
-            onClick={ (event) => this.colorSelectCorrect(event) }
+            key={ indexKey }
+            className="red-border"
+            onClick={ (event) => { this.colorSelectCorrect(event); } }
             disabled={ btnDisable }
           >
-            { results[index].correct_answer }
+            {incorrect}
           </button>
-          { results[index].incorrect_answers.map((incorrect, indexKey) => (
-            <button
-              data-testid={ `wrong-answer-${indexKey}` }
-              type="button"
-              key={ indexKey }
-              className="red-border"
-              onClick={ (event) => { this.colorSelectCorrect(event); } }
-              disabled={ btnDisable }
-            >
-              {incorrect}
-            </button>
-          ))}
+           ))}
           <ClockComponent nextQuestion={ this.nextQuestion } />
         </div>
       );
     };
-    return (<div>{loading ? <p>Carregando...</p> : (renderLink())}</div>);
+  render() {
+    return (<div>{loading ? <p>Carregando...</p> : (this.renderLink())}</div>);
   }
 }
 
