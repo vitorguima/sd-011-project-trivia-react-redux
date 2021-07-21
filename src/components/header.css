@@ -17,9 +17,9 @@ header img {
 };
 
 .div-header-score {
-  color: white;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  background-color: aliceblue;
 };
 
 .border-header {
@@ -28,12 +28,6 @@ header img {
   height: 70px;
 };
 
-.header-score {
-  font-size: xx-large;
-  font-weight: bold;
-  color: white;
-};
-
 .name-score {
-  color:  white;
+  color: white !important;
 }

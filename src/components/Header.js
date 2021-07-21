@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import header from './header.css';
+import './header.css';
 import border from '../images/header_base.png';
 
 class Header extends Component {
