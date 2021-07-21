@@ -16,7 +16,7 @@ class TableRanking extends React.Component {
         <tbody className="ranking-tbody">
           {ranking.sort((a, b) => a.score - b.score).reverse()
             .map((player, index) => (
-              <tr className={ index / 2 === 0 ? 'indexPair' : 'indexOdd' } key={ index }>
+              <tr className={ index % 2 === 0 ? 'indexPair' : 'indexOdd' } key={ index }>
                 <td>{ index + 1}</td>
                 <td className="td-flex">
                   <img

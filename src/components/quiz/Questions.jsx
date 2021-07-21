@@ -6,6 +6,7 @@ import { getQuestionsThunk } from '../../actions';
 import ButtonNext from './ButtonNext';
 import Answers from './Answers';
 import Loading from '../general/Loading';
+import Timer from './Timer';
 
 class Questions extends React.Component {
   constructor(props) {
@@ -104,6 +105,7 @@ class Questions extends React.Component {
     if (!loading && questionsList.length !== 0) {
       return (
         <div className="card-question-quiz">
+          <Timer timer={ timerCountDown } />
           <div className="info-question-quiz">
             <p data-testid="question-text">
               { questionsList[indexQuestion].question.replace(/&quot;/g, ' ')
