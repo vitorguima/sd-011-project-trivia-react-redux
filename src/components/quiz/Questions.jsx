@@ -13,6 +13,7 @@ class Questions extends React.Component {
     this.state = {
       questionsList: [],
       indexQuestion: 0,
+      shuffledAnswers: [],
       endGame: false,
       buttonDisabled: false,
       timerCountDown: 30,
@@ -22,12 +23,14 @@ class Questions extends React.Component {
     this.startTime = this.startTime.bind(this);
     this.handleButtons = this.handleButtons.bind(this);
     this.updateCountdown = this.updateCountdown.bind(this);
+    this.shuffleAnswers = this.shuffleAnswers.bind(this);
   }
 
-  componentDidMount() {
-    this.fetchTrivia();
+  async componentDidMount() {
+    await this.fetchTrivia();
     const timerDecrease = 1000;
     setInterval(this.updateCountdown, timerDecrease);
+    this.shuffleAnswers();
   }
 
   nextQuestion() {
@@ -46,7 +49,7 @@ class Questions extends React.Component {
         hasAnswered: false,
         timerCountDown: 30,
       };
-    });
+    }, () => this.shuffleAnswers());
     this.handleButtons(false);
   }
 
@@ -77,10 +80,27 @@ class Questions extends React.Component {
     });
   }
 
+  shuffleAnswers() {
+    const { questionsList, indexQuestion } = this.state;
+    if (questionsList.length !== 0) {
+      const questionAnswers = [questionsList[indexQuestion].correct_answer,
+        ...questionsList[indexQuestion].incorrect_answers];
+      for (let indexStandard = questionAnswers.length - 1;
+        indexStandard > 0; indexStandard -= 1) {
+        const indexToSwap = Math.floor(Math.random() * (indexStandard + 1));
+        [questionAnswers[indexStandard], questionAnswers[indexToSwap]] = [
+          questionAnswers[indexToSwap], questionAnswers[indexStandard]];
+      }
+      this.setState({
+        shuffledAnswers: questionAnswers,
+      });
+    }
+  }
+
   render() {
     const { loading } = this.props;
-    const { questionsList,
-      indexQuestion, endGame, buttonDisabled, timerCountDown } = this.state;
+    const { questionsList, indexQuestion, endGame, buttonDisabled,
+      timerCountDown, shuffledAnswers } = this.state;
     if (!loading && questionsList.length !== 0) {
       return (
         <div className="card-question-quiz">
@@ -97,6 +117,7 @@ class Questions extends React.Component {
             handleButtons={ this.handleButtons }
             timer={ timerCountDown }
             questionsList={ questionsList[indexQuestion] }
+            shuffledAnswers={ shuffledAnswers }
             isDisabled={ buttonDisabled }
           />
           { !endGame ? <ButtonNext

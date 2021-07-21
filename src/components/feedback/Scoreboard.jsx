@@ -41,11 +41,13 @@ class Scorebboard extends React.Component {
         </h2>
         <h2>
           Você fez:
+          {' '}
           <span
             data-testid="feedback-total-score"
           >
             { playerStorage.player.score }
           </span>
+          {' '}
           pontos.
         </h2>
 
