@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import border from '../images/header_base.png';
+import '../App.css';
 
 class Header extends Component {
   render() {
