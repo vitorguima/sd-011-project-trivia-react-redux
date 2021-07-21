@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { timerButton } from '../actions';
+import { requestTime } from '../actions';
 
 class ClockComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       seconds: 30,
     };
@@ -61,27 +61,36 @@ class ClockComponent extends Component {
   timer() {
     const { buttonClick } = this.props;
     const { seconds } = this.state;
-    const { updateButton } = this.props;
     if (seconds !== 0) {
       this.setState((prevState) => ({
         seconds: prevState.seconds - 1,
       }));
     }
     if (buttonClick) {
-      updateButton();
-      this.setState(() => ({
+      this.setState({
         seconds: 30,
-      }));
+      });
     }
   }
 
   render() {
     const { seconds } = this.state;
-    const { buttonClick, nextQuestion } = this.props;
+    const { buttonClick, nextQuestion, times, clock } = this.props;
+    const notAnswered = () => {
+      if (seconds === 0) {
+        return (
+          <div>
+            <button type="button" onClick={ nextQuestion } data-testid="btn-next">
+              Próxima
+            </button>
+          </div>
+        );
+      }
+    };
     return (
       <div>
         <div>
-          <p className="timer">{seconds}</p>
+          <p className="timer">{times(clock).state}</p>
         </div>
         <div>
           {buttonClick && (
@@ -89,7 +98,7 @@ class ClockComponent extends Component {
               Próxima
             </button>
           )}
-
+          {notAnswered()}
         </div>
       </div>
     );
@@ -97,7 +106,8 @@ class ClockComponent extends Component {
 }
 
 ClockComponent.propTypes = {
-  updateButton: PropTypes.func.isRequired,
+  times: PropTypes.func.isRequired,
+  clock: PropTypes.number.isRequired,
   buttonClick: PropTypes.bool.isRequired,
   rightAnswerClicked: PropTypes.bool.isRequired,
   nextQuestion: PropTypes.func.isRequired,
@@ -108,11 +118,11 @@ const mapStateToProps = (state) => ({
   rightAnswerClicked: state.trivia.rightAnswerClicked,
   questions: state.trivia.questions,
   buttonDisable: state.trivia.buttonDisable,
-
+  clock: state.trivia.seconds,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateButton: (state) => dispatch(timerButton(state)),
+  times: (state) => dispatch(requestTime(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClockComponent);

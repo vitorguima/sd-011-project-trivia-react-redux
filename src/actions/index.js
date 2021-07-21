@@ -5,7 +5,7 @@ export const REQUEST_TRIVIA_SUCCESS = 'REQUEST_TRIVIA_SUCCESS';
 export const REQUEST_TRIVIA_ERROR = 'REQUEST_TRIVIA_ERROR';
 export const TIMER_BUTTON = 'TIMER_BUTTON';
 export const REQUEST_CLICK_BUTTON = 'REQUEST_CLICK_BUTTON';
-
+export const TIME = 'TIME';
 export const sendUser = (state) => ({
   type: NEW_USER,
   state,
@@ -38,6 +38,11 @@ const requestTriviaSuccess = (state) => ({
 
 const requestTriviaError = (state) => ({
   type: REQUEST_TRIVIA_ERROR,
+  state,
+});
+
+export const requestTime = (state) => ({
+  type: TIME,
   state,
 });
 

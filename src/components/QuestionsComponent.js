@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { clickButton } from '../actions';
+import { clickButton, requestTime } from '../actions';
 import ClockComponent from './ClockComponent';
 
 class QuestionsComponent extends Component {
@@ -13,17 +13,54 @@ class QuestionsComponent extends Component {
       buttonClick: false,
       rightAnswerClicked: false,
       index: 0,
+      seconds: 30,
+      btnDisable: false,
     };
     this.colorSelectCorrect = this.colorSelectCorrect.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.timer = this.timer.bind(this);
+    this.disableQuestions = this.disableQuestions.bind(this);
+  }
+
+  componentDidMount() {
+    const second = 1000;
+    setInterval(() => this.timer(), second);
+  }
+
+  timer() {
+    const { seconds } = this.state;
+    const limit = 30;
+    if (seconds !== 0) {
+      this.setState((prevState) => ({
+        seconds: prevState.seconds - 1,
+      }));
+    }
+    if (seconds === 0) {
+      this.setState({
+        btnDisable: true,
+      });
+    }
+    if (seconds === limit) {
+      this.setState({
+        btnDisable: false,
+      });
+    }
+  }
+
+  disableQuestions() {
+    const { seconds } = this.state;
+    if (seconds === 0) {
+      return false;
+    }
+    return true;
   }
 
   nextQuestion() {
     const btns = document.querySelectorAll('button');
     this.setState((prevState) => ({
       index: prevState.index + 1,
-      rightAnswerClicked: false,
-      buttonClick: false,
+      buttonClick: true,
+      seconds: 30,
     }));
     btns.forEach((element) => {
       element.classList.remove('reveal-color');
@@ -49,11 +86,12 @@ class QuestionsComponent extends Component {
   }
 
   render() {
-    const { questions, loading, buttonDisable, updateClickButton } = this.props;
+    const { questions, loading, updateClickButton, timer } = this.props;
     const { results } = questions;
-    const { buttonClick, rightAnswerClicked, index } = this.state;
+    const { buttonClick, rightAnswerClicked, index, seconds, btnDisable } = this.state;
     const updateButtonState = { buttonClick, rightAnswerClicked };
     updateClickButton(updateButtonState);
+    timer(seconds);
     const renderLink = () => {
       if (index === results.length) {
         return (<Redirect data-testid="feedback-test" to="/feedback" />);
@@ -74,7 +112,7 @@ class QuestionsComponent extends Component {
             type="button"
             className="green-border"
             onClick={ (event) => this.colorSelectCorrect(event) }
-            disabled={ buttonDisable }
+            disabled={ btnDisable }
           >
             { results[index].correct_answer }
           </button>
@@ -85,7 +123,7 @@ class QuestionsComponent extends Component {
               key={ indexKey }
               className="red-border"
               onClick={ (event) => { this.colorSelectCorrect(event); } }
-              disabled={ buttonDisable }
+              disabled={ btnDisable }
             >
               {incorrect}
             </button>
@@ -94,27 +132,25 @@ class QuestionsComponent extends Component {
         </div>
       );
     };
-    return (
-      <div>{loading ? <p>Carregando...</p> : (renderLink())}</div>
-    );
+    return (<div>{loading ? <p>Carregando...</p> : (renderLink())}</div>);
   }
 }
 
 QuestionsComponent.propTypes = {
   questions: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
-  buttonDisable: PropTypes.func.isRequired,
   updateClickButton: PropTypes.func.isRequired,
+  timer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   questions: state.trivia.questions,
   loading: state.trivia.isLoading,
-  buttonDisable: state.trivia.buttonDisable,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateClickButton: (state) => dispatch(clickButton(state)),
+  timer: (state) => dispatch(requestTime(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionsComponent);
