@@ -85,7 +85,10 @@ class Questions extends React.Component {
       return (
         <div className="card-question-quiz">
           <div className="info-question-quiz">
-            <p data-testid="question-text">{ questionsList[indexQuestion].question }</p>
+            <p data-testid="question-text">
+              { questionsList[indexQuestion].question.replace(/&quot;/g, '"')
+                .replace(/&#039;/g, '"') }
+            </p>
             <p data-testid="question-category">
               { questionsList[indexQuestion].category }
             </p>
