@@ -666,7 +666,6 @@ describe('17 - [TELA DE RANKING] Crie a tela de _ranking_', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
 
     const ranking = [name1, name3, name2];
-    console.log(name1, name2, name3);
 
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).should(($el) => {
       expect($el).to.have.lengthOf(3);
