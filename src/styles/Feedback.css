@@ -4,9 +4,9 @@
 }
 
 .section h1 {
+  display: flex;
   font-family: Verdana , Geneva , Tahoma , sans-serif;
   font-size: 40px;
-  display: flex;
   justify-content: center;
 }
 
