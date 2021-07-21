@@ -160,7 +160,7 @@ Login.propTypes = {
   playerEmail: PropTypes.string.isRequired,
   playerPhoto: PropTypes.string.isRequired,
 };
-// -
+
 Login.defaultProps = {
   sendImgSrc: {},
   resetStorePoints: PropTypes.func,
