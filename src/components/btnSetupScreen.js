@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../pages/login.css';
 import settingsIMG from '../images/gear.png';
 
 class btnSetupScreen extends Component {

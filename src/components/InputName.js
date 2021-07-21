@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '../pages/login.css';
 
 class InputName extends Component {
   render() {

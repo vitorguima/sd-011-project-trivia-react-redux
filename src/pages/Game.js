@@ -9,8 +9,12 @@ import { questionIdIncrease, modifyTimer, InitiateTimer, modifyNextBtn,
   sendQuestions, recoverNameAndEmailFromRefresh,
 } from '../redux/actions';
 import { getQuestions } from '../services/TriviaApi';
+<<<<<<< HEAD
 import './game.css';
 import '../components/header.css';
+=======
+import '../App.css';
+>>>>>>> b8795c57dcad88ff8ef3829858b3f5f9d144fa32
 
 class Game extends Component {
   constructor(props) {
