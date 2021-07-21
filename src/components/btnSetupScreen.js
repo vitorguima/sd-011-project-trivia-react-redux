@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
-import { BsPersonPlus } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import settingsIMG from '../images/gear.png';
 
 class btnSetupScreen extends Component {
   render() {
     return (
       <Link to="/Setup">
-        <button type="button" data-testid="btn-settings">
-          <BsPersonPlus
-            type="logo"
-            name="adjust"
-            color="blue"
-            size="60px"
-            border="square"
-          />
-        </button>
+        <div className="div-btn-settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+            className="btn-settings btn-neon-red"
+          >
+            Configurações
+          </button>
+          <div className="btn-div-img-settings">
+            <img src={ settingsIMG } alt="" className="btn-img-settings" />
+          </div>
+        </div>
       </Link>
     );
   }

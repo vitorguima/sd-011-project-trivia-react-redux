@@ -1,19 +1,21 @@
+/* APP */
+
 .App {
   text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 25vmin;
   pointer-events: none;
 }
 
-.red-border {
+/* .red-border {
   border: 1px solid red;
 }
 
 .green-border {
   border: 1px solid green;
-}
+} */
 
 @media ( prefers-reduced-motion : no-preference ) {
 
@@ -24,7 +26,10 @@
 
 .App-header {
   align-items: center;
-  background-color: #282c34;
+  /* background-color: #282c34; */
+  background-image: url("./images/background_login.png");
+  background-size: cover;
+  background-position: center;
   color: white;
   display: flex;
   flex-direction: column;
@@ -33,9 +38,9 @@
   min-height: 100vh;
 }
 
-.App-link {
+/* .App-link {
   color: #61dafb;
-}
+} */
 
 @keyframes shake {
 
@@ -54,4 +59,180 @@
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* PÁGINA DE LOGIN */
+/* link das bordas https://css-tricks.com/how-to-create-neon-text-with-css/ */
+
+.neon-border-purple{
+  border: 0.2rem solid #fff;
+  border-radius: 1rem;
+  padding: 1em;
+  box-shadow: 0 0 .2rem #fff,
+              0 0 .2rem #fff,
+              0 0 2rem #bc13fe,
+              0 0 0.8rem #bc13fe,
+              0 0 2.8rem #bc13fe,
+              inset 0 0 1.3rem #bc13fe;
+}
+
+.neon-border-red{
+  border: 0.2rem solid #fff;
+  border-radius: 1rem;
+  padding: 1em;
+  box-shadow: 0 0 .2rem #fff,
+              0 0 .2rem #fff,
+              0 0 2rem rgb(255, 0, 64),
+              0 0 0.8rem rgb(255, 0, 64),
+              0 0 2.8rem rgb(255, 0, 64),
+              inset 0 0 1.3rem rgb(255, 0, 64);
+}
+
+.neon-border-blue{
+  border: 0.2rem solid #fff;
+  border-radius: 1rem;
+  padding: 0.4em;
+  box-shadow: 0 0 .2rem #fff,
+              0 0 .2rem #fff,
+              0 0 2rem rgb(0, 153, 255),
+              0 0 0.8rem rgb(0, 153, 255),
+              0 0 2.8rem rgb(0, 153, 255),
+              inset 0 0 1.3rem rgb(0, 153, 255);
+}
+
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2em;
+
+}
+
+.inputNeon-blue {
+  border: 0.2rem solid #fff;
+  border-radius: 1rem;
+  padding: 0.4em;
+  box-shadow: 0 0 .1rem #fff,
+              0 0 .1rem #fff,
+              0 0 1rem rgb(0, 153, 255),
+              0 0 0.4em rgb(0, 153, 255),
+              0 0 0.4rem rgb(0, 153, 255),
+              inset 0 0 0.6rem rgb(0, 153, 255);
+  background-color: black;
+  color: rgb(179, 205, 255);
+  font-weight: bold;
+  margin: 1rem;
+  width: 100%;
+}
+
+.btn-neon-red {
+  border: 0.2rem solid #fff;
+  border-radius: 1rem;
+  padding: 0.4em;
+  box-shadow: 0 0 .1rem #fff,
+              0 0 .1rem #fff,
+              0 0 1rem rgb(255, 0, 64),
+              0 0 0.4em rgb(255, 0, 64),
+              0 0 0.4rem rgb(255, 0, 64),
+              inset 0 0 0.6rem rgb(255, 0, 64);
+  background-color: black;
+  color: rgb(255, 161, 208);
+  font-weight: bold;
+  margin: 1rem;
+  width: 85%;
+}
+
+.btn-neon-red:disabled {
+  opacity: 30%;
+}
+
+.inputName, .inputEmail {
+display: flex;
+align-items: center;
+}
+
+.div-btn-settings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-settings {
+  height: 40px;
+};
+
+.btn-div-img-settings img {
+  max-height: 10px;
+  max-width: 10px;
+};
+
+.btn-img-settings {
+  max-height: 10px;
+  max-width: 10px;
+}
+
+
+
+/* HEADER */
+header {
+  background-color: black;
+  padding: 15px 30px 15px 30px;
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  color: white;
+}
+
+header img {
+  border-radius: 50px;
+}
+
+.header-player-name {
+  color: white;
+  font-size: xx-large;
+  font-weight: bolder;
+};
+
+/* .div-score {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  background-color: green;
+  box-sizing: content-box;
+}; */
+
+.border-header {
+  display: flex;
+  justify-content: center;
+  width: 100vh
+};
+
+.header-score {
+  font-size: 1200px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+};
+
+.name-score {
+  color:  white;
+  margin: 100px;
+}
+
+/* PÁGINA GAME */
+body {
+  background: linear-gradient(30deg, #873034 0%,#0A0026 50%, #30617E 100%);
+  background-repeat: no-repeat;
+  height: 100vh;
 }
