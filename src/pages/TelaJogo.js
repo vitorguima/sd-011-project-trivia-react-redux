@@ -19,6 +19,7 @@ class TelaJogo extends Component {
     this.nextBtn = this.nextBtn.bind(this);
     this.handleAnswer = this.handleAnswer.bind(this);
     this.handleTimer = this.handleTimer.bind(this);
+    this.playAgain = this.playAgain.bind(this);
   }
 
   componentDidMount() {
@@ -75,6 +76,22 @@ class TelaJogo extends Component {
     this.setState({ intervalId });
   }
 
+  playAgain() {
+    const { history } = this.props;
+    return (
+      <div>
+        <p>Fim de Jogo</p>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ () => history.push('/') }
+        >
+          Jogar Novamente
+        </button>
+      </div>
+    );
+  }
+
   render() {
     const {
       score,
@@ -118,7 +135,7 @@ class TelaJogo extends Component {
             isDisabled={ isDisabled }
           />
         ) : (
-          <p> Fim do jogo </p>
+          this.playAgain()
         )}
 
       </div>
