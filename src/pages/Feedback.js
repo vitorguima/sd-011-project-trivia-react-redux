@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
+import '../CSS/Feedback.css';
 
 export default class FeedBack extends Component {
   constructor() {
@@ -32,8 +33,8 @@ export default class FeedBack extends Component {
   message() {
     const { assertions } = this.state;
     const magicNumber = 3;
-    if (assertions < magicNumber) return 'Podia ser melhor...';
-    if (assertions >= magicNumber) return 'Mandou bem!';
+    if (assertions < magicNumber) return 'Could be better...';
+    if (assertions >= magicNumber) return 'Well done!';
   }
 
   render() {
@@ -43,23 +44,33 @@ export default class FeedBack extends Component {
     const gravatarPicture = `https://www.gravatar.com/avatar/${gravatarHash}`;
     return (
       <div className="feedback__container">
-        <h1 data-testid="feedback-text">FeedBack</h1>
-        <img data-testid="header-profile-picture" src={ gravatarPicture } alt="Player" />
-        <h2 data-testid="header-player-name">{ name }</h2>
-        <h3 data-testid="header-score">{ score }</h3>
-        <p data-testid="feedback-text">{this.message()}</p>
-        <h4 data-testid="feedback-total-score">{ score }</h4>
-        <h4 data-testid="feedback-total-question">{ assertions }</h4>
-        <Link to="/">
-          <button type="button" data-testid="btn-play-again">
-            Jogar novamente
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button type="button" data-testid="btn-ranking">
-            Ver Ranking
-          </button>
-        </Link>
+        <div className="feedback-nav-bar">
+          <img
+            data-testid="header-profile-picture"
+            src={ gravatarPicture }
+            alt="Player"
+          />
+          <h2 data-testid="header-player-name">{ name }</h2>
+          <h3 data-testid="header-score">{`${score} points`}</h3>
+        </div>
+        <p data-testid="feedback-text" className="feedback-message">{this.message()}</p>
+        <div className="feedback-score">
+          <h5>Your score:</h5>
+          <h6 data-testid="feedback-total-score">{`${score} points`}</h6>
+          <h6 data-testid="feedback-total-question">{`Number of hits: ${assertions}`}</h6>
+        </div>
+        <div className="feedback-links">
+          <Link to="/">
+            <button type="button" data-testid="btn-play-again">
+              Jogar novamente
+            </button>
+          </Link>
+          <Link to="/ranking">
+            <button type="button" data-testid="btn-ranking">
+              Ver Ranking
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }

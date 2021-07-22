@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchGameCategories, setSettingsAction } from '../actions';
+import '../CSS/Settings.css';
 
 // MAGIC NUMBERS
 const fiveQuestions = 5;
@@ -49,9 +50,9 @@ class Settings extends React.Component {
     const { categories } = this.props;
     const { category, level, nQuestions, type } = this.state;
     return (
-      <form>
+      <form className="settings__form">
         <label htmlFor="questions">
-          Escolha a quantidade de perguntas
+          Number of Questions
           <input
             value={ nQuestions > fiftyQuestions || nQuestions < fiveQuestions
               ? fiveQuestions : nQuestions }
@@ -63,31 +64,33 @@ class Settings extends React.Component {
           />
         </label>
         <label htmlFor="category">
-          Escolha uma categoria
+          Select your Category
           <select
             value={ category }
             name="category"
             onChange={ (e) => this.handleChange(e) }
           >
-            <option value="">Escolha uma categoria</option>
+            <option value="">All</option>
             {categories
               .map((item, index) => (
                 <option value={ item.id } key={ index }>{item.name}</option>))}
           </select>
         </label>
         <label htmlFor="level">
+          Select your Difficulty
           <select value={ level } name="level" onChange={ (e) => this.handleChange(e) }>
-            <option value="">Escolha uma dificuldade</option>
-            <option value="easy">Fácil</option>
-            <option value="medium">Médio</option>
-            <option value="hard">Difícil</option>
+            <option value="">All</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
           </select>
         </label>
         <label htmlFor="type">
+          Select your Type
           <select value={ type } name="type" onChange={ (e) => this.handleChange(e) }>
-            <option value="">Escolha um tipo</option>
-            <option value="boolean">Verdadeiro ou Falso</option>
-            <option value="multiple">Múltipla escolha</option>
+            <option value="">All</option>
+            <option value="boolean">True or False</option>
+            <option value="multiple">Multiple Choice</option>
           </select>
         </label>
       </form>
@@ -97,12 +100,14 @@ class Settings extends React.Component {
   render() {
     const { isLoading, setSettings } = this.props;
     return (
-      <div>
-        <Link to="/">
-          <button type="button" onClick={ () => setSettings(this.state) }>Voltar</button>
-        </Link>
+      <div className="settings__container">
         <h1 data-testid="settings-title">Settings</h1>
         {isLoading ? <p>Carregando...</p> : this.categoriesForm()}
+        <button type="button" onClick={ () => setSettings(this.state) }>
+          <Link className="link" to="/">
+            Voltar
+          </Link>
+        </button>
       </div>
     );
   }

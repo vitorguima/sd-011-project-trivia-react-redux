@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchGameAction } from '../actions';
@@ -87,6 +87,11 @@ class Forms extends Component {
           onClick={ () => this.savePlayerToLocalStorage() }
         >
           Play
+        </button>
+        <button type="button">
+          <Link className="link" to="/settings" data-testid="btn-settings">
+            Settings
+          </Link>
         </button>
       </form>
     );

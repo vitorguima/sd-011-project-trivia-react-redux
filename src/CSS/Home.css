@@ -34,3 +34,22 @@
   font-size: 1rem;
   padding: 6px 12px;
 }
+
+.logo {
+  transition: 0.5s;
+  width: 20vw;
+  margin-bottom: 15px;
+}
+
+.logo:hover {
+  transition: 0.5s;
+  transform: scale(1.2) 
+}
+
+.link {
+  display: block;
+  text-decoration: none;
+  color: black;
+  width: max-content;
+  height: max-content;
+}
