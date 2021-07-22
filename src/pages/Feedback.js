@@ -29,9 +29,21 @@ class Feedback extends React.Component {
           <h2 data-testid="feedback-text">
             {assertions >= THREE ? 'Mandou bem!' : 'Podia ser melhor...'}
           </h2>
-          <span data-testid="feedback-total-question">{assertions}</span>
-          <span data-testid="feedback-total-score">{score}</span>
-          <Link to="/" data-testid="btn-play-again">Jogar novamente</Link>
+          <span data-testid="feedback-total-question">{ assertions }</span>
+          <span data-testid="feedback-total-score">{ score }</span>
+          <section>
+            <Link to="/" data-testid="btn-play-again">Jogar novamente</Link>
+            <Link to="/ranking">
+              <button
+                style={ { marginTop: 30, position: 'absolute', marginLeft: -130 } }
+                type="button"
+                data-testid="btn-ranking"
+              >
+                Ranking
+              </button>
+            </Link>
+          </section>
+
         </main>
       </>
     );

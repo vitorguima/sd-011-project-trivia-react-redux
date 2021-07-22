@@ -1,6 +1,5 @@
 import React from 'react';
 import md5 from 'crypto-js/md5';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -27,22 +26,10 @@ class Header extends React.Component {
         <p data-testid="header-player-name">
           Player name:
           {userName}
-
         </p>
         <span data-testid="header-score">
-
           { score }
-
         </span>
-        <Link to="/ranking">
-          <button
-            style={ { marginTop: 200 } }
-            type="button"
-            data-testid="btn-ranking"
-          >
-            Ranking
-          </button>
-        </Link>
       </header>
     );
   }

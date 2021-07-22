@@ -68,6 +68,7 @@ class Login extends React.Component {
           </p>
           <form>
             <input
+              style={ { margin: 10 } }
               value={ email }
               name="email"
               type="email"
@@ -84,6 +85,7 @@ class Login extends React.Component {
               onChange={ this.handleChange }
             />
             <button
+              style={ { margin: 5 } }
               type="button"
               onClick={ this.handClick }
               disabled={ btnDisable }
