@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { showNextBtn } from '../actions';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { showNextBtn } from "../actions";
+import { decodeHtml } from "../utils";
 
 class MultipleChoice extends React.Component {
   render() {
@@ -13,39 +14,37 @@ class MultipleChoice extends React.Component {
       localStoragePlayerInfo,
       timer,
     } = this.props;
-    return (
-      question.answers.map((answer, index) => {
-        if (question.correct_answer === answer) {
-          return (
-            <button
-              className={ ((showAnswer) ? 'show-correct-answer' : null) }
-              disabled={ disabled }
-              data-testid="correct-answer"
-              key={ index }
-              type="button"
-              onClick={ () => {
-                localStoragePlayerInfo(timer, question.difficulty);
-                showBtn();
-              } }
-            >
-              { answer }
-            </button>
-          );
-        }
+    return question.answers.map((answer, index) => {
+      if (question.correct_answer === answer) {
         return (
           <button
-            className={ ((showAnswer) ? 'show-incorrect-answer' : null) }
-            disabled={ disabled }
-            data-testid={ `wrong-answer-${index}` }
-            key={ index }
+            className={showAnswer ? "show-correct-answer" : null}
+            disabled={disabled}
+            data-testid="correct-answer"
+            key={index}
             type="button"
-            onClick={ () => showBtn() }
+            onClick={() => {
+              localStoragePlayerInfo(timer, question.difficulty);
+              showBtn();
+            }}
           >
-            {answer}
+            {decodeHtml(answer)}
           </button>
         );
-      })
-    );
+      }
+      return (
+        <button
+          className={showAnswer ? "show-incorrect-answer" : null}
+          disabled={disabled}
+          data-testid={`wrong-answer-${index}`}
+          key={index}
+          type="button"
+          onClick={() => showBtn()}
+        >
+          {decodeHtml(answer)}
+        </button>
+      );
+    });
   }
 }
 const mapStateToProps = (state) => ({

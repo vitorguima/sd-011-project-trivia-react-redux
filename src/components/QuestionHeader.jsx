@@ -1,13 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-// https://stackoverflow.com/questions/9244824/how-to-remove-quot-from-my-json-in-javascript/39619252
-function decodeHtml(html) {
-  const areaElement = document.createElement('textarea');
-  areaElement.innerHTML = html;
-
-  return areaElement.value;
-}
+import React from "react";
+import PropTypes from "prop-types";
+import { decodeHtml } from "../utils";
 
 class QuestionHeader extends React.Component {
   render() {

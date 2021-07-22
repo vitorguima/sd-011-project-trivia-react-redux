@@ -1,10 +1,16 @@
 body {
-  background-image: url('/assets/yellowBack.svg');
+  background-image: url("/assets/yellowBack.svg");
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 .App {
   text-align: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .red-border {
@@ -44,4 +50,30 @@ body {
 
 .show-incorrect-answer {
   border: 3px solid red;
+}
+
+.pretty-button {
+  border-radius: 5px;
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 20px;
+  background-color: rgb(117, 149, 255);
+  border: 3px solid rgb(34, 50, 189);
+  font-family: "Architects Daughter", cursive;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pretty-title {
+  font-family: cursive;
+  font-size: 70px;
+  letter-spacing: -2px;
+  margin: 0;
+  color: rgb(117, 149, 255);
+  text-shadow: -3px 0 rgb(34, 50, 189), 0 3px rgb(34, 50, 189),
+    3px 0 rgb(34, 50, 189), 0 -3px rgb(34, 50, 189);
 }

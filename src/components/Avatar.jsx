@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import './Avatar.css';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import "./Avatar.css";
 
 class Avatar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { status: 'loading' };
+    this.state = { status: "loading" };
   }
 
   componentDidMount() {
     const { gravatarImage } = this.props;
     const image = new Image();
 
-    image.onload = () => this.setState({ status: 'loaded' });
-    image.onerror = () => this.setState({ status: 'error' });
+    image.onload = () => this.setState({ status: "loaded" });
+    image.onerror = () => this.setState({ status: "error" });
 
     image.src = gravatarImage;
   }
@@ -23,11 +23,11 @@ class Avatar extends React.Component {
     const { status } = this.state;
     const { userName, gravatarImage } = this.props;
 
-    if (status === 'loading') {
+    if (status === "loading") {
       return <div className="avatar-loading" />;
     }
 
-    if (status === 'error') {
+    if (status === "error") {
       return (
         <img className="avatar-image" src="/assets/aang.png" alt={userName} />
       );
@@ -44,17 +44,12 @@ class Avatar extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  userName: state.loginReducer.userName,
-  gravatarImage: state.loginReducer.gravatarImage,
-});
-
 Avatar.propTypes = {
   userName: PropTypes.string.isRequired,
   gravatarImage: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps)(Avatar);
+export default Avatar;
 
 // A imagem do perfil vinda do Gravatar em um elemento que deve possuir o atributo data-testid com o valor header-profile-picture
 // O nome da pessoa em um elemento que deve possuir o atributo data-testid com o valor header-player-name

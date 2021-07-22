@@ -1,11 +1,16 @@
-import React from 'react';
-import '../Settings.css';
+import React from "react";
+import "./Settings.css";
 
 class Settings extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="settings-title" data-testid="settings-title">
+        <img
+          className="all-pages-logo"
+          src="assets/logo.png"
+          alt="logo trivia"
+        />
+        <h1 className="pretty-title" data-testid="settings-title">
           Settings
         </h1>
         <img

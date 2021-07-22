@@ -1,0 +1,10 @@
+.ranking-list {
+  list-style: none;
+  padding: 0;
+  margin: 48px 0;
+}
+
+.ranking-list li {
+  display: block;
+  margin-bottom: 16px;
+}

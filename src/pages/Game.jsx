@@ -1,19 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Countdown from '../components/Countdown';
-import Question from '../components/Question';
-import { requestApiQuestions } from '../actions';
-import Avatar from '../components/Avatar';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Countdown from "../components/Countdown";
+import Question from "../components/Question";
+import { requestApiQuestions } from "../actions";
+import UserAvatar from "../components/UserAvatar";
 
 class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { score: 0 };
+    this.onScoreChange = this.onScoreChange.bind(this);
+  }
+
+  onScoreChange(score) {
+    this.setState({ score });
+  }
+
   componentDidMount() {
     const { questionsToStore } = this.props;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     questionsToStore(token);
   }
 
   render() {
+    const { score } = this.state;
     const {
       userName,
       history: { push },
@@ -21,14 +32,19 @@ class Game extends React.Component {
 
     return (
       <>
+        <img
+          className="all-pages-logo"
+          src="assets/logo.png"
+          alt="logo trivia"
+        />
         <header>
-          <Avatar />
+          <UserAvatar />
           <p data-testid="header-player-name">{`User: ${userName}`}</p>
-          <p data-testid="header-score">0</p>
+          <p data-testid="header-score">{score}</p>
         </header>
         <Countdown />
         <main>
-          <Question push={push} />
+          <Question push={push} onScoreChange={this.onScoreChange} />
         </main>
       </>
     );
