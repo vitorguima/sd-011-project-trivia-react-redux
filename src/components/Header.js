@@ -21,15 +21,15 @@ class Header extends Component {
             { profileName }
           </span>
           <div className="score-div-container">
-            <h3 className="text-score">
+            <span className="text-score">
               SCORE
-            </h3>
-            <h2
+            </span>
+            <span
               className="ingame-score-number"
               data-testid="header-score"
             >
               { profileScore }
-            </h2>
+            </span>
           </div>
 
         </header>

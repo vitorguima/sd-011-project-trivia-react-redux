@@ -45,13 +45,13 @@ class Timer extends Component {
     const TRINTA = 30;
 
     if (globalTime <= ZERO) this.stop();
-    if (globalTime && globalTime < TRINTA) {
-      (document.querySelector('#timer-text').style.color = 'green');
-    }
-    if (globalTime && globalTime <= DEZ) {
-      const text = document.querySelector('#timer-text');
-      text.style.color = 'red';
-    }
+    // if (globalTime && globalTime < TRINTA) {
+    //   (document.querySelector('#timer-text').style.color = 'green');
+    // }
+    // if (globalTime && globalTime <= DEZ) {
+    //   const text = document.querySelector('#timer-text');
+    //   text.style.color = 'red';
+    // }
     return (
       <div>
         <h5 className="timer-text">

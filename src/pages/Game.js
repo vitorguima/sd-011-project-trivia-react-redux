@@ -110,15 +110,17 @@ class Game extends Component {
     if (redirectToFeedBack) return <Redirect to="/feedback" />;
 
     return (
-      <div>
+      <>
         <Header />
-        {
-          componentMounted ? <Questions
-            id={ idTrivia }
-            func={ this.handleClickNextBtn }
-          /> : 'Carregando Questões...'
-        }
-      </div>
+        <div>
+          {
+            componentMounted ? <Questions
+              id={ idTrivia }
+              func={ this.handleClickNextBtn }
+            /> : 'Carregando Questões...'
+          }
+        </div>
+      </>
     );
   }
 }

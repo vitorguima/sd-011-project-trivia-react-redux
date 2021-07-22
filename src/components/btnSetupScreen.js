@@ -7,16 +7,16 @@ class btnSetupScreen extends Component {
     return (
       <Link to="/Setup">
         <div className="div-btn-settings">
-          <button
+          <div className="btn-div-img-settings">
+            <img src={ settingsIMG } alt="Configurações" className="btn-img-settings" />
+          </div>
+          {/* <button
             type="button"
             data-testid="btn-settings"
             className="btn-settings btn-neon-red"
           >
             Configurações
-          </button>
-          <div className="btn-div-img-settings">
-            <img src={ settingsIMG } alt="" className="btn-img-settings" />
-          </div>
+          </button> */}
         </div>
       </Link>
     );
