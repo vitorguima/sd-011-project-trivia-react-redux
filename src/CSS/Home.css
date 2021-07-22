@@ -36,10 +36,11 @@
   align-self: stretch;
   font-size: 1.4rem;
   padding: 4px 12px;
-  box-shadow: 0 1px 3px;
+  box-shadow: 0 1px 3px black;
   background-color: slateblue;
-  border: 1px solid;
+  border: 1px solid black;
   cursor: pointer;
+  color: white;
 }
 
 .trivia__forms button:not(:disabled):hover {
