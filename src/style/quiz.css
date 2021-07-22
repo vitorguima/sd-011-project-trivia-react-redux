@@ -18,7 +18,7 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  padding: 5rem 0;
+  padding: 4rem 0;
 }
 
 .card-question-quiz {
@@ -35,7 +35,7 @@
   flex-wrap: wrap;
   justify-content: center;
   list-style: none;
-  padding: 3rem 0;
+  padding: 15px 0;
 }
 
 .item-list-buttons-quiz {
@@ -88,4 +88,14 @@
 
 .button-next:hover {
   color: #328cc1;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #1d2731;
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
 }

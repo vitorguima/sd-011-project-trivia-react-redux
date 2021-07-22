@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getQuestionsThunk } from '../../actions';
+import { getQuestionsThunk, decreaseCountdown, resetCountdown } from '../../actions';
 import ButtonNext from './ButtonNext';
 import Answers from './Answers';
 import Loading from '../general/Loading';
@@ -29,29 +29,14 @@ class Questions extends React.Component {
 
   async componentDidMount() {
     await this.fetchTrivia();
-    const timerDecrease = 1000;
-    setInterval(this.updateCountdown, timerDecrease);
     this.shuffleAnswers();
   }
 
-  nextQuestion() {
-    this.setState((currentState) => {
-      const finalArray = 3;
-      if (currentState.indexQuestion < finalArray) {
-        return {
-          indexQuestion: currentState.indexQuestion + 1,
-          hasAnswered: false,
-          timerCountDown: 30,
-        };
-      }
-      return {
-        indexQuestion: currentState.indexQuestion + 1,
-        endGame: true,
-        hasAnswered: false,
-        timerCountDown: 30,
-      };
-    }, () => this.shuffleAnswers());
-    this.handleButtons(false);
+  componentDidUpdate() {
+    const { timer } = this.props;
+    if (timer <= 0) {
+      clearInterval(this.setUpdateTimer);
+    }
   }
 
   async fetchTrivia() {
@@ -60,10 +45,11 @@ class Questions extends React.Component {
     const { questions } = this.props;
     this.setState({
       questionsList: questions,
-    }, () => this.startTime());
+    }, () => { this.updateCountdown(); this.startTime(); });
   }
 
   handleButtons(disabled) {
+    clearInterval(this.setUpdateTimer);
     this.setState({
       buttonDisabled: disabled,
     });
@@ -71,14 +57,13 @@ class Questions extends React.Component {
 
   startTime() {
     const timer = 30000;
-    setTimeout(() => this.handleButtons(true), timer);
+    this.setTimer = setTimeout(() => this.handleButtons(true), timer);
   }
 
   updateCountdown() {
-    const { timerCountDown } = this.state;
-    this.setState({
-      timerCountDown: timerCountDown - 1,
-    });
+    const { decreaseTimerCountdown } = this.props;
+    const timerDecrease = 1000;
+    this.setUpdateTimer = setInterval(() => decreaseTimerCountdown(), timerDecrease);
   }
 
   shuffleAnswers() {
@@ -98,6 +83,31 @@ class Questions extends React.Component {
     }
   }
 
+  nextQuestion() {
+    clearInterval(this.setTimer);
+    const { resetTimerCountdown } = this.props;
+    this.setState((currentState) => {
+      const finalArray = 3;
+      if (currentState.indexQuestion < finalArray) {
+        return {
+          indexQuestion: currentState.indexQuestion + 1,
+          hasAnswered: false,
+          timerCountDown: 30,
+        };
+      }
+      return {
+        indexQuestion: currentState.indexQuestion + 1,
+        endGame: true,
+        hasAnswered: false,
+        timerCountDown: 30,
+      };
+    }, () => this.shuffleAnswers());
+    this.handleButtons(false);
+    resetTimerCountdown();
+    this.updateCountdown();
+    this.startTime();
+  }
+
   render() {
     const { loading } = this.props;
     const { questionsList, indexQuestion, endGame, buttonDisabled,
@@ -105,7 +115,6 @@ class Questions extends React.Component {
     if (!loading && questionsList.length !== 0) {
       return (
         <div className="card-question-quiz">
-          <Timer timer={ timerCountDown } />
           <div className="info-question-quiz">
             <p data-testid="question-text">
               { questionsList[indexQuestion].question.replace(/&quot;/g, ' ')
@@ -114,6 +123,7 @@ class Questions extends React.Component {
             <p data-testid="question-category">
               { questionsList[indexQuestion].category }
             </p>
+            <Timer timer={ timerCountDown } />
           </div>
           <Answers
             handleButtons={ this.handleButtons }
@@ -140,15 +150,21 @@ class Questions extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: (token) => dispatch(getQuestionsThunk(token)),
+  resetTimerCountdown: () => dispatch(resetCountdown()),
+  decreaseTimerCountdown: () => dispatch(decreaseCountdown()),
 });
 
 const mapStateToProps = (state) => ({
+  timer: state.timer.timer,
   token: state.token.token,
   questions: state.questions.questions,
   loading: state.questions.loading,
 });
 
 Questions.propTypes = {
+  timer: PropTypes.number.isRequired,
+  decreaseTimerCountdown: PropTypes.func.isRequired,
+  resetTimerCountdown: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   loading: PropTypes.bool.isRequired,
