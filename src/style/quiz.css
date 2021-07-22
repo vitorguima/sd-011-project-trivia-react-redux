@@ -91,11 +91,11 @@
 }
 
 .timer {
-  display: flex;
-  justify-content: center;
   align-items: center;
   border: 3px solid #1d2731;
   border-radius: 50%;
+  display: flex;
   height: 64px;
+  justify-content: center;
   width: 64px;
 }
