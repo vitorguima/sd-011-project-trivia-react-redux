@@ -45,18 +45,18 @@ class Timer extends Component {
     const TRINTA = 30;
 
     if (globalTime <= ZERO) this.stop();
-    // if (globalTime && globalTime < TRINTA) {
-    //   (document.querySelector('#timer-text').style.color = 'green');
-    // }
-    // if (globalTime && globalTime <= DEZ) {
-    //   const text = document.querySelector('#timer-text');
-    //   text.style.color = 'red';
-    // }
+    if (globalTime && globalTime < TRINTA) {
+      (document.querySelector('#timer-text').style.color = 'rgb(255, 250, 187)');
+    }
+    if (globalTime && globalTime <= DEZ) {
+      const text = document.querySelector('#timer-text');
+      text.style.color = 'rgb(255, 187, 187)';
+    }
     return (
       <div>
         <h5 className="timer-text">
           Tempo para resposta:
-          <span className="timer-value" id="timer-text">{globalTime}</span>
+          <span className="timer-value neonText" id="timer-text">{` ${globalTime}`}</span>
         </h5>
       </div>
     );

@@ -112,7 +112,7 @@ class Game extends Component {
     return (
       <>
         <Header />
-        <div>
+        <div className="game-container">
           {
             componentMounted ? <Questions
               id={ idTrivia }

@@ -243,6 +243,13 @@ body {
   height: 100vh;
 }
 
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+
 .questions-text {
   font-weight: 900;
   /* font-size:20%; */
@@ -256,6 +263,7 @@ body {
   width: 500px;
   align-items: center;
   justify-content: center;
+  width:100vw
 }
 
 .options-container {
@@ -275,10 +283,14 @@ body {
               inset 0 0 1.3rem rgb(0, 153, 255);
   display: flex;
   margin-right: 30px;
+  width: 50%;
+  min-height: 30vw;
+  align-items: center;
 }
 
 .quot-1 {
   height: 60px;
+  align-self:flex-start;
 }
 
 .quot-2 {
@@ -294,11 +306,61 @@ body {
 
 .timer-text {
   font-weight: 900;
-  font-size: 25px;
-  color: rgb(185, 198, 209);
+  font-size: 15px;
+  color: white;
+  margin-top: 0;
+  margin-bottom: 30px
+}
+
+#timer-text {
+  font-weight: 900;
+  font-size: 20px;
+  color: rgb(169, 255, 188);
   margin-top: 0;
   margin-bottom: 30px;
 }
+
+.cat-text {
+
+  font-size: 15px;}
+
+
+.neonText {
+  /* color: #fff; */
+  text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #0fa,
+      0 0 82px #0fa,
+      0 0 92px #0fa,
+      0 0 102px #0fa,
+      0 0 151px #0fa;
+  animation: flicker 1.5s infinite alternate;
+}
+
+/* Flickering animation */
+@keyframes flicker {
+    
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+
+      text-shadow:
+      0 0 4px #fff,
+      0 0 11px #fff,
+      0 0 19px #fff,
+      0 0 40px #0fa,
+      0 0 80px #0fa,
+      0 0 90px #0fa,
+      0 0 100px #0fa,
+      0 0 150px #0fa;
+  
+  }
+  
+  20%, 24%, 55% {        
+      text-shadow: none;
+  }    
+}
+
 
 .score-div-container {
   display: flex;
