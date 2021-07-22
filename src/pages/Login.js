@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getEmail, getName } from '../actions';
+import { setEmail, setName } from '../actions';
+import Logo from '../trivia.png';
+import '../styles/Login.css';
 
 class Login extends Component {
   constructor() {
@@ -13,13 +15,23 @@ class Login extends Component {
       disabled: true,
     };
 
+    this.saveTokenInLocalStorage = this.saveTokenInLocalStorage.bind(this);
+    this.savePlayerScoreInLocalStorage = this.savePlayerScoreInLocalStorage.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.settingsButton = this.settingsButton.bind(this);
-    this.saveTokenInLocalStorage = this.saveTokenInLocalStorage.bind(this);
   }
 
   componentDidMount() {
-    this.getToken();
+    this.saveTokenInLocalStorage();
+    this.savePlayerScoreInLocalStorage();
+  }
+
+  componentDidUpdate() {
+    const actualToken = localStorage.getItem('token');
+    if (!actualToken) {
+      this.saveTokenInLocalStorage();
+    }
+    this.savePlayerScoreInLocalStorage();
   }
 
   settingsButton() {
@@ -28,6 +40,7 @@ class Login extends Component {
         <button
           data-testid="btn-settings"
           type="button"
+          className="settings-button"
         >
           <span role="img" aria-label="Gear">⚙️</span>
           Configurações
@@ -36,16 +49,22 @@ class Login extends Component {
     );
   }
 
-  getToken() {
+  saveTokenInLocalStorage() {
     const API_URL = 'https://opentdb.com/api_token.php?command=request';
     fetch(API_URL)
       .then((res) => res.json())
-      .then((data) => this.saveTokenInLocalStorage('token', data.token));
+      .then((data) => localStorage.setItem('token', data.token));
   }
 
-  saveTokenInLocalStorage(key, item) {
-    localStorage.clear();
-    localStorage.setItem(key, item);
+  savePlayerScoreInLocalStorage() {
+    const { name, email } = this.state;
+    const player = { player: {
+      name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: email,
+    } };
+    localStorage.setItem('state', JSON.stringify(player));
   }
 
   handleInput({ target }) {
@@ -72,54 +91,61 @@ class Login extends Component {
 
   render() {
     const { email, name, disabled } = this.state;
-    const { emailInput } = this.props;
+    const { setCredentials } = this.props;
     return (
-      <div>
-        <label
-          htmlFor="email"
-        >
-          <input
-            name="email"
-            type="email"
-            value={ email }
-            onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
-            data-testid="input-gravatar-email"
-          />
-        </label>
-        <label
-          htmlFor="name"
-        >
-          <input
-            name="name"
-            type="text"
-            value={ name }
-            onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
-            data-testid="input-player-name"
-          />
-        </label>
-
-        <Link to="./triviaquestions">
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ disabled }
-            onClick={ () => emailInput(email, name) }
+      <div className="main-page">
+        <img className="trivia-logo" alt="trivia-logo" src={ Logo } />
+        <div className="form">
+          <label
+            htmlFor="email"
           >
-            Jogar
-          </button>
-        </Link>
-        { this.settingsButton() }
+            Email do Gravatar:
+            <input
+              name="email"
+              type="email"
+              value={ email }
+              onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
+              data-testid="input-gravatar-email"
+            />
+          </label>
+          <label
+            htmlFor="name"
+          >
+            Nome do Jogador:
+            <input
+              name="name"
+              type="text"
+              value={ name }
+              onChange={ (e) => { this.handleInput(e); this.handleButton(); } }
+              data-testid="input-player-name"
+            />
+          </label>
+        </div>
+        <div className="buttons">
+          <Link to="./triviaquestions">
+            <button
+              data-testid="btn-play"
+              type="button"
+              className="play-button"
+              disabled={ disabled }
+              onClick={ () => setCredentials(email, name) }
+            >
+              Jogar
+            </button>
+          </Link>
+          { this.settingsButton() }
+        </div>
       </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  emailInput: (email, name) => dispatch(getEmail(email), dispatch(getName(name))),
+  setCredentials: (email, name) => dispatch(setEmail(email), dispatch(setName(name))),
 });
 
 Login.propTypes = {
-  emailInput: PropTypes.func,
+  setCredentials: PropTypes.func,
 }.isRequired;
 
 export default connect(null, mapDispatchToProps)(Login);

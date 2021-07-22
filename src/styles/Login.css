@@ -1,0 +1,70 @@
+body {
+  background-color: rgb(36, 72, 189);
+}
+
+.main-page {
+  display: flex;
+  flex-direction: column;
+  margin-top: 150px;
+}
+
+.trivia-logo {
+  display: flex;
+  height: 300px;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 30px;
+  width: 650px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.form label {
+  padding: 8px;
+}
+
+.form input {
+  margin-left: 8px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+}
+
+.play-button {
+  background-color: teal;
+  border-radius: 8px;
+  color: whitesmoke;
+  font-size: 15px;
+  margin-right: 3px;
+  width: 80px;
+}
+
+.play-button:hover {
+  background-color: green;
+}
+
+.settings-button {
+  background-color: orangered;
+  border-radius: 8px;
+  color: whitesmoke;
+  font-size: 15px;
+  margin-right: 5px;
+  width: 135px;
+}
+
+/* .play-button:hover {
+	background: linear-gradient(to bottom, #5cb811 5%, #77d42a 100%);
+	background-color: #5cb811;
+}
+.play-button:active {
+	position: relative;
+	top: 1px;
+} */

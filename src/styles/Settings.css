@@ -1,0 +1,6 @@
+.title {
+  display: flex;
+  font-family: monospace;
+  font-size: 40px;
+  justify-content: center;
+}

@@ -1,0 +1,35 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section h1 {
+  display: flex;
+  font-family: Verdana , Geneva , Tahoma , sans-serif;
+  font-size: 40px;
+  justify-content: center;
+}
+
+.section div {
+  display: flex;
+  justify-content: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.btn-ranking {
+  background-color: #86d660;
+  font-size: 15px;
+  padding: 2px;
+  width: 100px;
+}
+
+.btn-play-again {
+  background-color: #86d660;
+  font-size: 15px;
+  padding: 2px;
+}
