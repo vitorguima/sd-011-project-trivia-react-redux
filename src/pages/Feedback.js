@@ -5,18 +5,14 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
-  // componentDidMount() {
-  //   const { name, score, email } = this.props;
-  //   const picture = (<img
-  //     src={ `https://www.gravatar.com/avatar/${email}` }
-  //     data-testid="profile-picture"
-  //     alt="avatar's search"
-  //   />);
-  //   const previousState = JSON.parse(localStorage.getItem('ranking')) || [];
-  //   localStorage.setItem('ranking', JSON.stringify(
-  //     [...previousState, { name, score, picture }],
-  //   ));
-  // }
+  componentDidMount() {
+    const { name, score, email } = this.props;
+    const picture = `https://www.gravatar.com/avatar/${email}`;
+    const previousState = JSON.parse(localStorage.getItem('ranking')) || [];
+    localStorage.setItem('ranking', JSON.stringify(
+      [...previousState, { name, score, picture }],
+    ));
+  }
 
   render() {
     const { assertions, score } = this.props;
