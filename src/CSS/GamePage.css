@@ -1,18 +1,11 @@
-.green {
-  border: 3px solid rgb(6, 240, 15);
-}
-
-.red {
-  border: 3px solid red;
-}
-
 .questions__container {
   align-items: center;
   margin: auto;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-width: 900px;
+  max-width: 860px;
+  margin-top: 24px;
   margin-right: 40px;
   margin-left: 40px;
   align-self: center;
@@ -21,21 +14,28 @@
 .questions__container h1,
 .questions__container h2 {
   text-align: center;
+  font-weight: 400;
+}
+
+.questions__container h1 {
+  border-bottom: 4px solid;
 }
 
 .questions__container button {
-  padding: 10px;
+  padding: 12px;
   border: 1px solid;
   border-radius: 6px;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
+  background-color: #FFD073;
+  font-weight: 300;
+  color: black; 
   align-self: stretch;
-  background-color: royalblue;
-  color: white;
 }
 
 .questions__container button:hover {
   background-color: lightblue;
   cursor: pointer;
+  border-color: orangered;
 }
 
 #root > div {
@@ -45,7 +45,7 @@
 
 .questions__container + button:not(:disabled) {
   margin-top: 10px;
-  padding: 14px;
+  padding: 12px;
   align-self: center;
   border: 1px solid black;
   border-radius: 4px;
@@ -53,12 +53,8 @@
   transition: 150ms;
   font-size: 1.3rem;
   animation: makeItBig .5s forwards;
-}
-
-@keyframes makeItBig {
-  0 { transform: scale(1.2) }
-  50% { transform: scale(0.9) }
-  100% { transform: scale(1) }
+  background-color:slateblue;
+  color: white;
 }
 
 .questions__container + button:active {
@@ -71,15 +67,32 @@
 }
 
 .trivia__header + span {
-  margin-top: 6px;
-  margin-left: 6px;
+  right: 12px;
+  top: 70px;
   display: flex;
+  position: absolute;
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  width: 75px;
-  height: 75px;
-  border: 8px solid rebeccapurple;
+  width: 68px;
+  height: 68px;
+  border: 6px solid crimson;
   border-radius: 50%;
   font-size: 2rem;
+}
+
+.questions-in {
+  animation: popin 1s forwards;
+}
+
+@keyframes popin {
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes makeItBig {
+  0 { transform: scale(1.2) }
+  50% { transform: scale(0.9) }
+  100% { transform: scale(1) }
 }

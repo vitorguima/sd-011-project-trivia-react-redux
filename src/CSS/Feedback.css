@@ -1,10 +1,9 @@
 .feedback__container {
   align-items: center;
-  background-color: rgb(144, 187, 79);
-  color: white;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  gap: 20px;
+  height: 100vh;
 }
 
 .feedback-nav-bar {
@@ -12,46 +11,58 @@
   background-color: slateblue;
   display: flex;
   justify-content: space-between;
-  min-width: 100%;
+  width: 100%;
+  padding: 6px 25px;
+  box-shadow: 0 1px 4px;
+}
+
+.feedback-nav-bar h2 {
+  margin: 0;
 }
 
 .feedback-nav-bar img {
-  margin-left: 30px;
-  margin-top: 10px;
-}
-
-.feedback-nav-bar h3 {
-  margin-right: 30px;
+  height: 50px;
+  border: 1px solid black;
 }
 
 .feedback-message {
+  text-align: center;
   font-size: 80px;
-  margin-bottom: 50px;
-  margin-top: 100px;
+  font-weight: 400;
+  margin: 0;
 }
 
 .feedback-score {
   align-items: center;
   border: 5px solid hotpink;
-  color: white;
+  border-radius: 3px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   font-size: 80px;
-  height: 300px;
-  justify-content: space-around;
-  width: 500px;
+  padding: 12px 36px;
+  text-align: center;
 }
 
 .feedback-links {
   display: flex;
+  gap: 10px;
 }
 
 .feedback-links button {
   background-color: slateblue;
   color: white;
   font-size: 20px;
-  height: 50px;
-  margin: 30px;
-  width: 200px;
+  padding: 6px 16px;
+  border: 1px solid black;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.40);
+}
+
+.feedback-links button:hover {
+  background-color: mediumslateblue;
+  cursor: pointer;
+}
+
+.feedback-links button:active {
+  transform: scale(0.96);
+  box-shadow: 0 0 0;  
 }
