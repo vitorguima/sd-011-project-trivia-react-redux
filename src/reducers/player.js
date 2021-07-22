@@ -1,36 +1,36 @@
-import { GRAVATAR, QUESTIONS, UPDATE_SCORE } from '../actions';
+import { GRAVATAR, LOGIN, UPDATE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
+  name: '',
+  email: '',
+  picture: '',
   assertions: 0,
   score: 0,
-  picture: '',
-  questions: [{
-    category: '',
-    type: '',
-    difficulty: '',
-    question: '',
-    correct_answer: '',
-    incorrect_answers: [],
-  }],
-  loading: true,
-  error: false,
 };
 
-export default function playerReducer(state = INITIAL_STATE, action) {
-  const ERROR_CODE = 3;
+export default function login(state = INITIAL_STATE, action) {
   const storageState = JSON.parse(localStorage.getItem('state'));
+  const player = {
+    player: {
+      name: action.name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: action.email,
+    },
+  };
+
   switch (action.type) {
+  case LOGIN:
+    localStorage.setItem('state', JSON.stringify(player));
+    return {
+      ...state,
+      email: action.email,
+      name: action.name,
+    };
   case GRAVATAR:
     return {
       ...state,
       picture: action.gravatar,
-    };
-  case QUESTIONS:
-    return {
-      ...state,
-      questions: action.questions.results,
-      loading: false,
-      error: action.questions.response_code === ERROR_CODE,
     };
   case UPDATE_SCORE:
     storageState.player.score += action.points;

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { loginAction, fetchToken, fetchGravatar, fetchGame } from '../actions';
+import { loginAction, fetchGravatar, fetchQuestions } from '../actions';
+import updateRanking from '../services/updateRankingLS';
 
 import './FormLogin.css';
 
@@ -29,12 +30,12 @@ class FormLogin extends Component {
   }
 
   handleClick() {
-    const { token, login, gravatar, game, gameToken } = this.props;
+    const { fetchQuestionsAction, login, gravatar } = this.props;
     const { name, email } = this.state;
-    token();
+    fetchQuestionsAction();
     login(name, email);
     gravatar(email);
-    game(gameToken);
+    updateRanking(name);
   }
 
   render() {
@@ -82,23 +83,16 @@ class FormLogin extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  gameToken: state.login.token,
-});
-
 const mapDispatchToProps = (dispatch) => ({
-  token: () => dispatch(fetchToken()),
+  fetchQuestionsAction: () => dispatch(fetchQuestions()),
   login: (name, email) => dispatch(loginAction(name, email)),
   gravatar: (email) => dispatch(fetchGravatar(email)),
-  game: (gameToken) => dispatch(fetchGame(gameToken)),
 });
 
 FormLogin.propTypes = {
-  token: PropTypes.func.isRequired,
+  fetchQuestionsAction: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   gravatar: PropTypes.func.isRequired,
-  game: PropTypes.func.isRequired,
-  gameToken: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormLogin);
+export default connect(null, mapDispatchToProps)(FormLogin);

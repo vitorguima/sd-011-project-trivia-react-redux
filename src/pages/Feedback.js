@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import './Feedback.css';
+import ButtonToRoutes from '../components/ButtonToRoutes';
 
 class Feedback extends Component {
   render() {
@@ -17,49 +18,44 @@ class Feedback extends Component {
     //   : `Acertou ${storedAssertions} perguntas`;
 
     return (
-      <div
-        data-testid="feedback-text"
-      >
+      <div data-testid="feedback-text">
         <Header />
-        <div className="feedbackContainer">
-          <p
-            data-testid="feedback-text"
-            className="feedbackMessage"
-          >
-            {
-              MESSAGE
-            }
-          </p>
-          <p
-            data-testid="feedback-total-score"
-            className="feedbackScore"
-          >
-            Pontuação: &nbsp;
-            <span>
-              55
-              {
-                totalScore
-              }
-            </span>
-          </p>
-          <p
-            data-testid="feedback-total-question"
-            className="feedbackAsserions"
-          >
-            Você acertou: &nbsp;
-            <span>
-              { Number(0) }
-            </span>
-          </p>
-        </div>
+        <p
+          data-testid="feedback-text"
+          className="feedbackMessage"
+        >
+          { MESSAGE }
+        </p>
+        <p
+          data-testid="feedback-total-score"
+          className="feedbackScore"
+        >
+          { totalScore }
+        </p>
+        <p
+          data-testid="feedback-total-question"
+          className="feedbackAssertions"
+        >
+          { Number(0) }
+        </p>
+        <ButtonToRoutes
+          path="/ranking"
+          textValue="Ver Ranking"
+          testid="btn-ranking"
+        />
+        <ButtonToRoutes
+          path="/"
+          textValue="Jogar novamente"
+          testid="btn-play-again"
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  storedAssertions: state.playerReducer.assertions,
-  totalScore: state.playerReducer.score,
+  storedAssertions: state.player.assertions,
+  totalScore: state.player.score,
 });
 
 Feedback.propTypes = {

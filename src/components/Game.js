@@ -69,8 +69,8 @@ class Game extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  questions: state.playerReducer.questions,
-  error: state.playerReducer.error,
+  questions: state.game.questions,
+  error: state.game.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({

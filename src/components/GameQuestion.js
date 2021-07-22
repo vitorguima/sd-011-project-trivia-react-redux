@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { resetCountdownTimer, stopCountdownTimer, updateScore } from '../actions';
+import updateScoreRankingInLocalStorage from '../services/updateScoreRanking';
 
 class GameQuestion extends Component {
   constructor(props) {
@@ -17,7 +18,9 @@ class GameQuestion extends Component {
     const EASY_DIFFICULT = 1;
     const MEDIUM_DIFFICULT = 2;
     const HARD_DIFFICULT = 3;
-    const { question: { difficulty }, timer, updateScoreAction } = this.props;
+    const {
+      question: { difficulty }, timer, updateScoreAction, name, picture,
+    } = this.props;
 
     let points = 0;
     switch (difficulty) {
@@ -33,6 +36,7 @@ class GameQuestion extends Component {
     default:
       points = 0;
     }
+    updateScoreRankingInLocalStorage(name, points, picture);
     updateScoreAction(points);
   }
 
@@ -103,9 +107,11 @@ class GameQuestion extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isLoading: state.playerReducer.loading,
-  timer: state.timerReducer.timer,
-  stopTimer: state.timerReducer.stopTimer,
+  isLoading: state.game.loading,
+  timer: state.cronometer.timer,
+  stopTimer: state.cronometer.stopTimer,
+  name: state.player.name,
+  picture: state.player.picture,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -118,10 +124,12 @@ GameQuestion.propTypes = {
   questionIndexAndRoute: PropTypes.number.isRequired,
   question: PropTypes.arrayOf(PropTypes.any).isRequired,
   isLoading: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
   stopTimer: PropTypes.func.isRequired,
   updateScoreAction: PropTypes.func.isRequired,
   timer: PropTypes.number.isRequired,
   actionStopCountdown: PropTypes.func.isRequired,
+  picture: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameQuestion);
