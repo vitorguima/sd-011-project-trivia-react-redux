@@ -2,15 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Avatar from '../components/Avatar';
+import './Feedback.css';
 
 class Feedback extends React.Component {
   feedbackMessage() {
     const state = JSON.parse(localStorage.getItem('state'));
     const NUMBER_TREE = 3;
     if (state.player.assertions < NUMBER_TREE) {
-      return 'Podia ser melhor...';
+      return 'Next time you go better!';
     }
-    return 'Mandou bem!';
+    return 'VERY GOOD!';
   }
 
   render() {
@@ -18,29 +20,52 @@ class Feedback extends React.Component {
     const { userName, gravatarImage } = this.props;
     return (
       <>
-        <header>
-          <img
-            data-testid="header-profile-picture"
-            src={ gravatarImage }
-            alt={ `Foto de ${userName}` }
-          />
-          <p data-testid="header-player-name">{ `Nome do usuário: ${userName}` }</p>
-          <p data-testid="header-score">
-            { state.player.score}
-          </p>
-          <p data-testid="feedback-text">{ this.feedbackMessage() }</p>
-          <p data-testid="feedback-total-score">{ state.player.score }</p>
-          <p data-testid="feedback-total-question">{ state.player.assertions }</p>
-        </header>
-        <Link data-testid="btn-ranking" to="/ranking">Ver Ranking</Link>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
+        <img
+          className="all-pages-logo"
+          src="assets/logo.png"
+          alt="logo trivia"
+        />
+        <div className="feedback-sides">
+          <header className="feedback-header">
+            <div className="feedback-user">
+              <Avatar />
+              <p
+                className="feedback-user-name"
+                data-testid="header-player-name"
+              >
+                {userName}
+              </p>
+            </div>
+            <div className="feedback-total-score">
+              <p>Points:</p>
+              <p className="feedback-score" data-testid="header-score">
+                {state.player.score}
+              </p>
+              <p data-testid="feedback-total-question">{`Assertions: ${state.player.assertions}`}</p>
+            </div>
+          </header>
+        </div>
+        <p className="feedback-message" data-testid="feedback-text">
+          {this.feedbackMessage()}
+        </p>
+        <div className="feedback-buttons">
+          <Link
+            className="feedback-ranking"
+            data-testid="btn-ranking"
+            to="/ranking"
           >
-            Jogar novamente
-          </button>
-        </Link>
+            Ranking
+          </Link>
+          <Link to="/">
+            <button
+              className="feedback-play-again"
+              type="button"
+              data-testid="btn-play-again"
+            >
+              Play Again!
+            </button>
+          </Link>
+        </div>
       </>
     );
   }

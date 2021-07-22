@@ -29,7 +29,7 @@ class Avatar extends React.Component {
 
     if (status === 'error') {
       return (
-        <img className="avatar-image" src="/assets/avatar.jpg" alt={userName} />
+        <img className="avatar-image" src="/assets/aang.png" alt={userName} />
       );
     }
 
