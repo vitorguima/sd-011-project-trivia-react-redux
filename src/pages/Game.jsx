@@ -39,7 +39,7 @@ class Game extends Component {
   async componentDidMount() {
     const { token, handleQuestions } = this.props;
     this.mapStateToStorage();
-    await handleQuestions(token);
+    await handleQuestions({ token });
     this.initializeState();
   }
 

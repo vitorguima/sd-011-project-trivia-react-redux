@@ -33,10 +33,33 @@ export const clearPlayer = () => ({
   type: 'CLEAR_PLAYER',
 });
 
-export const getToken = () => (dispatch) => fetch('https://opentdb.com/api_token.php?command=request')
+export const changeCategory = (payload) => ({
+  type: 'CHANGE_CATEGORY',
+  payload,
+});
+
+export const changeType = (payload) => ({
+  type: 'CHANGE_TYPE',
+  payload,
+});
+
+export const changeDifficulty = (payload) => ({
+  type: 'CHANGE_DIFFICULTY',
+  payload,
+});
+
+const BASE_URL = 'https://opentdb.com';
+export const getToken = () => (dispatch) => fetch(`${BASE_URL}/api_token.php?command=request`)
   .then((result) => result.json())
   .then((data) => dispatch(changeToken(data.token)));
 
-export const getQuestions = (token) => (dispatch) => fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
-  .then((result) => result.json())
-  .then((data) => dispatch(changeQuestions(data.results)));
+export const getQuestions = ({ token, difficulty, category, type }) => {
+  const difficultyParam = difficulty ? `&difficulty=${difficulty}` : '';
+  const categoryParam = category ? `&category=${category}` : '';
+  const typeParam = type ? `&type=${type}` : '';
+  const tokenParam = `&token=${token}`;
+  const params = difficultyParam + tokenParam + categoryParam + typeParam;
+  return (dispatch) => fetch(`${BASE_URL}/api.php?amount=5${params}`)
+    .then((result) => result.json())
+    .then((data) => dispatch(changeQuestions(data.results)));
+};
