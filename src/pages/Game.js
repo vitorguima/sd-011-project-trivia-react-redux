@@ -16,7 +16,6 @@ class Game extends Component {
     this.renderTimeAnswer = this.renderTimeAnswer.bind(this);
     this.savePlayerLocal = this.savePlayerLocal.bind(this);
     this.goToNextQuestion = this.goToNextQuestion.bind(this);
-
     const { score } = this.props;
     this.state = {
       questions: [],
@@ -59,7 +58,6 @@ class Game extends Component {
   async fetchQuestions(token) {
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const questions = await response.json();
-
     this.setState({
       questions: questions.results,
       loading: false,
@@ -78,7 +76,6 @@ class Game extends Component {
     const { questionNum, countdown } = this.state;
     const maxQuestionNumIndex = 4;
     clearInterval(countdown);
-
     if (questionNum < maxQuestionNumIndex) {
       this.setState({
         showIncorrectAnswer: '',
@@ -100,12 +97,10 @@ class Game extends Component {
       showCorrectAnswer: 'correct',
       disabled: true,
     });
-
     const { countdown, timer, questions, questionNum } = this.state;
     const { difficulty } = questions[questionNum];
     const three = 3;
     let difficultyPoints = three;
-
     if (difficulty === 'easy') {
       difficultyPoints = 1;
     } else if (difficulty === 'medium') {
@@ -132,12 +127,10 @@ class Game extends Component {
     const { timer } = this.state;
 
     if (timer > 0) this.setState({ timer: timer - 1, disabled: false });
-
     const countdown = setTimeout(this.renderTimeAnswer, second);
     this.setState({ countdown });
 
     if (timer === 0) {
-      clearInterval(countdown);
       this.setState({ disabled: true });
     }
   }
@@ -173,7 +166,7 @@ class Game extends Component {
           type="button"
           key={ index }
           id="wrong"
-          className={ showIncorrectAnswer && 'btn-answer' }
+          className={ `${showIncorrectAnswer} btn-answer` }
           onClick={ this.renderShowAnswer }
           disabled={ disabled }
         >
@@ -186,7 +179,7 @@ class Game extends Component {
           data-testid="wrong-answer-0"
           id="wrong"
           type="button"
-          className={ showIncorrectAnswer && 'btn-answer' }
+          className={ `${showIncorrectAnswer} btn-answer` }
           onClick={ this.renderShowAnswer }
           disabled={ disabled }
         >
@@ -201,7 +194,7 @@ class Game extends Component {
           data-testid="correct-answer"
           type="button"
           id="right"
-          className={ showCorrectAnswer }
+          className={ `${showCorrectAnswer} btn-answer` }
           onClick={ this.renderShowAnswer }
           disabled={ disabled }
         >
@@ -224,6 +217,7 @@ class Game extends Component {
             data-testid="btn-next"
             type="button"
             onClick={ this.goToNextQuestion }
+            className="btn-next"
           >
             Proxima
           </button>

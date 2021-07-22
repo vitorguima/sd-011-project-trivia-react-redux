@@ -37,6 +37,7 @@
   border: none;
   border-radius: 5px;
   color: rgba(44, 18, 56, 0.85);
+  cursor: pointer;
   display: flex;
   font-weight: 600;
   height: 2.5em;

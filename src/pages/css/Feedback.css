@@ -28,6 +28,7 @@
   border: none;
   border-radius: 8px;
   color: cornsilk;
+  cursor: pointer;
   font-weight: 600;
   height: 2.5em;
   margin-top: 10px;
@@ -39,6 +40,7 @@
   border: none;
   border-radius: 8px;
   color: aliceblue;
+  cursor: pointer;
   font-weight: 600;
   height: 2.5em;
   width: 140px;
