@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import Results from '../components/Results';
 import { fetchApiToken, answerReset, resetTimer } from '../actions';
@@ -34,7 +35,7 @@ class Game extends Component {
   }
 
   renderTimer() {
-    const { answerClicked } = this.props;
+    const { questionClicked } = this.props;
     const { timer } = this.state;
 
     const seconds = 1000;
@@ -42,13 +43,13 @@ class Game extends Component {
       timer: prevState.timer - 1,
     })), seconds);
 
-    if (timer === 0 || answerClicked) clearTimeout(timeout);
+    if (timer === 0 || questionClicked) clearTimeout(timeout);
   }
 
   renderNextButton() {
-    const { answerClicked } = this.props;
+    const { questionClicked } = this.props;
     const { timer } = this.state;
-    if (answerClicked || timer === 0) return true;
+    if (questionClicked || timer === 0) return true;
     return false;
   }
 
@@ -56,6 +57,9 @@ class Game extends Component {
     const { results } = this.props;
     const { timer, position } = this.state;
     if (!results) return (<h2>Carregando...</h2>);
+
+    const totalQuestions = 5;
+    if (position === totalQuestions) return <Redirect to="/feedback" />;
 
     return (
       <div>
@@ -90,7 +94,7 @@ class Game extends Component {
 
 const mapStateToProps = (state) => ({
   results: state.triviaReducer.trivia.results,
-  answerClicked: state.gameReducer.answerClicked,
+  questionClicked: state.gameReducer.questionClicked,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -101,7 +105,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Game.propTypes = {
   results: PropTypes.object,
-  answerClicked: PropTypes.bool,
+  questionClicked: PropTypes.bool,
   fetchTrivia: PropTypes.func,
 }.isRequired;
 
