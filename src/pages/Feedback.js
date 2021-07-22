@@ -5,6 +5,15 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
+  componentDidMount() {
+    const { name, score, email } = this.props;
+    const picture = `https://www.gravatar.com/avatar/${email}`;
+    const previousState = JSON.parse(localStorage.getItem('ranking')) || [];
+    localStorage.setItem('ranking', JSON.stringify(
+      [...previousState, { name, score, picture }],
+    ));
+  }
+
   render() {
     const { assertions, score } = this.props;
     const THREE = 3;
@@ -43,6 +52,8 @@ Feedback.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
+  name: state.user.name,
+  email: state.user.gravatarEmail,
   score: state.user.score,
   assertions: state.user.assertions,
 });
