@@ -60,7 +60,6 @@ class GameQuestion extends Component {
   }
 
   render() {
-    // verificar problema de renderizar toda hora
     const { questionIndexAndRoute, question, isLoading, stopTimer } = this.props;
     const INDEX_TO_REDIRECT = 5;
     const LOADING = 'Carregando as perguntas';

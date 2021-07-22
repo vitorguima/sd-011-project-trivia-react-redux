@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import './Feedback.css';
 
 class Feedback extends Component {
   render() {
@@ -16,21 +17,41 @@ class Feedback extends Component {
     //   : `Acertou ${storedAssertions} perguntas`;
 
     return (
-      <div data-testid="feedback-text">
+      <div
+        data-testid="feedback-text"
+      >
         <Header />
-        <p data-testid="feedback-text">
-          {
-            MESSAGE
-          }
-        </p>
-        <p data-testid="feedback-total-score">
-          {
-            totalScore
-          }
-        </p>
-        <p data-testid="feedback-total-question">
-          { Number(0) }
-        </p>
+        <div className="feedbackContainer">
+          <p
+            data-testid="feedback-text"
+            className="feedbackMessage"
+          >
+            {
+              MESSAGE
+            }
+          </p>
+          <p
+            data-testid="feedback-total-score"
+            className="feedbackScore"
+          >
+            Pontuação: &nbsp;
+            <span>
+              55
+              {
+                totalScore
+              }
+            </span>
+          </p>
+          <p
+            data-testid="feedback-total-question"
+            className="feedbackAsserions"
+          >
+            Você acertou: &nbsp;
+            <span>
+              { Number(0) }
+            </span>
+          </p>
+        </div>
       </div>
     );
   }

@@ -32,7 +32,7 @@ class Game extends Component {
     const childs = [...father.children];
     childs.forEach((child) => {
       const { testid } = child.dataset;
-      child.classList.toggle('clicked');
+      child.classList.remove('clicked');
       child.classList.toggle(testid);
       child.disabled = false;
     });

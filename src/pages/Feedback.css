@@ -1,0 +1,44 @@
+.feedbackContainer {
+  align-items: center;
+  border-radius: 20px;
+  background-color: #036b52;
+  box-shadow: 0px 30px 30px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  margin: 30px auto;
+  height: 60vh;
+  width: 60vw;
+
+  animation-direction: alternate;
+  animation-duration: 0.75s;
+  animation-iteration-count: infinite;
+  animation-name: piscar;
+}
+
+.feedbackMessage {
+  font-size: 64px;
+  color: white;
+
+}
+
+.feedbackScore {
+  font-size: 32px;
+  color: white;
+}
+
+.feedbackScore span {
+  font-family:'Trebuchet MS';
+  font-size: 48px;
+}
+
+.feedbackAsserions {
+  font-size: 32px;
+  color: white;
+}
+
+@keyframes piscar {
+  100% {
+    transform: scale(1.04);
+  }
+}

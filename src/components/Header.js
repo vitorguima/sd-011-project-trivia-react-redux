@@ -9,12 +9,14 @@ class Header extends Component {
     const { playerInfo, loginInfo } = this.props;
     return (
       <header className="headerContainer">
-        Pontuação:&nbsp;
-        <p
-          className="pontuation"
-          data-testid="header-score"
-        >
-          { Number(playerInfo.score) }
+        <p className="pontuation">
+          Pontuação:&nbsp;
+          <span
+            className="pontuation"
+            data-testid="header-score"
+          >
+            { Number(playerInfo.score) }
+          </span>
         </p>
         <p
           className="playerName"
