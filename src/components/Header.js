@@ -27,22 +27,10 @@ class Header extends React.Component {
         <p data-testid="header-player-name">
           Player name:
           {userName}
-
         </p>
         <span data-testid="header-score">
-
           { score }
-
         </span>
-        {/* <Link to="/ranking">
-          <button
-            style={ { marginTop: 200 } }
-            type="button"
-            data-testid="btn-ranking"
-          >
-            Ranking
-          </button>
-        </Link> */}
       </header>
     );
   }

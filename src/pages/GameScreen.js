@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { questionsApi, createScore } from '../actions';
 import { getQuestionApi } from '../services/getApi';
-import Feedback from './Feedback';
+import Header from '../components/Header';
 
 class GameScreen extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    // console.log(props);
     this.state = {
       questionIndex: 0,
       timer: 30,
@@ -159,10 +159,11 @@ class GameScreen extends Component {
     const answers = [question.correct_answer]
       .concat(question.incorrect_answers);
 
-    console.log(answers);
+    // console.log(answers);
 
     return answers.map((answer, index) => (
       <button
+        style={ { margin: 5 } }
         type="button"
         key={ index }
         value={ answer }
@@ -188,7 +189,7 @@ class GameScreen extends Component {
 
     return (
       <>
-        <Feedback />
+        <Header />
         <Link to="/feedback">
           <button
             type="button"
@@ -196,7 +197,7 @@ class GameScreen extends Component {
             Feedback
           </button>
         </Link>
-        { questionIndex < indexCheck ? this.createQuestion() : '' }
+        {questionIndex < indexCheck ? this.createQuestion() : ''}
         {nextBtn ? this.addNextBtn() : '' }
       </>
     );
