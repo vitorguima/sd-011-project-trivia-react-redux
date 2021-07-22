@@ -24,7 +24,7 @@ export default class Feedback extends Component {
         <div>
           <h3 data-testid="feedback-text">{ this.handleQuestions(questions) }</h3>
           <h4 data-testid="feedback-total-score">{ score }</h4>
-          <h4 data-testid="feedback-total-questions">{ questions }</h4>
+          <h4 data-testid="feedback-total-question">{ questions }</h4>
         </div>
         <Link to="/">
           <button
