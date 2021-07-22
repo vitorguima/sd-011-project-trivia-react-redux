@@ -41,42 +41,48 @@ class FeedBack extends Component {
     const { score, assertion } = this.props;
     const expectedAssertions = 3;
     return (
-      <div>
+      <>
         <Header />
-        <h3 data-testid="feedback-text">
-          FeedBack:
-        </h3>
-        <h2 data-testid="feedback-text">
-          { assertion < expectedAssertions ? 'Podia ser melhor...' : 'Mandou bem!' }
-        </h2>
-        <h1
-          data-testid="feedback-total-score"
-        >
-          { score }
-        </h1>
-        <h1
-          data-testid="feedback-total-question"
-        >
-          { assertion }
-        </h1>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
+        <div className="feedback-page">
+
+          <h3 data-testid="feedback-text" className="feedback-text">
+            FeedBack:
+          </h3>
+          <h2 data-testid="feedback-text" className="feedback-result neonText">
+            { assertion < expectedAssertions ? 'Podia ser melhor...' : 'Mandou bem!' }
+          </h2>
+          <h1
+            data-testid="feedback-total-score"
+            className="final-score"
           >
-            Jogar novamente
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button
-            onClick={ this.handleClickRankBtn }
-            type="button"
-            data-testid="btn-ranking"
+            { score }
+          </h1>
+          <h1
+            data-testid="feedback-total-question"
+            className="feedback-points"
           >
-            Ver Ranking
-          </button>
-        </Link>
-      </div>
+            { assertion }
+            <span> acertos </span>
+          </h1>
+          <Link to="/">
+            <button
+              type="button"
+              data-testid="btn-play-again"
+            >
+              Jogar novamente
+            </button>
+          </Link>
+          <Link to="/ranking">
+            <button
+              onClick={ this.handleClickRankBtn }
+              type="button"
+              data-testid="btn-ranking"
+            >
+              Ver Ranking
+            </button>
+          </Link>
+        </div>
+      </>
     );
   }
 }

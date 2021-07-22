@@ -161,9 +161,9 @@ class Questions extends Component {
         <div className="question-container">
           <div className="neon-border-question">
             <img alt="" src={ quot1 } className="quot-1" />
-            <div>
+            <div className="question-div">
               <h4 data-testid="question-category" className="questions-cat">
-                <span className="cat-text">Category:</span>
+                Category:
                 { category }
               </h4>
               <h3 data-testid="question-text" className="questions-text">{ question }</h3>
