@@ -1,0 +1,11 @@
+.withoutBorder {
+  border: 1px solid black;
+}
+
+.withGreenBorder {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.withRedBorder {
+  border: 3px solid red;
+}
