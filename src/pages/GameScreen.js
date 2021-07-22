@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { questionsApi, createScore } from '../actions';
 import { getQuestionApi } from '../services/getApi';
-import Feedback from './Feedback';
+import Header from '../components/Header';
 
 class GameScreen extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    // console.log(props);
     this.state = {
       questionIndex: 0,
       timer: 30,
@@ -158,17 +158,20 @@ class GameScreen extends Component {
   createAlternatives(question) {
     const answers = [question.correct_answer]
       .concat(question.incorrect_answers);
-
-    console.log(answers);
+    answers.sort();
 
     return answers.map((answer, index) => (
+
       <button
+        style={ { margin: 5 } }
         type="button"
         key={ index }
         value={ answer }
         data-testid={ question.correct_answer === answer
           ? 'correct-answer' : `wrong-answer-${index}` }
-        className={ index === 0 ? 'correct-answer' : 'wrong-answer' }
+        className={ question.correct_answer === answer
+          ? 'correct-answer'
+          : 'wrong-answer' }
         onClick={ question.correct_answer === answer
           ? this.scorePoint : this.validateAnswer }
       >
@@ -188,7 +191,7 @@ class GameScreen extends Component {
 
     return (
       <>
-        <Feedback />
+        <Header />
         <Link to="/feedback">
           <button
             type="button"
@@ -196,7 +199,7 @@ class GameScreen extends Component {
             Feedback
           </button>
         </Link>
-        { questionIndex < indexCheck ? this.createQuestion() : '' }
+        {questionIndex < indexCheck ? this.createQuestion() : ''}
         {nextBtn ? this.addNextBtn() : '' }
       </>
     );
