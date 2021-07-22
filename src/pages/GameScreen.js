@@ -158,10 +158,10 @@ class GameScreen extends Component {
   createAlternatives(question) {
     const answers = [question.correct_answer]
       .concat(question.incorrect_answers);
-
-    // console.log(answers);
+    answers.sort();
 
     return answers.map((answer, index) => (
+
       <button
         style={ { margin: 5 } }
         type="button"
@@ -169,7 +169,9 @@ class GameScreen extends Component {
         value={ answer }
         data-testid={ question.correct_answer === answer
           ? 'correct-answer' : `wrong-answer-${index}` }
-        className={ index === 0 ? 'correct-answer' : 'wrong-answer' }
+        className={ question.correct_answer === answer
+          ? 'correct-answer'
+          : 'wrong-answer' }
         onClick={ question.correct_answer === answer
           ? this.scorePoint : this.validateAnswer }
       >
