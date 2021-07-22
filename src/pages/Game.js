@@ -35,7 +35,7 @@ class Game extends Component {
   }
 
   renderTimer() {
-    const { questionClicked } = this.props;
+    const { answerClicked } = this.props;
     const { timer } = this.state;
 
     const seconds = 1000;
@@ -43,13 +43,13 @@ class Game extends Component {
       timer: prevState.timer - 1,
     })), seconds);
 
-    if (timer === 0 || questionClicked) clearTimeout(timeout);
+    if (timer === 0 || answerClicked) clearTimeout(timeout);
   }
 
   renderNextButton() {
-    const { questionClicked } = this.props;
+    const { answerClicked } = this.props;
     const { timer } = this.state;
-    if (questionClicked || timer === 0) return true;
+    if (answerClicked || timer === 0) return true;
     return false;
   }
 
@@ -94,7 +94,7 @@ class Game extends Component {
 
 const mapStateToProps = (state) => ({
   results: state.triviaReducer.trivia.results,
-  questionClicked: state.gameReducer.questionClicked,
+  answerClicked: state.gameReducer.answerClicked,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -105,7 +105,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Game.propTypes = {
   results: PropTypes.object,
-  questionClicked: PropTypes.bool,
+  answerClicked: PropTypes.bool,
   fetchTrivia: PropTypes.func,
 }.isRequired;
 
