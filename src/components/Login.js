@@ -51,6 +51,7 @@ class Login extends Component {
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
           <input
+            className="input-text"
             data-testid="input-gravatar-email"
             type="email"
             placeholder="Email"
@@ -59,6 +60,7 @@ class Login extends Component {
             onChange={ this.changeState }
           />
           <input
+            className="input-text"
             data-testid="input-player-name"
             type="text"
             placeholder="Name"
@@ -68,6 +70,7 @@ class Login extends Component {
           />
           <Link to="/game">
             <button
+              className="enter-button"
               disabled={ disabled }
               type="button"
               data-testid="btn-play"
@@ -76,7 +79,11 @@ class Login extends Component {
               Jogar
             </button>
           </Link>
-          <Link data-testid="btn-settings" to="/settings">
+          <Link
+            className="configuration"
+            data-testid="btn-settings"
+            to="/settings"
+          >
             Configurações
           </Link>
         </header>
