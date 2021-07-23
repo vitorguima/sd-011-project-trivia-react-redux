@@ -26,8 +26,8 @@
 }
 
 .question, .category {
-  text-align: center;
   font-size: 22px;
+  text-align: center;
 }
 
 .alternative {
@@ -40,13 +40,13 @@
 }
 
 .correct:disabled {
-  cursor: not-allowed;
   border: 3px solid rgb(6, 240, 15);
+  cursor: not-allowed;
 }
 
 .wrong:disabled {
-  cursor: not-allowed;
   border: 3px solid red;
+  cursor: not-allowed;
 }
 
 .next-btn {
@@ -61,7 +61,7 @@
 }
 
 .next-btn:hover {
-  color: black;
   background-color: rgb(54, 162, 250);
   border: 2px solid black;
+  color: black;
 }
