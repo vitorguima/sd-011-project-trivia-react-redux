@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
+import '../style/index.css';
 
 export default class Feedbacks extends Component {
   constructor() {
@@ -44,7 +45,7 @@ export default class Feedbacks extends Component {
   render() {
     const { score, name, assertions } = this.state;
     return (
-      <div>
+      <div className="container-feedback">
         <p data-testid="feedback-text">Feedback</p>
         <Header
           score={ score }
@@ -54,12 +55,13 @@ export default class Feedbacks extends Component {
         <p data-testid="feedback-total-question">{assertions}</p>
         <p data-testid="feedback-text">{this.mensage()}</p>
         <Link to="/">
-          <button type="button" data-testid="btn-play-again">
+          <button className="btn-novo-jogo" type="button" data-testid="btn-play-again">
             Jogar novamente
           </button>
         </Link>
         <Link to="/ranking">
           <button
+            className="btn-ranking"
             type="button"
             data-testid="btn-ranking"
             onClick={ this.setLocalStorage }

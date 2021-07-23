@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import requisitionQuests from '../helpers/RequisitionQuests';
 import Header from '../components/Header';
-import './Game.css';
+import '../style/index.css';
 import Timer from '../components/Timer';
 
 class Game extends Component {
@@ -135,13 +135,14 @@ class Game extends Component {
         {gameLoading
           ? 'Loading'
           : (
-            <div>
+            <div className="container-answers">
               <p data-testid="question-category">{stateQuests[index].category}</p>
               <p data-testid="question-text">{stateQuests[index].question}</p>
               {[this.buttonCorrect(),
                 stateQuests[index].incorrect_answers
                   .map((e, i) => (
                     <button
+                      id="btn-response"
                       type="button"
                       data-testid={ `wrong-answer-${index}` }
                       key={ i }
@@ -165,7 +166,7 @@ class Game extends Component {
     const { score, name } = player;
     const limitIndex = 4;
     return (
-      <div>
+      <div className="container-game">
         <Header
           score={ score }
           name={ name || JSON.parse(localStorage.state).player.name }
@@ -173,6 +174,7 @@ class Game extends Component {
         {this.answers()}
         { clickedQuest ? (
           <button
+            className="btn-next"
             type="button"
             data-testid="btn-next"
             onClick={ () => {

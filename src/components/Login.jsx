@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getLogin } from '../actions';
 import requisitionToken from '../helpers/RequisitionToken';
+import '../style/index.css';
 
 class Login extends Component {
   constructor() {
@@ -37,8 +38,9 @@ class Login extends Component {
     const { name, email, disabled } = this.state;
     const { dispatchLogin, dispatchApi } = this.props;
     return (
-      <>
+      <div className="container-login">
         <input
+          className="input"
           type="text"
           name="name"
           placeholder="Nome"
@@ -48,6 +50,7 @@ class Login extends Component {
           value={ name }
         />
         <input
+          className="input"
           type="text"
           name="email"
           placeholder="Email"
@@ -58,6 +61,7 @@ class Login extends Component {
         />
         <Link to="/game">
           <button
+            className="btn-play"
             type="button"
             data-testid="btn-play"
             onClick={ () => {
@@ -69,7 +73,7 @@ class Login extends Component {
             Jogar
           </button>
         </Link>
-      </>
+      </div>
     );
   }
 }
