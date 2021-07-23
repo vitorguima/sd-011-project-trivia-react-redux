@@ -1,9 +1,14 @@
 .header-container {
   align-items: center;
+  background-color: rgba(139, 203, 255, 0.493);
+  border-radius: 10px;
+  color: #333;
   display: flex;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 800;
   justify-content: space-between;
   margin: 0 10px 20px;
+  padding: 15px;
 }
 
 .avatar {
