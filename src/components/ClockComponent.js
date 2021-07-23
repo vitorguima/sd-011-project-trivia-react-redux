@@ -99,7 +99,7 @@ class ClockComponent extends Component {
     };
     return (
       <div>
-        <div>
+        <div className="questions">
           <p className="timer">{times(seconds).state}</p>
         </div>
         <div>
