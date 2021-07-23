@@ -30,21 +30,21 @@ button {
 }
 
 .questions {
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: column;
   background-color: #772ce8;
-  justify-content: center;
   color: white;
+  justify-content: center;
 }
 
 .player {
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: column;
   background-color: #772ce8;
-  justify-content: center;
   color: white;
+  justify-content: center;
   min-height: 100vh;
 }
 
