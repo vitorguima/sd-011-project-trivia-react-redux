@@ -31,19 +31,19 @@ button {
 
 .questions {
   align-items: center;
-  display: flex;
   background-color: #772ce8;
-  flex-direction: column;
+  display: flex;
   color: white;
+  flex-direction: column;
   justify-content: center;
 }
 
 .player {
   align-items: center;
-  display: flex;
   background-color: #772ce8;
-  flex-direction: column;
+  display: flex;
   color: white;
+  flex-direction: column;
   justify-content: center;
   min-height: 100vh;
 }
