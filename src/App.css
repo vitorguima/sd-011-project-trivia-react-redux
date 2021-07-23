@@ -3,8 +3,8 @@ body {
 }
 
 button {
-  width: 100px;  
-  }
+  width: 100px; 
+}
 
 .App {
   text-align: center;
@@ -31,19 +31,19 @@ button {
 
 .questions {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: #772CE8;
+  justify-content: center;
+  background-color: #772ce8;
   color: white;
 }
 
 .player {
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: #772CE8;
+  justify-content: center;
+  background-color: #772ce8;
   color: white;
   min-height: 100vh;
 }
