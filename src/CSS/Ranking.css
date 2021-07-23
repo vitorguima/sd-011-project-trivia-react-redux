@@ -9,8 +9,8 @@
 
 h2 {
   border: 10px;
-  margin-bottom: 20px;
-  margin-top: 15px;
+  margin-bottom: 12px;
+  margin-top: 75px;
   display: flex;
   flex-direction: column;
 }
@@ -19,13 +19,15 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 }
 
 .container {
   align-items: flex-end;
+  justify-content: center;
   display: flex;
-  flex-direction: row;
   width: 200px;
+  gap: 6px;
 }
 
 /* .player-container * {
@@ -44,7 +46,7 @@ h2 {
   flex-direction: column;
   justify-content: space-between;
   order: 1;
-  padding: 5px 0 5px 0;
+  padding: 5px 0;
 }
 
 .player-container1 {
@@ -53,7 +55,7 @@ h2 {
   flex-direction: column;
   justify-content: space-between;
   order: 0;
-  padding: 5px 0 5px 0;
+  padding: 5px 0;
 }
 
 .player-container2 {
@@ -62,7 +64,7 @@ h2 {
   flex-direction: column;
   justify-content: space-between;
   order: 2;
-  padding: 5px 0 5px 0;
+  padding: 5px 0;
 }
 
 .podium0 {
@@ -112,4 +114,25 @@ h2 {
   display: flex;
   justify-content: center;
   width: 30px;
+}
+
+a button {
+  padding: 6px 12px;
+  border-radius: 3px;
+  border: 1px solid black;
+  font-size: 1.2rem;
+  color: white;
+  background-color: slateblue;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  transition: 100ms;
+}
+
+a button:hover {
+  background-color: mediumslateblue;
+}
+
+a button:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 0;
 }
