@@ -100,7 +100,7 @@ class ClockComponent extends Component {
     return (
       <div>
         <div>
-          <p className="timer">{times(clock).state}</p>
+          <p className="timer">{times(seconds).state}</p>
         </div>
         <div>
           {buttonClick && (
