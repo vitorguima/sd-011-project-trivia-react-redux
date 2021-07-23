@@ -4,9 +4,9 @@
   height: 80vh;
   margin: 0 auto;
   max-width: 1000px;
+  padding-top: 50px;
   text-align: center;
   width: 80%;
-  padding-top: 50px;
 }
 
 .loading {
@@ -19,14 +19,13 @@
 }
 
 .answers-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 
-.question,
-.category {
+.question, .category {
   text-align: center;
   font-size: 22px;
 }
@@ -47,13 +46,13 @@
 
 .wrong:disabled {
   cursor: not-allowed;
-  border: 3px solid rgb(255, 0, 0);
+  border: 3px solid red;
 }
 
 .next-btn {
   background-color: rgba(61, 168, 255, 0.918);
-  border-radius: 7px;
   border: 2px solid rgb(30, 30, 30);
+  border-radius: 7px;
   color: rgb(30, 30, 30);
   cursor: pointer;
   font-size: 22px;
@@ -62,7 +61,7 @@
 }
 
 .next-btn:hover {
-  color: rgb(0, 0, 0);
+  color: black;
   background-color: rgb(54, 162, 250);
-  border: 2px solid rgb(0, 0, 0);
+  border: 2px solid black;
 }

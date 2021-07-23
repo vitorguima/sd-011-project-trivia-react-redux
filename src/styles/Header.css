@@ -1,8 +1,8 @@
 .header-container {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
+  display: flex;
   font-size: 18px;
+  justify-content: space-between;
   margin: 0 10px 20px;
 }
 

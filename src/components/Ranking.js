@@ -47,7 +47,6 @@ class Ranking extends Component {
 
   render() {
     const { ranking } = this.state;
-    const maxPlayer = 9;
     const orderedRanking = ranking.sort((a, b) => b.score - a.score);
     return (
       <div className="ranking-page">
@@ -56,12 +55,9 @@ class Ranking extends Component {
         </Link>
         <h1 className="ranking-title" data-testid="ranking-title">Ranking</h1>
         {
-          orderedRanking.map((user, index) => {
-            if (index === maxPlayer) {
-              return this.renderRankingCard(user, index);
-            }
-            return null;
-          })
+          orderedRanking.map((user, index) => (
+            this.renderRankingCard(user, index)
+          ))
         }
       </div>
     );

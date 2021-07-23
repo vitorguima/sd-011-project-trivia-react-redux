@@ -1,8 +1,8 @@
 .ranking-page {
   text-align: center;
   font-size: 20px;
-  width: 90%;
   margin: 0 auto;
+  width: 90%;
 }
 
 .ranking-title {
@@ -10,13 +10,13 @@
 }
 
 .btn-go-home {
-  position: absolute;
-  text-decoration: none;
-  color: #eee;
   background-color: rgb(65, 105, 192);
-  padding: 10px 20px;
-  top: 20px;
+  color: #eee;
   left: 200px;
+  padding: 10px 20px;
+  position: absolute;
+  top: 20px;
+  text-decoration: none;
 }
 
 .ranking-card {
