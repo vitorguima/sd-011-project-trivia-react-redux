@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Questions from '../components/Questions';
 import Feedback from '../components/Feedback';
+import logo from '../trivia.png';
+import '../App.css';
 
 const EASY = 1;
 const MEDIUM = 2;
@@ -28,10 +30,16 @@ class TelaJogo extends Component {
     this.handleTimer = this.handleTimer.bind(this);
     this.playAgain = this.playAgain.bind(this);
     this.setScore = this.setScore.bind(this);
+    this.sendRankingToLocalStorage = this.sendRankingToLocalStorage.bind(this); // Req 17
+    this.returnHeader = this.returnHeader.bind(this);
   }
 
   componentDidMount() {
     this.handleTimer();
+  }
+
+  componentDidUpdate() { // Req 17 // OK
+    this.sendRankingToLocalStorage();
   }
 
   componentWillUnmount() {
@@ -54,11 +62,41 @@ class TelaJogo extends Component {
     default:
       return multiplier;
     }
-    // console.log(multiplier);
     this.setState((prevState) => ({
       score: prevState.score + (TEN + (counter * multiplier)),
       assertions: prevState.assertions + 1,
     }));
+  }
+
+  returnHeader() {
+    return (
+      <header className="App-header-telas">
+        <img src={ logo } className="App-logo-telas" alt="logo" />
+      </header>
+    );
+  }
+
+  sendRankingToLocalStorage() {
+    const limitOfQuestions = 5;
+    const { count } = this.state;
+    const { getdata: { emailHash, name } } = this.props;
+    const { score } = this.state;
+    const gravatarImg = `https://www.gravatar.com/avatar/${emailHash}`;
+    const newRankingData = { gravatarImg, name, score };
+    if ('ranking' in localStorage && count === limitOfQuestions) { // OK
+      const beforeRankingData = JSON.parse(localStorage.getItem('ranking'));
+      localStorage.setItem('ranking', JSON.stringify(
+        [...beforeRankingData, newRankingData],
+      ));
+      this.setState((prevState) => ({ // Precisa disso para parar o loop de renderização
+        count: prevState.count + 1,
+      }));
+    } else if (count === limitOfQuestions) {
+      localStorage.setItem('ranking', JSON.stringify([newRankingData]));
+      this.setState((prevState) => ({ // Precisa disso para parar o loop de renderização
+        count: prevState.count + 1,
+      }));
+    }
   }
 
   nextBtn() {
@@ -135,23 +173,24 @@ class TelaJogo extends Component {
     const { getdata: { emailHash, name, email }, gameData } = this.props;
 
     const player = { name, assertions, score, gravatarEmail: email };
-    const state = { player };
-    localStorage.setItem('player', JSON.stringify(player));
-    localStorage.setItem('state', JSON.stringify(state));
+    const state = { player }; // Teste Req 17
+    localStorage.setItem('state', JSON.stringify(state)); // Teste Req 17
 
     const limitOfQuestions = 5;
     const gameResults = gameData.results;
 
     return (
       <div>
-        <header>
-          <h1>Tela do jogo</h1>
+        { this.returnHeader() }
+        <div>
           <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${emailHash}` } alt="" />
+          &nbsp;
           <span data-testid="header-player-name">{name}</span>
+          &nbsp;
           <span data-testid="header-score">
             { score }
           </span>
-        </header>
+        </div>
         {gameResults && count < limitOfQuestions ? ( // Renderiza perguntas
           <Questions
             gameResults={ gameResults[count] }
@@ -163,13 +202,11 @@ class TelaJogo extends Component {
             counter={ counter }
             nextBtn={ () => this.nextBtn() }
             handleAnswer={ (event) => this.handleAnswer(event) }
-            // handleAnswer={ () => this.handleAnswer() }
             isDisabled={ isDisabled }
           />
         ) : (
           <Feedback score={ score } />
         )}
-
       </div>
     );
   }
@@ -186,7 +223,7 @@ TelaJogo.propTypes = ({
     emailHash: PropTypes.string,
     name: PropTypes.string,
   }),
-  recivedGameData: PropTypes.func,
+  gameData: PropTypes.objectOf(PropTypes.object),
 }).isRequired;
 
 export default connect(mapStateToProps)(TelaJogo);

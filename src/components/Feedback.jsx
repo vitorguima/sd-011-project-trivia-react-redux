@@ -7,16 +7,24 @@ class Feedback extends Component {
   }
 
   verifyAssertions() {
-    const received = JSON.parse(localStorage.getItem('player'));
-    const { assertions, score } = received;
+    const received = JSON.parse(localStorage.getItem('state'));
+    const { assertions, score } = received.player;
     const THREE = 3;
 
     if (assertions === 0) {
       return (
         <div>
           <h3>Não acertou nenhuma pergunta</h3>
-          <h3 data-testid="feedback-total-score">{score}</h3>
-          <p data-testid="feedback-total-question">{assertions}</p>
+          <p>
+            Score:
+            &nbsp;
+            <span data-testid="feedback-total-score">{score}</span>
+          </p>
+          <p>
+            Assertions:
+            &nbsp;
+            <span data-testid="feedback-total-question">{assertions}</span>
+          </p>
           <h3 data-testid="feedback-text">Podia ser melhor...</h3>
         </div>
       );
@@ -50,9 +58,10 @@ class Feedback extends Component {
   render() {
     return (
       <div>
+        <h2>Fim de jogo</h2>
+        <br />
         { this.verifyAssertions() }
-        <h3>Fim de jogo</h3>
-
+        <br />
         <Link to="/">
           <button
             type="button"
