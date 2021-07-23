@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import { fetchQuestions } from '../actions';
+import '../Game.css';
 
 class Game extends Component {
   componentDidMount() {
@@ -21,10 +22,12 @@ class Game extends Component {
     if (!questionsArr.length) return (<div>Loading</div>);
     if (loading) return <h3>Loading</h3>;
     return (
-      <>
+      <div>
         <Header />
-        <Question />
-      </>
+        <div className="game">
+          <Question />
+        </div>
+      </div>
     );
   }
 }
