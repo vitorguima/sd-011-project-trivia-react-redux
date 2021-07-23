@@ -124,9 +124,10 @@ class Login extends Component {
         <div className="buttons">
           <Link to="./triviaquestions">
             <button
+              id="login"
               data-testid="btn-play"
               type="button"
-              className="play-button"
+              className={ !disabled ? 'play-button enabled' : 'play-button' }
               disabled={ disabled }
               onClick={ () => setCredentials(email, name) }
             >

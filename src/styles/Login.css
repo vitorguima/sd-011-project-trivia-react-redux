@@ -47,7 +47,7 @@ body {
   width: 80px;
 }
 
-.play-button:hover {
+.enabled:hover {
   background-color: green;
 }
 
