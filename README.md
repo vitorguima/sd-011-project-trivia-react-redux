@@ -1,7 +1,8 @@
 ### Termos de acordo
+Read-me do Grupo 28
 
 Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.
-
+// =]
 # Boas vindas ao repositório do projeto de Trivia!
 
 Você já usa o GitHub diariamente para desenvolver os exercícios, certo? Agora, para desenvolver os projetos, você deverá seguir as instruções a seguir. Fique atento a cada passo, e se tiver qualquer dúvida, nos envie por _Slack_! #vqv 🚀
@@ -113,7 +114,7 @@ Você pode acessar um **protótipo** completo da interface desejada para o proje
 
   - Serão cinco dias de projeto.
 
-  - Data de entrega para avaliação final do projeto: `dd/mm/yyyy - 14:00h`.
+  - Data de entrega para avaliação final do projeto: `27/07/2021 - 14:00h`.
 
 ---
 
