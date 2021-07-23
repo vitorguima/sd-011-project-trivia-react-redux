@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleAssertions = this.handleAssertions.bind(this);
   }
 
@@ -21,7 +19,7 @@ class Feedback extends Component {
     if (assertions < initialCount && assertions >= 0) {
       return 'Podia ser melhor...';
     }
-    if (assertions > initialCount || assertions === initialCount) {
+    if (assertions >= initialCount) {
       return 'Mandou bem!';
     }
   }
@@ -54,36 +52,31 @@ class Feedback extends Component {
       <div>
         <Header />
         <div>
-          <h2 data-testid="feedback-text">{ this.handleAssertions() }</h2>
+          <h2 data-testid="feedback-text">{ this.handleAssertions(assertions) }</h2>
           <h3 data-testid="feedback-total-score">{ score }</h3>
-          <h3 data-testid="feedback-total-question">{ assertions }</h3>
+          <h3 data-testid="feedback-total-question">
+            { assertions }
+          </h3>
         </div>
-        <div>
-          <Link to="/">
-            <button
-              data-testid="btn-play-again"
-              type="button"
-            >
-              Jogar Novamente
-            </button>
-          </Link>
-        </div>
-        <div>
-          <Link to="/ranking">
-            <button
-              data-testid="btn-ranking"
-              type="button"
-            >
-              Ver Ranking
-            </button>
-          </Link>
-        </div>
+        <Link to="/">
+          <button
+            data-testid="btn-play-again"
+            type="button"
+          >
+            Jogar Novamente
+          </button>
+        </Link>
+        <Link to="/ranking">
+          <button
+            data-testid="btn-ranking"
+            type="button"
+          >
+            Ver Ranking
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
-const mapStateToProps = () => ({
-});
-
-export default connect(mapStateToProps, null)(Feedback);
+export default Feedback;
