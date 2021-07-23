@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { scoreAction } from '../actions';
 import './styleButton.css';
+import Answers from './Answers';
 
 class Question extends React.Component {
   constructor() {
@@ -15,7 +16,6 @@ class Question extends React.Component {
     };
     this.nextPage = this.nextPage.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleClickCorrect = this.handleClickCorrect.bind(this);
     this.addScore = this.addScore.bind(this);
     this.addToRanking = this.addToRanking.bind(this);
   }
@@ -42,19 +42,12 @@ class Question extends React.Component {
     }
   }
 
-  handleClick() {
+  handleClick(correct = false) {
     this.setState({
       answered: true,
       stopTimer: true,
     });
-  }
-
-  handleClickCorrect() {
-    this.setState({
-      answered: true,
-      stopTimer: true,
-    });
-    this.addScore();
+    if (correct) this.addScore();
   }
 
   nextPage() {
@@ -139,34 +132,7 @@ class Question extends React.Component {
           { question }
         </h1>
         <p data-testid="question-category">{ category }</p>
-        { answers.map(({ answer, correct }, index) => {
-          if (correct) {
-            return (
-              <button
-                key={ index }
-                data-testid="correct-answer"
-                type="button"
-                disabled={ answered }
-                onClick={ this.handleClickCorrect }
-                className={ answered ? 'right' : 'white' }
-              >
-                {answer}
-              </button>
-            );
-          }
-          return (
-            <button
-              key={ index }
-              data-testid={ `wrong-answer-${index}` }
-              type="button"
-              disabled={ answered }
-              className={ answered ? 'wrong' : 'white' }
-              onClick={ this.handleClick }
-            >
-              {answer}
-            </button>
-          );
-        }) }
+        <Answers answered={ answered } answers={ answers } onClick={ this.handleClick } />
         { this.renderCondition() }
       </div>
     );
