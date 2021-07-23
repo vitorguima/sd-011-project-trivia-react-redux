@@ -32,8 +32,8 @@ button {
 .questions {
   align-items: center;
   background-color: #772ce8;
-  display: flex;
   color: white;
+  display: flex;
   flex-direction: column;
   justify-content: center;
 }
@@ -41,8 +41,8 @@ button {
 .player {
   align-items: center;
   background-color: #772ce8;
-  display: flex;
   color: white;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   min-height: 100vh;
