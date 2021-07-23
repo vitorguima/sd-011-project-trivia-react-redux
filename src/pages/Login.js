@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
+import logo from '../trivia.png';
+import '../App.css';
 import { fetchApi, sendUserData } from '../actions/user';
 
 const recevedEmail = new RegExp('\\S+@\\S+\\.\\S+');
@@ -81,7 +83,7 @@ class Login extends Component {
   }
 
   clickJogarBtn() {
-    const { fetch, sendLogin } = this.props; // Teste Req 5
+    const { fetch, sendLogin } = this.props;
     const { name, email } = this.state;
     const hashToEmail = md5(email).toString();
     sendLogin({ name, email, emailHash: hashToEmail }); // "emailHash" é criado dentro da Key que recebe esse payload
@@ -93,6 +95,12 @@ class Login extends Component {
     const { isDisabled } = this.state;
     return (
       <div>
+        <header className="App-header-login">
+          <img src={ logo } className="App-logo-login" alt="logo" />
+          <h1>
+            SUA VEZ
+          </h1>
+        </header>
         {this.form()}
         <Link to="/game">
           <button

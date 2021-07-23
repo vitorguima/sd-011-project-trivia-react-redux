@@ -8,17 +8,9 @@ import './Questions.css';
 class Questions extends Component {
   render() {
     const {
-      isRedBordered,
-      isGreenBordered,
-      incorrectAnswer,
-      correctAnswer,
-      isHidden,
-      gameResults,
-      counter,
-      nextBtn,
-      handleAnswer, isDisabled,
-    } = this.props;
-    // console.log(gameResults);
+      isRedBordered, isGreenBordered, incorrectAnswer,
+      correctAnswer, isHidden, gameResults, counter,
+      nextBtn, handleAnswer, isDisabled } = this.props;
     return (
       <div>
         <QuestionTitle gameResults={ gameResults } counter={ counter } />
@@ -45,6 +37,8 @@ class Questions extends Component {
             {value}
           </button>
         ))}
+        <br />
+        <br />
         <button
           data-testid="btn-next"
           type="button"
@@ -59,11 +53,11 @@ class Questions extends Component {
 }
 
 Questions.propTypes = ({
-  incorrectAnswer: PropTypes.arrayOf().isRequired,
+  incorrectAnswer: PropTypes.arrayOf(PropTypes.string).isRequired,
   correctAnswer: PropTypes.string.isRequired,
   nextBtn: PropTypes.func.isRequired,
   handleAnswer: PropTypes.func.isRequired,
-  gameResults: PropTypes.objectOf().isRequired,
+  gameResults: PropTypes.objectOf(PropTypes.object).isRequired,
   isRedBordered: PropTypes.string.isRequired,
   isGreenBordered: PropTypes.string.isRequired,
   isHidden: PropTypes.bool.isRequired,

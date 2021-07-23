@@ -19,6 +19,6 @@ export default class QuestionTitle extends Component {
 }
 
 QuestionTitle.propTypes = {
-  gameResults: PropTypes.objectOf().isRequired,
+  gameResults: PropTypes.objectOf(PropTypes.object).isRequired,
   counter: PropTypes.number.isRequired,
 };
