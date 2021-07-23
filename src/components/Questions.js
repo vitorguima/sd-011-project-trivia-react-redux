@@ -200,7 +200,7 @@ class Questions extends Component {
         <section className="section-question">
           <div className="category" data-testid="question-category">{ category }</div>
           <div className="question" data-testid="question-text">{ question }</div>
-          <span>{timeCount}</span>
+          <span className="timer">{timeCount}</span>
           {answers.map((answer, index) => {
             if (answer === correctAnswer) {
               return (this.renderCorretBtn(answer, index));
@@ -222,7 +222,7 @@ class Questions extends Component {
         </section>
       );
     }
-    return <section className="loading">carregando...</section>;
+    return <section className="loading">Carregando...</section>;
   }
 }
 

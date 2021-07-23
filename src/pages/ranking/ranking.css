@@ -9,6 +9,7 @@
   border-radius: 5px;
   height: 9vh;
   width: 50vw;
+  color: black;
 }
 
 .second-place {
@@ -75,6 +76,7 @@ tr {
 
 h2 {
   text-align: center;
+  font-family: fantasy;
 }
 
 .button-home {
@@ -85,8 +87,9 @@ h2 {
   font-weight: 600;
   height: 40px;
   margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: 50px;
   width: 200px;
+  text-shadow: 2px 2px black;
 }
 
 .button-home:hover {
@@ -102,7 +105,7 @@ h2 {
   border: #282c34 solid 5px;
   color: gold;
   float: left;
-  width: 10vh;
+  width: 10vh;  
 }
 
 .silver {

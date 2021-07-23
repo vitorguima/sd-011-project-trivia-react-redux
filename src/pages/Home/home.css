@@ -1,15 +1,22 @@
 * {
   border: 0;
   padding: 0;
+  background-image: "../../../public/star-wars-backgrounds-14.jpg";
 }
 
-body {
+body {  
   align-items: center;
   font-family: convergence , sans-serif;
   font-size: 1.5rem;
   font-weight: 900;
   height: 100vh;
   letter-spacing: 2px;
+  
+}
+
+.App-logo {
+  width: 40%;
+  height: auto;
 }
 
 .home {
@@ -31,11 +38,12 @@ body {
   border: 2px solid white;
   border-radius: 5px;
   color: white;
-  font-size: 1.5rem;
-  font-weight: 900;
-  height: 4vh;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 4vh;  
   margin: 0 0 10px;
-  max-width: 400px;
+  width: 300px;
+  max-width: 400px;  
   outline: none;
   text-align: center;
 }
@@ -51,22 +59,23 @@ body {
   color: black;
 }
 
-.btn-play {
+.btn-play {  
   background-color: rgb(6, 240, 15);
   border-radius: 5px;
   color: white;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.2rem;  
+  font-weight: 900;
   height: 40px;
   margin-bottom: 20px;
   margin-top: 20px;
   width: 200px;
+  text-shadow: 2px 2px black;
 }
 
 .btn-play:hover {
   border: 2px solid white;
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 900;
   margin-bottom: 20px;
 }
@@ -97,15 +106,15 @@ body {
   100% { margin-left: 0; }
 }
 
-.btn-settings {
-  background-color: #282c34;
+.btn-settings {  
+  background-color: #282c34;  
   height: 40px;
   width: 200px;
 }
 
 .btn-settings a {
   background-color: #282c34;
-  color: white;
+  color: yellow;
   font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;

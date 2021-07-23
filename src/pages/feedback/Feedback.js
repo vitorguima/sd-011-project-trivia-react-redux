@@ -25,13 +25,15 @@ class Feedback extends Component {
           <p
             data-testid="feedback-total-question"
           >
-            {totalAssertions}
+            {totalAssertions > 1
+              ? `Você acertou ${totalAssertions} perguntas}`
+              : `Você acertou ${totalAssertions} pergunta`}
 
           </p>
           <p
             data-testid="feedback-total-score"
           >
-            {totalScore}
+            {`Sua pontuação é de: ${totalScore} pontos`}
 
           </p>
         </div>
@@ -43,13 +45,13 @@ class Feedback extends Component {
         <p
           data-testid="feedback-total-question"
         >
-          {totalAssertions}
+          {`Você acertou ${totalAssertions} perguntas`}
 
         </p>
         <p
           data-testid="feedback-total-score"
         >
-          {totalScore}
+          {`Sua pontuação é de: ${totalScore} pontos`}
 
         </p>
       </div>
@@ -70,7 +72,7 @@ class Feedback extends Component {
           </Link>
           <Link to="/">
             <button className="btn-play-again" type="button" data-testid="btn-play-again">
-              Jogar Novamente
+              JOGAR NOVAMENTE
             </button>
           </Link>
         </div>

@@ -1,5 +1,6 @@
 body {
   text-align: center;
+  padding-top: 5%;  
 }
 
 .feedback-button {
@@ -23,14 +24,18 @@ body {
 
 .btn-play-again {
   width: 15vw;
+  font-size: 1.2vw;
+  text-shadow: 2px 2px black;
 }
 
 .btn-ranking {
   width: 12vw;
+  font-size: 1.2vw;
+  text-shadow: 2px 2px black;
 }
 
 .btn-play-again:hover, .btn-ranking:hover {
   border: 2px solid white;
   color: white;
-  font-size: 1.9vh;
+  font-size: 1.3vw;
 }
