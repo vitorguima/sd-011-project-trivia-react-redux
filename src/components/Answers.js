@@ -26,7 +26,7 @@ function Answers({ answers, answered, onClick }) {
             type="button"
             disabled={ answered }
             className={ answered ? 'wrong' : 'white' }
-            onClick={ onClick }
+            onClick={ () => onClick(false) }
           >
             {answer}
           </button>

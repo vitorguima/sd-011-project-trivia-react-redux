@@ -42,7 +42,7 @@ class Question extends React.Component {
     }
   }
 
-  handleClick(correct = false) {
+  handleClick(correct) {
     this.setState({
       answered: true,
       stopTimer: true,
