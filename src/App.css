@@ -1,5 +1,4 @@
 /* APP */
-
 .App {
   text-align: center;
 }
@@ -17,7 +16,7 @@
   border: 1px solid green;
 } */
 
-@media (prefers-reduced-motion : no-preference) {
+@media ( prefers-reduced-motion : no-preference ) {
 
   .App-logo {
     animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
@@ -26,10 +25,9 @@
 
 .App-header {
   align-items: center;
-  /* background-color: #282c34; */
-  background-image: url("./images/background_login.png");
-  background-size: cover;
+  background-image: url('./images/background_login.png');
   background-position: center;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
@@ -44,133 +42,124 @@
 
 @keyframes shake {
 
-  10%,
-  90% {
+  10%, 90% {
     transform: translate3d(-1px, 0, 0);
   }
 
-  20%,
-  80% {
+  20%, 80% {
     transform: translate3d(2px, 0, 0);
   }
 
-  30%,
-  50%,
-  70% {
+  30%, 50%, 70% {
     transform: translate3d(-4px, 0, 0);
   }
 
-  40%,
-  60% {
+  40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
 }
 
-
-
-
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro , Menlo , Monaco , Consolas , Courier , monospace;
 }
 
 /* PÁGINA DE LOGIN */
-/* link das bordas https://css-tricks.com/how-to-create-neon-text-with-css/ */
 
+/* link das bordas https://css-tricks.com/how-to-create-neon-text-with-css/ */
 .neon-border-purple {
-  border: 0.2rem solid #fff;
+  border: 0.2rem solid white;
   border-radius: 1rem;
-  padding: 1em;
-  box-shadow: 0 0 .2rem #fff,
-    0 0 .2rem #fff,
+  box-shadow: 0 0 0.2rem white,
+    0 0 0.2rem white,
     0 0 2rem #bc13fe,
     0 0 0.8rem #bc13fe,
     0 0 2.8rem #bc13fe,
     inset 0 0 1.3rem #bc13fe;
+  padding: 1em;
 }
 
 .neon-border-red {
-  border: 0.2rem solid #fff;
+  border: 0.2rem solid white;
   border-radius: 1rem;
-  padding: 1em;
-  box-shadow: 0 0 .2rem #fff,
-    0 0 .2rem #fff,
+  box-shadow: 0 0 0.2rem white,
+    0 0 0.2rem white,
     0 0 2rem rgb(255, 0, 64),
     0 0 0.8rem rgb(255, 0, 64),
     0 0 2.8rem rgb(255, 0, 64),
     inset 0 0 1.3rem rgb(255, 0, 64);
+  padding: 1em;
 }
 
 .neon-border-blue {
-  border: 0.2rem solid #fff;
+  border: 0.2rem solid white;
   border-radius: 1rem;
-  padding: 0.4em;
-  box-shadow: 0 0 .2rem #fff,
-    0 0 .2rem #fff,
+  box-shadow: 0 0 0.2rem white,
+    0 0 0.2rem white,
     0 0 2rem rgb(0, 153, 255),
     0 0 0.8rem rgb(0, 153, 255),
     0 0 2.8rem rgb(0, 153, 255),
     inset 0 0 1.3rem rgb(0, 153, 255);
+  padding: 0.4em;
 }
 
 
 .login-form {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   margin: 1em;
 
 }
 
 .inputNeon-purple {
-  border: 0.2rem solid #fff;
+  background-color: black;
+  border: 0.2rem solid white;
   border-radius: 1rem;
-  padding: 0.4em;
-  box-shadow: 0 0 .1rem #fff,
-    0 0 .1rem #fff,
+  box-shadow: 0 0 0.1rem white,
+    0 0 0.1rem white,
     0 0 1rem #bc13fe,
     0 0 0.4em #bc13fe,
     0 0 0.4rem #bc13fe,
     inset 0 0 0.6rem #bc13fe;
-  background-color: black;
   color: rgb(179, 205, 255);
-  font-weight: bold;
+  font-weight: 800;
   margin: 0.3rem;
+  padding: 0.4em;
   width: 100%;
 }
 
 .inputNeon-blue {
-  border: 0.2rem solid #fff;
+  background-color: black;
+  border: 0.2rem solid white;
   border-radius: 1rem;
-  padding: 0.4em;
-  box-shadow: 0 0 .1rem #fff,
-    0 0 .1rem #fff,
+  box-shadow: 0 0 0.1rem white,
+    0 0 0.1rem white,
     0 0 1rem rgb(0, 153, 255),
     0 0 0.4em rgb(0, 153, 255),
     0 0 0.4rem rgb(0, 153, 255),
     inset 0 0 0.6rem rgb(0, 153, 255);
-  background-color: black;
   color: rgb(179, 205, 255);
-  font-weight: bold;
+  font-weight: 800;
   margin: 1rem;
+  padding: 0.4em;
   width: 100%;
 }
 
 .btn-neon-red {
-  border: 0.2rem solid #fff;
+  background-color: black;
+  border: 0.2rem solid white;
   border-radius: 1rem;
-  padding: 0.4em;
-  box-shadow: 0 0 .1rem #fff,
-    0 0 .1rem #fff,
+  box-shadow: 0 0 0.1rem white,
+    0 0 0.1rem white,
     0 0 1rem rgb(255, 0, 64),
     0 0 0.4em rgb(255, 0, 64),
     0 0 0.4rem rgb(255, 0, 64),
     inset 0 0 0.6rem rgb(255, 0, 64);
-  background-color: black;
   color: rgb(255, 161, 208);
-  font-weight: bold;
+  font-weight: 800;
   margin: 1rem;
+  padding: 0.4em;
   width: 85%;
 }
 
@@ -178,45 +167,33 @@ code {
   opacity: 30%;
 }
 
-.inputName,
-.inputEmail {
-  display: flex;
+.inputName, .inputEmail {
   align-items: center;
+  display: flex;
 }
 
 .div-btn-settings {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 
-/* .btn-settings {
-  width: 80px;
-}; */
-/* 
-.btn-div-img-settings img {
-  max-height: 10px;
-  max-width: 10px;
-}; */
-
 .btn-img-settings {
+  margin: 0;
   max-height: 100px;
   max-width: 100px;
-  margin: 0;
   padding: 0;
 }
 
-
-
 /* HEADER */
 header {
+  align-items: center;
   background-color: black;
-  padding: 15px 30px 15px 30px;
+  color: white;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  color: white;
+  padding: 15px 30px;
 }
 
 header img {
@@ -224,24 +201,19 @@ header img {
 }
 
 .header-player-name {
-  /* color: white; */
   font-size: xx-large;
-  font-weight: bolder;
-  background: -webkit-linear-gradient(30deg, rgb(95, 42, 131) 0%, rgb(153, 0, 255) 50%, rgba(69, 94, 252, 1) 100%);
+  font-weight: 800;
+  background: -webkit-linear-gradient(30deg, indigo 0%, darkviolet 50%, dodgerblue 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-;
-
 .ingame-score {
-  font-size: 50px;
-  font-weight: bold;
   color: rgb(230, 32, 32);
+  font-size: 50px;
+  font-weight: 800;
   margin: 0;
 }
-
-;
 
 .name-score {
   color: white;
@@ -249,26 +221,24 @@ header img {
 
 /* PÁGINA GAME */
 body {
-  background: linear-gradient(30deg, #873034 0%, #0A0026 50%, #30617E 100%);
+  background: linear-gradient(30deg, #873034 0%, #0a0026 50%, #30617e 100%);
   background-repeat: no-repeat;
   height: 100vh;
 }
 
 .game-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100vw;
 }
 
 .question-container {
+  align-items: center;
   display: flex;
+  justify-content: center;
   margin-left: 30px;
   margin-right: 30px;
-  width: 500px;
-  align-items: center;
-  justify-content: center;
-  width: 100vw
 }
 
 .options-container {
@@ -277,44 +247,44 @@ body {
 }
 
 .neon-border-question {
-  border: 0.2rem solid #fff;
+  align-items: center;
+  border: 0.2rem solid white;
   border-radius: 1rem;
-  padding: 0.4em;
-  box-shadow: 0 0 .2rem #fff,
-    0 0 .2rem #fff,
+  box-shadow: 0 0 0.2rem white,
+    0 0 0.2rem white,
     0 0 2rem rgb(0, 153, 255),
     0 0 0.8rem rgb(0, 153, 255),
     0 0 2.8rem rgb(0, 153, 255),
     inset 0 0 1.3rem rgb(0, 153, 255);
   display: flex;
   margin-right: 30px;
-  width: 50%;
   min-height: 30vw;
-  align-items: center;
+  padding: 0.4em;
+  width: 50%;
 }
 
 .question-div {
-  min-height: 30vw;
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: column;
+  min-height: 30vw;
 
 }
 
 .quot-1 {
-  height: 60px;
   align-self: flex-start;
+  height: 60px;
 }
 
 .quot-2 {
-  height: 60px;
   align-self: flex-end;
+  height: 60px;
 }
 
 .questions-cat {
-  font-weight: 400;
-  font-size: 10px;
   color: aliceblue;
+  font-size: 10px;
+  font-weight: 400;
 }
 
 .questions-text {
@@ -323,74 +293,54 @@ body {
 }
 
 .timer-text {
-  font-weight: 900;
-  font-size: 15px;
   color: white;
+  font-size: 15px;
+  font-weight: 900;
+  margin-bottom: 30px;
   margin-top: 0;
-  margin-bottom: 30px
 }
 
 #timer-text {
-  font-weight: 900;
-  font-size: 20px;
   color: rgb(169, 255, 188);
-  margin-top: 0;
+  font-size: 20px;
+  font-weight: 900;
   margin-bottom: 30px;
+  margin-top: 0;
 }
 
 
 .neonText {
-  /* color: #fff; */
-  text-shadow:
-    0 0 7px #fff,
-    0 0 10px #fff,
-    0 0 21px #fff,
-    0 0 42px #0fa,
-    0 0 82px #0fa,
-    0 0 92px #0fa,
-    0 0 102px #0fa,
-    0 0 151px #0fa;
   animation: flicker 1.5s infinite alternate;
+  text-shadow: 0 0 7px white , 0 0 10px white , 0 0 21px white , 0 0 42px #0fa , 0 0 82px #0fa , 0 0 92px #0fa , 0 0 102px #0fa , 0 0 151px #0fa;
 }
 
 /* Flickering animation */
 @keyframes flicker {
 
-  0%,
-  18%,
-  22%,
-  25%,
-  53%,
-  57%,
-  100% {
-
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
     text-shadow:
-      0 0 4px #fff,
-      0 0 11px #fff,
-      0 0 19px #fff,
+      0 0 4px white,
+      0 0 11px white,
+      0 0 19px white,
       0 0 40px #0fa,
       0 0 80px #0fa,
       0 0 90px #0fa,
       0 0 100px #0fa,
       0 0 150px #0fa;
-
   }
 
-  20%,
-  24%,
-  55% {
+  20%, 24%, 55% {
     text-shadow: none;
   }
 }
 
 /* feedback */
-
 .feedback-page {
+  color: white;
   display: flex;
   flex-direction: column;
-  min-height: 500px;
   justify-content: center;
-  color: white;
+  min-height: 500px;
 }
 
 .score-div-container {
@@ -407,26 +357,24 @@ body {
 } */
 
 .ingame-score-number {
+  color: black;
   font-size: 40px;
-  color: rgb(0, 0, 0);
-  font-weight: bolder;
+  font-weight: 800;
+  -webkit-text-stroke-color: white;
   -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: rgb(255, 255, 255);
 }
 
 .final-score {
+  color: black;
   font-size: 60px;
-  color: rgb(0, 0, 0);
-  font-weight: bolder;
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: rgb(255, 255, 255);
+  font-weight: 800;
   margin: 0;
+  -webkit-text-stroke-color: white;
+  -webkit-text-stroke-width: 2px;
 }
 
 .border-header {
   display: flex;
-  justify-content: center;
   height: 50px;
+  justify-content: center;
 }
-
-;
