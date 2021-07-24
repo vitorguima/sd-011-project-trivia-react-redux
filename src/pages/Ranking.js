@@ -11,7 +11,7 @@ class Ranking extends Component {
     const ranking = JSON.parse(localStorage.getItem('ranking'))
       .sort((a, b) => b.score - a.score);
     return (
-      <ul>
+      <ul className="ranking">
         { ranking
           .map((user, index) => (
             <li key={ index }>
