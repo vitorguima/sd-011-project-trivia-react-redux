@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../Ranking.css';
+import '../css/Ranking.css';
 
 export default class Ranking extends Component {
   render() {

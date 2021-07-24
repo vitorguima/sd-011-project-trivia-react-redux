@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-import '../Feedback.css';
+import '../css/Feedback.css';
 
 class Feedback extends Component {
   renderFeedbackMessage() {
