@@ -70,11 +70,11 @@ class GamePage extends Component {
 
   questionSection(results, questionIndex) {
     return (
-      <section>
+      <>
         <p data-testid="question-category">{results[questionIndex].category}</p>
         Question:
         <p data-testid="question-text">{results[questionIndex].question}</p>
-      </section>
+      </>
     );
   }
 
@@ -102,14 +102,17 @@ class GamePage extends Component {
 
   nextBtn(nextBtnDisable, indexLimit, questionIndex) {
     return (
-      <button
-        type="button"
-        onClick={ () => this.btnHandle(indexLimit, questionIndex) }
-        data-testid="btn-next"
-        disabled={ nextBtnDisable || indexLimit < questionIndex }
-      >
-        Próximo
-      </button>
+      <div>
+        <button
+          className="btn btn-primary header-item proximo-btn"
+          type="button"
+          onClick={ () => this.btnHandle(indexLimit, questionIndex) }
+          data-testid="btn-next"
+          disabled={ nextBtnDisable || indexLimit < questionIndex }
+        >
+          Próximo
+        </button>
+      </div>
     );
   }
 
@@ -167,44 +170,54 @@ class GamePage extends Component {
   }
 
   renderHeader(urlSrc) {
-    const { nome, score } = this.props;
+    const { nome } = this.props;
     return (
-      <header>
-        <img
-          src={ urlSrc }
-          alt="avatar"
-          data-testid="header-profile-picture"
-        />
+      <>
+        <div className="img">
+          <img
+            src={ urlSrc }
+            alt="avatar"
+            data-testid="header-profile-picture"
+            className="player-img"
+          />
+        </div>
         <h2 data-testid="header-player-name">{nome}</h2>
-        <h2
-          data-testid="header-score"
-        >
-          Placar:
-          { score }
-        </h2>
-      </header>
+      </>
     );
   }
 
   render() {
-    const { results, disableBtnByTime } = this.props;
+    const { results, disableBtnByTime, score } = this.props;
     const { questionIndex, click, nextBtnDisable } = this.state;
     const indexLimit = 4;
     this.URL = this.urlCreator();
 
     return (
-      <div>
-        {this.renderHeader(this.URL)}
-        <Timer />
-        {results && this.questionSection(results, questionIndex)}
-        {results && this.answBtnCreator(results, questionIndex, click, disableBtnByTime)}
-        <br />
-        {
-          (!nextBtnDisable || indexLimit < questionIndex)
-            ? this.nextBtn(nextBtnDisable, indexLimit, questionIndex)
-            : null
-        }
-      </div>
+      <main className="game-page">
+        <header className="header-game">
+          {this.renderHeader(this.URL)}
+          {
+            (!nextBtnDisable || indexLimit < questionIndex)
+              ? this.nextBtn(nextBtnDisable, indexLimit, questionIndex)
+              : null
+          }
+        </header>
+        <section className="questions-section">
+          <Timer />
+          {results && this.questionSection(results, questionIndex)}
+          <h2
+            className="alert alert-info"
+            data-testid="header-score"
+          >
+            { `Placar: ${score}` }
+          </h2>
+        </section>
+        <section className="answ-btn">
+          {results && this.answBtnCreator(
+            results, questionIndex, click, disableBtnByTime,
+          )}
+        </section>
+      </main>
     );
   }
 }

@@ -5,3 +5,52 @@
 .wrongAnswer {
   border: 3px solid red;
 }
+
+.game-page {
+  min-height: 100vh;
+  background-color: #d5d3d8;
+}
+
+.header-game {
+  display: flex;
+  /* flex-direction: row; */
+  align-items: center;
+  justify-content: space-around;
+  background-color: #350f81;
+  color: white;
+  margin-bottom: 5%;
+}
+
+.img {
+  width: 200px;;
+}
+
+.player-img {
+  border-radius: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 5%;
+}
+
+.proximo-btn {
+  background-color: #7209b7;
+}
+
+.questions-section {
+  display: flex;
+  justify-content: space-around;
+  margin: 5%;
+  align-items: center;
+}
+
+.timer {
+  background-color: #7209b7;
+  color: white;
+  font-size: x-large;
+  font-weight: bolder;
+  align-self: center;
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+  
+}
