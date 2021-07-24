@@ -70,11 +70,11 @@ class GamePage extends Component {
 
   questionSection(results, questionIndex) {
     return (
-      <>
+      <div>
         <p data-testid="question-category">{results[questionIndex].category}</p>
         Question:
         <p data-testid="question-text">{results[questionIndex].question}</p>
-      </>
+      </div>
     );
   }
 
@@ -104,7 +104,7 @@ class GamePage extends Component {
     return (
       <div>
         <button
-          className="btn btn-primary header-item proximo-btn"
+          className="proximo-btn btn"
           type="button"
           onClick={ () => this.btnHandle(indexLimit, questionIndex) }
           data-testid="btn-next"
@@ -206,7 +206,7 @@ class GamePage extends Component {
           <Timer />
           {results && this.questionSection(results, questionIndex)}
           <h2
-            className="alert alert-info"
+            className=" score"
             data-testid="header-score"
           >
             { `Placar: ${score}` }
