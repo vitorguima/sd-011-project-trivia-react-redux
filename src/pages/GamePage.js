@@ -6,6 +6,7 @@ import md5 from 'crypto-js/md5';
 import '../style/GamePage.style.css';
 import Timer from '../components/Timer';
 import { enablebtns, subTimer, dispatchScore, resetTimer } from '../actions';
+import ButtonsGame from '../components/ButtonsGame';
 
 class GamePage extends Component {
   constructor(props) {
@@ -71,15 +72,24 @@ class GamePage extends Component {
   questionSection(results, questionIndex) {
     return (
       <div>
-        <p data-testid="question-category">{results[questionIndex].category}</p>
-        Question:
-        <p data-testid="question-text">{results[questionIndex].question}</p>
+        <p
+          className="theme-quastion"
+          data-testid="question-category"
+        >
+          {results[questionIndex].category}
+        </p>
+        <p
+          className="quastion"
+          data-testid="question-text"
+        >
+          {`Question: ${results[questionIndex].question}`}
+        </p>
       </div>
     );
   }
 
-  scoreUpdate(difficulty) {
-    const { timer } = this.props;
+  scoreUpdate() {
+    const { timer, results: { difficulty } } = this.props;
     let result = 0;
     const points = 10;
     const levelHard = 3;
@@ -114,42 +124,6 @@ class GamePage extends Component {
         </button>
       </div>
     );
-  }
-
-  answBtnCreator(results, questionIndex, click, disableBtnByTime) {
-    const result = results[questionIndex];
-    const { difficulty } = result;
-    const { upDateScore } = this.props;
-    const btnCorrectAnsw = (
-      <button
-        key="correct-answer"
-        className={ click ? 'rightAnswer' : null }
-        onClick={ () => {
-          this.clickAnswer();
-          upDateScore(this.scoreUpdate(difficulty));
-        } }
-        type="button"
-        data-testid="correct-answer"
-        disabled={ disableBtnByTime || click }
-      >
-        {result.correct_answer}
-      </button>);
-
-    const btnWrngAnsw = [...result.incorrect_answers.map((wrngAnsw, index) => (
-      <button
-        key={ index }
-        onClick={ this.clickAnswer }
-        className={ click ? 'wrongAnswer' : null }
-        type="button"
-        data-testid={ `wrong-answer-${index}` }
-        disabled={ disableBtnByTime || click }
-      >
-        {wrngAnsw}
-      </button>))];
-    // const randomNb = 0.5;
-    const allBtns = [...btnWrngAnsw, btnCorrectAnsw];
-    // .sort(() => Math.random() - randomNb);
-    return allBtns;
   }
 
   timerFunc() {
@@ -187,7 +161,7 @@ class GamePage extends Component {
   }
 
   render() {
-    const { results, disableBtnByTime, score } = this.props;
+    const { results, disableBtnByTime, score, upDateScore } = this.props;
     const { questionIndex, click, nextBtnDisable } = this.state;
     const indexLimit = 4;
     this.URL = this.urlCreator();
@@ -196,27 +170,28 @@ class GamePage extends Component {
       <main className="game-page">
         <header className="header-game">
           {this.renderHeader(this.URL)}
-          {
-            (!nextBtnDisable || indexLimit < questionIndex)
-              ? this.nextBtn(nextBtnDisable, indexLimit, questionIndex)
-              : null
-          }
+          {(!nextBtnDisable || indexLimit < questionIndex)
+            ? this.nextBtn(nextBtnDisable, indexLimit, questionIndex)
+            : null}
         </header>
+
         <section className="questions-section">
           <Timer />
           {results && this.questionSection(results, questionIndex)}
-          <h2
-            className=" score"
-            data-testid="header-score"
-          >
+          <h2 className=" score" data-testid="header-score">
             { `Placar: ${score}` }
           </h2>
         </section>
-        <section className="answ-btn">
-          {results && this.answBtnCreator(
-            results, questionIndex, click, disableBtnByTime,
-          )}
-        </section>
+
+        <ButtonsGame
+          results={ results }
+          questionIndex={ questionIndex }
+          click={ click }
+          disableBtnByTime={ disableBtnByTime }
+          upDateScore={ upDateScore }
+          clickAnswer={ this.clickAnswer }
+          scoreUpdate={ this.scoreUpdate }
+        />
       </main>
     );
   }

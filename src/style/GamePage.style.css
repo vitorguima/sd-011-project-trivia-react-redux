@@ -65,3 +65,14 @@
   padding: 1%;
   border-radius: 10px;
 }
+
+.quastion {
+  font-size: x-large;
+  /* font-weight: bolder; */
+  margin: 5px;
+}
+
+.theme-quastion {
+  font-size: x-large;
+  font-weight: bolder;
+}
