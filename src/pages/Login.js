@@ -45,7 +45,6 @@ export default class Login extends Component {
     const { name, email } = this.state;
     return (
       <div>
-        <br />
         <div>
           <label htmlFor="name">
             Nome:
@@ -70,7 +69,6 @@ export default class Login extends Component {
             />
           </label>
         </div>
-        <br />
         <Link to="/game">
           <button
             data-testid="btn-play"
@@ -81,10 +79,15 @@ export default class Login extends Component {
             Jogar
           </button>
         </Link>
-        <div>
-          <br />
-          <Link to="/settings" data-testid="btn-settings">Configurações</Link>
-        </div>
+        <br />
+        <Link to="/settings">
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configurações
+          </button>
+        </Link>
       </div>
     );
   }

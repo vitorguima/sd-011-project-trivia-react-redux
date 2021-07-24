@@ -8,27 +8,27 @@ export default class Feedback extends Component {
     this.handleQuestions = this.handleQuestions.bind(this);
   }
 
-  handleQuestions(questions) {
+  handleQuestions(assertions) {
     const average = 3;
-    if (questions < average) return 'Podia ser melhor...';
-    if (questions >= average) return 'Mandou bem!';
+    if (assertions < average) return 'Podia ser melhor...';
+    if (assertions >= average) return 'Mandou bem!';
   }
 
   render() {
     const storage = JSON.parse(localStorage.getItem('state'));
-    const { score, questions } = storage.player;
+    const { score, assertions } = storage.player;
 
     return (
       <div>
         <Header />
         <div>
-          <h3 data-testid="feedback-text">{ this.handleQuestions(questions) }</h3>
+          <h3 data-testid="feedback-text">{ this.handleQuestions(assertions) }</h3>
           <h4 data-testid="feedback-total-score">{ score }</h4>
-          <h4 data-testid="feedback-total-question">{ questions }</h4>
+          <h4 data-testid="feedback-total-question">{ assertions }</h4>
         </div>
         <Link to="/">
           <button
-            data-testid="btn-player-again"
+            data-testid="btn-play-again"
             type="button"
           >
             Jogar Novamente
