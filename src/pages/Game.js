@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import Results from '../components/Results';
 import { fetchApiToken, answerReset, resetTimer } from '../actions';
@@ -56,6 +57,9 @@ class Game extends Component {
     const { results } = this.props;
     const { timer, position } = this.state;
     if (!results) return (<h2>Carregando...</h2>);
+
+    const totalQuestions = 5;
+    if (position === totalQuestions) return <Redirect to="/feedback" />;
 
     return (
       <div>
