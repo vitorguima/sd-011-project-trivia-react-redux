@@ -40,13 +40,12 @@ class Question extends Component {
       pickAnswerAction,
     } = this.props;
     const numOfQuestions = 4;
+    pickAnswerAction();
     if (currentQuestion >= numOfQuestions) {
       saveRankAction();
-      pickAnswerAction();
       history.push('/feedback');
     } else {
       nextQuestionAction();
-      pickAnswerAction();
       startCountdownAction();
     }
   }
