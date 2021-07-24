@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import '../Ranking.css';
 
 export default class Ranking extends Component {
   render() {
@@ -7,7 +8,7 @@ export default class Ranking extends Component {
     const sortedRanking = rankingData.sort((a, b) => b.score - a.score);
 
     return (
-      <div>
+      <div className="Ranking">
         <h1 data-testid="ranking-title">Ranking</h1>
         <ul>
           {sortedRanking.map((userRank, index) => (

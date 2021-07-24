@@ -1,15 +1,37 @@
 .login {
   align-self: center;
-  background-color: rgb(231, 226, 226);
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: auto;
-  margin-top: 15%;
   padding: 4%;
   width: fit-content;
 }
 
 .input {
   align-self: center;
+  flex-direction: column;
+  padding: 0.5%;
+}
+
+.App-logo {
+  width: 800px;
+}
+
+.App-header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-family: fantasy;
+  justify-content: center;
+}
+
+button {
+  border-radius: 10%;
+}
+
+input {
+  border-radius: 10%;
+  width: 200px;
 }

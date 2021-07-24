@@ -121,7 +121,7 @@ class Login extends React.Component {
       <section className="login">
         {this.renderHeader()}
         {this.renderLogin()}
-        <div>
+        <div className="input">
           <p>
             <button
               type="button"
@@ -132,7 +132,10 @@ class Login extends React.Component {
               Jogar
             </button>
             <Link to="/config">
-              <button type="button" data-testid="btn-settings">
+              <button
+                type="button"
+                data-testid="btn-settings"
+              >
                 Configurações
               </button>
             </Link>
