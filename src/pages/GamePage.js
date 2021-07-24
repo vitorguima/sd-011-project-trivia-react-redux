@@ -189,8 +189,8 @@ class GamePage extends Component {
           click={ click }
           disableBtnByTime={ disableBtnByTime }
           upDateScore={ upDateScore }
-          clickAnswer={ this.clickAnswer }
           scoreUpdate={ this.scoreUpdate }
+          clickAnswer={ this.clickAnswer }
         />
       </main>
     );
