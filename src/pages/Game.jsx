@@ -14,7 +14,6 @@ import GameHeader from '../components/GameHeader';
 class Game extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       questions: [],
       loading: true,
@@ -37,9 +36,9 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { token, handleQuestions } = this.props;
+    const { token, handleQuestions, type, difficulty, category } = this.props;
     this.mapStateToStorage();
-    await handleQuestions({ token });
+    await handleQuestions({ token, type, difficulty, category });
     this.initializeState();
   }
 
@@ -102,13 +101,11 @@ class Game extends Component {
       this.setState({ shouldRedirect: true });
       return;
     }
-
     if (currentQuestionIndex > questions.length - 2) return;
     this.setState(({ currentQuestionIndex: index }) => ({
       currentQuestionIndex: index + 1,
       hasPicked: false,
     }));
-
     stopwatch.reset().start();
   }
 
@@ -233,6 +230,9 @@ const mapStateToProps = (state) => ({
   score: state.user.score,
   token: state.user.token,
   quest: state.questions.questions,
+  category: state.config.category,
+  type: state.config.type,
+  difficulty: state.config.difficulty,
 });
 
 const mapDispatchToProps = (dispatch) => ({
