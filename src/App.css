@@ -6,8 +6,8 @@
 
 .App-logo {
   margin: 20px 0;
-  width: 300px;
   pointer-events: none;
+  width: 300px;
 }
 
 .App-header {
@@ -21,33 +21,32 @@
 }
 
 .homeForm {
-  color: #282c34;
+  align-items: center;
   background-color: #f2f2f2;
-  margin: 10px auto;
   border-radius: 10px;
-  height: 50vh;
-  width: 20vw;
+  color: #282c34;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  height: 50vh;
+  margin: 10px auto;
   justify-content: center;
+  width: 20vw;
 }
 
 .homeInput {
-  margin: 10px 0;
-  width: 300px;
+  background-color: #f2f2f2;
   border: none;
   border-bottom: 1px solid #282c3442;
-  background-color: #f2f2f2;
+  margin: 10px 0;
   padding: 15px 0;
+  width: 300px;
 }
 
 .homePlayBtn {
-  color: #282c34;
-  border: none;
-  margin: 10px;
   background-color: #23f52d;
-  /* font-weight: 777; */
+  border: none;
+  color: #282c34;
+  margin: 10px;
   padding: 5px 20px;
 }
 .homePlayBtn:disabled {
@@ -68,12 +67,12 @@
 
 .answerButtons {
   background-color: #f2f2f2;
-  font-weight: 777;
-  color: #282c34;
-  margin: 0 10px;
-  padding: 10px;
   border: none;
   border-radius: 3px;
+  color: #282c34;
+  font-weight: 777;
+  margin: 0 10px;
+  padding: 10px;
 }
 
 .answerButtons:hover {
@@ -85,9 +84,9 @@
 }
 
 .headerContainer {
+  align-items: center;
   display: flex;
   justify-content: space-around;
-  align-items: center;
   margin: 20px auto;
   padding: 20px;
   width: 300px;
