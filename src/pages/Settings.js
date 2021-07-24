@@ -103,9 +103,10 @@ class Settings extends Component {
           { this.renderCategories() }
           { this.renderDifficulty() }
           { this.renderType() }
-          <span className="settings-buttons">
+          <span>
             <button
               type="button"
+              className="settings-buttons"
               onClick={ () => saveSettings({ selectedCategory, type, difficulty }) }
             >
               Save Settings

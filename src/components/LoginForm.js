@@ -20,7 +20,7 @@ class LoginForm extends Component {
 
   inputValidation() {
     const { user, email } = this.state;
-    const format = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const format = /\S+@\S+\.\S+/;
     if (user.length !== 0 && email.match(format)) {
       this.setState({ enablePlayButton: true });
     } else {
