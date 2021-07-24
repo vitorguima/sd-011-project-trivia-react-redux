@@ -20,16 +20,19 @@ class Feedback extends Component {
   render() {
     const localStoragePlayer = JSON.parse(localStorage.getItem('state'));
     return (
-      <div>
+      <div className="feedbackContainer">
         <h1 data-testid="feedback-text">Feedback</h1>
         <Header score={ localStoragePlayer.player.score } />
         <h2 data-testid="feedback-total-score">
           {localStoragePlayer.player.score ? localStoragePlayer.player.score : 0}
         </h2>
-        <h2 data-testid="feedback-total-question">
-          {localStoragePlayer.player.assertions
-            ? localStoragePlayer.player.assertions : 0}
-        </h2>
+        <div>
+          Acertou: &nbsp;
+          <span data-testid="feedback-total-question">
+            {localStoragePlayer.player.assertions
+              ? localStoragePlayer.player.assertions : 0}
+          </span>
+        </div>
         <h2 data-testid="feedback-text">{this.message()}</h2>
         <Link to="/ranking">
           <button type="button" data-testid="btn-ranking">Ranking</button>

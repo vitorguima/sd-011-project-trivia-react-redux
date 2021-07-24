@@ -5,23 +5,9 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  margin: 20px 0;
+  width: 300px;
   pointer-events: none;
-}
-
-.red-border {
-  border: 1px solid red;
-}
-
-.green-border {
-  border: 1px solid green;
-}
-
-@media ( prefers-reduced-motion : no-preference ) {
-
-  .App-logo {
-    animation: infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  }
 }
 
 .App-header {
@@ -34,25 +20,88 @@
   justify-content: center;
 }
 
-.App-link {
-  color: #61dafb;
+.homeForm {
+  color: #282c34;
+  background-color: #f2f2f2;
+  margin: 10px auto;
+  border-radius: 10px;
+  height: 50vh;
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes shake {
+.homeInput {
+  margin: 10px 0;
+  width: 300px;
+  border: none;
+  border-bottom: 1px solid #282c3442;
+  background-color: #f2f2f2;
+  padding: 15px 0;
+}
 
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
+.homePlayBtn {
+  color: #282c34;
+  border: none;
+  margin: 10px;
+  background-color: #23f52d;
+  /* font-weight: 777; */
+  padding: 5px 20px;
+}
+.homePlayBtn:disabled {
+  background-color: #adadad;
+}
 
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
+.homePlayBtn:hover {
+  background-color: #1cda25;
+}
 
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
+.homePlayBtn:active {
+  background-color: #19c421;
+}
 
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
+.gamePageContainer {
+  color: #f2f2f2;
+}
+
+.answerButtons {
+  background-color: #f2f2f2;
+  font-weight: 777;
+  color: #282c34;
+  margin: 0 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+}
+
+.answerButtons:hover {
+  background-color: #d1d1d1;
+}
+
+.answerButtons:disabled {
+  background-color: #bebdbd;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px auto;
+  padding: 20px;
+  width: 300px;
+}
+
+.headerContainer img {
+  border: 1px solid #282c34;
+  border-radius: 50px;
+}
+
+.emailHeaderDiv {
+  margin: 10px 0;
+}
+
+.feedbackContainer {
+  color: #f2f2f2;
 }

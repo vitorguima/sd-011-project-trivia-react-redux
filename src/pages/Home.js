@@ -48,8 +48,9 @@ class Home extends Component {
     const { name, email, disabled } = this.state;
 
     return (
-      <div>
-        <form>
+      <div className="homeContainerInput">
+        <form className="homeForm">
+          <h1>Login</h1>
           <input
             value={ name }
             name="name"
@@ -57,6 +58,7 @@ class Home extends Component {
             type="text"
             data-testid="input-player-name"
             placeholder="Digite seu nome"
+            className="homeInput"
           />
           <input
             value={ email }
@@ -65,6 +67,7 @@ class Home extends Component {
             type="email"
             data-testid="input-gravatar-email"
             placeholder="Digite seu e-mail"
+            className="homeInput"
           />
           <Link to="/game">
             <button
@@ -72,6 +75,7 @@ class Home extends Component {
               disabled={ disabled }
               data-testid="btn-play"
               onClick={ this.handleClick }
+              className="homePlayBtn"
             >
               Jogar
             </button>

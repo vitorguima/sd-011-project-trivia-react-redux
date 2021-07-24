@@ -9,17 +9,22 @@ class Header extends Component {
     return (
       <div>
         <header>
-          <div>
+          <div className="headerContainer">
             <img data-testid="header-profile-picture" src={ `https://www.gravatar.com/avatar/${hash}` } alt="foto" />
+            <span>
+              <div className="emailHeaderDiv">
+                {email}
+              </div>
+              <div data-testid="header-player-name">
+                {name}
+              </div>
+            </span>
           </div>
           <div>
-            {email}
-          </div>
-          <div data-testid="header-player-name">
-            {name}
-          </div>
-          <div data-testid="header-score">
-            {score}
+            Pts:&nbsp;
+            <span data-testid="header-score">
+              {score}
+            </span>
           </div>
         </header>
       </div>

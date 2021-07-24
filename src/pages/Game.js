@@ -98,7 +98,7 @@ class Game extends Component {
         onClick={ (e) => this.answerClickHandle(e, correctAnswer, difficulty) }
         value={ item }
         disabled={ answered }
-        className={ answered ? 'correctAnswer' : null }
+        className={ answered ? 'correctAnswer answerButtons' : 'answerButtons' }
       >
         {item}
       </button>);
@@ -114,7 +114,7 @@ class Game extends Component {
         onClick={ this.answerClickHandle }
         value={ item }
         disabled={ answered }
-        className={ answered ? 'incorrectAnswer' : null }
+        className={ answered ? 'incorrectAnswer answerButtons' : 'answerButtons' }
       >
         {item}
       </button>);
@@ -150,12 +150,15 @@ class Game extends Component {
       const { difficulty } = questionsState.results[questionNumber];
       const questionsArray = [correctAnswer, ...incorrectAnswers].sort();
       return (
-        <div>
-          <h1>Game Page</h1>
+        <div className="gamePageContainer">
+          <h1>Qual a resposta correta?</h1>
           <Header score={ score } />
-          <h2>{timer}</h2>
+          <h2>
+            00:
+            {timer}
+          </h2>
           <p data-testid="question-category">
-            Categoria:
+            Categoria:&nbsp;
             {questionsState.results[questionNumber].category}
           </p>
           <p data-testid="question-text">
