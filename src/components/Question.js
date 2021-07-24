@@ -50,6 +50,12 @@ class Question extends Component {
     }
   }
 
+  decodeHtml(html) { // https://stackoverflow.com/questions/7394748/whats-the-right-way-to-decode-a-string-that-has-special-html-entities-in-it
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  }
+
   renderNextButton() {
     return (
       <button type="button" data-testid="btn-next" onClick={ this.nextQuestion }>
@@ -57,12 +63,6 @@ class Question extends Component {
       </button>
     );
   }
-
-  decodeHtml(html) { //https://stackoverflow.com/questions/7394748/whats-the-right-way-to-decode-a-string-that-has-special-html-entities-in-it
-    const txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-}
 
   render() {
     const { questionsArr, currentQuestion, timer, answerPicked } = this.props;
