@@ -5,12 +5,18 @@ import settingsIMG from '../images/gear.png';
 class btnSetupScreen extends Component {
   render() {
     return (
-      <Link to="/Setup">
+      <Link to="/Setup" style={ { textDecoration: 'none' } }>
         <div className="div-btn-settings">
           <div className="btn-div-img-settings">
             <img src={ settingsIMG } alt="Configurações" className="btn-img-settings" />
           </div>
-          <h4 data-testid="btn-settings">Configurações</h4>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            className="btn-neon-blue setup-btn"
+          >
+            Configurações
+          </button>
           {/* <button
             type="button"
             data-testid="btn-settings"

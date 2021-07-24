@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import back from '../images/back_3.png';
+import trophy from '../images/trophy_1.png';
 import '../App.css';
 
 class FeedBack extends Component {
@@ -13,6 +15,7 @@ class FeedBack extends Component {
     };
     this.handleClickRankBtn = this.handleClickRankBtn.bind(this);
     this.createRankingStorage = this.createRankingStorage.bind(this);
+    this.playAgain = this.playAgain.bind(this);
   }
 
   handleClickRankBtn() {
@@ -36,6 +39,16 @@ class FeedBack extends Component {
   }
 
   // Finalizado
+  playAgain() {
+    return (
+      <button
+        type="button"
+        data-testid="btn-play-again"
+        className="play-again btn-neon-red"
+      >
+        Jogar novamente
+      </button>);
+  }
 
   render() {
     const { score, assertion } = this.props;
@@ -64,22 +77,24 @@ class FeedBack extends Component {
             { assertion }
             <span> acertos </span>
           </h1>
-          <Link to="/">
-            <button
-              type="button"
-              data-testid="btn-play-again"
-            >
-              Jogar novamente
-            </button>
+          <Link to="/" style={ { textDecoration: 'none' } }>
+            <div className="div-play-again">
+              <img src={ back } alt="Voltar" className="back-img" />
+              { this.playAgain() }
+            </div>
           </Link>
-          <Link to="/ranking">
-            <button
-              onClick={ this.handleClickRankBtn }
-              type="button"
-              data-testid="btn-ranking"
-            >
-              Ver Ranking
-            </button>
+          <Link to="/ranking" style={ { textDecoration: 'none' } }>
+            <div className="div-btn-ranking">
+              <img src={ trophy } alt="Ranking" className="ranking-img" />
+              <button
+                onClick={ this.handleClickRankBtn }
+                type="button"
+                data-testid="btn-ranking"
+                className="btn-neon-blue btn-ranking"
+              >
+                Ver Ranking
+              </button>
+            </div>
           </Link>
         </div>
       </>

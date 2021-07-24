@@ -156,7 +156,7 @@ code {
 }
 
 /* HEADER */
-header {
+.header-body {
   align-items: center;
   background-color: black;
   color: white;
@@ -165,7 +165,7 @@ header {
   padding: 15px 30px;
 }
 
-header img {
+.header-body img {
   border-radius: 50px;
 }
 
@@ -192,7 +192,10 @@ header img {
 body {
   background: linear-gradient(30deg, #873034 0%, #0a0026 50%, #30617e 100%);
   background-repeat: no-repeat;
-  height: 100vh;
+  background-size: cover;
+  min-height: 100vh;
+  position: relative;
+  width: 100vw;
 }
 
 .loading-questions {
@@ -303,6 +306,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: auto;
+  margin-top: auto;
   min-height: 500px;
 }
 
@@ -336,4 +341,157 @@ body {
   display: flex;
   height: 50px;
   justify-content: center;
+}
+
+.div-play-again {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.back-img {
+  width: 50px;
+}
+
+.play-again {
+  width: 200px;
+}
+
+
+.ranking-img {
+  width: 50px;
+}
+
+.btn-neon-blue {
+  background-color: black;
+  border: 0.2rem solid white;
+  border-radius: 1rem;
+  box-shadow: 0 0 0.1rem white , 0 0 2rem deepskyblue , inset 0 0 1rem deepskyblue;
+  color: rgb(161, 228, 255);
+  font-weight: 800;
+  margin: 1rem;
+  padding: 0.4em;
+  width: 85%;
+}
+
+.div-btn-ranking {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-ranking {
+  width: 200px;
+}
+
+/* ranking */
+.page-ranking {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 30px auto;
+  width: 80%;
+}
+
+.div-users-ranking {
+  width: 100%;
+}
+
+.header-ranking {
+  align-items: center;
+  display: flex;
+  margin: 20px;
+}
+
+.ranking-img-trophy {
+  width: 80px;
+}
+
+.title-ranking {
+  color: white;
+  font-size: xx-large;
+  margin: 10px;
+}
+
+.user-rank-data {
+  align-items: center;
+  display: flex;
+  height: 80px;
+  justify-content: space-between;
+  margin: auto;
+  width: 80%;
+}
+
+.user-rank-data img {
+  border-radius: 50px;
+}
+
+.ranking-number {
+  background: linear-gradient(30deg, indigo 0%, darkviolet 50%, dodgerblue 100%);
+  background-clip: text;
+  font-size: xxx-large;
+  font-weight: 800;
+  -webkit-text-fill-color: transparent;
+}
+
+.ranking-player-name {
+  background: linear-gradient(30deg, indigo 0%, darkviolet 50%, dodgerblue 100%);
+  background-clip: text;
+  font-size: xx-large;
+  font-weight: 800;
+  -webkit-text-fill-color: transparent;
+}
+
+.ranking-score {
+  color: black;
+  font-size: 40px;
+  font-weight: 800;
+  -webkit-text-stroke-color: white;
+  -webkit-text-stroke-width: 2px;
+}
+
+
+.ranking-back-home {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.back-img-home {
+  width: 50px;
+}
+
+.back-home {
+  width: 200px;
+}
+
+/* configurações */
+.header-setup {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.setup-img-gear {
+  width: 80px;
+}
+
+.title-setup {
+  color: white;
+  font-size: xx-large;
+  margin: 10px;
+}
+
+.setup-back-home {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.setup-btn {
+  margin: 0;
+  width: 150px;
 }
