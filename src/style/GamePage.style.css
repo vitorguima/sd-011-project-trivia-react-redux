@@ -24,7 +24,7 @@
 }
 
 .answers1 {
-  background-color: blue;
+  background-color: rgb(4, 4, 192);
   flex-grow: 1;
   color: white;
   font-weight: bolder;
@@ -103,6 +103,10 @@
   border-radius: 100%;
   width: 100px;
   height: 100px;
+}
+
+.contador {
+  padding-top: 30%;
 }
 
 .score {

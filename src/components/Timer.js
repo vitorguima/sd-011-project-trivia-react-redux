@@ -7,9 +7,9 @@ class Timer extends Component {
     const { timer } = this.props;
     return (
       <div className="timer">
-        <span>
+        <div className="contador">
           {`${timer}`}
-        </span>
+        </div>
       </div>
     );
   }
