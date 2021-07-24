@@ -1,33 +1,33 @@
 .headerTrivia {
-    align-items: center;
-    background-color: #282c34;
-    border-radius: 10px;
-    color: white;
-    display: flex;
-    justify-content: space-around;
-    margin: 15px; 
-  }
+  align-items: center;
+  background-color: #282c34;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  margin: 15px;
+}
 
- .feedback {
-    align-items: center;
-    background-color: #282c34;
-    border-radius: 10px;
-    color: white;
-    display: flex;
-    justify-content: space-around;
-    margin: 15px;
- }
+.feedback {
+  align-items: center;
+  background-color: #282c34;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  margin: 15px;
+}
 
- .questions {
-    background-color: #282c34;
-    border-radius: 10px;
-    color: white;
-    margin: 15px;
- }
- 
- .ranking {
-    background-color: #282c34;
-    border-radius: 10px;
-    color: white;
-    margin: 15px;
- }
+.questions {
+  background-color: #282c34;
+  border-radius: 10px;
+  color: white;
+  margin: 15px;
+}
+
+.ranking {
+  background-color: #282c34;
+  border-radius: 10px;
+  color: white;
+  margin: 15px;
+}
