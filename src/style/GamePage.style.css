@@ -1,14 +1,66 @@
 .rightAnswer {
+  flex-grow: 1;
   border: 3px solid rgb(6, 240, 15);
+  font-weight: bolder;
+  width: 50%;
+  border-radius: 10px;
 }
 
 .wrongAnswer {
+  flex-grow: 1;
   border: 3px solid red;
+  width: 50%;
+  border-radius: 10px;
+  font-weight: bolder;
+}
+
+.answers0 {
+  background-color: red;
+  color: white;
+  flex-grow: 1;
+  width: 50%;
+  border-radius: 10px;
+  font-weight: bolder;
+}
+
+.answers1 {
+  background-color: blue;
+  flex-grow: 1;
+  color: white;
+  font-weight: bolder;
+  border-radius: 10px;
+  width: 50%;
+}
+
+.answers2 {
+  background-color: green;
+  flex-grow: 1;
+  color: white;
+  width: 50%;
+  border-radius: 10px;
+  font-weight: bolder;
+}
+
+.answers {
+  background-color: orange;
+  color: white;
+  flex-grow: 1;
+  width: 50%;
+  border-radius: 10px;
+  font-weight: bolder;
+}
+
+.answ-btn {
+  display: flex;
+  flex-wrap: wrap;
+  height: 50vh;
+  padding: 8%;
 }
 
 .game-page {
   min-height: 100vh;
   background-color: #d5d3d8;
+  font-weight: bolder;
 }
 
 .header-game {
@@ -37,15 +89,9 @@
   color: white;
   padding: 1%;
   border-radius: 10px;
-  padding: 5px;
+  padding: 10px;
   font-weight: bolder;
-}
-
-.questions-section {
-  display: flex;
-  justify-content: space-around;
-  margin: 5%;
-  align-items: center;
+  font-size: x-large;
 }
 
 .timer {
@@ -68,11 +114,20 @@
 
 .quastion {
   font-size: x-large;
+  font-weight: lighter;
   /* font-weight: bolder; */
   margin: 5px;
 }
 
 .theme-quastion {
-  font-size: x-large;
+  font-size: xx-large;
   font-weight: bolder;
+  
+}
+
+.questions-section {
+  display: flex;
+  justify-content: space-around;
+  margin: 5%;
+  align-items: center;
 }

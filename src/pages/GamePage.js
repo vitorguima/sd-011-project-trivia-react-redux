@@ -72,12 +72,12 @@ class GamePage extends Component {
   questionSection(results, questionIndex) {
     return (
       <div>
-        <p
+        <h2
           className="theme-quastion"
           data-testid="question-category"
         >
           {results[questionIndex].category}
-        </p>
+        </h2>
         <p
           className="quastion"
           data-testid="question-text"

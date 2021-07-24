@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../style/GamePage.style.css';
 
 export default function ButtonsGame({
   results, questionIndex, click, disableBtnByTime, upDateScore, clickAnswer, scoreUpdate,
@@ -9,7 +10,7 @@ export default function ButtonsGame({
     const btnCorrectAnsw = (
       <button
         key="correct-answer"
-        className={ click ? 'rightAnswer' : null }
+        className={ click ? 'rightAnswer' : 'answers btn' }
         onClick={ () => {
           clickAnswer();
           upDateScore(scoreUpdate());
@@ -25,7 +26,7 @@ export default function ButtonsGame({
       <button
         key={ index }
         onClick={ () => clickAnswer() }
-        className={ click ? 'wrongAnswer' : null }
+        className={ click ? 'wrongAnswer' : `answers${index} btn` }
         type="button"
         data-testid={ `wrong-answer-${index}` }
         disabled={ disableBtnByTime || click }
