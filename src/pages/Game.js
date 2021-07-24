@@ -117,7 +117,7 @@ class Game extends Component {
             componentMounted ? <Questions
               id={ idTrivia }
               func={ this.handleClickNextBtn }
-            /> : 'Carregando Questões...'
+            /> : <h4 className="loading-questions">Carregando Questões...</h4>
           }
         </div>
       </>

@@ -8,14 +8,6 @@
   pointer-events: none;
 }
 
-/* .red-border {
-  border: 1px solid red;
-}
-
-.green-border {
-  border: 1px solid green;
-} */
-
 @media ( prefers-reduced-motion : no-preference ) {
 
   .App-logo {
@@ -35,10 +27,6 @@
   min-height: 100vh;
   padding: 0;
 }
-
-/* .App-link {
-  color: #61dafb;
-} */
 
 @keyframes shake {
 
@@ -69,36 +57,21 @@ code {
 .neon-border-purple {
   border: 0.2rem solid white;
   border-radius: 1rem;
-  box-shadow: 0 0 0.2rem white,
-    0 0 0.2rem white,
-    0 0 2rem #bc13fe,
-    0 0 0.8rem #bc13fe,
-    0 0 2.8rem #bc13fe,
-    inset 0 0 1.3rem #bc13fe;
+  box-shadow: 0 0 0.2rem white , 0 0 2.8rem #bc13fe , inset 0 0 1.3rem #bc13fe;
   padding: 1em;
 }
 
 .neon-border-red {
   border: 0.2rem solid white;
   border-radius: 1rem;
-  box-shadow: 0 0 0.2rem white,
-    0 0 0.2rem white,
-    0 0 2rem rgb(255, 0, 64),
-    0 0 0.8rem rgb(255, 0, 64),
-    0 0 2.8rem rgb(255, 0, 64),
-    inset 0 0 1.3rem rgb(255, 0, 64);
+  box-shadow: 0 0 0.2rem white , 0 0 2.8rem red , inset 0 0 1.3rem red;
   padding: 1em;
 }
 
 .neon-border-blue {
   border: 0.2rem solid white;
   border-radius: 1rem;
-  box-shadow: 0 0 0.2rem white,
-    0 0 0.2rem white,
-    0 0 2rem rgb(0, 153, 255),
-    0 0 0.8rem rgb(0, 153, 255),
-    0 0 2.8rem rgb(0, 153, 255),
-    inset 0 0 1.3rem rgb(0, 153, 255);
+  box-shadow: 0 0 0.2rem white , 0 0 2.8rem deepskyblue , inset 0 0 1.3rem deepskyblue;
   padding: 0.4em;
 }
 
@@ -116,12 +89,7 @@ code {
   background-color: black;
   border: 0.2rem solid white;
   border-radius: 1rem;
-  box-shadow: 0 0 0.1rem white,
-    0 0 0.1rem white,
-    0 0 1rem #bc13fe,
-    0 0 0.4em #bc13fe,
-    0 0 0.4rem #bc13fe,
-    inset 0 0 0.6rem #bc13fe;
+  box-shadow: 0 0 0.1rem white , 0 0 2rem #bc13fe , inset 0 0 1rem #bc13fe;
   color: rgb(179, 205, 255);
   font-weight: 800;
   margin: 0.3rem;
@@ -133,12 +101,7 @@ code {
   background-color: black;
   border: 0.2rem solid white;
   border-radius: 1rem;
-  box-shadow: 0 0 0.1rem white,
-    0 0 0.1rem white,
-    0 0 1rem rgb(0, 153, 255),
-    0 0 0.4em rgb(0, 153, 255),
-    0 0 0.4rem rgb(0, 153, 255),
-    inset 0 0 0.6rem rgb(0, 153, 255);
+  box-shadow: 0 0 0.1rem white , 0 0 2rem deepskyblue , inset 0 0 1rem deepskyblue;
   color: rgb(179, 205, 255);
   font-weight: 800;
   margin: 1rem;
@@ -150,12 +113,7 @@ code {
   background-color: black;
   border: 0.2rem solid white;
   border-radius: 1rem;
-  box-shadow: 0 0 0.1rem white,
-    0 0 0.1rem white,
-    0 0 1rem rgb(255, 0, 64),
-    0 0 0.4em rgb(255, 0, 64),
-    0 0 0.4rem rgb(255, 0, 64),
-    inset 0 0 0.6rem rgb(255, 0, 64);
+  box-shadow: 0 0 0.1rem white , 0 0 2rem red , inset 0 0 1rem red;
   color: rgb(255, 161, 208);
   font-weight: 800;
   margin: 1rem;
@@ -177,6 +135,17 @@ code {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.div-btn-settings h4 {
+  color: white;
+  font-size: 12px;
+  margin: 0;
+  text-decoration: none;
+}
+
+.div-btn-settings h4:visited {
+  text-decoration: none;
 }
 
 .btn-img-settings {
@@ -201,10 +170,10 @@ header img {
 }
 
 .header-player-name {
+  background: linear-gradient(30deg, indigo 0%, darkviolet 50%, dodgerblue 100%);
+  background-clip: text;
   font-size: xx-large;
   font-weight: 800;
-  background: -webkit-linear-gradient(30deg, indigo 0%, darkviolet 50%, dodgerblue 100%);
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -224,6 +193,10 @@ body {
   background: linear-gradient(30deg, #873034 0%, #0a0026 50%, #30617e 100%);
   background-repeat: no-repeat;
   height: 100vh;
+}
+
+.loading-questions {
+  color: white;
 }
 
 .game-container {
@@ -250,24 +223,19 @@ body {
   align-items: center;
   border: 0.2rem solid white;
   border-radius: 1rem;
-  box-shadow: 0 0 0.2rem white,
-    0 0 0.2rem white,
-    0 0 2rem rgb(0, 153, 255),
-    0 0 0.8rem rgb(0, 153, 255),
-    0 0 2.8rem rgb(0, 153, 255),
-    inset 0 0 1.3rem rgb(0, 153, 255);
+  box-shadow: 0 0 0.2rem white , 0 0 2.8rem deepskyblue , inset 0 0 1.3rem deepskyblue;
   display: flex;
   margin-right: 30px;
   min-height: 30vw;
   padding: 0.4em;
-  width: 50%;
+  width: 65%;
 }
 
 .question-div {
   align-items: center;
   display: flex;
   flex-direction: column;
-  min-height: 30vw;
+  height: 100%;
 
 }
 
@@ -288,7 +256,9 @@ body {
 }
 
 .questions-text {
+  align-self: flex-start;
   color: white;
+  display: flex;
   font-size: 20px;
 }
 
@@ -300,7 +270,7 @@ body {
   margin-top: 0;
 }
 
-#timer-text {
+.timer-span-text {
   color: rgb(169, 255, 188);
   font-size: 20px;
   font-weight: 900;
@@ -311,22 +281,15 @@ body {
 
 .neonText {
   animation: flicker 1.5s infinite alternate;
-  text-shadow: 0 0 7px white , 0 0 10px white , 0 0 21px white , 0 0 42px #0fa , 0 0 82px #0fa , 0 0 92px #0fa , 0 0 102px #0fa , 0 0 151px #0fa;
+  text-shadow: 0 0 7px white , 0 0 10px white , 0 0 102px #0fa , 0 0 151px #0fa;
 }
 
 /* Flickering animation */
+
 @keyframes flicker {
 
   0%, 18%, 22%, 25%, 53%, 57%, 100% {
-    text-shadow:
-      0 0 4px white,
-      0 0 11px white,
-      0 0 19px white,
-      0 0 40px #0fa,
-      0 0 80px #0fa,
-      0 0 90px #0fa,
-      0 0 100px #0fa,
-      0 0 150px #0fa;
+    text-shadow: 0 0 4px white , 0 0 11px white , 0 0 100px #0fa , 0 0 150px #0fa;
   }
 
   20%, 24%, 55% {
@@ -351,10 +314,6 @@ body {
 .feedback-points {
   font-size: 30px;
 }
-
-/* .text-score {
-  color:  rgb(194, 235, 15);
-} */
 
 .ingame-score-number {
   color: black;
