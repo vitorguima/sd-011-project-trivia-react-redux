@@ -12,7 +12,7 @@ import InputName from '../components/InputName';
 import InputEmail from '../components/InputEmail';
 import PlayBtn from '../components/PlayBtn';
 import { getToken } from '../services/TriviaApi';
-import './login.css';
+import '../App.css';
 
 class Login extends Component {
   constructor(props) {

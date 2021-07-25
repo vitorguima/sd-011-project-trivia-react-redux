@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import Header from '../components/Header';
 import Questions from '../components/Questions';
 import { questionIdIncrease, modifyTimer, InitiateTimer, modifyNextBtn,
   addQuestionsPlayed, resetTriviaQuestionsIdAndPlayedQuestions,
   sendQuestions, recoverNameAndEmailFromRefresh,
 } from '../redux/actions';
 import { getQuestions } from '../services/TriviaApi';
-import './game.css';
+import '../App.css';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor(props) {
@@ -110,15 +110,17 @@ class Game extends Component {
     if (redirectToFeedBack) return <Redirect to="/feedback" />;
 
     return (
-      <div>
+      <>
         <Header />
-        {
-          componentMounted ? <Questions
-            id={ idTrivia }
-            func={ this.handleClickNextBtn }
-          /> : 'Carregando Questões...'
-        }
-      </div>
+        <div className="game-container">
+          {
+            componentMounted ? <Questions
+              id={ idTrivia }
+              func={ this.handleClickNextBtn }
+            /> : <h4 className="loading-questions">Carregando Questões...</h4>
+          }
+        </div>
+      </>
     );
   }
 }

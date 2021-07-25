@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import header from './header.css';
 import border from '../images/header_base.png';
 
 class Header extends Component {
   render() {
     const { profileImg, profileName, profileScore } = this.props;
     return (
-      <>
-        <header>
+      <div>
+        <header className="header-body">
           <img
             src={ profileImg }
             data-testid="header-profile-picture"
@@ -21,23 +20,23 @@ class Header extends Component {
           >
             { profileName }
           </span>
-          <div className="div-header-score">
-            <h3 className="name-score">
+          <div className="score-div-container">
+            <span className="text-score">
               SCORE
-            </h3>
-            <h2
+            </span>
+            <span
+              className="ingame-score-number"
               data-testid="header-score"
-              className="header-score"
             >
               { profileScore }
-            </h2>
+            </span>
           </div>
 
         </header>
         <div className="border-header">
           <img src={ border } alt="" className="img-border" />
         </div>
-      </>
+      </div>
     );
   }
 }
