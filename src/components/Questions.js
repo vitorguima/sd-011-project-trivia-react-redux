@@ -15,13 +15,13 @@ class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     };
     this.changeBorderColor = this.changeBorderColor.bind(this);
     this.disableBtnsAfterTimer = this.disableBtnsAfterTimer.bind(this);
     this.generateQuestionsBtnFunc = this.generateQuestionsBtnFunc.bind(this);
     this.allowAbleBtnsAfterNextClick = this.allowAbleBtnsAfterNextClick.bind(this);
     this.localStorageNewSave = this.localStorageNewSave.bind(this);
+    this.manageCorrectAnswear = this.manageCorrectAnswear.bind(this);
   }
 
   componentDidMount() {
@@ -56,10 +56,21 @@ class Questions extends Component {
     correct.disabled = false;
   }
 
+  manageCorrectAnswear() {
+    const { addPoint, globalTimer, assertions, showNextBtn, stopTimer } = this.props;
+    stopTimer();
+    const DEZ = 10;
+    const point = DEZ + (globalTimer * this.multiplier);
+    this.localStorageNewSave(point, assertions);
+    addPoint(point, (assertions + 1));
+    showNextBtn(true);
+    this.disableBtnsAfterTimer();
+  }
+
   validateScore(e) {
     const {
-      addPoint, triviaQuestions, id, globalTimer,
-      showNextBtn, assertions,
+      triviaQuestions, id,
+      showNextBtn, stopTimer,
     } = this.props;
     const { difficulty } = triviaQuestions[id];
     this.multiplier = 0;
@@ -81,14 +92,10 @@ class Questions extends Component {
       break;
     }
     if (e.target.id === 'correct-answear') {
-      const DEZ = 10;
-      const point = DEZ + (globalTimer * this.multiplier);
-      this.localStorageNewSave(point, assertions);
-      addPoint(point, (assertions + 1));
-      showNextBtn(true);
-      this.disableBtnsAfterTimer();
+      this.manageCorrectAnswear();
     } else if (e.target.id === 'incorrect-answear') {
       this.disableBtnsAfterTimer();
+      stopTimer();
       showNextBtn(true);
     }
   }
@@ -110,15 +117,10 @@ class Questions extends Component {
   }
 
   generateQuestionsBtnFunc() {
-    const { triviaQuestions, id } = this.props;
-    const {
-      incorrect_answers: incorrectAnswers,
-      correct_answer: correctAnswer,
-    } = triviaQuestions[id];
-
+    const { incorrectQuest, correctAnswears, id } = this.props;
     return (
       <div className="options-container">
-        { incorrectAnswers.map((incorrectAnswer, index) => (
+        { incorrectQuest[id].map((item, index) => (
           <button
             id="incorrect-answear"
             type="button"
@@ -127,7 +129,7 @@ class Questions extends Component {
             data-testid={ `wrong-answer-${index}` }
             onClick={ (e) => { this.changeBorderColor(); this.validateScore(e); } }
           >
-            { incorrectAnswer }
+            { item }
           </button>
         )) }
         <button
@@ -137,7 +139,7 @@ class Questions extends Component {
           data-testid="correct-answer"
           onClick={ (e) => { this.changeBorderColor(); this.validateScore(e); } }
         >
-          { correctAnswer }
+          { correctAnswears[id] }
         </button>
       </div>
     );
@@ -192,6 +194,8 @@ class Questions extends Component {
 
 const mapStateToProps = (state) => ({
   triviaQuestions: state.questions.questions,
+  incorrectQuest: state.questions.incorrectAnswears,
+  correctAnswears: state.questions.correctAnswears,
   idTrivia: state.questions.idTrivia,
   runningTimer: state.gameMechanics.timerRunning,
   globalTimer: state.gameMechanics.timeToRespond,
@@ -225,6 +229,9 @@ Questions.propTypes = ({
   assertions: PropTypes.number.isRequired,
   playerName: PropTypes.string.isRequired,
   playerEmail: PropTypes.string.isRequired,
+  stopTimer: PropTypes.func,
+  incorrectQuest: PropTypes.arrayOf(Array),
+  correctAnswears: PropTypes.arrayOf(Array),
 
 });
 
@@ -235,5 +242,7 @@ Questions.defaultProps = {
   addPoint: PropTypes.func,
   showNextBtn: PropTypes.func,
   sendAbleQuestBtnFunc: PropTypes.func,
-
+  stopTimer: PropTypes.func,
+  incorrectQuest: PropTypes.arrayOf(Array),
+  correctAnswears: PropTypes.arrayOf(Array),
 };

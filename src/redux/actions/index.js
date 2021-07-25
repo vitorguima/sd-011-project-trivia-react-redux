@@ -24,10 +24,12 @@ function sendGravatarSrcImg(name, src, email, token) {
   };
 }
 
-function sendQuestions(questions) {
+function sendQuestions(questions, incorrect, correct) {
   return {
     type: SEND_QUESTIONS,
     questions,
+    incorrect,
+    correct,
   };
 }
 

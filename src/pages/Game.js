@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,6 +11,8 @@ import { questionIdIncrease, modifyTimer, InitiateTimer, modifyNextBtn,
 import { getQuestions } from '../services/TriviaApi';
 import '../App.css';
 import Header from '../components/Header';
+import { FormatQuestions, FormatCorrectQuestion,
+  FormatIncorrectQuestions } from '../helpers/FormatQuestions';
 
 class Game extends Component {
   constructor(props) {
@@ -45,23 +48,27 @@ class Game extends Component {
     const { sendQuestionList } = this.props;
     const { token } = this.props;
     const receiveQuestions = await getQuestions(token);
+
     const questionList = [];
     receiveQuestions.forEach((item) => {
       questionList.push(item);
     });
-    questionList.map((item) => {
-      const string = item.question;
-      if (string.includes('&quot;')
-      || string.includes('&#039;')
-      || string.includes('&;')) {
-        item.question = item.question.replace(/&quot;/gi, '"');
-        item.question = item.question.replace(/&#039;/gi, '');
-        item.question = item.question.replace(/&;/gi, '');
-        return item.question;
-      }
-      return item;
+
+    const incorrectList = [];
+    receiveQuestions.forEach((item) => {
+      incorrectList.push(item.incorrect_answers);
     });
-    sendQuestionList(questionList);
+
+    const correctList = [];
+    receiveQuestions.forEach((item) => {
+      correctList.push(item.correct_answer);
+    });
+
+    const questions = FormatQuestions(questionList);
+    const incorrectQuestions = FormatIncorrectQuestions(incorrectList);
+    const correctQuestions = FormatCorrectQuestion(correctList);
+
+    sendQuestionList(questions, incorrectQuestions, correctQuestions);
     this.setState({
       componentMounted: true,
     });
@@ -142,7 +149,7 @@ const mapDispatchToProps = (dispatch) => ({
   showNextBtn: (boolean) => dispatch(modifyNextBtn(boolean)),
   increasePlayedQuestions: () => dispatch(addQuestionsPlayed()),
   resetQuestionsId: () => (dispatch(resetTriviaQuestionsIdAndPlayedQuestions())),
-  sendQuestionList: (questionList) => dispatch(sendQuestions(questionList)),
+  sendQuestionList: (quest, inc, corre) => dispatch(sendQuestions(quest, inc, corre)),
   sendRecoveredPlayerInfo: (name, email, img) => (
     dispatch(recoverNameAndEmailFromRefresh(name, email, img))),
 });

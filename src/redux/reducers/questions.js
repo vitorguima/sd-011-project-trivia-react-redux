@@ -5,7 +5,12 @@ import {
 
 } from '../actions';
 
-const INITIAL_STATE = { idTrivia: 0, questions: [] };
+const INITIAL_STATE = {
+  idTrivia: 0,
+  questions: [],
+  incorrectAnswears: [],
+  correctAnswears: [],
+};
 
 function trivia(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -13,6 +18,8 @@ function trivia(state = INITIAL_STATE, action) {
     return ({
       ...state,
       questions: [...action.questions],
+      incorrectAnswears: action.incorrect,
+      correctAnswears: action.correct,
     });
   case QUESTION_ID_INCREASE:
     return ({
