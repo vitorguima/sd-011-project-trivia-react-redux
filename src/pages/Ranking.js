@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import back from '../images/back_4.png';
+import trophy from '../images/trophy_1.png';
 import '../App.css';
 
 class Ranking extends Component {
@@ -14,32 +15,50 @@ class Ranking extends Component {
     const rankingSorted = ranking.sort((a, b) => b.score - a.score);
     return (
       rankingSorted.map((user, index) => (
-        <li key={ index }>
-          <img src={ user.picture } alt={ user.name } />
-          <p data-testid={ `player-name-${index}` }>{ user.name }</p>
-          <p data-testid={ `player-score-${index}` }>{ user.score }</p>
-        </li>))
+        <>
+          <div className="user-rank-data" key={ index }>
+            <span className="ranking-number">{ index + 1 }</span>
+            <img src={ user.picture } alt={ user.name } />
+            <p
+              data-testid={ `player-name-${index}` }
+              className="ranking-player-name"
+            >
+              { user.name }
+            </p>
+            <p
+              data-testid={ `player-score-${index}` }
+              className="ranking-score"
+            >
+              { user.score }
+            </p>
+          </div>
+          <hr />
+        </>
+      ))
     );
   }
 
   render() {
     return (
-      <div>
-        <h2 data-testid="ranking-title">Ranking</h2>
-        <ol>
+      <div className="page-ranking">
+        <div className="header-ranking">
+          <img src={ trophy } alt="Ranking" className="ranking-img-trophy" />
+          <h2 data-testid="ranking-title" className="title-ranking">Ranking</h2>
+        </div>
+        <div className="div-users-ranking">
           { this.renderRanking() }
-        </ol>
-        <Link to="/">
-          <button type="button">
-            <FaArrowLeft
+        </div>
+        <Link to="/" style={ { textDecoration: 'none' } }>
+          <div className="ranking-back-home">
+            <img src={ back } alt="Voltar" className="back-img-home" />
+            <button
+              type="button"
               data-testid="btn-go-home"
-              type="logo"
-              name="adjust"
-              color="blue"
-              size="60px"
-              border="square"
-            />
-          </button>
+              className="btn-neon-blue back-home"
+            >
+              Voltar ao início
+            </button>
+          </div>
         </Link>
       </div>
     );

@@ -8,7 +8,7 @@ class Header extends Component {
     const { profileImg, profileName, profileScore } = this.props;
     return (
       <div>
-        <header>
+        <header className="header-body">
           <img
             src={ profileImg }
             data-testid="header-profile-picture"
