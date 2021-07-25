@@ -4,6 +4,7 @@ import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import Questions from '../components/Questions';
 import ScoreBoard from '../components/ScoreBoard';
+import '../styles/Game.css';
 
 class Game extends Component {
   md5Converter(email) {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
+import '../styles/Feedback.css';
 
 class Feedback extends Component {
   constructor(props) {

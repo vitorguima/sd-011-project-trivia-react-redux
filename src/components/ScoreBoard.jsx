@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import '../styles/ScoreBoard.css';
 
 class ScoreBoard extends Component {
   render() {

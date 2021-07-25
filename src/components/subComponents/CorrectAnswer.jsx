@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import decodeHtml from '../../helpers/htmldecode';
+import '../../styles/Questions/CorrectAnswer.css';
 
 class CorrectAnswer extends Component {
   render() {

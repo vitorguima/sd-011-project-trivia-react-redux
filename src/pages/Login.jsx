@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import { requestToken, initialLogin } from '../actions';
+import '../styles/Login.css';
 
 class Login extends Component {
   constructor(props) {

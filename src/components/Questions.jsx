@@ -5,6 +5,7 @@ import { questionsRequest, sectionUser } from '../actions';
 import AlternativesContainer from './subComponents/AlternativesContainer';
 import NextAndFeedback from './NextAndFeedback';
 import decodeHtml from '../helpers/htmldecode';
+import '../styles/Questions/Questions.css';
 
 class Questions extends Component {
   constructor() {

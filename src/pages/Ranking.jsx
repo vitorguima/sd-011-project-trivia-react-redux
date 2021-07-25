@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../styles/Ranking.css';
 
 class Ranking extends Component {
   rankingSortPodium(ranking) {
