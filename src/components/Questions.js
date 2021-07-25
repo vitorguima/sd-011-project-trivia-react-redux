@@ -6,12 +6,19 @@ import { scoreAction } from '../actions';
 import './styleButton.css';
 import Answers from './Answers';
 
+const oneSecond = 1000;
+const four = 4;
+const hard = 3;
+const medium = 2;
+const easy = 1;
+const ten = 10;
+let newScore = 0;
+
 class Question extends React.Component {
   constructor() {
     super();
     this.state = {
       timer: 30,
-      stopTimer: false,
       answered: false,
     };
     this.nextPage = this.nextPage.bind(this);
@@ -29,15 +36,13 @@ class Question extends React.Component {
   }
 
   startTimer() {
-    const { timer, stopTimer, answered } = this.state;
-    const oneSecond = 1000;
-
+    const { timer, answered } = this.state;
     if (!answered) {
       if (timer > 0) {
         setTimeout(() => this.setState({ timer: timer - 1 }), oneSecond);
       }
-      if (timer === 0 && !stopTimer) {
-        this.setState({ stopTimer: true, answered: true });
+      if (timer === 0) {
+        this.setState({ answered: true });
       }
     }
   }
@@ -45,7 +50,6 @@ class Question extends React.Component {
   handleClick(correct) {
     this.setState({
       answered: true,
-      stopTimer: true,
     });
     if (correct) this.addScore();
   }
@@ -60,12 +64,6 @@ class Question extends React.Component {
   addScore() {
     const { timer } = this.state;
     const { newQuestion: { difficulty }, score } = this.props;
-    const hard = 3;
-    const medium = 2;
-    const easy = 1;
-    const ten = 10;
-    let newScore = 0;
-
     if (difficulty === 'easy') {
       newScore = (timer * easy) + ten;
     } else if (difficulty === 'medium') {
@@ -99,32 +97,9 @@ class Question extends React.Component {
     }
   }
 
-  renderCondition() {
-    const { index } = this.props;
-    const { answered } = this.state;
-    const four = 4;
-    if (answered) {
-      if (index >= four) {
-        return (
-          <Link to="/feedback" data-testid="btn-next" onClick={ this.addToRanking }>
-            Próxima
-          </Link>
-        );
-      }
-      return (
-        <button
-          type="button"
-          onClick={ this.nextPage }
-          data-testid="btn-next"
-        >
-          Próxima
-        </button>);
-    }
-  }
-
   render() {
     const { timer, answered } = this.state;
-    const { newQuestion: { question, answers, category } } = this.props;
+    const { newQuestion: { question, answers, category, index } } = this.props;
     return (
       <div>
         <span>{ timer }</span>
@@ -133,7 +108,21 @@ class Question extends React.Component {
         </h1>
         <p data-testid="question-category">{ category }</p>
         <Answers answered={ answered } answers={ answers } onClick={ this.handleClick } />
-        { this.renderCondition() }
+        {(answered) && (
+          (index >= four) ? (
+            <Link to="/feedback" data-testid="btn-next" onClick={ this.addToRanking }>
+              Próxima
+            </Link>)
+            : (
+              <button
+                type="button"
+                onClick={ this.nextPage }
+                data-testid="btn-next"
+              >
+                Próxima
+              </button>
+            )
+        )}
       </div>
     );
   }

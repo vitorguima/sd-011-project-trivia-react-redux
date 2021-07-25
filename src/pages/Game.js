@@ -16,7 +16,7 @@ class Game extends React.Component {
   async componentDidMount() {
     const token = JSON.parse(localStorage.getItem('token'));
     const apiQuestions = await getQuestions(token);
-    const results = apiQuestions.results.map((element) => {
+    const results = apiQuestions.results.map((element, index) => {
       const { category, question, difficulty,
         correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = element;
       const newCorrectAnswer = { answer: correctAnswer, correct: true };
@@ -24,6 +24,7 @@ class Game extends React.Component {
         .map((answer) => ({ answer, correct: false }));
       const answers = this.randomAnswers([newCorrectAnswer, ...newIncorrectAnswers]);
       return {
+        index,
         question,
         category,
         answers,
@@ -64,7 +65,6 @@ class Game extends React.Component {
             <Question
               newQuestion={ questions[index] }
               nextFunc={ this.nextQuestion }
-              index={ index }
             />
           )}
       </div>
