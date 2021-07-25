@@ -6,12 +6,13 @@ class ScoreBoard extends Component {
   render() {
     const { sectionPlayer: player } = this.props;
     const zero = 0;
+    console.log(player);
 
     return (
       <div>
         {'Placar: '}
         <span data-testid="header-score">
-          {!player.score ? zero : player.score}
+          {!player.player.score ? zero : player.player.score}
         </span>
       </div>
     );

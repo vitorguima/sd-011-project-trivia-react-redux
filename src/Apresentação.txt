@@ -1,0 +1,28 @@
+Data = 27/07 às 14:00 horas.
+LEMBRETE: Lembrar de criar os arquivos de estilização.
+LEMBRETE: Remover pequenos bugs.
+
+1. Utilizar template Trybe.
+
+2. Utilizar nossa identificação no primeiro Slide.
+
+3. Nos dividimos em pares para realização de requisitos, quando era possível.
+
+4. Utilizamos o Zoom para momentos onde era necessário fazer alinhamentos nas DMs.
+4.1 Discord para momentos de pair programming, onde o sharescreen era mais flúido.
+4.2 Slack para atualizações diárias do que ocorria no projeto.
+4.3 Figma para ter uma noção de onde as coisas deveriam ser posicionadas.
+4.4 Trello, onde todos os integrantes do grupo tinham acesso para fazer alterações.
+
+5. No processo de desenvolvimento do projeto, um dos maiores desafios foi fazer a implementação de contagem regressiva, junto com a lógica de fazer com que as alternativas mudassem de cor, quando a opção correta fosse escolhida e também quando o tempo acabasse.
+#inserir print do momento em que isso ocorre.
+
+6. Para realização desse projeto, as seguites tecnologias foram utilizadas:
+6.1 React
+6.2 Redux
+6.3 JavaScript
+6.4 CSS
+
+6.
+
+

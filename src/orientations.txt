@@ -16,7 +16,7 @@ Na thread => Conteúdo da thread.
 => Lembrar de remover o undefined da tela de ranking quando o acesso é feito diretamenta
 =>  Redirecionar o jogador caso ele tente acessar a tela de /game diretamente.
 
-6. LocalStorage:
+6. Padrão do LocalStorage exigido pelo requisito:
 => 
 [
   { name: nome-da-pessoa, score: 10, picture: url-da-foto-no-gravatar }
