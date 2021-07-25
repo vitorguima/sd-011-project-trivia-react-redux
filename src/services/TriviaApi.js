@@ -11,17 +11,17 @@ async function getToken() {
   }
 }
 
-async function getQuestions(receiveToken, category, answear, dificulty) {
+async function getQuestions(receiveToken, category, answear, difficulty) {
   let URL = '';
 
-  if (category !== '' && answear !== '' && dificulty !== '') {
-    URL = `&category=${category}&difficulty=${dificulty}&type=${answear}&token=`;
-  } else if (category !== '') {
-    URL = `&category=${category}&token=`;
-  } else if (answear !== '') {
+  if (category && answear && difficulty) {
+    URL = `&category=${Number(category)}&difficulty=${difficulty}&type=${answear}&token=`;
+  } else if (category) {
+    URL = `&category=${Number(category)}&token=`;
+  } else if (difficulty) {
+    URL = `&difficulty=${difficulty}&token=`;
+  } else if (answear) {
     URL = `&type=${answear}&token=`;
-  } else if (dificulty !== '') {
-    URL = `&difficulty=${dificulty}&token=`;
   } else {
     URL = '&token=';
   }

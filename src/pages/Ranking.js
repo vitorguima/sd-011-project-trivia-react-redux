@@ -1,13 +1,28 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import back from '../images/back_4.png';
 import trophy from '../images/trophy_1.png';
+import { modifyPlayingTruOrFalse } from '../redux/actions';
 import '../App.css';
 
 class Ranking extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      redirectHome: false,
+    };
     this.renderRanking = this.renderRanking.bind(this);
+    this.backHomeClickHandler = this.backHomeClickHandler.bind(this);
+  }
+
+  backHomeClickHandler() {
+    const { playingfalse } = this.props;
+    playingfalse(false);
+    this.setState({
+      redirectHome: true,
+    });
   }
 
   renderRanking() {
@@ -39,6 +54,8 @@ class Ranking extends Component {
   }
 
   render() {
+    const { redirectHome } = this.state;
+    if (redirectHome) return <Redirect to="/" />;
     return (
       <div className="page-ranking">
         <div className="header-ranking">
@@ -48,21 +65,32 @@ class Ranking extends Component {
         <div className="div-users-ranking">
           { this.renderRanking() }
         </div>
-        <Link to="/" style={ { textDecoration: 'none' } }>
-          <div className="ranking-back-home">
-            <img src={ back } alt="Voltar" className="back-img-home" />
-            <button
-              type="button"
-              data-testid="btn-go-home"
-              className="btn-neon-blue back-home"
-            >
-              Voltar ao início
-            </button>
-          </div>
-        </Link>
+        <div className="ranking-back-home">
+          <img src={ back } alt="Voltar" className="back-img-home" />
+          <button
+            type="button"
+            data-testid="btn-go-home"
+            className="btn-neon-blue back-home"
+            onClick={ this.backHomeClickHandler }
+          >
+            Voltar ao início
+          </button>
+        </div>
       </div>
     );
   }
 }
 
-export default Ranking;
+const mapDispatchToProps = (dispatch) => ({
+  playingfalse: (bool) => dispatch(modifyPlayingTruOrFalse(bool)),
+});
+
+export default connect(null, mapDispatchToProps)(Ranking);
+
+Ranking.propTypes = {
+  playingfalse: PropTypes.func,
+};
+
+Ranking.defaultProps = {
+  playingfalse: PropTypes.func,
+};

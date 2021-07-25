@@ -55,7 +55,7 @@ class Game extends Component {
         dificultyConfig: dificulty,
       },
     };
-    const time = 500;
+    const time = 700;
     localStorage.state = JSON.stringify(player);
     setTimeout(() => {
       this.getQuestionList();
@@ -148,13 +148,14 @@ class Game extends Component {
     const { redirectToFeedBack, componentMounted } = this.state;
     const { playing } = this.props;
     if (redirectToFeedBack) return <Redirect to="/feedback" />;
+
     return (
       <>
         {this.checkApiResponseValidity()}
         <Header />
         <div className="game-container">
           {
-            componentMounted && playing ? <Questions
+            playing && componentMounted ? <Questions
               func={ this.handleClickNextBtn }
             /> : <Loading />
           }

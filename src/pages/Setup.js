@@ -44,13 +44,13 @@ class Setup extends Component {
     const { soundTrue } = this.props;
     return (
       soundTrue ? (
-        <GiSoundOff
+        <GiSoundOn
           className="sound-btn"
           size="3em"
           onClick={ this.SoundClickHandler }
         />)
         : (
-          <GiSoundOn
+          <GiSoundOff
             className="sound-btn"
             size="3em"
             onClick={ this.SoundClickHandler }
