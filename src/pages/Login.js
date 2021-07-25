@@ -11,6 +11,7 @@ import { sendGravatarSrcImg, sendQuestions, resetStoreScores,
 import InputName from '../components/InputName';
 import InputEmail from '../components/InputEmail';
 import PlayBtn from '../components/PlayBtn';
+import about from '../images/about.png';
 import { getToken } from '../services/TriviaApi';
 import { playMain, stopMain } from '../components/SoundControl';
 import '../App.css';
@@ -31,6 +32,7 @@ class Login extends Component {
     this.localStorageSave = this.localStorageSave.bind(this);
     this.receiveToken = this.receiveToken.bind(this);
     this.resetStoreInfos = this.resetStoreInfos.bind(this);
+    this.aboutBtn = this.aboutBtn.bind(this);
     this.aboutBtnClickHandler = this.aboutBtnClickHandler.bind(this);
   }
 
@@ -125,6 +127,23 @@ class Login extends Component {
     );
   }
 
+  aboutBtn() {
+    return (
+      <div className="div-btn-about">
+        <button
+          type="button"
+          className="btn-neon-red btn-about"
+          onClick={ this.aboutBtnClickHandler }
+        >
+          Sobre
+        </button>
+        <div className="div-btn-img-about">
+          <img src={ about } alt="sobre" className="btn-about-img" />
+        </div>
+      </div>
+    );
+  }
+
   aboutBtnClickHandler() {
     this.setState({
       redirectToAbout: true,
@@ -148,12 +167,7 @@ class Login extends Component {
               <PlayBtn func={ this.playHandle } />
             </form>
             <BtnSetupScreen />
-            <button
-              type="button"
-              onClick={ this.aboutBtnClickHandler }
-            >
-              Sobre
-            </button>
+            <this.aboutBtn />
             { showImg ? this.showProfileImg() : '' }
           </section>
         </header>

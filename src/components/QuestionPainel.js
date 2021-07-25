@@ -7,15 +7,15 @@ class QuestionPainel extends Component {
     const { triviaQuestions, idTrivia, questionNumber } = this.props;
     const { difficulty } = triviaQuestions[idTrivia];
     return (
-      <>
-        <h2>
-          {`Questão: ${questionNumber}/5`}
-        </h2>
-        <h3>
-          Dificulty:
-          { difficulty }
-        </h3>
-      </>
+      <div div className="question-panel">
+        <span>
+          {`Questão: ${questionNumber}/5 | `}
+        </span>
+        <span>
+          {`Dificulty: 
+          ${difficulty}`}
+        </span>
+      </div>
     );
   }
 }
