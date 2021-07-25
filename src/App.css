@@ -488,7 +488,16 @@ body {
   align-items: center;
   display: flex;
   justify-content: center;
+  margin-top: 10px;
+}
+
+.setup-back-home2 {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-bottom: 20px;
+  margin-left: 55px;
 }
 
 .setup-btn {

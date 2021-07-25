@@ -16,6 +16,7 @@ class Setup extends Component {
       categoryConfig: '',
       answearConfig: '',
       dificultyConfig: '',
+      appliedConfig: false,
     };
     this.dificultyRender = this.dificultyRender.bind(this);
     this.confirmBtnRender = this.confirmBtnRender.bind(this);
@@ -72,29 +73,41 @@ class Setup extends Component {
       dificultyConfig: dificulty } = this.state;
     const { sendConfigToStore } = this.props;
     sendConfigToStore(category, answear, dificulty);
-    alert('Configurações aplicadas com sucesso!');
+    this.setState({
+      appliedConfig: true,
+    });
   }
 
   selectChangeHandler(e) {
     this.setState({
       [e.target.id]: e.target.value,
+      appliedConfig: false,
     });
   }
 
   confirmBtnRender() {
+    const { appliedConfig } = this.state;
     return (
-      <Link to="/" style={ { textDecoration: 'none' } }>
-        <div className="setup-back-home">
-          <img src={ back } alt="Voltar" className="back-img-home" />
-          <button
-            type="button"
-            className="btn-neon-blue back-home"
-            onClick={ this.confirmBtnClickHandler }
-          >
-            Aplicar Configurações
-          </button>
-        </div>
-      </Link>
+
+      <div className="setup-back-home2">
+        <button
+          type="button"
+          className="btn-neon-blue back-home"
+          onClick={ this.confirmBtnClickHandler }
+        >
+          Aplicar Configurações
+        </button>
+        { appliedConfig
+          ? (
+            <h2
+              style={ { color: 'green' } }
+            >
+              Configurações Aplicadas!
+            </h2>
+          )
+          : ''}
+      </div>
+
     );
   }
 

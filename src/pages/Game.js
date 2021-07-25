@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { Howl, Howler } from 'howler';
 import Questions from '../components/Questions';
 import { questionIdIncrease, modifyTimer, InitiateTimer, modifyNextBtn,
   addQuestionsPlayed, resetTriviaQuestionsIdAndPlayedQuestions,
@@ -15,7 +14,6 @@ import Header from '../components/Header';
 import { FormatQuestions, FormatCorrectQuestion,
   FormatIncorrectQuestions } from '../helpers/FormatQuestions';
 import Loading from '../components/Loading';
-import bleach from '../sounds/Bleach.mp3';
 
 class Game extends Component {
   constructor(props) {
@@ -28,7 +26,6 @@ class Game extends Component {
     this.resetQuestionsBorderColor = this.resetQuestionsBorderColor.bind(this);
     this.getQuestionList = this.getQuestionList.bind(this);
     this.checkApiResponseValidity = this.checkApiResponseValidity.bind(this);
-    this.playAudio = this.playAudio.bind(this);
   }
 
   componentDidMount() {
@@ -62,7 +59,6 @@ class Game extends Component {
     setTimeout(() => {
       this.getQuestionList();
     }, time);
-    this.playAudio(bleach);
   }
 
   async getQuestionList() {
@@ -98,13 +94,6 @@ class Game extends Component {
     this.setState({
       componentMounted: true,
     });
-  }
-
-  playAudio(src) {
-    const sound = new Howl({
-      src: [src],
-    });
-    sound.play();
   }
 
   checkApiResponseValidity() {
