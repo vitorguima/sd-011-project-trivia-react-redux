@@ -22,6 +22,7 @@ class Login extends Component {
       showImg: false,
       token: '',
       redirect: false,
+      redirectToAbout: false,
     };
     this.handleOnChangeInputValidate = this.handleOnChangeInputValidate.bind(this);
     this.playHandle = this.playHandle.bind(this);
@@ -29,6 +30,7 @@ class Login extends Component {
     this.localStorageSave = this.localStorageSave.bind(this);
     this.receiveToken = this.receiveToken.bind(this);
     this.resetStoreInfos = this.resetStoreInfos.bind(this);
+    this.aboutBtnClickHandler = this.aboutBtnClickHandler.bind(this);
   }
 
   componentDidMount() {
@@ -89,7 +91,13 @@ class Login extends Component {
 
   localStorageSave() {
     const { token } = this.state;
-    const { score, assertions, playerName, playerEmail, playerPhoto } = this.props;
+    const { score,
+      assertions,
+      playerName,
+      playerEmail,
+      playerPhoto,
+      getCategoryConfigFromStore, getAnswearConfigFromStore, getDificultyConfigFromStore,
+    } = this.props;
     const player = {
       player: {
         name: playerName,
@@ -97,6 +105,9 @@ class Login extends Component {
         score,
         gravatarEmail: playerEmail,
         photo: playerPhoto,
+        categoryConfig: getCategoryConfigFromStore,
+        answearConfig: getAnswearConfigFromStore,
+        dificultyConfig: getDificultyConfigFromStore,
       },
     };
     localStorage.state = JSON.stringify(player);
@@ -110,10 +121,17 @@ class Login extends Component {
     );
   }
 
+  aboutBtnClickHandler() {
+    this.setState({
+      redirectToAbout: true,
+    });
+  }
+
   render() {
-    const { showImg, redirect } = this.state;
+    const { showImg, redirect, redirectToAbout } = this.state;
 
     if (redirect) return <Redirect to="/game" />;
+    if (redirectToAbout) return <Redirect to="/about" />;
 
     return (
       <div>
@@ -126,6 +144,12 @@ class Login extends Component {
               <PlayBtn func={ this.playHandle } />
             </form>
             <BtnSetupScreen />
+            <button
+              type="button"
+              onClick={ this.aboutBtnClickHandler }
+            >
+              Sobre
+            </button>
             { showImg ? this.showProfileImg() : '' }
           </section>
         </header>
@@ -141,6 +165,9 @@ const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
   score: state.player.score,
   playerPhoto: state.player.srcGravatarImg,
+  getCategoryConfigFromStore: state.gameMechanics.categoryValue,
+  getAnswearConfigFromStore: state.gameMechanics.answearType,
+  getDificultyConfigFromStore: state.gameMechanics.dificulty,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -160,6 +187,9 @@ Login.propTypes = {
   playerName: PropTypes.string.isRequired,
   playerEmail: PropTypes.string.isRequired,
   playerPhoto: PropTypes.string.isRequired,
+  getCategoryConfigFromStore: PropTypes.string.isRequired,
+  getAnswearConfigFromStore: PropTypes.string.isRequired,
+  getDificultyConfigFromStore: PropTypes.string.isRequired,
 };
 // -
 Login.defaultProps = {

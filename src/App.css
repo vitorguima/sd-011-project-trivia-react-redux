@@ -254,7 +254,7 @@ body {
 
 .questions-cat {
   color: aliceblue;
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 400;
 }
 
@@ -262,7 +262,7 @@ body {
   align-self: flex-start;
   color: white;
   display: flex;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 .timer-text {
@@ -494,4 +494,46 @@ body {
 .setup-btn {
   margin: 0;
   width: 150px;
+}
+
+.loading-circle.display {
+  visibility: visible;
+}
+
+.loading-circle {
+  animation: spin 0.5s infinite linear;
+  border: 5px solid #fc88cf;
+  border-radius: 100%;
+  border-top: 6px solid #9c41f2;
+  height: 2rem;
+  margin-right: 275px;
+  margin-top: 250px;
+  position: absolute;
+  width: 2rem;
+}
+
+.loading {
+  border-radius: 100%;
+  color: #fc88cf;
+  font-size: 20px;
+  font-weight: 900;
+  height: 2rem;
+  margin-right: 20px;
+  margin-top: 260px;
+  position: absolute;
+  text-decoration: solid;
+  width: 15rem;
+}
+
+@keyframes spin {
+
+  from {
+    transform: rotate(0deg); }
+
+  to {
+    transform: rotate(360deg); }
+}
+
+.about-description {
+  color: antiquewhite;
 }

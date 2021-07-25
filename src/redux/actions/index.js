@@ -13,6 +13,8 @@ const RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS = (
   'RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS');
 const RESET_STORE_SCORES = 'RESET_STORE_SCORES';
 const RECOVER_NAME_AND_EMAIL_FROM_REFRESH = 'RECOVER_NAME_AND_EMAIL_FROM_REFRESH';
+const SEND_CONFIG_OPTIONS = 'SEND_CONFIG_OPTIONS';
+const MODIFY_PLAYING_TRUE_FALSE = 'MODIFY_PLAYING_TRUE_FALSE';
 
 function sendGravatarSrcImg(name, src, email, token) {
   return {
@@ -121,6 +123,22 @@ function recoverNameAndEmailFromRefresh(name, email, img) {
   };
 }
 
+function sendConfigOptionsAction(category, answear, dificulty) {
+  return {
+    type: SEND_CONFIG_OPTIONS,
+    category,
+    answear,
+    dificulty,
+  };
+}
+
+function modifyPlayingTruOrFalse(bool) {
+  return {
+    type: MODIFY_PLAYING_TRUE_FALSE,
+    bool,
+  };
+}
+
 export {
   SEND_GRAVATAR_SRC_IMG,
   sendGravatarSrcImg,
@@ -150,5 +168,8 @@ export {
   resetStoreScores,
   RECOVER_NAME_AND_EMAIL_FROM_REFRESH,
   recoverNameAndEmailFromRefresh,
-
+  sendConfigOptionsAction,
+  SEND_CONFIG_OPTIONS,
+  modifyPlayingTruOrFalse,
+  MODIFY_PLAYING_TRUE_FALSE,
 };

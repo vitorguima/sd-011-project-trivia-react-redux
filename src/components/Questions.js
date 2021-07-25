@@ -7,53 +7,24 @@ import { increasePlayerScore, modifyNextBtn,
 } from '../redux/actions';
 import quot1 from '../images/quots_2.png';
 import quot2 from '../images/quots_1.png';
-
-const INCORRECT = '#incorrect-answear';
-const CORRECT = '#correct-answear';
+import {
+  changeBorderColor,
+  disableBtnsAfterTimer,
+  allowAbleBtnsAfterNextClick } from '../helpers/FunctionsHelpers';
 
 class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
     };
-    this.changeBorderColor = this.changeBorderColor.bind(this);
-    this.disableBtnsAfterTimer = this.disableBtnsAfterTimer.bind(this);
     this.generateQuestionsBtnFunc = this.generateQuestionsBtnFunc.bind(this);
-    this.allowAbleBtnsAfterNextClick = this.allowAbleBtnsAfterNextClick.bind(this);
-    this.localStorageNewSave = this.localStorageNewSave.bind(this);
     this.manageCorrectAnswear = this.manageCorrectAnswear.bind(this);
+    this.localStorageNewSave = this.localStorageNewSave.bind(this);
   }
 
   componentDidMount() {
     const { sendAbleQuestBtnFunc } = this.props;
-    sendAbleQuestBtnFunc(this.allowAbleBtnsAfterNextClick);
-  }
-
-  changeBorderColor() {
-    const wrong = document.querySelectorAll(INCORRECT);
-    const correct = document.querySelector(CORRECT);
-    wrong.forEach((element) => {
-      element.style.border = '3px solid rgb(255, 0, 0)';
-    });
-    correct.style.border = '3px solid rgb(6, 240, 15)';
-  }
-
-  disableBtnsAfterTimer() {
-    const wrong = document.querySelectorAll(INCORRECT);
-    const correct = document.querySelector(CORRECT);
-    wrong.forEach((element) => {
-      element.disabled = true;
-    });
-    correct.disabled = true;
-  }
-
-  allowAbleBtnsAfterNextClick() {
-    const wrong = document.querySelectorAll(INCORRECT);
-    const correct = document.querySelector(CORRECT);
-    wrong.forEach((element) => {
-      element.disabled = false;
-    });
-    correct.disabled = false;
+    sendAbleQuestBtnFunc(allowAbleBtnsAfterNextClick);
   }
 
   manageCorrectAnswear() {
@@ -64,12 +35,12 @@ class Questions extends Component {
     this.localStorageNewSave(point, assertions);
     addPoint(point, (assertions + 1));
     showNextBtn(true);
-    this.disableBtnsAfterTimer();
+    disableBtnsAfterTimer();
   }
 
   validateScore(e) {
     const {
-      triviaQuestions, id,
+      triviaQuestions, idTrivia: id,
       showNextBtn, stopTimer,
     } = this.props;
     const { difficulty } = triviaQuestions[id];
@@ -94,14 +65,18 @@ class Questions extends Component {
     if (e.target.id === 'correct-answear') {
       this.manageCorrectAnswear();
     } else if (e.target.id === 'incorrect-answear') {
-      this.disableBtnsAfterTimer();
+      disableBtnsAfterTimer();
       stopTimer();
       showNextBtn(true);
     }
   }
 
   localStorageNewSave(point, assertions) {
-    const { playerName, playerEmail } = this.props;
+    const {
+      playerName,
+      playerEmail,
+      getCategoryConfigFromStore,
+      getAnswearConfigFromStore, getDificultyConfigFromStore } = this.props;
     const previousScore = JSON.parse(localStorage.state).player.score;
     const picture = JSON.parse(localStorage.state).player.photo;
     const player = {
@@ -111,13 +86,17 @@ class Questions extends Component {
         score: previousScore + point,
         gravatarEmail: playerEmail,
         photo: picture,
+        categoryConfig: getCategoryConfigFromStore,
+        answearConfig: getAnswearConfigFromStore,
+        dificultyConfig: getDificultyConfigFromStore,
       },
     };
     localStorage.state = JSON.stringify(player);
   }
 
   generateQuestionsBtnFunc() {
-    const { incorrectQuest, correctAnswears, id } = this.props;
+    const { incorrectQuest, correctAnswears,
+      idTrivia: id } = this.props;
     return (
       <div className="options-container">
         { incorrectQuest[id].map((item, index) => (
@@ -127,7 +106,7 @@ class Questions extends Component {
             key={ `wrong-answer-${index}` }
             className="inputNeon-purple"
             data-testid={ `wrong-answer-${index}` }
-            onClick={ (e) => { this.changeBorderColor(); this.validateScore(e); } }
+            onClick={ (e) => { changeBorderColor(); this.validateScore(e); } }
           >
             { item }
           </button>
@@ -137,7 +116,7 @@ class Questions extends Component {
           id="correct-answear"
           className="inputNeon-purple"
           data-testid="correct-answer"
-          onClick={ (e) => { this.changeBorderColor(); this.validateScore(e); } }
+          onClick={ (e) => { changeBorderColor(); this.validateScore(e); } }
         >
           { correctAnswears[id] }
         </button>
@@ -147,13 +126,13 @@ class Questions extends Component {
 
   render() {
     const {
-      triviaQuestions, id, func, globalTimer, shouldShowNextBtn,
+      triviaQuestions, idTrivia: id, func, globalTimer, shouldShowNextBtn,
       showNextBtn,
     } = this.props;
-    const { category, question } = triviaQuestions[id];
+    const { category, question, difficulty } = triviaQuestions[id];
     if (globalTimer <= 0) {
-      this.disableBtnsAfterTimer();
-      this.changeBorderColor();
+      disableBtnsAfterTimer();
+      changeBorderColor();
       showNextBtn(true);
     }
 
@@ -164,6 +143,10 @@ class Questions extends Component {
           <div className="neon-border-question">
             <img alt="" src={ quot1 } className="quot-1" />
             <div className="question-div">
+              <h3>
+                Dificulty:
+                { difficulty }
+              </h3>
               <h4 data-testid="question-category" className="questions-cat">
                 Category:
                 { category }
@@ -205,6 +188,9 @@ const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
   playerName: state.player.name,
   playerEmail: state.player.gravatarEmail,
+  getCategoryConfigFromStore: state.gameMechanics.categoryValue,
+  getAnswearConfigFromStore: state.gameMechanics.answearType,
+  getDificultyConfigFromStore: state.gameMechanics.dificulty,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -219,7 +205,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Questions);
 
 Questions.propTypes = ({
   triviaQuestions: PropTypes.arrayOf(Object),
-  id: PropTypes.number,
+  idTrivia: PropTypes.number,
   func: PropTypes.func,
   globalTimer: PropTypes.number.isRequired,
   addPoint: PropTypes.func,
@@ -227,17 +213,19 @@ Questions.propTypes = ({
   shouldShowNextBtn: PropTypes.bool.isRequired,
   sendAbleQuestBtnFunc: PropTypes.func,
   assertions: PropTypes.number.isRequired,
-  playerName: PropTypes.string.isRequired,
-  playerEmail: PropTypes.string.isRequired,
   stopTimer: PropTypes.func,
   incorrectQuest: PropTypes.arrayOf(Array),
   correctAnswears: PropTypes.arrayOf(Array),
-
+  playerName: PropTypes.string.isRequired,
+  playerEmail: PropTypes.string.isRequired,
+  getCategoryConfigFromStore: PropTypes.string.isRequired,
+  getAnswearConfigFromStore: PropTypes.string.isRequired,
+  getDificultyConfigFromStore: PropTypes.string.isRequired,
 });
 
 Questions.defaultProps = {
+  idTrivia: 0,
   triviaQuestions: [],
-  id: 0,
   func: {},
   addPoint: PropTypes.func,
   showNextBtn: PropTypes.func,

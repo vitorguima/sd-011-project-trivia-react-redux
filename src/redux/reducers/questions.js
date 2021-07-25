@@ -2,6 +2,7 @@ import {
   SEND_QUESTIONS,
   QUESTION_ID_INCREASE,
   RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS,
+  MODIFY_PLAYING_TRUE_FALSE,
 
 } from '../actions';
 
@@ -10,6 +11,7 @@ const INITIAL_STATE = {
   questions: [],
   incorrectAnswears: [],
   correctAnswears: [],
+  playing: false,
 };
 
 function trivia(state = INITIAL_STATE, action) {
@@ -30,6 +32,11 @@ function trivia(state = INITIAL_STATE, action) {
     return ({
       ...state,
       idTrivia: 0,
+    });
+  case MODIFY_PLAYING_TRUE_FALSE:
+    return ({
+      ...state,
+      playing: action.bool,
     });
 
   default:
