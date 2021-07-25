@@ -15,6 +15,7 @@ const RESET_STORE_SCORES = 'RESET_STORE_SCORES';
 const RECOVER_NAME_AND_EMAIL_FROM_REFRESH = 'RECOVER_NAME_AND_EMAIL_FROM_REFRESH';
 const SEND_CONFIG_OPTIONS = 'SEND_CONFIG_OPTIONS';
 const MODIFY_PLAYING_TRUE_FALSE = 'MODIFY_PLAYING_TRUE_FALSE';
+const MODIFY_PLAY_SOUND = 'MODIFY_PLAY_SOUND';
 
 function sendGravatarSrcImg(name, src, email, token) {
   return {
@@ -139,6 +140,13 @@ function modifyPlayingTruOrFalse(bool) {
   };
 }
 
+function modifyPlaySound(bool) {
+  return {
+    type: MODIFY_PLAY_SOUND,
+    bool,
+  };
+}
+
 export {
   SEND_GRAVATAR_SRC_IMG,
   sendGravatarSrcImg,
@@ -172,4 +180,6 @@ export {
   SEND_CONFIG_OPTIONS,
   modifyPlayingTruOrFalse,
   MODIFY_PLAYING_TRUE_FALSE,
+  modifyPlaySound,
+  MODIFY_PLAY_SOUND,
 };

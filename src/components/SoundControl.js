@@ -1,18 +1,56 @@
-import React, { Component } from 'react';
-// import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
+import mainTheme from '../sounds/ShowDoMilhaoTheme.mp3';
+import Certa from '../sounds/certaResposta.mp3';
+import Proxima from '../sounds/proximaPergunta.mp3';
+import Errou from '../sounds/Errou.mp3';
 
-class SoundControl extends Component {
-  constructor(props) {
-    super(props);
-    this.soundPlayer = this.soundPlayer.bind(this);
-  }
+const sfx = {
+  main: new Howl({
+    src: [mainTheme],
+    volume: 0.15,
+  }),
+  certa: new Howl({
+    src: [Certa],
+  }),
+  proxima: new Howl({
+    src: [Proxima],
+  }),
+  errou: new Howl({
+    src: [Errou],
+  }),
+};
 
-  render() {
-    return (
-      <>
-      </>
-    );
+function stopMain() {
+  sfx.main.stop();
+}
+
+function playMain() {
+  if (!sfx.main.playing()) {
+    sfx.main.play();
   }
 }
 
-export default SoundControl;
+function playProxima() {
+  sfx.proxima.play();
+}
+
+function stopProxima() {
+  sfx.certa.stop();
+}
+
+function playCerta() {
+  sfx.certa.play();
+}
+
+function playErrou() {
+  sfx.errou.play();
+}
+
+export {
+  playMain,
+  stopMain,
+  playProxima,
+  playCerta,
+  stopProxima,
+  playErrou,
+};

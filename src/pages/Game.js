@@ -14,6 +14,7 @@ import Header from '../components/Header';
 import { FormatQuestions, FormatCorrectQuestion,
   FormatIncorrectQuestions } from '../helpers/FormatQuestions';
 import Loading from '../components/Loading';
+import { playProxima } from '../components/SoundControl';
 
 class Game extends Component {
   constructor(props) {
@@ -109,22 +110,21 @@ class Game extends Component {
 
   handleClickNextBtn() {
     const {
-      increaseId, idTrivia, AddTimeToTimer, resetTimer, stopTimerfunc,
-      showNextBtn, allowQuestionsBtn, runningTimer,
+      increaseId, idTrivia, AddTimeToTimer, resetTimer,
+      showNextBtn, allowQuestionsBtn,
       totalQuestions, resetQuestionsId, increasePlayedQuestions,
+      soundTrue,
     } = this.props;
     showNextBtn(false);
     increaseId(idTrivia + 1);
     allowQuestionsBtn();
     increasePlayedQuestions();
-    if (runningTimer) {
-      const TRINTA = 30;
-      AddTimeToTimer(TRINTA);
-      stopTimerfunc();
-      resetTimer();
-    }
+    const TRINTA = 30;
+    AddTimeToTimer(TRINTA);
+    resetTimer();
     this.resetQuestionsBorderColor();
     const questionNumber = 5;
+    if (soundTrue && totalQuestions < questionNumber) playProxima();
     if (totalQuestions === questionNumber) {
       resetQuestionsId();
       return (
@@ -177,6 +177,7 @@ const mapStateToProps = (state) => ({
   getDifficultyConfigFromStore: state.gameMechanics.dificulty,
   playing: state.questions.playing,
   questionListLength: state.questions.questions,
+  soundTrue: state.questions.playSound,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -199,12 +200,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(Game);
 Game.propTypes = {
   idTrivia: PropTypes.number,
   increaseId: PropTypes.func.isRequired,
-  stopTimerfunc: PropTypes.func,
   AddTimeToTimer: PropTypes.func,
   resetTimer: PropTypes.func,
   showNextBtn: PropTypes.func,
   allowQuestionsBtn: PropTypes.func,
-  runningTimer: PropTypes.bool.isRequired,
   totalQuestions: PropTypes.number.isRequired,
   resetQuestionsId: PropTypes.func,
   sendQuestionList: PropTypes.func,
@@ -218,11 +217,11 @@ Game.propTypes = {
   playingTrue: PropTypes.func,
   playing: PropTypes.bool,
   questionListLength: PropTypes.arrayOf(Array).isRequired,
+  soundTrue: PropTypes.bool.isRequired,
 };
 
 Game.defaultProps = {
   idTrivia: 0,
-  stopTimerfunc: PropTypes.func,
   AddTimeToTimer: PropTypes.func,
   resetTimer: PropTypes.func,
   showNextBtn: PropTypes.func,

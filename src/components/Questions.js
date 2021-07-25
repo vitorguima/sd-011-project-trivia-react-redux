@@ -11,6 +11,8 @@ import {
   changeBorderColor,
   disableBtnsAfterTimer,
   allowAbleBtnsAfterNextClick } from '../helpers/FunctionsHelpers';
+import { playProxima, playCerta, playErrou } from './SoundControl';
+import QuestionPainel from './QuestionPainel';
 
 class Questions extends Component {
   constructor(props) {
@@ -23,12 +25,14 @@ class Questions extends Component {
   }
 
   componentDidMount() {
-    const { sendAbleQuestBtnFunc } = this.props;
+    const { sendAbleQuestBtnFunc, soundTrue } = this.props;
+    if (soundTrue) playProxima();
     sendAbleQuestBtnFunc(allowAbleBtnsAfterNextClick);
   }
 
   manageCorrectAnswear() {
-    const { addPoint, globalTimer, assertions, showNextBtn, stopTimer } = this.props;
+    const { addPoint, globalTimer, assertions, showNextBtn,
+      stopTimer, soundTrue } = this.props;
     stopTimer();
     const DEZ = 10;
     const point = DEZ + (globalTimer * this.multiplier);
@@ -36,12 +40,13 @@ class Questions extends Component {
     addPoint(point, (assertions + 1));
     showNextBtn(true);
     disableBtnsAfterTimer();
+    if (soundTrue) playCerta();
   }
 
   validateScore(e) {
     const {
       triviaQuestions, idTrivia: id,
-      showNextBtn, stopTimer,
+      showNextBtn, stopTimer, soundTrue,
     } = this.props;
     const { difficulty } = triviaQuestions[id];
     this.multiplier = 0;
@@ -65,6 +70,7 @@ class Questions extends Component {
     if (e.target.id === 'correct-answear') {
       this.manageCorrectAnswear();
     } else if (e.target.id === 'incorrect-answear') {
+      if (soundTrue) playErrou();
       disableBtnsAfterTimer();
       stopTimer();
       showNextBtn(true);
@@ -129,7 +135,7 @@ class Questions extends Component {
       triviaQuestions, idTrivia: id, func, globalTimer, shouldShowNextBtn,
       showNextBtn,
     } = this.props;
-    const { category, question, difficulty } = triviaQuestions[id];
+    const { category, question } = triviaQuestions[id];
     if (globalTimer <= 0) {
       disableBtnsAfterTimer();
       changeBorderColor();
@@ -143,10 +149,7 @@ class Questions extends Component {
           <div className="neon-border-question">
             <img alt="" src={ quot1 } className="quot-1" />
             <div className="question-div">
-              <h3>
-                Dificulty:
-                { difficulty }
-              </h3>
+              <QuestionPainel />
               <h4 data-testid="question-category" className="questions-cat">
                 Category:
                 { category }
@@ -191,6 +194,7 @@ const mapStateToProps = (state) => ({
   getCategoryConfigFromStore: state.gameMechanics.categoryValue,
   getAnswearConfigFromStore: state.gameMechanics.answearType,
   getDificultyConfigFromStore: state.gameMechanics.dificulty,
+  soundTrue: state.questions.playSound,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -221,6 +225,7 @@ Questions.propTypes = ({
   getCategoryConfigFromStore: PropTypes.string.isRequired,
   getAnswearConfigFromStore: PropTypes.string.isRequired,
   getDificultyConfigFromStore: PropTypes.string.isRequired,
+  soundTrue: PropTypes.bool.isRequired,
 });
 
 Questions.defaultProps = {

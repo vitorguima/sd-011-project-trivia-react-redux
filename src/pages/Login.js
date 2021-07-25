@@ -12,6 +12,7 @@ import InputName from '../components/InputName';
 import InputEmail from '../components/InputEmail';
 import PlayBtn from '../components/PlayBtn';
 import { getToken } from '../services/TriviaApi';
+import { playMain, stopMain } from '../components/SoundControl';
 import '../App.css';
 
 class Login extends Component {
@@ -34,6 +35,8 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    const { soundTrue } = this.props;
+    if (soundTrue) playMain();
     this.receiveToken();
     this.resetStoreInfos();
     const button = document.querySelector('#play-btn');
@@ -87,6 +90,7 @@ class Login extends Component {
     this.setState({
       redirect: true,
     });
+    stopMain();
   }
 
   localStorageSave() {
@@ -168,6 +172,7 @@ const mapStateToProps = (state) => ({
   getCategoryConfigFromStore: state.gameMechanics.categoryValue,
   getAnswearConfigFromStore: state.gameMechanics.answearType,
   getDificultyConfigFromStore: state.gameMechanics.dificulty,
+  soundTrue: state.questions.playSound,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -190,6 +195,7 @@ Login.propTypes = {
   getCategoryConfigFromStore: PropTypes.string.isRequired,
   getAnswearConfigFromStore: PropTypes.string.isRequired,
   getDificultyConfigFromStore: PropTypes.string.isRequired,
+  soundTrue: PropTypes.bool.isRequired,
 };
 // -
 Login.defaultProps = {

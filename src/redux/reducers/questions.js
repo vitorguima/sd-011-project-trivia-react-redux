@@ -3,6 +3,7 @@ import {
   QUESTION_ID_INCREASE,
   RESET_TRIVIA_QUESTIONSID_AND_PLAYED_QUESTIONS,
   MODIFY_PLAYING_TRUE_FALSE,
+  MODIFY_PLAY_SOUND,
 
 } from '../actions';
 
@@ -12,6 +13,7 @@ const INITIAL_STATE = {
   incorrectAnswears: [],
   correctAnswears: [],
   playing: false,
+  playSound: false,
 };
 
 function trivia(state = INITIAL_STATE, action) {
@@ -37,6 +39,11 @@ function trivia(state = INITIAL_STATE, action) {
     return ({
       ...state,
       playing: action.bool,
+    });
+  case MODIFY_PLAY_SOUND:
+    return ({
+      ...state,
+      playSound: action.bool,
     });
 
   default:

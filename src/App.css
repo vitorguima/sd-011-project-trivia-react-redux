@@ -546,3 +546,8 @@ body {
 .about-description {
   color: antiquewhite;
 }
+
+.sound-btn {
+  margin-left: 20px;
+  margin-top: 10px;
+}

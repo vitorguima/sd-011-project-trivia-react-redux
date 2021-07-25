@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { GiSoundOn, GiSoundOff } from 'react-icons/gi';
 import setup from '../images/gear.png';
 import back from '../images/back_4.png';
 import '../App.css';
 import CategoryOptions from '../components/CategoryOptions';
-import { sendConfigOptionsAction } from '../redux/actions';
+import { sendConfigOptionsAction, modifyPlaySound } from '../redux/actions';
+import { stopMain, playMain } from '../components/SoundControl';
 // import '../css/btnSetupScreen.css';
 
 class Setup extends Component {
@@ -24,6 +26,36 @@ class Setup extends Component {
     this.answearTypeRender = this.answearTypeRender.bind(this);
     this.categoryTypeRender = this.categoryTypeRender.bind(this);
     this.selectChangeHandler = this.selectChangeHandler.bind(this);
+    this.SoundClickHandler = this.SoundClickHandler.bind(this);
+    this.soundBtnRender = this.soundBtnRender.bind(this);
+  }
+
+  SoundClickHandler() {
+    const { allowSound, soundTrue } = this.props;
+    if (soundTrue) {
+      stopMain();
+      return allowSound(false);
+    }
+    allowSound(true);
+    playMain();
+  }
+
+  soundBtnRender() {
+    const { soundTrue } = this.props;
+    return (
+      soundTrue ? (
+        <GiSoundOff
+          className="sound-btn"
+          size="3em"
+          onClick={ this.SoundClickHandler }
+        />)
+        : (
+          <GiSoundOn
+            className="sound-btn"
+            size="3em"
+            onClick={ this.SoundClickHandler }
+          />)
+    );
   }
 
   categoryTypeRender() {
@@ -139,6 +171,7 @@ class Setup extends Component {
                 {this.categoryTypeRender()}
               </select>
             </label>
+            { this.soundBtnRender() }
           </div>
         </div>
         <br />
@@ -162,17 +195,25 @@ class Setup extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  soundTrue: state.questions.playSound,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   sendConfigToStore: (category, answear, dificulty) => (
     dispatch(sendConfigOptionsAction(category, answear, dificulty))),
+  allowSound: (bool) => dispatch(modifyPlaySound(bool)),
 });
 
-export default connect(null, mapDispatchToProps)(Setup);
+export default connect(mapStateToProps, mapDispatchToProps)(Setup);
 
 Setup.propTypes = {
   sendConfigToStore: PropTypes.func,
+  allowSound: PropTypes.func,
+  soundTrue: PropTypes.bool.isRequired,
 };
 
 Setup.defaultProps = {
   sendConfigToStore: PropTypes.func,
+  allowSound: PropTypes.func,
 };
