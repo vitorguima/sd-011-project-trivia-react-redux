@@ -5,6 +5,8 @@ import Timer from './Timer';
 import { increasePlayerScore, modifyNextBtn,
   allowQuestionsBtnAfterNextClick, modifyTimer, addQuestionsPlayed,
 } from '../redux/actions';
+import quot1 from '../images/quots_2.png';
+import quot2 from '../images/quots_1.png';
 
 const INCORRECT = '#incorrect-answear';
 const CORRECT = '#correct-answear';
@@ -115,12 +117,13 @@ class Questions extends Component {
     } = triviaQuestions[id];
 
     return (
-      <div>
+      <div className="options-container">
         { incorrectAnswers.map((incorrectAnswer, index) => (
           <button
             id="incorrect-answear"
             type="button"
             key={ `wrong-answer-${index}` }
+            className="inputNeon-purple"
             data-testid={ `wrong-answer-${index}` }
             onClick={ (e) => { this.changeBorderColor(); this.validateScore(e); } }
           >
@@ -130,6 +133,7 @@ class Questions extends Component {
         <button
           type="button"
           id="correct-answear"
+          className="inputNeon-purple"
           data-testid="correct-answer"
           onClick={ (e) => { this.changeBorderColor(); this.validateScore(e); } }
         >
@@ -152,22 +156,36 @@ class Questions extends Component {
     }
 
     return (
-      <div>
+      <>
         <Timer />
-        <h4 data-testid="question-category">{ category }</h4>
-        <h3 data-testid="question-text">{ question }</h3>
-        { this.generateQuestionsBtnFunc() }
-        {
-          shouldShowNextBtn ? (
-            <button
-              type="button"
-              onClick={ func }
-              data-testid="btn-next"
-            >
-              Próxima
-            </button>) : ''
-        }
-      </div>
+        <div className="question-container">
+          <div className="neon-border-question">
+            <img alt="" src={ quot1 } className="quot-1" />
+            <div className="question-div">
+              <h4 data-testid="question-category" className="questions-cat">
+                Category:
+                { category }
+              </h4>
+              <h3 data-testid="question-text" className="questions-text">{ question }</h3>
+            </div>
+            <img alt="" src={ quot2 } className="quot-2" />
+          </div>
+          <div>
+            { this.generateQuestionsBtnFunc() }
+            {
+              shouldShowNextBtn ? (
+                <button
+                  type="button"
+                  onClick={ func }
+                  className="btn-neon-red"
+                  data-testid="btn-next"
+                >
+                  Próxima
+                </button>) : ''
+            }
+          </div>
+        </div>
+      </>
     );
   }
 }

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import back from '../images/back_3.png';
+import trophy from '../images/trophy_1.png';
+import '../App.css';
 
 class FeedBack extends Component {
   constructor(props) {
@@ -12,6 +15,7 @@ class FeedBack extends Component {
     };
     this.handleClickRankBtn = this.handleClickRankBtn.bind(this);
     this.createRankingStorage = this.createRankingStorage.bind(this);
+    this.playAgain = this.playAgain.bind(this);
   }
 
   handleClickRankBtn() {
@@ -35,47 +39,65 @@ class FeedBack extends Component {
   }
 
   // Finalizado
+  playAgain() {
+    return (
+      <button
+        type="button"
+        data-testid="btn-play-again"
+        className="play-again btn-neon-red"
+      >
+        Jogar novamente
+      </button>);
+  }
 
   render() {
     const { score, assertion } = this.props;
     const expectedAssertions = 3;
     return (
-      <div>
+      <>
         <Header />
-        <h3 data-testid="feedback-text">
-          FeedBack:
-        </h3>
-        <h2 data-testid="feedback-text">
-          { assertion < expectedAssertions ? 'Podia ser melhor...' : 'Mandou bem!' }
-        </h2>
-        <h1
-          data-testid="feedback-total-score"
-        >
-          { score }
-        </h1>
-        <h1
-          data-testid="feedback-total-question"
-        >
-          { assertion }
-        </h1>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
+        <div className="feedback-page">
+
+          <h3 data-testid="feedback-text" className="feedback-text">
+            FeedBack:
+          </h3>
+          <h2 data-testid="feedback-text" className="feedback-result neonText">
+            { assertion < expectedAssertions ? 'Podia ser melhor...' : 'Mandou bem!' }
+          </h2>
+          <h1
+            data-testid="feedback-total-score"
+            className="final-score"
           >
-            Jogar novamente
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button
-            onClick={ this.handleClickRankBtn }
-            type="button"
-            data-testid="btn-ranking"
+            { score }
+          </h1>
+          <h1
+            data-testid="feedback-total-question"
+            className="feedback-points"
           >
-            Ver Ranking
-          </button>
-        </Link>
-      </div>
+            { assertion }
+            <span> acertos </span>
+          </h1>
+          <Link to="/" style={ { textDecoration: 'none' } }>
+            <div className="div-play-again">
+              <img src={ back } alt="Voltar" className="back-img" />
+              { this.playAgain() }
+            </div>
+          </Link>
+          <Link to="/ranking" style={ { textDecoration: 'none' } }>
+            <div className="div-btn-ranking">
+              <img src={ trophy } alt="Ranking" className="ranking-img" />
+              <button
+                onClick={ this.handleClickRankBtn }
+                type="button"
+                data-testid="btn-ranking"
+                className="btn-neon-blue btn-ranking"
+              >
+                Ver Ranking
+              </button>
+            </div>
+          </Link>
+        </div>
+      </>
     );
   }
 }
