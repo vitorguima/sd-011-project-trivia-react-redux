@@ -29,7 +29,7 @@ class Ranking extends Component {
         <div data-testid="ranking-title">Ranking</div>
         {
           fromRanking
-            // .sort((a, b) => b.score - a.score)
+            .sort((a, b) => b.score - a.score)
             .map((elements, i) => (
               <section key={ i }>
                 <div>
