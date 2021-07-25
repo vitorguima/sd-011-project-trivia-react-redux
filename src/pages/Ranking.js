@@ -14,7 +14,6 @@ class Ranking extends React.Component {
               <p data-testid={ `player-score-${index}` }>{element.score}</p>
               <img src={ element.avatar } alt="Foto do jogador" />
             </li>))}
-
         </ol>
         <Link to="/" data-testid="btn-go-home">
           Tela inicial

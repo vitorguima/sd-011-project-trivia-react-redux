@@ -6,8 +6,9 @@ export const getToken = async () => {
   return data;
 };
 
-export const getQuestions = async (token) => {
+export const getQuestions = async () => {
   const tree = 3;
+  const token = JSON.parse(localStorage.getItem('token'));
   const fetchEndpoint = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   let data = await fetchEndpoint.json();
   if (data.response_code === tree) {
@@ -16,7 +17,7 @@ export const getQuestions = async (token) => {
     const newFetch = await fetch(`https://opentdb.com/api.php?amount=5&token=${JSON.parse(localStorage.getItem('token'))}`);
     data = await newFetch.json();
   }
-  return data;
+  return data.results;
 };
 
 export const getGravatar = async (email) => {

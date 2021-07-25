@@ -14,9 +14,8 @@ class Game extends React.Component {
   }
 
   async componentDidMount() {
-    const token = JSON.parse(localStorage.getItem('token'));
-    const apiQuestions = await getQuestions(token);
-    const results = apiQuestions.results.map((element, index) => {
+    const apiQuestions = await getQuestions();
+    const results = apiQuestions.map((element, index) => {
       const { category, question, difficulty,
         correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = element;
       const newCorrectAnswer = { answer: correctAnswer, correct: true };
@@ -39,11 +38,10 @@ class Game extends React.Component {
   }
 
   randomAnswers(array) {
-    const randomAnswers = array
+    return array
       .map((a) => ({ sort: Math.random(), value: a }))
       .sort((a, b) => a.sort - b.sort)
       .map((a) => a.value);
-    return randomAnswers;
   }
 
   nextQuestion() {
