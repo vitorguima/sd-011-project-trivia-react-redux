@@ -105,3 +105,17 @@
 .feedbackContainer {
   color: #f2f2f2;
 }
+
+.rankingContainer {
+  color: #f2f2f2;
+}
+
+.rankHr {
+  width: 300px;
+}
+
+.rankPlayersContainer {
+  height: 68vh;
+  margin: 20px 0;
+  overflow: auto;
+}
