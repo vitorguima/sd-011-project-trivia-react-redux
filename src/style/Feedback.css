@@ -1,0 +1,15 @@
+.player-img {
+  border-radius: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 5%;
+}
+
+.img {
+  width: 450px;
+  height: 150px;
+  margin-left: 430px;
+}
+.page {
+  background-color: #350f81;
+}

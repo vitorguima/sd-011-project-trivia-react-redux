@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import '../style/Feedback.css';
+import logo from '../trivia.png';
 
 class FeedbackHeader extends Component {
   // constructor(props) {
@@ -23,6 +25,7 @@ class FeedbackHeader extends Component {
           data-testid="header-profile-picture"
           src={ this.urlCreator() }
           alt="Foto do jogador"
+          className="player-img"
         />
         <p data-testid="header-player-name">
           { nome }
@@ -31,6 +34,8 @@ class FeedbackHeader extends Component {
         <span data-testid="header-score">
           { Number(score) }
         </span>
+        <img src={ logo } className="App-logo img" alt="logo" />
+
       </div>
     );
   }

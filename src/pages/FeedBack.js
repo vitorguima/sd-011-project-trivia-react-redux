@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FeedbackHeader from '../components/FeedbackHeader';
 import Performance from '../components/Performance';
+import '../style/Feedback.css';
 // import { connect } from 'react-redux';
 
 class Feedback extends Component {
@@ -11,7 +12,7 @@ class Feedback extends Component {
 
   render() {
     return (
-      <div>
+      <div className="page">
         <h1 data-testid="feedback-text">FeedBack</h1>
         <FeedbackHeader />
         <Performance />
