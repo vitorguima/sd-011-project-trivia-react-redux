@@ -56,7 +56,7 @@ function Game() {
   }
 
   return (
-    <div id="game">
+    <div className="gameContainer">
       <Header />
       { (!questions) ? <p>loading...</p> : (
         <Question newQuestion={ questions[index] } nextFunc={ nextQuestion } />

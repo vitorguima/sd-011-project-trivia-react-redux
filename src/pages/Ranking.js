@@ -5,7 +5,7 @@ import '../style/ranking.css';
 function Ranking() {
   const ranking = JSON.parse(localStorage.getItem('ranking'));
   return (
-    <div id="rankingPage">
+    <div className="rankingPage">
       <h1 data-testid="ranking-title">Ranking</h1>
       {ranking.map((element, index) => (
         <div key={ index } className="rankingItem">

@@ -28,14 +28,20 @@ function Feedback() {
         </p>
         <div>
           <Link to="/ranking">
-            <button type="button" data-testid="btn-ranking">
-              Ver Ranking
-            </button>
+            <input
+              style={ { backgroundColor: '#65B3AD' } }
+              type="button"
+              data-testid="btn-ranking"
+              value="Ver Ranking"
+            />
           </Link>
           <Link to="/">
-            <button type="button" data-testid="btn-play-again">
-              Jogar Novamente
-            </button>
+            <input
+              style={ { backgroundColor: '#65B3AD' } }
+              type="button"
+              data-testid="btn-play-again"
+              value="Jogar Novamente"
+            />
           </Link>
         </div>
       </div>

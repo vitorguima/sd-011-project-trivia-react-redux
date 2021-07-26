@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function Answers({ answers, answered, onClick }) {
   return (
-    <div id="answers">
+    <div className="answers">
       { answers.map(({ answer, correct }, index) => {
         if (correct) {
           return (

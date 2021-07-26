@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,14 +24,14 @@ function Question({ newQuestion, nextFunc }) { // eslint-disable-line
   const { username, score, avatar } = user;
   const history = useHistory();
 
-  function startTimer() {
+  const startTimer = useCallback(() => {
     if (!answered) {
       if (timer > 0) setTimeout(() => updateTimer(timer - 1), oneSecond);
       if (timer === 0) updateAnswered(true);
     }
-  }
+  }, [answered, timer]);
 
-  useEffect(() => (startTimer()), [timer]);
+  useEffect(() => (startTimer()), [timer, startTimer]);
 
   function nextPage() {
     updateTimer(initValue);
@@ -79,8 +79,8 @@ function Question({ newQuestion, nextFunc }) { // eslint-disable-line
   }
 
   return (
-    <div id="questions">
-      <div id="timer">
+    <div className="questionsContainer">
+      <div className="timerContainer">
         <img src={ icon } alt="timer" className="timer" />
         <span className="timer">{ timer }</span>
       </div>
@@ -92,9 +92,9 @@ function Question({ newQuestion, nextFunc }) { // eslint-disable-line
           type="button"
           onClick={ (index >= four) ? addToRanking : nextPage }
           data-testid="btn-next"
-          id="next"
+          className="nextBtn"
         >
-          <img src={ next } alt="Próxima" id="nextImg" />
+          <img src={ next } alt="Próxima" className="nextImg" />
         </button>
       )}
     </div>

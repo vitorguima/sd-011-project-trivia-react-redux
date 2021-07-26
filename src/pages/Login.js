@@ -27,17 +27,19 @@ function Login() {
   }
 
   return (
-    <div id="login">
+    <div className="loginPage">
       <img src={ logo } className="App-logo" alt="logo" />
       <form>
         <input
           data-testid="input-player-name"
           placeholder="Nome"
+          id="Name"
           onChange={ ({ target }) => changeName(target.value) }
         />
         <input
           data-testid="input-gravatar-email"
           placeholder="Email"
+          id="Email"
           onChange={ ({ target }) => changeEmail(target.value) }
         />
         <input
@@ -46,11 +48,11 @@ function Login() {
           disabled={ !(email && name) }
           onClick={ initGame }
           value="Jogar"
-          id="play"
+          className="playButton"
         />
       </form>
       <Link to="/settings" data-testid="btn-settings">
-        <img src={ icon } alt="Configurações" id="config" />
+        <img src={ icon } alt="Configurações" id="config" style={ { height: '28px' } } />
       </Link>
     </div>
   );
