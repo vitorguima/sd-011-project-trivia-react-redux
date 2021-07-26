@@ -21,21 +21,25 @@ class Avatar extends React.Component {
 
   render() {
     const { status } = this.state;
-    const { userName, gravatarImage } = this.props;
+    const { userName, gravatarImage, className = "" } = this.props;
 
     if (status === "loading") {
-      return <div className="avatar-loading" />;
+      return <div className={`${className} avatar-loading`} />;
     }
 
     if (status === "error") {
       return (
-        <img className="avatar-image" src="/assets/aang.png" alt={userName} />
+        <img
+          className={`${className} avatar-image`}
+          src="/assets/aang.png"
+          alt={userName}
+        />
       );
     }
 
     return (
       <img
-        className="avatar-image"
+        className={`${className} avatar-image`}
         data-testid="header-profile-picture"
         src={gravatarImage}
         alt={userName}
@@ -45,6 +49,7 @@ class Avatar extends React.Component {
 }
 
 Avatar.propTypes = {
+  className: PropTypes.string,
   userName: PropTypes.string.isRequired,
   gravatarImage: PropTypes.string.isRequired,
 };

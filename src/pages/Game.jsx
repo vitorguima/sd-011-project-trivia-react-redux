@@ -1,34 +1,41 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Countdown from '../components/Countdown';
-import Question from '../components/Question';
-import { requestApiQuestions } from '../actions';
-import UserAvatar from '../components/UserAvatar';
-import RankingCard from '../components/RankingCard';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Question from "../components/Question";
+import { requestApiQuestions } from "../actions";
+import UserAvatar from "../components/UserAvatar";
+import RankingCard from "../components/RankingCard";
+import { cx } from "../utils";
+import "./Game.css";
 
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { score: 0 };
+    this.state = { score: 0, success: false };
     this.onScoreChange = this.onScoreChange.bind(this);
-  }
-
-  onScoreChange(score) {
-    this.setState({ score });
   }
 
   componentDidMount() {
     const { questionsToStore } = this.props;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     questionsToStore(token);
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return { success: nextProps.showBtn ? prevState.success : false };
+  }
+
+  onScoreChange(score) {
+    this.setState({
+      score,
+      success: true,
+    });
+  }
+
   render() {
-    const { score } = this.state;
+    const { score, success } = this.state;
     const {
       userName,
-      gravatarImage,
       history: { push },
     } = this.props;
 
@@ -39,15 +46,22 @@ class Game extends React.Component {
           src="assets/logo.png"
           alt="logo trivia"
         />
-        <RankingCard
-          userName={userName}
-          gravatarImage={gravatarImage}
-          score={score}
-        />
-        <Countdown />
-        <main>
-          <Question push={push} onScoreChange={this.onScoreChange} />
-        </main>
+        <div className="game-content">
+          <div className="game-user-header">
+            <div className="game-user-header-user">
+              <UserAvatar className="game-user-header-avatar" />
+              <div className="game-user-header-name">
+                {userName || "username"}
+              </div>
+            </div>
+            <div className={cx("game-user-header-score", success && "success")}>
+              {score}
+            </div>
+          </div>
+          <main>
+            <Question push={push} onScoreChange={this.onScoreChange} />
+          </main>
+        </div>
       </>
     );
   }
@@ -58,10 +72,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
+  showBtn: state.questionsReducer.showBtn,
   userName: state.loginReducer.name,
 });
 
 Game.propTypes = {
+  showBtn: PropTypes.bool.isRequired,
   userName: PropTypes.string.isRequired,
   questionsToStore: PropTypes.func.isRequired,
   history: PropTypes.shape({

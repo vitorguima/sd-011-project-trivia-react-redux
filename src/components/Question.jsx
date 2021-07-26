@@ -11,6 +11,7 @@ import QuestionHeader from "./QuestionHeader";
 import BooleanQuestion from "./BooleanQuestion";
 import MultipleChoice from "./MultipleChoice";
 import Loading from "./Loading";
+import "./Question.css";
 
 const INTERVAL = 1000;
 class Question extends React.Component {
@@ -104,7 +105,7 @@ class Question extends React.Component {
             <button
               data-testid="btn-next"
               type="button"
-              className={showBtn ? "show-btn" : "hide-btn"}
+              className={showBtn ? "pretty-button show-btn" : "hide-btn"}
               onClick={() => {
                 if (currentQuestion === maxQuestions) {
                   push("/feedback");

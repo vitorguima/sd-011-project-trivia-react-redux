@@ -5,3 +5,7 @@ export function decodeHtml(html) {
 
   return areaElement.value;
 }
+
+export function cx(...classNames) {
+  return classNames.filter(Boolean).join(" ");
+}

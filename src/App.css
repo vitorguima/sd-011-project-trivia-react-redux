@@ -11,6 +11,9 @@ body {
   min-height: 100vh;
   padding: 16px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .red-border {
@@ -42,14 +45,6 @@ body {
 
 .hide-btn {
   display: none;
-}
-
-.show-correct-answer {
-  border: 3px solid rgb(6, 240, 15);
-}
-
-.show-incorrect-answer {
-  border: 3px solid red;
 }
 
 .pretty-button {
