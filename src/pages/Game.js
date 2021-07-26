@@ -1,73 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from '../components/Header';
 import { getQuestions } from '../services/api';
 import Question from '../components/Questions';
+import '../style/game.css';
 
-class Game extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      questions: [],
-      index: 0,
+function randomAnswers(array) {
+  return array
+    .map((a) => ({ sort: Math.random(), value: a }))
+    .sort((a, b) => a.sort - b.sort)
+    .map((a) => a.value);
+}
+
+async function generateQuestions() {
+  const apiQuestions = await getQuestions();
+  const results = apiQuestions.map((element, index) => {
+    const {
+      category,
+      question,
+      difficulty,
+      correct_answer: correctAnswer,
+      incorrect_answers: incorrectAnswers,
+    } = element;
+    const newCorrectAnswer = { answer: correctAnswer, correct: true };
+    const newIncorrectAnswers = incorrectAnswers
+      .map((answer) => ({ answer, correct: false }));
+    const answers = randomAnswers([newCorrectAnswer, ...newIncorrectAnswers]);
+    return {
+      index,
+      question,
+      category,
+      answers,
+      difficulty,
     };
-    this.nextQuestion = this.nextQuestion.bind(this);
-  }
+  });
+  return results;
+}
 
-  async componentDidMount() {
-    const apiQuestions = await getQuestions();
-    const results = apiQuestions.map((element, index) => {
-      const { category, question, difficulty,
-        correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = element;
-      const newCorrectAnswer = { answer: correctAnswer, correct: true };
-      const newIncorrectAnswers = incorrectAnswers
-        .map((answer) => ({ answer, correct: false }));
-      const answers = this.randomAnswers([newCorrectAnswer, ...newIncorrectAnswers]);
-      return {
-        index,
-        question,
-        category,
-        answers,
-        difficulty,
-      };
-    });
-    this.setStateFunc(results);
-  }
+function Game() {
+  const [questions, addQuestions] = useState(false);
+  const [index, someIndex] = useState(0);
 
-  setStateFunc(questions) {
-    this.setState({ questions });
-  }
+  const callback = useCallback(async () => {
+    addQuestions(await generateQuestions());
+  }, [addQuestions]);
 
-  randomAnswers(array) {
-    return array
-      .map((a) => ({ sort: Math.random(), value: a }))
-      .sort((a, b) => a.sort - b.sort)
-      .map((a) => a.value);
-  }
+  useEffect(() => {
+    callback();
+  }, [callback]);
 
-  nextQuestion() {
-    const { index } = this.state;
+  function nextQuestion() {
     const four = 4;
     if (index < four) {
-      this.setState((state) => ({ index: state.index + 1 }));
+      someIndex(index + 1);
     }
   }
 
-  render() {
-    const { questions, index } = this.state;
-    return (
-      <div>
-        <Header />
-        { (questions.length === 0)
-          ? <p>loading...</p>
-          : (
-            <Question
-              newQuestion={ questions[index] }
-              nextFunc={ this.nextQuestion }
-            />
-          )}
-      </div>
-    );
-  }
+  return (
+    <div id="game">
+      <Header />
+      { (!questions) ? <p>loading...</p> : (
+        <Question newQuestion={ questions[index] } nextFunc={ nextQuestion } />
+      )}
+    </div>
+  );
 }
 
 export default Game;

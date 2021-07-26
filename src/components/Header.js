@@ -14,15 +14,20 @@ function Header() {
             alt="avatar"
             data-testid="header-profile-picture"
           />
-          <h3 data-testid="header-player-name">
+          <h2 data-testid="header-player-name">
             Jogador(a):
-            <span>{ username }</span>
-          </h3>
+            <span style={ { fontWeight: 'normal' } }>{ username }</span>
+          </h2>
         </div>
-        <h3>
+        <h2>
           Pontos:
-          <span data-testid="header-score">{ score }</span>
-        </h3>
+          <span
+            data-testid="header-score"
+            style={ { fontWeight: 'normal' } }
+          >
+            { score }
+          </span>
+        </h2>
       </div>
     </header>
   );

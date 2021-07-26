@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { scoreAction } from '../actions';
-import './styleButton.css';
 import Answers from './Answers';
+import icon from '../icons/timer-icon.png';
 
 const oneSecond = 1000;
 const four = 4;
@@ -101,11 +101,12 @@ class Question extends React.Component {
     const { timer, answered } = this.state;
     const { newQuestion: { question, answers, category, index } } = this.props;
     return (
-      <div>
-        <span>{ timer }</span>
-        <h1 data-testid="question-text">
-          { question }
-        </h1>
+      <div id="questions">
+        <div id="timer">
+          <img src={ icon } alt="timer" className="timer" />
+          <span className="timer">{ timer }</span>
+        </div>
+        <h2 data-testid="question-text">{ question }</h2>
         <p data-testid="question-category">{ category }</p>
         <Answers answered={ answered } answers={ answers } onClick={ this.handleClick } />
         {(answered) && (
