@@ -74,6 +74,7 @@ class Setup extends Component {
         id="answearConfig"
         value={ answearConfig }
         onChange={ this.selectChangeHandler }
+        className="setup-btn-neon-red"
       >
         <option value="">Aleatória</option>
         <option value="multiple">Multipla escolha</option>
@@ -89,6 +90,7 @@ class Setup extends Component {
         id="dificultyConfig"
         value={ dificultyConfig }
         onChange={ this.selectChangeHandler }
+        className="setup-btn-neon-red"
       >
         <option value="">Aleatória</option>
         <option value="easy">Fácil</option>
@@ -124,7 +126,7 @@ class Setup extends Component {
       <div className="setup-back-home2">
         <button
           type="button"
-          className="btn-neon-blue back-home"
+          className="btn-neon-green back-home"
           onClick={ this.confirmBtnClickHandler }
         >
           Aplicar Configurações
@@ -139,7 +141,6 @@ class Setup extends Component {
           )
           : ''}
       </div>
-
     );
   }
 
@@ -152,7 +153,7 @@ class Setup extends Component {
           <h2 data-testid="settings-title" className="title-setup">Configurações</h2>
         </div>
         <div className="options-container">
-          <div className="options">
+          <div className="options-setup-container">
             <label htmlFor="dificultyConfig">
               Dificuldade:
               {this.dificultyRender()}
@@ -167,6 +168,7 @@ class Setup extends Component {
                 id="categoryConfig"
                 value={ categoryConfig }
                 onChange={ this.selectChangeHandler }
+                className="setup-btn-neon-red"
               >
                 {this.categoryTypeRender()}
               </select>
@@ -174,7 +176,6 @@ class Setup extends Component {
             { this.soundBtnRender() }
           </div>
         </div>
-        <br />
         <br />
         {this.confirmBtnRender()}
         <br />

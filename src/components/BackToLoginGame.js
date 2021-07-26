@@ -4,15 +4,13 @@ import { Link } from 'react-router-dom';
 class BackToLoginGame extends Component {
   render() {
     return (
-      <div>
-        <h2 className="about-description">
-          se você estiver vendo esta tela por mais de 5 segundos,
-        </h2>
-        <h2 className="about-description">
-          Não encontramos nenhuma pergunta com as configurações que você escolheu!!
+      <div className="loadind-div">
+        <p className="about-description">
+          Se você estiver vendo esta tela por mais de 5 segundos,
+          não encontramos nenhuma pergunta com as configurações que você escolheu!
           <br />
           Volte a tela de login e escolha outras configurações!!
-        </h2>
+        </p>
         <Link to="/" style={ { textDecoration: 'none' } }>
           <div className="setup-back-home">
             <button

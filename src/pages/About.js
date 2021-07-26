@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import back from '../images/back_4.png';
+import about from '../images/about.png';
+import arrow1 from '../images/back_1.png';
+import arrow2 from '../images/back_3.png';
 
 class About extends Component {
   constructor(props) {
@@ -11,7 +14,7 @@ class About extends Component {
   HomeBtnRender() {
     return (
       <Link to="/" style={ { textDecoration: 'none' } }>
-        <div className="setup-back-home">
+        <div className="about-back-home">
           <img src={ back } alt="Voltar" className="back-img-home" />
           <button
             type="button"
@@ -26,43 +29,50 @@ class About extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Olá, somos do Grupo 28 [UNNAMED] da escola Trybe! #BeTrybe</h1>
-        <h2>Nosso time se compõem pelos seguintes integrantes:</h2>
-        <h2>
-          - Marcos Mantovani
-          <br />
-          - Diogo Augusto
-          <br />
-          - Johnata Pontes
-          <br />
-          - Camilo Lelis
-        </h2>
-        <br />
-        <br />
-        <h3 className="about-description">
+      <div className="about">
+        <div className="header-about">
+          <img src={ about } alt="" className="about-img" />
+          <h2 className="title-about">Grupo 28</h2>
+          <span className="name-group">[UNNAMED]</span>
+        </div>
+        <h3>Olá, somos um grupo de estudantes da escola Trybe! #BeTrybe</h3>
+        <h3>Nosso time se compõem pelos seguintes integrantes:</h3>
+        <div className="group-names">
+          <img src={ arrow1 } className="arrow" alt="" />
+          <h4 className="about-name">
+            Camilo Lelis
+            <br />
+            Diogo Augusto
+            <br />
+            Johnata Pontes
+            <br />
+            Marcos Mantovani
+          </h4>
+          <img src={ arrow2 } className="arrow" alt="" />
+        </div>
+        <p className="about-description">
           Neste projeto testamos nossos conhecimentos referente a
           Redux e tudo oque vimos em FrontEnd!
-        </h3>
-        <h3 className="about-description">
+        </p>
+        <p className="about-description">
           Realmente foi um desafio fazer uma aplicação como essa a prova de bugs
           e tentar ao máximo deixar o código limpo, legível e ainda conseguir
           ficar de bem com o Evaluator.
-        </h3>
-        <h3 className="about-description">
+        </p>
+        <p className="about-description">
           Estamos muito Orgulhosos com o resultado!
-        </h3>
-        <h3 className="about-description">
+        </p>
+        <p className="about-description">
           Esperamos que você possa se divertir com nossa aplicação/Game,
           Tenha um bom jogo!
-        </h3>
+        </p>
 
-        <h1 className="about-description">
+        <p className="about-description">
           o Texto acima é um exemplo do que podemos colocar aqui nesta página!
           <br />
           dem suas opniões para definirmos em conjunto oque colocar aqui Sobre
           o nosso Grupo!
-        </h1>
+        </p>
         { this.HomeBtnRender() }
       </div>
     );
