@@ -47,6 +47,7 @@
   font-family: monospace;
   color: rgb(77, 17, 108);
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 .login-form {
@@ -78,7 +79,7 @@
   margin-top: 20px;
   background-color: rgb(252, 228, 93);
   border: 3px solid rgb(231, 160, 22);
-  font-family: "Architects Daughter", cursive;
+  font-family: 'Architects Daughter', cursive;
   font-weight: bold;
   font-size: 18px;
   color: rgb(77, 17, 108);
