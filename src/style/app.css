@@ -1,0 +1,11 @@
+:root {
+  --Trivia-night-1-rgba: rgba(242, 38, 55, 1);
+  --Trivia-night-2-rgba: rgba(216, 34, 34, 1);
+  --Trivia-night-3-rgba: rgba(242, 113, 113, 1);
+  --Trivia-night-4-rgba: rgba(216, 216, 216, 1);
+  --Trivia-night-5-rgba: rgba(38, 38, 38, 1);
+}
+
+body {
+  background-color: var(--Trivia-night-3-rgba) ;
+}

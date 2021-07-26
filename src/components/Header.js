@@ -12,15 +12,17 @@ class Header extends Component {
   render() {
     const { player: { name, gravatarEmail, score } } = this.props;
     return (
-      <>
+      <div className="Header">
         <img
           src={ this.convertEmail(gravatarEmail) }
           alt="Avatar do Jogador"
           data-testid="header-profile-picture"
         />
-        <div data-testid="header-player-name">{ name }</div>
-        <div data-testid="header-score">{ score }</div>
-      </>
+        <div>
+          <p data-testid="header-player-name">{ name }</p>
+          <p data-testid="header-score">{ score }</p>
+        </div>
+      </div>
     );
   }
 }

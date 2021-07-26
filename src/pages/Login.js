@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../actions';
 import getToken from '../services/index';
+import logo from '../trivia.png';
 
 class Login extends React.Component {
   constructor(props) {
@@ -52,7 +53,8 @@ class Login extends React.Component {
   render() {
     const { name, email, redirectGame, redirectSettings } = this.state;
     return (
-      <div>
+      <div className="Login">
+        <img src={ logo } className="App-logo" alt="logo" />
         <form onSubmit={ this.sendInfos }>
           <input
             name="name"

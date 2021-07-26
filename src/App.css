@@ -1,3 +1,26 @@
+:root {
+  --Trivia-night-1-rgba: rgba(242, 38, 55, 1);
+  --Trivia-night-2-rgba: rgba(216, 34, 34, 1);
+  --Trivia-night-3-rgba: rgba(242, 113, 113, 1);
+  --Trivia-night-4-rgba: rgba(216, 216, 216, 1);
+  --Trivia-night-5-rgba: rgba(38, 38, 38, 1);
+}
+
+* {
+  font-family: 'Roboto Mono', monospace;
+}
+
+body {
+  background-color: var(--Trivia-night-3-rgba);
+}
+
+button {
+  padding: 10px;
+  border-radius: 8px;
+  background-color: var(--Trivia-night-2-rgba);
+  font-weight: 700;
+}
+
 .App {
   text-align: center;
 }
@@ -54,4 +77,56 @@
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+.Login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.Login img {
+  width: 20%;
+  height: 15%;
+  padding: 30px;
+}
+
+.Login form {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.Login form input {
+  padding: 5px;
+  border-radius: 8px;
+  margin: 5px 5px 5px 0;
+  width: 100%;
+}
+
+.Login form button {
+  width: 40%;
+  align-self: center;
+}
+
+.Header {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 15px;
+  background-color: var(--Trivia-night-4-rgba);
+  border-bottom: solid 2px var(--Trivia-night-5-rgba);
+  border-radius: 0 0 8px 8px;
+}
+
+.Header p {
+  color: var(--Trivia-night-5-rgba);
+  font-size: large;
+}
+
+.Header img {
+  width: 100px;
+  height: 100px;
 }
