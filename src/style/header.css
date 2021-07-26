@@ -5,6 +5,7 @@
   padding: 10px 50px;
   margin: 0px 0px 10px;
   background-color: #27a376;
+  border-bottom: 2px solid black;
 }
 
 .header-avatar {

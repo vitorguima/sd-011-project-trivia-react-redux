@@ -16,6 +16,7 @@ function Header() {
           />
           <h2 data-testid="header-player-name">
             Jogador(a):
+            {' '}
             <span style={ { fontWeight: 'normal' } }>{ username }</span>
           </h2>
         </div>
@@ -25,6 +26,7 @@ function Header() {
             data-testid="header-score"
             style={ { fontWeight: 'normal' } }
           >
+            {' '}
             { score }
           </span>
         </h2>
