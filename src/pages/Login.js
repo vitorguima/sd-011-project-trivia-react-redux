@@ -59,7 +59,6 @@ class Login extends React.Component {
     const { email, name, btnDisable } = this.state;
 
     return (
-
       <div className="App0">
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
@@ -94,13 +93,14 @@ class Login extends React.Component {
               Jogar
             </button>
           </form>
-
-          <Link
-            to="/settings"
-            data-testid="btn-settings"
-          >
-            Configurações
-          </Link>
+          <button type="button" style={ { margin: 5 } }>
+            <Link
+              to="/settings"
+              data-testid="btn-settings"
+            >
+              Configurações
+            </Link>
+          </button>
         </header>
       </div>
     );

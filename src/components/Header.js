@@ -2,6 +2,7 @@ import React from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import './Header.css';
 
 class Header extends React.Component {
   render() {
@@ -17,7 +18,7 @@ class Header extends React.Component {
     });
     localStorage.setItem('state', state);
     return (
-      <header>
+      <header className="headerTrivia">
         <img
           src={ `https://www.gravatar.com/avatar/${getEmail}` }
           data-testid="header-profile-picture"
@@ -28,6 +29,7 @@ class Header extends React.Component {
           {userName}
         </p>
         <span data-testid="header-score">
+
           { score }
         </span>
       </header>

@@ -9,7 +9,7 @@ import Header from '../components/Header';
 class GameScreen extends Component {
   constructor(props) {
     super(props);
-    // console.log(props);
+    console.log(props);
     this.state = {
       questionIndex: 0,
       timer: 30,
@@ -17,7 +17,7 @@ class GameScreen extends Component {
     };
     this.fetchTrivia = this.fetchTrivia.bind(this);
     this.validateAnswer = this.validateAnswer.bind(this);
-    this.scorePoint = this.scorePoint.bind(this);
+    this.score = this.score.bind(this);
   }
 
   async componentDidMount() {
@@ -34,10 +34,11 @@ class GameScreen extends Component {
 
   answerTimer() {
     // para fazer essa função consultamos https://www.tabnine.com/code/javascript/functions/react-native/setInterval
-    const { timer } = this.state;
+
     const time1000 = 1000;
     const time30000 = 30000;
     setInterval(() => {
+      const { timer } = this.state;
       if (timer > 0) this.setState({ timer: timer - 1 });
     }, time1000);
     setTimeout(() => {
@@ -51,58 +52,19 @@ class GameScreen extends Component {
     const { difficulty } = questionsApiGames[questionIndex];
     let level = 0;
     const answerHard = 3;
-    switch (difficulty) {
-    case 'easy':
+    if (difficulty) {
       level = 1;
       return level;
-    case 'medium':
+    }
+    if (difficulty) {
       level = 2;
       return level;
-    case 'hard':
+    }
+    if (difficulty) {
       level = answerHard;
       return level;
-    default:
-      return level;
     }
-  }
-
-  scorePoint() {
-    const { timer } = this.state;
-    const { addDispatchScore, score: totalScore, assertions } = this.props;
-    const correctValue = 10;
-    const valueDifficulty = this.createGameDifficulty();
-    const score = totalScore + (correctValue + (timer * valueDifficulty));
-    const totalAssertions = assertions + 1;
-    addDispatchScore({ score, totalAssertions });
-    localStorage.setItem('state', JSON.stringify({
-      player: { score },
-    }));
-    this.validateAnswer();
-  }
-
-  addNextBtn() {
-    const { questionIndex } = this.state;
-    const { history } = this.props;
-    const lastQuestion = 4;
-
-    return (
-      <button
-        type="button"
-        data-testid="btn-next"
-        onClick={ () => {
-          if (questionIndex >= lastQuestion) {
-            history.push('/feedback');
-          } else {
-            this.setState({ questionIndex: questionIndex + 1, nextBtn: false });
-            this.createQuestion();
-            this.answerTimer();
-            this.validateAnswer();
-          }
-        } }
-      >
-        Next
-      </button>
-    );
+    return level;
   }
 
   validateAnswer() {
@@ -137,22 +99,18 @@ class GameScreen extends Component {
     }
   }
 
-  createQuestion() {
-    const { questionIndex } = this.state;
-    const { questionsApiGames } = this.props;
-    if (questionsApiGames === undefined) {
-      return <div>Carregando...</div>;
-    }
-    const { question, category } = questionsApiGames[questionIndex];
-    return (
-      <div>
-        <p data-testid="question-category">{ category }</p>
-        <h3 data-testid="question-text">{ question }</h3>
-        <div>
-          { this.createAlternatives(questionsApiGames[questionIndex]) }
-        </div>
-      </div>
-    );
+  score() {
+    const { timer } = this.state;
+    const { addDispatchScore, score: totalScore, assertions } = this.props;
+    const correctValue = 10;
+    const valueDifficulty = this.createGameDifficulty();
+    const score = totalScore + (correctValue + (timer * valueDifficulty));
+    const totalAssertions = assertions + 1;
+    addDispatchScore({ score, totalAssertions });
+    localStorage.setItem('state', JSON.stringify({
+      player: { score },
+    }));
+    this.validateAnswer();
   }
 
   createAlternatives(question) {
@@ -161,27 +119,71 @@ class GameScreen extends Component {
     answers.sort();
 
     return answers.map((answer, index) => (
-
       <button
-        style={ { margin: 5 } }
         type="button"
         key={ index }
         value={ answer }
         data-testid={ question.correct_answer === answer
           ? 'correct-answer' : `wrong-answer-${index}` }
         className={ question.correct_answer === answer
-          ? 'correct-answer'
-          : 'wrong-answer' }
+          ? 'correct-answer' : 'wrong-answer' }
         onClick={ question.correct_answer === answer
-          ? this.scorePoint : this.validateAnswer }
+          ? this.score : this.validateAnswer }
       >
         { answer }
       </button>
     ));
   }
 
+  createQuestion() {
+    const { questionIndex } = this.state;
+    const { questionsApiGames } = this.props;
+    if (questionsApiGames === undefined) {
+      return <div>Carregando...</div>;
+    }
+
+    const { question, category } = questionsApiGames[questionIndex];
+    return (
+      <div className="questions">
+        <p data-testid="question-category">{ category }</p>
+        <h3 data-testid="question-text">{ question }</h3>
+        <div className="alternatives">
+          { this.createAlternatives(questionsApiGames[questionIndex]) }
+        </div>
+      </div>
+    );
+  }
+
+  addNextBtn() {
+    const { questionIndex } = this.state;
+    const { history } = this.props;
+    const lastQuestion = 4;
+
+    return (
+      <button
+        type="button"
+        data-testid="btn-next"
+        onClick={ () => {
+          if (questionIndex >= lastQuestion) {
+            history.push('/feedback');
+          } else {
+            this.setState({
+              questionIndex: questionIndex + 1,
+              nextBtn: false,
+              timer: 30 });
+            this.createQuestion();
+            this.answerTimer();
+            this.validateAnswer();
+          }
+        } }
+      >
+        Next
+      </button>
+    );
+  }
+
   render() {
-    const { questionIndex, nextBtn } = this.state;
+    const { questionIndex, nextBtn, timer } = this.state;
     const { questionsApiGames } = this.props;
     const indexCheck = 5;
 
@@ -192,6 +194,9 @@ class GameScreen extends Component {
     return (
       <>
         <Header />
+        {timer}
+        { questionIndex < indexCheck ? this.createQuestion() : '' }
+        {nextBtn ? this.addNextBtn() : '' }
         <Link to="/feedback">
           <button
             type="button"
@@ -199,8 +204,6 @@ class GameScreen extends Component {
             Feedback
           </button>
         </Link>
-        {questionIndex < indexCheck ? this.createQuestion() : ''}
-        {nextBtn ? this.addNextBtn() : '' }
       </>
     );
   }
