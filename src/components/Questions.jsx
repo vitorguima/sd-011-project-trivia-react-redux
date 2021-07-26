@@ -139,7 +139,7 @@ class Questions extends Component {
     return questions.length === 0 ? (
       <div>Loading</div>
     ) : (
-      <div>
+      <div className="questions">
         {questions.map(({ category, question,
           correct_answer: correctAnswer,
           incorrect_answers: incorrectAnswers }, index) => {
@@ -148,11 +148,11 @@ class Questions extends Component {
               <div key={ index }>
                 <p>
                   Tempo restante:
-                  {`${countDown}`}
+                  {` ${countDown}`}
                 </p>
                 <p data-testid="question-text">{category}</p>
                 <p data-testid="question-category">{decodeHtml(question)}</p>
-                <div>
+                <div className="alternatives-container">
                   <AlternativesContainer
                     alternatives={ [...incorrectAnswers, correctAnswer] }
                     styleAlternative={ styleAlternative }

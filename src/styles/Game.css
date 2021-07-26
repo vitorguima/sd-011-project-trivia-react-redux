@@ -1,1 +1,28 @@
 /* Este CSS é responsável por Game.jsx */
+.game {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.game > header {
+  align-items: center;
+  background-color: #3d5a80;
+  color: aliceblue;
+  display: flex;
+  justify-content: space-around;
+  font-size: 2rem;
+  width: 100%;
+}
+
+.game > header:nth-child(1) > div:nth-child(1) {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  max-width: 35%;
+  width: 20%;
+}
+
+.game img {
+  width: 8rem;
+}

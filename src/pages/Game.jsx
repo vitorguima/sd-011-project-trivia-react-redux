@@ -17,21 +17,23 @@ class Game extends Component {
     const { email, name } = player;
 
     return (
-      <div>
-        <div>
-          <img
-            alt={ `Avatar de ${name}` }
-            data-testid="header-profile-picture"
-            src={ this.md5Converter(email) }
-          />
-          <p>
-            {'Jogador: '}
-            <span data-testid="header-player-name">
-              {name}
-            </span>
-          </p>
+      <div className="game">
+        <header>
+          <div>
+            <img
+              alt={ `Avatar de ${name}` }
+              data-testid="header-profile-picture"
+              src={ this.md5Converter(email) }
+            />
+            <p>
+              {'Jogador: '}
+              <span data-testid="header-player-name">
+                {name}
+              </span>
+            </p>
+          </div>
           <ScoreBoard />
-        </div>
+        </header>
         <Questions history={ history } />
       </div>
     );

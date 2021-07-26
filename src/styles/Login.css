@@ -1,1 +1,49 @@
 /* Este CSS é responsável por Login.jsx */
+.login-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 65%;
+  margin: 0 auto 0 auto;
+  position: relative;
+  top: 4rem;
+  width: 70%;
+}
+
+.login-container h1 {
+  color: aliceblue;
+}
+
+.login {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0.4rem;
+  width: 20rem;
+}
+
+.login input {
+  margin: 0.2rem 0;
+  padding: 0.4rem;
+  text-align: center;
+}
+
+.login-buttons {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0.4rem;
+  width: 12rem;
+}
+
+.login-buttons button:nth-child(1) {
+  padding: 0.3rem;
+  width: 8rem;
+}
+
+.login-buttons button:nth-child(2) {
+  padding: 0.25rem;
+  width: 3rem;
+}

@@ -42,48 +42,49 @@ class Login extends Component {
   render() {
     const { history } = this.props;
     return (
-      <div>
+      <div className="login-container">
         <img src={ logo } className="App-logo" alt="logo" width="150" />
-        <p>
-          SUA VEZ
-        </p>
         <h1>Login</h1>
-        <label htmlFor="inputEmail">
-          <input
-            type="text"
-            placeholder="Email"
-            id="inputEmail"
-            data-testid="input-gravatar-email"
-            name="email"
-            onChange={ (e) => this.handleChange(e) }
-          />
-        </label>
-        <label htmlFor="inputName">
-          <input
-            type="text"
-            placeholder="Nome"
-            id="inputName"
-            data-testid="input-player-name"
-            name="name"
-            onChange={ (e) => this.handleChange(e) }
-          />
-        </label>
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ !this.verifyRegexEmail() }
-          onClick={ () => this.startGame() }
-        >
-          Jogar
-        </button>
-        {/* https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/accessible-emoji.md */}
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          <span role="img" aria-label="engine-emoji">⚙️</span>
-        </button>
+        <div className="login">
+          <label htmlFor="inputEmail">
+            <input
+              type="text"
+              placeholder="Email"
+              id="inputEmail"
+              data-testid="input-gravatar-email"
+              name="email"
+              onChange={ (e) => this.handleChange(e) }
+            />
+          </label>
+          <label htmlFor="inputName">
+            <input
+              type="text"
+              placeholder="Nome"
+              id="inputName"
+              data-testid="input-player-name"
+              name="name"
+              onChange={ (e) => this.handleChange(e) }
+            />
+          </label>
+        </div>
+        <div className="login-buttons">
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ !this.verifyRegexEmail() }
+            onClick={ () => this.startGame() }
+          >
+            Jogar
+          </button>
+          {/* https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/accessible-emoji.md */}
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => history.push('/settings') }
+          >
+            <span role="img" aria-label="engine-emoji">⚙️</span>
+          </button>
+        </div>
       </div>
     );
   }

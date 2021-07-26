@@ -1,1 +1,46 @@
 /* Este CSS é responsável pelo arquivo Questions.jsx */
+.questions {
+  background-color: #101014;
+  border: 1px solid #3d5a80;
+  border-radius: 1rem;
+  color: aliceblue;
+  height: 30rem;
+  margin: 6rem;
+  width: 70%;
+}
+
+/* .questions > div {
+  background-color: red;
+} */
+
+.questions > div p:nth-child(1) {
+  margin: 2rem 0;
+  font-size: 2rem;
+}
+
+.questions > div p:nth-child(2) {
+  margin: 2rem 0;
+  font-size: 1.8rem;
+}
+
+.questions > div p:nth-child(3) {
+  margin: 2rem 4rem;
+  font-size: 2rem;
+}
+
+.questions > div > button {
+  margin: 4rem;
+  padding: 0.4rem;
+  width: 10rem;
+}
+
+.alternatives-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.alternatives-container button {
+  padding: 0.8rem;
+  margin: 0 0.6rem;
+}
