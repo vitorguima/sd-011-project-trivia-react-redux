@@ -1,0 +1,16 @@
+#rankingPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(-45deg, #1c88af, #27a376, #41197f);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+.rankingItem {
+  background-color: aliceblue;
+  width: 200px;
+  border-radius: 10px;
+  margin: 20px;
+}

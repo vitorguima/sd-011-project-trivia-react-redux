@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { scoreAction } from '../actions';
 import Answers from './Answers';
 import icon from '../icons/timer-icon.png';
+import next from '../icons/next.png';
 
 const oneSecond = 1000;
 const four = 4;
@@ -83,7 +84,7 @@ function Question({ newQuestion, nextFunc }) { // eslint-disable-line
         <img src={ icon } alt="timer" className="timer" />
         <span className="timer">{ timer }</span>
       </div>
-      <h2 data-testid="question-text">{ question }</h2>
+      <h1 data-testid="question-text">{ question }</h1>
       <p data-testid="question-category">{ category }</p>
       <Answers answered={ answered } answers={ answers } onClick={ handleClick } />
       {(answered) && (
@@ -91,8 +92,9 @@ function Question({ newQuestion, nextFunc }) { // eslint-disable-line
           type="button"
           onClick={ (index >= four) ? addToRanking : nextPage }
           data-testid="btn-next"
+          id="next"
         >
-          Próxima
+          <img src={ next } alt="Próxima" id="nextImg" />
         </button>
       )}
     </div>

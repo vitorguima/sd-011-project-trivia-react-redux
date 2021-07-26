@@ -4,8 +4,22 @@
 
 #questions {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
+}
+
+#next {
+  background-color: white;
+  border: 0ch;
+}
+
+#nextImg {
+  width: 50px;
+}
+
+#answers {
+  display: flex;
+  flex-direction: column;
 }
 
 #timer {
@@ -13,7 +27,7 @@
   width: fit-content;
   border-bottom: 1px black solid;
   border-right: 1px black solid;
-  border-radius: 5px;
+  border-radius: 10px;
   align-items: center;
   justify-content: center;
   background-color: whitesmoke;
@@ -27,15 +41,35 @@
 }
 
 .wrong {
-  border: 3px solid;
-  color: red;
+  background-color: #65B3AD;
+  font-size: 1.2rem;
+  padding: 10px;
+  margin: 8px 0px;
+  border: 3px solid red;
+  border-radius: 10px;
+  width: 500px;
+  color: black;
 }
 
 .right {
+  background-color: #65B3AD;
+  font-size: 1.2rem;
+  padding: 10px;
+  margin: 8px 0px;
   border: 3px solid rgb(6, 240, 15);
+  border-radius: 10px;
+  width: 500px;
+  color: black;
 }
 
 .white {
-  border: 3px solid;
-  color: black;
+  background-color: #65B3AD;
+  font-size: 1.2rem;
+  padding: 10px;
+  margin: 8px 0px;
+  border: 0ch;
+  border-radius: 10px;
+  border-bottom: 1px black solid;
+  border-right: 1px black solid;
+  width: 500px;
 }

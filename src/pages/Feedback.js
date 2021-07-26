@@ -8,7 +8,7 @@ function Feedback() {
   return (
     <>
       <Header />
-      <section>
+      <div>
         <h1 data-testid="feedback-text">
           { assertions >= baseNumber ? 'Mandou bem!' : 'Podia ser melhor...' }
         </h1>
@@ -38,7 +38,7 @@ function Feedback() {
             </button>
           </Link>
         </div>
-      </section>
+      </div>
     </>
   );
 }
