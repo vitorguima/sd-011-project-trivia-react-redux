@@ -1,6 +1,8 @@
 .game-page {
   border: solid;
   background-image: url("http://gifmania.com.br/wp-content/uploads/2020/08/interrogacoes.gif");
+  display: flex;
+  height: 563px;
 }
 
 .player-style {
@@ -8,4 +10,66 @@
   flex-flow: column wrap;
   align-items: flex-end;
   margin-right: 30px;
+  margin-left: 1200px;
+}
+
+.handle-question-style {
+  display: flex;
+  align-items: center;
+  background-color: black;
+  color: aliceblue;
+  border: solid 2px;
+  border-radius: 10px;
+  padding: 10px 10px;
+  margin-right: 350px;
+  margin-left: 350px;
+  margin-top: -290px;
+  box-shadow: 10px 15px 30px blanchedalmond;
+}
+
+.handle-response-style {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.record-config, .point-score {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: center;
+  margin: 0px 1230px 0px 0px;
+  border: solid yellow;
+  border-radius: 10px;
+  font-size: large;
+  box-shadow: 5px 10px 30px yellow;
+}
+
+.point-score {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  line-height: 3px;
+}
+
+.record-score {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  font-size: 50px;
+  margin-top: -10px;
+  margin-bottom: 30px;
+  line-height: 30px;
+}
+
+.time-game-style {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  margin: -300px 630px 310px 630px;
+  color: black;
+  box-shadow: 10px -5px 5px 5px;
+  font-size: 75px;
 }

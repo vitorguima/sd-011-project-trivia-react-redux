@@ -1,0 +1,9 @@
+.ranking-control {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  background-image: url('http://st.gde-fon.com/wallpapers_original/14669_sinij_svet_luchi_1680x1050_www.Gde-Fon.com.jpg');
+  height: 569px;
+  font-size: 26px;
+  font-weight: 1000;
+}

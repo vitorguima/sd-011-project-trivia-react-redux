@@ -61,7 +61,7 @@ class Home extends Component {
             <button
               type="button"
               data-testid="btn-play"
-              className="buttons"
+              className={ !(name && email) ? 'buttons-disabled' : 'buttons' }
               onClick={ this.clickSubmit }
               disabled={ !(name && email) }
             >

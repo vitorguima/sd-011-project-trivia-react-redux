@@ -1,8 +1,9 @@
 input[type="text"], input[type="email"] {
-  border: solid 3px black;
+  border: solid 2px black;
+  border-radius: 7px;
 }
 
-.buttons {
+.buttons, .button-next {
   background-color: black;
   border: solid white;
   border-radius: 8px;
@@ -14,4 +15,26 @@ input[type="text"], input[type="email"] {
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-} 
+}
+
+.button-next-control {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+  margin-top: -50px;
+}
+
+.buttons-disabled {
+  background-color: black;
+  opacity: 0.5;
+  border: solid white;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}

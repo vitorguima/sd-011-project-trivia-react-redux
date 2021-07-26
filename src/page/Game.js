@@ -184,20 +184,28 @@ class Game extends Component {
         <header>
           <Header />
           <p>
-            <span data-testid="header-score">
-              { score }
+            <span
+              data-testid="header-score"
+              className="point-score"
+            >
+              <h3>PONTUAÇÃO</h3>
+              <h4>{ score }</h4>
             </span>
           </p>
-          <div>
+          <div className="time-game-style">
             {renderTime ? <Time
               funcSetTime={ this.funcSetTime }
               timeQuestion={ this.timeQuestion }
             /> : <div>{ numberTime }</div> }
           </div>
-          <div>
-            {this.handleQuestion()}
-            {this.handleResponse()}
-          </div>
+          <span>
+            <div className="handle-question-style">
+              {this.handleQuestion()}
+            </div>
+            <div className="handle-response-style">
+              {this.handleResponse()}
+            </div>
+          </span>
           <Button
             renderButton={ renderButton }
             score={ score }

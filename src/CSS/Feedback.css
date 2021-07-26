@@ -1,0 +1,21 @@
+.header-feedback-control {
+  background-image: url('http://st.gde-fon.com/wallpapers_original/14669_sinij_svet_luchi_1680x1050_www.Gde-Fon.com.jpg');
+  height: 569px;
+}
+
+.buttons-layout-control {
+  display: flex;
+  justify-content: center;
+  margin-top: -100px;
+}
+
+.header-organize {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: center;
+  border: solid yellow;
+  border-radius: 10px;
+  font-size: 26px;
+  font-weight: 1000;
+  box-shadow: 5px 10px 30px yellow;
+}

@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import md5 from 'crypto-js/md5';
 import Header from './components/Header';
 
+import '../CSS/Feedback.css';
+import '../CSS/Home.css';
+
 class Feedback extends Component {
   constructor() {
     super();
@@ -33,17 +36,33 @@ class Feedback extends Component {
     const controlScore = 3;
     if (getLocalStorage.player.assertions >= controlScore) {
       return (
-        <>
-          <p data-testid="feedback-text">Mandou bem!</p>
-          <p data-testid="feedback-total-score">{getLocalStorage.player.score}</p>
-        </>
+        <span className="header-organize">
+          <p
+            data-testid="feedback-text"
+          >
+            Mandou bem!
+          </p>
+          <p
+            data-testid="feedback-total-score"
+          >
+            {getLocalStorage.player.score}
+          </p>
+        </span>
       );
     }
     return (
-      <>
-        <p data-testid="feedback-text">Podia ser melhor...</p>
-        <p data-testid="feedback-total-score">{getLocalStorage.player.score}</p>
-      </>
+      <span className="header-organize">
+        <p
+          data-testid="feedback-text"
+        >
+          Podia ser melhor...
+        </p>
+        <p
+          data-testid="feedback-total-score"
+        >
+          {getLocalStorage.player.score}
+        </p>
+      </span>
     );
   }
 
@@ -51,8 +70,10 @@ class Feedback extends Component {
     const { assertions } = this.state;
     return (
       <>
-        <header>
-          <Header />
+        <header className="header-feedback-control">
+          <div>
+            <Header />
+          </div>
           <div>
             { this.performanceAnswer() }
             <p data-testid="feedback-total-question">
@@ -62,15 +83,22 @@ class Feedback extends Component {
           </div>
         </header>
 
-        <div>
+        <div className="buttons-layout-control">
           <Link to="/">
-            <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+            <button
+              type="button"
+              data-testid="btn-play-again"
+              className="buttons"
+            >
+              Jogar novamente
+            </button>
           </Link>
           <Link to="/ranking">
             <button
               type="button"
               onClick={ this.seeRanking }
               data-testid="btn-ranking"
+              className="buttons"
             >
               Ver Ranking
             </button>

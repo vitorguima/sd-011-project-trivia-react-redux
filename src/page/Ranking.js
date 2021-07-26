@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import '../CSS/Ranking.css';
+import '../CSS/Home.css';
+
 export default class Ranking extends Component {
   render() {
     const rankingStorage = JSON.parse(localStorage.getItem('ranking'));
     return (
-      <div>
+      <div className="ranking-control">
         <h2 data-testid="ranking-title">Ranking</h2>
         <div>
           { rankingStorage.sort((a, b) => b.score - a.score).map((item, index) => (
@@ -19,7 +22,13 @@ export default class Ranking extends Component {
 
         <div>
           <Link to="/">
-            <button type="button" data-testid="btn-go-home">Inicio</button>
+            <button
+              type="button"
+              data-testid="btn-go-home"
+              className="buttons"
+            >
+              Inicio
+            </button>
           </Link>
         </div>
       </div>

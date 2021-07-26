@@ -28,7 +28,12 @@ class Header extends Component {
             data-testid="header-profile-picture"
           />
         </div>
-        <div data-testid="header-score">{ point }</div>
+        <div data-testid="header-score" className="record-score">
+          <div className="record-config">
+            <h2>RECORDE</h2>
+            <h3 className="record-score">{point}</h3>
+          </div>
+        </div>
       </div>
     );
   }
