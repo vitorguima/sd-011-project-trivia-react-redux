@@ -12,6 +12,7 @@ export const SET_INNITIAL_TIME = 'SET_INITIAL_TIME';
 export const UPDATE_CLOCK = 'UPDATE_CLOCK';
 export const STOP_COUNTDOWN = 'STOP_COUNTDOWN';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const PICK_ANSWER = 'PICK_ANSWER';
 
 const questionsURL = 'https://opentdb.com/api.php?amount=5&token=';
 const tokenURL = 'https://opentdb.com/api_token.php?command=request';
@@ -33,6 +34,10 @@ export const saveLogin = (email, name) => {
     name,
   };
 };
+
+export const pickAnswer = () => ({
+  type: PICK_ANSWER,
+});
 
 export const requestToken = () => ({
   type: REQUEST_TOKEN,
@@ -107,7 +112,6 @@ export const stopCountdown = () => {
 
 export const updateScore = (payload) => {
   const state = JSON.parse(localStorage.getItem('state'));
-  console.log(state);
   state.player.score += payload;
   state.player.assertions += 1;
   localStorage.setItem('state', JSON.stringify(state));

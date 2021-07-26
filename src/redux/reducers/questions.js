@@ -4,14 +4,15 @@ import {
   REQUEST_QUESTIONS_SUCCESS,
   NEXT_QUESTION,
   UPDATE_CLOCK,
+  PICK_ANSWER,
 } from '../actions';
 
-// informações mockadas
 const INNITIAL_STATE = {
   questionsArr: [],
   currentQuestion: 0,
   loading: true,
   timer: 30,
+  answerPicked: false,
 };
 
 function questions(state = INNITIAL_STATE, action) {
@@ -27,6 +28,8 @@ function questions(state = INNITIAL_STATE, action) {
     };
   case REQUEST_QUESTIONS_FAIL:
     return { ...state, error: action.payload, loading: false };
+  case PICK_ANSWER:
+    return { ...state, answerPicked: !state.answerPicked };
   case NEXT_QUESTION:
     return { ...state, currentQuestion: state.currentQuestion + 1 };
   case 'SET_INITIAL_TIME':
