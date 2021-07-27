@@ -53,7 +53,7 @@ export default class FeedBack extends Component {
           <h2 data-testid="header-player-name">{ name }</h2>
           <h3 data-testid="header-score">{`${score} points`}</h3>
         </div>
-        <p data-testid="feedback-text" className="feedback-message">{this.message()}</p>
+        <h2 data-testid="feedback-text" className="feedback-message">{this.message()}</h2>
         <div className="feedback-score">
           <h5>Your score:</h5>
           <h6 data-testid="feedback-total-score">{`${score} points`}</h6>
@@ -62,12 +62,12 @@ export default class FeedBack extends Component {
         <div className="feedback-links">
           <Link to="/">
             <button type="button" data-testid="btn-play-again">
-              Jogar novamente
+              Play Again
             </button>
           </Link>
           <Link to="/ranking">
             <button type="button" data-testid="btn-ranking">
-              Ver Ranking
+              Ranking
             </button>
           </Link>
         </div>
