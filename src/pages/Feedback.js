@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PlayerComponent from '../components/PlayerComponent';
@@ -8,7 +7,6 @@ class Feedback extends React.Component {
   constructor() {
     super();
     this.state = {
-      assertions: 0,
       message: '',
     };
     this.handleScore = this.handleScore.bind(this);
@@ -19,31 +17,35 @@ class Feedback extends React.Component {
   }
 
   handleScore() {
-    const { location: { state: { assertions } } } = this.props;
+    const { location } = this.props;
+    const { state } = location;
+    const { assertions } = state;
     const THREE_POINTS = 3;
 
     if (assertions < THREE_POINTS) {
       this.setState(() => ({
-        assertions,
         message: 'Podia ser melhor...',
       }));
     } else {
       this.setState(() => ({
-        assertions,
         message: 'Mandou bem!',
       }));
     }
   }
 
   render() {
-    const { assertions, message, score } = this.state;
+    const { message } = this.state;
+    const score = JSON.parse(localStorage.getItem('state'));
+
     return (
       <div className="player">
-        <PlayerComponent assertions={ assertions } />
+        <header>
+          <PlayerComponent data-testid="header-score" />
+        </header>
         <section>
           <p data-testid="feedback-text">{message}</p>
-          <p data-testid="feedback-total-score">{score}</p>
-          <p data-testid="feedback-total-question">{assertions}</p>
+          <p data-testid="feedback-total-score">{score.player.score}</p>
+          <p data-testid="feedback-total-question">0</p>
           <Link to="/">
             <button type="button" data-testid="btn-play-again">Jogar novamente</button>
           </Link>
@@ -64,4 +66,4 @@ Feedback.propTypes = {
   }).isRequired,
 };
 
-export default connect()(Feedback);
+export default Feedback;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { clickButton, requestTime } from '../actions';
+import { clickButton, requestTime, sendScore } from '../actions';
 import ClockComponent from './ClockComponent';
 
 class QuestionsComponent extends Component {
@@ -26,24 +26,10 @@ class QuestionsComponent extends Component {
     setInterval(() => this.timer(), second);
   }
 
-  timer() {
-    const { seconds } = this.state;
-    const limit = 30;
-    if (seconds !== 0) {
-      this.setState((prevState) => ({
-        seconds: prevState.seconds - 1,
-      }));
-    }
-    if (seconds === 0) {
-      this.setState({
-        btnDisable: true,
-      });
-    }
-    if (seconds === limit) {
-      this.setState({
-        btnDisable: false,
-      });
-    }
+  componentDidUpdate() {
+    const { assertions } = this.state;
+    const { score } = this.props;
+    score(assertions);
   }
 
   nextQuestion() {
@@ -74,6 +60,26 @@ class QuestionsComponent extends Component {
     btns.forEach((element) => {
       element.classList.add('reveal-color');
     });
+  }
+
+  timer() {
+    const { seconds } = this.state;
+    const limit = 30;
+    if (seconds !== 0) {
+      this.setState((prevState) => ({
+        seconds: prevState.seconds - 1,
+      }));
+    }
+    if (seconds === 0) {
+      this.setState({
+        btnDisable: true,
+      });
+    }
+    if (seconds === limit) {
+      this.setState({
+        btnDisable: false,
+      });
+    }
   }
 
   render() {
@@ -132,6 +138,7 @@ QuestionsComponent.propTypes = {
   questions: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
   updateClickButton: PropTypes.func.isRequired,
+  score: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -142,6 +149,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateClickButton: (state) => dispatch(clickButton(state)),
   timer: (state) => dispatch(requestTime(state)),
+  score: (state) => dispatch(sendScore(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionsComponent);
