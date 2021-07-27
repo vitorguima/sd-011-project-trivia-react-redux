@@ -148,34 +148,36 @@ class Question extends React.Component {
     const { timer, redirectToFeedBack } = this.state;
 
     return (
-      <div>
-        <h3>
+      <div className="Question">
+        <h3 className="Timer">
           Timer:
           { timer }
         </h3>
-        <p data-testid="question-category">{ category }</p>
+        <p className="Category" data-testid="question-category">{ category }</p>
         <p data-testid="question-text">{ decode(question) }</p>
-        <button
-          type="button"
-          onClick={ this.clearTimer }
-          data-testid="correct-answer"
-          className={ showCorrect && 'correct' }
-          disabled={ showCorrect }
-        >
-          { decode(correctAnswer) }
-        </button>
-        { incorrectAnswers.map((inc, i) => (
+        <div className="Answers">
           <button
             type="button"
             onClick={ this.clearTimer }
-            data-testid={ `wrong-answer-${i}` }
-            key={ i }
-            className={ showCorrect && 'incorrect' }
+            data-testid="correct-answer"
+            className={ showCorrect && 'correct' }
             disabled={ showCorrect }
           >
-            { decode(inc) }
+            { decode(correctAnswer) }
           </button>
-        )) }
+          { incorrectAnswers.map((inc, i) => (
+            <button
+              type="button"
+              onClick={ this.clearTimer }
+              data-testid={ `wrong-answer-${i}` }
+              key={ i }
+              className={ showCorrect && 'incorrect' }
+              disabled={ showCorrect }
+            >
+              { decode(inc) }
+            </button>
+          )) }
+        </div>
         { showCorrect
           && this.renderButton(index) }
         { redirectToFeedBack

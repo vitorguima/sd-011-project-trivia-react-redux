@@ -25,20 +25,22 @@ class Ranking extends Component {
     if (redirectToLogin) return <Redirect to="/" />;
 
     return (
-      <>
-        <div data-testid="ranking-title">Ranking</div>
-        {
-          fromRanking
-            .sort((a, b) => b.score - a.score).map((elements, i) => (
-              <section key={ i }>
-                <div>
-                  <img src={ elements.picture } alt="Gravatar-email" />
-                </div>
-                <div data-testid={ `player-name-${i}` }>{elements.name}</div>
-                <div data-testid={ `player-score-${i}` }>{elements.score}</div>
-              </section>
-            ))
-        }
+      <div className="Ranking">
+        <p className="RankingTitle" data-testid="ranking-title">Ranking</p>
+        <div className="Table">
+          {
+            fromRanking
+              .sort((a, b) => b.score - a.score).map((elements, i) => (
+                <section key={ i }>
+                  <div>
+                    <img src={ elements.picture } alt="Gravatar-email" />
+                  </div>
+                  <div data-testid={ `player-name-${i}` }>{elements.name}</div>
+                  <div data-testid={ `player-score-${i}` }>{elements.score}</div>
+                </section>
+              ))
+          }
+        </div>
         <button
           type="submit"
           onClick={ this.toLogin }
@@ -46,7 +48,7 @@ class Ranking extends Component {
         >
           Jogar novamente
         </button>
-      </>
+      </div>
     );
   }
 }

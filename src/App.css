@@ -129,4 +129,55 @@ button {
 .Header img {
   width: 100px;
   height: 100px;
+  border-radius: 12px;
+}
+
+.Question {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Answers {
+  display: flex;
+  padding: 10px;
+}
+
+.Answers button {
+  margin: 0 5px;
+}
+
+.Timer {
+  color: var(--Trivia-night-4-rgba);
+  text-shadow: 0 0 3px var(--Trivia-night-2-rgba), 0 0 5px var(--Trivia-night-2-rgba);
+}
+
+.Category {
+  font-weight: bolder;
+}
+
+.Feedback {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Ranking {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.Table {
+  display: flex;
+  flex-direction: column;
+}
+
+.RankingTitle {
+  font-size: larger;
+  font-weight: bolder;
 }

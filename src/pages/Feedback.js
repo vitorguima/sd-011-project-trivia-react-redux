@@ -62,23 +62,25 @@ class Feedback extends React.Component {
     return (
       <div>
         <Header />
-        <p data-testid="feedback-text">{ this.assertionsAnswer() }</p>
-        <p data-testid="feedback-total-question">{ assertions }</p>
-        <p data-testid="feedback-total-score">{ score }</p>
-        <button
-          type="submit"
-          data-testid="btn-ranking"
-          onClick={ this.toRankingReducer }
-        >
-          Ver Ranking
-        </button>
-        <button
-          type="submit"
-          data-testid="btn-play-again"
-          onClick={ this.playAgain }
-        >
-          Jogar novamente
-        </button>
+        <div className="Feedback">
+          <p data-testid="feedback-text">{ this.assertionsAnswer() }</p>
+          <p data-testid="feedback-total-question">{ assertions }</p>
+          <p data-testid="feedback-total-score">{ score }</p>
+          <button
+            type="submit"
+            data-testid="btn-ranking"
+            onClick={ this.toRankingReducer }
+          >
+            Ver Ranking
+          </button>
+          <button
+            type="submit"
+            data-testid="btn-play-again"
+            onClick={ this.playAgain }
+          >
+            Jogar novamente
+          </button>
+        </div>
       </div>
     );
   }
