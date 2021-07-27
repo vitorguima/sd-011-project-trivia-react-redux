@@ -1,0 +1,10 @@
+.loading {
+  align-items: center;
+  color: var(--primary-text-color);
+  display: flex;
+  font-size: xx-large;
+  font-weight: 600;
+  height: calc(100vh - 130px);
+  justify-content: center;
+  width: 100vw;
+}

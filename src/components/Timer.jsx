@@ -2,9 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { resetTimer, updateTimer } from '../actions';
+import style from './Timer.module.css';
 
 const interval = 1000;
 const maxTime = 30;
+const ten = 10;
+const timeEnding = 5;
 
 class Timer extends React.Component {
   constructor() {
@@ -71,7 +74,17 @@ class Timer extends React.Component {
     const { timer } = this.props;
 
     return (
-      <span>{ `Tempo: ${timer}` }</span>
+      <span
+        className={
+          `
+            ${style.timer}
+            ${timer <= timeEnding && timer > 0 && style.shake}
+            ${timer <= timeEnding && style.ending}
+          `
+        }
+      >
+        { `00 : ${timer < ten ? `0${timer}` : timer}` }
+      </span>
     );
   }
 }
