@@ -8,7 +8,7 @@ class Feedback extends React.Component {
   constructor() {
     super();
     this.state = {
-      assertions: 0,
+      assertions:0,
       message: '',
     };
     this.handleScore = this.handleScore.bind(this);
@@ -36,14 +36,19 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { assertions, message, score } = this.state;
+    const { message } = this.state;
+    const{ questions } = this.props
+    const score = JSON.parse(localStorage.getItem('state'));
+
     return (
       <div className="player">
-        <PlayerComponent assertions={ assertions } />
+        <header>
+        <PlayerComponent data-testid="header-score" />  
+        </header>        
         <section>
           <p data-testid="feedback-text">{message}</p>
-          <p data-testid="feedback-total-score">{score}</p>
-          <p data-testid="feedback-total-question">{assertions}</p>
+          <p data-testid="feedback-total-score">{score.player.score}</p>
+          <p data-testid="feedback-total-question">0</p>
           <Link to="/">
             <button type="button" data-testid="btn-play-again">Jogar novamente</button>
           </Link>
@@ -64,4 +69,8 @@ Feedback.propTypes = {
   }).isRequired,
 };
 
-export default connect()(Feedback);
+const mapStateToProps = (state) => ({
+  questions: state.trivia.assertions,
+});
+
+export default connect(mapStateToProps)(Feedback);

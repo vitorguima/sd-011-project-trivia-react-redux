@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { clickButton, requestTime } from '../actions';
+import { clickButton, requestTime, sendScore } from '../actions';
 import ClockComponent from './ClockComponent';
 
 class QuestionsComponent extends Component {
@@ -76,6 +76,12 @@ class QuestionsComponent extends Component {
     });
   }
 
+  componentDidUpdate() {
+    const { assertions } = this.state;
+    const { score } = this.props;
+    score(assertions);
+  }
+
   render() {
     const { questions: { results }, updateClickButton, loading } = this.props;
     const { buttonClick, rightAnswerClicked, index, btnDisable, assertions } = this.state;
@@ -142,6 +148,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateClickButton: (state) => dispatch(clickButton(state)),
   timer: (state) => dispatch(requestTime(state)),
+  score: (state) => dispatch(sendScore(state)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionsComponent);

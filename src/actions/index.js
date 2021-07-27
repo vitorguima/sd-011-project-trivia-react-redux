@@ -48,9 +48,9 @@ export const requestTime = (state) => ({
   state,
 });
 
-export const sendScore = (score) => ({
+export const sendScore = (state) => ({
   type: SEND_SCORE,
-  payload: { score },
+  state,
 });
 
 export const fetchTrivia = (token) => (dispatch) => {
