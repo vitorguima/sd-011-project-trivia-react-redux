@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../../styles/layout.css';
 
 export default class Layout extends Component {
   componentDidMount() {
@@ -11,12 +12,12 @@ export default class Layout extends Component {
     const { children } = this.props;
     return (
       <>
-        <header>
+        <header className="headerLayout">
           <h1>trivia 19</h1>
         </header>
         {children}
         <footer>
-          <p>feito pelo grupo 19</p>
+          <p>Desenvolvido pelo grupo 19</p>
         </footer>
       </>
     );

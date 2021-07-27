@@ -10,6 +10,7 @@ import createStopwatch from '../utils/stopwatch';
 import shuffle from '../utils/shuffle';
 import './Game.css';
 import GameHeader from '../components/GameHeader';
+import '../styles/game.css';
 
 class Game extends Component {
   constructor(props) {
@@ -111,9 +112,7 @@ class Game extends Component {
 
   initializeState() {
     const { quest } = this.props;
-
     const TIME_TO_CHOOSE = 30;
-
     const callbacks = {
       tick: this.handleStopwatchTick,
       end: this.handleStopwatchEnd,
@@ -188,23 +187,24 @@ class Game extends Component {
     const isFinished = index === questions.length - 1;
     return (
       <Layout title="Game">
-        <main>
-          <GameHeader />
-          { loading ? <span>Carregando...</span>
+        <main className="game">
+          { loading ? <div className="loading"><span>Carregando...</span></div>
             : (
               <div>
+                <GameHeader />
                 <QuestionDescription index={ index } questions={ questions } />
                 <div>
                   { alternatives[index]
                     .map((answer, btnIndex) => this.renderButtons(answer, btnIndex)) }
                 </div>
-                <p>
-                  Tempo restante:&nbsp;
-                  { remainingTime }
+                <p className="time">
+                  <span>Tempo restante:&nbsp;</span>
+                  <span className="remainingTime">{ remainingTime }</span>
                 </p>
                 {hasPicked
                   ? (
                     <button
+                      className="btnNext"
                       title={ `${isFinished
                         ? 'Ver resultados'
                         : 'Ir para próxima pergunta'}` }

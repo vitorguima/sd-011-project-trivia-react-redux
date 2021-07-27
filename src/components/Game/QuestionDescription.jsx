@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../../styles/game.css';
 
 class QuestionDescription extends React.Component {
   render() {
     const { questions, index } = this.props;
 
     return (
-      <>
+      <div className="questions">
         <p>
           <span data-testid="question-category">
             {questions[index].category}
@@ -17,7 +18,7 @@ class QuestionDescription extends React.Component {
             {questions[index].question}
           </span>
         </p>
-      </>
+      </div>
     );
   }
 }

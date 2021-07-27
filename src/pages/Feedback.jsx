@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Layout from '../components/common/Layout';
 import GameHeader from '../components/GameHeader';
 import getGravatarUrl from '../utils/getGravatarUrl';
+import '../styles/feedback.css';
 
 class Feedback extends Component {
   componentDidMount() {
@@ -50,15 +51,27 @@ class Feedback extends Component {
 
     return (
       <Layout>
-        <main>
+        <main className="feedback">
           <GameHeader />
-          <p data-testid="feedback-text">{this.renderMsg()}</p>
-          <p data-testid="feedback-total-score">
-            {score}
-          </p>
-          <p data-testid="feedback-total-question">{assertions}</p>
-          <Link to="/" data-testid="btn-play-again">Jogar Novamente</Link>
-          <Link to="/ranking" data-testid="btn-ranking">Ver Ranking</Link>
+          <div className="scoreFinal">
+            <p data-testid="feedback-text">{this.renderMsg()}</p>
+            <p data-testid="feedback-total-score">
+              <span>Pontuação final: </span>
+              {score}
+            </p>
+            <p data-testid="feedback-total-question">
+              <span>Acertos: </span>
+              {assertions}
+            </p>
+          </div>
+          <div className="feedbackBtns">
+            <Link className="btn" to="/" data-testid="btn-play-again">
+              Jogar Novamente
+            </Link>
+            <Link className="btn" to="/ranking" data-testid="btn-ranking">
+              Ver Ranking
+            </Link>
+          </div>
         </main>
       </Layout>
     );

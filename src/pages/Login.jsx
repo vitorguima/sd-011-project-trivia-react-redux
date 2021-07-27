@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import Layout from '../components/common/Layout';
+import '../styles/login.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { changeEmail, changeName, clearPlayer, getToken } from '../redux/actions';
+
+library.add(fas);
 
 class Login extends Component {
   constructor() {
@@ -40,42 +44,52 @@ class Login extends Component {
 
   render() {
     return (
-      <Layout title="Login">
+      <div title="Login">
+        <div className="divConfig">
+           <Link to="/Config">
+            <button className="btnConfig" type="button" data-testid="btn-settings">
+                <FontAwesomeIcon icon="cogs" />
+            </button>
+          </Link>
+        </div>
         <main>
+          <div>
+            <div className="wave">
+              <h2 className="logo">Trivia</h2>
+              <h2 className="logo">Trivia</h2>
+            </div>
+          </div>
           <form>
             <label htmlFor="userEmail">
-              Email do Gravatar:
+              <span>Email do Gravatar:</span>
               <input
                 data-testid="input-gravatar-email"
-                type="text"
+                placeholder="trivia@trivia19.com"
                 onChange={ (e) => this.setState({ email: e.target.value }) }
               />
             </label>
             <label htmlFor="userName">
-              Nome do Jogador:
+              <span>Nome do Jogador:</span>
               <input
                 data-testid="input-player-name"
-                type="text"
+                placeholder="Nome"
                 onChange={ (e) => this.setState({ name: e.target.value }) }
               />
             </label>
-            <Link to="/game">
-              <button
-                data-testid="btn-play"
-                type="button"
-                disabled={ this.verifyUser() }
-                onClick={ this.setGlobalUser }
-              >
-                JOGAR!
-              </button>
-            </Link>
           </form>
-          <Link to="/Config">
-            <button type="button" data-testid="btn-settings">Configurações</button>
+          <Link to="/game">
+            <button
+              className="submitBtn"
+              data-testid="btn-play"
+              type="button"
+              disabled={ this.verifyUser() }
+              onClick={ this.setGlobalUser }
+            >
+              JOGAR
+            </button>
           </Link>
-
         </main>
-      </Layout>
+      </div>
     );
   }
 }

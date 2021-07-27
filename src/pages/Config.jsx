@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import '../styles/config.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { changeCategory, changeDifficulty, changeType } from '../redux/actions';
+
+library.add(fas);
 
 class Config extends Component {
   constructor() {
@@ -62,13 +68,16 @@ class Config extends Component {
     const { loading, category, buttonLoading } = this.state;
     return (
       <div>
-        {loading ? <span>Carregando...</span>
+        <div className="btnBackDiv">
+          <Link className="btnBack" to="/"><FontAwesomeIcon icon="arrow-left" /></Link>
+        </div>
+        {loading ? <div className="loadingConfig"><span>Carregando...</span></div>
           : (
-            <div>
+            <div className="config">
               <h2 data-testid="settings-title">Configurações</h2>
               <form id="form">
                 <label htmlFor="categorySelected">
-                  Categoria:
+                  <span>Categoria:</span>
                   <select name="categorySelected" onChange={ this.handleInput }>
                     <option value="">Aletório</option>
                     { category
@@ -76,11 +85,8 @@ class Config extends Component {
                   </select>
                 </label>
                 <label htmlFor="difficulty">
-                  Dificuldade:
-                  <select
-                    name="difficulty"
-                    onChange={ this.handleInput }
-                  >
+                  <span>Dificuldade:</span>
+                  <select name="difficulty" onChange={ this.handleInput }>
                     <option value="">Aleatório</option>
                     <option value="hard">Difícil</option>
                     <option value="medium">Médio</option>
@@ -88,7 +94,7 @@ class Config extends Component {
                   </select>
                 </label>
                 <label htmlFor="type">
-                  Tipo:
+                  <span>Tipo:</span>
                   <select
                     name="type"
                     onChange={ this.handleInput }
@@ -103,7 +109,6 @@ class Config extends Component {
                 : <button type="button" onClick={ this.submitConfig }>Selecionar</button>}
             </div>
           )}
-        <Link to="/">Voltar</Link>
       </div>
     );
   }
