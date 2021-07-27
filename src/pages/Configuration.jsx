@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { fetchCategories } from '../services/api';
 import Loading from '../components/Loading';
 import { updateCategory, updateDifficulty, updateType } from '../actions';
+import style from './Configuration.module.css';
 
 class Configuration extends React.Component {
   constructor() {
@@ -34,19 +35,23 @@ class Configuration extends React.Component {
     const { category, dispatchUpdateCategory } = this.props;
 
     return (
-      <select
-        name="category"
-        id="category"
-        value={ category }
-        onChange={ ({ target: { value } }) => dispatchUpdateCategory(Number(value)) }
-      >
-        <option value={ 0 }>All</option>
-        {
-          categories.map(({ id, name }) => (
-            <option key={ id } value={ id }>{name}</option>
-          ))
-        }
-      </select>
+      <label className={ style.label } htmlFor="category">
+        Categoria
+        <select
+          className={ style.select }
+          name="category"
+          id="category"
+          value={ category }
+          onChange={ ({ target: { value } }) => dispatchUpdateCategory(Number(value)) }
+        >
+          <option value={ 0 }>All</option>
+          {
+            categories.map(({ id, name }) => (
+              <option key={ id } value={ id }>{name}</option>
+            ))
+          }
+        </select>
+      </label>
     );
   }
 
@@ -55,19 +60,23 @@ class Configuration extends React.Component {
     const difficulties = ['easy', 'medium', 'hard'];
 
     return (
-      <select
-        name="difficulty"
-        id="difficulty"
-        value={ difficulty }
-        onChange={ ({ target: { value } }) => dispatchUpdateDifficulty(value) }
-      >
-        <option>All</option>
-        {
-          difficulties.map((diff) => (
-            <option key={ diff }>{diff}</option>
-          ))
-        }
-      </select>
+      <label className={ style.label } htmlFor="difficulty">
+        Dificuldade
+        <select
+          className={ style.select }
+          name="difficulty"
+          id="difficulty"
+          value={ difficulty }
+          onChange={ ({ target: { value } }) => dispatchUpdateDifficulty(value) }
+        >
+          <option>All</option>
+          {
+            difficulties.map((diff) => (
+              <option key={ diff }>{diff}</option>
+            ))
+          }
+        </select>
+      </label>
     );
   }
 
@@ -79,19 +88,23 @@ class Configuration extends React.Component {
     ];
 
     return (
-      <select
-        name="type"
-        id="type"
-        value={ type }
-        onChange={ ({ target: { value } }) => dispatchUpdateType(value) }
-      >
-        <option>All</option>
-        {
-          types.map(({ id, name }) => (
-            <option key={ id } value={ id }>{name}</option>
-          ))
-        }
-      </select>
+      <label className={ style.label } htmlFor="type">
+        Tipo de questão
+        <select
+          className={ style.select }
+          name="type"
+          id="type"
+          value={ type }
+          onChange={ ({ target: { value } }) => dispatchUpdateType(value) }
+        >
+          <option>All</option>
+          {
+            types.map(({ id, name }) => (
+              <option key={ id } value={ id }>{name}</option>
+            ))
+          }
+        </select>
+      </label>
     );
   }
 
@@ -101,17 +114,23 @@ class Configuration extends React.Component {
     if (isLoading) return <Loading />;
 
     return (
-      <section>
-        <h1 data-testid="settings-title">
+      <main className={ style.container }>
+        <h1 className={ style.title } data-testid="settings-title">
           Configurações
         </h1>
-        { this.renderCategoriesSelect() }
-        { this.renderDifficultiesSelect() }
-        { this.renderTypesSelect() }
+
+        <section className={ style.selectContainer }>
+          { this.renderCategoriesSelect() }
+          <div className={ style.formControl }>
+            { this.renderDifficultiesSelect() }
+            { this.renderTypesSelect() }
+          </div>
+        </section>
+
         <Link to="/">
           Voltar
         </Link>
-      </section>
+      </main>
     );
   }
 }

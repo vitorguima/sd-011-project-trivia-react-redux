@@ -1,0 +1,107 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  height: calc(100vh - 130px);
+  justify-content: center;
+}
+
+.questionCard {
+  align-items: center;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--primary-text-color);
+  border-radius: 0.25em;
+  box-shadow: 0 0 2px 2px #f9f9f9;
+  color: var(--primary-text-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+}
+
+.questionContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.answersContainer {
+  display: flex;
+  gap: 0.5em;
+  justify-content: space-around;
+}
+
+.answersContainer button {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 0.25em;
+  color: var(--primary-text-color);
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 600;
+  padding: 0.5em 1em;
+}
+
+.answersContainer button:hover {
+  background-color: var(--tertiary-color);
+}
+
+.answersContainer button:disabled {
+  background-color: var(--secondary-text-color);
+  border: none;
+  cursor: auto;
+}
+
+.answersContainer .correct, .answersContainer .correct:disabled {
+  background-color: var(--primary-color);
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.answersContainer .incorrect, .answersContainer .incorrect:disabled {
+  background-color: rgb(160, 31, 31);
+  border: 3px solid red;
+}
+
+.nextButton {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 0.25em;
+  color: var(--primary-text-color);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 1em 1.5em;
+}
+
+.nextButton:hover {
+  background-color: var(--secondary-color);
+}
+
+.noQuestions {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 130px);
+  justify-content: center;
+}
+
+.noQuestions p {
+  color: var(--primary-color);
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.noQuestions a {
+  background-color: var(--primary-color);
+  border-radius: 0.25em;
+  color: var(--primary-text-color);
+  font-weight: 600;
+  margin-top: 1em;
+  padding: 0.5em 1em;
+  text-decoration: none;
+}
+
+.noQuestions a:hover {
+  background-color: var(--secondary-color);
+}

@@ -9,6 +9,7 @@ import Timer from './Timer';
 import {
   nextQuestion, resetQuestions, resetTimer, stopTimer, updateScore,
 } from '../actions';
+import style from './QuestionCard.module.css';
 
 const baseScore = 10;
 
@@ -99,9 +100,9 @@ class QuestionCard extends React.Component {
 
     for (let index = 0; index < getButtons.length; index += 1) {
       if (getButtons[index].dataset.testid === 'correct-answer') {
-        getButtons[index].classList.add('correct');
+        getButtons[index].classList.add(style.correct);
       } else {
-        getButtons[index].classList.add('incorrect');
+        getButtons[index].classList.add(style.incorrect);
       }
     }
   }
@@ -127,7 +128,7 @@ class QuestionCard extends React.Component {
     const { disableButtons } = this.state;
 
     return (
-      <section>
+      <section className={ style.answersContainer }>
         {
           question.type === 'boolean'
             ? (
@@ -155,32 +156,35 @@ class QuestionCard extends React.Component {
     if (error) return <p>{error.message}</p>;
     if (!question) {
       return (
-        <>
+        <section className={ style.noQuestions }>
           <p>Não foram encontradas questões suficientes com estas configurações</p>
           <Link to="/">
             Voltar
           </Link>
-        </>
+        </section>
       );
     }
 
     return (
-      <section>
-        <section>
-          <p
-            data-testid="question-category"
-          >
-            { question.category }
-          </p>
-          <p
-            data-testid="question-text"
-          >
-            { question.question }
-          </p>
+      <section className={ style.container }>
+        <section className={ style.questionCard }>
+          <section className={ style.questionContainer }>
+            <p
+              data-testid="question-category"
+            >
+              { question.category }
+            </p>
+            <p
+              data-testid="question-text"
+            >
+              { question.question }
+            </p>
+          </section>
+          { this.renderAnswers() }
         </section>
-        { this.renderAnswers() }
         <Timer toggleDisableButtons={ this.toggleDisableButtons } />
         <button
+          className={ style.nextButton }
           type="button"
           onClick={ this.handleNextQuestion }
           hidden={ !nexButtonVisible }

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { savePlayer, fetchQuestions } from '../actions';
 import { fetchToken } from '../services/api';
+import style from './LoginForm.module.css';
 
 class LoginForm extends React.Component {
   constructor() {
@@ -78,10 +79,11 @@ class LoginForm extends React.Component {
     const { email, name, isDisabled } = this.state;
 
     return (
-      <form>
-        <label htmlFor="email">
+      <form className={ style.container }>
+        <label className={ style.label } htmlFor="email">
           Email do Gravatar:
           <input
+            className={ style.input }
             type="email"
             id="email"
             name="email"
@@ -91,9 +93,10 @@ class LoginForm extends React.Component {
             data-testid="input-gravatar-email"
           />
         </label>
-        <label htmlFor="name">
+        <label className={ style.label } htmlFor="name">
           Nome do jogador:
           <input
+            className={ style.input }
             id="name"
             name="name"
             value={ name }
@@ -104,6 +107,7 @@ class LoginForm extends React.Component {
         </label>
         <Link to="/game">
           <button
+            className={ style.button }
             type="button"
             disabled={ isDisabled }
             onClick={ this.handleSubmit }

@@ -1,0 +1,42 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.input {
+  border: none;
+  border-radius: 0.25em;
+  margin-top: 0.25em;
+  padding: 0.5em 1em;
+}
+
+.input::placeholder {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.input:hover {
+  border: 0.25em solid var(--primary-color);
+}
+
+.button {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 0.25em;
+  color: var(--primary-text-color);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5em 1em;
+}
+
+.button:hover {
+  background-color: var(--secondary-color);
+}
