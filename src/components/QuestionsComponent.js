@@ -26,24 +26,10 @@ class QuestionsComponent extends Component {
     setInterval(() => this.timer(), second);
   }
 
-  timer() {
-    const { seconds } = this.state;
-    const limit = 30;
-    if (seconds !== 0) {
-      this.setState((prevState) => ({
-        seconds: prevState.seconds - 1,
-      }));
-    }
-    if (seconds === 0) {
-      this.setState({
-        btnDisable: true,
-      });
-    }
-    if (seconds === limit) {
-      this.setState({
-        btnDisable: false,
-      });
-    }
+  componentDidUpdate() {
+    const { assertions } = this.state;
+    const { score } = this.props;
+    score(assertions);
   }
 
   nextQuestion() {
@@ -76,10 +62,24 @@ class QuestionsComponent extends Component {
     });
   }
 
-  componentDidUpdate() {
-    const { assertions } = this.state;
-    const { score } = this.props;
-    score(assertions);
+  timer() {
+    const { seconds } = this.state;
+    const limit = 30;
+    if (seconds !== 0) {
+      this.setState((prevState) => ({
+        seconds: prevState.seconds - 1,
+      }));
+    }
+    if (seconds === 0) {
+      this.setState({
+        btnDisable: true,
+      });
+    }
+    if (seconds === limit) {
+      this.setState({
+        btnDisable: false,
+      });
+    }
   }
 
   render() {
@@ -138,6 +138,7 @@ QuestionsComponent.propTypes = {
   questions: PropTypes.arrayOf().isRequired,
   loading: PropTypes.bool.isRequired,
   updateClickButton: PropTypes.func.isRequired,
+  score: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

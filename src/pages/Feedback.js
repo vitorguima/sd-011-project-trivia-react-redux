@@ -7,7 +7,6 @@ class Feedback extends React.Component {
   constructor() {
     super();
     this.state = {
-      assertions: 0,
       message: '',
     };
     this.handleScore = this.handleScore.bind(this);
@@ -18,17 +17,17 @@ class Feedback extends React.Component {
   }
 
   handleScore() {
-    const { location: { state: { assertions } } } = this.props;
+    const { location } = this.props;
+    const { state } = location;
+    const { assertions } = state;
     const THREE_POINTS = 3;
 
     if (assertions < THREE_POINTS) {
       this.setState(() => ({
-        assertions,
         message: 'Podia ser melhor...',
       }));
     } else {
       this.setState(() => ({
-        assertions,
         message: 'Mandou bem!',
       }));
     }
