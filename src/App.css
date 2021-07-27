@@ -1,3 +1,11 @@
+body {
+  height: 100vh;
+}
+
+button {
+  width: 100px;
+}
+
 .App {
   text-align: center;
 }
@@ -19,6 +27,25 @@
 
 .reveal-color {
   border-style: solid;
+}
+
+.questions {
+  align-items: center;
+  background-color: #772ce8;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.player {
+  align-items: center;
+  background-color: #772ce8;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 @media ( prefers-reduced-motion : no-preference ) {

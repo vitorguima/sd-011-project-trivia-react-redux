@@ -85,7 +85,7 @@ class ClockComponent extends Component {
 
   render() {
     const { seconds } = this.state;
-    const { buttonClick, nextQuestion, times, clock } = this.props;
+    const { buttonClick, nextQuestion, times } = this.props;
     const notAnswered = () => {
       if (seconds === 0) {
         return (
@@ -99,7 +99,7 @@ class ClockComponent extends Component {
     };
     return (
       <div>
-        <div>
+        <div className="questions">
           <p className="timer">{times(seconds).state}</p>
         </div>
         <div>
@@ -117,7 +117,6 @@ class ClockComponent extends Component {
 
 ClockComponent.propTypes = {
   times: PropTypes.func.isRequired,
-  clock: PropTypes.number.isRequired,
   buttonClick: PropTypes.bool.isRequired,
   rightAnswerClicked: PropTypes.bool.isRequired,
   nextQuestion: PropTypes.func.isRequired,
@@ -128,7 +127,6 @@ const mapStateToProps = (state) => ({
   rightAnswerClicked: state.trivia.rightAnswerClicked,
   questions: state.trivia.questions,
   buttonDisable: state.trivia.buttonDisable,
-  clock: state.trivia.seconds,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -38,7 +38,7 @@ class Feedback extends React.Component {
   render() {
     const { assertions, message, score } = this.state;
     return (
-      <div>
+      <div className="player">
         <PlayerComponent assertions={ assertions } />
         <section>
           <p data-testid="feedback-text">{message}</p>

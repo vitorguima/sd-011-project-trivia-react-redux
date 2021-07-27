@@ -89,7 +89,7 @@ class QuestionsComponent extends Component {
           />);
       }
       return (
-        <div>
+        <div className="questions">
           <p data-testid="question-category">{ results[index].category }</p>
           <h4
             id="question"
