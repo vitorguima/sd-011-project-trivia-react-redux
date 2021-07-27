@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { fetchToken, user, emptyScore } from '../actions';
 import logo from '../trivia.png';
+import './Inicial.css';
 
 class TelaIncial extends Component {
   constructor(props) {
@@ -69,39 +70,41 @@ class TelaIncial extends Component {
       <div className="App">
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
-          <input
-            name="email"
-            data-testid="input-gravatar-email"
-            type="text"
-            onChange={ this.handleInput }
-            placeholder="email"
-          />
-          <input
-            name="name"
-            data-testid="input-player-name"
-            type="text"
-            onChange={ this.handleInput }
-            placeholder="nome"
-          />
-          <Link
-            to="/Play"
-          >
-            <button
-              type="button"
-              disabled={ button }
-              data-testid="btn-play"
-              onClick={ () => this.getTokenAndState() }
+          <div className="login-cont">
+            <input
+              name="email"
+              data-testid="input-gravatar-email"
+              type="text"
+              onChange={ this.handleInput }
+              placeholder="email"
+            />
+            <input
+              name="name"
+              data-testid="input-player-name"
+              type="text"
+              onChange={ this.handleInput }
+              placeholder="nome"
+            />
+            <Link
+              to="/Play"
             >
-              Jogar
-            </button>
-          </Link>
-          <Link
-            to="/Settings"
-          >
-            <button type="button" data-testid="btn-settings">
-              configuração
-            </button>
-          </Link>
+              <button
+                type="button"
+                disabled={ button }
+                data-testid="btn-play"
+                onClick={ () => this.getTokenAndState() }
+              >
+                Jogar
+              </button>
+            </Link>
+            <Link
+              to="/Settings"
+            >
+              <button type="button" data-testid="btn-settings">
+                configuração
+              </button>
+            </Link>
+          </div>
         </header>
       </div>
     );

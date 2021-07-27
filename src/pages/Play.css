@@ -1,7 +1,93 @@
+:root {
+
+  --color-1: #265077;
+
+  --color-2: #022140;
+
+  --color-3: #494b68;
+
+  --color-4: #1e4258;
+
+  --color-5: #2d5f5d;
+}
+
+body {
+  background-attachment: fixed;
+/* stylelint-disable */
+  background-image: radial-gradient(circle at 85% 1%, hsla(190, 0%, 93%, 0.05) 0%, hsla(190, 0%, 93%, 0.05) 96%, transparent 96%, transparent 100%) , radial-gradient(circle at 14% 15%, hsla(190, 0%, 93%, 0.05) 0%, hsla(190, 0%, 93%, 0.05) 1%, transparent 1%, transparent 100%) , radial-gradient(circle at 60% 90%, hsla(190, 0%, 93%, 0.05) 0%, hsla(190, 0%, 93%, 0.05) 20%, transparent 20%, transparent 100%) , radial-gradient(circle at 79% 7%, hsla(190, 0%, 93%, 0.05) 0%, hsla(190, 0%, 93%, 0.05) 78%, transparent 78%, transparent 100%) , radial-gradient(circle at 55% 65%, hsla(190, 0%, 93%, 0.05) 0%, hsla(190, 0%, 93%, 0.05) 52%, transparent 52%, transparent 100%) , linear-gradient(135deg, rgb(2, 33, 64), rgb(45, 95, 93));
+/* stylelint-enable */
+  margin: 0;
+}
+
 .correct.revealed {
   border: 3px solid rgb(6, 240, 15);
 }
 
 .wrong.revealed {
   border: 3px solid red;
+}
+
+.play-cont {
+  background-color: gainsboro;
+  border-radius: 10px;
+  box-shadow: 0 5px var(--color-3);
+  display: flex;
+  flex-direction: column;
+  margin: 10% auto;
+  min-height: 50%;
+  padding: 3%;
+  width: 50%;
+}
+
+.play-cont button {
+  border-radius: 5px;
+  padding: 0.5em 0.3%;
+  transition: 0.5s;
+  width: 7rem;
+}
+
+.answers-cont {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  margin: auto;
+  width: 90%;
+}
+
+.answers-cont button {
+  border: 1px solid var(--color-2);
+}
+
+.play-cont button:focus {
+  outline: 0;
+}
+
+.play-cont button:enabled:hover {
+  filter: brightness(90%);
+}
+
+.timer {
+  background-color: var(--color-4);
+  border-radius: 100%;
+  color: white;
+  font-weight: 600;
+  margin: auto;
+  padding: 0.25rem 0.5rem;
+}
+
+.question-cont {
+  display: flex;
+  flex-direction: column;
+}
+
+.my-next-btn {
+  background-color: var(--color-1);
+  border: 0;
+  color: white;
+  margin: 5% auto 0;
+  transition: 0.5s;
+}
+
+.my-next-btn:hover {
+  filter: brightness(85%);
 }

@@ -158,38 +158,40 @@ class Play extends Component {
     let index = initialIndex;
     if (answers.length !== 0) {
       return (
-        <div>
+        <div className="question-cont">
           <span data-testid="question-category">{ currQuestion.category }</span>
           <p data-testid="question-text">{ currQuestion.question }</p>
-          {answers[qIndex].map((answer) => {
-            if (answer === correctA) {
+          <div className="answers-cont">
+            {answers[qIndex].map((answer) => {
+              if (answer === correctA) {
+                return (
+                  <button
+                    key={ answer }
+                    type="submit"
+                    data-testid="correct-answer"
+                    className="correct"
+                    disabled={ answered }
+                    onClick={ this.handleCorrect }
+                  >
+                    { answer }
+                  </button>
+                );
+              }
+              index += 1;
               return (
                 <button
                   key={ answer }
                   type="submit"
-                  data-testid="correct-answer"
-                  className="correct"
+                  data-testid={ `wrong-answer-${index}` }
+                  className="wrong"
                   disabled={ answered }
                   onClick={ this.handleCorrect }
                 >
                   { answer }
                 </button>
               );
-            }
-            index += 1;
-            return (
-              <button
-                key={ answer }
-                type="submit"
-                data-testid={ `wrong-answer-${index}` }
-                className="wrong"
-                disabled={ answered }
-                onClick={ this.handleCorrect }
-              >
-                { answer }
-              </button>
-            );
-          })}
+            })}
+          </div>
         </div>
       );
     }
@@ -206,9 +208,11 @@ class Play extends Component {
           <span data-testid="header-player-name">{ name }</span>
           <span data-testid="header-score">{ score }</span>
         </header>
-        <div>{count}</div>
-        { questions.length ? this.renderQuestion() : carr }
-        { (answered) ? this.renderNxtBtn() : '' }
+        <div className="play-cont">
+          <div className="timer">{count}</div>
+          { questions.length ? this.renderQuestion() : carr }
+          { (answered) ? this.renderNxtBtn() : '' }
+        </div>
       </div>
     );
   }
