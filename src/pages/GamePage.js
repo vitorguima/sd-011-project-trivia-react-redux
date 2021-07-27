@@ -15,10 +15,6 @@ const tenPoints = 10;
 const twoHundredMilliseconds = 200;
 const oneSecond = 1000;
 
-const racaNegraSongs =
-  `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${Math.floor(Math.random() * 9) + 1}.mp3`;
-const audio = new Audio(racaNegraSongs);
-
 class GamePage extends Component {
   constructor() {
     super();
@@ -33,12 +29,10 @@ class GamePage extends Component {
 
   componentDidMount() {
     this.startTimer();
-    audio.play();
   }
 
   componentWillUnmount() {
     this.generateRanking();
-    audio.pause();
   }
 
   // FUNÇÃO ATIVADA AO APERTAR A ALTERNATIVA CORRETA
@@ -218,9 +212,9 @@ class GamePage extends Component {
           .map((question, iQuestion) => {
             if (iQuestion === nQuestion) {
               return (
-                <div className="questions__container" key={ iQuestion }>
-                  <h1 data-testid="question-category">{question.category}</h1>
-                  <h2 data-testid="question-text">{question.question}</h2>
+                <div key={ iQuestion }>
+                  <p data-testid="question-category">{question.category}</p>
+                  <p data-testid="question-text">{question.question}</p>
                   {[...question.incorrect_answers, question.correct_answer]
                     .sort()
                     .map((answer, index) => (

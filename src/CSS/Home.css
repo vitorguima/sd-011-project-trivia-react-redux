@@ -5,12 +5,12 @@
 
 .home__container {
   align-items: center;
-  box-shadow: 0 0 4px;
+  border: 1px solid black;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
   margin: 100px auto;
-  padding: 70px 40px;
+  padding: 40px 25px;
   width: max-content;
 }
 
@@ -26,35 +26,18 @@
 }
 
 .trivia__forms input {
-  padding: 8px 14px;
-  font-size: 1rem;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, .6);
+  padding: 6px 12px;
 }
 
 .trivia__forms button {
   align-self: stretch;
-  font-size: 1.4rem;
-  padding: 4px 12px;
-  box-shadow: 0 1px 3px black;
-  background-color: slateblue;
-  border: 1px solid black;
-  cursor: pointer;
-  color: white;
-}
-
-.trivia__forms button:not(:disabled):hover {
-  background: mediumslateblue;
-}
-
-.trivia__forms a {
-  color: white;
-  font-weight: 300;
+  font-size: 1rem;
+  padding: 6px 12px;
 }
 
 .logo {
   transition: 0.5s;
-  width: 250px;
+  width: 20vw;
   margin-bottom: 15px;
 }
 

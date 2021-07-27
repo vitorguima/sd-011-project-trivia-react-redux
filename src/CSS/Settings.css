@@ -1,23 +1,22 @@
-.settings__container h1 {
+h1 {
   font-size: 40px;
-  border-bottom: 4px solid #000;
 }
 
 .settings__container {
-  display: flex;
   align-items: center;
-  box-shadow: 0px 0px 4px;
-  gap: 16px;
+  border: 1px solid black;
   border-radius: 4px;
-  margin: 70px auto;
+  display: flex;
+  flex-direction: column;
+  margin: 100px auto;
   padding: 40px 25px;
   width: max-content;
+  text-align: center;
 }
 
 .settings__form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 label {
@@ -26,31 +25,12 @@ label {
   text-align: start;
 }
 
-.settings__container button {
-  border: 1px solid;
+button {
+  margin-top: 3px;
   align-self: stretch;
   font-size: 1rem;
   padding: 6px 12px;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
-  cursor: pointer;
-  transition: 100ms;
-  background-color: slateblue;
 }
-
-.settings__container a{
-  color: white;
-  font-size: 1.4rem;
-}
-
-.settings__container button:hover {
-  background-color: mediumslateblue;
-}
-
-.settings__container button:active {
-  box-shadow: 0 0 0;
-  transform: scale(0.98);
-}
-
 
 .link {
   display: block;
@@ -60,16 +40,8 @@ label {
   height: 100%;
 }
 
-.settings__form label {
-  font-weight: 600;
-}
-
-.settings__form label input,
-.settings__form label select {
-  font-size: 1rem;
-  padding: 6px;
-}
-
-.settings__form label select {
-  padding: 6px;
+.settings__form label input, select {
+  font-size: 0.8rem;
+  display: block;
+  padding: 6px 0px;
 }
