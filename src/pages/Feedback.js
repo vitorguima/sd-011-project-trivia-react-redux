@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PlayerComponent from '../components/PlayerComponent';
@@ -8,7 +7,7 @@ class Feedback extends React.Component {
   constructor() {
     super();
     this.state = {
-      assertions:0,
+      assertions: 0,
       message: '',
     };
     this.handleScore = this.handleScore.bind(this);
@@ -37,14 +36,13 @@ class Feedback extends React.Component {
 
   render() {
     const { message } = this.state;
-    const{ questions } = this.props
     const score = JSON.parse(localStorage.getItem('state'));
 
     return (
       <div className="player">
         <header>
-        <PlayerComponent data-testid="header-score" />  
-        </header>        
+          <PlayerComponent data-testid="header-score" />
+        </header>
         <section>
           <p data-testid="feedback-text">{message}</p>
           <p data-testid="feedback-total-score">{score.player.score}</p>
@@ -69,8 +67,4 @@ Feedback.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  questions: state.trivia.assertions,
-});
-
-export default connect(mapStateToProps)(Feedback);
+export default Feedback;
