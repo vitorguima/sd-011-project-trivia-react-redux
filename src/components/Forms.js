@@ -66,6 +66,7 @@ class Forms extends Component {
       <form className="trivia__forms">
         <label htmlFor="name">
           <input
+            placeholder="Name"
             data-testid="input-player-name"
             value={ name }
             id="name"
@@ -74,6 +75,7 @@ class Forms extends Component {
         </label>
         <label htmlFor="email">
           <input
+            placeholder="E-mail"
             data-testid="input-gravatar-email"
             value={ email }
             id="email"
