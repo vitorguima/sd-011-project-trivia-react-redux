@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import back from '../images/back_3.png';
 import trophy from '../images/trophy_1.png';
+import { modifyPlayingTruOrFalse } from '../redux/actions';
 import '../App.css';
 
 class FeedBack extends Component {
@@ -16,10 +17,13 @@ class FeedBack extends Component {
     this.handleClickRankBtn = this.handleClickRankBtn.bind(this);
     this.createRankingStorage = this.createRankingStorage.bind(this);
     this.playAgain = this.playAgain.bind(this);
+    this.PlayAgainClickhandler = this.PlayAgainClickhandler.bind(this);
   }
 
   handleClickRankBtn() {
     this.createRankingStorage();
+    const { playingfalse } = this.props;
+    playingfalse(false);
   }
 
   createRankingStorage() {
@@ -38,6 +42,11 @@ class FeedBack extends Component {
     }
   }
 
+  PlayAgainClickhandler() {
+    const { playingfalse } = this.props;
+    playingfalse(false);
+  }
+
   // Finalizado
   playAgain() {
     return (
@@ -45,6 +54,7 @@ class FeedBack extends Component {
         type="button"
         data-testid="btn-play-again"
         className="play-again btn-neon-red"
+        onClick={ this.PlayAgainClickhandler }
       >
         Jogar novamente
       </button>);
@@ -109,11 +119,20 @@ const mapStateToProps = (state) => ({
   assertion: state.player.assertions,
 });
 
-export default connect(mapStateToProps)(FeedBack);
+const mapDispatchToProps = (dispatch) => ({
+  playingfalse: (bool) => dispatch(modifyPlayingTruOrFalse(bool)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedBack);
 
 FeedBack.propTypes = {
   picture: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   assertion: PropTypes.number.isRequired,
+  playingfalse: PropTypes.func,
+};
+
+FeedBack.defaultProps = {
+  playingfalse: PropTypes.func,
 };

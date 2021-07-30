@@ -6,10 +6,15 @@ import Questions from '../components/Questions';
 import { questionIdIncrease, modifyTimer, InitiateTimer, modifyNextBtn,
   addQuestionsPlayed, resetTriviaQuestionsIdAndPlayedQuestions,
   sendQuestions, recoverNameAndEmailFromRefresh,
+  sendConfigOptionsAction, modifyPlayingTruOrFalse,
 } from '../redux/actions';
 import { getQuestions } from '../services/TriviaApi';
 import '../App.css';
 import Header from '../components/Header';
+import { FormatQuestions, FormatCorrectQuestion,
+  FormatIncorrectQuestions } from '../helpers/FormatQuestions';
+import Loading from '../components/Loading';
+import { playProxima, stopCertaErrouSound } from '../components/SoundControl';
 
 class Game extends Component {
   constructor(props) {
@@ -21,12 +26,22 @@ class Game extends Component {
     this.handleClickNextBtn = this.handleClickNextBtn.bind(this);
     this.resetQuestionsBorderColor = this.resetQuestionsBorderColor.bind(this);
     this.getQuestionList = this.getQuestionList.bind(this);
+    this.checkApiResponseValidity = this.checkApiResponseValidity.bind(this);
   }
 
   componentDidMount() {
-    const { sendRecoveredPlayerInfo } = this.props;
-    const { name, gravatarEmail, photo: img } = JSON.parse(localStorage.state).player;
+    const { sendRecoveredPlayerInfo,
+      sendRecoveredGameConfigToStore } = this.props;
+    const {
+      name,
+      gravatarEmail,
+      photo: img,
+      categoryConfig: category,
+      answearConfig: answear,
+      dificultyConfig: dificulty,
+    } = JSON.parse(localStorage.state).player;
     const photo = img;
+    sendRecoveredGameConfigToStore(category, answear, dificulty);
     sendRecoveredPlayerInfo(name, gravatarEmail, photo);
     const player = {
       player: {
@@ -35,56 +50,82 @@ class Game extends Component {
         score: 0,
         gravatarEmail,
         photo: img,
+        categoryConfig: category,
+        answearConfig: answear,
+        dificultyConfig: dificulty,
       },
     };
+    const time = 700;
     localStorage.state = JSON.stringify(player);
-    this.getQuestionList();
+    setTimeout(() => {
+      this.getQuestionList();
+    }, time);
   }
 
   async getQuestionList() {
-    const { sendQuestionList } = this.props;
-    const { token } = this.props;
-    const receiveQuestions = await getQuestions(token);
+    const {
+      token,
+      sendQuestionList,
+      getCategoryConfigFromStore: category,
+      getAnswearConfigFromStore: answear,
+      getDifficultyConfigFromStore: difficulty,
+    } = this.props;
+    const receiveQuestions = await getQuestions(token, category, answear, difficulty);
+
     const questionList = [];
     receiveQuestions.forEach((item) => {
       questionList.push(item);
     });
-    questionList.map((item) => {
-      const string = item.question;
-      if (string.includes('&quot;')
-      || string.includes('&#039;')
-      || string.includes('&;')) {
-        item.question = item.question.replace(/&quot;/gi, '"');
-        item.question = item.question.replace(/&#039;/gi, '');
-        item.question = item.question.replace(/&;/gi, '');
-        return item.question;
-      }
-      return item;
+
+    const incorrectList = [];
+    receiveQuestions.forEach((item) => {
+      incorrectList.push(item.incorrect_answers);
     });
-    sendQuestionList(questionList);
+
+    const correctList = [];
+    receiveQuestions.forEach((item) => {
+      correctList.push(item.correct_answer);
+    });
+
+    const questions = FormatQuestions(questionList);
+    const incorrectQuestions = FormatIncorrectQuestions(incorrectList);
+    const correctQuestions = FormatCorrectQuestion(correctList);
+
+    sendQuestionList(questions, incorrectQuestions, correctQuestions);
     this.setState({
       componentMounted: true,
     });
   }
 
+  checkApiResponseValidity() {
+    const { questionListLength } = this.props;
+    const timeOut = 1000;
+    setTimeout(() => {
+      if (questionListLength.length > 0) {
+        const { playingTrue } = this.props;
+        playingTrue(true);
+      }
+    }, timeOut);
+  }
+
   handleClickNextBtn() {
     const {
-      increaseId, idTrivia, AddTimeToTimer, resetTimer, stopTimerfunc,
-      showNextBtn, allowQuestionsBtn, runningTimer,
+      increaseId, idTrivia, AddTimeToTimer, resetTimer,
+      showNextBtn, allowQuestionsBtn,
       totalQuestions, resetQuestionsId, increasePlayedQuestions,
+      soundTrue,
     } = this.props;
     showNextBtn(false);
     increaseId(idTrivia + 1);
     allowQuestionsBtn();
     increasePlayedQuestions();
-    if (runningTimer) {
-      const TRINTA = 30;
-      AddTimeToTimer(TRINTA);
-      stopTimerfunc();
-      resetTimer();
-    }
+    const TRINTA = 30;
+    AddTimeToTimer(TRINTA);
+    resetTimer();
     this.resetQuestionsBorderColor();
     const questionNumber = 5;
+    stopCertaErrouSound();
+    if (soundTrue && totalQuestions < questionNumber) playProxima();
     if (totalQuestions === questionNumber) {
       resetQuestionsId();
       return (
@@ -105,19 +146,19 @@ class Game extends Component {
   }
 
   render() {
-    const { idTrivia } = this.props;
     const { redirectToFeedBack, componentMounted } = this.state;
+    const { playing } = this.props;
     if (redirectToFeedBack) return <Redirect to="/feedback" />;
 
     return (
       <>
+        {this.checkApiResponseValidity()}
         <Header />
         <div className="game-container">
           {
-            componentMounted ? <Questions
-              id={ idTrivia }
+            playing && componentMounted ? <Questions
               func={ this.handleClickNextBtn }
-            /> : <h4 className="loading-questions">Carregando Questões...</h4>
+            /> : <Loading />
           }
         </div>
       </>
@@ -133,6 +174,12 @@ const mapStateToProps = (state) => ({
   runningTimer: state.gameMechanics.timerRunning,
   totalQuestions: state.player.questionsPlayed,
   token: state.player.token,
+  getCategoryConfigFromStore: state.gameMechanics.categoryValue,
+  getAnswearConfigFromStore: state.gameMechanics.answearType,
+  getDifficultyConfigFromStore: state.gameMechanics.dificulty,
+  playing: state.questions.playing,
+  questionListLength: state.questions.questions,
+  soundTrue: state.questions.playSound,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -142,9 +189,12 @@ const mapDispatchToProps = (dispatch) => ({
   showNextBtn: (boolean) => dispatch(modifyNextBtn(boolean)),
   increasePlayedQuestions: () => dispatch(addQuestionsPlayed()),
   resetQuestionsId: () => (dispatch(resetTriviaQuestionsIdAndPlayedQuestions())),
-  sendQuestionList: (questionList) => dispatch(sendQuestions(questionList)),
+  sendQuestionList: (quest, inc, corre) => dispatch(sendQuestions(quest, inc, corre)),
   sendRecoveredPlayerInfo: (name, email, img) => (
     dispatch(recoverNameAndEmailFromRefresh(name, email, img))),
+  sendRecoveredGameConfigToStore: (category, answear, dificulty) => (
+    dispatch(sendConfigOptionsAction(category, answear, dificulty))),
+  playingTrue: (bool) => dispatch(modifyPlayingTruOrFalse(bool)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
@@ -152,23 +202,28 @@ export default connect(mapStateToProps, mapDispatchToProps)(Game);
 Game.propTypes = {
   idTrivia: PropTypes.number,
   increaseId: PropTypes.func.isRequired,
-  stopTimerfunc: PropTypes.func,
   AddTimeToTimer: PropTypes.func,
   resetTimer: PropTypes.func,
   showNextBtn: PropTypes.func,
   allowQuestionsBtn: PropTypes.func,
-  runningTimer: PropTypes.bool.isRequired,
   totalQuestions: PropTypes.number.isRequired,
   resetQuestionsId: PropTypes.func,
   sendQuestionList: PropTypes.func,
   token: PropTypes.string.isRequired,
   sendRecoveredPlayerInfo: PropTypes.func,
   increasePlayedQuestions: PropTypes.func,
+  sendRecoveredGameConfigToStore: PropTypes.func,
+  getCategoryConfigFromStore: PropTypes.string.isRequired,
+  getAnswearConfigFromStore: PropTypes.string.isRequired,
+  getDifficultyConfigFromStore: PropTypes.string.isRequired,
+  playingTrue: PropTypes.func,
+  playing: PropTypes.bool,
+  questionListLength: PropTypes.arrayOf(Array).isRequired,
+  soundTrue: PropTypes.bool.isRequired,
 };
 
 Game.defaultProps = {
   idTrivia: 0,
-  stopTimerfunc: PropTypes.func,
   AddTimeToTimer: PropTypes.func,
   resetTimer: PropTypes.func,
   showNextBtn: PropTypes.func,
@@ -177,4 +232,7 @@ Game.defaultProps = {
   sendQuestionList: PropTypes.func,
   sendRecoveredPlayerInfo: PropTypes.func,
   increasePlayedQuestions: PropTypes.func,
+  sendRecoveredGameConfigToStore: PropTypes.func,
+  playingTrue: PropTypes.func,
+  playing: false,
 };
