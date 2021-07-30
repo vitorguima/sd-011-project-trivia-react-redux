@@ -7,7 +7,7 @@ import Errou from '../sounds/Errou.mp3';
 const sfx = {
   main: new Howl({
     src: [mainTheme],
-    volume: 0.15,
+    volume: 0.08,
   }),
   certa: new Howl({
     src: [Certa],
@@ -46,6 +46,11 @@ function playErrou() {
   sfx.errou.play();
 }
 
+function stopCertaErrouSound() {
+  sfx.certa.stop();
+  sfx.errou.stop();
+}
+
 export {
   playMain,
   stopMain,
@@ -53,4 +58,5 @@ export {
   playCerta,
   stopProxima,
   playErrou,
+  stopCertaErrouSound,
 };

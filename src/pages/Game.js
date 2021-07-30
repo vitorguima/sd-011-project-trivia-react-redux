@@ -14,7 +14,7 @@ import Header from '../components/Header';
 import { FormatQuestions, FormatCorrectQuestion,
   FormatIncorrectQuestions } from '../helpers/FormatQuestions';
 import Loading from '../components/Loading';
-import { playProxima } from '../components/SoundControl';
+import { playProxima, stopCertaErrouSound } from '../components/SoundControl';
 
 class Game extends Component {
   constructor(props) {
@@ -124,6 +124,7 @@ class Game extends Component {
     resetTimer();
     this.resetQuestionsBorderColor();
     const questionNumber = 5;
+    stopCertaErrouSound();
     if (soundTrue && totalQuestions < questionNumber) playProxima();
     if (totalQuestions === questionNumber) {
       resetQuestionsId();

@@ -22,6 +22,8 @@ class FeedBack extends Component {
 
   handleClickRankBtn() {
     this.createRankingStorage();
+    const { playingfalse } = this.props;
+    playingfalse(false);
   }
 
   createRankingStorage() {

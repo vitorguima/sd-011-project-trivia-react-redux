@@ -6,7 +6,7 @@ import md5 from 'crypto-js/md5';
 import logo from '../trivia.png';
 import BtnSetupScreen from '../components/btnSetupScreen';
 import fetchGravatar from '../services/GravatarApi';
-import { sendGravatarSrcImg, sendQuestions, resetStoreScores,
+import { sendGravatarSrcImg, sendQuestions, resetStoreScores, modifyPlayingTruOrFalse,
 } from '../redux/actions/index';
 import InputName from '../components/InputName';
 import InputEmail from '../components/InputEmail';
@@ -78,7 +78,7 @@ class Login extends Component {
 
   async playHandle() {
     const { inputEmail, inputName, token } = this.state;
-    const { sendImgSrc } = this.props;
+    const { sendImgSrc, playingfalse } = this.props;
 
     const hash = md5(inputEmail).toString();
     await fetchGravatar(hash);
@@ -93,6 +93,7 @@ class Login extends Component {
       redirect: true,
     });
     stopMain();
+    playingfalse(false);
   }
 
   localStorageSave() {
@@ -194,6 +195,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(sendGravatarSrcImg(inputName, src, inputEmail, token))),
   sendQuestionList: (questionList) => dispatch(sendQuestions(questionList)),
   resetStorePoints: (score, assertions) => dispatch(resetStoreScores(score, assertions)),
+  playingfalse: (bool) => dispatch(modifyPlayingTruOrFalse(bool)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
@@ -210,9 +212,11 @@ Login.propTypes = {
   getAnswearConfigFromStore: PropTypes.string.isRequired,
   getDificultyConfigFromStore: PropTypes.string.isRequired,
   soundTrue: PropTypes.bool.isRequired,
+  playingfalse: PropTypes.func,
 };
 // -
 Login.defaultProps = {
   sendImgSrc: {},
   resetStorePoints: PropTypes.func,
+  playingfalse: PropTypes.func,
 };
