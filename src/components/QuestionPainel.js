@@ -7,9 +7,9 @@ class QuestionPainel extends Component {
     const { triviaQuestions, idTrivia, questionNumber } = this.props;
     const { difficulty } = triviaQuestions[idTrivia];
     return (
-      <div div className="question-panel">
+      <div className="question-panel">
         <span>
-          {`Questão: ${questionNumber}/5 | `}
+          {`Questão: ${Number(questionNumber)}/5 | `}
         </span>
         <span>
           {`Dificulty: 

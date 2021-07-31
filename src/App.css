@@ -221,8 +221,13 @@ body {
 }
 
 .options-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row: 5;
+  grid-template-areas: 'a'
+    'b'
+    'c'
+    'd';
+  grid-template-columns: 1fr;
 }
 
 .neon-border-question {
