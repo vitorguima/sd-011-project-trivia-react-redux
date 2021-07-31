@@ -15,6 +15,9 @@ import { FormatQuestions, FormatCorrectQuestion,
   FormatIncorrectQuestions } from '../helpers/FormatQuestions';
 import Loading from '../components/Loading';
 import { playProxima, stopCertaErrouSound } from '../components/SoundControl';
+import { randomizeCorrectQuestion } from '../helpers/FunctionsHelpers';
+
+const TRINTA = 30;
 
 class Game extends Component {
   constructor(props) {
@@ -115,11 +118,11 @@ class Game extends Component {
       totalQuestions, resetQuestionsId, increasePlayedQuestions,
       soundTrue,
     } = this.props;
+    randomizeCorrectQuestion();
     showNextBtn(false);
     increaseId(idTrivia + 1);
     allowQuestionsBtn();
     increasePlayedQuestions();
-    const TRINTA = 30;
     AddTimeToTimer(TRINTA);
     resetTimer();
     this.resetQuestionsBorderColor();
@@ -149,7 +152,6 @@ class Game extends Component {
     const { redirectToFeedBack, componentMounted } = this.state;
     const { playing } = this.props;
     if (redirectToFeedBack) return <Redirect to="/feedback" />;
-
     return (
       <>
         {this.checkApiResponseValidity()}

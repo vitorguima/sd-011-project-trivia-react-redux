@@ -10,7 +10,8 @@ import quot2 from '../images/quots_1.png';
 import {
   changeBorderColor,
   disableBtnsAfterTimer,
-  allowAbleBtnsAfterNextClick } from '../helpers/FunctionsHelpers';
+  allowAbleBtnsAfterNextClick,
+  randomizeCorrectQuestion } from '../helpers/FunctionsHelpers';
 import { playProxima, playCerta, playErrou } from './SoundControl';
 import QuestionPainel from './QuestionPainel';
 
@@ -25,6 +26,7 @@ class Questions extends Component {
   }
 
   componentDidMount() {
+    randomizeCorrectQuestion();
     const { sendAbleQuestBtnFunc, soundTrue } = this.props;
     if (soundTrue) playProxima();
     sendAbleQuestBtnFunc(allowAbleBtnsAfterNextClick);
@@ -120,7 +122,7 @@ class Questions extends Component {
         <button
           type="button"
           id="correct-answear"
-          className="inputNeon-purple"
+          className="inputNeon-purple correct-question"
           data-testid="correct-answer"
           onClick={ (e) => { changeBorderColor(); this.validateScore(e); } }
         >
