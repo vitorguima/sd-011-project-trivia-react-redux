@@ -33,6 +33,9 @@ class Game extends Component {
   }
 
   answerTimer() {
+    // para fazer essa função consultamos https://www.tabnine.com/code/javascript/functions/react-native/setInterval
+
+    const time1000 = 1000;
     const time30000 = 30000;
     setInterval(() => {
       const { timer } = this.state;
@@ -65,6 +68,8 @@ class Game extends Component {
   }
 
   validateAnswer() {
+    // para fazer essa função consultamos o link https://www.tabnine.com/academy/javascript/how-to-change-css-javascript/
+    // e esse outro https://www.tabnine.com/academy/javascript/how-to-use-setattribute/
     const correctAlternativeButton = document.querySelector('.correct-answer');
     const wrongAlternativeButtons = document.querySelectorAll('.wrong-answer');
 
