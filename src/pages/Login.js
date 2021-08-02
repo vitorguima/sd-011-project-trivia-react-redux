@@ -26,8 +26,8 @@ class Login extends Component {
     }
   }
   handleChange({ target: { id, value } }) {
-        this.setState((prev) => ({
-          ...prev, [id]: value,
+    this.setState((prev) => ({
+      ...prev, [id]: value,
         }), () => this.isEnabled());
       }
       render() {
