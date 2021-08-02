@@ -11,10 +11,9 @@ class Login extends Component {
       email: '',
     };
   }
-  
     isEnabled() {
-      const { state: { name, email } } = this;
-      if (name.length > 0 && email.length > 0) {
+    const { state: { name, email } } = this;
+    if (name.length > 0 && email.length > 0) {
         this.setState((prev) => ({
           ...prev,
           disabled: false,
