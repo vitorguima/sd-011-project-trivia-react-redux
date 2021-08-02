@@ -4,9 +4,7 @@ import reducer from '../reducers';
 
 const store = createStore(
   reducer,
-  composeWithDevTools(
-    applyMiddleware(thunk),
-  ),
+  applyMiddleware(thunk),
 );
 
 store.subscribe(() => {
