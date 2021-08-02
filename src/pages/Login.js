@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import * as Api from '../Service/Api';
+import * as Api from '../service/Api';
 import { submitUser, addPlayer } from '../redux/actions';
 
 class Login extends Component {
@@ -58,23 +58,22 @@ class Login extends Component {
   render() {
     const { name, email, isDisabled, loggedIn } = this.state;
     return (
-      <div className="login-container">
-      <div className="settings-button-container">
-          <Link to="/settings">
-            <button type="button" data-testid="btn-settings">Settings</button>
-          </Link>
-        </div>
-          <div className="login-form-container">
-          <h1>TRIVIA</h1>
-          <form className="login-form">
+      <div>
+        <form>
+          <h1>Login</h1>
+          <label htmlFor="name-input">
+            Nome
             <input
+              id="name-input"
               type="text"
               name="name"
               value={ name }
               onChange={ this.handleChange }
               data-testid="input-player-name"
-              placeholder="Name"
             />
+          </label>
+          <label htmlFor="email-input">
+            Email
             <input
               id="email-input"
               type="email"
@@ -82,19 +81,21 @@ class Login extends Component {
               value={ email }
               onChange={ this.handleChange }
               data-testid="input-gravatar-email"
-              placeholder="Email"
             />
-            <button
-              type="button"
-              data-testid="btn-play"
-              onClick={ this.handleClick }
-              disabled={ isDisabled }
-            >
-              Play
-            </button>
-          </form>
-        </div>
-          { (loggedIn) && <Redirect to="/game" /> }
+          </label>
+          <button
+            type="button"
+            data-testid="btn-play"
+            onClick={ this.handleClick }
+            disabled={ isDisabled }
+          >
+            Jogar
+          </button>
+        </form>
+        { (loggedIn) && <Redirect to="/game" /> }
+        <Link to="/settings">
+          <button type="button" data-testid="btn-settings">Configurações</button>
+        </Link>
       </div>
     );
   }
@@ -104,6 +105,7 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchUser: (name, email, token) => dispatch(submitUser(name, email, token)),
   dispatchPlayer: (object) => dispatch(addPlayer(object)),
 });
+
 Login.propTypes = {
   dispatchUser: PropTypes.func,
 }.isRequered;
