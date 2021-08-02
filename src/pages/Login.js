@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import * as Api from '../service/Api';
+import * as Api from '../Service/Api';
 import { submitUser, addPlayer } from '../redux/actions';
 
 class Login extends Component {
