@@ -58,13 +58,13 @@ class Login extends Component {
   render() {
     const { name, email, isDisabled, loggedIn } = this.state;
     return (
-        <div className="login-container">
-        <div className="settings-button-container">
+      <div className="login-container">
+      <div className="settings-button-container">
           <Link to="/settings">
             <button type="button" data-testid="btn-settings">Settings</button>
           </Link>
         </div>
-        <div className="login-form-container">
+          <div className="login-form-container">
           <h1>TRIVIA</h1>
           <form className="login-form">
             <input
@@ -94,8 +94,8 @@ class Login extends Component {
             </button>
           </form>
         </div>
-        { (loggedIn) && <Redirect to="/game" /> }
-        </div>
+          { (loggedIn) && <Redirect to="/game" /> }
+      </div>
     );
   }
 }

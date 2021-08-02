@@ -5,15 +5,15 @@ import {
   RESTART_TIMER,
   REMOVE_RESTART_TIMER,
   START_TIMER,
-  } from '../actions';
-  
+} from '../actions';
+
 const INITIAL_STATE = {
   timesUp: false,
   stopTime: false,
   seconds: 30,
   restartTimer: false,
   startTimer: false,
-  };
+};
 
 const timer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
